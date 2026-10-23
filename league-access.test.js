@@ -30,3 +30,9 @@ test('BET-92 : refus ou indisponibilité ne simule pas une inscription réussie'
   await assert.rejects(() => offline('l1'), { code: 'LEAGUE_UNAVAILABLE' });
   await assert.rejects(() => createLeagueJoiner({}, () => null)('l1'), { code: 'AUTH_REQUIRED' });
 });
+
+test('BET-92 : un refus SQL structuré ne doit pas être présenté comme une coupure réseau',()=>{
+  const error=leagueAccessError({code:'42702',message:'column reference is ambiguous',status:400});
+  assert.equal(error.code,'LEAGUE_SERVER_ERROR');assert.match(error.message,/Référence : 42702/);assert.doesNotMatch(error.message,/connexion/);
+  assert.equal(leagueAccessError({message:'Failed to fetch'}).code,'LEAGUE_UNAVAILABLE');
+});
