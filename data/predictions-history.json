@@ -96,6 +96,30 @@
     "score": "1 : 3"
   },
   {
+    "id": "espn-401879253",
+    "date": "2026-10-23",
+    "league": "Premier League",
+    "match": "Ipswich Town – Nottingham Forest",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.59,
+    "probability": 0.6015278695656847,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401882836",
+    "date": "2026-10-23",
+    "league": "La Liga",
+    "match": "Alavés – Málaga",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5381902377514081,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
     "id": "espn-401915846",
     "date": "2026-10-22",
     "league": "Conference League",
