@@ -1,0 +1,26 @@
+name: Vérifier et synchroniser le Club
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: betmaster-league
+  cancel-in-progress: false
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Vérifier les accès et les migrations
+        run: node scripts/check-club-activation.mjs
+      - name: Synchroniser le catalogue, les journées et les classements
+        run: node scripts/sync-supabase.mjs

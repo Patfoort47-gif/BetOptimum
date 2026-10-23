@@ -58,3 +58,17 @@ Exécuter `supabase-v22-schema.sql` après V17. Cette migration étend la valida
 ## Alertes multicanales (BET-69)
 
 La migration `supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.
+
+
+## Activation groupée des tickets encore en attente
+
+Pour BET-77, BET-78, BET-79, BET-82 à BET-85 et BET-92, le fichier [supabase-activation-club.sql](supabase-activation-club.sql) regroupe V18 à V22 et lance la reprise des paris certifiés éligibles dans une seule transaction. Il fonctionne après V17, y compris si V23 des alertes est déjà appliquée. Il peut être réexécuté : les points ne sont pas doublés, les mises et soldes ne sont pas modifiés, les archives et les destinations de notifications sont conservées. Si une étape échoue, toute la transaction est annulée.
+
+1. Dans le SQL Editor du projet Supabase du site, copier tout le fichier et cliquer sur Run. Aucun redéploiement de la fonction notifications n’est requis pour ce script.
+2. Dans GitHub > Settings > Secrets and variables > Actions, vérifier `SUPABASE_URL` et ajouter `SUPABASE_SERVICE_ROLE_KEY`. Il s’agit de la clé serveur du même projet Supabase, à conserver dans le secret GitHub, pas dans le code. Les secrets configurés pour la fonction Edge ne sont pas transmis automatiquement à GitHub.
+3. Dans GitHub > Actions > **Vérifier et synchroniser le Club**, cliquer sur Run workflow, branche `main`. Les contrôles vérifient la saison annuelle, les ligues de clubs fermées et l’acceptation des nouveaux objets avant de lancer la synchronisation existante : matchs, résultats, journées, catalogue, rattachements historiques et classements. Aucun appel au fournisseur de cotes n’est ajouté.
+4. Vérifier sur le site : adhésion à une ligue de championnat, points historiques et dates de saison dans Ma ligue, nouveaux objets dans Boutique. Les refus réels restent protégés par les RPC (solde, ligue fermée, possession).
+
+Le fichier groupé est généré depuis les migrations sources avec `node scripts/prepare-club-activation.mjs` ; après une modification d’une de ces migrations, régénérer le fichier. Ne pas y ajouter V23 : elle est configurée séparément et peut déjà être en service.
+
+BET-65 nécessite séparément un quota The Odds API disponible ; une migration Supabase ne résout pas `OUT_OF_USAGE_CREDITS`. BET-69 nécessite une livraison de test confirmée dans le canal choisi pour terminer sa validation.
