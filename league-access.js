@@ -11,6 +11,7 @@ export function leagueAccessError(error = {}) {
   if (known) return Object.assign(new Error(MESSAGES[known]), { code: known });
   if (['PGRST301', 'PGRST302', 'PGRST303'].includes(code) || error.status === 401) return Object.assign(new Error(MESSAGES.AUTH_REQUIRED), { code: 'AUTH_REQUIRED' });
   if (['PGRST202', 'PGRST205', '42P01', '42883', '42501'].includes(code)) return Object.assign(new Error('Le service des ligues doit être mis à jour par l’administrateur. Vos inscriptions actuelles sont conservées.'), { code: 'LEAGUE_SETUP_REQUIRED' });
+  if (code || Number(error.status) >= 400) return Object.assign(new Error(`Le service n’a pas pu enregistrer l’adhésion. ${/^[A-Z0-9_]{3,24}$/.test(code) ? `Référence : ${code}. ` : ''}Vos ligues actuelles sont conservées.`), { code: 'LEAGUE_SERVER_ERROR' });
   return Object.assign(new Error('La connexion au service des ligues a échoué. Réessayez dans un instant ; aucune nouvelle inscription n’a pu être confirmée.'), { code: 'LEAGUE_UNAVAILABLE' });
 }
 
