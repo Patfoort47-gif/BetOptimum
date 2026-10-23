@@ -1,15 +1,23 @@
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
+import { NotificationFailure, reportNotificationFailure } from '../../../notification-diagnostics.js';
 import { detectAlerts } from '../../../notification-model.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
-const site = new URL(env.SITE_URL), cors = { 'Access-Control-Allow-Origin': site.origin, 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
+let site: URL | null = null;
+try { const candidate = new URL(env.SITE_URL); if (candidate.protocol === 'https:') site = candidate; } catch { /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */ }
+const cors = { 'Access-Control-Allow-Origin': site?.origin ?? 'null', 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
 const json = (value: unknown,status=200) => new Response(JSON.stringify(value),{status,headers:{...cors,'Content-Type':'application/json'}});
 const enc = new TextEncoder();
 const hash = async (text:string) => [...new Uint8Array(await crypto.subtle.digest('SHA-256',enc.encode(text)))].map(x=>x.toString(16).padStart(2,'0')).join('');
 async function sameSecret(a:string,b:string) { return Boolean(b) && (await hash(a))===(await hash(b)); }
 async function db(path:string, method='GET',body?:unknown) {
- const r=await fetch(`${env.SUPABASE_URL}/rest/v1/${path}`,{method,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,'Content-Type':'application/json',Prefer:'return=representation,resolution=merge-duplicates'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
- if(!r.ok)throw new Error('DATABASE');const text=await r.text();return text?JSON.parse(text):null;
+ const resource = path.split('?')[0].replace(/^rpc\//,'');
+ if (!/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(env.SUPABASE_URL) || !env.SUPABASE_SERVICE_ROLE_KEY) throw new NotificationFailure('configuration','CONFIG_SUPABASE');
+ let r: Response;
+ try { r=await fetch(`${env.SUPABASE_URL}/rest/v1/${path}`,{method,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,'Content-Type':'application/json',Prefer:'return=representation,resolution=merge-duplicates'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(15000)}); }
+ catch { throw new NotificationFailure('database','NETWORK',null,resource); }
+ if(!r.ok){let code='UNEXPECTED';try{code=(await r.json()).code??code;}catch{}throw new NotificationFailure('database',code,r.status,resource);}
+ try {const text=await r.text();return text?JSON.parse(text):null;}catch{throw new NotificationFailure('database','INVALID_RESPONSE',r.status,resource);}
 }
 async function endpoint(uid:string,channel:string,target:unknown) {
  if(!validateDestination(channel,target))throw new Error('DESTINATION');
@@ -26,17 +34,21 @@ async function worker(matches:unknown[]) {
  }
  const deliveries=await db('rpc/claim_notification_deliveries','POST',{});let sent=0;
  let webSender=null;
- if(env.VAPID_PUBLIC_KEY&&env.VAPID_PRIVATE_KEY&&env.VAPID_SUBJECT){const {default:webpush}=await import('npm:web-push@3.6.7');webpush.setVapidDetails(env.VAPID_SUBJECT,env.VAPID_PUBLIC_KEY,env.VAPID_PRIVATE_KEY);webSender=(target:any,payload:string)=>webpush.sendNotification(target,payload,{TTL:300,timeout:10000});}
  for(const delivery of deliveries){
   try {
    // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
    const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=channels`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
    if(!p?.channels.includes(delivery.channel)||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   // Initialisation seulement pour une livraison web : un VAPID invalide n’arrête pas les autres canaux.
+   if(delivery.channel==='web'&&!webSender&&env.VAPID_PUBLIC_KEY&&env.VAPID_PRIVATE_KEY&&env.VAPID_SUBJECT){
+    try {const {default:webpush}=await import('npm:web-push@3.6.7');webpush.setVapidDetails(env.VAPID_SUBJECT,env.VAPID_PUBLIC_KEY,env.VAPID_PRIVATE_KEY);webSender=(target:any,payload:string)=>webpush.sendNotification(target,payload,{TTL:300,timeout:10000});}
+    catch {reportNotificationFailure(new NotificationFailure('web-push','WEB_PUSH_SETUP'),crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'failed',error:'Configuration Web Push invalide'});continue;}
+   }
    const result=await deliver(delivery.channel,await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY),event.payload,delivery.id,env,fetch,webSender);
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
    await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status,error:result.error??null,...(status==='sent'?{sent_at:new Date().toISOString()}:{}),...(status==='pending'?{due_at:new Date(Date.now()+(result.retry??300)*1000).toISOString()}: {})});
    if(result.expired)await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,'DELETE');if(status==='sent')sent++;
-  }catch {await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'unknown',error:'Résultat de livraison inconnu'});}
+  }catch(error) {reportNotificationFailure(error,crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'unknown',error:'Résultat de livraison inconnu'});}
  }
  await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
  await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
@@ -46,6 +58,7 @@ Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
  if(request.method!=='POST')return json({error:'Méthode refusée'},405);
  try {
+  if(!site)throw new NotificationFailure('configuration','CONFIG_SITE_URL');
   if(Number(request.headers.get('content-length')??0)>2000000)return json({error:'Requête trop volumineuse'},413);
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
   if(body.action==='worker'){
@@ -85,5 +98,5 @@ Deno.serve(async request=>{
    await db('rpc/enqueue_notification','POST',{p_user:uid,p_key:`test:${body.channel}:${Math.floor(Date.now()/3600000)}`,p_event:event,p_due:new Date().toISOString()});return json({ok:true,message:'Test placé dans la file, heures silencieuses et fréquence respectées'});
   }
   return json({error:'Action inconnue'},400);
- }catch{return json({error:'Le service d’alertes est indisponible ou non configuré'},503);}
+ }catch(error){return json(reportNotificationFailure(error,crypto.randomUUID()),503);}
 });

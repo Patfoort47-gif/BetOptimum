@@ -39,3 +39,17 @@ Pour faire tourner un jeton fournisseur, suspendre le workflow, remplacer le sec
 ## Validation effectuée et limites
 
 Tests Node : détection, seuils, favoris, paliers, heures silencieuses et changement d’heure, validation des destinations, chiffrement authentifié, erreurs fournisseur et idempotence email. Recette PostgreSQL locale : migrations réexécutables, isolation des comptes, droits des destinations, limites serveur, dédoublonnage, réservation, fréquence, export, désabonnement et cascades. Les envois réels et le déploiement Edge nécessitent les accès administrateur et les services ci-dessus ; ils ne sont pas validés par les tests avec adaptateurs simulés.
+
+## Diagnostic d’un HTTP 503
+
+La fonction journalise désormais un événement `notification_error` de niveau Error avec une référence, une étape et un code contrôlé. Les messages bruts, les destinations et les secrets ne sont pas journalisés. GitHub affiche le code et la même référence après le statut HTTP. Après mise à jour de ces fichiers, redéployer la fonction Edge ; un push sur main ne remplace pas son déploiement Supabase.
+
+- `CONFIG_SITE_URL` : vérifier `SITE_URL`, qui doit être une URL HTTPS complète.
+- `CONFIG_SUPABASE` : vérifier la présence de l’URL Supabase et de la clé service_role dans l’environnement Edge, sans les copier dans les logs.
+- `PGRST205`, `42P01` : vérifier l’application de V23 dans ce même projet et le rechargement du schéma PostgREST.
+- `PGRST202`, `42883` : vérifier la présence des RPC de V23.
+- `42501` : vérifier les droits du rôle serveur ; les données de notifications ne doivent pas être rendues publiques pour contourner cette erreur.
+- `WEB_PUSH_SETUP` : vérifier les clés VAPID et le sujet (`mailto:` de contact). L’erreur est isolée à la livraison web ; une file vide et les autres canaux continuent à fonctionner.
+- `NETWORK`, `INVALID_RESPONSE`, `UNEXPECTED` : utiliser l’étape et la référence pour localiser l’échec dans les logs Supabase.
+
+Un événement système `Shutdown` avec `EarlyDrop` ne suffit pas à identifier la cause d’une réponse 503. Vérifier l’invocation et le diagnostic applicatif correspondant.
