@@ -68,3 +68,9 @@ jobs:
         id: deployment
         if: steps.schedule.outputs.run == 'true'
         uses: actions/deploy-pages@v4
+      - name: Synchroniser les matchs et régler les paris certifiés
+        if: steps.schedule.outputs.run == 'true'
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/sync-supabase.mjs

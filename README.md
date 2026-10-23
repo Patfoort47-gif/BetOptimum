@@ -18,7 +18,7 @@ Ouvrir ensuite `http://localhost:4173`. Aucun build, compte ou secret n’est n�
 npm test
 ```
 
-Sans compte, les données utilisateur restent dans `localStorage`. Avec un compte Supabase, bankroll, paris, favoris et profil sont synchronisés ; le nom d’utilisateur, l’avatar et les statistiques agrégées alimentent automatiquement les classements publics. Les probabilités sont indicatives et ne garantissent aucun résultat. 18+ — jouez de façon responsable.
+Sans compte, les données utilisateur restent dans `localStorage`. Avec un compte Supabase, les paris sont enregistrés et réglés côté serveur (tickets certifiés), la bankroll vit sur le serveur, favoris et profil sont synchronisés ; le nom d’utilisateur, l’avatar et les statistiques calculées par le serveur alimentent les classements publics. Les probabilités sont indicatives et ne garantissent aucun résultat. 18+ — jouez de façon responsable.
 
 ## Données sportives
 

@@ -2,6 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { selectionResult } from '../model.js';
 
 const leagues = ['eng.1','fra.1','esp.1','ita.1','ger.1','uefa.champions','uefa.europa','uefa.europa.conf','uefa.super_cup','fifa.cwc','fra.2','fra.coupe_de_france','eng.fa','eng.league_cup','esp.copa_del_rey','ita.coppa_italia','ger.dfb_pokal','uefa.nations','fifa.worldq.uefa'];
+// Matchs annulés : les paris certifiés sont remboursés (BET-52).
+const voidStatuses = new Set(['STATUS_CANCELED', 'STATUS_ABANDONED']);
 const dateKey = date => date.toISOString().slice(0, 10).replaceAll('-', '');
 const today = new Date(); today.setUTCHours(0, 0, 0, 0);
 const days = Array.from({length:4},(_,index)=>{const date=new Date(today);date.setUTCDate(date.getUTCDate()+index-3);return dateKey(date)});
@@ -16,6 +18,7 @@ for (const league of leagues) {
       const competition = event.competitions?.[0];
       const home = competition?.competitors?.find(team => team.homeAway === 'home');
       const away = competition?.competitors?.find(team => team.homeAway === 'away');
+      if (voidStatuses.has(event.status?.type?.name) && home && away) { settlements.push({ id:`espn-${event.id}`, date:event.date.slice(0,10), home:home.team?.displayName, away:away.team?.displayName, completed:false, voided:true }); continue; }
       if (!event.status?.type?.completed || home?.score == null || away?.score == null) continue;
       settlements.push({ id:`espn-${event.id}`, date:event.date.slice(0,10), home:home.team?.displayName, away:away.team?.displayName, homeScore:Number(home.score), awayScore:Number(away.score), completed:true });
     }
@@ -30,6 +33,7 @@ data.settlements = [...merged.values()].sort((a,b) => b.date.localeCompare(a.dat
 for (const match of data.matches ?? []) {
   const result = merged.get(match.id);
   if (!result) continue;
+  if (result.voided) { match.voided = true; match.status = 'Annulé'; continue; }
   match.completed = true; match.status = 'Terminé'; match.homeScore = result.homeScore; match.awayScore = result.awayScore;
 }
 data.scoresUpdatedAt = new Date().toISOString();

@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { recommendedMarket } from '../model.js';
+import { parisDate, pickDailyChallenge, recommendedMarket } from '../model.js';
 import { ODDS_REFRESH_HOURS, SECONDARY_ODDS_WINDOW_HOURS, isInSecondaryOddsWindow, mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
 import { sameTeam } from '../team-match.js';
 
@@ -24,6 +24,7 @@ const providerMap = {
   'Conference League': [null, 'soccer_uefa_europa_conference_league']
 };
 const giants = ['Real Madrid','Barcelona','Manchester City','Manchester United','Liverpool','Arsenal','Chelsea','Bayern','Paris Saint-Germain','Marseille','Internazionale','Milan','Juventus','Napoli','Atlético Madrid','Borussia Dortmund'];
+const voidStatuses = new Set(['STATUS_CANCELED', 'STATUS_ABANDONED']);
 const dateKey = date => date.toISOString().slice(0, 10).replaceAll('-', '');
 const start = new Date(); start.setUTCHours(0, 0, 0, 0);
 const historyStart = new Date(start); historyStart.setUTCDate(historyStart.getUTCDate() - 3);
@@ -165,7 +166,7 @@ const results = await Promise.allSettled(leagues.map(async ([slug, label, weight
       league: label, home: homeTeam, away: awayTeam,
       leagueLogo, leagueLogoDark, homeId: homeCompetitor?.team?.id ?? null, awayId: awayCompetitor?.team?.id ?? null, homeLogo: homeCompetitor?.team?.logo ?? null, awayLogo: awayCompetitor?.team?.logo ?? null,
       priority, featured: priority >= 75, status: event.status?.type?.description ?? 'Programmé',
-      completed: event.status?.type?.completed === true,
+      completed: event.status?.type?.completed === true, voided: voidStatuses.has(event.status?.type?.name), knockout: /round of|quarter|semi|final|knockout|play-?off/i.test(competition?.notes?.[0]?.headline ?? ''),
       homeScore: homeCompetitor?.score == null ? null : Number(homeCompetitor.score),
       awayScore: awayCompetitor?.score == null ? null : Number(awayCompetitor.score),
       ...model(homeTeam, awayTeam, priority)
@@ -206,9 +207,11 @@ const enriched = unique.map(match => {
   match.suggestedPick=match.completed&&previous?.suggestedPick?previous.suggestedPick:{...recommendedMarket(match),capturedAt:new Date().toISOString()};
   return match;
 });
+// Défi du jour : sélection figée une fois publiée (voir pickDailyChallenge).
+const dailyChallenge = pickDailyChallenge(enriched, parisDate(new Date()), Object.fromEntries(leagues.map(([, label, weight]) => [label, weight])), previousData.dailyChallenge);
 await mkdir('data', { recursive: true });
 const refreshedAt = new Date().toISOString(), oddsRefreshedAt=oddsEvents.length?refreshedAt:previousData.oddsRefreshedAt??null;
 const secondaryOddsRefreshedAt = secondaryOddsResult.secondarySuccesses ? refreshedAt : previousData.secondaryOddsRefreshedAt ?? null;
-await writeFile('data/fixtures.json', `${JSON.stringify({ generatedAt: refreshedAt, oddsRefreshedAt, oddsRefreshHours:ODDS_REFRESH_HOURS, oddsRefreshTimezone:'Europe/Paris', secondaryOddsRefreshedAt, secondaryOddsWindowHours:SECONDARY_ODDS_WINDOW_HOURS, movementThresholdPercent:5, source: 'ESPN + football-data.org + The Odds API', providerStatus: providerFailures.length ? 'partial' : 'ok', failures: providerFailures, coverage:{historicalMatches:history.length,oddsEvents:oddsEvents.length,secondaryOddsRequested:secondaryOddsResult.secondaryRequested,secondaryOddsEvents:secondaryOddsResult.secondarySuccesses,secondaryOddsMatches:enriched.filter(match=>match.realOddsMarkets?.some(key=>key==='over'||key==='btts')).length,statsMatches:enriched.filter(x=>x.statsSource).length,oddsMatches:enriched.filter(x=>x.oddsSource).length,settlements:settlements.length}, settlements, matches: enriched }, null, 2)}\n`);
+await writeFile('data/fixtures.json', `${JSON.stringify({ generatedAt: refreshedAt, oddsRefreshedAt, oddsRefreshHours:ODDS_REFRESH_HOURS, oddsRefreshTimezone:'Europe/Paris', secondaryOddsRefreshedAt, secondaryOddsWindowHours:SECONDARY_ODDS_WINDOW_HOURS, movementThresholdPercent:5, dailyChallenge, source: 'ESPN + football-data.org + The Odds API', providerStatus: providerFailures.length ? 'partial' : 'ok', failures: providerFailures, coverage:{historicalMatches:history.length,oddsEvents:oddsEvents.length,secondaryOddsRequested:secondaryOddsResult.secondaryRequested,secondaryOddsEvents:secondaryOddsResult.secondarySuccesses,secondaryOddsMatches:enriched.filter(match=>match.realOddsMarkets?.some(key=>key==='over'||key==='btts')).length,statsMatches:enriched.filter(x=>x.statsSource).length,oddsMatches:enriched.filter(x=>x.oddsSource).length,settlements:settlements.length}, settlements, matches: enriched }, null, 2)}\n`);
 console.log(`${enriched.length} rencontres, ${settlements.length} résultats récents, ${history.length} historiques, ${oddsEvents.length} événements cotés.`);
 if (providerFailures.length) console.warn(providerFailures.join('\n'));
