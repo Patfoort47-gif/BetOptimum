@@ -33,10 +33,10 @@ export function buildCharacter(T, input, q) {
   const kitCanvas = document.createElement('canvas'); kitCanvas.width = kitCanvas.height = q.segments > 30 ? 1024 : 512;
   drawKit(kitCanvas, look.kit.item, look.kit.number, look.kit.name);
   const weave = tex(weaveTexture(), { linear: true, repeat: [18, 12] });
-  const jersey = phys('#ffffff', { map: tex(kitCanvas), roughness: .78, sheen: .8, sheenRoughness: .55, sheenColor: new T.Color(mix(kit.c1, '#ffffff', .5)), bumpMap: weave, bumpScale: .6 });
-  const sleeve = std(kit.c1, .78, 0, { bumpMap: weave, bumpScale: .5 }), trim = std(kit.c2, .7), shortsMat = std(kit.c2, .74, 0, { bumpMap: weave, bumpScale: .5 }), sockMat = std(kit.c1, .8);
+  const jersey = phys('#ffffff', { map: tex(kitCanvas), roughness: .78, sheen: .8, sheenRoughness: .55, sheenColor: new T.Color(mix(kit.c1, '#ffffff', .5)), bumpMap: weave, bumpScale: .018 });
+  const sleeve = std(kit.c1, .78, 0, { bumpMap: weave, bumpScale: .012 }), trim = std(kit.c2, .7), shortsMat = std(kit.c2, .74, 0, { bumpMap: weave, bumpScale: .012 }), sockMat = std(kit.c1, .8);
   const hairMap = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#d9d9d9'; x.fillRect(0, 0, 256, 256); const r = rng('streaks'); for (let i = 0; i < 520; i++) { const g = 120 + Math.floor(r() * 135), px = r() * 256, w = .8 + r() * 2.2; x.strokeStyle = `rgba(${g},${g},${g},${.35 + r() * .5})`; x.lineWidth = w; x.beginPath(); x.moveTo(px, 0); x.bezierCurveTo(px + (r() - .5) * 14, 80, px + (r() - .5) * 14, 170, px + (r() - .5) * 10, 256); x.stroke(); } return tex(c, { repeat: [5, 1] }); })();
-  const hairMat = phys(hairHex, { map: hairMap, bumpMap: hairMap, bumpScale: 1.4, roughness: .4, sheen: 1, sheenRoughness: .35, sheenColor: new T.Color(mix(hairHex, '#ffffff', .45)), clearcoat: .25, clearcoatRoughness: .45 });
+  const hairMat = phys(hairHex, { map: hairMap, bumpMap: hairMap, bumpScale: .014, roughness: .4, sheen: 1, sheenRoughness: .35, sheenColor: new T.Color(mix(hairHex, '#ffffff', .45)), clearcoat: .25, clearcoatRoughness: .45 });
   const stubble = phys(mix(hairHex, skinHex, .62), { roughness: .6, sheen: .4 });
   const boot = phys(BOOTS[look.boots][0], { roughness: .38, clearcoat: .7, clearcoatRoughness: .25 }), sole = std('#101214', .7);
 
