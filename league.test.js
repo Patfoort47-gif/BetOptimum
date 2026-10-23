@@ -95,3 +95,14 @@ test('BET-78 : saison de football, limites de Paris et archives',()=>{
   assert.deepEqual(L.lastWeekend('2026-2027'),['2027-06-26','2027-06-27']);
   assert.equal(L.seasonLabel('2026-2027'),'Saison 2026 / 2027');assert.match(L.seasonLabel('2026-10'),/octobre 2026/);
 });
+
+const { leagueSeasonFor } = await import('./scripts/league-engine.mjs');
+test('BET-78 : garder le calendrier mensuel si la migration manque, puis activer la saison annuelle',async()=>{
+  const now=new Date('2026-10-23T12:00:00Z');
+  assert.equal(await leagueSeasonFor({rpc:async()=>{throw new Error('HTTP 404 {"code":"PGRST202"}')}},now),'2026-10');
+  assert.equal(await leagueSeasonFor({rpc:async(name,args)=>{assert.equal(name,'football_season');assert.equal(args.p_date,now.toISOString());return '2026-2027'}},now),'2026-2027');
+});
+test('BET-78 : ne pas masquer une panne ou un calendrier serveur incohérent',async()=>{
+  await assert.rejects(()=>leagueSeasonFor({rpc:async()=>{throw new Error('HTTP 403 accès interdit')}}),/403/);
+  await assert.rejects(()=>leagueSeasonFor({rpc:async()=>null}),/incompatible/);
+});

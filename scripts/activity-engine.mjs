@@ -3,8 +3,8 @@ import { planActivities } from '../community.js';
 import { seasonKey } from '../league.js';
 import { parisDate } from '../model.js';
 
-export async function emitActivities(admin, now = new Date()) {
-  const since = new Date(now.getTime() - 8 * 864e5).toISOString(), season = seasonKey(now);
+export async function emitActivities(admin, now = new Date(), season = seasonKey(now)) {
+  const since = new Date(now.getTime() - 8 * 864e5).toISOString();
   const [bets, seasonResults, titles, leagues, badges, xp, joins, standings] = await Promise.all([
     admin.selectAll('bets', `status=eq.won&bet_type=eq.combined&odds=gte.5&settled_at=gte.${since}&select=id,user_id,bet_type,odds,status,settled_at,selections`),
     admin.selectAll('season_results', `outcome=eq.PROMU&created_at=gte.${since}&select=season,user_id,outcome,to_echelon,created_at`),

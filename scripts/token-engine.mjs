@@ -46,8 +46,8 @@ export function planMonthlyPrizes({ league, month, standings }) {
 }
 
 const DAY = 864e5;
-export async function updateStreaks(admin, now = new Date()) {
-  const season = seasonKey(now), since = `${seasonDates(season).start}T00:00:00+02:00`;
+export async function updateStreaks(admin, now = new Date(), season = seasonKey(now)) {
+  const since = `${seasonDates(season).start}T00:00:00+02:00`;
   const [entries, bets, dailyPicks, specialPicks, shieldRows] = await Promise.all([
     admin.selectAll('league_entries', `league=eq.general&season=eq.${season}&select=id,user_id,bet_id,daily_pick_id,points,settled_at`),
     admin.selectAll('bets', `settled_at=gte.${since}&select=id,odds`), admin.selectAll('daily_picks', `placed_at=gte.${since}&select=id,odd`),

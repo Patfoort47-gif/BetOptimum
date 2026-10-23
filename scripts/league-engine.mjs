@@ -1,9 +1,22 @@
 // Moteur de la ligue générale (BET-55) : classements recalculés après chaque règlement, clôture mensuelle des saisons.
 // La logique de décision est dans league.js (pure, testée) ; ce fichier lit et écrit Supabase avec la clé service_role.
-import { DIVISION_UNLOCKS, MASTER, closeSeason, computeStandings, divisionIndex, lastWeekend, nextSeason, seasonDates, seasonKey } from '../league.js';
+import { DIVISION_UNLOCKS, MASTER, closeSeason, computeStandings, divisionIndex, lastWeekend, nextSeason, seasonDates, seasonKey, monthKey } from '../league.js';
 import { parisDate } from '../model.js';
 
 const lastDayOf = season => seasonDates(season).end;
+
+// BET-78 : le déploiement du site peut précéder la migration SQL V20.
+// Garder les classements mensuels à jour jusqu'à son application, sans masquer une panne serveur.
+export async function leagueSeasonFor(admin, now = new Date()) {
+  try {
+    const season = await admin.rpc('football_season', { p_date: now.toISOString() });
+    if (season !== seasonKey(now)) throw new Error('Calendrier de saison serveur incompatible.');
+    return season;
+  } catch (error) {
+    if (!/PGRST202|42883/.test(String(error?.message ?? ''))) throw error;
+    return monthKey(now);
+  }
+}
 
 export async function ensureSeason(admin, season) {
   await admin.upsert('league_seasons', [{ season }], 'season');

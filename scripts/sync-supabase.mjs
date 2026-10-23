@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { analyseMatch, leaguePoints, selectionResult, settleTicket } from '../model.js';
 import { createAdmin } from './supabase-admin.mjs';
-import { recomputeStandings } from './league-engine.mjs';
+import { recomputeStandings, leagueSeasonFor } from './league-engine.mjs';
 import { recomputeSpecialStandings, settleGridPicks, syncSpecialRounds } from './special-engine.mjs';
 import { awardXp } from './xp-engine.mjs';
 import { updateStreaks } from './token-engine.mjs';
@@ -103,7 +103,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const challenge = await syncDailyChallenge(admin, data.dailyChallenge);
   const results = await loadResults(admin, data.settlements ?? []);
   const settled = await settleServerBets(admin, results, data.matches ?? []), daily = await settleDailyPicks(admin, results), grid = await settleGridPicks(admin, results);
-  const repaired = await admin.rpc('repair_league_history');
-  const ranked = await recomputeStandings(admin), special = await recomputeSpecialStandings(admin), xp = await awardXp(admin), streaks = await updateStreaks(admin), activities = await emitActivities(admin), duels = await settleDuels(admin);
+  const now = new Date(), season = await leagueSeasonFor(admin, now);
+  const repaired = season.length === 9 ? await admin.rpc('repair_league_history') : 0;
+  if (season.length === 7) console.log('Migration V20 en attente : maintien des classements mensuels.');
+  const ranked = await recomputeStandings(admin, now, season), special = await recomputeSpecialStandings(admin), xp = await awardXp(admin), streaks = await updateStreaks(admin, now, season), activities = await emitActivities(admin, now, season), duels = await settleDuels(admin);
   console.log(`${repaired} rattachements historiques réparés, ${synced} matchs synchronisés, défi du jour : ${challenge} matchs, ${settled} paris certifiés et ${daily} pronos du défi réglés, ${ranked} classements de ligue générale et ${special} de ligues spéciales recalculés, ${rounds} journées de ligues spéciales, ${grid} pronos de grille réglés, ${xp} événements d’XP, ${streaks} séries et tirelires, ${activities} événements du fil d’activité, ${shop} objets de boutique, ${duels} duels réglés.`);
 }
