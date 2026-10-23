@@ -620,3 +620,5 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 @media(max-width:900px){.analytics-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.analytics-grid-cards{grid-template-columns:1fr}.analytics-controls{width:100%}.analytics-controls label{flex:1;min-width:110px}.analytics-controls select{width:100%}.analytics-card{padding:12px}.analytics-dashboard{border-radius:18px}.analytics-svg text{font-size:14px}}
 
 .analytics-svg text{stroke:none;font-size:18px}@media(max-width:700px){.analytics-svg text{font-size:24px}}.analytics-area{stroke:none}
+
+.analytics-svg .analytics-tick{paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
