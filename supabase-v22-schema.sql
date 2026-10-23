@@ -29,7 +29,7 @@ begin
   if exists (select 1 from jsonb_array_elements(cfg->'accessories') e where jsonb_typeof(e) <> 'string' or public.avatar_slot(e #>> '{}') is null) then return false; end if;
   if (select count(*) from jsonb_array_elements_text(cfg->'accessories')) <> (select count(distinct public.avatar_slot(e)) from jsonb_array_elements_text(cfg->'accessories') e) then return false; end if;
   if jsonb_typeof(cfg->'showcase') <> 'array' or jsonb_array_length(cfg->'showcase') > 3 then return false; end if;
-  if exists (select 1 from jsonb_array_elements(cfg->'showcase') e where jsonb_typeof(e) <> 'string' or (e #>> '{}') not in ('trophy-cup','trophy-pichichi','trophy-boot','trophy-glove','trophy-ball')) then return false; end if;
+  if exists (select 1 from jsonb_array_elements(cfg->'showcase') e where jsonb_typeof(e) <> 'string' or (e #>> '{}') not in ('trophy-cup','trophy-pichichi','trophy-boot','trophy-glove','trophy-ball','trophy-crystal','trophy-laurel')) then return false; end if;
   if (select count(*) from jsonb_array_elements_text(cfg->'showcase')) <> (select count(distinct e) from jsonb_array_elements_text(cfg->'showcase') e) then return false; end if;
   return true;
 end $$;

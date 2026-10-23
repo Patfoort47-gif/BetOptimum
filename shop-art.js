@@ -1,5 +1,7 @@
 // Aperçus vectoriels des objets modélisés dans avatar-parts.js. Aucun téléchargement externe.
 const shapes = {
+  'trophy-crystal': '<path d="m48 14 9 19 21 3-15 15 4 21-19-10-19 10 4-21-15-15 21-3z" fill="#8cddf2" stroke="#ddfaff" stroke-width="2"/><path d="M43 63h10v13H43z" fill="#e6b422"/><path d="M28 76h40v8H28z" fill="#344763"/>',
+  'trophy-laurel': '<path d="M48 67q-32-16-20-47m20 47q32-16 20-47" fill="none" stroke="#e6b422" stroke-width="7"/><path d="M27 39 15 27m12 28-14-9m56-7 12-12M69 55l14-9" stroke="#e6b422" stroke-width="7"/><path d="M45 65h6v12H45z" fill="#e6b422"/><path d="M28 77h40v8H28z" fill="#28634f"/>',
   'acc-captain': '<path fill="#f5d418" d="M22 22h52v50H22z"/><path fill="#111" d="M22 25h52v5H22zm0 39h52v5H22z"/><text x="48" y="57" text-anchor="middle" font-size="28" font-weight="900" fill="#111">C</text>',
   'acc-cap': '<path fill="#2f6bff" d="M19 51a29 29 0 0 1 58 0z"/><path fill="#173d99" d="m21 51 58-1 12 12H29z"/><path d="M48 23v27m-18-2q1-20 18-25m18 25q-1-20-18-25" stroke="#adc5ff" fill="none"/>',
   'acc-headband': '<path d="M15 43q33-13 66 0v18q-33-12-66 0z" fill="#f4f4f0"/><path d="M15 50q33-13 66 0" stroke="#2f6bff" fill="none" stroke-width="4"/>',
