@@ -2,6 +2,7 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js?v=accounts
 import { sanitizePreferences, translateAuthError } from './auth-model.js';
 import { normalizeCode } from './community.js';
 import { sanitizeAvatar, legacyView } from './avatar-config.js';
+import { createLeagueJoiner } from './league-access.js';
 import { readHistoryPages } from './profile-history.js';
 import { seasonKey } from './league.js';
 import { weekKey } from './model.js';
@@ -35,7 +36,8 @@ export async function initAccountSync({getState,applyState,resetState,registerCl
   const SPECIAL_ERRORS={LIGUE_FERMEE:'Cette ligue n’est pas ouverte pour le moment.',CHANGEMENT_MENSUEL:'Vous ne pouvez quitter qu’une ligue par mois.',SPECIAL_NON_INSCRIT:'Rejoignez la ligue pour jouer sa grille.',SPECIAL_HORS_LIGUE:'Ce match ne compte pas dans cette ligue.',SPECIAL_MATCH_DEJA_COMPTE:'Un prono compte déjà sur ce match dans cette ligue.',SPECIAL_QUOTA_JOURNEE:'Vous avez utilisé tous vos pronos de cette journée.',SPECIAL_CLUB_SIMPLE_SEULEMENT:'En ligue club, seuls les paris simples comptent.'};
   const specialError=error=>{const code=Object.keys(SPECIAL_ERRORS).find(key=>String(error?.message??'').includes(key));if(code){const failure=new Error(SPECIAL_ERRORS[code]);failure.code=code;return failure}return betError(error)};
   const loadSpecial=async()=>{if(!currentUser)return;const now=new Date(Date.now()-864e5).toISOString(),[leagues,counts,mine,rounds,picks,standings]=await Promise.all([client.from('special_leagues').select('id,kind,name,league_label,team_id,season_start,season_end,access,token_price,difficulty').eq('open',true).eq('kind','competition').order('kind',{ascending:true}).order('name',{ascending:true}),client.from('special_league_counts').select('league_id,members'),client.from('league_members').select('league_id,joined_at').eq('user_id',currentUser.id),client.from('special_rounds').select('id,league_id,label,starts_at,ends_at,match_ids,anchor,knockout,free_slots').gte('ends_at',now).order('starts_at',{ascending:true}).limit(400),client.from('special_picks').select('id,league_id,round_id,match_ids,kind,source,key,odd,status,points').order('placed_at',{ascending:false}).limit(500),client.from('special_standings').select('league_id,scope,points,picks,rank').eq('user_id',currentUser.id)]);if(leagues.error){onSpecialData(null);return}onSpecialData({leagues:leagues.data??[],counts:Object.fromEntries((counts.data??[]).map(item=>[item.league_id,item.members])),mine:(mine.data??[]).map(item=>item.league_id).filter(id=>(leagues.data??[]).some(league=>league.id===id)),rounds:rounds.data??[],picks:picks.data??[],standings:standings.data??[]})};
-  const joinLeague=async id=>{const {error}=await client.rpc('join_special_league',{p_league:id});if(error)throw specialError(error);await loadSpecial()};
+  const requestLeagueJoin=createLeagueJoiner(client,()=>currentUser?.id);
+  const joinLeague=async id=>{await requestLeagueJoin(id);await loadSpecial()};
   const leaveLeague=async id=>{const {error}=await client.rpc('leave_special_league',{p_league:id});if(error)throw specialError(error);await loadSpecial()};
   const playSpecialPick=async(league,match,key)=>{const {error}=await client.rpc('play_special_pick',{p_league:league,p_match:match,p_key:key});if(error)throw specialError(error);await loadSpecial()};
   const clearSpecialPick=async(league,match)=>{const {error}=await client.rpc('clear_special_pick',{p_league:league,p_match:match});if(error)throw specialError(error);await loadSpecial()};
