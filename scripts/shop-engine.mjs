@@ -1,6 +1,7 @@
 // Boutique et duels (BET-62) : catalogue et objet de la semaine envoyés à Supabase, duels réglés après le défi du jour.
 // Décisions pures dans shop.js ; ce fichier écrit avec la clé service_role (jetons : journal token_ledger, jamais d'écriture depuis le navigateur).
 import { CATALOG, PACKS, duelWinner, packPrice, weeklyItem } from '../shop.js';
+import { defaultAvatar, applyItem } from '../avatar-config.js';
 import { parisDate, weekKey } from '../model.js';
 
 // Lignes de shop_items : objets du catalogue puis packs stade (prix recalculé à 80 % des éléments).
@@ -10,9 +11,13 @@ export function shopRows(catalog = CATALOG, packs = PACKS) {
   return rows;
 }
 export async function syncShop(admin, now = new Date()) {
-  const rows = shopRows();
+  let rows = shopRows();
+  const newIds = new Set(['kit-chevron','kit-diagonal','kit-mosaic','trophy-crystal','trophy-laurel','bg-rooftop','bg-sunset','bg-aurora-in','bg-aurora-out','bg-coastal-in','bg-coastal-out','pack-aurora','pack-coastal','celeb-heart','celeb-archer','celeb-dance']);
+  // Ne pas vendre un objet que l’ancienne validation SQL refuse ensuite d’enregistrer.
+  let ready = false; try { ready = await admin.rpc('avatar_config_valid', { cfg: applyItem(defaultAvatar(), 'celeb-heart') }); } catch { /* V17 ou V22 non appliquée */ }
+  if (ready !== true) rows = rows.filter(row => !newIds.has(row.id));
   await admin.upsert('shop_items', rows, 'id');
-  await admin.upsert('shop_weekly', [{ week: weekKey(now), item_id: weeklyItem(CATALOG, weekKey(now)) }], 'week');
+  await admin.upsert('shop_weekly', [{ week: weekKey(now), item_id: weeklyItem(CATALOG.filter(entry => rows.some(row => row.id === entry.id)), weekKey(now)) }], 'week');
   return rows.length;
 }
 

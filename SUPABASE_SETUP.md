@@ -30,3 +30,31 @@ La page « Rejoindre le club » propose « Continuer avec Google ». Pour l'acti
 3. Dans **Authentication > URL Configuration**, vérifiez que l'adresse GitHub Pages du site figure dans les URL de redirection autorisées (étape 2 ci-dessus).
 
 Le secret client Google reste dans Supabase : il n'est jamais écrit dans le dépôt. Sans cette configuration, le bouton Google affiche une erreur et la connexion par email reste disponible. Dans **Authentication > Sign In / Providers**, vérifiez aussi que la confirmation d'email est activée.
+
+### BET-79 · Ligues sans limite
+Après V17, exécuter `supabase-v18-schema.sql`. Les ligues de clubs sont fermées et masquées, leurs résultats et adhésions sont conservés pour archive. Les ligues de compétitions et privées n’ont plus de limite par joueur ; les ligues privées gardent leur capacité de 50 membres. Les prix premium et les protections de solde restent en vigueur.
+### BET-77 · Rattrapage de l’historique de ligue
+Après V18, exécuter `supabase-v19-schema.sql`. Le pipeline appelle `repair_league_history` après le règlement et avant les classements. Pour une réparation immédiate : `select public.repair_league_history();`, puis relancer la synchronisation habituelle pour recalculer les classements.
+La ligue générale récupère uniquement les paris certifiés marqués `counts_general`, hors systèmes et hors saisons closes. Les ligues de compétitions récupèrent les paris certifiés placés pendant leur saison, même avant l’adhésion, dans l’ordre chronologique et selon les quotas/unicité habituels. Les anciens paris locaux ne sont pas importés comme résultats certifiés. Aucun solde ni gain n’est modifié. Les journées absentes du serveur doivent être synchronisées avant le rattrapage.
+### BET-78 · Saisons de football
+Après V19, exécuter `supabase-v20-schema.sql`, puis lancer la synchronisation habituelle. La ligue générale utilise la clé `AAAA-AAAA` (1er juillet au 30 juin, Paris). Les points de l’année sportive courante sont rattachés à cette clé sans duplication, le dernier groupe est repris ; les classements et résultats mensuels passés restent consultables. Les anciennes saisons mensuelles ouvertes sont archivées sans nouvelle montée/descente. Les clôtures suivantes ont lieu après le 30 juin. Les mois des primes de compétitions et les quotas hebdomadaires restent distincts des saisons. Les dates propres aux compétitions restent dans `special_leagues.season_start/season_end` et doivent être mises à jour pour chaque édition.
+
+Le code peut être publié avant V20 : les workflows vérifient la présence de `football_season`, maintiennent les classements mensuels si elle manque et diffèrent la clôture de la ligue générale. Le rattrapage et les saisons annuelles sont activés après V18, V19 puis V20 et la synchronisation suivante. Les erreurs d’accès ou de serveur ne sont pas masquées.
+
+### BET-92 · Échec à l’adhésion d’une ligue de championnat
+
+Exécuter `supabase-v21-schema.sql` dans le SQL Editor du projet Supabase du site (V16 au minimum doit déjà être présente). Le script est autonome par rapport aux migrations V18 à V20, qui restent nécessaires pour leurs autres fonctionnalités. Il remplace la RPC d’adhésion : suppression de l’ancienne limite de trois ligues, droits explicites, protection des doubles inscriptions et des doubles débits premium, et indépendance de la création du compte de bankroll. Les inscriptions et les soldes existants sont conservés. La notification finale recharge le cache des fonctions de l’API.
+
+Pour identifier la cause d’un refus avant la correction, relever le code de la réponse `join_special_league` dans l’onglet Réseau du navigateur : `LIGUES_MAX` indique l’ancienne limite, `PGRST202`/`42883` une fonction absente, `42501` des droits manquants. Un manque de jetons ou une ligue fermée reste un refus normal. Le site distingue ces situations d’une coupure réseau et vérifie si l’adhésion a été enregistrée avant de signaler un échec.
+
+Vérification après application : rejoindre une quatrième ligue ouverte puis recharger le site ; elle doit figurer dans Mes ligues. Réessayer sur une ligue déjà rejointe ne doit créer ni doublon ni nouveau débit. Sans accès SQL administrateur, publier le code ne suffit pas à remplacer la fonction de la base.
+
+Diagnostic confirmé pour BET-92 : la réponse reçue est `{"code":"P0001","details":null,"hint":null,"message":"LIGUES_MAX"}`. Le serveur exécute donc encore la fonction avec sa limite historique. Son comptage inclut toutes les lignes de `league_members`, y compris les anciennes ligues de clubs que l’interface masque. La recette PostgreSQL reproduit un refus avec une seule ligue de championnat visible et deux adhésions de clubs masquées ; V21 supprime le refus sans supprimer ces archives. Le HTTP 400 est un refus de cette règle métier, pas une indisponibilité réseau.
+
+## Nouveaux objets de personnalisation (BET-82 à BET-85)
+
+Exécuter `supabase-v22-schema.sql` après V17. Cette migration étend la validation stricte sans modifier les inventaires, les soldes ou les avatars existants, et ajoute les nouveaux objets au catalogue serveur. Trois maillots à motifs, deux trophées génériques, deux ambiances et deux stades (intérieur et extérieur), ainsi que trois célébrations sont disponibles. Les aperçus et le rendu équipé partagent les mêmes textures et identifiants. Les règles d’achat et de possession continuent à être vérifiées par les RPC du Club. Le pipeline conserve la synchronisation du catalogue et des prix.
+
+## Alertes multicanales (BET-69)
+
+La migration `supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.
