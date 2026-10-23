@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { leagueAccessError, createLeagueJoiner } from './league-access.js';
 test('BET-92 : distingue limite ancienne, mise en service, refus métier et session expirée', () => {
-  assert.equal(leagueAccessError({ message: 'LIGUES_MAX' }).code, 'LIGUES_MAX');
+  assert.equal(leagueAccessError({ code: 'P0001', details: null, hint: null, message: 'LIGUES_MAX' }).code, 'LIGUES_MAX');
   assert.match(leagueAccessError({ message: 'LIGUES_MAX' }).message, /ancienne limite/);
   for (const code of ['PGRST202', 'PGRST205', '42P01', '42883', '42501']) assert.equal(leagueAccessError({ code }).code, 'LEAGUE_SETUP_REQUIRED');
   assert.equal(leagueAccessError({ message: 'SOLDE_INSUFFISANT' }).code, 'SOLDE_INSUFFISANT');
