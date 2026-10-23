@@ -1,3 +1,4 @@
+import { createNotificationApi } from './notification-client.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js?v=accounts-v6';
 import { sanitizePreferences, translateAuthError } from './auth-model.js';
 import { normalizeCode } from './community.js';
@@ -78,9 +79,7 @@ export async function initAccountSync({getState,applyState,resetState,registerCl
     const {error}=await client.from('profiles').update({avatar:legacyView(value).avatar,avatar_config:value,updated_at:new Date().toISOString()}).eq('user_id',currentUser.id);
     if(error)throw profileError(error);
     return value};
-  const notificationError=error=>new Error(({NOTIFICATION_LIMIT:'Les limites de votre formule sont dépassées.',NOTIFICATION_ENDPOINT:'Associez chaque canal sélectionné avant d’activer les alertes.',NOTIFICATION_INVALID:'Vérifiez les favoris et le fuseau horaire.'})[error?.message]??'Le service d’alertes est indisponible ou non configuré.');
-  const notificationRpc=async(name,args={})=>{const {data,error}=await client.rpc(name,args);if(error)throw notificationError(error);return data};
-  const notifications={load:()=>notificationRpc('my_notifications'),save:p=>notificationRpc('save_notification_preferences',{p}),unsubscribe:()=>notificationRpc('unsubscribe_notifications'),action:async body=>{const {data,error}=await client.functions.invoke('notifications',{body});if(error||data?.error)throw new Error(data?.error??'Le service d’alertes est indisponible ou non configuré.');return data}};
+  const notifications=createNotificationApi(client);
   const exportData=async()=>{const {data,error}=await client.rpc('export_my_data');if(error)throw profileError(error);return data};
   const deleteAccount=async confirmation=>{const own=currentUser?.id;if(own)await client.storage.from('avatars').remove([`${own}/bust`,`${own}/full`]).catch(()=>{});const {error}=await client.rpc('delete_my_account',{p_confirm:confirmation});if(error)throw profileError(error);await client.auth.signOut().catch(()=>{});currentUser=null;loadedUserId=null;clearTimeout(saveTimer);setView(null);onServerData(null);resetState()};
   // Ligues privées (BET-61) : création, code d'invitation, classement des membres, administration par le propriétaire.

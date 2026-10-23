@@ -5,7 +5,7 @@ import { deliver, seal, unseal, validateDestination } from '../../../notificatio
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
 let site: URL | null = null;
 try { const candidate = new URL(env.SITE_URL); if (candidate.protocol === 'https:') site = candidate; } catch { /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */ }
-const cors = { 'Access-Control-Allow-Origin': site?.origin ?? 'null', 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
+const cors = { 'Access-Control-Allow-Origin': site?.origin ?? 'null', 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-client-info,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
 const json = (value: unknown,status=200) => new Response(JSON.stringify(value),{status,headers:{...cors,'Content-Type':'application/json'}});
 const enc = new TextEncoder();
 const hash = async (text:string) => [...new Uint8Array(await crypto.subtle.digest('SHA-256',enc.encode(text)))].map(x=>x.toString(16).padStart(2,'0')).join('');

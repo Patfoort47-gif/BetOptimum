@@ -53,3 +53,9 @@ La fonction journalise désormais un événement `notification_error` de niveau 
 - `NETWORK`, `INVALID_RESPONSE`, `UNEXPECTED` : utiliser l’étape et la référence pour localiser l’échec dans les logs Supabase.
 
 Un événement système `Shutdown` avec `EarlyDrop` ne suffit pas à identifier la cause d’une réponse 503. Vérifier l’invocation et le diagnostic applicatif correspondant.
+
+### Workflow réussi mais page Mes alertes indisponible
+
+Le workflow appelle le service depuis GitHub ; le navigateur effectue en plus une requête CORS préalable, avec les en-têtes `authorization`, `apikey`, `content-type` et `x-client-info` du client Supabase. Ils doivent tous figurer dans `Access-Control-Allow-Headers`. Une réussite du worker ne prouve donc pas que le navigateur peut charger la configuration.
+
+La page distingue maintenant un échec des préférences SQL d’un échec de connexion à la fonction, affiche les erreurs traduites et propose Réessayer. Un HTTP 403 sur la fonction signale notamment que l’origine du site doit être vérifiée : `SITE_URL` doit correspondre à l’adresse effectivement ouverte, domaine personnalisé inclus. La valeur ne doit pas être élargie à toutes les origines pour contourner ce contrôle. Après une correction CORS, redéployer `notifications`, puis recharger le site pour prendre en compte le client actualisé.
