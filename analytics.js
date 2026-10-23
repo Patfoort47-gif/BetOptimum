@@ -59,7 +59,7 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
 }
 
 export function initAnalytics(root) {
-  let source = 'personal', period = '30', state = null;
+  let source = 'model', period = '30', state = null;
   if (!root?.addEventListener) return { render() {} };
   function render(next = state) {
     state = next; if (!state) return;
