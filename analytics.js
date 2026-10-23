@@ -45,7 +45,7 @@ export function buildAnalytics({ bets = [], capitalEvents = [], initial = 1000, 
 }
 
 function graph(rows, key, label, { bars = false, baseline = null } = {}) {
-  const values = rows.map(row => row[key]).filter(value => value != null), min = Math.min(0, ...values, baseline ?? Infinity), max = Math.max(key === 'winrate' ? 100 : 1, ...values, baseline ?? -Infinity), range = max - min || 1;
+  const values = rows.map(row => row[key]).filter(value => value != null), floor = Math.min(...values, baseline ?? Infinity), ceiling = Math.max(...values, baseline ?? -Infinity), pad = (ceiling - floor || Math.max(1, Math.abs(ceiling) * .1)) * .15, min = key === 'balance' ? floor - pad : Math.min(0, ...values), max = key === 'balance' ? ceiling + pad : Math.max(key === 'winrate' ? 100 : 1, ...values), range = max - min || 1;
   const x = index => 42 + (rows.length === 1 ? .5 : index / (rows.length - 1)) * 616, y = value => 190 - (value - min) / range * 156;
   const format = value => key === 'winrate' ? `${value.toFixed(1)} %` : key === 'volume' ? `${value} pari${value > 1 ? 's' : ''}` : euros(value);
   const points = rows.map((row, index) => row[key] == null ? '' : `${x(index)},${y(row[key])}`).filter(Boolean).join(' ');
@@ -55,7 +55,7 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
     const text = `${row.date} : ${format(row[key])}`, attrs = `tabindex="0" role="button" aria-label="${esc(text)}" data-chart-value="${esc(text)}"`;
     return bars ? `<rect ${attrs} x="${x(index) - width / 2}" y="${Math.min(y(0), y(row[key]))}" width="${width}" height="${Math.max(2, Math.abs(y(0) - y(row[key])))}" rx="3" class="${row[key] < 0 ? 'chart-loss' : 'chart-gain'}"><title>${esc(text)}</title></rect>` : `<circle ${attrs} cx="${x(index)}" cy="${y(row[key])}" r="5"><title>${esc(text)}</title></circle>`;
   }).join('');
-  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="42" y1="${y(0)}" x2="658" y2="${y(0)}" class="analytics-axis"/>${[0, .5, 1].map(fraction => { const value = min + range * fraction, height = y(value); return `<line x1="42" y1="${height}" x2="658" y2="${height}" class="analytics-grid"/><text x="42" y="${height - 6}">${esc(format(value))}</text>`; }).join('')}${bars ? '' : `<polygon points="42,190 ${points} 658,190" class="analytics-area"/><polyline points="${points}" class="analytics-line"/>`}${marks}<text x="42" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
+  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="42" y1="${y(Math.max(min, 0))}" x2="658" y2="${y(Math.max(min, 0))}" class="analytics-axis"/>${[0, .5, 1].map(fraction => { const value = min + range * fraction, height = y(value); return `<line x1="42" y1="${height}" x2="658" y2="${height}" class="analytics-grid"/><text x="42" y="${height - 6}">${esc(format(value))}</text>`; }).join('')}${bars ? '' : `<polygon points="42,190 ${points} 658,190" class="analytics-area"/><polyline points="${points}" class="analytics-line"/>`}${marks}<text x="42" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
 }
 
 export function initAnalytics(root) {
