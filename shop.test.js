@@ -22,7 +22,7 @@ test('l’objet de la semaine est à -30 % et reste le même toute la semaine',(
 });
 test('un pack stade coûte moins cher que ses éléments séparés',()=>{
   for(const pack of S.PACKS){const separate=pack.components.reduce((sum,id)=>sum+S.CATALOG.find(e=>e.id===id).price,0),price=S.packPrice(pack.components);assert.ok(price<separate);assert.equal(price,Math.round(separate*.8));assert.ok(pack.components.every(id=>S.CATALOG.some(e=>e.id===id)))}
-  assert.equal(S.PACKS.length,6);
+  assert.equal(S.PACKS.length,8);
 });
 test('la revente rend 30 % du prix payé, arrondi à l’inférieur',()=>{assert.equal(S.resalePrice(1000),300);assert.equal(S.resalePrice(1799),539);assert.equal(S.resalePrice(0),0)});
 test('une collection complète est reconnue : les deux vues d’un stade, les quatre maillots à motifs',()=>{
@@ -41,8 +41,8 @@ test('duels : mises de 50 à 5 000 jetons, le meilleur prono du jour remporte le
   assert.equal(S.duelWinner({picks:0,points:0},{picks:0,points:0}),null);assert.equal(S.duelWinner({picks:0,points:0},{picks:1,points:-10}),'opponent');assert.equal(S.duelWinner({picks:2,points:-10},{picks:0,points:0}),'creator');
 });
 const E=await import('./scripts/shop-engine.mjs'),M=await import('./model.js'),R=await import('./rewards.js');
-test('les lignes envoyées au serveur : catalogue puis 6 packs recalculés, exclusifs gratuits, rien d’autre',()=>{
-  const rows=E.shopRows();assert.equal(rows.length,S.CATALOG.length+6);assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);
+test('les lignes envoyées au serveur : catalogue puis les packs recalculés, exclusifs gratuits, rien d’autre',()=>{
+  const rows=E.shopRows();assert.equal(rows.length,S.CATALOG.length+S.PACKS.length);assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);
   const pack=rows.find(r=>r.id==='pack-rio');assert.equal(pack.category,'pack');assert.equal(pack.price,S.packPrice(S.PACKS[0].components));assert.deepEqual(pack.pack_of,S.PACKS[0].components);
   assert.ok(rows.filter(r=>r.exclusive).every(r=>r.price===0)&&rows.filter(r=>!r.exclusive).every(r=>r.price>0));assert.ok(rows.every(r=>['id','category','name','rarity','price','exclusive'].every(k=>k in r)));
 });
@@ -64,4 +64,16 @@ test('le bouclier de série : la première défaite après l’achat ne casse pa
 });
 test('la collection complète donne le badge Collectionneur dans les statistiques de trophées',()=>{
   assert.deepEqual(S.completedCollections([{id:'a',collection:'c'},{id:'b',collection:'c'},{id:'z'}],['a','b']),['c']);
+});
+
+test('le catalogue serveur ne vend les nouveaux objets qu’après validation de la migration V22',async()=>{
+ for(const ready of [false,true]){
+  const writes=[],admin={rpc:async()=>ready,upsert:async(table,rows)=>writes.push({table,rows})};
+  await E.syncShop(admin,new Date('2026-10-23T12:00:00Z'));
+  const items=writes.find(w=>w.table==='shop_items').rows,weekly=writes.find(w=>w.table==='shop_weekly').rows[0].item_id;
+  assert.equal(items.some(i=>i.id==='kit-mosaic'),ready);
+  assert.equal(items.some(i=>i.id==='celeb-heart'),ready);
+  assert.ok(items.some(i=>i.id==='kit-plain-blue'));
+  assert.ok(items.some(i=>i.id===weekly));
+ }
 });

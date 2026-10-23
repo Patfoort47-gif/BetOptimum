@@ -1,0 +1,30 @@
+name: Traiter les alertes consenties
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Actualiser les matchs']
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: betoptimum-notifications
+  cancel-in-progress: false
+jobs:
+  notify:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Détecter et livrer les alertes
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          NOTIFICATION_WORKER_SECRET: ${{ secrets.NOTIFICATION_WORKER_SECRET }}
+        run: node scripts/run-notifications.mjs

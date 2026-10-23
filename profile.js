@@ -6,14 +6,14 @@ import { profileHistory } from './profile-history.js';
 import { seasonLabel } from './league.js';
 import { CATALOG } from './shop.js';
 const NS = 'http://www.w3.org/2000/svg';
-const TABS = [['overview', 'Aperçu'], ['seasons', 'Saisons'], ['badges', 'Trophées'], ['bets', 'Mes paris'], ['avatar', 'Avatar', true], ['account', 'Compte et confidentialité', true]];
+const TABS = [['overview', 'Aperçu'], ['seasons', 'Saisons'], ['badges', 'Trophées'], ['bets', 'Mes paris'], ['avatar', 'Avatar', true], ['notifications', 'Mes alertes', true], ['account', 'Compte et confidentialité', true]];
 const DIVISION_COLORS = ['#8a6d4b', '#b87333', '#9aa5b1', '#d4a017', '#2fa4a4', '#7a4dd8', '#C8F03C'];
 
 export function initProfilePage(deps) {
   const { html, money, divisionBadge, levelInfo, avatarConfig, safeLogo, BADGES, echelonName, chevrons, divisionIndex, model, accountApi, getState, toast, openAvatar, openJoin, navigate, onLoggedOut } = deps;
   const { cardAttributes, cardOverall, cardProvisional, averageAttributes, CARD_ATTRIBUTES } = model;
   const root = document.querySelector('#profile-page');
-  let data = null, tab = 'overview', compare = null, target = null, token = 0, hero = null, studio = null, mountToken = 0;
+  let data = null, tab = 'overview', compare = null, target = null, token = 0, hero = null, studio = null, notifications = null, mountToken = 0;
 
   const dateLabel = value => value ? new Date(value).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
   const color = echelon => echelon == null ? '#6b7280' : DIVISION_COLORS[divisionIndex(echelon)];
@@ -99,7 +99,7 @@ export function initProfilePage(deps) {
   function avatarTab() { return '<div class="avatar-studio-slot" data-studio></div>'; }
 
   // Avatar 3D : scène de l'en-tête de l'aperçu (Three.js chargé à la demande) et studio de l'onglet Avatar ; une seule scène à la fois, libérée au changement d'onglet.
-  function cleanup() { mountToken++; hero?.dispose(); hero = null; studio?.destroy(); studio = null; }
+  function cleanup() { mountToken++; hero?.dispose(); hero = null; studio?.destroy(); studio = null; notifications?.destroy(); notifications = null; }
   async function mountHero(info) {
     const host = root.querySelector('[data-hero]'), mine = mountToken; if (!host) return;
     try {
@@ -130,8 +130,9 @@ export function initProfilePage(deps) {
     if (data.missing) { root.innerHTML = '<p class="empty">Ce joueur n’existe pas.</p><button class="button secondary" data-back-home>Retour</button>'; return; }
     if (data.private) { root.innerHTML = `<div class="profile-private"><h2>${html(data.profile.nickname)}</h2><p class="empty">Ce profil est privé.</p><button class="button secondary" data-back-home>Retour à la communauté</button></div>`; return; }
     const info = data, level = levelInfo(info.xp), crest = clubCrest(info.profile), visibleTabs = TABS.filter(([, , own]) => !own || info.self);
-    const body = { overview, seasons, badges, bets, avatar: avatarTab, account }[tab](info);
+    const body = { overview, seasons, badges, bets, avatar: avatarTab, notifications: () => '<div data-notifications></div>', account }[tab](info);
     root.innerHTML = `<header class="profile-header" style="--banner:${color(info.echelon)}"><div class="profile-banner"></div><div class="profile-id">${avatarMarkup(info.profile, { cls: 'avatar-3d', userId: info.profile.user_id })}<div class="profile-title"><h2>${html(info.profile.nickname)}</h2>${info.equipped?.title ? `<small class="profile-subtitle">${html(info.equipped.title.asset ?? info.equipped.title.name)}</small>` : ''}<div class="profile-badges">${divisionBadge(info.echelon)}<span class="level-chip">${level.level}</span><b>${level.title}</b>${crest ? `<img class="profile-crest" src="${crest}" alt="${html(info.profile.heart_club_name ?? 'Club de cœur')}" width="26" height="26">` : ''}</div><small>Membre depuis le ${dateLabel(info.profile.joined_at)}${info.followers != null ? ` · ${info.followers} abonné${info.followers > 1 ? 's' : ''}` : ''}</small></div><div class="profile-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button><button class="button secondary" data-tab="account">Modifier le profil</button>' : (deps.extraActions?.(info) ?? '')}</div></div></header><div class="profile-tabs" role="tablist">${visibleTabs.map(([id, label]) => `<button role="tab" id="ptab-${id}" aria-selected="${tab === id}" data-tab="${id}">${label}</button>`).join('')}</div><div class="profile-body" role="tabpanel">${body}</div>`;
+    if (tab === 'notifications' && info.self) { const mine = mountToken; import('./notification-page.js').then(async ({ mountNotifications }) => { if (mine !== mountToken) return; const handle = await mountNotifications(root.querySelector('[data-notifications]'), { api: accountApi.notifications, html, toast, getState }); if (mine !== mountToken) handle.destroy(); else notifications = handle; }).catch(() => { if (mine === mountToken) root.querySelector('[data-notifications]').textContent = 'Les alertes sont indisponibles.'; }); }
     if (tab === 'overview') mountHero(info); else if (tab === 'avatar' && info.self) mountStudioTab(info);
   }
 

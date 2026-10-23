@@ -2,6 +2,8 @@
 // Les achats, reventes, duels et recharges sont validés par le serveur (RPC) : cette page ne fait que demander et afficher.
 import { CATEGORIES, DISPLAYABLE, PACKS, RARITIES, REFILL, SHIELD_PRICE, DUEL, canRefill, dailyShowcase, priceFor, purchaseBlock, resalePrice, validDuelStake } from './shop.js';
 import { AVATAR_CATEGORIES, applyItem, isWorn, removeItem, ownedIds, sanitizeAvatar, stripUnowned } from './avatar-config.js';
+import { itemArtwork } from './shop-art.js';
+import { avatarMarkup } from './avatar-view.js';
 import { backgroundSwatch, kitSwatch } from './avatar-scenes.js';
 
 export function initShopPage({ api, html, toast, getState, parisToday, openJoin, avatar, openStudio }) {
@@ -20,7 +22,7 @@ export function initShopPage({ api, html, toast, getState, parisToday, openJoin,
   const equippedIds = () => new Set(data.equipped.map(row => row.item_id));
   const rarityClass = item => `rarity-${item.rarity}`;
   const tryable = item => !fitFailed && (AVATAR_CATEGORIES.includes(item.category) || item.category === 'pack');
-  const thumb = item => item.category === 'kit' ? `<img class="shop-thumb" src="${kitSwatch(item.id, 72)}" alt="" width="72" height="72" loading="lazy">` : item.category === 'background' ? `<img class="shop-thumb" src="${backgroundSwatch(item.id, 96)}" alt="" width="96" height="96" loading="lazy">` : item.category === 'pack' ? `<img class="shop-thumb" src="${backgroundSwatch(`bg-${item.id.replace('pack-', '')}-in`, 96)}" alt="" width="96" height="96" loading="lazy">` : '';
+  const thumb = item => itemArtwork(item.id) ? `<img class="shop-thumb shop-object" src="${itemArtwork(item.id)}" alt="${html(item.name)}" width="96" height="96" loading="lazy">` : item.category === 'kit' ? `<img class="shop-thumb" src="${kitSwatch(item.id, 72)}" alt="" width="72" height="72" loading="lazy">` : item.category === 'background' ? `<img class="shop-thumb" src="${backgroundSwatch(item.id, 96)}" alt="" width="96" height="96" loading="lazy">` : item.category === 'pack' ? `<img class="shop-thumb" src="${backgroundSwatch(`bg-${item.id.replace('pack-', '')}-in`, 96)}" alt="" width="96" height="96" loading="lazy">` : '';
   const savedLook = () => sanitizeAvatar(fit?.saved ?? avatar?.get?.());
   const card = (item, extra = '') => {
     const state = getState(), weeklyId = data.weekly, price = item.category === 'pack' ? item.price : priceFor(item, weeklyId), block = purchaseBlock({ ...item, minDivision: item.min_division }, { balance: data.balance, owned: owned(), division: state.division, weeklyId });
@@ -56,13 +58,13 @@ export function initShopPage({ api, html, toast, getState, parisToday, openJoin,
   async function startFitting() {
     if (fit || fitFailed) { updateBar(); return; }
     fitStarting ??= (async () => {
-      aside.hidden = false; aside.innerHTML = '<div class="studio-canvas" data-fit-host><p class="studio-loading">Cabine d’essayage…</p></div><div class="fitting-bar" data-fit-bar></div>';
+      aside.hidden = false; aside.innerHTML = '<header class="fitting-heading"><span class="eyebrow">VOTRE JOUEUR</span><h3>Le vestiaire</h3><p>Votre avatar, vos couleurs, votre style.</p></header><div class="studio-canvas" data-fit-host><p class="studio-loading">Cabine d’essayage…</p></div><div class="fitting-tools" aria-label="Vue du joueur"><button class="button secondary" data-fit-view="full" aria-pressed="true">En pied</button><button class="button secondary" data-fit-view="bust" aria-pressed="false">Portrait</button><button class="button secondary" data-fit-camera>Recentrer</button></div><p class="muted fitting-hint">Glissez pour tourner le joueur · pincez pour zoomer</p><div class="fitting-bar" data-fit-bar aria-live="polite"></div>';
       try {
         const [module, context] = await Promise.all([import('./avatar.js'), avatar.context().catch(() => ({ inventory: [], unlocks: [] }))]);
         if (!module.webglSupported()) throw new Error('WEBGL');
         const host = aside.querySelector('[data-fit-host]'); host.innerHTML = ''; const look = savedLook();
         fit = { stage: await module.createStage(host, { look, view: 'full', label: 'Cabine d’essayage 3D' }), saved: look, look, unlocks: context.unlocks, trying: null };
-      } catch (error) { fitFailed = true; aside.innerHTML = '<p class="muted">La cabine d’essayage 3D n’est pas disponible sur cet appareil. Vous pouvez tout de même acheter et porter vos objets.</p>'; }
+      } catch (error) { fitFailed = true; aside.innerHTML = `${avatarMarkup({ avatar_config: savedLook() }, { cls: 'fitting-fallback', userId: getState().userId })}<p class="muted">La cabine d’essayage 3D n’est pas disponible sur cet appareil. Vous pouvez tout de même acheter et porter vos objets.</p>`; }
     })();
     await fitStarting; fitStarting = null; updateBar();
   }
@@ -102,6 +104,9 @@ export function initShopPage({ api, html, toast, getState, parisToday, openJoin,
     if (wearButton) { wearItem(wearButton.dataset.wear, false); return; }
     if (unwearButton) { wearItem(unwearButton.dataset.unwear, true); return; }
     if (event.target.closest('[data-fit-reset]')) { if (fit) { fit.look = fit.saved; fit.trying = null; fit.stage.setLook(fit.saved); updateBar(); } return; }
+    const view = event.target.closest('[data-fit-view]');
+    if (view && fit) { fit.stage.setView(view.dataset.fitView); aside.querySelectorAll('[data-fit-view]').forEach(button => button.setAttribute('aria-pressed', String(button === view))); return; }
+    if (event.target.closest('[data-fit-camera]')) { fit?.stage.resetCamera(); return; }
     if (event.target.closest('[data-fit-studio]')) { openStudio?.(); return; }
     if (event.target.closest('[data-join]')) { openJoin('login'); return; }
     if (event.target.closest('[data-reload]')) { load(); return; }

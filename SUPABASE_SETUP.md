@@ -50,3 +50,11 @@ Pour identifier la cause d’un refus avant la correction, relever le code de la
 Vérification après application : rejoindre une quatrième ligue ouverte puis recharger le site ; elle doit figurer dans Mes ligues. Réessayer sur une ligue déjà rejointe ne doit créer ni doublon ni nouveau débit. Sans accès SQL administrateur, publier le code ne suffit pas à remplacer la fonction de la base.
 
 Diagnostic confirmé pour BET-92 : la réponse reçue est `{"code":"P0001","details":null,"hint":null,"message":"LIGUES_MAX"}`. Le serveur exécute donc encore la fonction avec sa limite historique. Son comptage inclut toutes les lignes de `league_members`, y compris les anciennes ligues de clubs que l’interface masque. La recette PostgreSQL reproduit un refus avec une seule ligue de championnat visible et deux adhésions de clubs masquées ; V21 supprime le refus sans supprimer ces archives. Le HTTP 400 est un refus de cette règle métier, pas une indisponibilité réseau.
+
+## Nouveaux objets de personnalisation (BET-82 à BET-85)
+
+Exécuter `supabase-v22-schema.sql` après V17. Cette migration étend la validation stricte sans modifier les inventaires, les soldes ou les avatars existants, et ajoute les nouveaux objets au catalogue serveur. Trois maillots à motifs, deux trophées génériques, deux ambiances et deux stades (intérieur et extérieur), ainsi que trois célébrations sont disponibles. Les aperçus et le rendu équipé partagent les mêmes textures et identifiants. Les règles d’achat et de possession continuent à être vérifiées par les RPC du Club. Le pipeline conserve la synchronisation du catalogue et des prix.
+
+## Alertes multicanales (BET-69)
+
+La migration `supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.

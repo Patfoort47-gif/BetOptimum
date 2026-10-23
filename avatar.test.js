@@ -144,3 +144,13 @@ test('mettre ou retirer un objet de la boutique remplace l’emplacement et rest
   assert.deepEqual(A.unownedIds(A.applyItem(A.defaultAvatar(), 'acc-scarf'), new Set()), ['acc-scarf']);
   assert.deepEqual(A.AVATAR_CATEGORIES.sort(), ['accessory', 'background', 'base', 'celebration', 'kit', 'trophy']);
 });
+
+test('les nouveaux maillots restent verrouillés jusqu’à leur acquisition', () => {
+  for (const id of ['kit-chevron', 'kit-diagonal', 'kit-mosaic']) {
+    const look = A.applyItem(A.defaultAvatar(), id);
+    assert.equal(look.kit.item, id);
+    assert.deepEqual(A.validateAvatar(look), []);
+    assert.equal(A.stripUnowned(look, new Set()).config.kit.item, 'start-lime');
+    assert.equal(A.stripUnowned(look, new Set([id])).config.kit.item, id);
+  }
+});

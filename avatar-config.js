@@ -27,6 +27,7 @@ export const KITS = {
   'kit-plain-white': { pattern: 'plain', c1: '#f4f4f0', c2: '#1e56e6' }, 'kit-plain-black': { pattern: 'plain', c1: '#17191b', c2: '#c6ff3d' }, 'kit-plain-orange': { pattern: 'plain', c1: '#ff7a00', c2: '#101411' },
   'kit-stripe-vertical': { pattern: 'vertical', c1: '#d62828', c2: '#f4f4f0' }, 'kit-stripe-band': { pattern: 'band', c1: '#f4f4f0', c2: '#1e56e6' }, 'kit-stripe-hoops': { pattern: 'hoops', c1: '#12994a', c2: '#f4f4f0' }, 'kit-stripe-scarf': { pattern: 'scarf', c1: '#6d28d9', c2: '#facc15' },
   'kit-retro-70': { pattern: 'retro70', c1: '#f08a1c', c2: '#f4f0e2' }, 'kit-retro-90': { pattern: 'retro90', c1: '#0e9aa7', c2: '#a855f7' }, 'kit-retro-champion': { pattern: 'legend', c1: '#14161a', c2: '#e6b422' },
+  'kit-chevron': { pattern: 'chevron', c1: '#102e4d', c2: '#5ce1c4' }, 'kit-diagonal': { pattern: 'diagonal', c1: '#f6eee3', c2: '#9e2747' }, 'kit-mosaic': { pattern: 'mosaic', c1: '#36205f', c2: '#e4a44a' },
   'kit-champion': { pattern: 'champion', c1: '#e6b422', c2: '#14161a' }, 'kit-gold': { name: 'Maillot or', pattern: 'champion', c1: '#d9a520', c2: '#2a1f08', unlock: 'maillot or' }
 };
 export const START_KITS = Object.keys(KITS).filter(id => KITS[id].free);
@@ -35,11 +36,11 @@ export const SOLID_BACKGROUNDS = [['solid-0', 'Citron', '#d7ff4a', '#7bb800'], [
 export const UNLOCK_IDS = { 'socle argent': 'base-silver', 'maillot or': 'kit-gold', 'cheveux vert citron': 'hair-lime', couronne: 'acc-crown' };
 export const UNLOCK_LABELS = { 'base-silver': 'Débloqué en division National', 'kit-gold': 'Débloqué en division Pro', 'hair-lime': 'Débloqué en division Élite', 'acc-crown': 'Réservé aux joueurs Master' };
 export const FREE_BASES = ['base-classic'], BASES = [['base-classic', 'Classique'], ['base-grass', 'Gazon'], ['base-silver', 'Argent'], ['base-gold', 'Or'], ['base-neon', 'Néon']];
-export const FREE_CELEBRATIONS = ['celeb-jump'], CELEBRATIONS = [['celeb-jump', 'Saut de joie'], ['celeb-fist', 'Poing levé'], ['celeb-slide', 'Glissade à genoux'], ['celeb-flip', 'Salto']];
+export const FREE_CELEBRATIONS = ['celeb-jump'], CELEBRATIONS = [['celeb-jump', 'Saut de joie'], ['celeb-fist', 'Poing levé'], ['celeb-slide', 'Glissade à genoux'], ['celeb-flip', 'Salto'], ['celeb-heart', 'Cœur aux supporters'], ['celeb-archer', 'L’Archer'], ['celeb-dance', 'Pas de victoire']];
 export const ACCESSORIES = [['acc-captain', 'Brassard de capitaine', 'arm'], ['acc-cap', 'Casquette', 'head'], ['acc-headband', 'Bandeau', 'head'], ['acc-crown', 'Couronne du Master', 'head'], ['acc-glasses', 'Lunettes', 'face'], ['acc-headphones', 'Casque audio', 'ears'], ['acc-scarf', 'Écharpe de supporter', 'neck']];
-export const TROPHIES = [['trophy-cup', 'Coupe des champions'], ['trophy-pichichi', 'Pichichi'], ['trophy-boot', 'Soulier d’or'], ['trophy-glove', 'Gant d’or'], ['trophy-ball', 'Ballon d’or']];
-export const STADIUMS = [['rio', 'Rio'], ['barcelona', 'Barcelone'], ['madrid', 'Madrid'], ['paris', 'Paris'], ['munich', 'Munich'], ['london', 'Londres']];
-export const SCENES = [['bg-training', 'Centre d’entraînement'], ['bg-lockers', 'Vestiaire'], ['bg-tunnel', 'Tunnel des joueurs'], ...STADIUMS.flatMap(([key, label]) => [[`bg-${key}-in`, `Stade de ${label}, intérieur`], [`bg-${key}-out`, `Stade de ${label}, extérieur`]])];
+export const TROPHIES = [['trophy-crystal', 'Étoile de cristal'], ['trophy-laurel', 'Lauriers du fair-play'], ['trophy-cup', 'Coupe des champions'], ['trophy-pichichi', 'Pichichi'], ['trophy-boot', 'Soulier d’or'], ['trophy-glove', 'Gant d’or'], ['trophy-ball', 'Ballon d’or']];
+export const STADIUMS = [['rio', 'Rio'], ['barcelona', 'Barcelone'], ['madrid', 'Madrid'], ['paris', 'Paris'], ['munich', 'Munich'], ['london', 'Londres'], ['aurora', 'l’Aurore'], ['coastal', 'la Côte']];
+export const SCENES = [['bg-rooftop', 'Terrain sur les toits'], ['bg-sunset', 'Entraînement au couchant'], ['bg-training', 'Centre d’entraînement'], ['bg-lockers', 'Vestiaire'], ['bg-tunnel', 'Tunnel des joueurs'], ...STADIUMS.flatMap(([key, label]) => [[`bg-${key}-in`, `Stade de ${label}, intérieur`], [`bg-${key}-out`, `Stade de ${label}, extérieur`]])];
 
 const idOf = list => list.map(entry => entry[0]);
 const ENUMS = { kit: Object.keys(KITS), base: idOf(BASES), background: [...idOf(SOLID_BACKGROUNDS), ...idOf(SCENES)], celebration: idOf(CELEBRATIONS), accessory: idOf(ACCESSORIES), trophy: idOf(TROPHIES) };
