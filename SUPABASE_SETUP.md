@@ -33,3 +33,6 @@ Le secret client Google reste dans Supabase : il n'est jamais écrit dans le dé
 
 ### BET-79 · Ligues sans limite
 Après V17, exécuter `supabase-v18-schema.sql`. Les ligues de clubs sont fermées et masquées, leurs résultats et adhésions sont conservés pour archive. Les ligues de compétitions et privées n’ont plus de limite par joueur ; les ligues privées gardent leur capacité de 50 membres. Les prix premium et les protections de solde restent en vigueur.
+### BET-77 · Rattrapage de l’historique de ligue
+Après V18, exécuter `supabase-v19-schema.sql`. Le pipeline appelle `repair_league_history` après le règlement et avant les classements. Pour une réparation immédiate : `select public.repair_league_history();`, puis relancer la synchronisation habituelle pour recalculer les classements.
+La ligue générale récupère uniquement les paris certifiés marqués `counts_general`, hors systèmes et hors saisons closes. Les ligues de compétitions récupèrent les paris certifiés placés pendant leur saison, même avant l’adhésion, dans l’ordre chronologique et selon les quotas/unicité habituels. Les anciens paris locaux ne sont pas importés comme résultats certifiés. Aucun solde ni gain n’est modifié. Les journées absentes du serveur doivent être synchronisées avant le rattrapage.
