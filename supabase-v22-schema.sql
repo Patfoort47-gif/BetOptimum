@@ -18,8 +18,8 @@ begin
     and coalesce(jsonb_typeof(cfg->'pose') = 'string' and cfg->>'pose' in ('idle','arms','ball','foot'), false)
     and coalesce(jsonb_typeof(cfg->'base') = 'string' and cfg->>'base' in ('base-classic','base-grass','base-silver','base-gold','base-neon'), false)
     and coalesce(jsonb_typeof(cfg->'celebration') = 'string' and cfg->>'celebration' in ('celeb-jump','celeb-fist','celeb-slide','celeb-flip'), false)
-    and coalesce(jsonb_typeof(cfg->'background') = 'string' and (cfg->>'background' ~ '^solid-[0-5]$' or cfg->>'background' in ('bg-training','bg-lockers','bg-tunnel')
-      or cfg->>'background' ~ '^bg-(rio|barcelona|madrid|paris|munich|london)-(in|out)$'), false)) then return false; end if;
+    and coalesce(jsonb_typeof(cfg->'background') = 'string' and (cfg->>'background' ~ '^solid-[0-5]$' or cfg->>'background' in ('bg-training','bg-lockers','bg-tunnel','bg-rooftop','bg-sunset')
+      or cfg->>'background' ~ '^bg-(rio|barcelona|madrid|paris|munich|london|aurora|coastal)-(in|out)$'), false)) then return false; end if;
   kit := cfg->'kit';
   if jsonb_typeof(kit) <> 'object' or exists (select 1 from jsonb_object_keys(kit) k where k not in ('item','number','name')) then return false; end if;
   if not (coalesce(jsonb_typeof(kit->'item') = 'string' and kit->>'item' in ('start-lime','start-blue','start-purple','start-orange','kit-plain-lime','kit-plain-blue','kit-plain-red','kit-plain-white','kit-plain-black','kit-plain-orange','kit-stripe-vertical','kit-stripe-band','kit-stripe-hoops','kit-stripe-scarf','kit-retro-70','kit-retro-90','kit-retro-champion','kit-champion','kit-gold','kit-chevron','kit-diagonal','kit-mosaic'), false)

@@ -39,8 +39,8 @@ export const FREE_BASES = ['base-classic'], BASES = [['base-classic', 'Classique
 export const FREE_CELEBRATIONS = ['celeb-jump'], CELEBRATIONS = [['celeb-jump', 'Saut de joie'], ['celeb-fist', 'Poing levé'], ['celeb-slide', 'Glissade à genoux'], ['celeb-flip', 'Salto']];
 export const ACCESSORIES = [['acc-captain', 'Brassard de capitaine', 'arm'], ['acc-cap', 'Casquette', 'head'], ['acc-headband', 'Bandeau', 'head'], ['acc-crown', 'Couronne du Master', 'head'], ['acc-glasses', 'Lunettes', 'face'], ['acc-headphones', 'Casque audio', 'ears'], ['acc-scarf', 'Écharpe de supporter', 'neck']];
 export const TROPHIES = [['trophy-crystal', 'Étoile de cristal'], ['trophy-laurel', 'Lauriers du fair-play'], ['trophy-cup', 'Coupe des champions'], ['trophy-pichichi', 'Pichichi'], ['trophy-boot', 'Soulier d’or'], ['trophy-glove', 'Gant d’or'], ['trophy-ball', 'Ballon d’or']];
-export const STADIUMS = [['rio', 'Rio'], ['barcelona', 'Barcelone'], ['madrid', 'Madrid'], ['paris', 'Paris'], ['munich', 'Munich'], ['london', 'Londres']];
-export const SCENES = [['bg-training', 'Centre d’entraînement'], ['bg-lockers', 'Vestiaire'], ['bg-tunnel', 'Tunnel des joueurs'], ...STADIUMS.flatMap(([key, label]) => [[`bg-${key}-in`, `Stade de ${label}, intérieur`], [`bg-${key}-out`, `Stade de ${label}, extérieur`]])];
+export const STADIUMS = [['rio', 'Rio'], ['barcelona', 'Barcelone'], ['madrid', 'Madrid'], ['paris', 'Paris'], ['munich', 'Munich'], ['london', 'Londres'], ['aurora', 'l’Aurore'], ['coastal', 'la Côte']];
+export const SCENES = [['bg-rooftop', 'Terrain sur les toits'], ['bg-sunset', 'Entraînement au couchant'], ['bg-training', 'Centre d’entraînement'], ['bg-lockers', 'Vestiaire'], ['bg-tunnel', 'Tunnel des joueurs'], ...STADIUMS.flatMap(([key, label]) => [[`bg-${key}-in`, `Stade de ${label}, intérieur`], [`bg-${key}-out`, `Stade de ${label}, extérieur`]])];
 
 const idOf = list => list.map(entry => entry[0]);
 const ENUMS = { kit: Object.keys(KITS), base: idOf(BASES), background: [...idOf(SOLID_BACKGROUNDS), ...idOf(SCENES)], celebration: idOf(CELEBRATIONS), accessory: idOf(ACCESSORIES), trophy: idOf(TROPHIES) };
