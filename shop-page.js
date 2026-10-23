@@ -2,6 +2,7 @@
 // Les achats, reventes, duels et recharges sont validés par le serveur (RPC) : cette page ne fait que demander et afficher.
 import { CATEGORIES, DISPLAYABLE, PACKS, RARITIES, REFILL, SHIELD_PRICE, DUEL, canRefill, dailyShowcase, priceFor, purchaseBlock, resalePrice, validDuelStake } from './shop.js';
 import { AVATAR_CATEGORIES, applyItem, isWorn, removeItem, ownedIds, sanitizeAvatar, stripUnowned } from './avatar-config.js';
+import { itemArtwork } from './shop-art.js';
 import { avatarMarkup } from './avatar-view.js';
 import { backgroundSwatch, kitSwatch } from './avatar-scenes.js';
 
@@ -21,7 +22,7 @@ export function initShopPage({ api, html, toast, getState, parisToday, openJoin,
   const equippedIds = () => new Set(data.equipped.map(row => row.item_id));
   const rarityClass = item => `rarity-${item.rarity}`;
   const tryable = item => !fitFailed && (AVATAR_CATEGORIES.includes(item.category) || item.category === 'pack');
-  const thumb = item => item.category === 'kit' ? `<img class="shop-thumb" src="${kitSwatch(item.id, 72)}" alt="" width="72" height="72" loading="lazy">` : item.category === 'background' ? `<img class="shop-thumb" src="${backgroundSwatch(item.id, 96)}" alt="" width="96" height="96" loading="lazy">` : item.category === 'pack' ? `<img class="shop-thumb" src="${backgroundSwatch(`bg-${item.id.replace('pack-', '')}-in`, 96)}" alt="" width="96" height="96" loading="lazy">` : '';
+  const thumb = item => itemArtwork(item.id) ? `<img class="shop-thumb shop-object" src="${itemArtwork(item.id)}" alt="${html(item.name)}" width="96" height="96" loading="lazy">` : item.category === 'kit' ? `<img class="shop-thumb" src="${kitSwatch(item.id, 72)}" alt="" width="72" height="72" loading="lazy">` : item.category === 'background' ? `<img class="shop-thumb" src="${backgroundSwatch(item.id, 96)}" alt="" width="96" height="96" loading="lazy">` : item.category === 'pack' ? `<img class="shop-thumb" src="${backgroundSwatch(`bg-${item.id.replace('pack-', '')}-in`, 96)}" alt="" width="96" height="96" loading="lazy">` : '';
   const savedLook = () => sanitizeAvatar(fit?.saved ?? avatar?.get?.());
   const card = (item, extra = '') => {
     const state = getState(), weeklyId = data.weekly, price = item.category === 'pack' ? item.price : priceFor(item, weeklyId), block = purchaseBlock({ ...item, minDivision: item.min_division }, { balance: data.balance, owned: owned(), division: state.division, weeklyId });
