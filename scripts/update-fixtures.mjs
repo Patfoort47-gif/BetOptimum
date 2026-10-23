@@ -207,6 +207,9 @@ const enriched = unique.map(match => {
   match.suggestedPick=match.completed&&previous?.suggestedPick?previous.suggestedPick:{...recommendedMarket(match),capturedAt:new Date().toISOString()};
   return match;
 });
+// Diagnostic de couverture à chaque collecte, sans nouvel appel fournisseur.
+const coverage = matches => { const upcoming = matches.filter(match => !match.completed && !match.voided && Date.parse(match.kickoff ?? `${match.date}T${match.time}:00Z`) > Date.now()); return { upcoming: upcoming.length, withOffers: upcoming.filter(match => match.bookmakerOffers?.length).length }; };
+console.info('Couverture bookmakers (avant / après) :', JSON.stringify({ before: coverage(previousData.matches ?? []), after: coverage(enriched) }));
 // Défi du jour : sélection figée une fois publiée (voir pickDailyChallenge).
 const dailyChallenge = pickDailyChallenge(enriched, parisDate(new Date()), Object.fromEntries(leagues.map(([, label, weight]) => [label, weight])), previousData.dailyChallenge);
 await mkdir('data', { recursive: true });
