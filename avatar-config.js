@@ -27,6 +27,7 @@ export const KITS = {
   'kit-plain-white': { pattern: 'plain', c1: '#f4f4f0', c2: '#1e56e6' }, 'kit-plain-black': { pattern: 'plain', c1: '#17191b', c2: '#c6ff3d' }, 'kit-plain-orange': { pattern: 'plain', c1: '#ff7a00', c2: '#101411' },
   'kit-stripe-vertical': { pattern: 'vertical', c1: '#d62828', c2: '#f4f4f0' }, 'kit-stripe-band': { pattern: 'band', c1: '#f4f4f0', c2: '#1e56e6' }, 'kit-stripe-hoops': { pattern: 'hoops', c1: '#12994a', c2: '#f4f4f0' }, 'kit-stripe-scarf': { pattern: 'scarf', c1: '#6d28d9', c2: '#facc15' },
   'kit-retro-70': { pattern: 'retro70', c1: '#f08a1c', c2: '#f4f0e2' }, 'kit-retro-90': { pattern: 'retro90', c1: '#0e9aa7', c2: '#a855f7' }, 'kit-retro-champion': { pattern: 'legend', c1: '#14161a', c2: '#e6b422' },
+  'kit-chevron': { pattern: 'chevron', c1: '#102e4d', c2: '#5ce1c4' }, 'kit-diagonal': { pattern: 'diagonal', c1: '#f6eee3', c2: '#9e2747' }, 'kit-mosaic': { pattern: 'mosaic', c1: '#36205f', c2: '#e4a44a' },
   'kit-champion': { pattern: 'champion', c1: '#e6b422', c2: '#14161a' }, 'kit-gold': { name: 'Maillot or', pattern: 'champion', c1: '#d9a520', c2: '#2a1f08', unlock: 'maillot or' }
 };
 export const START_KITS = Object.keys(KITS).filter(id => KITS[id].free);

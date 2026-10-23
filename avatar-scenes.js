@@ -129,6 +129,9 @@ export function drawKit(canvas, kitId, number, name) {
   const ctx = canvas.getContext('2d'), W = canvas.width, H = canvas.height, kit = KITS[kitId] ?? KITS['start-lime'], { c1, c2, pattern } = kit;
   ctx.fillStyle = c1; ctx.fillRect(0, 0, W, H);
   const stripe = (x, y, w, h, color, alpha = 1) => { ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1; };
+  if (pattern === 'chevron') { ctx.strokeStyle = c2; ctx.lineWidth = H * .055; for (const y of [.28,.43]) { ctx.beginPath(); ctx.moveTo(0,H*y); ctx.lineTo(W*.25,H*(y+.1)); ctx.lineTo(W*.5,H*y); ctx.lineTo(W*.75,H*(y+.1)); ctx.lineTo(W,H*y); ctx.stroke(); } }
+  if (pattern === 'diagonal') { ctx.fillStyle = c2; for (let k=-1;k<3;k++) { ctx.beginPath(); ctx.moveTo(W*k*.5,0); ctx.lineTo(W*(k*.5+.13),0); ctx.lineTo(W*(k*.5+.53),H); ctx.lineTo(W*(k*.5+.4),H); ctx.fill(); } }
+  if (pattern === 'mosaic') { for(let x=0;x<16;x++) for(let y=0;y<12;y++) { ctx.fillStyle = (x+y)%3===0 ? c2 : mix(c1,c2,(x*y%5)*.07); ctx.beginPath(); ctx.moveTo(x*W/16,y*H/12); ctx.lineTo((x+1)*W/16,y*H/12); ctx.lineTo((x+.5)*W/16,(y+1)*H/12); ctx.fill(); } }
   if (pattern === 'vertical') for (let i = 0; i < 12; i++) if (i % 2) stripe(W * i / 12, 0, W / 12, H, c2);
   if (pattern === 'band') stripe(0, H * .34, W, H * .17, c2);
   if (pattern === 'hoops') for (let i = 0; i < 10; i++) if (i % 2) stripe(0, H * i / 10, W, H / 10, c2);
