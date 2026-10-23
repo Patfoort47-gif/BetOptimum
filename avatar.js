@@ -23,6 +23,9 @@ export const POSE_TARGETS = {
 // Célébrations : fonction du temps (secondes) qui renvoie les écarts de pose, le saut et l'expression.
 const lerp = (a, b, t) => a + (b - a) * t, ease = t => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2, clamp01 = v => Math.min(1, Math.max(0, v));
 export const CELEBRATIONS = {
+  'celeb-heart': { dur: 2.8, at: t => ({ pose: { aLx: -.7, aLz: .08, eLx: -1.7, eLz: -.7, aRx: -.7, aRz: -.08, eRx: -1.7, eRz: .7, hx: -.1, ty: Math.sin(t*2)*.04 }, expr: 'smile' }) },
+  'celeb-archer': { dur: 2.6, at: t => {const pull=ease(clamp01(t/1.2)); return {pose:{aLz:1.35,aLx:-.35,eLx:-.1,aRz:-.8,aRx:-.7,eRx:-2.3*pull,ty:-.35,hy:.35,hx:-.1,lLz:.12,lRz:-.12},expr:'confident'};} },
+  'celeb-dance': { dur: 3.4, at: t => {const beat=Math.sin(t*7);return {pose:{aLz:.75+beat*.3,aRz:-.75+beat*.3,eLx:-1.2,eRx:-1.2,lLx:beat*.25,lRx:-beat*.25,kLx:Math.max(0,beat)*.55,kRx:Math.max(0,-beat)*.55,tz:beat*.12,hy:-beat*.12},rootY:Math.abs(beat)*.06,expr:'joy'};} },
   'celeb-jump': { dur: 1.9, at: t => { const hop = Math.abs(Math.sin(t / 1.9 * Math.PI * 3)) * .24; return { pose: { aLx: -2.85, aLz: .3, aRx: -2.85, aRz: -.3, eLx: -.15, eRx: -.15, hx: -.28, ry: 0, kLx: hop * 1.4, kRx: hop * 1.4, lLx: -hop * .7, lRx: -hop * .7, tx: -.05 }, rootY: hop, expr: 'joy' }; } },
   'celeb-fist': { dur: 2.3, at: t => { const pump = Math.sin(t * 9) * .22; return { pose: { aRx: -2.55 + pump * .4, aRz: -.25, eRx: -.5 - pump, aLz: .35, aLx: .1, eLx: -.9, hx: -.18, tx: -.08, ty: .12, hy: -.2, lLz: .12, lRz: -.12 }, rootY: Math.max(0, Math.sin(t * 9 + 1.6)) * .05, expr: 'joy' }; } },
   'celeb-slide': { dur: 2.8, at: t => { const u = clamp01(t / 2.8), run = ease(clamp01(u / .38)), rise = ease(clamp01((u - .8) / .2)), down = run * (1 - rise); return { pose: { lLx: lerp(0, -.15, down), kLx: lerp(0, 2.3, down), lRx: lerp(0, -.15, down), kRx: lerp(0, 2.3, down), tx: lerp(0, .55, down), hx: lerp(0, -.35, down), aLx: -.2 * down, aLz: lerp(.13, 1.25, down), aRx: -.2 * down, aRz: lerp(-.13, -1.25, down), eLx: -.3, eRx: -.3, rrx: 0 }, rootY: -.41 * down, rootZ: .55 * ease(clamp01(u / .55)) * (1 - rise * .9), expr: 'joy' }; } },
@@ -97,7 +100,7 @@ export async function createStage(host, options = {}) {
     const base = { ...BASE, ...POSE_TARGETS[state.look.pose] }; let target = base, expr = state.look.expression, rootY = 0, rootZ = 0, rrx = 0;
     if (state.celebrating) {
       const t = (performance.now() - state.celebrating.start) / 1000, spec = CELEBRATIONS[state.celebrating.id] ?? CELEBRATIONS['celeb-jump'];
-      if (t >= spec.dur) state.celebrating = null; else { const frame = spec.at(t); target = { ...base, ...frame.pose, bs: 0 }; rootY = frame.rootY ?? 0; rootZ = frame.rootZ ?? 0; rrx = frame.rrx ?? 0; expr = frame.expr ?? expr; }
+      if (t >= spec.dur) state.celebrating = null; else { const frame = spec.at(reduced ? spec.dur * .45 : t); target = { ...base, ...frame.pose, bs: 0 }; rootY = frame.rootY ?? 0; rootZ = frame.rootZ ?? 0; rrx = frame.rrx ?? 0; expr = frame.expr ?? expr; }
     }
     const a = reduced ? 1 : 1 - Math.exp(-dt * (state.celebrating ? 16 : 9)), cur = state.cur;
     for (const k in target) cur[k] += (target[k] - cur[k]) * (k === 'bs' ? 1 : a);

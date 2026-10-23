@@ -17,7 +17,7 @@ begin
     and coalesce(jsonb_typeof(cfg->'expression') = 'string' and cfg->>'expression' in ('smile','focus','wink','confident','joy','surprise'), false)
     and coalesce(jsonb_typeof(cfg->'pose') = 'string' and cfg->>'pose' in ('idle','arms','ball','foot'), false)
     and coalesce(jsonb_typeof(cfg->'base') = 'string' and cfg->>'base' in ('base-classic','base-grass','base-silver','base-gold','base-neon'), false)
-    and coalesce(jsonb_typeof(cfg->'celebration') = 'string' and cfg->>'celebration' in ('celeb-jump','celeb-fist','celeb-slide','celeb-flip'), false)
+    and coalesce(jsonb_typeof(cfg->'celebration') = 'string' and cfg->>'celebration' in ('celeb-jump','celeb-fist','celeb-slide','celeb-flip','celeb-heart','celeb-archer','celeb-dance'), false)
     and coalesce(jsonb_typeof(cfg->'background') = 'string' and (cfg->>'background' ~ '^solid-[0-5]$' or cfg->>'background' in ('bg-training','bg-lockers','bg-tunnel','bg-rooftop','bg-sunset')
       or cfg->>'background' ~ '^bg-(rio|barcelona|madrid|paris|munich|london|aurora|coastal)-(in|out)$'), false)) then return false; end if;
   kit := cfg->'kit';
