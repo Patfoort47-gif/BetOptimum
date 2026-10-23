@@ -65,3 +65,15 @@ test('le bouclier de série : la première défaite après l’achat ne casse pa
 test('la collection complète donne le badge Collectionneur dans les statistiques de trophées',()=>{
   assert.deepEqual(S.completedCollections([{id:'a',collection:'c'},{id:'b',collection:'c'},{id:'z'}],['a','b']),['c']);
 });
+
+test('le catalogue serveur ne vend les nouveaux objets qu’après validation de la migration V22',async()=>{
+ for(const ready of [false,true]){
+  const writes=[],admin={rpc:async()=>ready,upsert:async(table,rows)=>writes.push({table,rows})};
+  await E.syncShop(admin,new Date('2026-10-23T12:00:00Z'));
+  const items=writes.find(w=>w.table==='shop_items').rows,weekly=writes.find(w=>w.table==='shop_weekly').rows[0].item_id;
+  assert.equal(items.some(i=>i.id==='kit-mosaic'),ready);
+  assert.equal(items.some(i=>i.id==='celeb-heart'),ready);
+  assert.ok(items.some(i=>i.id==='kit-plain-blue'));
+  assert.ok(items.some(i=>i.id===weekly));
+ }
+});

@@ -51,3 +51,8 @@ Avatar 3D (BET-49 ; `avatar-config.js` pur et testé par `avatar.test.js`, `avat
 - Le numéro du ticket figure dans chaque message de commit et dans le titre de la pull request (ex. `BET-12 Ajoute le classement des buteurs`).
 - Le ticket est fermé quand la pull request est fusionnée dans `main`.
 - Aucun jeton YouTrack ni autre secret dans le dépôt : chacun garde le sien dans la configuration de son IA (`~/.codex/config.toml` pour Codex).
+
+## Personnalisation et alertes (BET-80 à BET-85, BET-69)
+
+- `supabase-v22-schema.sql` étend la validation d’avatar et installe les nouveaux objets. `syncShop` exclut les nouveautés tant que cette validation n’est pas disponible, pour éviter un achat impossible à porter. `shop-art.js` contient les aperçus vectoriels des accessoires et nouveaux trophées ; les maillots et décors réutilisent `avatar-scenes.js`.
+- `notification-model.js` porte la détection pure et les plages silencieuses ; `notification-delivery.js` reste exclusivement côté serveur. `notification-page.js` est monté dans le profil, `notification-sw.js` affiche les Web Push sans cache des pages. Les destinations ne passent jamais au stockage local. SQL V23, fonction Edge et secrets sont nécessaires pour activer les canaux : voir `NOTIFICATIONS_SETUP.md`. La formule est décidée côté serveur. Aucun envoi ne doit être activé sans le consentement explicite du destinataire.
