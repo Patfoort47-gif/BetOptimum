@@ -28,7 +28,7 @@ svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:
 .topbar-actions{grid-column:3;display:flex;align-items:center;gap:10px;min-width:0;margin-left:auto}
 .topbar-bankroll{display:flex;flex:none;flex-direction:column;align-items:flex-end;justify-content:center;min-width:122px;max-width:174px;min-height:48px;padding:5px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.topbar-bankroll small{font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--muted)}.topbar-bankroll strong{display:block;max-width:100%;overflow:hidden;font-family:var(--display);font-size:clamp(18px,1.5vw,22px);font-variant-numeric:tabular-nums;line-height:1;text-overflow:ellipsis;white-space:nowrap}
 #theme-toggle .icon-moon{display:none}.light #theme-toggle .icon-sun{display:none}.light #theme-toggle .icon-moon{display:block}
-.account-button{display:flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 6px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:14px}.account-button span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--on-accent);color:var(--accent)}.account-button span svg{width:16px;height:16px}.account-button b{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account-button.connected{background:var(--surface-2);color:var(--text);box-shadow:inset 0 0 0 1px var(--accent-text)}
+.account-button{display:flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 6px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:14px}.account-button>#account-avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--on-accent);color:var(--accent)}.account-button>#account-avatar>svg{width:16px;height:16px}.account-button b{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account-button.connected{background:var(--surface-2);color:var(--text);box-shadow:inset 0 0 0 1px var(--accent-text)}
 
 /* Mise en page */
 main{max-width:1320px;margin:0 auto;padding:28px 32px 64px;display:flex;flex-direction:column;gap:28px}
@@ -630,3 +630,6 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 .analytics-svg text{stroke:none;font-size:18px}@media(max-width:700px){.analytics-svg text{font-size:24px}}.analytics-area{stroke:none}
 
 .analytics-svg .analytics-tick{paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
+
+/* BET-94 : miniature de l’avatar du compte, indépendante du chargement des ligues. */
+#account-avatar>.mini-avatar{display:block;width:32px;height:32px;flex:none;border-radius:50%;margin:0}#account-avatar>.avatar-photo{overflow:hidden}#account-avatar img{width:100%;height:100%;object-fit:cover}
