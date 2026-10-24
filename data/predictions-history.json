@@ -120,6 +120,42 @@
     "score": "2 : 0"
   },
   {
+    "id": "espn-401878768",
+    "date": "2026-10-24",
+    "league": "Premier League",
+    "match": "Arsenal – Everton",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.06,
+    "probability": 0.47125186472078917,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401879255",
+    "date": "2026-10-24",
+    "league": "Premier League",
+    "match": "Coventry City – Fulham",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.488061429473041,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
+    "id": "espn-401882831",
+    "date": "2026-10-24",
+    "league": "La Liga",
+    "match": "Racing Santander – Espanyol",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.6660112926264348,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401884761",
     "date": "2026-10-23",
     "league": "Bundesliga",

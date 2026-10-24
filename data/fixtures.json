@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 105,
     "oddsMatches": 63,
-    "settlements": 123
+    "settlements": 126
   },
   "settlements": [
     {
@@ -178,6 +178,33 @@
       "away": "Hamburg SV",
       "homeScore": 1,
       "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401878768",
+      "date": "2026-10-24",
+      "home": "Arsenal",
+      "away": "Everton",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401879255",
+      "date": "2026-10-24",
+      "home": "Coventry City",
+      "away": "Fulham",
+      "homeScore": 0,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882831",
+      "date": "2026-10-24",
+      "home": "Racing Santander",
+      "away": "Espanyol",
+      "homeScore": 2,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -10691,11 +10718,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
       "priority": 64,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.53,
       "awayGoals": 0.92,
@@ -12333,12 +12360,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
       "priority": 34,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 1,
       "homeGoals": 1.17,
       "awayGoals": 1.23,
       "odds": {
@@ -12959,12 +12986,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
       "priority": 33,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 1.44,
       "awayGoals": 1.99,
       "odds": {
@@ -33862,5 +33889,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-24T15:49:16.621Z"
+  "scoresUpdatedAt": "2026-10-24T16:50:44.905Z"
 }
