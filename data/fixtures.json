@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 105,
     "oddsMatches": 63,
-    "settlements": 114
+    "settlements": 116
   },
   "settlements": [
     {
@@ -97,6 +97,24 @@
       "away": "Manchester City",
       "homeScore": 2,
       "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882830",
+      "date": "2026-10-24",
+      "home": "Rayo Vallecano",
+      "away": "Elche",
+      "homeScore": 0,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401876716",
+      "date": "2026-10-24",
+      "home": "Dijon FCO",
+      "away": "Rodez Aveyron",
+      "homeScore": 1,
+      "awayScore": 2,
       "completed": true
     },
     {
@@ -12583,12 +12601,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
       "priority": 33,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 3,
       "homeGoals": 1.62,
       "awayGoals": 1.69,
       "odds": {
@@ -15365,12 +15383,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7719.png",
       "priority": 18,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 1,
+      "homeScore": 1,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -33781,5 +33799,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-24T13:47:49.072Z"
+  "scoresUpdatedAt": "2026-10-24T14:47:55.707Z"
 }

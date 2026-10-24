@@ -12,6 +12,30 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401882830",
+    "date": "2026-10-24",
+    "league": "La Liga",
+    "match": "Rayo Vallecano – Elche",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.6541207195385883,
+    "status": "lost",
+    "score": "0 : 3"
+  },
+  {
+    "id": "espn-401876716",
+    "date": "2026-10-24",
+    "league": "Ligue 2",
+    "match": "Dijon FCO – Rodez Aveyron",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401884761",
     "date": "2026-10-23",
     "league": "Bundesliga",
