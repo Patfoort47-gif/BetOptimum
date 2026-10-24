@@ -204,6 +204,30 @@
     "score": "1 : 2"
   },
   {
+    "id": "espn-401874955",
+    "date": "2026-10-24",
+    "league": "Serie A",
+    "match": "Lazio – Parma",
+    "label": "Lazio",
+    "key": "home",
+    "odd": 1.42,
+    "probability": 0.7471052795730185,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
+    "id": "espn-401876711",
+    "date": "2026-10-24",
+    "league": "Ligue 2",
+    "match": "Saint-Étienne – Nantes",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401884761",
     "date": "2026-10-23",
     "league": "Bundesliga",

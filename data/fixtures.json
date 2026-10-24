@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 105,
     "oddsMatches": 63,
-    "settlements": 130
+    "settlements": 132
   },
   "settlements": [
     {
@@ -239,6 +239,24 @@
       "date": "2026-10-24",
       "home": "Borussia Dortmund",
       "away": "Eintracht Frankfurt",
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874955",
+      "date": "2026-10-24",
+      "home": "Lazio",
+      "away": "Parma",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401876711",
+      "date": "2026-10-24",
+      "home": "Saint-Étienne",
+      "away": "Nantes",
       "homeScore": 1,
       "awayScore": 0,
       "completed": true
@@ -15102,12 +15120,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/115.png",
       "priority": 31,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 2.25,
       "awayGoals": 0.61,
       "odds": {
@@ -15581,11 +15599,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/165.png",
       "priority": 18,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 1,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -33925,5 +33943,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-24T19:43:39.406Z"
+  "scoresUpdatedAt": "2026-10-24T20:45:59.224Z"
 }
