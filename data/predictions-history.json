@@ -228,6 +228,30 @@
     "score": "1 : 0"
   },
   {
+    "id": "espn-401882834",
+    "date": "2026-10-24",
+    "league": "La Liga",
+    "match": "Atlético Madrid – Deportivo",
+    "label": "Atlético Madrid",
+    "key": "home",
+    "odd": 1.27,
+    "probability": 0.6576012460122688,
+    "status": "won",
+    "score": "1 : 0"
+  },
+  {
+    "id": "espn-401876427",
+    "date": "2026-10-24",
+    "league": "Ligue 1",
+    "match": "Lens – Paris FC",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.7375029454926858,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401884761",
     "date": "2026-10-23",
     "league": "Bundesliga",
