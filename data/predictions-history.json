@@ -156,6 +156,54 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401878767",
+    "date": "2026-10-24",
+    "league": "Premier League",
+    "match": "Chelsea – Tottenham Hotspur",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.56,
+    "probability": 0.617612503857168,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
+    "id": "espn-401884763",
+    "date": "2026-10-24",
+    "league": "Bundesliga",
+    "match": "Borussia Dortmund – Eintracht Frankfurt",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.64,
+    "probability": 0.6263220655703309,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
+    "id": "espn-401874948",
+    "date": "2026-10-24",
+    "league": "Serie A",
+    "match": "Napoli – AS Roma",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.69,
+    "probability": 0.6105588715371804,
+    "status": "won",
+    "score": "3 : 3"
+  },
+  {
+    "id": "espn-401882827",
+    "date": "2026-10-24",
+    "league": "La Liga",
+    "match": "Valencia – Villarreal",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.571014741630865,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401884761",
     "date": "2026-10-23",
     "league": "Bundesliga",
