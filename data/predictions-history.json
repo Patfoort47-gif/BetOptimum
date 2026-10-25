@@ -216,6 +216,30 @@
     "score": "0 : 0"
   },
   {
+    "id": "espn-401874772",
+    "date": "2026-10-25",
+    "league": "Serie A",
+    "match": "Lecce – Juventus",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.65,
+    "probability": 0.5803698603615437,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
+    "id": "espn-401882829",
+    "date": "2026-10-25",
+    "league": "La Liga",
+    "match": "Real Sociedad – Levante",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.7544784839865974,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401879256",
     "date": "2026-10-24",
     "league": "Premier League",

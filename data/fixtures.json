@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 108,
     "oddsMatches": 63,
-    "settlements": 128
+    "settlements": 130
   },
   "settlements": [
     {
@@ -250,6 +250,24 @@
       "away": "Bayern Munich",
       "homeScore": 1,
       "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401882829",
+      "date": "2026-10-25",
+      "home": "Real Sociedad",
+      "away": "Levante",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401874772",
+      "date": "2026-10-25",
+      "home": "Lecce",
+      "away": "Juventus",
+      "homeScore": 0,
+      "awayScore": 2,
       "completed": true
     },
     {
@@ -15946,8 +15964,8 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/111.png",
       "priority": 61,
       "featured": false,
-      "status": "Second Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
@@ -18477,8 +18495,8 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/1538.png",
       "priority": 33,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
@@ -34306,5 +34324,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-25T18:55:03.492Z"
+  "scoresUpdatedAt": "2026-10-25T19:44:53.733Z"
 }
