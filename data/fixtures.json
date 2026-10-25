@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 108,
     "oddsMatches": 63,
-    "settlements": 120
+    "settlements": 121
   },
   "settlements": [
     {
@@ -177,6 +177,15 @@
       "home": "TSG Hoffenheim",
       "away": "Bayer Leverkusen",
       "homeScore": 3,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401882833",
+      "date": "2026-10-25",
+      "home": "Celta Vigo",
+      "away": "Real Betis",
+      "homeScore": 0,
       "awayScore": 0,
       "completed": true
     },
@@ -18110,8 +18119,8 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
       "priority": 33,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
@@ -34234,5 +34243,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-25T16:50:59.036Z"
+  "scoresUpdatedAt": "2026-10-25T17:46:52.632Z"
 }
