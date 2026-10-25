@@ -12,6 +12,18 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401882835",
+    "date": "2026-10-25",
+    "league": "La Liga",
+    "match": "Athletic Club – Getafe",
+    "label": "Athletic Club",
+    "key": "home",
+    "odd": 1.61,
+    "probability": 0.5225490157146672,
+    "status": "won",
+    "score": "4 : 0"
+  },
+  {
     "id": "espn-401879256",
     "date": "2026-10-24",
     "league": "Premier League",

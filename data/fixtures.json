@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 108,
     "oddsMatches": 63,
-    "settlements": 111
+    "settlements": 112
   },
   "settlements": [
     {
@@ -97,6 +97,15 @@
       "away": "Fiorentina",
       "homeScore": 2,
       "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882835",
+      "date": "2026-10-25",
+      "home": "Athletic Club",
+      "away": "Getafe",
+      "homeScore": 4,
+      "awayScore": 0,
       "completed": true
     },
     {
@@ -17734,11 +17743,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2922.png",
       "priority": 33,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 1,
+      "homeScore": 4,
       "awayScore": 0,
       "homeGoals": 1.26,
       "awayGoals": 0.61,
@@ -34153,5 +34162,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-25T14:49:22.063Z"
+  "scoresUpdatedAt": "2026-10-25T15:50:07.523Z"
 }
