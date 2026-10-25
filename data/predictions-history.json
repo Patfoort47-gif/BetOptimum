@@ -240,6 +240,18 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401874779",
+    "date": "2026-10-25",
+    "league": "Serie A",
+    "match": "Udinese – AC Milan",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.7,
+    "probability": 0.6465627736646911,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
     "id": "espn-401879256",
     "date": "2026-10-24",
     "league": "Premier League",

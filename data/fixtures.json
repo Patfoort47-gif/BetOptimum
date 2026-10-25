@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 108,
     "oddsMatches": 63,
-    "settlements": 130
+    "settlements": 131
   },
   "settlements": [
     {
@@ -266,6 +266,15 @@
       "date": "2026-10-25",
       "home": "Lecce",
       "away": "Juventus",
+      "homeScore": 0,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401874779",
+      "date": "2026-10-25",
+      "home": "Udinese",
+      "away": "AC Milan",
       "homeScore": 0,
       "awayScore": 2,
       "completed": true
@@ -16286,12 +16295,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/103.png",
       "priority": 61,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 2,
       "homeGoals": 1.26,
       "awayGoals": 2.07,
       "odds": {
@@ -34324,5 +34333,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-25T20:47:21.814Z"
+  "scoresUpdatedAt": "2026-10-25T21:47:48.804Z"
 }
