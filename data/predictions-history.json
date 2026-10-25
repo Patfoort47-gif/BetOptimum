@@ -252,6 +252,18 @@
     "score": "0 : 2"
   },
   {
+    "id": "espn-401882832",
+    "date": "2026-10-25",
+    "league": "La Liga",
+    "match": "Barcelona – Real Madrid",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.17,
+    "probability": 0.7936987630099062,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401879256",
     "date": "2026-10-24",
     "league": "Premier League",
