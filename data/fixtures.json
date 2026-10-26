@@ -62,7 +62,7 @@
     "secondaryOddsMatches": 7,
     "statsMatches": 94,
     "oddsMatches": 44,
-    "settlements": 116
+    "settlements": 117
   },
   "settlements": [
     {
@@ -90,6 +90,15 @@
       "away": "Red Star FC 93",
       "homeScore": 2,
       "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882828",
+      "date": "2026-10-26",
+      "home": "Sevilla",
+      "away": "Osasuna",
+      "homeScore": 2,
+      "awayScore": 0,
       "completed": true
     },
     {
@@ -12730,11 +12739,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/97.png",
       "priority": 33,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 2.25,
       "awayGoals": 1.38,
@@ -25555,5 +25564,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-26T21:52:49.057Z"
+  "scoresUpdatedAt": "2026-10-26T22:54:57.851Z"
 }

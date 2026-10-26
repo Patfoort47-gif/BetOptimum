@@ -36,6 +36,18 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401882828",
+    "date": "2026-10-26",
+    "league": "La Liga",
+    "match": "Sevilla – Osasuna",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.7025295110180412,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
     "id": "espn-401875036",
     "date": "2026-10-25",
     "league": "Serie A",
