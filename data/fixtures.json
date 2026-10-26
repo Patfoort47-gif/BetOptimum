@@ -62,9 +62,36 @@
     "secondaryOddsMatches": 7,
     "statsMatches": 94,
     "oddsMatches": 44,
-    "settlements": 113
+    "settlements": 116
   },
   "settlements": [
+    {
+      "id": "espn-401876422",
+      "date": "2026-10-26",
+      "home": "Paris Saint-Germain",
+      "away": "Lyon",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401876718",
+      "date": "2026-10-26",
+      "home": "Boulogne",
+      "away": "Stade de Reims",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401876714",
+      "date": "2026-10-26",
+      "home": "Montpellier",
+      "away": "Red Star FC 93",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
     {
       "id": "espn-401879254",
       "date": "2026-10-25",
@@ -12399,11 +12426,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
       "priority": 60,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.89,
       "awayGoals": 1.69,
@@ -12998,12 +13025,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3243.png",
       "priority": 18,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -13070,12 +13097,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11884.png",
       "priority": 18,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -25528,5 +25555,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-26T20:55:37.429Z"
+  "scoresUpdatedAt": "2026-10-26T21:52:49.057Z"
 }

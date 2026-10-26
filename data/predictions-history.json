@@ -1,5 +1,41 @@
 [
   {
+    "id": "espn-401876422",
+    "date": "2026-10-26",
+    "league": "Ligue 1",
+    "match": "Paris Saint-Germain – Lyon",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.79,
+    "probability": 0.6936962524316947,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401876718",
+    "date": "2026-10-26",
+    "league": "Ligue 2",
+    "match": "Boulogne – Stade de Reims",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401876714",
+    "date": "2026-10-26",
+    "league": "Ligue 2",
+    "match": "Montpellier – Red Star FC 93",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401875036",
     "date": "2026-10-25",
     "league": "Serie A",
