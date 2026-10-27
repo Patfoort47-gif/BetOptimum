@@ -74,7 +74,7 @@
     "secondaryOddsMatches": 5,
     "statsMatches": 112,
     "oddsMatches": 40,
-    "settlements": 116
+    "settlements": 119
   },
   "settlements": [
     {
@@ -111,6 +111,33 @@
       "away": "Mainz",
       "homeScore": 2,
       "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874980",
+      "date": "2026-10-27",
+      "home": "Sassuolo",
+      "away": "Lazio",
+      "homeScore": 2,
+      "awayScore": 6,
+      "completed": true
+    },
+    {
+      "id": "espn-401928493",
+      "date": "2026-10-27",
+      "home": "CD Cuarte",
+      "away": "Girona",
+      "homeScore": 0,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401928501",
+      "date": "2026-10-27",
+      "home": "Atlético Pinatarense",
+      "away": "Elche",
+      "homeScore": 1,
+      "awayScore": 3,
       "completed": true
     },
     {
@@ -12203,12 +12230,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/112.png",
       "priority": 31,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
-      "awayScore": 4,
+      "awayScore": 6,
       "homeGoals": 1.26,
       "awayGoals": 2.07,
       "odds": {
@@ -13070,12 +13097,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9812.png",
       "priority": 26,
       "featured": false,
-      "status": "Second Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 1,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -13142,12 +13169,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
       "priority": 26,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 1,
-      "awayScore": 0,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -25923,5 +25950,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-27T19:05:01.970Z"
+  "scoresUpdatedAt": "2026-10-27T19:56:10.391Z"
 }

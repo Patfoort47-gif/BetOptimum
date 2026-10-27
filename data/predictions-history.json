@@ -48,6 +48,42 @@
     "score": "2 : 0"
   },
   {
+    "id": "espn-401874980",
+    "date": "2026-10-27",
+    "league": "Serie A",
+    "match": "Sassuolo – Lazio",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.6465627736646911,
+    "status": "won",
+    "score": "2 : 6"
+  },
+  {
+    "id": "espn-401928493",
+    "date": "2026-10-27",
+    "league": "Copa del Rey",
+    "match": "CD Cuarte – Girona",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
+    "id": "espn-401928501",
+    "date": "2026-10-27",
+    "league": "Copa del Rey",
+    "match": "Atlético Pinatarense – Elche",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "1 : 3"
+  },
+  {
     "id": "espn-401876422",
     "date": "2026-10-26",
     "league": "Ligue 1",
