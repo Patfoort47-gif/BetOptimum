@@ -74,7 +74,7 @@
     "secondaryOddsMatches": 5,
     "statsMatches": 112,
     "oddsMatches": 40,
-    "settlements": 136
+    "settlements": 143
   },
   "settlements": [
     {
@@ -291,6 +291,69 @@
       "away": "SV Darmstadt 98",
       "homeScore": 0,
       "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401921835",
+      "date": "2026-10-27",
+      "home": "Fleetwood Town",
+      "away": "Arsenal",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401928509",
+      "date": "2026-10-27",
+      "home": "Atlético Tordesillas",
+      "away": "Mirandés",
+      "homeScore": 3,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401928553",
+      "date": "2026-10-27",
+      "home": "Don Benito",
+      "away": "CD Extremadura",
+      "homeScore": 2,
+      "awayScore": 4,
+      "completed": true
+    },
+    {
+      "id": "espn-401928502",
+      "date": "2026-10-27",
+      "home": "Manresa",
+      "away": "Sant Andreu",
+      "homeScore": 2,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401928488",
+      "date": "2026-10-27",
+      "home": "Arosa",
+      "away": "Pontevedra",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401928547",
+      "date": "2026-10-27",
+      "home": "Atlético Paso",
+      "away": "Córdoba",
+      "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401928533",
+      "date": "2026-10-27",
+      "home": "Recreativo Huelva",
+      "away": "Rayo Vallecano",
+      "homeScore": 2,
+      "awayScore": 3,
       "completed": true
     },
     {
@@ -12311,12 +12374,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
       "priority": 54,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.5,
       "odds": {
@@ -13682,12 +13745,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4515.png",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 3,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -13970,12 +14033,12 @@
       "awayLogo": "",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 4,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -14042,12 +14105,12 @@
       "awayLogo": "",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -14114,11 +14177,11 @@
       "awayLogo": "",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -14186,12 +14249,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8447.png",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 3,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -14402,12 +14465,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/101.png",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -26103,5 +26166,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-27T21:53:39.186Z"
+  "scoresUpdatedAt": "2026-10-27T22:53:02.714Z"
 }
