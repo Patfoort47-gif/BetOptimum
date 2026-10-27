@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T18:29:37.640Z",
+  "generatedAt": "2026-10-27T06:28:08.446Z",
   "oddsRefreshedAt": "2026-10-22T08:57:55.125Z",
   "oddsRefreshHours": [
     7,
@@ -11,40 +11,52 @@
   "secondaryOddsWindowHours": 48,
   "movementThresholdPercent": 5,
   "dailyChallenge": {
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "picks": [
       {
-        "matchId": "espn-401882828",
-        "league": "La Liga",
-        "home": "Sevilla",
-        "away": "Osasuna",
-        "kickoff": "2026-10-26T20:00:00.000Z",
+        "matchId": "espn-401874980",
+        "league": "Serie A",
+        "home": "Sassuolo",
+        "away": "Lazio",
+        "kickoff": "2026-10-27T17:30:00.000Z",
         "odds": {
-          "home": 1.94,
-          "draw": 3.35,
-          "away": 4.08
+          "home": 2.8,
+          "draw": 3.37,
+          "away": 2.4
         },
-        "bookmakers": 21
+        "bookmakers": 20
       },
       {
-        "matchId": "espn-401876422",
-        "league": "Ligue 1",
-        "home": "Paris Saint-Germain",
-        "away": "Lyon",
-        "kickoff": "2026-10-26T19:30:00.000Z",
+        "matchId": "espn-401874786",
+        "league": "Serie A",
+        "home": "Torino",
+        "away": "Como",
+        "kickoff": "2026-10-27T19:45:00.000Z",
         "odds": {
-          "home": 1.43,
-          "draw": 5.15,
-          "away": 6.11
+          "home": 4.44,
+          "draw": 3.65,
+          "away": 1.75
         },
-        "bookmakers": 22
+        "bookmakers": 20
+      },
+      {
+        "matchId": "espn-401874780",
+        "league": "Serie A",
+        "home": "AS Roma",
+        "away": "Cagliari",
+        "kickoff": "2026-10-27T19:45:00.000Z",
+        "odds": {
+          "home": 1.34,
+          "draw": 4.85,
+          "away": 8.73
+        },
+        "bookmakers": 21
       }
     ]
   },
   "source": "ESPN + football-data.org + The Odds API",
   "providerStatus": "partial",
   "failures": [
-    "ger.1: Unexpected end of JSON input",
     "The Odds API soccer_epl: HTTP 401 (OUT_OF_USAGE_CREDITS)",
     "The Odds API soccer_france_ligue_one: HTTP 401 (OUT_OF_USAGE_CREDITS)",
     "The Odds API soccer_spain_la_liga: HTTP 401 (OUT_OF_USAGE_CREDITS)",
@@ -55,50 +67,59 @@
     "The Odds API soccer_uefa_europa_conference_league: HTTP 401 (OUT_OF_USAGE_CREDITS)"
   ],
   "coverage": {
-    "historicalMatches": 446,
+    "historicalMatches": 448,
     "oddsEvents": 0,
     "secondaryOddsRequested": 0,
     "secondaryOddsEvents": 0,
-    "secondaryOddsMatches": 7,
-    "statsMatches": 94,
-    "oddsMatches": 44,
-    "settlements": 117
+    "secondaryOddsMatches": 5,
+    "statsMatches": 112,
+    "oddsMatches": 40,
+    "settlements": 112
   },
   "settlements": [
     {
-      "id": "espn-401876422",
-      "date": "2026-10-26",
-      "home": "Paris Saint-Germain",
-      "away": "Lyon",
-      "homeScore": 2,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401876718",
-      "date": "2026-10-26",
-      "home": "Boulogne",
-      "away": "Stade de Reims",
+      "id": "espn-401879253",
+      "date": "2026-10-23",
+      "home": "Ipswich Town",
+      "away": "Nottingham Forest",
       "homeScore": 1,
       "awayScore": 1,
       "completed": true
     },
     {
-      "id": "espn-401876714",
-      "date": "2026-10-26",
-      "home": "Montpellier",
-      "away": "Red Star FC 93",
+      "id": "espn-401879256",
+      "date": "2026-10-24",
+      "home": "Aston Villa",
+      "away": "Manchester City",
       "homeScore": 2,
       "awayScore": 1,
       "completed": true
     },
     {
-      "id": "espn-401882828",
-      "date": "2026-10-26",
-      "home": "Sevilla",
-      "away": "Osasuna",
+      "id": "espn-401878768",
+      "date": "2026-10-24",
+      "home": "Arsenal",
+      "away": "Everton",
       "homeScore": 2,
       "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401879255",
+      "date": "2026-10-24",
+      "home": "Coventry City",
+      "away": "Fulham",
+      "homeScore": 0,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401878767",
+      "date": "2026-10-24",
+      "home": "Chelsea",
+      "away": "Tottenham Hotspur",
+      "homeScore": 0,
+      "awayScore": 2,
       "completed": true
     },
     {
@@ -144,6 +165,24 @@
       "away": "Leeds United",
       "homeScore": 0,
       "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401876428",
+      "date": "2026-10-23",
+      "home": "Brest",
+      "away": "Nice",
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401876427",
+      "date": "2026-10-24",
+      "home": "Lens",
+      "away": "Paris FC",
+      "homeScore": 2,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -201,6 +240,69 @@
       "completed": true
     },
     {
+      "id": "espn-401876422",
+      "date": "2026-10-26",
+      "home": "Paris Saint-Germain",
+      "away": "Lyon",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401882870",
+      "date": "2026-10-21",
+      "home": "Levante",
+      "away": "Athletic Club",
+      "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882836",
+      "date": "2026-10-23",
+      "home": "Alavés",
+      "away": "Málaga",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882830",
+      "date": "2026-10-24",
+      "home": "Rayo Vallecano",
+      "away": "Elche",
+      "homeScore": 0,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401882831",
+      "date": "2026-10-24",
+      "home": "Racing Santander",
+      "away": "Espanyol",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882827",
+      "date": "2026-10-24",
+      "home": "Valencia",
+      "away": "Villarreal",
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401882834",
+      "date": "2026-10-24",
+      "home": "Atlético Madrid",
+      "away": "Deportivo",
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
       "id": "espn-401882835",
       "date": "2026-10-25",
       "home": "Athletic Club",
@@ -234,6 +336,60 @@
       "away": "Real Madrid",
       "homeScore": 1,
       "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401882828",
+      "date": "2026-10-26",
+      "home": "Sevilla",
+      "away": "Osasuna",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874957",
+      "date": "2026-10-23",
+      "home": "Torino",
+      "away": "Monza",
+      "homeScore": 3,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401874958",
+      "date": "2026-10-24",
+      "home": "Cagliari",
+      "away": "Bologna",
+      "homeScore": 0,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401874961",
+      "date": "2026-10-24",
+      "home": "Como",
+      "away": "Sassuolo",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874948",
+      "date": "2026-10-24",
+      "home": "Napoli",
+      "away": "AS Roma",
+      "homeScore": 3,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401874955",
+      "date": "2026-10-24",
+      "home": "Lazio",
+      "away": "Parma",
+      "homeScore": 2,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -282,156 +438,12 @@
       "completed": true
     },
     {
-      "id": "espn-401884760",
-      "date": "2026-10-25",
-      "home": "TSG Hoffenheim",
-      "away": "Bayer Leverkusen",
-      "homeScore": 3,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401884759",
-      "date": "2026-10-25",
-      "home": "SC Freiburg",
-      "away": "Bayern Munich",
-      "homeScore": 1,
+      "id": "espn-401884761",
+      "date": "2026-10-23",
+      "home": "VfB Stuttgart",
+      "away": "Borussia Mönchengladbach",
+      "homeScore": 2,
       "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401879256",
-      "date": "2026-10-24",
-      "home": "Aston Villa",
-      "away": "Manchester City",
-      "homeScore": 2,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401878768",
-      "date": "2026-10-24",
-      "home": "Arsenal",
-      "away": "Everton",
-      "homeScore": 2,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401879255",
-      "date": "2026-10-24",
-      "home": "Coventry City",
-      "away": "Fulham",
-      "homeScore": 0,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401878767",
-      "date": "2026-10-24",
-      "home": "Chelsea",
-      "away": "Tottenham Hotspur",
-      "homeScore": 0,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401876427",
-      "date": "2026-10-24",
-      "home": "Lens",
-      "away": "Paris FC",
-      "homeScore": 2,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401882830",
-      "date": "2026-10-24",
-      "home": "Rayo Vallecano",
-      "away": "Elche",
-      "homeScore": 0,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401882831",
-      "date": "2026-10-24",
-      "home": "Racing Santander",
-      "away": "Espanyol",
-      "homeScore": 2,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401882827",
-      "date": "2026-10-24",
-      "home": "Valencia",
-      "away": "Villarreal",
-      "homeScore": 1,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401882834",
-      "date": "2026-10-24",
-      "home": "Atlético Madrid",
-      "away": "Deportivo",
-      "homeScore": 1,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401874958",
-      "date": "2026-10-24",
-      "home": "Cagliari",
-      "away": "Bologna",
-      "homeScore": 0,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401874961",
-      "date": "2026-10-24",
-      "home": "Como",
-      "away": "Sassuolo",
-      "homeScore": 2,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401874948",
-      "date": "2026-10-24",
-      "home": "Napoli",
-      "away": "AS Roma",
-      "homeScore": 3,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401874955",
-      "date": "2026-10-24",
-      "home": "Lazio",
-      "away": "Parma",
-      "homeScore": 2,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401876716",
-      "date": "2026-10-24",
-      "home": "Dijon FCO",
-      "away": "Rodez Aveyron",
-      "homeScore": 1,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401876711",
-      "date": "2026-10-24",
-      "home": "Saint-Étienne",
-      "away": "Nantes",
-      "homeScore": 1,
-      "awayScore": 0,
       "completed": true
     },
     {
@@ -489,91 +501,181 @@
       "completed": true
     },
     {
-      "id": "espn-401879253",
-      "date": "2026-10-23",
-      "home": "Ipswich Town",
-      "away": "Nottingham Forest",
-      "homeScore": 1,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401876428",
-      "date": "2026-10-23",
-      "home": "Brest",
-      "away": "Nice",
-      "homeScore": 1,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401882836",
-      "date": "2026-10-23",
-      "home": "Alavés",
-      "away": "Málaga",
-      "homeScore": 1,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401874957",
-      "date": "2026-10-23",
-      "home": "Torino",
-      "away": "Monza",
+      "id": "espn-401884760",
+      "date": "2026-10-25",
+      "home": "TSG Hoffenheim",
+      "away": "Bayer Leverkusen",
       "homeScore": 3,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401876713",
-      "date": "2026-10-23",
-      "home": "AS Nancy Lorraine",
-      "away": "Stade Laval",
-      "homeScore": 1,
       "awayScore": 0,
       "completed": true
     },
     {
-      "id": "espn-401876717",
-      "date": "2026-10-23",
-      "home": "Clermont Foot",
-      "away": "Guingamp",
-      "homeScore": 0,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401876715",
-      "date": "2026-10-23",
-      "home": "Dunkerque",
-      "away": "Metz",
-      "homeScore": 1,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401876712",
-      "date": "2026-10-23",
-      "home": "Pau",
-      "away": "Grenoble",
-      "homeScore": 2,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401876710",
-      "date": "2026-10-23",
-      "home": "Sochaux",
-      "away": "Annecy",
+      "id": "espn-401884759",
+      "date": "2026-10-25",
+      "home": "SC Freiburg",
+      "away": "Bayern Munich",
       "homeScore": 1,
       "awayScore": 3,
       "completed": true
     },
     {
-      "id": "espn-401884761",
-      "date": "2026-10-23",
+      "id": "espn-401915403",
+      "date": "2026-10-20",
+      "home": "Fenerbahce",
+      "away": "Slavia Prague",
+      "homeScore": 2,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401915404",
+      "date": "2026-10-20",
+      "home": "Sabah FK",
+      "away": "Borussia Dortmund",
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401915402",
+      "date": "2026-10-20",
+      "home": "AS Roma",
+      "away": "Slovan Bratislava",
+      "homeScore": 4,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401915398",
+      "date": "2026-10-20",
+      "home": "FC Porto",
+      "away": "PSV Eindhoven",
+      "homeScore": 0,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915397",
+      "date": "2026-10-20",
+      "home": "Liverpool",
+      "away": "Villarreal",
+      "homeScore": 4,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401915401",
+      "date": "2026-10-20",
+      "home": "Manchester City",
+      "away": "AEK Athens",
+      "homeScore": 5,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915400",
+      "date": "2026-10-20",
+      "home": "Napoli",
+      "away": "Bodo/Glimt",
+      "homeScore": 4,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401915399",
+      "date": "2026-10-20",
+      "home": "Paris Saint-Germain",
+      "away": "Barcelona",
+      "homeScore": 4,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401915392",
+      "date": "2026-10-20",
       "home": "VfB Stuttgart",
-      "away": "Borussia Mönchengladbach",
+      "away": "Atlético Madrid",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915395",
+      "date": "2026-10-21",
+      "home": "Como",
+      "away": "Manchester United",
+      "homeScore": 4,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915396",
+      "date": "2026-10-21",
+      "home": "Lille",
+      "away": "Galatasaray",
+      "homeScore": 2,
+      "awayScore": 4,
+      "completed": true
+    },
+    {
+      "id": "espn-401915394",
+      "date": "2026-10-21",
+      "home": "Aston Villa",
+      "away": "Viking FK",
+      "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915312",
+      "date": "2026-10-21",
+      "home": "Bayern Munich",
+      "away": "Arsenal",
+      "homeScore": 2,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401915388",
+      "date": "2026-10-21",
+      "home": "Club Brugge",
+      "away": "Lens",
+      "homeScore": 3,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401915390",
+      "date": "2026-10-21",
+      "home": "Internazionale",
+      "away": "Shakhtar Donetsk",
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401915389",
+      "date": "2026-10-21",
+      "home": "Real Betis",
+      "away": "Feyenoord Rotterdam",
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401915313",
+      "date": "2026-10-21",
+      "home": "Real Madrid",
+      "away": "RB Leipzig",
+      "homeScore": 4,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401915391",
+      "date": "2026-10-21",
+      "home": "Sporting CP",
+      "away": "LASK Linz",
       "homeScore": 2,
       "awayScore": 3,
       "completed": true
@@ -903,2012 +1005,88 @@
       "completed": true
     },
     {
-      "id": "espn-401882870",
-      "date": "2026-10-21",
-      "home": "Levante",
-      "away": "Athletic Club",
-      "homeScore": 3,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915395",
-      "date": "2026-10-21",
-      "home": "Como",
-      "away": "Manchester United",
-      "homeScore": 4,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915396",
-      "date": "2026-10-21",
-      "home": "Lille",
-      "away": "Galatasaray",
-      "homeScore": 2,
-      "awayScore": 4,
-      "completed": true
-    },
-    {
-      "id": "espn-401915394",
-      "date": "2026-10-21",
-      "home": "Aston Villa",
-      "away": "Viking FK",
-      "homeScore": 3,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915312",
-      "date": "2026-10-21",
-      "home": "Bayern Munich",
-      "away": "Arsenal",
-      "homeScore": 2,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401915388",
-      "date": "2026-10-21",
-      "home": "Club Brugge",
-      "away": "Lens",
-      "homeScore": 3,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401915390",
-      "date": "2026-10-21",
-      "home": "Internazionale",
-      "away": "Shakhtar Donetsk",
-      "homeScore": 1,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401915389",
-      "date": "2026-10-21",
-      "home": "Real Betis",
-      "away": "Feyenoord Rotterdam",
-      "homeScore": 1,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401915313",
-      "date": "2026-10-21",
-      "home": "Real Madrid",
-      "away": "RB Leipzig",
-      "homeScore": 4,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915391",
-      "date": "2026-10-21",
-      "home": "Sporting CP",
-      "away": "LASK Linz",
-      "homeScore": 2,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401915403",
-      "date": "2026-10-20",
-      "home": "Fenerbahce",
-      "away": "Slavia Prague",
-      "homeScore": 2,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401915404",
-      "date": "2026-10-20",
-      "home": "Sabah FK",
-      "away": "Borussia Dortmund",
-      "homeScore": 1,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401915402",
-      "date": "2026-10-20",
-      "home": "AS Roma",
-      "away": "Slovan Bratislava",
-      "homeScore": 4,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401915398",
-      "date": "2026-10-20",
-      "home": "FC Porto",
-      "away": "PSV Eindhoven",
-      "homeScore": 0,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915397",
-      "date": "2026-10-20",
-      "home": "Liverpool",
-      "away": "Villarreal",
-      "homeScore": 4,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401915401",
-      "date": "2026-10-20",
-      "home": "Manchester City",
-      "away": "AEK Athens",
-      "homeScore": 5,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401915400",
-      "date": "2026-10-20",
-      "home": "Napoli",
-      "away": "Bodo/Glimt",
-      "homeScore": 4,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401915399",
-      "date": "2026-10-20",
-      "home": "Paris Saint-Germain",
-      "away": "Barcelona",
-      "homeScore": 4,
-      "awayScore": 2,
-      "completed": true
-    },
-    {
-      "id": "espn-401915392",
-      "date": "2026-10-20",
-      "home": "VfB Stuttgart",
-      "away": "Atlético Madrid",
-      "homeScore": 1,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401879257",
-      "date": "2026-10-19",
-      "home": "Tottenham Hotspur",
-      "away": "Coventry City",
-      "homeScore": 3,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401882842",
-      "date": "2026-10-19",
-      "home": "Getafe",
-      "away": "Rayo Vallecano",
-      "homeScore": 1,
-      "awayScore": 1,
-      "completed": true
-    },
-    {
-      "id": "espn-401874762",
-      "date": "2026-10-19",
-      "home": "Monza",
-      "away": "Cagliari",
-      "homeScore": 4,
-      "awayScore": 0,
-      "completed": true
-    },
-    {
-      "id": "espn-401874784",
-      "date": "2026-10-19",
-      "home": "Parma",
-      "away": "Torino",
-      "homeScore": 0,
-      "awayScore": 3,
-      "completed": true
-    },
-    {
-      "id": "espn-401876719",
-      "date": "2026-10-19",
-      "home": "Rodez Aveyron",
-      "away": "Montpellier",
-      "homeScore": 0,
-      "awayScore": 3,
-      "completed": true
-    }
-  ],
-  "matches": [
-    {
-      "id": "espn-401879253",
-      "date": "2026-10-23",
-      "kickoff": "2026-10-23T19:00:00.000Z",
-      "time": "21:00",
-      "league": "Premier League",
-      "home": "Ipswich Town",
-      "away": "Nottingham Forest",
-      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
-      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/23.png",
-      "homeId": "373",
-      "awayId": "393",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
-      "priority": 34,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
-      "homeScore": 1,
-      "awayScore": 1,
-      "homeGoals": 1.35,
-      "awayGoals": 1.07,
-      "odds": {
-        "home": 3.15,
-        "draw": 3.45,
-        "away": 2.24,
-        "over": 1.73,
-        "btts": 1.59
-      },
-      "statsSource": "football-data.org",
-      "homeStats": {
-        "sample": 6,
-        "form": "NDVDVD",
-        "avgScored": 1.3333333333333333,
-        "avgConceded": 1.6666666666666667
-      },
-      "awayStats": {
-        "sample": 6,
-        "form": "NDDDVN",
-        "avgScored": 0.6666666666666666,
-        "avgConceded": 1.1666666666666667
-      },
-      "oddsSource": "The Odds API",
-      "bookmakerOffers": [
-        {
-          "name": "MyBookie.ag",
-          "home": 3,
-          "homeCached": true,
-          "draw": 3.38,
-          "drawCached": true,
-          "away": 2.21,
-          "awayCached": true,
-          "over": 1.7,
-          "overCached": true,
-          "btts": 1.58,
-          "bttsCached": true
-        },
-        {
-          "name": "1xBet",
-          "home": 3.29,
-          "homeCached": true,
-          "draw": 3.58,
-          "drawCached": true,
-          "away": 2.32,
-          "awayCached": true,
-          "over": 1.83,
-          "overCached": true,
-          "btts": 1.59,
-          "bttsCached": true
-        },
-        {
-          "name": "William Hill",
-          "home": 3.1,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 2.2,
-          "awayCached": true,
-          "over": 1.73,
-          "overCached": true,
-          "btts": 1.57,
-          "bttsCached": true
-        },
-        {
-          "name": "Marathon Bet",
-          "home": 3.24,
-          "homeCached": true,
-          "draw": 3.52,
-          "drawCached": true,
-          "away": 2.28,
-          "awayCached": true,
-          "over": 1.77,
-          "overCached": true
-        },
-        {
-          "name": "Tipico",
-          "home": 3.2,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 2.2,
-          "awayCached": true,
-          "over": 1.7,
-          "overCached": true
-        },
-        {
-          "name": "Pinnacle",
-          "home": 3.26,
-          "homeCached": true,
-          "draw": 3.47,
-          "drawCached": true,
-          "away": 2.28,
-          "awayCached": true,
-          "btts": 1.62,
-          "bttsCached": true
-        },
-        {
-          "name": "Unibet (SE)",
-          "home": 3.2,
-          "homeCached": true,
-          "draw": 3.65,
-          "drawCached": true,
-          "away": 2.3,
-          "awayCached": true,
-          "over": 1.73,
-          "overCached": true
-        },
-        {
-          "name": "LeoVegas (SE)",
-          "home": 3.05,
-          "homeCached": true,
-          "draw": 3.55,
-          "drawCached": true,
-          "away": 2.23,
-          "awayCached": true,
-          "over": 1.73,
-          "overCached": true
-        },
-        {
-          "name": "Unibet (NL)",
-          "home": 3.2,
-          "homeCached": true,
-          "draw": 3.65,
-          "drawCached": true,
-          "away": 2.3,
-          "awayCached": true,
-          "over": 1.71,
-          "overCached": true
-        },
-        {
-          "name": "PMU (FR)",
-          "home": 2.9,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 2.14,
-          "awayCached": true,
-          "over": 1.61,
-          "overCached": true
-        },
-        {
-          "name": "Betsson",
-          "home": 3.14,
-          "homeCached": true,
-          "draw": 3.42,
-          "drawCached": true,
-          "away": 2.26,
-          "awayCached": true,
-          "over": 1.73,
-          "overCached": true
-        },
-        {
-          "name": "Nordic Bet",
-          "home": 3.15,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 2.25,
-          "awayCached": true,
-          "over": 1.72,
-          "overCached": true
-        },
-        {
-          "name": "Matchbook",
-          "home": 3.35,
-          "homeCached": true,
-          "draw": 3.55,
-          "drawCached": true,
-          "away": 2.34,
-          "awayCached": true,
-          "btts": 1.66,
-          "bttsCached": true
-        },
-        {
-          "name": "GTbets",
-          "home": 3.05,
-          "homeCached": true,
-          "draw": 3.46,
-          "drawCached": true,
-          "away": 2.31,
-          "awayCached": true,
-          "over": 1.77,
-          "overCached": true
-        },
-        {
-          "name": "Codere (IT)",
-          "home": 3.1,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 2.27,
-          "awayCached": true,
-          "over": 1.68,
-          "overCached": true
-        },
-        {
-          "name": "Coolbet",
-          "home": 3.38,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 2.28,
-          "awayCached": true,
-          "over": 1.78,
-          "overCached": true
-        },
-        {
-          "name": "BetOnline.ag",
-          "home": 3.25,
-          "homeCached": true,
-          "draw": 3.49,
-          "drawCached": true,
-          "away": 2.27,
-          "awayCached": true,
-          "over": 1.77,
-          "overCached": true
-        },
-        {
-          "name": "BetAnything",
-          "home": 3.25,
-          "homeCached": true,
-          "draw": 3.49,
-          "drawCached": true,
-          "away": 2.27,
-          "awayCached": true,
-          "over": 1.74,
-          "overCached": true
-        },
-        {
-          "name": "Betfred (UK)",
-          "btts": 1.57,
-          "bttsCached": true
-        },
-        {
-          "name": "LeoVegas",
-          "over": 1.68,
-          "overCached": true,
-          "btts": 1.58,
-          "bttsCached": true
-        },
-        {
-          "name": "Paddy Power",
-          "btts": 1.5,
-          "bttsCached": true
-        },
-        {
-          "name": "Betfair",
-          "home": 3.35,
-          "homeCached": true,
-          "draw": 3.55,
-          "drawCached": true,
-          "away": 2.34,
-          "awayCached": true,
-          "btts": 1.66,
-          "bttsCached": true
-        },
-        {
-          "name": "Coral",
-          "btts": 1.6,
-          "bttsCached": true
-        },
-        {
-          "name": "Ladbrokes",
-          "btts": 1.6,
-          "bttsCached": true
-        },
-        {
-          "name": "Virgin Bet",
-          "btts": 1.56,
-          "bttsCached": true
-        },
-        {
-          "name": "LiveScore Bet",
-          "btts": 1.56,
-          "bttsCached": true
-        },
-        {
-          "name": "Grosvenor",
-          "over": 1.71,
-          "overCached": true
-        },
-        {
-          "name": "Casumo",
-          "over": 1.71,
-          "overCached": true
-        },
-        {
-          "name": "Winamax (FR)",
-          "home": 3,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 2.1,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (FR)",
-          "home": 2.95,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 2.15,
-          "awayCached": true
-        },
-        {
-          "name": "Winamax (DE)",
-          "home": 3.1,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 2.15,
-          "awayCached": true
-        },
-        {
-          "name": "Betclic (FR)",
-          "home": 3,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 2.12,
-          "awayCached": true
-        },
-        {
-          "name": "888sport",
-          "home": 3.1,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 2.2,
-          "awayCached": true
-        },
-        {
-          "name": "Everygame",
-          "home": 3.05,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 2.15,
-          "awayCached": true
-        }
-      ],
-      "bookmakerCount": 34,
-      "oddsBookmakerCounts": {
-        "home": 25,
-        "draw": 25,
-        "away": 25,
-        "over": 19,
-        "btts": 13
-      },
-      "realOddsMarkets": [
-        "home",
-        "draw",
-        "away",
-        "over",
-        "btts"
-      ],
-      "oddsCachedMarkets": [
-        "home",
-        "draw",
-        "away",
-        "over",
-        "btts"
-      ],
-      "oddsMovement": {
-        "home": {
-          "previous": 3.15,
-          "current": 3.15,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.45,
-          "current": 3.45,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 2.24,
-          "current": 2.24,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 1.73,
-          "current": 1.73,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 1.59,
-          "current": 1.59,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 1.59,
-        "probability": 0.6015278695656847,
-        "value": -0.04357068739056125,
-        "capturedAt": "2026-10-23T17:21:40.958Z"
-      }
-    },
-    {
-      "id": "espn-401882836",
-      "date": "2026-10-23",
-      "kickoff": "2026-10-23T19:00:00.000Z",
-      "time": "21:00",
-      "league": "La Liga",
-      "home": "Alavés",
-      "away": "Málaga",
-      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/15.png",
-      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/15.png",
-      "homeId": "96",
-      "awayId": "99",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/96.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/99.png",
-      "priority": 33,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
-      "homeScore": 1,
-      "awayScore": 1,
-      "homeGoals": 1.44,
-      "awayGoals": 1.07,
-      "odds": {
-        "home": 1.74,
-        "draw": 3.61,
-        "away": 4.9,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "statsSource": "football-data.org",
-      "homeStats": {
-        "sample": 6,
-        "form": "NDDNDD",
-        "avgScored": 0.6666666666666666,
-        "avgConceded": 1.3333333333333333
-      },
-      "awayStats": {
-        "sample": 6,
-        "form": "NDNDDN",
-        "avgScored": 1,
-        "avgConceded": 2
-      },
-      "oddsSource": "The Odds API",
-      "bookmakerOffers": [
-        {
-          "name": "Winamax (DE)",
-          "home": 1.72,
-          "homeCached": true,
-          "draw": 3.75,
-          "drawCached": true,
-          "away": 4.6,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (FR)",
-          "home": 1.67,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 4.6,
-          "awayCached": true
-        },
-        {
-          "name": "Tipico",
-          "home": 1.72,
-          "homeCached": true,
-          "draw": 3.6,
-          "drawCached": true,
-          "away": 5,
-          "awayCached": true
-        },
-        {
-          "name": "Coolbet",
-          "home": 1.8,
-          "homeCached": true,
-          "draw": 3.7,
-          "drawCached": true,
-          "away": 4.9,
-          "awayCached": true
-        },
-        {
-          "name": "Winamax (FR)",
-          "home": 1.66,
-          "homeCached": true,
-          "draw": 3.55,
-          "drawCached": true,
-          "away": 4.4,
-          "awayCached": true
-        },
-        {
-          "name": "1xBet",
-          "home": 1.84,
-          "homeCached": true,
-          "draw": 3.72,
-          "drawCached": true,
-          "away": 4.93,
-          "awayCached": true
-        },
-        {
-          "name": "William Hill",
-          "home": 1.8,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 4.4,
-          "awayCached": true
-        },
-        {
-          "name": "Betclic (FR)",
-          "home": 1.68,
-          "homeCached": true,
-          "draw": 3.48,
-          "drawCached": true,
-          "away": 4.6,
-          "awayCached": true
-        },
-        {
-          "name": "Marathon Bet",
-          "home": 1.81,
-          "homeCached": true,
-          "draw": 3.66,
-          "drawCached": true,
-          "away": 4.85,
-          "awayCached": true
-        },
-        {
-          "name": "Pinnacle",
-          "home": 1.76,
-          "homeCached": true,
-          "draw": 3.73,
-          "drawCached": true,
-          "away": 4.98,
-          "awayCached": true
-        },
-        {
-          "name": "LeoVegas (SE)",
-          "home": 1.68,
-          "homeCached": true,
-          "draw": 3.45,
-          "drawCached": true,
-          "away": 4.9,
-          "awayCached": true
-        },
-        {
-          "name": "PMU (FR)",
-          "home": 1.66,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 4.75,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (SE)",
-          "home": 1.77,
-          "homeCached": true,
-          "draw": 3.7,
-          "drawCached": true,
-          "away": 5.4,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (NL)",
-          "home": 1.74,
-          "homeCached": true,
-          "draw": 3.7,
-          "drawCached": true,
-          "away": 5.4,
-          "awayCached": true
-        },
-        {
-          "name": "Betsson",
-          "home": 1.72,
-          "homeCached": true,
-          "draw": 3.6,
-          "drawCached": true,
-          "away": 5,
-          "awayCached": true
-        },
-        {
-          "name": "Nordic Bet",
-          "home": 1.72,
-          "homeCached": true,
-          "draw": 3.55,
-          "drawCached": true,
-          "away": 4.95,
-          "awayCached": true
-        },
-        {
-          "name": "Betfair",
-          "home": 1.81,
-          "homeCached": true,
-          "draw": 3.75,
-          "drawCached": true,
-          "away": 5.4,
-          "awayCached": true
-        },
-        {
-          "name": "Matchbook",
-          "home": 1.81,
-          "homeCached": true,
-          "draw": 3.75,
-          "drawCached": true,
-          "away": 5.4,
-          "awayCached": true
-        },
-        {
-          "name": "Codere (IT)",
-          "home": 1.76,
-          "homeCached": true,
-          "draw": 3.65,
-          "drawCached": true,
-          "away": 4.8,
-          "awayCached": true
-        },
-        {
-          "name": "Everygame",
-          "home": 1.7,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 4.6,
-          "awayCached": true
-        },
-        {
-          "name": "BetOnline.ag",
-          "home": 1.76,
-          "homeCached": true,
-          "draw": 3.75,
-          "drawCached": true,
-          "away": 4.98,
-          "awayCached": true
-        }
-      ],
-      "bookmakerCount": 21,
-      "oddsBookmakerCounts": {
-        "home": 21,
-        "draw": 21,
-        "away": 21,
-        "over": 0,
-        "btts": 0
-      },
-      "realOddsMarkets": [
-        "home",
-        "draw",
-        "away"
-      ],
-      "oddsCachedMarkets": [
-        "home",
-        "draw",
-        "away"
-      ],
-      "oddsMovement": {
-        "home": {
-          "previous": 1.74,
-          "current": 1.74,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.61,
-          "current": 3.61,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 4.9,
-          "current": 4.9,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5381902377514081,
-        "value": 0.08176237788033003,
-        "capturedAt": "2026-10-23T17:21:40.964Z"
-      }
-    },
-    {
-      "id": "espn-401874957",
-      "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:45:00.000Z",
-      "time": "20:45",
-      "league": "Serie A",
-      "home": "Torino",
-      "away": "Monza",
-      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/12.png",
-      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/12.png",
-      "homeId": "239",
-      "awayId": "4007",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/239.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4007.png",
-      "priority": 31,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
-      "homeScore": 3,
-      "awayScore": 2,
-      "homeGoals": 1.98,
-      "awayGoals": 1.46,
-      "odds": {
-        "home": 2.13,
-        "draw": 3.37,
-        "away": 3.43,
-        "over": 1.96,
-        "btts": 1.76
-      },
-      "statsSource": "football-data.org",
-      "homeStats": {
-        "sample": 6,
-        "form": "VVVNDV",
-        "avgScored": 1.8333333333333333,
-        "avgConceded": 1.1666666666666667
-      },
-      "awayStats": {
-        "sample": 6,
-        "form": "DVDVDN",
-        "avgScored": 2,
-        "avgConceded": 1.8333333333333333
-      },
-      "oddsSource": "The Odds API",
-      "bookmakerOffers": [
-        {
-          "name": "Pinnacle",
-          "home": 2.19,
-          "homeCached": true,
-          "draw": 3.45,
-          "drawCached": true,
-          "away": 3.49,
-          "awayCached": true,
-          "over": 1.99,
-          "overCached": true,
-          "btts": 1.76,
-          "bttsCached": true
-        },
-        {
-          "name": "1xBet",
-          "home": 2.21,
-          "homeCached": true,
-          "draw": 3.58,
-          "drawCached": true,
-          "away": 3.54,
-          "awayCached": true,
-          "over": 2.02,
-          "overCached": true,
-          "btts": 1.74,
-          "bttsCached": true
-        },
-        {
-          "name": "Tipico",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3.4,
-          "awayCached": true,
-          "over": 1.87,
-          "overCached": true
-        },
-        {
-          "name": "Marathon Bet",
-          "home": 2.17,
-          "homeCached": true,
-          "draw": 3.52,
-          "drawCached": true,
-          "away": 3.48,
-          "awayCached": true,
-          "over": 1.95,
-          "overCached": true
-        },
-        {
-          "name": "William Hill",
-          "home": 2.1,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true,
-          "over": 1.91,
-          "overCached": true,
-          "btts": 1.8,
-          "bttsCached": true
-        },
-        {
-          "name": "LeoVegas (SE)",
-          "home": 2.06,
-          "homeCached": true,
-          "draw": 3.25,
-          "drawCached": true,
-          "away": 3.4,
-          "awayCached": true,
-          "over": 2.02,
-          "overCached": true
-        },
-        {
-          "name": "Unibet (SE)",
-          "home": 2.17,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 3.65,
-          "awayCached": true,
-          "over": 2.02,
-          "overCached": true
-        },
-        {
-          "name": "Unibet (NL)",
-          "home": 2.12,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 3.55,
-          "awayCached": true,
-          "over": 2,
-          "overCached": true
-        },
-        {
-          "name": "PMU (FR)",
-          "home": 2.02,
-          "homeCached": true,
-          "draw": 3.15,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true,
-          "over": 1.88,
-          "overCached": true
-        },
-        {
-          "name": "Nordic Bet",
-          "home": 2.12,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 3.45,
-          "awayCached": true,
-          "over": 1.92,
-          "overCached": true
-        },
-        {
-          "name": "Betsson",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 3.5,
-          "awayCached": true,
-          "over": 1.96,
-          "overCached": true
-        },
-        {
-          "name": "Matchbook",
-          "home": 2.26,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 3.6,
-          "awayCached": true,
-          "over": 2.02,
-          "overCached": true,
-          "btts": 1.81,
-          "bttsCached": true
-        },
-        {
-          "name": "GTbets",
-          "home": 2.1,
-          "homeCached": true,
-          "draw": 3.45,
-          "drawCached": true,
-          "away": 3.53,
-          "awayCached": true,
-          "over": 1.93,
-          "overCached": true
-        },
-        {
-          "name": "Codere (IT)",
-          "home": 2.17,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 3.4,
-          "awayCached": true,
-          "over": 1.87,
-          "overCached": true
-        },
-        {
-          "name": "Betfair",
-          "home": 2.26,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 3.6,
-          "awayCached": true,
-          "btts": 1.81,
-          "bttsCached": true
-        },
-        {
-          "name": "BetOnline.ag",
-          "home": 2.19,
-          "homeCached": true,
-          "draw": 3.44,
-          "drawCached": true,
-          "away": 3.48,
-          "awayCached": true,
-          "over": 1.94,
-          "overCached": true
-        },
-        {
-          "name": "BetAnything",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 3.4,
-          "awayCached": true,
-          "over": 2,
-          "overCached": true
-        },
-        {
-          "name": "Coolbet",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.45,
-          "drawCached": true,
-          "away": 3.5,
-          "awayCached": true,
-          "over": 1.99,
-          "overCached": true
-        },
-        {
-          "name": "Betfred (UK)",
-          "btts": 1.8,
-          "bttsCached": true
-        },
-        {
-          "name": "LeoVegas",
-          "over": 1.9,
-          "overCached": true,
-          "btts": 1.75,
-          "bttsCached": true
-        },
-        {
-          "name": "LiveScore Bet",
-          "btts": 1.77,
-          "bttsCached": true
-        },
-        {
-          "name": "Casumo",
-          "over": 2,
-          "overCached": true
-        },
-        {
-          "name": "Grosvenor",
-          "over": 2,
-          "overCached": true
-        },
-        {
-          "name": "Virgin Bet",
-          "btts": 1.77,
-          "bttsCached": true
-        },
-        {
-          "name": "Ladbrokes",
-          "btts": 1.75,
-          "bttsCached": true
-        },
-        {
-          "name": "Coral",
-          "btts": 1.75,
-          "bttsCached": true
-        },
-        {
-          "name": "Paddy Power",
-          "btts": 1.65,
-          "bttsCached": true
-        },
-        {
-          "name": "Winamax (DE)",
-          "home": 2.1,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true
-        },
-        {
-          "name": "Winamax (FR)",
-          "home": 2.05,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3.2,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (FR)",
-          "home": 1.98,
-          "homeCached": true,
-          "draw": 3.2,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true
-        },
-        {
-          "name": "Betclic (FR)",
-          "home": 2.07,
-          "homeCached": true,
-          "draw": 3.23,
-          "drawCached": true,
-          "away": 3.28,
-          "awayCached": true
-        },
-        {
-          "name": "888sport",
-          "home": 2.1,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true
-        },
-        {
-          "name": "Everygame",
-          "home": 2.1,
-          "homeCached": true,
-          "draw": 3.25,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true
-        }
-      ],
-      "bookmakerCount": 33,
-      "oddsBookmakerCounts": {
-        "home": 24,
-        "draw": 24,
-        "away": 24,
-        "over": 20,
-        "btts": 12
-      },
-      "realOddsMarkets": [
-        "home",
-        "draw",
-        "away",
-        "over",
-        "btts"
-      ],
-      "oddsCachedMarkets": [
-        "home",
-        "draw",
-        "away",
-        "over",
-        "btts"
-      ],
-      "oddsMovement": {
-        "home": {
-          "previous": 2.13,
-          "current": 2.13,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.37,
-          "current": 3.37,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.43,
-          "current": 3.43,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 1.96,
-          "current": 1.96,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 1.76,
-          "current": 1.76,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 1.76,
-        "probability": 0.6408824462462466,
-        "value": 0.127953105393394,
-        "capturedAt": "2026-10-23T17:21:40.983Z"
-      }
-    },
-    {
-      "id": "espn-401876428",
-      "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:45:00.000Z",
-      "time": "20:45",
-      "league": "Ligue 1",
-      "home": "Brest",
-      "away": "Nice",
-      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
-      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/9.png",
-      "homeId": "6997",
-      "awayId": "2502",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
-      "priority": 30,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
-      "homeScore": 1,
-      "awayScore": 2,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.24,
-        "draw": 3.38,
-        "away": 3.15,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsSource": "The Odds API",
-      "bookmakerOffers": [
-        {
-          "name": "Tipico",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.2,
-          "drawCached": true,
-          "away": 3.3,
-          "awayCached": true
-        },
-        {
-          "name": "888sport",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3,
-          "awayCached": true
-        },
-        {
-          "name": "Winamax (FR)",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.25,
-          "drawCached": true,
-          "away": 3.05,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (FR)",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 2.95,
-          "awayCached": true
-        },
-        {
-          "name": "William Hill",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3,
-          "awayCached": true
-        },
-        {
-          "name": "1xBet",
-          "home": 2.31,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 3.38,
-          "awayCached": true
-        },
-        {
-          "name": "Winamax (DE)",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.3,
-          "drawCached": true,
-          "away": 3.1,
-          "awayCached": true
-        },
-        {
-          "name": "Betclic (FR)",
-          "home": 2.15,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 2.97,
-          "awayCached": true
-        },
-        {
-          "name": "Marathon Bet",
-          "home": 2.27,
-          "homeCached": true,
-          "draw": 3.44,
-          "drawCached": true,
-          "away": 3.32,
-          "awayCached": true
-        },
-        {
-          "name": "Betfair",
-          "home": 2.32,
-          "homeCached": true,
-          "draw": 3.6,
-          "drawCached": true,
-          "away": 3.35,
-          "awayCached": true
-        },
-        {
-          "name": "Pinnacle",
-          "home": 2.3,
-          "homeCached": true,
-          "draw": 3.36,
-          "drawCached": true,
-          "away": 3.32,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (NL)",
-          "home": 2.23,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 3.05,
-          "awayCached": true
-        },
-        {
-          "name": "PMU (FR)",
-          "home": 2.14,
-          "homeCached": true,
-          "draw": 3.25,
-          "drawCached": true,
-          "away": 2.9,
-          "awayCached": true
-        },
-        {
-          "name": "Unibet (SE)",
-          "home": 2.3,
-          "homeCached": true,
-          "draw": 3.6,
-          "drawCached": true,
-          "away": 3.2,
-          "awayCached": true
-        },
-        {
-          "name": "LeoVegas (SE)",
-          "home": 2.3,
-          "homeCached": true,
-          "draw": 3.6,
-          "drawCached": true,
-          "away": 3.2,
-          "awayCached": true
-        },
-        {
-          "name": "GTbets",
-          "home": 2.24,
-          "homeCached": true,
-          "draw": 3.44,
-          "drawCached": true,
-          "away": 3.19,
-          "awayCached": true
-        },
-        {
-          "name": "Codere (IT)",
-          "home": 2.28,
-          "homeCached": true,
-          "draw": 3.5,
-          "drawCached": true,
-          "away": 3.1,
-          "awayCached": true
-        },
-        {
-          "name": "Everygame",
-          "home": 2.2,
-          "homeCached": true,
-          "draw": 3.15,
-          "drawCached": true,
-          "away": 3.15,
-          "awayCached": true
-        },
-        {
-          "name": "Coolbet",
-          "home": 2.3,
-          "homeCached": true,
-          "draw": 3.35,
-          "drawCached": true,
-          "away": 3.35,
-          "awayCached": true
-        },
-        {
-          "name": "BetOnline.ag",
-          "home": 2.3,
-          "homeCached": true,
-          "draw": 3.36,
-          "drawCached": true,
-          "away": 3.32,
-          "awayCached": true
-        },
-        {
-          "name": "Nordic Bet",
-          "home": 2.25,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 3.1,
-          "awayCached": true
-        },
-        {
-          "name": "Betsson",
-          "home": 2.25,
-          "homeCached": true,
-          "draw": 3.4,
-          "drawCached": true,
-          "away": 3.1,
-          "awayCached": true
-        }
-      ],
-      "bookmakerCount": 22,
-      "oddsBookmakerCounts": {
-        "home": 22,
-        "draw": 22,
-        "away": 22,
-        "over": 0,
-        "btts": 0
-      },
-      "realOddsMarkets": [
-        "home",
-        "draw",
-        "away"
-      ],
-      "oddsCachedMarkets": [
-        "home",
-        "draw",
-        "away"
-      ],
-      "oddsMovement": {
-        "home": {
-          "previous": 2.24,
-          "current": 2.24,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.38,
-          "current": 3.38,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.15,
-          "current": 3.15,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:40.991Z"
-      }
-    },
-    {
       "id": "espn-401876713",
       "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:00:00.000Z",
-      "time": "20:00",
-      "league": "Ligue 2",
       "home": "AS Nancy Lorraine",
       "away": "Stade Laval",
-      "leagueLogo": "http://a.espncdn.com/i/leaguelogos/soccer/500/96.png",
-      "leagueLogoDark": "http://a.espncdn.com/i/leaguelogos/soccer/500-dark/96.png",
-      "homeId": "3267",
-      "awayId": "3266",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3267.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3266.png",
-      "priority": 18,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
       "homeScore": 1,
       "awayScore": 0,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.38,
-        "draw": 3.31,
-        "away": 3.17,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsMovement": {
-        "home": {
-          "previous": 2.38,
-          "current": 2.38,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.31,
-          "current": 3.31,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.17,
-          "current": 3.17,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:40.996Z"
-      }
+      "completed": true
     },
     {
       "id": "espn-401876717",
       "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:00:00.000Z",
-      "time": "20:00",
-      "league": "Ligue 2",
       "home": "Clermont Foot",
       "away": "Guingamp",
-      "leagueLogo": "http://a.espncdn.com/i/leaguelogos/soccer/500/96.png",
-      "leagueLogoDark": "http://a.espncdn.com/i/leaguelogos/soccer/500-dark/96.png",
-      "homeId": "3171",
-      "awayId": "171",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3171.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/171.png",
-      "priority": 18,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
       "homeScore": 0,
       "awayScore": 2,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.38,
-        "draw": 3.31,
-        "away": 3.17,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsMovement": {
-        "home": {
-          "previous": 2.38,
-          "current": 2.38,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.31,
-          "current": 3.31,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.17,
-          "current": 3.17,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:41.001Z"
-      }
+      "completed": true
     },
     {
       "id": "espn-401876715",
       "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:00:00.000Z",
-      "time": "20:00",
-      "league": "Ligue 2",
       "home": "Dunkerque",
       "away": "Metz",
-      "leagueLogo": "http://a.espncdn.com/i/leaguelogos/soccer/500/96.png",
-      "leagueLogoDark": "http://a.espncdn.com/i/leaguelogos/soccer/500-dark/96.png",
-      "homeId": "7732",
-      "awayId": "177",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7732.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/177.png",
-      "priority": 18,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
       "homeScore": 1,
       "awayScore": 1,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.38,
-        "draw": 3.31,
-        "away": 3.17,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsMovement": {
-        "home": {
-          "previous": 2.38,
-          "current": 2.38,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.31,
-          "current": 3.31,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.17,
-          "current": 3.17,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:41.005Z"
-      }
+      "completed": true
     },
     {
       "id": "espn-401876712",
       "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:00:00.000Z",
-      "time": "20:00",
-      "league": "Ligue 2",
       "home": "Pau",
       "away": "Grenoble",
-      "leagueLogo": "http://a.espncdn.com/i/leaguelogos/soccer/500/96.png",
-      "leagueLogoDark": "http://a.espncdn.com/i/leaguelogos/soccer/500-dark/96.png",
-      "homeId": "10678",
-      "awayId": "6994",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10678.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6994.png",
-      "priority": 18,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
       "homeScore": 2,
       "awayScore": 1,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.38,
-        "draw": 3.31,
-        "away": 3.17,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsMovement": {
-        "home": {
-          "previous": 2.38,
-          "current": 2.38,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.31,
-          "current": 3.31,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.17,
-          "current": 3.17,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:41.009Z"
-      }
+      "completed": true
     },
     {
       "id": "espn-401876710",
       "date": "2026-10-23",
-      "kickoff": "2026-10-23T18:00:00.000Z",
-      "time": "20:00",
-      "league": "Ligue 2",
       "home": "Sochaux",
       "away": "Annecy",
-      "leagueLogo": "http://a.espncdn.com/i/leaguelogos/soccer/500/96.png",
-      "leagueLogoDark": "http://a.espncdn.com/i/leaguelogos/soccer/500-dark/96.png",
-      "homeId": "272",
-      "awayId": "18066",
-      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/272.png",
-      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18066.png",
-      "priority": 18,
-      "featured": false,
-      "status": "Terminé",
-      "completed": true,
-      "voided": false,
-      "knockout": false,
       "homeScore": 1,
       "awayScore": 3,
-      "homeGoals": 1.45,
-      "awayGoals": 1.15,
-      "odds": {
-        "home": 2.38,
-        "draw": 3.31,
-        "away": 3.17,
-        "over": 2.19,
-        "btts": 2.01
-      },
-      "oddsMovement": {
-        "home": {
-          "previous": 2.38,
-          "current": 2.38,
-          "percent": 0,
-          "significant": false
-        },
-        "draw": {
-          "previous": 3.31,
-          "current": 3.31,
-          "percent": 0,
-          "significant": false
-        },
-        "away": {
-          "previous": 3.17,
-          "current": 3.17,
-          "percent": 0,
-          "significant": false
-        },
-        "over": {
-          "previous": 2.19,
-          "current": 2.19,
-          "percent": 0,
-          "significant": false
-        },
-        "btts": {
-          "previous": 2.01,
-          "current": 2.01,
-          "percent": 0,
-          "significant": false
-        }
-      },
-      "suggestedPick": {
-        "key": "btts",
-        "label": "Les deux marquent",
-        "odd": 2.01,
-        "probability": 0.5230740993676228,
-        "value": 0.05137893972892171,
-        "capturedAt": "2026-10-23T17:21:41.014Z"
-      }
+      "completed": true
     },
+    {
+      "id": "espn-401876716",
+      "date": "2026-10-24",
+      "home": "Dijon FCO",
+      "away": "Rodez Aveyron",
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401876711",
+      "date": "2026-10-24",
+      "home": "Saint-Étienne",
+      "away": "Nantes",
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401876718",
+      "date": "2026-10-26",
+      "home": "Boulogne",
+      "away": "Stade de Reims",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401876714",
+      "date": "2026-10-26",
+      "home": "Montpellier",
+      "away": "Red Star FC 93",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    }
+  ],
+  "matches": [
     {
       "id": "espn-401879256",
       "date": "2026-10-24",
@@ -2925,7 +1103,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
       "priority": 64,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -3265,7 +1443,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
       "priority": 64,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -3644,7 +1822,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
       "priority": 64,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -3995,7 +2173,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/90.png",
       "priority": 63,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -4257,6 +2435,59 @@
       }
     },
     {
+      "id": "espn-401884763",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T16:30:00.000Z",
+      "time": "18:30",
+      "league": "Bundesliga",
+      "home": "Borussia Dortmund",
+      "away": "Eintracht Frankfurt",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "124",
+      "awayId": "125",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
+      "priority": 62,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 1,
+      "awayScore": 0,
+      "homeGoals": 1.8,
+      "awayGoals": 0.84,
+      "odds": {
+        "home": 1.68,
+        "draw": 3.59,
+        "away": 2.92,
+        "over": 1.64,
+        "btts": 1.69
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VVNDNV",
+        "avgScored": 1,
+        "avgConceded": 0.6666666666666666
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DVDNVD",
+        "avgScored": 1.1666666666666667,
+        "avgConceded": 2.3333333333333335
+      },
+      "suggestedPick": {
+        "key": "home",
+        "label": "Borussia Dortmund",
+        "odd": 1.68,
+        "probability": 0.6010412691802044,
+        "value": 0.009749332222743323,
+        "capturedAt": "2026-10-27T06:28:07.239Z"
+      }
+    },
+    {
       "id": "espn-401874948",
       "date": "2026-10-24",
       "kickoff": "2026-10-24T16:00:00.000Z",
@@ -4272,7 +2503,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/104.png",
       "priority": 61,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -4594,7 +2825,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
       "priority": 34,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -4925,7 +3156,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -5220,7 +3451,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -5506,7 +3737,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/102.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -5786,6 +4017,245 @@
       }
     },
     {
+      "id": "espn-401884758",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T13:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "FC Augsburg",
+      "away": "1. FC Union Berlin",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "3841",
+      "awayId": "598",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/598.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 1,
+      "awayScore": 1,
+      "homeGoals": 2.61,
+      "awayGoals": 1.23,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "NDNDNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 2.1666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "NNVDDD",
+        "avgScored": 0.5,
+        "avgConceded": 2.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7375029454926858,
+        "value": 0.6151314506289818,
+        "capturedAt": "2026-10-27T06:28:07.275Z"
+      }
+    },
+    {
+      "id": "espn-401884756",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T13:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "FC Cologne",
+      "away": "Schalke 04",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "122",
+      "awayId": "133",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/122.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/133.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.45,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5230740993676228,
+        "value": 0.05137893972892171,
+        "capturedAt": "2026-10-27T06:28:07.281Z"
+      }
+    },
+    {
+      "id": "espn-401884757",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T13:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "Mainz",
+      "away": "Werder Bremen",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "2950",
+      "awayId": "137",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2950.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/137.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 2,
+      "awayScore": 3,
+      "homeGoals": 2.34,
+      "awayGoals": 2.07,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DVDVDV",
+        "avgScored": 2.6666666666666665,
+        "avgConceded": 2.1666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VNNVNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.6666666666666667
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.8160429233961508,
+        "value": 0.7871340022375701,
+        "capturedAt": "2026-10-27T06:28:07.287Z"
+      }
+    },
+    {
+      "id": "espn-401884762",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T13:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "RB Leipzig",
+      "away": "SV Elversberg",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "11420",
+      "awayId": "10388",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11420.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 4,
+      "awayScore": 0,
+      "homeGoals": 2.34,
+      "awayGoals": 1.61,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VDDVVD",
+        "avgScored": 2.1666666666666665,
+        "avgConceded": 2
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DVDNDV",
+        "avgScored": 1.5,
+        "avgConceded": 2.1666666666666665
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7544784839865974,
+        "value": 0.6523078799306483,
+        "capturedAt": "2026-10-27T06:28:07.294Z"
+      }
+    },
+    {
+      "id": "espn-401884755",
+      "date": "2026-10-24",
+      "kickoff": "2026-10-24T13:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "SC Paderborn 07",
+      "away": "Hamburg SV",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "3307",
+      "awayId": "127",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3307.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/127.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 1,
+      "awayScore": 0,
+      "homeGoals": 1.45,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5230740993676228,
+        "value": 0.05137893972892171,
+        "capturedAt": "2026-10-27T06:28:07.300Z"
+      }
+    },
+    {
       "id": "espn-401874958",
       "date": "2026-10-24",
       "kickoff": "2026-10-24T13:00:00.000Z",
@@ -5801,7 +4271,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/107.png",
       "priority": 31,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -6123,7 +4593,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3997.png",
       "priority": 31,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -6445,7 +4915,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/115.png",
       "priority": 31,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -6767,14 +5237,14 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
       "awayScore": 1,
-      "homeGoals": 1.71,
-      "awayGoals": 1.99,
+      "homeGoals": 1.62,
+      "awayGoals": 2.15,
       "odds": {
         "home": 2.38,
         "draw": 3.31,
@@ -6791,9 +5261,9 @@
       },
       "awayStats": {
         "sample": 6,
-        "form": "DVVVVD",
-        "avgScored": 2.6666666666666665,
-        "avgConceded": 1.8333333333333333
+        "form": "VDVVVV",
+        "avgScored": 3,
+        "avgConceded": 1.6666666666666667
       },
       "oddsMovement": {
         "home": {
@@ -6852,7 +5322,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7719.png",
       "priority": 18,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -6924,7 +5394,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/165.png",
       "priority": 18,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -6996,7 +5466,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/86.png",
       "priority": 93,
       "featured": true,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -7307,7 +5777,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
       "priority": 64,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -7392,7 +5862,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
       "priority": 64,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -7744,6 +6214,59 @@
       }
     },
     {
+      "id": "espn-401884759",
+      "date": "2026-10-25",
+      "kickoff": "2026-10-25T16:30:00.000Z",
+      "time": "17:30",
+      "league": "Bundesliga",
+      "home": "SC Freiburg",
+      "away": "Bayern Munich",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "126",
+      "awayId": "132",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/126.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+      "priority": 62,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 1,
+      "awayScore": 3,
+      "homeGoals": 1.89,
+      "awayGoals": 2.38,
+      "odds": {
+        "home": 2.16,
+        "draw": 3.15,
+        "away": 2.28,
+        "over": 1.7,
+        "btts": 1.65
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DDVNVV",
+        "avgScored": 2,
+        "avgConceded": 1.3333333333333333
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VNVNNV",
+        "avgScored": 3.8333333333333335,
+        "avgConceded": 1.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.7,
+        "probability": 0.7988517757536562,
+        "value": 0.3580480187812154,
+        "capturedAt": "2026-10-27T06:28:07.360Z"
+      }
+    },
+    {
       "id": "espn-401875036",
       "date": "2026-10-25",
       "kickoff": "2026-10-25T11:30:00.000Z",
@@ -7759,7 +6282,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/109.png",
       "priority": 61,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -7844,7 +6367,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/111.png",
       "priority": 61,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -8166,7 +6689,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/103.png",
       "priority": 61,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -8488,7 +7011,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
       "priority": 60,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -8792,7 +7315,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
       "priority": 34,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -9123,7 +7646,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
       "priority": 34,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -9454,7 +7977,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
       "priority": 34,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -9785,7 +8308,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2922.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -10080,7 +8603,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -10375,7 +8898,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/1538.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -10655,6 +9178,59 @@
       }
     },
     {
+      "id": "espn-401884760",
+      "date": "2026-10-25",
+      "kickoff": "2026-10-25T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "TSG Hoffenheim",
+      "away": "Bayer Leverkusen",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "7911",
+      "awayId": "131",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/131.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Full Time",
+      "completed": true,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 3,
+      "awayScore": 0,
+      "homeGoals": 1.89,
+      "awayGoals": 1.92,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VVDDVD",
+        "avgScored": 2,
+        "avgConceded": 1.8333333333333333
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DVVVNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7327146689375258,
+        "value": 0.6046451249731815,
+        "capturedAt": "2026-10-27T06:28:07.425Z"
+      }
+    },
+    {
       "id": "espn-401874972",
       "date": "2026-10-25",
       "kickoff": "2026-10-25T14:00:00.000Z",
@@ -10670,7 +9246,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4057.png",
       "priority": 31,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -10992,7 +9568,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17530.png",
       "priority": 31,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -11314,7 +9890,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -11618,7 +10194,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -11922,7 +10498,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -12226,7 +10802,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -12311,7 +10887,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
       "priority": 30,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -12435,14 +11011,14 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
       "priority": 60,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
       "awayScore": 0,
-      "homeGoals": 1.89,
-      "awayGoals": 1.69,
+      "homeGoals": 2.16,
+      "awayGoals": 1.53,
       "odds": {
         "home": 1.43,
         "draw": 5.15,
@@ -12453,15 +11029,15 @@
       "statsSource": "football-data.org",
       "homeStats": {
         "sample": 6,
-        "form": "DVVVVD",
-        "avgScored": 2.6666666666666665,
-        "avgConceded": 1.8333333333333333
+        "form": "VDVVVV",
+        "avgScored": 3,
+        "avgConceded": 1.6666666666666667
       },
       "awayStats": {
         "sample": 6,
-        "form": "VDVNVN",
-        "avgScored": 1.8333333333333333,
-        "avgConceded": 0.8333333333333334
+        "form": "DVDVNV",
+        "avgScored": 1.6666666666666667,
+        "avgConceded": 1
       },
       "oddsSource": "The Odds API",
       "bookmakerOffers": [
@@ -12739,14 +11315,14 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/97.png",
       "priority": 33,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
       "awayScore": 0,
-      "homeGoals": 2.25,
-      "awayGoals": 1.38,
+      "homeGoals": 2.07,
+      "awayGoals": 1.15,
       "odds": {
         "home": 1.94,
         "draw": 3.35,
@@ -12757,15 +11333,15 @@
       "statsSource": "football-data.org",
       "homeStats": {
         "sample": 6,
-        "form": "DNDVVN",
-        "avgScored": 1.3333333333333333,
-        "avgConceded": 1.8333333333333333
+        "form": "VDNDVV",
+        "avgScored": 1.5,
+        "avgConceded": 1.6666666666666667
       },
       "awayStats": {
         "sample": 6,
-        "form": "VDNDDD",
-        "avgScored": 1.1666666666666667,
-        "avgConceded": 2.8333333333333335
+        "form": "DVDNDD",
+        "avgScored": 0.8333333333333334,
+        "avgConceded": 2.3333333333333335
       },
       "oddsSource": "The Odds API",
       "bookmakerOffers": [
@@ -13034,7 +11610,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3243.png",
       "priority": 18,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -13106,7 +11682,7 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11884.png",
       "priority": 18,
       "featured": false,
-      "status": "Terminé",
+      "status": "Full Time",
       "completed": true,
       "voided": false,
       "knockout": false,
@@ -13244,7 +11820,7 @@
         "odd": 1.81,
         "probability": 0.5711081785650758,
         "value": 0.033705803202787266,
-        "capturedAt": "2026-10-26T18:29:37.170Z"
+        "capturedAt": "2026-10-27T06:28:07.495Z"
       }
     },
     {
@@ -13316,7 +11892,7 @@
         "odd": 1.77,
         "probability": 0.5946505317828121,
         "value": 0.052531441255577516,
-        "capturedAt": "2026-10-26T18:29:37.174Z"
+        "capturedAt": "2026-10-27T06:28:07.501Z"
       }
     },
     {
@@ -13602,7 +12178,7 @@
         "odd": 2.19,
         "probability": 0.6465627736646911,
         "value": 0.4159724743256734,
-        "capturedAt": "2026-10-26T18:29:37.177Z"
+        "capturedAt": "2026-10-27T06:28:07.506Z"
       }
     },
     {
@@ -13897,7 +12473,7 @@
         "odd": 2.19,
         "probability": 0.587918159141585,
         "value": 0.28754076852007104,
-        "capturedAt": "2026-10-26T18:29:37.180Z"
+        "capturedAt": "2026-10-27T06:28:07.512Z"
       }
     },
     {
@@ -14183,7 +12759,7 @@
         "odd": 2.01,
         "probability": 0.6003252408780775,
         "value": 0.2066537341649357,
-        "capturedAt": "2026-10-26T18:29:37.183Z"
+        "capturedAt": "2026-10-27T06:28:07.517Z"
       }
     },
     {
@@ -14255,7 +12831,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.186Z"
+        "capturedAt": "2026-10-27T06:28:07.523Z"
       }
     },
     {
@@ -14327,7 +12903,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.190Z"
+        "capturedAt": "2026-10-27T06:28:07.529Z"
       }
     },
     {
@@ -14399,7 +12975,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.193Z"
+        "capturedAt": "2026-10-27T06:28:07.535Z"
       }
     },
     {
@@ -14471,7 +13047,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.196Z"
+        "capturedAt": "2026-10-27T06:28:07.541Z"
       }
     },
     {
@@ -14543,7 +13119,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.200Z"
+        "capturedAt": "2026-10-27T06:28:07.547Z"
       }
     },
     {
@@ -14615,7 +13191,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.203Z"
+        "capturedAt": "2026-10-27T06:28:07.554Z"
       }
     },
     {
@@ -14687,7 +13263,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.208Z"
+        "capturedAt": "2026-10-27T06:28:07.561Z"
       }
     },
     {
@@ -14759,7 +13335,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.211Z"
+        "capturedAt": "2026-10-27T06:28:07.568Z"
       }
     },
     {
@@ -14831,7 +13407,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.215Z"
+        "capturedAt": "2026-10-27T06:28:07.574Z"
       }
     },
     {
@@ -14903,7 +13479,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.218Z"
+        "capturedAt": "2026-10-27T06:28:07.580Z"
       }
     },
     {
@@ -14975,7 +13551,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.221Z"
+        "capturedAt": "2026-10-27T06:28:07.586Z"
       }
     },
     {
@@ -15047,7 +13623,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.224Z"
+        "capturedAt": "2026-10-27T06:28:07.591Z"
       }
     },
     {
@@ -15119,7 +13695,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.227Z"
+        "capturedAt": "2026-10-27T06:28:07.596Z"
       }
     },
     {
@@ -15191,7 +13767,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.231Z"
+        "capturedAt": "2026-10-27T06:28:07.604Z"
       }
     },
     {
@@ -15263,7 +13839,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.235Z"
+        "capturedAt": "2026-10-27T06:28:07.610Z"
       }
     },
     {
@@ -15335,7 +13911,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.238Z"
+        "capturedAt": "2026-10-27T06:28:07.615Z"
       }
     },
     {
@@ -15407,7 +13983,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.241Z"
+        "capturedAt": "2026-10-27T06:28:07.622Z"
       }
     },
     {
@@ -15479,7 +14055,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.246Z"
+        "capturedAt": "2026-10-27T06:28:07.630Z"
       }
     },
     {
@@ -15551,7 +14127,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.249Z"
+        "capturedAt": "2026-10-27T06:28:07.636Z"
       }
     },
     {
@@ -15623,7 +14199,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.253Z"
+        "capturedAt": "2026-10-27T06:28:07.643Z"
       }
     },
     {
@@ -15695,7 +14271,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.257Z"
+        "capturedAt": "2026-10-27T06:28:07.649Z"
       }
     },
     {
@@ -15767,7 +14343,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.260Z"
+        "capturedAt": "2026-10-27T06:28:07.655Z"
       }
     },
     {
@@ -15839,7 +14415,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.264Z"
+        "capturedAt": "2026-10-27T06:28:07.663Z"
       }
     },
     {
@@ -15911,7 +14487,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.268Z"
+        "capturedAt": "2026-10-27T06:28:07.669Z"
       }
     },
     {
@@ -15983,7 +14559,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.272Z"
+        "capturedAt": "2026-10-27T06:28:07.676Z"
       }
     },
     {
@@ -16055,7 +14631,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.275Z"
+        "capturedAt": "2026-10-27T06:28:07.682Z"
       }
     },
     {
@@ -16140,7 +14716,7 @@
         "odd": 1.49,
         "probability": 0.7278576629089064,
         "value": 0.08450791773427047,
-        "capturedAt": "2026-10-26T18:29:37.278Z"
+        "capturedAt": "2026-10-27T06:28:07.687Z"
       }
     },
     {
@@ -16417,7 +14993,7 @@
         "odd": 1.69,
         "probability": 0.5484294855576053,
         "value": -0.07315416940764707,
-        "capturedAt": "2026-10-26T18:29:37.281Z"
+        "capturedAt": "2026-10-27T06:28:07.693Z"
       }
     },
     {
@@ -16502,7 +15078,7 @@
         "odd": 1.7,
         "probability": 0.6465627736646911,
         "value": 0.09915671522997482,
-        "capturedAt": "2026-10-26T18:29:37.284Z"
+        "capturedAt": "2026-10-27T06:28:07.699Z"
       }
     },
     {
@@ -16779,7 +15355,7 @@
         "odd": 1.65,
         "probability": 0.5361346196692911,
         "value": -0.11537787754566975,
-        "capturedAt": "2026-10-26T18:29:37.287Z"
+        "capturedAt": "2026-10-27T06:28:07.704Z"
       }
     },
     {
@@ -17065,7 +15641,7 @@
         "odd": 1.7,
         "probability": 0.7359144661514885,
         "value": 0.2510545924575305,
-        "capturedAt": "2026-10-26T18:29:37.290Z"
+        "capturedAt": "2026-10-27T06:28:07.709Z"
       }
     },
     {
@@ -17137,7 +15713,7 @@
         "odd": 1.79,
         "probability": 0.5879181591415851,
         "value": 0.05237350486343728,
-        "capturedAt": "2026-10-26T18:29:37.293Z"
+        "capturedAt": "2026-10-27T06:28:07.716Z"
       }
     },
     {
@@ -17222,7 +15798,7 @@
         "odd": 1.79,
         "probability": 0.780332803745617,
         "value": 0.39679571870465447,
-        "capturedAt": "2026-10-26T18:29:37.298Z"
+        "capturedAt": "2026-10-27T06:28:07.723Z"
       }
     },
     {
@@ -17499,7 +16075,7 @@
         "odd": 2.01,
         "probability": 0.6072499403235826,
         "value": 0.22057238005040092,
-        "capturedAt": "2026-10-26T18:29:37.301Z"
+        "capturedAt": "2026-10-27T06:28:07.729Z"
       }
     },
     {
@@ -17571,7 +16147,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.304Z"
+        "capturedAt": "2026-10-27T06:28:07.735Z"
       }
     },
     {
@@ -17643,7 +16219,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.307Z"
+        "capturedAt": "2026-10-27T06:28:07.740Z"
       }
     },
     {
@@ -17715,7 +16291,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.311Z"
+        "capturedAt": "2026-10-27T06:28:07.746Z"
       }
     },
     {
@@ -17787,7 +16363,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.314Z"
+        "capturedAt": "2026-10-27T06:28:07.752Z"
       }
     },
     {
@@ -17859,7 +16435,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.318Z"
+        "capturedAt": "2026-10-27T06:28:07.759Z"
       }
     },
     {
@@ -17931,7 +16507,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.320Z"
+        "capturedAt": "2026-10-27T06:28:07.764Z"
       }
     },
     {
@@ -18003,7 +16579,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.324Z"
+        "capturedAt": "2026-10-27T06:28:07.771Z"
       }
     },
     {
@@ -18075,7 +16651,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.328Z"
+        "capturedAt": "2026-10-27T06:28:07.777Z"
       }
     },
     {
@@ -18147,7 +16723,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.330Z"
+        "capturedAt": "2026-10-27T06:28:07.782Z"
       }
     },
     {
@@ -18219,7 +16795,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.334Z"
+        "capturedAt": "2026-10-27T06:28:07.788Z"
       }
     },
     {
@@ -18291,7 +16867,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.337Z"
+        "capturedAt": "2026-10-27T06:28:07.794Z"
       }
     },
     {
@@ -18363,7 +16939,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.340Z"
+        "capturedAt": "2026-10-27T06:28:07.799Z"
       }
     },
     {
@@ -18435,7 +17011,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.343Z"
+        "capturedAt": "2026-10-27T06:28:07.805Z"
       }
     },
     {
@@ -18507,7 +17083,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.347Z"
+        "capturedAt": "2026-10-27T06:28:07.812Z"
       }
     },
     {
@@ -18579,7 +17155,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.350Z"
+        "capturedAt": "2026-10-27T06:28:07.818Z"
       }
     },
     {
@@ -18651,7 +17227,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.354Z"
+        "capturedAt": "2026-10-27T06:28:07.824Z"
       }
     },
     {
@@ -18723,7 +17299,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.358Z"
+        "capturedAt": "2026-10-27T06:28:07.830Z"
       }
     },
     {
@@ -18795,7 +17371,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.360Z"
+        "capturedAt": "2026-10-27T06:28:07.835Z"
       }
     },
     {
@@ -18867,7 +17443,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.365Z"
+        "capturedAt": "2026-10-27T06:28:07.843Z"
       }
     },
     {
@@ -18939,7 +17515,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.368Z"
+        "capturedAt": "2026-10-27T06:28:07.849Z"
       }
     },
     {
@@ -19011,7 +17587,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.371Z"
+        "capturedAt": "2026-10-27T06:28:07.855Z"
       }
     },
     {
@@ -19083,7 +17659,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.375Z"
+        "capturedAt": "2026-10-27T06:28:07.862Z"
       }
     },
     {
@@ -19155,7 +17731,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.378Z"
+        "capturedAt": "2026-10-27T06:28:07.868Z"
       }
     },
     {
@@ -19227,7 +17803,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.382Z"
+        "capturedAt": "2026-10-27T06:28:07.874Z"
       }
     },
     {
@@ -19299,7 +17875,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.385Z"
+        "capturedAt": "2026-10-27T06:28:07.880Z"
       }
     },
     {
@@ -19371,7 +17947,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.389Z"
+        "capturedAt": "2026-10-27T06:28:07.887Z"
       }
     },
     {
@@ -19456,7 +18032,7 @@
         "odd": 2.01,
         "probability": 0.4804269324362992,
         "value": -0.034341865803038774,
-        "capturedAt": "2026-10-26T18:29:37.392Z"
+        "capturedAt": "2026-10-27T06:28:07.893Z"
       }
     },
     {
@@ -19528,7 +18104,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.396Z"
+        "capturedAt": "2026-10-27T06:28:07.900Z"
       }
     },
     {
@@ -19600,7 +18176,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.400Z"
+        "capturedAt": "2026-10-27T06:28:07.908Z"
       }
     },
     {
@@ -19672,7 +18248,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.403Z"
+        "capturedAt": "2026-10-27T06:28:07.913Z"
       }
     },
     {
@@ -19744,7 +18320,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.407Z"
+        "capturedAt": "2026-10-27T06:28:07.920Z"
       }
     },
     {
@@ -19829,7 +18405,7 @@
         "odd": 2.19,
         "probability": 0.6809984281122743,
         "value": 0.4913865575658807,
-        "capturedAt": "2026-10-26T18:29:37.410Z"
+        "capturedAt": "2026-10-27T06:28:07.926Z"
       }
     },
     {
@@ -19914,7 +18490,7 @@
         "odd": 2.01,
         "probability": 0.5381902377514081,
         "value": 0.08176237788033003,
-        "capturedAt": "2026-10-26T18:29:37.413Z"
+        "capturedAt": "2026-10-27T06:28:07.932Z"
       }
     },
     {
@@ -19999,7 +18575,7 @@
         "odd": 2.01,
         "probability": 0.5385706278200204,
         "value": 0.08252696191824094,
-        "capturedAt": "2026-10-26T18:29:37.416Z"
+        "capturedAt": "2026-10-27T06:28:07.937Z"
       }
     },
     {
@@ -20258,7 +18834,7 @@
         "odd": 2.19,
         "probability": 0.7007785816889478,
         "value": 0.5347050938987956,
-        "capturedAt": "2026-10-26T18:29:37.419Z"
+        "capturedAt": "2026-10-27T06:28:07.943Z"
       }
     },
     {
@@ -20517,7 +19093,7 @@
         "odd": 2.19,
         "probability": 0.7359144661514885,
         "value": 0.6116526808717597,
-        "capturedAt": "2026-10-26T18:29:37.422Z"
+        "capturedAt": "2026-10-27T06:28:07.948Z"
       }
     },
     {
@@ -20589,7 +19165,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.426Z"
+        "capturedAt": "2026-10-27T06:28:07.955Z"
       }
     },
     {
@@ -20661,7 +19237,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.430Z"
+        "capturedAt": "2026-10-27T06:28:07.962Z"
       }
     },
     {
@@ -20733,7 +19309,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.434Z"
+        "capturedAt": "2026-10-27T06:28:07.970Z"
       }
     },
     {
@@ -20805,7 +19381,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.437Z"
+        "capturedAt": "2026-10-27T06:28:07.975Z"
       }
     },
     {
@@ -20877,7 +19453,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.440Z"
+        "capturedAt": "2026-10-27T06:28:07.981Z"
       }
     },
     {
@@ -20949,7 +19525,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.443Z"
+        "capturedAt": "2026-10-27T06:28:07.987Z"
       }
     },
     {
@@ -21021,7 +19597,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.447Z"
+        "capturedAt": "2026-10-27T06:28:07.993Z"
       }
     },
     {
@@ -21093,7 +19669,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.450Z"
+        "capturedAt": "2026-10-27T06:28:07.999Z"
       }
     },
     {
@@ -21165,7 +19741,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.454Z"
+        "capturedAt": "2026-10-27T06:28:08.005Z"
       }
     },
     {
@@ -21237,7 +19813,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.458Z"
+        "capturedAt": "2026-10-27T06:28:08.013Z"
       }
     },
     {
@@ -21309,7 +19885,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.461Z"
+        "capturedAt": "2026-10-27T06:28:08.019Z"
       }
     },
     {
@@ -21381,7 +19957,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.465Z"
+        "capturedAt": "2026-10-27T06:28:08.025Z"
       }
     },
     {
@@ -21453,7 +20029,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.468Z"
+        "capturedAt": "2026-10-27T06:28:08.031Z"
       }
     },
     {
@@ -21525,7 +20101,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.471Z"
+        "capturedAt": "2026-10-27T06:28:08.037Z"
       }
     },
     {
@@ -21610,7 +20186,7 @@
         "odd": 2.01,
         "probability": 0.5544742371002275,
         "value": 0.11449321657145717,
-        "capturedAt": "2026-10-26T18:29:37.474Z"
+        "capturedAt": "2026-10-27T06:28:08.043Z"
       }
     },
     {
@@ -21635,8 +20211,8 @@
       "knockout": false,
       "homeScore": 0,
       "awayScore": 0,
-      "homeGoals": 1.62,
-      "awayGoals": 2.22,
+      "homeGoals": 1.53,
+      "awayGoals": 2.38,
       "odds": {
         "home": 2.38,
         "draw": 3.18,
@@ -21653,9 +20229,9 @@
       },
       "awayStats": {
         "sample": 6,
-        "form": "DVVVVD",
-        "avgScored": 2.6666666666666665,
-        "avgConceded": 1.8333333333333333
+        "form": "VDVVVV",
+        "avgScored": 3,
+        "avgConceded": 1.6666666666666667
       },
       "oddsMovement": {
         "home": {
@@ -21693,9 +20269,9 @@
         "key": "over",
         "label": "Plus de 2,5 buts",
         "odd": 1.86,
-        "probability": 0.7375029454926858,
-        "value": 0.3717554786163957,
-        "capturedAt": "2026-10-26T18:29:37.481Z"
+        "probability": 0.7484105476465658,
+        "value": 0.3920436186226124,
+        "capturedAt": "2026-10-27T06:28:08.050Z"
       }
     },
     {
@@ -21780,7 +20356,60 @@
         "odd": 2.19,
         "probability": 0.5470634599632219,
         "value": 0.19806897731945594,
-        "capturedAt": "2026-10-26T18:29:37.485Z"
+        "capturedAt": "2026-10-27T06:28:08.055Z"
+      }
+    },
+    {
+      "id": "espn-401884746",
+      "date": "2026-10-30",
+      "kickoff": "2026-10-30T19:30:00.000Z",
+      "time": "20:30",
+      "league": "Bundesliga",
+      "home": "SV Elversberg",
+      "away": "Mainz",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "10388",
+      "awayId": "2950",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2950.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.98,
+      "awayGoals": 2.22,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DVDNDV",
+        "avgScored": 1.5,
+        "avgConceded": 2.1666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DVDVDV",
+        "avgScored": 2.6666666666666665,
+        "avgConceded": 2.1666666666666665
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7897620129769025,
+        "value": 0.7295788084194166,
+        "capturedAt": "2026-10-27T06:28:08.061Z"
       }
     },
     {
@@ -21865,7 +20494,7 @@
         "odd": 2.01,
         "probability": 0.5858692296124256,
         "value": 0.17759715152097533,
-        "capturedAt": "2026-10-26T18:29:37.487Z"
+        "capturedAt": "2026-10-27T06:28:08.067Z"
       }
     },
     {
@@ -21937,7 +20566,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.490Z"
+        "capturedAt": "2026-10-27T06:28:08.078Z"
       }
     },
     {
@@ -22009,7 +20638,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.493Z"
+        "capturedAt": "2026-10-27T06:28:08.084Z"
       }
     },
     {
@@ -22081,7 +20710,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.496Z"
+        "capturedAt": "2026-10-27T06:28:08.089Z"
       }
     },
     {
@@ -22153,7 +20782,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.499Z"
+        "capturedAt": "2026-10-27T06:28:08.095Z"
       }
     },
     {
@@ -22225,7 +20854,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.502Z"
+        "capturedAt": "2026-10-27T06:28:08.101Z"
       }
     },
     {
@@ -22310,7 +20939,60 @@
         "odd": 1.68,
         "probability": 0.5846369546370972,
         "value": -0.017809916209676757,
-        "capturedAt": "2026-10-26T18:29:37.506Z"
+        "capturedAt": "2026-10-27T06:28:08.107Z"
+      }
+    },
+    {
+      "id": "espn-401884754",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T17:30:00.000Z",
+      "time": "18:30",
+      "league": "Bundesliga",
+      "home": "Bayern Munich",
+      "away": "Borussia Dortmund",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "132",
+      "awayId": "124",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
+      "priority": 92,
+      "featured": true,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 2.43,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 1.68,
+        "draw": 3.4,
+        "away": 2.28,
+        "over": 1.49,
+        "btts": 1.51
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VNVNNV",
+        "avgScored": 3.8333333333333335,
+        "avgConceded": 1.5
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VVNDNV",
+        "avgScored": 1,
+        "avgConceded": 0.6666666666666666
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.49,
+        "probability": 0.6936962524316947,
+        "value": 0.03360741612322515,
+        "capturedAt": "2026-10-27T06:28:08.113Z"
       }
     },
     {
@@ -22395,7 +21077,7 @@
         "odd": 1.51,
         "probability": 0.6539876485440951,
         "value": -0.012478650698416471,
-        "capturedAt": "2026-10-26T18:29:37.509Z"
+        "capturedAt": "2026-10-27T06:28:08.119Z"
       }
     },
     {
@@ -22480,7 +21162,7 @@
         "odd": 1.64,
         "probability": 0.780332803745617,
         "value": 0.27974579814281175,
-        "capturedAt": "2026-10-26T18:29:37.513Z"
+        "capturedAt": "2026-10-27T06:28:08.126Z"
       }
     },
     {
@@ -22565,7 +21247,7 @@
         "odd": 1.65,
         "probability": 0.5931299015277438,
         "value": -0.021335662479222806,
-        "capturedAt": "2026-10-26T18:29:37.517Z"
+        "capturedAt": "2026-10-27T06:28:08.133Z"
       }
     },
     {
@@ -22650,7 +21332,7 @@
         "odd": 1.69,
         "probability": 0.6008396362744739,
         "value": 0.015418985303860877,
-        "capturedAt": "2026-10-26T18:29:37.520Z"
+        "capturedAt": "2026-10-27T06:28:08.140Z"
       }
     },
     {
@@ -22735,7 +21417,7 @@
         "odd": 2.01,
         "probability": 0.5388848732573204,
         "value": 0.0831585952472138,
-        "capturedAt": "2026-10-26T18:29:37.524Z"
+        "capturedAt": "2026-10-27T06:28:08.146Z"
       }
     },
     {
@@ -22820,7 +21502,7 @@
         "odd": 2.38,
         "probability": 0.5153305849904217,
         "value": 0.22648679227720359,
-        "capturedAt": "2026-10-26T18:29:37.527Z"
+        "capturedAt": "2026-10-27T06:28:08.152Z"
       }
     },
     {
@@ -22905,7 +21587,7 @@
         "odd": 2.01,
         "probability": 0.5481430069682987,
         "value": 0.10176744400628013,
-        "capturedAt": "2026-10-26T18:29:37.530Z"
+        "capturedAt": "2026-10-27T06:28:08.158Z"
       }
     },
     {
@@ -22990,7 +21672,7 @@
         "odd": 2.01,
         "probability": 0.5400392099202149,
         "value": 0.08547881193963192,
-        "capturedAt": "2026-10-26T18:29:37.533Z"
+        "capturedAt": "2026-10-27T06:28:08.164Z"
       }
     },
     {
@@ -23075,7 +21757,7 @@
         "odd": 2.38,
         "probability": 0.5816938678155174,
         "value": 0.38443140540093124,
-        "capturedAt": "2026-10-26T18:29:37.537Z"
+        "capturedAt": "2026-10-27T06:28:08.171Z"
       }
     },
     {
@@ -23160,7 +21842,7 @@
         "odd": 2.38,
         "probability": 0.6390589235744165,
         "value": 0.5209602381071112,
-        "capturedAt": "2026-10-26T18:29:37.540Z"
+        "capturedAt": "2026-10-27T06:28:08.176Z"
       }
     },
     {
@@ -23245,7 +21927,7 @@
         "odd": 3.17,
         "probability": 0.5183191933774777,
         "value": 0.6430718430066042,
-        "capturedAt": "2026-10-26T18:29:37.543Z"
+        "capturedAt": "2026-10-27T06:28:08.183Z"
       }
     },
     {
@@ -23330,7 +22012,272 @@
         "odd": 2.19,
         "probability": 0.6583271655120891,
         "value": 0.4417364924714753,
-        "capturedAt": "2026-10-26T18:29:37.547Z"
+        "capturedAt": "2026-10-27T06:28:08.189Z"
+      }
+    },
+    {
+      "id": "espn-401884753",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "Bayer Leverkusen",
+      "away": "VfB Stuttgart",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "131",
+      "awayId": "134",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/131.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/134.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.8,
+      "awayGoals": 1.3,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DVVVNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.5
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DNDVVD",
+        "avgScored": 1.3333333333333333,
+        "avgConceded": 1
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.6072499403235826,
+        "value": 0.22057238005040092,
+        "capturedAt": "2026-10-27T06:28:08.196Z"
+      }
+    },
+    {
+      "id": "espn-401884749",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "Borussia Mönchengladbach",
+      "away": "SC Paderborn 07",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "268",
+      "awayId": "3307",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/268.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3307.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.8,
+      "awayGoals": 1.92,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VDDDDD",
+        "avgScored": 1.8333333333333333,
+        "avgConceded": 3.1666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VNDVDD",
+        "avgScored": 1,
+        "avgConceded": 1.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7179360014504319,
+        "value": 0.5722798431764458,
+        "capturedAt": "2026-10-27T06:28:08.203Z"
+      }
+    },
+    {
+      "id": "espn-401884751",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "FC Augsburg",
+      "away": "SC Freiburg",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "3841",
+      "awayId": "126",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/126.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.98,
+      "awayGoals": 1.92,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "NDNDNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 2.1666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DDVNVV",
+        "avgScored": 2,
+        "avgConceded": 1.3333333333333333
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7468748973702161,
+        "value": 0.635656025240773,
+        "capturedAt": "2026-10-27T06:28:08.209Z"
+      }
+    },
+    {
+      "id": "espn-401884747",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "Schalke 04",
+      "away": "RB Leipzig",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "133",
+      "awayId": "11420",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/133.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11420.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.44,
+      "awayGoals": 1.3,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "NDDNVN",
+        "avgScored": 0.6666666666666666,
+        "avgConceded": 0.6666666666666666
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VDDVVD",
+        "avgScored": 2.1666666666666665,
+        "avgConceded": 2
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5551184807394695,
+        "value": 0.1157881462863335,
+        "capturedAt": "2026-10-27T06:28:08.215Z"
+      }
+    },
+    {
+      "id": "espn-401884748",
+      "date": "2026-10-31",
+      "kickoff": "2026-10-31T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "Werder Bremen",
+      "away": "TSG Hoffenheim",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "137",
+      "awayId": "7911",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/137.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 2.25,
+      "awayGoals": 1.69,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VNNVNV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.6666666666666667
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VVDDVD",
+        "avgScored": 2,
+        "avgConceded": 1.8333333333333333
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.7529726659470639,
+        "value": 0.6490101384240698,
+        "capturedAt": "2026-10-27T06:28:08.222Z"
       }
     },
     {
@@ -23415,7 +22362,7 @@
         "odd": 2.01,
         "probability": 0.6417844899785353,
         "value": 0.2899868248568558,
-        "capturedAt": "2026-10-26T18:29:37.552Z"
+        "capturedAt": "2026-10-27T06:28:08.227Z"
       }
     },
     {
@@ -23500,7 +22447,7 @@
         "odd": 2.19,
         "probability": 0.6754377632877608,
         "value": 0.47920870160019624,
-        "capturedAt": "2026-10-26T18:29:37.557Z"
+        "capturedAt": "2026-10-27T06:28:08.233Z"
       }
     },
     {
@@ -23585,7 +22532,7 @@
         "odd": 2.01,
         "probability": 0.6284349430351397,
         "value": 0.26315423550063066,
-        "capturedAt": "2026-10-26T18:29:37.563Z"
+        "capturedAt": "2026-10-27T06:28:08.239Z"
       }
     },
     {
@@ -23657,7 +22604,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.566Z"
+        "capturedAt": "2026-10-27T06:28:08.244Z"
       }
     },
     {
@@ -23682,8 +22629,8 @@
       "knockout": false,
       "homeScore": 0,
       "awayScore": 0,
-      "homeGoals": 2.07,
-      "awayGoals": 0.84,
+      "homeGoals": 1.98,
+      "awayGoals": 0.92,
       "odds": {
         "home": 2.38,
         "draw": 3.31,
@@ -23694,9 +22641,9 @@
       "statsSource": "football-data.org",
       "homeStats": {
         "sample": 6,
-        "form": "VDVNVN",
-        "avgScored": 1.8333333333333333,
-        "avgConceded": 0.8333333333333334
+        "form": "DVDVNV",
+        "avgScored": 1.6666666666666667,
+        "avgConceded": 1
       },
       "awayStats": {
         "sample": 6,
@@ -23740,9 +22687,9 @@
         "key": "home",
         "label": "Lyon",
         "odd": 2.38,
-        "probability": 0.6584157507795655,
-        "value": 0.5670294868553658,
-        "capturedAt": "2026-10-26T18:29:37.569Z"
+        "probability": 0.6205227120840123,
+        "value": 0.4768440547599493,
+        "capturedAt": "2026-10-27T06:28:08.249Z"
       }
     },
     {
@@ -23827,7 +22774,7 @@
         "odd": 2.01,
         "probability": 0.584186924342239,
         "value": 0.17421571792790025,
-        "capturedAt": "2026-10-26T18:29:37.572Z"
+        "capturedAt": "2026-10-27T06:28:08.255Z"
       }
     },
     {
@@ -23899,7 +22846,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.575Z"
+        "capturedAt": "2026-10-27T06:28:08.260Z"
       }
     },
     {
@@ -23971,7 +22918,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.578Z"
+        "capturedAt": "2026-10-27T06:28:08.266Z"
       }
     },
     {
@@ -24043,7 +22990,7 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.582Z"
+        "capturedAt": "2026-10-27T06:28:08.273Z"
       }
     },
     {
@@ -24128,7 +23075,7 @@
         "odd": 1.51,
         "probability": 0.665143884297491,
         "value": 0.004367265289211497,
-        "capturedAt": "2026-10-26T18:29:37.584Z"
+        "capturedAt": "2026-10-27T06:28:08.278Z"
       }
     },
     {
@@ -24213,7 +23160,7 @@
         "odd": 1.51,
         "probability": 0.6417844899785353,
         "value": -0.03090542013241171,
-        "capturedAt": "2026-10-26T18:29:37.587Z"
+        "capturedAt": "2026-10-27T06:28:08.284Z"
       }
     },
     {
@@ -24298,7 +23245,7 @@
         "odd": 1.7,
         "probability": 0.7691317580584116,
         "value": 0.30752398869929976,
-        "capturedAt": "2026-10-26T18:29:37.590Z"
+        "capturedAt": "2026-10-27T06:28:08.290Z"
       }
     },
     {
@@ -24383,7 +23330,7 @@
         "odd": 1.81,
         "probability": 0.6792765785038799,
         "value": 0.22949060709202262,
-        "capturedAt": "2026-10-26T18:29:37.593Z"
+        "capturedAt": "2026-10-27T06:28:08.295Z"
       }
     },
     {
@@ -24408,8 +23355,8 @@
       "knockout": false,
       "homeScore": 0,
       "awayScore": 0,
-      "homeGoals": 1.26,
-      "awayGoals": 1.38,
+      "homeGoals": 1.17,
+      "awayGoals": 1.46,
       "odds": {
         "home": 2.38,
         "draw": 3.31,
@@ -24426,9 +23373,9 @@
       },
       "awayStats": {
         "sample": 6,
-        "form": "DNDVVN",
-        "avgScored": 1.3333333333333333,
-        "avgConceded": 1.8333333333333333
+        "form": "VDNDVV",
+        "avgScored": 1.5,
+        "avgConceded": 1.6666666666666667
       },
       "oddsMovement": {
         "home": {
@@ -24466,9 +23413,9 @@
         "key": "btts",
         "label": "Les deux marquent",
         "odd": 2.01,
-        "probability": 0.5361346196692911,
-        "value": 0.07763058553527502,
-        "capturedAt": "2026-10-26T18:29:37.596Z"
+        "probability": 0.5294831621573963,
+        "value": 0.06426115593636661,
+        "capturedAt": "2026-10-27T06:28:08.301Z"
       }
     },
     {
@@ -24553,7 +23500,7 @@
         "odd": 2.38,
         "probability": 0.5355850328631698,
         "value": 0.2746923782143442,
-        "capturedAt": "2026-10-26T18:29:37.599Z"
+        "capturedAt": "2026-10-27T06:28:08.306Z"
       }
     },
     {
@@ -24638,7 +23585,87 @@
         "odd": 2.01,
         "probability": 0.665143884297491,
         "value": 0.3369392074379569,
-        "capturedAt": "2026-10-26T18:29:37.602Z"
+        "capturedAt": "2026-10-27T06:28:08.312Z"
+      }
+    },
+    {
+      "id": "espn-401884750",
+      "date": "2026-11-01",
+      "kickoff": "2026-11-01T14:30:00.000Z",
+      "time": "15:30",
+      "league": "Bundesliga",
+      "home": "1. FC Union Berlin",
+      "away": "FC Cologne",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "598",
+      "awayId": "122",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/598.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/122.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.45,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5230740993676228,
+        "value": 0.05137893972892171,
+        "capturedAt": "2026-10-27T06:28:08.319Z"
+      }
+    },
+    {
+      "id": "espn-401884752",
+      "date": "2026-11-01",
+      "kickoff": "2026-11-01T16:30:00.000Z",
+      "time": "17:30",
+      "league": "Bundesliga",
+      "home": "Eintracht Frankfurt",
+      "away": "Hamburg SV",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/10.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/10.png",
+      "homeId": "125",
+      "awayId": "127",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/127.png",
+      "priority": 32,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.45,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5230740993676228,
+        "value": 0.05137893972892171,
+        "capturedAt": "2026-10-27T06:28:08.325Z"
       }
     },
     {
@@ -24723,7 +23750,7 @@
         "odd": 2.38,
         "probability": 0.6379948664517376,
         "value": 0.5184277821551355,
-        "capturedAt": "2026-10-26T18:29:37.605Z"
+        "capturedAt": "2026-10-27T06:28:08.330Z"
       }
     },
     {
@@ -24808,7 +23835,7 @@
         "odd": 2.19,
         "probability": 0.7060078446013036,
         "value": 0.546157179676855,
-        "capturedAt": "2026-10-26T18:29:37.608Z"
+        "capturedAt": "2026-10-27T06:28:08.336Z"
       }
     },
     {
@@ -24893,7 +23920,7 @@
         "odd": 2.38,
         "probability": 0.6576012460122688,
         "value": 0.5650909655091996,
-        "capturedAt": "2026-10-26T18:29:37.611Z"
+        "capturedAt": "2026-10-27T06:28:08.341Z"
       }
     },
     {
@@ -24978,7 +24005,7 @@
         "odd": 2.01,
         "probability": 0.5544742371002275,
         "value": 0.11449321657145717,
-        "capturedAt": "2026-10-26T18:29:37.613Z"
+        "capturedAt": "2026-10-27T06:28:08.347Z"
       }
     },
     {
@@ -25063,7 +24090,7 @@
         "odd": 2.01,
         "probability": 0.680714044610661,
         "value": 0.3682352296674285,
-        "capturedAt": "2026-10-26T18:29:37.617Z"
+        "capturedAt": "2026-10-27T06:28:08.352Z"
       }
     },
     {
@@ -25088,8 +24115,8 @@
       "knockout": false,
       "homeScore": 0,
       "awayScore": 0,
-      "homeGoals": 2.07,
-      "awayGoals": 1.46,
+      "homeGoals": 2.25,
+      "awayGoals": 1.38,
       "odds": {
         "home": 2.38,
         "draw": 3.31,
@@ -25100,9 +24127,9 @@
       "statsSource": "football-data.org",
       "homeStats": {
         "sample": 6,
-        "form": "DVVVVD",
-        "avgScored": 2.6666666666666665,
-        "avgConceded": 1.8333333333333333
+        "form": "VDVVVV",
+        "avgScored": 3,
+        "avgConceded": 1.6666666666666667
       },
       "awayStats": {
         "sample": 6,
@@ -25146,9 +24173,9 @@
         "key": "over",
         "label": "Plus de 2,5 buts",
         "odd": 2.19,
-        "probability": 0.6846659180585013,
-        "value": 0.4994183605481177,
-        "capturedAt": "2026-10-26T18:29:37.620Z"
+        "probability": 0.7025295110180412,
+        "value": 0.5385396291295101,
+        "capturedAt": "2026-10-27T06:28:08.359Z"
       }
     },
     {
@@ -25233,7 +24260,7 @@
         "odd": 2.01,
         "probability": 0.5551184807394695,
         "value": 0.1157881462863335,
-        "capturedAt": "2026-10-26T18:29:37.623Z"
+        "capturedAt": "2026-10-27T06:28:08.364Z"
       }
     },
     {
@@ -25258,8 +24285,8 @@
       "knockout": false,
       "homeScore": 0,
       "awayScore": 0,
-      "homeGoals": 2.07,
-      "awayGoals": 1.3,
+      "homeGoals": 1.8,
+      "awayGoals": 1.15,
       "odds": {
         "home": 2.38,
         "draw": 3.31,
@@ -25276,9 +24303,9 @@
       },
       "awayStats": {
         "sample": 6,
-        "form": "VDNDDD",
-        "avgScored": 1.1666666666666667,
-        "avgConceded": 2.8333333333333335
+        "form": "DVDNDD",
+        "avgScored": 0.8333333333333334,
+        "avgConceded": 2.3333333333333335
       },
       "oddsMovement": {
         "home": {
@@ -25313,12 +24340,12 @@
         }
       },
       "suggestedPick": {
-        "key": "over",
-        "label": "Plus de 2,5 buts",
-        "odd": 2.19,
-        "probability": 0.6544374486359815,
-        "value": 0.43321801251279957,
-        "capturedAt": "2026-10-26T18:29:37.626Z"
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5704393700277017,
+        "value": 0.14658313375568044,
+        "capturedAt": "2026-10-27T06:28:08.370Z"
       }
     },
     {
@@ -25403,7 +24430,7 @@
         "odd": 2.19,
         "probability": 0.6936962524316947,
         "value": 0.5191947928254115,
-        "capturedAt": "2026-10-26T18:29:37.629Z"
+        "capturedAt": "2026-10-27T06:28:08.375Z"
       }
     },
     {
@@ -25488,7 +24515,7 @@
         "odd": 2.19,
         "probability": 0.6846659180585013,
         "value": 0.4994183605481177,
-        "capturedAt": "2026-10-26T18:29:37.632Z"
+        "capturedAt": "2026-10-27T06:28:08.380Z"
       }
     },
     {
@@ -25560,9 +24587,472 @@
         "odd": 2.01,
         "probability": 0.5230740993676228,
         "value": 0.05137893972892171,
-        "capturedAt": "2026-10-26T18:29:37.636Z"
+        "capturedAt": "2026-10-27T06:28:08.388Z"
+      }
+    },
+    {
+      "id": "espn-401915386",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Atlético Madrid",
+      "away": "Bayern Munich",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "1068",
+      "awayId": "132",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/1068.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+      "priority": 102,
+      "featured": true,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.62,
+      "awayGoals": 1.99,
+      "odds": {
+        "home": 1.68,
+        "draw": 3.4,
+        "away": 2.28,
+        "over": 1.49,
+        "btts": 1.51
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VNVVVV",
+        "avgScored": 1.5,
+        "avgConceded": 0.5
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VNVNNV",
+        "avgScored": 3.8333333333333335,
+        "avgConceded": 1.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.49,
+        "probability": 0.699019799172642,
+        "value": 0.04153950076723656,
+        "capturedAt": "2026-10-27T06:28:08.395Z"
+      }
+    },
+    {
+      "id": "espn-401915387",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Barcelona",
+      "away": "Aston Villa",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "83",
+      "awayId": "362",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/83.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+      "priority": 72,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.71,
+      "awayGoals": 2.22,
+      "odds": {
+        "home": 1.68,
+        "draw": 3.59,
+        "away": 2.92,
+        "over": 1.64,
+        "btts": 1.69
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DDDVDV",
+        "avgScored": 2.1666666666666665,
+        "avgConceded": 2
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VVVVNV",
+        "avgScored": 2.8333333333333335,
+        "avgConceded": 1
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.64,
+        "probability": 0.751459415205969,
+        "value": 0.23239344093778924,
+        "capturedAt": "2026-10-27T06:28:08.400Z"
+      }
+    },
+    {
+      "id": "espn-401915307",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Feyenoord Rotterdam",
+      "away": "Internazionale",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "142",
+      "awayId": "110",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/142.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
+      "priority": 72,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.44,
+      "awayGoals": 2.3,
+      "odds": {
+        "home": 2.16,
+        "draw": 3.15,
+        "away": 2.28,
+        "over": 1.7,
+        "btts": 1.65
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 3,
+        "form": "DVD",
+        "avgScored": 1.3333333333333333,
+        "avgConceded": 2.6666666666666665
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VVVDVN",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.3333333333333333
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.7,
+        "probability": 0.7212741046778933,
+        "value": 0.22616597795241855,
+        "capturedAt": "2026-10-27T06:28:08.406Z"
+      }
+    },
+    {
+      "id": "espn-401915308",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Manchester United",
+      "away": "AS Roma",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "360",
+      "awayId": "104",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/104.png",
+      "priority": 72,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.17,
+      "awayGoals": 1.99,
+      "odds": {
+        "home": 1.68,
+        "draw": 3.59,
+        "away": 2.92,
+        "over": 1.64,
+        "btts": 1.69
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "DDNDNN",
+        "avgScored": 0.6666666666666666,
+        "avgConceded": 2
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "NVVDNN",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.5
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.64,
+        "probability": 0.6116856770382955,
+        "value": 0.0031645103428044052,
+        "capturedAt": "2026-10-27T06:28:08.413Z"
+      }
+    },
+    {
+      "id": "espn-401915309",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Villarreal",
+      "away": "Paris Saint-Germain",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "102",
+      "awayId": "160",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/102.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+      "priority": 72,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.89,
+      "awayGoals": 1.99,
+      "odds": {
+        "home": 2.16,
+        "draw": 3.15,
+        "away": 2.28,
+        "over": 1.7,
+        "btts": 1.65
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 6,
+        "form": "VDNVDV",
+        "avgScored": 1.8333333333333333,
+        "avgConceded": 1.3333333333333333
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "VDVVVV",
+        "avgScored": 3,
+        "avgConceded": 1.6666666666666667
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 1.7,
+        "probability": 0.743781081805456,
+        "value": 0.26442783906927514,
+        "capturedAt": "2026-10-27T06:28:08.419Z"
+      }
+    },
+    {
+      "id": "espn-401915311",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T17:45:00.000Z",
+      "time": "18:45",
+      "league": "Ligue des champions",
+      "home": "Galatasaray",
+      "away": "VfB Stuttgart",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "432",
+      "awayId": "134",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/432.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/134.png",
+      "priority": 42,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.62,
+      "awayGoals": 1.99,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 3,
+        "form": "VDD",
+        "avgScored": 2,
+        "avgConceded": 3
+      },
+      "awayStats": {
+        "sample": 6,
+        "form": "DNDVVD",
+        "avgScored": 1.3333333333333333,
+        "avgConceded": 1
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.699019799172642,
+        "value": 0.530853360188086,
+        "capturedAt": "2026-10-27T06:28:08.425Z"
+      }
+    },
+    {
+      "id": "espn-401915310",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T17:45:00.000Z",
+      "time": "18:45",
+      "league": "Ligue des champions",
+      "home": "Shakhtar Donetsk",
+      "away": "Sporting CP",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "493",
+      "awayId": "2250",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/493.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2250.png",
+      "priority": 42,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.44,
+      "awayGoals": 1.53,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 3,
+        "form": "DVN",
+        "avgScored": 1.3333333333333333,
+        "avgConceded": 1
+      },
+      "awayStats": {
+        "sample": 3,
+        "form": "DVV",
+        "avgScored": 2.3333333333333335,
+        "avgConceded": 1.3333333333333333
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5978519181837787,
+        "value": 0.20168235554939495,
+        "capturedAt": "2026-10-27T06:28:08.431Z"
+      }
+    },
+    {
+      "id": "espn-401915384",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "Bodo/Glimt",
+      "away": "Lille",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "2980",
+      "awayId": "166",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2980.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+      "priority": 42,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 1.45,
+      "awayGoals": 1.15,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "suggestedPick": {
+        "key": "btts",
+        "label": "Les deux marquent",
+        "odd": 2.01,
+        "probability": 0.5230740993676228,
+        "value": 0.05137893972892171,
+        "capturedAt": "2026-10-27T06:28:08.436Z"
+      }
+    },
+    {
+      "id": "espn-401915385",
+      "date": "2026-11-03",
+      "kickoff": "2026-11-03T20:00:00.000Z",
+      "time": "21:00",
+      "league": "Ligue des champions",
+      "home": "LASK Linz",
+      "away": "Slovan Bratislava",
+      "leagueLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2.png",
+      "leagueLogoDark": "https://a.espncdn.com/i/leaguelogos/soccer/500-dark/2.png",
+      "homeId": "4411",
+      "awayId": "521",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4411.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/521.png",
+      "priority": 42,
+      "featured": false,
+      "status": "Scheduled",
+      "completed": false,
+      "voided": false,
+      "knockout": false,
+      "homeScore": 0,
+      "awayScore": 0,
+      "homeGoals": 3.42,
+      "awayGoals": 1.53,
+      "odds": {
+        "home": 2.38,
+        "draw": 3.31,
+        "away": 3.17,
+        "over": 2.19,
+        "btts": 2.01
+      },
+      "statsSource": "football-data.org",
+      "homeStats": {
+        "sample": 3,
+        "form": "VDD",
+        "avgScored": 2,
+        "avgConceded": 3
+      },
+      "awayStats": {
+        "sample": 3,
+        "form": "DDD",
+        "avgScored": 0.3333333333333333,
+        "avgConceded": 4.333333333333333
+      },
+      "suggestedPick": {
+        "key": "over",
+        "label": "Plus de 2,5 buts",
+        "odd": 2.19,
+        "probability": 0.87107310323009,
+        "value": 0.9076500960738971,
+        "capturedAt": "2026-10-27T06:28:08.443Z"
       }
     }
-  ],
-  "scoresUpdatedAt": "2026-10-27T05:53:32.585Z"
+  ]
 }
