@@ -74,7 +74,7 @@
     "secondaryOddsMatches": 5,
     "statsMatches": 112,
     "oddsMatches": 40,
-    "settlements": 119
+    "settlements": 121
   },
   "settlements": [
     {
@@ -98,7 +98,7 @@
     {
       "id": "espn-401917028",
       "date": "2026-10-27",
-      "home": "SG SONNENHOF GROßASPACH SONNENHOF GROßASPACH",
+      "home": "SG Sonnenhof Großaspch",
       "away": "FC Augsburg",
       "homeScore": 2,
       "awayScore": 4,
@@ -138,6 +138,24 @@
       "away": "Elche",
       "homeScore": 1,
       "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401928495",
+      "date": "2026-10-27",
+      "home": "Sestao",
+      "away": "Espanyol",
+      "homeScore": 4,
+      "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401928508",
+      "date": "2026-10-27",
+      "home": "Gimnastica Segoviana",
+      "away": "Cultural Leonesa",
+      "homeScore": 0,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -13313,12 +13331,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
       "priority": 26,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 1,
-      "awayScore": 1,
+      "homeScore": 4,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -13673,12 +13691,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10629.png",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -25950,5 +25968,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-27T19:56:10.391Z"
+  "scoresUpdatedAt": "2026-10-27T20:54:50.816Z"
 }
