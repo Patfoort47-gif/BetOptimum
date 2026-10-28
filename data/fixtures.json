@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 2,
     "statsMatches": 101,
     "oddsMatches": 28,
-    "settlements": 150
+    "settlements": 152
   },
   "settlements": [
     {
@@ -232,6 +232,24 @@
       "away": "Kaiserslautern",
       "homeScore": 0,
       "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401921842",
+      "date": "2026-10-28",
+      "home": "Liverpool",
+      "away": "Chelsea",
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401917034",
+      "date": "2026-10-28",
+      "home": "Holstein Kiel",
+      "away": "TSG Hoffenheim",
+      "homeScore": 1,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -10706,12 +10724,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
       "priority": 84,
       "featured": true,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "homeGoals": 2.25,
       "awayGoals": 1.53,
       "odds": {
@@ -14323,12 +14341,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
       "priority": 25,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -22453,5 +22471,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-28T21:57:46.299Z"
+  "scoresUpdatedAt": "2026-10-28T22:56:28.986Z"
 }

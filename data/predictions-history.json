@@ -192,6 +192,30 @@
     "score": "3 : 2"
   },
   {
+    "id": "espn-401921842",
+    "date": "2026-10-28",
+    "league": "Carabao Cup",
+    "match": "Liverpool – Chelsea",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.49,
+    "probability": 0.7278576629089064,
+    "status": "lost",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401917034",
+    "date": "2026-10-28",
+    "league": "DFB-Pokal",
+    "match": "Holstein Kiel – TSG Hoffenheim",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
     "id": "espn-401916920",
     "date": "2026-10-27",
     "league": "DFB-Pokal",
