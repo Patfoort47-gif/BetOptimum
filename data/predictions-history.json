@@ -1,5 +1,53 @@
 [
   {
+    "id": "espn-401916921",
+    "date": "2026-10-28",
+    "league": "DFB-Pokal",
+    "match": "Dynamo Dresden – Schalke 04",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401917036",
+    "date": "2026-10-28",
+    "league": "DFB-Pokal",
+    "match": "SC Freiburg – VfL Wolfsburg",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "won",
+    "score": "3 : 2"
+  },
+  {
+    "id": "espn-401917032",
+    "date": "2026-10-28",
+    "league": "DFB-Pokal",
+    "match": "SC Paderborn 07 – VfB Stuttgart",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.4804269324362992,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
+    "id": "espn-401916919",
+    "date": "2026-10-28",
+    "league": "DFB-Pokal",
+    "match": "SSV Jeddeloh II – Hertha Berlin",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230740993676228,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
     "id": "espn-401916920",
     "date": "2026-10-27",
     "league": "DFB-Pokal",
