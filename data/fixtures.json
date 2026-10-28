@@ -87,7 +87,7 @@
     "secondaryOddsMatches": 2,
     "statsMatches": 101,
     "oddsMatches": 28,
-    "settlements": 138
+    "settlements": 141
   },
   "settlements": [
     {
@@ -122,6 +122,33 @@
       "date": "2026-10-28",
       "home": "SSV Jeddeloh II",
       "away": "Hertha Berlin",
+      "homeScore": 0,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401874993",
+      "date": "2026-10-28",
+      "home": "AC Milan",
+      "away": "Bologna",
+      "homeScore": 2,
+      "awayScore": 4,
+      "completed": true
+    },
+    {
+      "id": "espn-401874965",
+      "date": "2026-10-28",
+      "home": "Parma",
+      "away": "Udinese",
+      "homeScore": 0,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874773",
+      "date": "2026-10-28",
+      "home": "Venezia",
+      "away": "Internazionale",
       "homeScore": 0,
       "awayScore": 2,
       "completed": true
@@ -10683,12 +10710,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/107.png",
       "priority": 61,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
-      "awayScore": 1,
+      "awayScore": 4,
       "homeGoals": 1.8,
       "awayGoals": 1.07,
       "odds": {
@@ -10960,12 +10987,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
       "priority": 61,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 2,
       "homeGoals": 1.26,
       "awayGoals": 2.07,
       "odds": {
@@ -11765,8 +11792,8 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/118.png",
       "priority": 31,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
@@ -22345,5 +22372,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-28T19:12:43.385Z"
+  "scoresUpdatedAt": "2026-10-28T20:01:50.397Z"
 }
