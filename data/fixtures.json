@@ -61,7 +61,7 @@
     "secondaryOddsMatches": 0,
     "statsMatches": 83,
     "oddsMatches": 11,
-    "settlements": 166
+    "settlements": 167
   },
   "settlements": [
     {
@@ -278,6 +278,15 @@
       "away": "Cádiz",
       "homeScore": 1,
       "awayScore": 3,
+      "completed": true
+    },
+    {
+      "id": "espn-401928517",
+      "date": "2026-10-29",
+      "home": "Gimnástica Torrelavega",
+      "away": "UD Ourense",
+      "homeScore": 3,
+      "awayScore": 1,
       "completed": true
     },
     {
@@ -9173,12 +9182,12 @@
       "awayLogo": "",
       "priority": 26,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 3,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -19278,5 +19287,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-29T22:00:05.807Z"
+  "scoresUpdatedAt": "2026-10-29T22:58:38.951Z"
 }
