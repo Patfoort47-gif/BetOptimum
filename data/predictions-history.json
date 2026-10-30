@@ -84,6 +84,30 @@
     "score": "1 : 0"
   },
   {
+    "id": "espn-401882817",
+    "date": "2026-10-30",
+    "league": "La Liga",
+    "match": "Villarreal – Espanyol",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5483915209395542,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
+    "id": "espn-401884746",
+    "date": "2026-10-30",
+    "league": "Bundesliga",
+    "match": "SV Elversberg – Mainz",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.7897620129769026,
+    "status": "won",
+    "score": "4 : 1"
+  },
+  {
     "id": "espn-401928515",
     "date": "2026-10-29",
     "league": "Copa del Rey",
