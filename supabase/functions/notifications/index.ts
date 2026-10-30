@@ -1,5 +1,6 @@
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
 import { NotificationFailure, reportNotificationFailure } from '../../../notification-diagnostics.js';
+import { notificationConfig } from '../../../notification-config.js';
 import { detectAlerts } from '../../../notification-model.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
@@ -77,9 +78,10 @@ Deno.serve(async request=>{
   const authorization=request.headers.get('authorization')??'';
   const auth=await fetch(`${env.SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:env.SUPABASE_SERVICE_ROLE_KEY}});
   if(!auth.ok)return json({error:'Connexion requise'},401);const user=await auth.json(),uid=user.id;
-  if(body.action==='config')return json({vapid:env.VAPID_PUBLIC_KEY,telegram:env.TELEGRAM_BOT_NAME,available:{web:Boolean(env.VAPID_PUBLIC_KEY&&env.VAPID_PRIVATE_KEY),telegram:Boolean(env.TELEGRAM_BOT_TOKEN&&env.TELEGRAM_WEBHOOK_SECRET),discord:Boolean(env.NOTIFICATION_ENCRYPTION_KEY),email:Boolean(env.RESEND_API_KEY&&env.EMAIL_FROM)}});
+  const config=notificationConfig(env);
+  if(body.action==='config')return json(config);
   if(body.action==='telegram-pair'){
-   if(!env.TELEGRAM_BOT_NAME||!env.TELEGRAM_BOT_TOKEN)return json({error:'Telegram non configuré'},503);
+   if(!config.available.telegram)return json({error:'Canal non configuré'},503);
    const code=[...crypto.getRandomValues(new Uint8Array(24))].map(x=>x.toString(16).padStart(2,'0')).join('');
    await db('notification_pairings?on_conflict=user_id','POST',{user_id:uid,code_hash:await hash(code),expires_at:new Date(Date.now()+600000).toISOString()});
    return json({url:`https://t.me/${env.TELEGRAM_BOT_NAME}?start=${code}`});
@@ -87,15 +89,17 @@ Deno.serve(async request=>{
   if(body.action==='connect'){
    const channel=body.channel;
    if(!['web','discord','email'].includes(channel))return json({error:'Canal invalide'},400);
+   if(!config.available[channel])return json({error:'Canal non configuré'},503);
    if(channel==='email'&&!user.email_confirmed_at)return json({error:'Confirmez votre adresse email'},400);
    await endpoint(uid,channel,channel==='email'?{email:user.email}:body.destination);return json({ok:true});
   }
   if(body.action==='test'){
    if(!['web','telegram','discord','email'].includes(body.channel))return json({error:'Canal invalide'},400);
+   if(!config.available[body.channel])return json({error:'Canal non configuré'},503);
    // Le test utilise la même file et les mêmes limites que les alertes.
    const event={match_id:'test',home:'Test',away:'BetOptimum',label:'Vos alertes fonctionnent',odd:2,bookmaker:'Démonstration',value:.1,confidence:.6,movement:0,kickoff:new Date(Date.now()+864e5).toISOString(),test_channel:body.channel};
    const [p]=await db(`notification_preferences?user_id=eq.${uid}&select=enabled,channels`);if(!p?.enabled||!p.channels.includes(body.channel))return json({error:'Activez et enregistrez ce canal avant de le tester'},400);
-   await db('rpc/enqueue_notification','POST',{p_user:uid,p_key:`test:${body.channel}:${Math.floor(Date.now()/3600000)}`,p_event:event,p_due:new Date().toISOString()});return json({ok:true,message:'Test placé dans la file, heures silencieuses et fréquence respectées'});
+   const queued=await db('rpc/enqueue_notification','POST',{p_user:uid,p_key:`test:${body.channel}:${Math.floor(Date.now()/3600000)}`,p_event:event,p_due:new Date().toISOString()});return json({ok:true,queued:Boolean(queued),message:queued?'Test placé dans la file, heures silencieuses et fréquence respectées':'Un test a déjà été demandé pour ce canal pendant cette heure. Consultez l’historique avant de réessayer.'});
   }
   return json({error:'Action inconnue'},400);
  }catch(error){return json(reportNotificationFailure(error,crypto.randomUUID()),503);}
