@@ -650,3 +650,7 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 .skip-link{position:fixed;top:8px;left:8px;z-index:10000;padding:12px;background:var(--panel,#fff);color:var(--accent-text);transform:translateY(-160%)}.skip-link:focus{transform:none}:focus-visible{outline:3px solid var(--accent-text);outline-offset:3px}.discovery{padding:16px;margin-bottom:16px}.discovery summary{cursor:pointer;min-height:24px}
 
 .help-inline{min-width:28px;min-height:28px;border:1px solid var(--line-strong);border-radius:50%;background:var(--surface);color:var(--accent-text);font-weight:700}.lexicon article:focus{outline:2px solid var(--accent-text);outline-offset:4px}
+
+/* BET-110 : le texte et les actions utiles sont utilisables au premier rendu. */
+.hero-main>:not(.hero-pitch){animation:none!important}.hero-pitch{animation:none;pointer-events:none}.intro-screen{pointer-events:none}
+@media(max-width:700px){.hero-main{padding:22px}.hero h1{font-size:clamp(30px,8vw,42px)}.hero-copy{margin:0}.hero-actions{grid-template-columns:1fr 1fr}.hero-actions #quick-combo{grid-column:1/-1;min-height:36px}.hero-main .section-subtitle{margin:0}.discovery{margin-bottom:0}}
