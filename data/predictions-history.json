@@ -108,6 +108,18 @@
     "score": "4 : 1"
   },
   {
+    "id": "espn-401876420",
+    "date": "2026-10-30",
+    "league": "Ligue 1",
+    "match": "Lille – Lens",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.585859186644526,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401928515",
     "date": "2026-10-29",
     "league": "Copa del Rey",
