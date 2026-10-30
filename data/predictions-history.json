@@ -1,5 +1,29 @@
 [
   {
+    "id": "espn-401876421",
+    "date": "2026-10-30",
+    "league": "Ligue 1",
+    "match": "Le Havre AC – Paris Saint-Germain",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.86,
+    "probability": 0.7484105476465659,
+    "status": "won",
+    "score": "1 : 5"
+  },
+  {
+    "id": "espn-401876416",
+    "date": "2026-10-30",
+    "league": "Ligue 1",
+    "match": "Nice – Stade Rennais",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.6284177604674186,
+    "status": "won",
+    "score": "5 : 2"
+  },
+  {
     "id": "espn-401928515",
     "date": "2026-10-29",
     "league": "Copa del Rey",
