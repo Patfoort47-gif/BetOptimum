@@ -7,13 +7,13 @@ const STYLE_COPY = { safe: ['Prudent', 'Des cotes basses et des pronos fiables']
 
 export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toast, onDone }) {
   const root = document.querySelector('#rejoindre'), content = root.querySelector('#join-content');
-  let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, nicknameState = '', nicknameTimer = null, resendAt = 0, teamQuery = '';
+  let returnUrl=null;let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, nicknameState = '', nicknameTimer = null, resendAt = 0, teamQuery = '';
   const steps = signupSteps(avatarStudio);
 
-  const field = (id, label, input, hint = '', error = '') => `<label class="join-field" for="${id}"><span>${label}</span>${input}${hint ? `<small id="${id}-hint">${hint}</small>` : ''}<small class="join-error" id="${id}-error" role="alert">${escape(error)}</small></label>`;
+  const field = (id, label, input, hint = '', error = '') => `<div class="join-field"><label for="${id}">${label}</label>${input}${hint ? `<small id="${id}-hint">${hint}</small>` : ''}<small class="join-error" id="${id}-error" role="alert">${escape(error)}</small></div>`;
   const passwordInput = (id, autocomplete) => `<span class="join-password"><input id="${id}" name="${id}" type="password" autocomplete="${autocomplete}" required minlength="8" value="${id === 'join-password' && mode !== 'recovery' ? escape(draft.password) : ''}" aria-describedby="${id}-error"><button type="button" class="text-button" data-toggle-password="${id}" aria-pressed="false">Afficher</button></span>`;
   const banner = (text, kind = 'error') => text ? `<p class="join-banner ${kind}" role="${kind === 'error' ? 'alert' : 'status'}">${escape(text)}</p>` : '';
-  const tabs = () => `<div class="join-tabs" role="tablist"><button role="tab" aria-selected="${mode === 'login'}" data-mode="login">Se connecter</button><button role="tab" aria-selected="${mode === 'signup'}" data-mode="signup">Créer un compte</button></div>`;
+  const tabs = () => `<div class="join-tabs" role="tablist"><button role="tab" tabindex="${mode === 'login' ? 0 : -1}" aria-selected="${mode === 'login'}" data-mode="login">Se connecter</button><button role="tab" tabindex="${mode === 'signup' ? 0 : -1}" aria-selected="${mode === 'signup'}" data-mode="signup">Créer un compte</button></div>`;
   const google = '<button type="button" class="button secondary full join-google" data-google><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h5.1a4.4 4.4 0 0 1-1.9 2.9v2.4h3.1c1.8-1.7 2.7-4.1 2.7-7z" fill="#4285F4"/><path d="M12 21.5c2.6 0 4.7-.9 6.3-2.3l-3.1-2.4c-.9.6-2 .9-3.2.9-2.5 0-4.6-1.7-5.3-3.9H3.5v2.5A9.5 9.5 0 0 0 12 21.5z" fill="#34A853"/><path d="M6.7 13.8a5.7 5.7 0 0 1 0-3.6V7.7H3.5a9.5 9.5 0 0 0 0 8.6z" fill="#FBBC05"/><path d="M12 6.4c1.4 0 2.7.5 3.7 1.4l2.8-2.8A9.5 9.5 0 0 0 3.5 7.7l3.2 2.5C7.4 8.1 9.5 6.4 12 6.4z" fill="#EA4335"/></svg>Continuer avec Google</button>';
 
   function view(state = {}) {
@@ -105,21 +105,23 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       try { const result = await auth.signUp({ email: draft.email, password: draft.password, username: draft.nickname, newsletter: draft.newsletter, prefs, avatar: draft.avatar }); draft.password = ''; draft.newsletter = false; if (result.confirmed) await finish('signup'); else { busy = false; mode = 'check'; render({}); } } catch (error) { fail(error); }
     }
   });
-  root.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  const inertBefore=new Map();
+  const releaseBackground=()=>{for(const [el,before] of inertBefore)el.inert=before;inertBefore.clear()};
+  root.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close();return}if(event.key==='Tab'){const controls=[...root.querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),a[href],[tabindex="0"]')].filter(el=>el.getClientRects().length);const first=controls[0],last=controls.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}}if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)&&event.target.matches('[role=tab]')){event.preventDefault();const tabs=[...root.querySelectorAll('[role=tab]')],i=tabs.indexOf(event.target),next=tabs[event.key==='Home'?0:event.key==='End'?tabs.length-1:(i+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.click();root.querySelector('[data-mode="'+next.dataset.mode+'"]')?.focus()}});
   root.querySelector('.join-close').addEventListener('click', () => close());
 
   function open(nextMode = 'login') {
-    lastFocus = document.activeElement; mode = nextMode; stepIndex = 0; busy = false;
-    root.hidden = false; document.body.classList.add('join-open'); render({});
+    lastFocus = document.activeElement;returnUrl=location.pathname+location.search+(location.hash==='#rejoindre'?'':location.hash); mode = nextMode; stepIndex = 0; busy = false;
+    root.hidden = false;for(const child of document.body.children){if(child!==root&&!child.contains(root)&&!inertBefore.has(child)){inertBefore.set(child,child.inert);child.inert=true}} document.body.classList.add('join-open'); render({});
     if (location.hash !== '#rejoindre' && typeof history !== 'undefined') history.pushState({ join: true }, '', '#rejoindre');
   }
   function close() {
     stopStudio();
-    if (root.hidden) return;
+    releaseBackground();if (root.hidden) return;
     root.hidden = true; document.body.classList.remove('join-open'); clearTimeout(nicknameTimer);
-    if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', location.pathname + location.search);
+    if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', returnUrl||location.pathname + location.search);
     lastFocus?.focus?.();
   }
-  addEventListener('popstate', () => { if (location.hash !== '#rejoindre') { root.hidden = true; document.body.classList.remove('join-open'); } });
+  addEventListener('popstate', () => { if(location.hash!=='#rejoindre')close() });
   return { open, close, recovery: () => { open('recovery'); mode = 'recovery'; render({}); }, STYLE_LABELS, RISK_STYLES };
 }

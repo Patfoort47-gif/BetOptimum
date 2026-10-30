@@ -125,10 +125,13 @@ function consensus(match, oddsEvents, previousOffers = []) {
       else if (sameTeam(outcome.name, match.away)) offer.away = outcome.price;
       else if (outcome.name === 'Draw') offer.draw = outcome.price;
     }
+    for(const key of ['home','draw','away'])if(offer[key])offer[key+'UpdatedAt']=h2h?.last_update??bookmaker.last_update??null;
     const btts = bookmaker.markets?.find(item => item.key === 'btts');
     offer.btts = btts?.outcomes?.find(outcome => /^(yes|oui)$/i.test(outcome.name))?.price;
     const totals = bookmaker.markets?.find(item => item.key === 'totals');
     offer.over = totals?.outcomes?.find(outcome => /^over$/i.test(outcome.name) && Number(outcome.point) === 2.5)?.price;
+    if(offer.btts)offer.bttsUpdatedAt=btts?.last_update??bookmaker.last_update??null;
+    if(offer.over)offer.overUpdatedAt=totals?.last_update??bookmaker.last_update??null;
     if (offer.home || offer.draw || offer.away || offer.btts || offer.over) offers.push(offer);
   }
   const mergedOffers = mergeCachedOffers(offers, previousOffers);
