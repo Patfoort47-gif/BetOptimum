@@ -646,3 +646,5 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
 .match-secondary{padding:12px}.match-secondary summary{cursor:pointer;min-height:24px;color:var(--accent-text)}.match-card strong{overflow-wrap:anywhere}
+
+.skip-link{position:fixed;top:8px;left:8px;z-index:10000;padding:12px;background:var(--panel,#fff);color:var(--accent-text);transform:translateY(-160%)}.skip-link:focus{transform:none}:focus-visible{outline:3px solid var(--accent-text);outline-offset:3px}.discovery{padding:16px;margin-bottom:16px}.discovery summary{cursor:pointer;min-height:24px}
