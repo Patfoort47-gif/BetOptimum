@@ -24,6 +24,66 @@
     "score": "5 : 2"
   },
   {
+    "id": "espn-401876708",
+    "date": "2026-10-30",
+    "league": "Ligue 2",
+    "match": "Grenoble – Dijon FCO",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "won",
+    "score": "1 : 3"
+  },
+  {
+    "id": "espn-401876705",
+    "date": "2026-10-30",
+    "league": "Ligue 2",
+    "match": "Metz – Pau",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "won",
+    "score": "1 : 3"
+  },
+  {
+    "id": "espn-401876704",
+    "date": "2026-10-30",
+    "league": "Ligue 2",
+    "match": "Nantes – Clermont Foot",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401876701",
+    "date": "2026-10-30",
+    "league": "Ligue 2",
+    "match": "Rodez Aveyron – Dunkerque",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
+    "id": "espn-401876706",
+    "date": "2026-10-30",
+    "league": "Ligue 2",
+    "match": "Stade Laval – Boulogne",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401928515",
     "date": "2026-10-29",
     "league": "Copa del Rey",
