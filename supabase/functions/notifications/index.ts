@@ -1,6 +1,8 @@
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
 import { NotificationFailure, reportNotificationFailure } from '../../../notification-diagnostics.js';
 import { notificationConfig } from '../../../notification-config.js';
+import { planBriefing } from '../../../notification-briefing.js';
+import { prepareBriefing } from '../../../notification-briefing-service.js';
 import { detectAlerts } from '../../../notification-model.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
@@ -27,10 +29,12 @@ async function endpoint(uid:string,channel:string,target:unknown) {
 async function pageAll(table:string,query:string) {
  const result=[];for(let offset=0;;offset+=1000){const rows=await db(`${table}?${query}&limit=1000&offset=${offset}`);result.push(...rows);if(rows.length<1000)return result;}
 }
-async function worker(matches:unknown[]) {
+async function worker(matches:unknown[],generatedAt:string|null) {
  const prefs=await pageAll('notification_preferences','enabled=eq.true&select=*'),plans=await db('notification_plans?select=*'),entitlements=await pageAll('notification_entitlements','select=*');
  let queued=0;
  for(const p of prefs){const plan=plans.find((l:any)=>l.id===(entitlements.find((e:any)=>e.user_id===p.user_id)?.plan??'free'));if(!plan)continue;
+  const briefing=(p.teams.length+p.leagues.length<=plan.max_favorites)?planBriefing(matches,p):null;
+  if(briefing&&await db('rpc/enqueue_notification_briefing','POST',{p_user:p.user_id,p_event:briefing}))queued++;
   for(const event of detectAlerts(matches,p,plan)) if(await db('rpc/enqueue_notification','POST',{p_user:p.user_id,p_key:event.key,p_event:event,p_due:event.due_at}))queued++;
  }
  const deliveries=await db('rpc/claim_notification_deliveries','POST',{});let sent=0;
@@ -38,14 +42,31 @@ async function worker(matches:unknown[]) {
  for(const delivery of deliveries){
   try {
    // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
-   const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=channels`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
+   const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
    if(!p?.channels.includes(delivery.channel)||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    // Initialisation seulement pour une livraison web : un VAPID invalide n’arrête pas les autres canaux.
    if(delivery.channel==='web'&&!webSender&&env.VAPID_PUBLIC_KEY&&env.VAPID_PRIVATE_KEY&&env.VAPID_SUBJECT){
     try {const {default:webpush}=await import('npm:web-push@3.6.7');webpush.setVapidDetails(env.VAPID_SUBJECT,env.VAPID_PUBLIC_KEY,env.VAPID_PRIVATE_KEY);webSender=(target:any,payload:string)=>webpush.sendNotification(target,payload,{TTL:300,timeout:10000});}
     catch {reportNotificationFailure(new NotificationFailure('web-push','WEB_PUSH_SETUP'),crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'failed',error:'Configuration Web Push invalide'});continue;}
    }
-   const result=await deliver(delivery.channel,await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY),event.payload,delivery.id,env,fetch,webSender);
+   const target=await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY);
+   let payload=event.payload;
+   if(payload.briefing){
+    if(delivery.channel!=='email'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+    // Une ancienne association email ne doit pas recevoir de données de compte après changement d’adresse.
+    const authResponse=await fetch(`${env.SUPABASE_URL}/auth/v1/admin/users/${delivery.user_id}`,{headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`},signal:AbortSignal.timeout(10000)});
+    if(!authResponse.ok)throw new NotificationFailure('database','AUTH_EMAIL_CHECK',authResponse.status);
+    const recipient=await authResponse.json();
+    if(!recipient.email_confirmed_at||recipient.email!==target.email){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled',error:'Réassociez votre adresse email confirmée'});continue;}
+    const content=await prepareBriefing(db,delivery.user_id,payload,p,matches,generatedAt);
+    if(!content){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+    payload={...payload,briefing_content:content};
+   }
+   if(payload.briefing){
+    const [latest]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`);
+    if(!latest?.channels.includes('email')||latest.updated_at!==p.updated_at||Date.parse(payload.kickoff)<=Date.now()){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   }
+   const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch,webSender);
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
    await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status,error:result.error??null,...(status==='sent'?{sent_at:new Date().toISOString()}:{}),...(status==='pending'?{due_at:new Date(Date.now()+(result.retry??300)*1000).toISOString()}: {})});
    if(result.expired)await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,'DELETE');if(status==='sent')sent++;
@@ -64,7 +85,7 @@ Deno.serve(async request=>{
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
   if(body.action==='worker'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
-   return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.now()-Date.parse(body.generatedAt)<864e5?body.matches:[]));
+   return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.now()-Date.parse(body.generatedAt)<864e5?body.matches:[],body.generatedAt??null));
   }
   if(new URL(request.url).searchParams.get('action')==='telegram-webhook'){
    if(!await sameSecret(request.headers.get('x-telegram-bot-api-secret-token')??'',env.TELEGRAM_WEBHOOK_SECRET))return json({error:'Non autorisé'},401);

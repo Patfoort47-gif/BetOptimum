@@ -1,7 +1,7 @@
 // Diagnostics serveur autorisés : jamais de message brut, corps, destination ou secret.
 const STAGES = new Set(['configuration','database','web-push','delivery','request']);
-const RESOURCES = new Set(['notification_preferences','notification_plans','notification_entitlements','notification_endpoints','notification_events','notification_deliveries','notification_pairings','enqueue_notification','claim_notification_deliveries']);
-const validCode = code => /^(?:PGRST\d{3}|[0-9]{2}[A-Z0-9]{3}|NETWORK|INVALID_RESPONSE|CONFIG_SITE_URL|CONFIG_SUPABASE|WEB_PUSH_SETUP|UNEXPECTED)$/.test(String(code));
+const RESOURCES = new Set(['notification_preferences','notification_plans','notification_entitlements','notification_endpoints','notification_events','notification_deliveries','notification_pairings','enqueue_notification','claim_notification_deliveries','enqueue_notification_briefing','notification_briefing_snapshot']);
+const validCode = code => /^(?:PGRST\d{3}|[0-9]{2}[A-Z0-9]{3}|NETWORK|INVALID_RESPONSE|CONFIG_SITE_URL|CONFIG_SUPABASE|WEB_PUSH_SETUP|AUTH_EMAIL_CHECK|UNEXPECTED)$/.test(String(code));
 export class NotificationFailure extends Error {
   /** @param {string} stage @param {string} code @param {number | null} status @param {string | null} resource */
   constructor(stage, code, status = null, resource = null) {
