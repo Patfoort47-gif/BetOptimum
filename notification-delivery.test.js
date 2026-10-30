@@ -22,3 +22,10 @@ test('les échecs de fournisseurs sont isolés, temporisés ou marqués incertai
  const fail=await deliver('telegram',target,event,1,env,async()=>{throw new Error('clé privée')});assert.equal(fail.status,'unknown');assert.ok(!fail.error.includes('clé'));
  const sent=await deliver('email',{email:'me@example.com'},event,2,env,async(url,init)=>{assert.equal(init.headers['Idempotency-Key'],'bet-notification-2');assert.ok(JSON.parse(init.body).text.includes('#profil'));return new Response('{}');});assert.equal(sent.status,'sent');
 });
+
+test('le test email utilise Resend, une destination confirmée et un lien vers les préférences',async()=>{
+ const result=await deliver('email',{email:'confirmed@example.com'},{...event,test_channel:'email'},42,env,async(url,init)=>{
+  assert.equal(url,'https://api.resend.com/emails');assert.equal(init.headers['Idempotency-Key'],'bet-notification-42');
+  const body=JSON.parse(init.body);assert.deepEqual(body.to,['confirmed@example.com']);assert.match(body.subject,/test.*email/);assert.match(body.text,/aucun pronostic réel/);assert.ok(body.text.includes('https://example.com/bet/#profil'));assert.ok(!body.text.includes('#match-test'));return Response.json({id:'message-id'});
+ });assert.equal(result.status,'sent');
+});

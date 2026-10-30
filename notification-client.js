@@ -19,7 +19,7 @@ export function createNotificationApi(client) {
       const status=result.error?.context?.status;
       if(status===401)throw translated({status},'function');
       if(status===403)throw new Error('Le service d’alertes refuse les appels depuis cette adresse du site. L’administrateur doit vérifier l’adresse autorisée.');
-      const expected=new Set(['Telegram non configuré','Confirmez votre adresse email','Activez et enregistrez ce canal avant de le tester','Canal invalide']);
+      const expected=new Set(['Telegram non configuré','Confirmez votre adresse email','Activez et enregistrez ce canal avant de le tester','Canal invalide','Canal non configuré']);
       if(expected.has(response?.error))throw new Error(response.error);
       const reference=/^[a-f0-9-]{36}$/.test(String(response?.reference))?` Référence : ${response.reference}.`:'';
       const messages={CONFIG_SITE_URL:'L’adresse du site n’est pas correctement configurée dans le service d’alertes.',CONFIG_SUPABASE:'La connexion du service d’alertes à la base doit être configurée.'};
