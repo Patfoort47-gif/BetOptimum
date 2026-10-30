@@ -1,3 +1,4 @@
+const motionBehavior=()=>typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
 // Fiches détaillées (équipe, match, direct) et section Classements, alimentées à la demande par l'API publique d'ESPN.
 const API='https://site.api.espn.com/apis';
 const cache=new Map();
