@@ -94,3 +94,5 @@ Le projet est développé à deux : l'un avec Claude Code (ce fichier), l'autre 
 `notification-config.js` calcule la disponibilité publique des canaux côté serveur à partir de leur configuration complète (chiffrement inclus), sans exposer de secret. Un test email est clairement identifié et renvoie au profil ; le retour de mise en file distingue un doublon d’une nouvelle demande.
 
 Alertes V24 (`supabase-v24-schema.sql`) : sauvegarder les préférences conserve les tests en attente tant que leur canal reste consenti et associé. Seul un nouveau clic sur Tester peut reprendre un test annulé avant toute tentative ; aucun rejeu après tentative ou résultat incertain.
+
+Newsletter (BET-69) : `newsletter.js`, choix facultatif dans `join.js`, gestion dans Compte et confidentialité, `supabase-v25-schema.sql` après V23. Table privée `newsletter_subscriptions`, activation après confirmation Auth, pas d’inscription automatique des comptes existants, aucun envoi ni campagne avant définition des règles. Appliquer V25 avant publication du formulaire. Voir `NEWSLETTER_SETUP.md`.

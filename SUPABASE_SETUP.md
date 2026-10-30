@@ -74,3 +74,5 @@ Le fichier groupé est généré depuis les migrations sources avec `node script
 BET-65 nécessite séparément un quota The Odds API disponible ; une migration Supabase ne résout pas `OUT_OF_USAGE_CREDITS`. BET-69 nécessite une livraison de test confirmée dans le canal choisi pour terminer sa validation.
 
 Pour les tests d’alertes annulés après sauvegarde des préférences, appliquer `supabase-v24-schema.sql` après V23 (voir `NOTIFICATIONS_SETUP.md`). Aucun secret à changer ni envoi automatique.
+
+Newsletter facultative : appliquer `supabase-v25-schema.sql` après V23 et avant publication du formulaire (voir `NEWSLETTER_SETUP.md`). L’enregistrement des inscriptions ne nécessite aucun secret ni redéploiement Edge. Les campagnes restent à définir.
