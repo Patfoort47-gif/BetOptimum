@@ -70,3 +70,13 @@ La page distingue maintenant un échec des préférences SQL d’un échec de co
 6. Attendre le prochain passage du worker (environ cinq minutes, retards possibles), puis actualiser l’historique. Vérifier le message « BetOptimum : test de vos alertes email » dans la boîte de réception et les indésirables. Le lien renvoie au profil.
 7. « Envoyée » signifie que le fournisseur a accepté la demande ; vérifier aussi la réception et les événements de livraison dans Resend. En cas de 401/403, vérifier la clé, les droits d’envoi et le domaine de l’expéditeur ; 429 indique un quota. Un résultat inconnu ne doit pas être rejoué aveuglément.
 8. Après validation du test, choisir les favoris et seuils puis rétablir les heures silencieuses voulues. La validation d’une alerte automatique réelle reste dépendante des cotes disponibles.
+
+## Test email annulé après enregistrement des préférences (V24)
+
+Appliquer `supabase-v24-schema.sql` dans Supabase > SQL Editor, après V23. Le fichier est réexécutable, ne modifie aucun secret, ne réactive aucun consentement et ne déclenche aucun envoi.
+
+Avant V24, chaque enregistrement des préférences annulait tous les envois en attente, y compris les tests. Après V24, un test reste en attente si son canal reste activé, consenti et associé ; le worker continue de respecter les heures silencieuses et les plafonds. Les alertes ordinaires en attente restent invalidées lors d’une modification des préférences.
+
+Après application, cliquer explicitement sur Tester pour redemander un test annulé sans tentative d’envoi, même dans la même heure. Aucune reprise automatique. Les demandes déjà en attente, tentées, envoyées ou au résultat incertain ne sont pas rejouées. Actualiser relit seulement l’historique.
+
+Validation locale PostgreSQL 16 : V24 appliquée deux fois ; conservation du test après sauvegarde, refus du doublon en attente, reprise sur clic d’un test annulé sans tentative, refus de reprise après tentative et annulation lors du retrait du consentement.
