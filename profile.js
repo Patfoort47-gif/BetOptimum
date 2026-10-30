@@ -43,11 +43,11 @@ export function initProfilePage(deps) {
     ctx.fillStyle = '#F4F7F2'; ctx.font = '800 54px "Barlow Condensed", Impact, sans-serif'; ctx.fillText(info.profile.nickname.toUpperCase(), 300, 345, 440);
     ctx.font = '600 22px Inter, sans-serif'; ctx.fillStyle = '#C9D3C6'; ctx.fillText(`Niveau ${level.level} · ${level.title}${cardProvisional(info.raw) ? ' · provisoire' : ''}`, 300, 385);
     CARD_ATTRIBUTES.forEach((name, index) => { const x = 130 + (index % 3) * 170, y = 470 + Math.floor(index / 3) * 110; ctx.fillStyle = '#F4F7F2'; ctx.font = '800 56px "Barlow Condensed", Impact, sans-serif'; ctx.fillText(String(attributes[name]), x, y); ctx.fillStyle = '#9FB09A'; ctx.font = '700 20px Inter, sans-serif'; ctx.fillText(name, x, y + 30); });
-    ctx.fillStyle = '#9FB09A'; ctx.font = '500 16px Inter, sans-serif'; ctx.fillText('BetMaster · paris virtuels · 18+', 300, 740);
+    ctx.fillStyle = '#9FB09A'; ctx.font = '500 16px Inter, sans-serif'; ctx.fillText('BetOptimum · paris virtuels · 18+', 300, 740);
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) { toast('Impossible de générer l’image de la carte'); return; }
     const file = new File([blob], `carte-${info.profile.nickname}.png`, { type: 'image/png' });
-    try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: 'Ma carte BetMaster' }); return; } } catch (error) { if (error?.name === 'AbortError') return; }
+    try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: 'Ma carte BetOptimum' }); return; } } catch (error) { if (error?.name === 'AbortError') return; }
     const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = file.name; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 2000); toast('Carte téléchargée');
   }
 
@@ -93,7 +93,7 @@ export function initProfilePage(deps) {
 <form data-form="email" class="settings-card"><h3>Adresse email</h3><p class="muted">Un lien de confirmation est envoyé à la nouvelle adresse.</p><div class="settings-row"><input name="email" type="email" placeholder="nouvelle@adresse.fr" required autocomplete="email" aria-label="Nouvelle adresse email"><button class="button secondary">Modifier</button></div></form>
 <form data-form="password" class="settings-card"><h3>Mot de passe</h3><div class="settings-row"><input name="password" type="password" minlength="8" placeholder="Nouveau mot de passe (8 caractères)" required autocomplete="new-password" aria-label="Nouveau mot de passe"><button class="button secondary">Modifier</button></div></form>
 <div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats restent visibles dans les classements.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
-<section class="settings-card" data-newsletter><h3>Newsletter BetMaster</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues, XP, jetons) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
+<section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues, XP, jetons) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
 <form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP et vos jetons sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></div>`;
   }
   function avatarTab() { return '<div class="avatar-studio-slot" data-studio></div>'; }
@@ -161,7 +161,7 @@ export function initProfilePage(deps) {
     if (event.target.closest('[data-open-bets]')) { navigate('bankroll'); return; }
     if (event.target.closest('[data-back-home]')) { navigate('community'); return; }
     if (event.target.closest('[data-export]')) {
-      try { const blob = new Blob([JSON.stringify(await accountApi.exportData(), null, 2)], { type: 'application/json' }), link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `betmaster-mes-donnees-${new Date().toISOString().slice(0, 10)}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 2000); toast('Export téléchargé'); } catch (error) { toast(error.message); }
+      try { const blob = new Blob([JSON.stringify(await accountApi.exportData(), null, 2)], { type: 'application/json' }), link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `betoptimum-mes-donnees-${new Date().toISOString().slice(0, 10)}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 2000); toast('Export téléchargé'); } catch (error) { toast(error.message); }
       return;
     }
     deps.onClick?.(event, { data, show: () => show(target) });

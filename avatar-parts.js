@@ -1,4 +1,4 @@
-// Personnage 3D de BetMaster (BET-49) : construction du footballeur, de la tête aux crampons, à partir d'une configuration d'avatar.
+// Personnage 3D de BetOptimum (BET-49) : construction du footballeur, de la tête aux crampons, à partir d'une configuration d'avatar.
 // Modélisation procédurale (aucun fichier à télécharger) : grosse tête expressive, yeux brillants, cheveux en mèches, maillot en maille, matériaux PBR.
 // Le module reçoit l'espace de noms Three.js en paramètre : il n'importe rien et ne touche pas au DOM hors <canvas>. Le graphiste pourra remplacer ce personnage par un .glb (BET-47) sans changer la configuration.
 import { SKINS, EYES, HAIR_COLORS, BOOTS, KITS, sanitizeAvatar } from './avatar-config.js';

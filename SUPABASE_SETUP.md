@@ -1,4 +1,4 @@
-# Activer les comptes BetMaster
+# Activer les comptes BetOptimum
 
 La synchronisation utilise l'offre gratuite de Supabase. Les données de chaque compte sont isolées par les règles RLS de la base.
 

@@ -459,7 +459,7 @@ dialog[open]{animation:pop .25s ease-out}
 }
 /* Flèches de défilement : masquées seulement sur écran tactile, où l'on fait glisser du doigt */
 @media(max-width:700px) and (hover:none){.scroll-btn{display:none}}
-@media(max-width:340px){.hero-actions{grid-template-columns:1fr}.markets{grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-totals strong{font-size:24px}}
+@media(max-width:340px){.topbar{gap:6px;padding-inline:12px}.topbar-actions{gap:6px}.hero-actions{grid-template-columns:1fr}.markets{grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-totals strong{font-size:24px}}
 @media(min-width:701px) and (max-width:1100px){
   .topbar{gap:10px;padding-inline:18px}.tabs{justify-content:center;gap:3px}.tab-button{flex:0 0 44px;justify-content:center;padding:0;font-size:0}.tab-button svg{width:20px;height:20px}.topbar-bankroll,.account-button b{display:none}.account-button{padding:0 6px}.topbar-actions{gap:6px}.brand-name{font-size:21px}
 }
@@ -478,7 +478,7 @@ dialog[open]{animation:pop .25s ease-out}
 }
 @media(max-width:390px){.stats-grid,.prediction-kpi-grid{grid-template-columns:1fr}.stats-grid .stat-main{grid-column:auto}.mobile-nav button{font-size:7px}.mobile-nav{gap:0}.profile-card{grid-template-columns:70px minmax(0,1fr)}.avatar-3d{width:68px;height:68px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-/* BetMaster Club (lots 8 à 10) */
+/* BetOptimum Club (lots 8 à 10) */
 .status.void{background:var(--surface-3);color:var(--muted)}.cert-tag{color:var(--accent-text);font-weight:800}.cert-tag.legacy{color:var(--muted);font-weight:700}
 .league-toggle{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding:10px 12px;border:1px solid var(--ticket-line);border-radius:var(--radius-sm);font-size:13px;cursor:pointer}.league-toggle[hidden]{display:none}.league-toggle input{margin-top:3px;accent-color:var(--accent)}.league-toggle b{display:block}.league-toggle small{color:var(--ticket-muted)}.league-toggle input:disabled+span{opacity:.7}
 /* Défi du jour */
