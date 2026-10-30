@@ -26,6 +26,7 @@ export function mergeCachedOffers(currentOffers = [], previousOffers = [], marke
       if (!offer) { offer = { name: previous.name }; offers.push(offer); }
       offer[market] = cached;
       offer[`${market}Cached`] = true;
+      offer[`${market}UpdatedAt`] = previous[`${market}UpdatedAt`] ?? null;
     }
   }
   return offers;
