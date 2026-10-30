@@ -1,0 +1,128 @@
+{
+  "snapshots": 280,
+  "total": 177,
+  "dateRange": [
+    "2026-10-21",
+    "2026-10-29"
+  ],
+  "testStart": "2026-10-27",
+  "validation": [
+    {
+      "name": "Poisson",
+      "options": {},
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.651862398823003,
+        "logLoss": 1.074555330280047,
+        "brierOver": 0.24889464498604985,
+        "brierBtts": 0.2566201859493968,
+        "meanBrier": 0.240934099069927
+      }
+    },
+    {
+      "name": "Poisson régularisé 25 %",
+      "options": {
+        "shrink": 0.25
+      },
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.649121646583218,
+        "logLoss": 1.0713982550702854,
+        "brierOver": 0.24592571264499485,
+        "brierBtts": 0.25353800818572103,
+        "meanBrier": 0.2386125343417073
+      }
+    },
+    {
+      "name": "Poisson régularisé 50 %",
+      "options": {
+        "shrink": 0.5
+      },
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.6482689442510343,
+        "logLoss": 1.070831857915507,
+        "brierOver": 0.24477136837042307,
+        "brierBtts": 0.25097052836783945,
+        "meanBrier": 0.2372771816073135
+      }
+    },
+    {
+      "name": "Dixon-Coles -0,10",
+      "options": {
+        "rho": -0.1
+      },
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.6512467120254207,
+        "logLoss": 1.0744300657470218,
+        "brierOver": 0.24889464498604985,
+        "brierBtts": 0.2577127670397357,
+        "meanBrier": 0.2412298831225308
+      }
+    },
+    {
+      "name": "Poisson + marché 50 %",
+      "options": {
+        "marketWeight": 0.5
+      },
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.625720251173911,
+        "logLoss": 1.03935094153467,
+        "brierOver": 0.24795201316502483,
+        "brierBtts": 0.2567047819173794,
+        "meanBrier": 0.2377434040467915
+      }
+    },
+    {
+      "name": "Régularisé + Dixon-Coles + marché",
+      "options": {
+        "shrink": 0.25,
+        "rho": -0.1,
+        "marketWeight": 0.5
+      },
+      "metrics": {
+        "count": 103,
+        "brier1N2": 0.6234362913369724,
+        "logLoss": 1.0374976292872735,
+        "brierOver": 0.24506797421118026,
+        "brierBtts": 0.25435075767919935,
+        "meanBrier": 0.2357436096675679
+      }
+    }
+  ],
+  "selected": "Régularisé + Dixon-Coles + marché",
+  "test": {
+    "baseline": {
+      "count": 74,
+      "brier1N2": 0.684945154885739,
+      "logLoss": 1.1206397215716684,
+      "brierOver": 0.24376498985071268,
+      "brierBtts": 0.23806612132494084,
+      "meanBrier": 0.2367153876014111
+    },
+    "candidate": {
+      "count": 74,
+      "brier1N2": 0.6902346482566202,
+      "logLoss": 1.1335829048717523,
+      "brierOver": 0.24519031081554377,
+      "brierBtts": 0.24020733716810685,
+      "meanBrier": 0.2384919546897302
+    }
+  },
+  "deltaMeanBrier": 0.0017765670883191087,
+  "dayBootstrapCI95": [
+    -0.00017496097933370895,
+    0.0034755961682967017
+  ],
+  "testDays": 3,
+  "activation": false,
+  "limitations": [
+    "Historique court du site ; aucune preuve de généralisation",
+    "Choix sur validation uniquement, test séparé par dates",
+    "Snapshots avant-match ; cotes synthétiques exclues du consensus",
+    "Bootstrap par journée ; incertitude peu fiable avec si peu de journées",
+    "Aucun rendement estimé à partir de cotes synthétiques"
+  ]
+}
