@@ -640,3 +640,7 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 .shop-thumb.shop-object{object-fit:contain;height:116px;padding:8px;background:radial-gradient(ellipse at top,var(--surface-3),var(--surface-2))}
 
 .notification-channel{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}.notification-channel label{min-width:120px}.notification-channel span{font-size:12px;color:var(--muted)}.notification-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}.notification-fields label{display:grid;gap:6px}.notification-fields textarea{width:100%;min-height:96px;resize:vertical;background:var(--surface-2);color:var(--text);border:1px solid var(--line-strong);border-radius:8px;padding:10px}[data-unsubscribe]{margin-top:24px}
+
+/* BET-110 : lecture immédiate, y compris avant IntersectionObserver. */
+.intro-screen{display:none!important}.match-card,.match-list.reveal .match-card{opacity:1!important;transform:none!important;animation-delay:0s!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
