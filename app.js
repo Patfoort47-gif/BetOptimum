@@ -144,6 +144,7 @@ async function openProfile(target){
 const joinTeams=()=>{const seen=new Map();for(const match of allMatches())for(const side of ['home','away']){const id=teamIdOf(match,side),logo=safeLogo(match[`${side}Logo`]);if(id&&logo&&!seen.has(id))seen.set(id,{id,name:match[side],logo})}return[...seen.values()].sort((a,b)=>a.name.localeCompare(b.name,'fr'))};
 async function openJoin(mode='login'){
   if(!accountApi){toast('Le service de comptes est indisponible ou en cours de chargement. Les analyses et le bilan restent accessibles. Réessayez dans un instant.');return}
+  if(accountApi.configured===false){$('#club-unavailable').showModal();return}
   if(!join){const module=await import('./join.js?v=join-4');join=module.initJoin({auth:accountApi.auth,getTeams:joinTeams,getLeagues:()=>Object.keys(LEAGUES),avatarStudio:true,toast,onDone:event=>{toast(event==='signup'?'Bienvenue dans le club : votre profil est créé':event==='recovery'?'Mot de passe mis à jour':'Connexion réussie · données synchronisées');renderAccountMenu()}})}
   $('#join-config').hidden=accountApi.configured!==false;join.open(mode)
 }
