@@ -76,3 +76,7 @@ BET-65 nécessite séparément un quota The Odds API disponible ; une migration 
 Pour les tests d’alertes annulés après sauvegarde des préférences, appliquer `supabase-v24-schema.sql` après V23 (voir `NOTIFICATIONS_SETUP.md`). Aucun secret à changer ni envoi automatique.
 
 Newsletter facultative : appliquer `supabase-v25-schema.sql` après V23 et avant publication du formulaire (voir `NEWSLETTER_SETUP.md`). L’enregistrement des inscriptions ne nécessite aucun secret ni redéploiement Edge. Les campagnes restent à définir.
+
+## Briefings email (BET-98)
+
+Après V24, appliquer `supabase-v26-schema.sql`, puis redéployer la fonction `notifications` et publier le front. V25 reste indépendante. Les deux abonnements sont désactivés par défaut. Ne pas réappliquer V24 après V26. Voir `NOTIFICATIONS_SETUP.md` pour la recette email et les calculs.

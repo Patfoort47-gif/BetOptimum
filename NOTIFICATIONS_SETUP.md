@@ -80,3 +80,28 @@ Avant V24, chaque enregistrement des préférences annulait tous les envois en a
 Après application, cliquer explicitement sur Tester pour redemander un test annulé sans tentative d’envoi, même dans la même heure. Aucune reprise automatique. Les demandes déjà en attente, tentées, envoyées ou au résultat incertain ne sont pas rejouées. Actualiser relit seulement l’historique.
 
 Validation locale PostgreSQL 16 : V24 appliquée deux fois ; conservation du test après sauvegarde, refus du doublon en attente, reprise sur clic d’un test annulé sans tentative, refus de reprise après tentative et annulation lors du retrait du consentement.
+
+## Briefings email « Le vestiaire du jour » (BET-98, V26)
+
+Ces emails sont indépendants de la newsletter de V25 et des alertes de value. Aucun utilisateur existant n’est abonné automatiquement. V26 n’active ni canal ni consentement.
+
+1. Appliquer `supabase-v26-schema.sql` **après V24** (V25 peut être appliquée indépendamment). Ne pas réappliquer V24 après V26 : V26 enveloppe sa fonction de sauvegarde et préserve ses règles de test. Le script V26 est réexécutable.
+2. Redéployer la fonction `notifications` depuis la racine. Aucun nouveau fournisseur ni secret : les mêmes configuration Resend, clé de chiffrement et worker sont utilisés. Publier le front après la migration ; sur une ancienne base, les nouveaux contrôles restent masqués.
+3. Depuis Mon profil > Mes alertes, associer Email, cocher ce canal et le consentement, puis sélectionner explicitement « Mon briefing quotidien » et/ou « Les jours de match de mes favoris ». Enregistrer. Le consentement newsletter ne vaut pas consentement aux briefings.
+4. Quotidien : 08:00 par défaut, modifiable dans le fuseau choisi. Favoris : 120 minutes avant le premier match du jour par défaut (15 à 720). Les équipes et compétitions sont celles des préférences d’alertes ; utiliser « Reprendre mes favoris du site » si nécessaire.
+5. Le worker existant passe environ toutes les cinq minutes, sans garantie d’heure exacte. Il fusionne les deux types s’ils sont dus au même passage. Une réservation transactionnelle par propriétaire/date locale/type empêche un deuxième envoi, même après modification des préférences. Un briefing annulé n’est pas rejoué le même jour. Une modification des horaires ne renvoie donc pas le briefing du jour.
+6. Les plages silencieuses et le plafond par heure/canal restent appliqués par la même file SQL. Un briefing favoris expire au premier coup d’envoi ; un quotidien expire au changement de date locale. Une heure quotidienne absente au printemps est reportée au premier instant suivant ; une heure répétée utilise sa première occurrence. Les matchs commencés sont retirés lors de la composition, les matchs annulés ou terminés exclus.
+
+### Contenu et calculs
+
+Le HTML à tableaux et CSS intégré et sa version texte sont construits par `notification-email.js`. Les informations essentielles n’utilisent ni image, ni police externe, ni JavaScript. Affiche vedette, jusqu’à trois pistes sur des rencontres distinctes selon les seuils personnels, favoris et fil chronologique. Les conseils exigent un horodatage bookmaker vérifiable de moins de 24 h (cache compris) et un flux de matchs frais : des cotes sans date ne produisent pas de conseil. Le programme peut rester visible sans conseil.
+
+Juste avant l’envoi, le worker lit un snapshot privé et cohérent de `player_accounts` et des paris `pending` via un RPC réservé au service. Aucun solde ni sélection privée n’est stocké dans le payload de la file ni dans les logs. Il vérifie aussi que la destination associée correspond encore à l’email confirmé actuel du compte. Après un changement d’adresse, réassocier le canal ; l’ancienne destination est refusée pour les briefings.
+
+Les mises du périmètre comptent chaque ticket simple ou combiné une fois, seulement si toutes ses sélections sont sur les affiches présentées. Retour brut = mise × cote enregistrée ; bénéfice net = retour brut - mise. Si des résultats 1N2 se contredisent, aucun total « tous gagnants » n’est affiché : les scénarios restent séparés. Les combinés comprenant d’autres affiches sont listés à part. Les paris systèmes ou marchés non reconnus sont signalés et exclus des projections. Bankroll indisponible et bankroll nulle sont distinguées. Il n’y a ni mise hypothétique ni placement automatique.
+
+### Aperçus et recette avant production
+
+`node scripts/preview-notification-emails.mjs` génère deux maquettes HTML et texte **fictives** dans `work/email-previews`. Les exemples versionnés se trouvent dans `examples/notification-emails/`. Le script ne contacte aucun service et n’envoie aucun email.
+
+Validation locale : tests métier Node, migration réexécutable et droits SQL sur PostgreSQL embarqué, compilation TypeScript Edge, rendu Chromium aux largeurs 320/390/1440. Cette recette ne remplace pas les moteurs de rendu des fournisseurs : avant activation de production, envoyer depuis un compte de test consentant vers Gmail, Outlook et Apple Mail, vérifier aussi leurs modes sombre et images bloquées, les liens de fiche/profil, le désabonnement et le statut Resend. Les bords arrondis peuvent varier selon Outlook ; toute l’information reste en tableaux et texte.

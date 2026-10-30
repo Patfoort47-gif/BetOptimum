@@ -1,5 +1,5 @@
 // API privée des préférences : diagnostics traduits, jamais de corps d’erreur brut dans l’interface.
-const BUSINESS = { NOTIFICATION_LIMIT:'Les limites de votre formule sont dépassées.', NOTIFICATION_ENDPOINT:'Associez chaque canal sélectionné avant d’activer les alertes.', NOTIFICATION_INVALID:'Vérifiez les favoris et le fuseau horaire.' };
+const BUSINESS = { BRIEFING_EMAIL_REQUIRED:'Pour recevoir les briefings, associez et cochez Email puis acceptez les envois, ou décochez les deux briefings.', NOTIFICATION_LIMIT:'Les limites de votre formule sont dépassées.', NOTIFICATION_ENDPOINT:'Associez chaque canal sélectionné avant d’activer les alertes.', NOTIFICATION_INVALID:'Vérifiez les favoris et le fuseau horaire.' };
 function translated(error, source) {
   const code=String(error?.code??''), message=String(error?.message??'');
   if(BUSINESS[message])return new Error(BUSINESS[message]);
