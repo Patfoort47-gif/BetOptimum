@@ -128,7 +128,8 @@ function toast(message){const t=$('#toast');t.textContent=message;t.classList.ad
 // Boutique (shop-page.js, chargé à la demande) : #boutique.
 let shopPage=null;
 async function openShop(){
-  if(!accountApi)return;
+  if(!accountApi){$('#shop-page').innerHTML='<p class="empty">Le service du Club se charge. Les analyses restent accessibles.</p>';return}
+  if(accountApi.configured===false){$('#shop-page').innerHTML='<p class="empty">Les objets du Club sont indisponibles : le service n’est pas configuré.</p>';return}
   if(!shopPage){const module=await import('./shop-page.js?v=boutique-2');shopPage=module.initShopPage({api:accountApi.shop,html,toast,openJoin,avatar:{get:()=>state.profile.avatar2,context:()=>accountApi.avatarContext(),save:(config,blobs)=>accountApi.saveAvatar(config,blobs),saved:saved=>{state.profile={...state.profile,avatar2:saved};persist();renderAccountMenu();renderCommunity();accountApi.reloadCommunity()}},openStudio:()=>setActiveTab('profile',true,{self:true,tab:'avatar'}),parisToday:()=>parisDate(Date.now()),getState:()=>({authenticated:accountAuthenticated,division:state.league?.echelon==null?null:divisionIndex(state.league.echelon),bankroll:state.bankroll,userId:state.league?.me??null,refresh:()=>{accountApi.refreshServer()}})})}
   shopPage.load()
 }
@@ -407,3 +408,5 @@ try{const cached=JSON.parse(localStorage.getItem(FIXTURES_CACHE_KEY)||'null');if
 if(typeof window!=='undefined'){try{if(localStorage.getItem('betoptimum-discovery-dismissed'))$('#discovery').hidden=true}catch{}$('#dismiss-discovery').addEventListener('click',()=>{$('#discovery').hidden=true;try{localStorage.setItem('betoptimum-discovery-dismissed','1')}catch{}})}
 
 if(typeof window!=='undefined'){document.addEventListener('click',event=>{const button=event.target.closest('[data-help]');if(!button)return;const dialog=$('#help-dialog');dialog.showModal();const target=document.getElementById('help-'+button.dataset.help);target?.scrollIntoView({block:'nearest'});target?.focus()})}
+
+if(typeof window!=='undefined'){document.addEventListener('click',event=>{const button=event.target.closest('[data-personal]');if(!button)return;if(!accountAuthenticated){openJoin('login');return}setActiveTab('profile',true,{self:true,...(button.dataset.personal==='avatar'?{tab:'avatar'}:{})})})}
