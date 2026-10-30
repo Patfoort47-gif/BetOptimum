@@ -3,7 +3,7 @@ begin;
 alter table public.notification_preferences
  add column if not exists daily_briefing boolean not null default false,
  add column if not exists favorite_briefing boolean not null default false,
- add column if not exists briefing_minute int not null default 480 check(briefing_minute between 0 and 1439),
+ add column if not exists briefing_minute int not null default 900 check(briefing_minute between 0 and 1439),
  add column if not exists favorite_lead_minutes int not null default 120 check(favorite_lead_minutes between 15 and 720);
 -- Une réservation par compte / date locale / type, même après fusion ou annulation.
 create table if not exists public.notification_briefing_runs (
@@ -30,7 +30,7 @@ begin
  if (daily or favorites) and (not coalesce((p->>'enabled')::boolean,false) or not coalesce(p->'channels' ? 'email',false)) then raise exception 'BRIEFING_EMAIL_REQUIRED';end if;
  perform save_notification_preferences_before_briefings(p);
  update notification_preferences set daily_briefing=daily,favorite_briefing=favorites,
- briefing_minute=coalesce((p->>'briefing_minute')::int,480),favorite_lead_minutes=coalesce((p->>'favorite_lead_minutes')::int,120)
+ briefing_minute=coalesce((p->>'briefing_minute')::int,briefing_minute,900),favorite_lead_minutes=coalesce((p->>'favorite_lead_minutes')::int,120)
  where user_id=auth.uid();
  return my_notifications();
 end $$;
