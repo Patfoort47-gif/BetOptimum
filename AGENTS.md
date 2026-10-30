@@ -6,7 +6,7 @@ Consignes pour Codex (et tout agent qui lit `AGENTS.md`) dans ce dépôt. Le pro
 
 ## Projet
 
-BetOptimum / BotPari : application web **statique** (HTML + JS vanilla en module ES, sans framework, sans build, sans dépendance npm) d'aide à la décision pour des paris sportifs **virtuels**. Hébergée sur GitHub Pages. Toute l'interface et les textes sont en français.
+BetOptimum : application web **statique** (HTML + JS vanilla en module ES, sans framework, sans build, sans dépendance npm) d'aide à la décision pour des paris sportifs **virtuels**. Hébergée sur GitHub Pages. Toute l'interface et les textes sont en français.
 
 ## Commandes
 
