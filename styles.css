@@ -660,3 +660,4 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 @media(max-width:700px){.mobile-nav{grid-template-columns:repeat(7,minmax(0,1fr));border-radius:24px}.mobile-nav button{min-width:0;min-height:52px;font-size:10px;line-height:1.15}.mobile-nav button svg{width:19px;height:19px}.hero-main .hero-pitch{display:none}}
 /* Les textes d’état et la navigation ne disparaissent pas pendant une animation. */
 .topbar,.hero-score{animation:none!important}.hero-score-parts em{opacity:1;color:var(--on-accent)}
+.stats-grid,.workspace,#bankroll{animation:none!important}
