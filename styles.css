@@ -644,3 +644,5 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 /* BET-110 : lecture immédiate, y compris avant IntersectionObserver. */
 .intro-screen{display:none!important}.match-card,.match-list.reveal .match-card{opacity:1!important;transform:none!important;animation-delay:0s!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.match-secondary{padding:12px}.match-secondary summary{cursor:pointer;min-height:24px;color:var(--accent-text)}.match-card strong{overflow-wrap:anywhere}
