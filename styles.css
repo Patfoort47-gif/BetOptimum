@@ -658,3 +658,5 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 /* BET-108 : contraste des favoris, zones tactiles et navigation compacte. */
 .favorite-filter,.favorite-toggle.active{color:var(--accent-text)}.team-favorite.active{color:#674e00}.match-favorites{display:flex;justify-content:space-between}.match-favorites .team-favorite{position:static;min-width:32px;min-height:32px}.team strong{white-space:normal!important;overflow-wrap:anywhere}.match-card .confidence-button{min-height:32px}
 @media(max-width:700px){.mobile-nav{grid-template-columns:repeat(7,minmax(0,1fr));border-radius:24px}.mobile-nav button{min-width:0;min-height:52px;font-size:10px;line-height:1.15}.mobile-nav button svg{width:19px;height:19px}.hero-main .hero-pitch{display:none}}
+/* Les textes d’état et la navigation ne disparaissent pas pendant une animation. */
+.topbar,.hero-score{animation:none!important}.hero-score-parts em{opacity:1;color:var(--on-accent)}
