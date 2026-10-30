@@ -654,3 +654,7 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 /* BET-110 : le texte et les actions utiles sont utilisables au premier rendu. */
 .hero-main>:not(.hero-pitch){animation:none!important}.hero-pitch{animation:none;pointer-events:none}.intro-screen{pointer-events:none}
 @media(max-width:700px){.hero-main{padding:22px}.hero h1{font-size:clamp(30px,8vw,42px)}.hero-copy{margin:0}.hero-actions{grid-template-columns:1fr 1fr}.hero-actions #quick-combo{grid-column:1/-1;min-height:36px}.hero-main .section-subtitle{margin:0}.discovery{margin-bottom:0}}
+
+/* BET-108 : contraste des favoris, zones tactiles et navigation compacte. */
+.favorite-filter,.favorite-toggle.active{color:var(--accent-text)}.team-favorite.active{color:#674e00}.match-favorites{display:flex;justify-content:space-between}.match-favorites .team-favorite{position:static;min-width:32px;min-height:32px}.team strong{white-space:normal!important;overflow-wrap:anywhere}.match-card .confidence-button{min-height:32px}
+@media(max-width:700px){.mobile-nav{grid-template-columns:repeat(7,minmax(0,1fr));border-radius:24px}.mobile-nav button{min-width:0;min-height:52px;font-size:10px;line-height:1.15}.mobile-nav button svg{width:19px;height:19px}.hero-main .hero-pitch{display:none}}

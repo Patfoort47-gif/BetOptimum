@@ -105,21 +105,23 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       try { const result = await auth.signUp({ email: draft.email, password: draft.password, username: draft.nickname, newsletter: draft.newsletter, prefs, avatar: draft.avatar }); draft.password = ''; draft.newsletter = false; if (result.confirmed) await finish('signup'); else { busy = false; mode = 'check'; render({}); } } catch (error) { fail(error); }
     }
   });
-  root.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  const inertBefore=new Map();
+  const releaseBackground=()=>{for(const [el,before] of inertBefore)el.inert=before;inertBefore.clear()};
+  root.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close();return}if(event.key==='Tab'){const controls=[...root.querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),a[href],[tabindex="0"]')].filter(el=>el.getClientRects().length);const first=controls[0],last=controls.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}}if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)&&event.target.matches('[role=tab]')){event.preventDefault();const tabs=[...root.querySelectorAll('[role=tab]')],i=tabs.indexOf(event.target),next=tabs[event.key==='Home'?0:event.key==='End'?tabs.length-1:(i+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.click();root.querySelector('[data-mode="'+next.dataset.mode+'"]')?.focus()}});
   root.querySelector('.join-close').addEventListener('click', () => close());
 
   function open(nextMode = 'login') {
     lastFocus = document.activeElement; mode = nextMode; stepIndex = 0; busy = false;
-    root.hidden = false; document.body.classList.add('join-open'); render({});
+    root.hidden = false;for(const child of document.body.children){if(child!==root&&!child.contains(root)&&!inertBefore.has(child)){inertBefore.set(child,child.inert);child.inert=true}} document.body.classList.add('join-open'); render({});
     if (location.hash !== '#rejoindre' && typeof history !== 'undefined') history.pushState({ join: true }, '', '#rejoindre');
   }
   function close() {
     stopStudio();
-    if (root.hidden) return;
+    releaseBackground();if (root.hidden) return;
     root.hidden = true; document.body.classList.remove('join-open'); clearTimeout(nicknameTimer);
     if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', location.pathname + location.search);
     lastFocus?.focus?.();
   }
-  addEventListener('popstate', () => { if (location.hash !== '#rejoindre') { root.hidden = true; document.body.classList.remove('join-open'); } });
+  addEventListener('popstate', () => { if(location.hash!=='#rejoindre')close() });
   return { open, close, recovery: () => { open('recovery'); mode = 'recovery'; render({}); }, STYLE_LABELS, RISK_STYLES };
 }
