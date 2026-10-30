@@ -478,7 +478,7 @@ dialog[open]{animation:pop .25s ease-out}
 }
 @media(max-width:390px){.stats-grid,.prediction-kpi-grid{grid-template-columns:1fr}.stats-grid .stat-main{grid-column:auto}.mobile-nav button{font-size:7px}.mobile-nav{gap:0}.profile-card{grid-template-columns:70px minmax(0,1fr)}.avatar-3d{width:68px;height:68px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-/* BetMaster Club (lots 8 à 10) */
+/* BetOptimum Club (lots 8 à 10) */
 .status.void{background:var(--surface-3);color:var(--muted)}.cert-tag{color:var(--accent-text);font-weight:800}.cert-tag.legacy{color:var(--muted);font-weight:700}
 .league-toggle{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding:10px 12px;border:1px solid var(--ticket-line);border-radius:var(--radius-sm);font-size:13px;cursor:pointer}.league-toggle[hidden]{display:none}.league-toggle input{margin-top:3px;accent-color:var(--accent)}.league-toggle b{display:block}.league-toggle small{color:var(--ticket-muted)}.league-toggle input:disabled+span{opacity:.7}
 /* Défi du jour */

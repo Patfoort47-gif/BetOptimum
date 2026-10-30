@@ -1,4 +1,4 @@
-# Newsletter BetMaster (BET-69)
+# Newsletter BetOptimum (BET-69)
 
 ## Installation
 

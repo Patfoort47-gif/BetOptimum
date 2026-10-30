@@ -11,7 +11,7 @@ const settlements = [];
 
 for (const league of leagues) {
   for (const day of days) {
-    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${day}&limit=100`, { headers:{'User-Agent':'BetMaster-Results/1.0'} });
+    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${day}&limit=100`, { headers:{'User-Agent':'BetOptimum-Results/1.0'} });
     if (!response.ok) { console.warn(`${league}: HTTP ${response.status} (${day})`); continue; }
     const data = await response.json();
     for (const event of data.events ?? []) {

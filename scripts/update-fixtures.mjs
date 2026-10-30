@@ -142,7 +142,7 @@ const results = await Promise.allSettled(leagues.map(async ([slug, label, weight
   let leagueLogo = null, leagueLogoDark = null;
   for (const day of days) {
     const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${day}&limit=100`;
-    const response = await fetch(url, { headers: { 'User-Agent': 'BetMaster-Fixtures/1.0' } });
+    const response = await fetch(url, { headers: { 'User-Agent': 'BetOptimum-Fixtures/1.0' } });
     if (!response.ok) throw new Error(`${slug}: HTTP ${response.status} (${day})`);
     const data = await response.json();
     events.push(...(data.events ?? []));
