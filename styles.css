@@ -648,3 +648,5 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 .match-secondary{padding:12px}.match-secondary summary{cursor:pointer;min-height:24px;color:var(--accent-text)}.match-card strong{overflow-wrap:anywhere}
 
 .skip-link{position:fixed;top:8px;left:8px;z-index:10000;padding:12px;background:var(--panel,#fff);color:var(--accent-text);transform:translateY(-160%)}.skip-link:focus{transform:none}:focus-visible{outline:3px solid var(--accent-text);outline-offset:3px}.discovery{padding:16px;margin-bottom:16px}.discovery summary{cursor:pointer;min-height:24px}
+
+.help-inline{min-width:28px;min-height:28px;border:1px solid var(--line-strong);border-radius:50%;background:var(--surface);color:var(--accent-text);font-weight:700}.lexicon article:focus{outline:2px solid var(--accent-text);outline-offset:4px}
