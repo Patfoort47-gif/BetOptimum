@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {freshness} from './data-freshness.js';
+test('fraîcheur : dates absentes invalides futures et anciennes',()=>{const now=Date.parse('2026-10-30T12:00:00Z');for(const stamp of [null,'invalide','2026-10-31T12:00:00Z'])assert.equal(freshness(stamp,now).status,'unknown');assert.equal(freshness('2026-10-30T11:00:00Z',now).status,'fresh');assert.equal(freshness('2026-10-29T11:00:00Z',now).status,'stale');assert.match(freshness('2026-10-30T11:00:00Z',now).label,/Paris/)});

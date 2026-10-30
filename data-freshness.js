@@ -1,0 +1,2 @@
+// Horodatage de la source, jamais celui du téléchargement navigateur.
+export function freshness(timestamp,now=Date.now(),limitMinutes=780){const time=typeof timestamp==='string'?Date.parse(timestamp):NaN,age=(Number(now)-time)/60000;if(!Number.isFinite(age)||age<0)return{status:'unknown',label:'date inconnue'};const date=new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',dateStyle:'medium',timeStyle:'short'}).format(time);return{status:age>limitMinutes?'stale':'fresh',label:`${date} (Paris) · ${Math.floor(age/60)} h ${Math.floor(age%60)} min`}}
