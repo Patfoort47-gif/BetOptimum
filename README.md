@@ -1,4 +1,4 @@
-# BetOptimum / BotPari
+# BetOptimum
 
 > Pour activer les comptes et retrouver la même bankroll sur plusieurs appareils, suivez [le guide Supabase](SUPABASE_SETUP.md).
 
