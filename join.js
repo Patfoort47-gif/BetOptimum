@@ -7,7 +7,7 @@ const STYLE_COPY = { safe: ['Prudent', 'Des cotes basses et des pronos fiables']
 
 export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toast, onDone }) {
   const root = document.querySelector('#rejoindre'), content = root.querySelector('#join-content');
-  let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, nicknameState = '', nicknameTimer = null, resendAt = 0, teamQuery = '';
+  let returnUrl=null;let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, nicknameState = '', nicknameTimer = null, resendAt = 0, teamQuery = '';
   const steps = signupSteps(avatarStudio);
 
   const field = (id, label, input, hint = '', error = '') => `<div class="join-field"><label for="${id}">${label}</label>${input}${hint ? `<small id="${id}-hint">${hint}</small>` : ''}<small class="join-error" id="${id}-error" role="alert">${escape(error)}</small></div>`;
@@ -111,7 +111,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
   root.querySelector('.join-close').addEventListener('click', () => close());
 
   function open(nextMode = 'login') {
-    lastFocus = document.activeElement; mode = nextMode; stepIndex = 0; busy = false;
+    lastFocus = document.activeElement;returnUrl=location.pathname+location.search+(location.hash==='#rejoindre'?'':location.hash); mode = nextMode; stepIndex = 0; busy = false;
     root.hidden = false;for(const child of document.body.children){if(child!==root&&!child.contains(root)&&!inertBefore.has(child)){inertBefore.set(child,child.inert);child.inert=true}} document.body.classList.add('join-open'); render({});
     if (location.hash !== '#rejoindre' && typeof history !== 'undefined') history.pushState({ join: true }, '', '#rejoindre');
   }
@@ -119,7 +119,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
     stopStudio();
     releaseBackground();if (root.hidden) return;
     root.hidden = true; document.body.classList.remove('join-open'); clearTimeout(nicknameTimer);
-    if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', location.pathname + location.search);
+    if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', returnUrl||location.pathname + location.search);
     lastFocus?.focus?.();
   }
   addEventListener('popstate', () => { if(location.hash!=='#rejoindre')close() });
