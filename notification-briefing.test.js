@@ -85,3 +85,15 @@ test('email court : deux pistes, trois rendez-vous, sans projection financière 
  assert.equal((mail.text.match(/À analyser :/g)||[]).length,2);assert.ok(!mail.text.includes('retour brut'));assert.match(mail.text,/9 autre/);assert.match(mail.text,/0,00/);
  const stale=briefingEmail({...b,fresh:false},'https://example.com/');assert.ok(!stale.text.includes('À analyser :'));assert.match(stale.text,/aucun conseil publié/);
 });
+test('BET-125 : nouvelle heure future, aucun rattrapage et révision portée au worker',async()=>{
+ const p={...prefs,favorite_briefing:false,quiet_start:0,quiet_end:0,briefing_minute:1080,daily_revision:1,daily_not_before:'2026-10-30T15:00:00Z'};
+ assert.equal(planBriefing([],p,Date.parse('2026-10-30T16:59:00Z')),null);
+ const event=planBriefing([],p,Date.parse('2026-10-30T17:00:00Z'));assert.equal(event.daily_revision,1);assert.deepEqual(event.kinds,['daily']);
+ assert.equal(planBriefing([],{...p,briefing_minute:840,daily_not_before:'2026-10-30T23:00:00Z'},Date.parse('2026-10-30T15:01:00Z')),null);
+ assert.ok(planBriefing([],{...p,briefing_minute:840,daily_not_before:'2026-10-30T23:00:00Z'},Date.parse('2026-10-31T13:00:00Z')));
+ let reads=0;const db=async()=>{reads++;return {account:null,bets:[]}};
+ assert.equal(await prepareBriefing(db,'u',{...event,daily_revision:0},p,[],null,Date.parse('2026-10-30T17:00:00Z')),null);assert.equal(reads,0);
+ assert.ok(await prepareBriefing(db,'u',event,p,[],null,Date.parse('2026-10-30T17:00:00Z')));assert.equal(reads,1);
+ assert.equal(await prepareBriefing(db,'u',event,{...p,enabled:false},[],null,Date.parse('2026-10-30T17:00:00Z')),null);
+});
+test('BET-125 : un horaire déjà écoulé au changement d’heure attend le lendemain',()=>{const p={...prefs,favorite_briefing:false,quiet_start:0,quiet_end:0,briefing_minute:150,daily_revision:2,daily_not_before:'2026-10-25T01:15:00Z'};assert.equal(planBriefing([],p,Date.parse('2026-10-25T01:30:00Z')),null);assert.ok(planBriefing([],p,Date.parse('2026-10-26T01:30:00Z')));});

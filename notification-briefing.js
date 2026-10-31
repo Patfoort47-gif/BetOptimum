@@ -37,13 +37,13 @@ export function planBriefing(matches, prefs, now=Date.now()) {
   if(!prefs.enabled||!prefs.channels?.includes('email'))return null;
   const today=dayMatches(matches,prefs,now),fav=today.filter(m=>favorite(m,prefs)),kinds=[];
   const daily=dailyDue(now,prefs);
-  if(prefs.daily_briefing&&Number.isFinite(daily)&&nextAllowed(daily,prefs)<=now)kinds.push('daily');
+  if(prefs.daily_briefing&&(!prefs.daily_not_before||(daily>=Date.parse(prefs.daily_not_before)&&now>=Date.parse(prefs.daily_not_before)))&&Number.isFinite(daily)&&nextAllowed(daily,prefs)<=now)kinds.push('daily');
   if(prefs.favorite_briefing&&fav.length){const first=Date.parse(fav[0].kickoff),due=nextAllowed(first-Number(prefs.favorite_lead_minutes??120)*60000,prefs);if(now>=due&&now<first)kinds.push('favorites');}
   if(!kinds.length)return null;
   // Une file différée ne peut pas envoyer le briefing d’hier.
   let expiry=daySchedule(now,prefs).end;
   if(kinds.includes('favorites'))expiry=Math.min(expiry,Date.parse(fav[0].kickoff));
-  return {briefing:true,kinds,date:localDate(now,prefs.timezone),kickoff:new Date(expiry).toISOString()};
+  return {briefing:true,kinds,daily_revision:prefs.daily_revision??0,date:localDate(now,prefs.timezone),kickoff:new Date(expiry).toISOString()};
 }
 export function briefingPicks(matches,prefs,now=Date.now()) {
   const candidates=[];
