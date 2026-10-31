@@ -706,16 +706,21 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 
 @media(min-width:1600px){.topbar{gap:16px}.tab-button{padding-inline:10px;font-size:12px;letter-spacing:.02em}}
 
-/* BET-118 : même ligne et même centre vertical pour les trois zones. */
-@media(min-width:701px){
-  .topbar{grid-template-columns:max-content minmax(0,1fr) max-content;align-items:center}
-  .topbar>.brand,.topbar>.tabs,.topbar>.topbar-actions{grid-row:1;align-self:center}
-  .topbar>.brand{grid-column:1}.topbar>.tabs{grid-column:2;align-items:center;justify-content:center;flex-wrap:nowrap}.topbar>.topbar-actions{grid-column:3}
-}
-@media(min-width:701px) and (max-width:1599px){
+/* BET-118 : libellés visibles sur ordinateur, alignés avec les actions. */
+@media(min-width:1101px){
   :root{--header-offset:92px}
-  .topbar>.tabs{gap:4px}.tabs .tab-button,.tabs .tab-button.active{flex:0 0 44px;width:44px;height:44px;padding:0;font-size:0;letter-spacing:0}.tabs .tab-button svg{display:block;width:20px;height:20px}
+  .topbar{grid-template-columns:max-content minmax(0,1fr) max-content;align-items:center;gap:12px}
+  .topbar>.brand,.topbar>.tabs,.topbar>.topbar-actions{grid-row:1;align-self:center}
+  .topbar>.brand{grid-column:1}.topbar>.tabs{grid-column:2;align-items:center;justify-content:center;flex-wrap:nowrap;gap:2px}.topbar>.topbar-actions{grid-column:3}
+  .tabs .tab-button{flex:none;width:auto;padding:0 8px;font-size:12px;letter-spacing:0;gap:6px}
+  .tabs .tab-button svg{display:block;width:17px;height:17px}
   .match-strip{top:72px}
+}
+@media(min-width:1101px) and (max-width:1399px){
+  .topbar{gap:8px}.tabs .tab-button{padding-inline:5px;font-size:11px;gap:4px}.topbar-actions{gap:6px}.account-button{padding-right:10px}.account-button b{max-width:90px}.topbar-bankroll{min-width:114px;padding-inline:8px}
+}
+@media(min-width:701px) and (max-width:1100px){
+  .topbar>.tabs{gap:4px;flex-wrap:nowrap}.tabs .tab-button{flex:none;width:auto;padding:0 10px;font-size:12px;letter-spacing:0}.tabs .tab-button svg{display:block;width:17px;height:17px}
 }
 
 /* BET-115 : comparer des familles de marchés sans assimiler leurs probabilités. */
