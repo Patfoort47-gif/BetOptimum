@@ -80,3 +80,7 @@ Newsletter facultative : appliquer `supabase/migrations/supabase-v25-schema.sql`
 ## Briefings email (BET-98)
 
 Après V24, appliquer `supabase/migrations/supabase-v26-schema.sql`, puis redéployer la fonction `notifications` et publier le front. V25 reste indépendante. Les deux abonnements sont désactivés par défaut. Ne pas réappliquer V24 après V26. Voir `NOTIFICATIONS_SETUP.md` pour la recette email et les calculs.
+
+## Participation automatique (BET-128)
+
+Appliquer `supabase/migrations/supabase-v29-schema.sql` après V28 et avant de publier le nouveau Club. La migration ajoute les adhésions des comptes existants et installe les déclencheurs pour les nouveaux comptes et les compétitions gratuites ouvertes. Elle conserve les dates d’adhésion existantes, points et historiques sans ajouter de pronostics rétroactifs. Les ligues premium et privées restent inchangées.
