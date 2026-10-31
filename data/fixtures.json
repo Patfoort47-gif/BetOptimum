@@ -34,7 +34,7 @@
     "secondaryOddsMatches": 0,
     "statsMatches": 100,
     "oddsMatches": 6,
-    "settlements": 147
+    "settlements": 150
   },
   "settlements": [
     {
@@ -179,6 +179,33 @@
       "away": "AS Roma",
       "homeScore": 2,
       "awayScore": 5,
+      "completed": true
+    },
+    {
+      "id": "espn-401878761",
+      "date": "2026-10-31",
+      "home": "Tottenham Hotspur",
+      "away": "Crystal Palace",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401882825",
+      "date": "2026-10-31",
+      "home": "Real Betis",
+      "away": "Málaga",
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401884754",
+      "date": "2026-10-31",
+      "home": "Bayern Munich",
+      "away": "Borussia Dortmund",
+      "homeScore": 2,
+      "awayScore": 2,
       "completed": true
     },
     {
@@ -7092,12 +7119,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
       "priority": 92,
       "featured": true,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 1,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 2,
       "homeGoals": 2.43,
       "awayGoals": 1.15,
       "odds": {
@@ -7884,11 +7911,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
       "priority": 34,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 1,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.89,
       "awayGoals": 1,
@@ -8148,12 +8175,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/99.png",
       "priority": 33,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 2,
-      "awayScore": 0,
+      "awayScore": 1,
       "homeGoals": 2.16,
       "awayGoals": 1.23,
       "odds": {
@@ -21542,5 +21569,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-31T19:05:46.866Z"
+  "scoresUpdatedAt": "2026-10-31T19:53:04.432Z"
 }

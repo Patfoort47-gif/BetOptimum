@@ -192,6 +192,42 @@
     "score": "2 : 5"
   },
   {
+    "id": "espn-401884754",
+    "date": "2026-10-31",
+    "league": "Bundesliga",
+    "match": "Bayern Munich – Borussia Dortmund",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.49,
+    "probability": 0.6936962524316943,
+    "status": "won",
+    "score": "2 : 2"
+  },
+  {
+    "id": "espn-401878761",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "Tottenham Hotspur – Crystal Palace",
+    "label": "Tottenham Hotspur",
+    "key": "home",
+    "odd": 2.38,
+    "probability": 0.58185111352724,
+    "status": "won",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401882825",
+    "date": "2026-10-31",
+    "league": "La Liga",
+    "match": "Real Betis – Málaga",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.6583271655120889,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",
