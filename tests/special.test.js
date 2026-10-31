@@ -64,9 +64,9 @@ test('les titres de fin de saison : champion avec 60 % des journées, paliers To
   assert.deepEqual(titles.filter(t=>t.kind==='champion').map(t=>t.user_id),['b']);assert.ok(titles.some(t=>t.user_id==='a'&&t.kind==='top1'));assert.equal(titles.some(t=>t.kind==='champion'&&t.user_id==='a'),false);assert.equal(E.leagueSeasonLabel({season_start:'2026-08-01',season_end:'2027-06-30'}),'2026-27');
 });
 
-test('grille : même plafond versionné et annulations neutres pour le ROI',()=>{
+test('grille : même plafond pour tout l’historique et annulations neutres pour le ROI',()=>{
   const picks=[{id:1,match_ids:['a'],key:'home',odd:8,scoring_version:1},{id:2,match_ids:['a'],key:'home',odd:8,scoring_version:2}];
-  assert.deepEqual(E.planGridSettlements(picks,[{id:'a',completed:true,homeScore:1,awayScore:0}]).map(p=>p.points),[70,40]);
+  assert.deepEqual(E.planGridSettlements(picks,[{id:'a',completed:true,homeScore:1,awayScore:0}]).map(p=>p.points),[40,40]);
   const members=[{user_id:'a'}],won={user_id:'a',points:10,status:'won'};
   assert.equal(S.specialStandings([won,{user_id:'a',points:0,status:'void'}],members)[0].roi,100);
 });
