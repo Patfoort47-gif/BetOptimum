@@ -1,4 +1,4 @@
-// BET-131 : recette PostgreSQL isolée avec PGlite installé hors du projet.
+// BET-132 : recette PostgreSQL isolée avec PGlite installé hors du projet.
 // PGLITE_MODULE=/tmp/bet-ranking-tools/node_modules/@electric-sql/pglite/dist/index.js node scripts/check-ranking-sql.mjs
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -8,7 +8,7 @@ import {computeStandings} from '../league.js';
 const {PGlite}=await import(pathToFileURL(process.env.PGLITE_MODULE).href),db=new PGlite();
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 const q=async(sql,params=[])=> (await db.query(sql,params)).rows;
-const a='00000000-0000-0000-0000-000000000001',b='00000000-0000-0000-0000-000000000002';
+const a='00000000-0000-0000-0000-000000000001',b='00000000-0000-0000-0000-000000000002',c='00000000-0000-0000-0000-000000000003';
 try{
  await db.exec(await read('tests/fixtures/ranking-schema.sql'));
  const v9=await read('supabase/migrations/supabase-v9-schema.sql'),start=v9.indexOf('create or replace function public.special_try_pick('),end=v9.indexOf('end $$;',start)+7;
@@ -16,7 +16,7 @@ try{
  await q(`insert into profiles(user_id,nickname) values ($1,'A'),($2,'B')`,[a,b]);
  await q(`insert into player_league(user_id,joined_at) values ($1,now()-interval '2 days'),($2,now()-interval '30 days')`,[a,b]);
  await q(`insert into player_accounts values ($1,1000,now()),($2,1000,now())`,[a,b]);
- await q(`insert into bets(id,user_id,stake,odds) values ($1,$1,10,8)`,[a]);
+ await q(`insert into bets(id,user_id,stake,odds) values ($1,$1,10,8),($2,$1,10,8)`,[a,c]);
  await q(`insert into daily_picks(user_id,day,match_id,odd) values ($1,current_date,'legacy',8)`,[a]);
  const migration=await read('supabase/migrations/supabase-v30-schema.sql');
  await db.exec(migration);
@@ -38,16 +38,12 @@ try{
  const grid=(await q("select id from special_picks where source='grid'"))[0];
  await q('select settle_special_pick($1,\'won\',999999)',[grid.id]);
  assert.equal(Number((await q('select points from special_picks where id=$1',[grid.id]))[0].points),40);
- for(const version of [1,2])for(const odds of [1,1.005,1.01,1.234,1.2345,1.9,4.9995,5,8,10,50])for(const status of ['won','lost','void']){
-   const sql=Number((await q('select league_score($1,$2,$3::smallint) as points',[status,odds,version]))[0].points);
-   assert.equal(sql,leaguePoints({status,odds,version}),`${status}, ${odds}, V${version}`);
- }
  // Les annulations sont retirées de la cote V2 sans dépendre de la mise.
  await q(`insert into fixtures(id,voided) values ('void-leg',true)`);
  assert.equal(Number((await q(`select league_ticket_odd('[{"matchId":"played","odd":2.35},{"matchId":"void-leg","odd":8}]',18.8) as odd`))[0].odd),2.35);
  // Réexécuter la migration ne change ni versions ni points.
  await db.exec(migration);
- assert.deepEqual((await q('select scoring_version from bets order by user_id')).map(r=>r.scoring_version),[1,2]);
+ assert.deepEqual((await q('select scoring_version from bets order by id')).map(r=>r.scoring_version),[1,2,1]);
  assert.equal(Number((await q('select sum(points) as points from league_entries'))[0].points),220);
  // Rattrapage d'un ticket V2 et adhésion spéciale tardive : même version que le ticket.
  await q('delete from league_entries where bet_id=$1',[b]);
@@ -78,5 +74,44 @@ try{
  const priv=await q('select user_id,roi::float from private_league_ranking($1)',[a]);
  assert.deepEqual(priv.map(r=>[r.user_id,r.roi]),js.map(r=>[r.user_id,r.roi]));
  assert.equal((await q("select has_function_privilege('authenticated','settle_bet(uuid,text,numeric,numeric)','EXECUTE') as allowed"))[0].allowed,false);
- console.log('OK : migration V30, idempotence, 66 cas JS/SQL, règlements et versions, réparation, participation et classements cohérents.');
+
+ // V31 : reconstruire toutes les sources historiques et les snapshots archivés.
+ await db.exec('delete from league_entries');
+ await q(`insert into league_entries(bet_id,user_id,points,season,settled_at) values ($1,$1,70,football_season(),now()),($2,$2,40,football_season(),now())`,[a,b]);
+ await q(`insert into league_entries(daily_pick_id,user_id,points,season,settled_at) select id,user_id,points,football_season(),settled_at from daily_picks`);
+ await q(`update special_picks set league_id='archive',round_id='round-archive' where source='grid' or bet_id=$1`,[a]);
+ await q(`insert into standings(season,user_id,group_id,points,rank) values (football_season(),$1,1,140,2),(football_season(),$2,1,40,1),(to_char(now() at time zone 'Europe/Paris','YYYY-MM'),$1,1,140,2)`,[a,b]);
+ await q(`insert into season_results values (to_char(now() at time zone 'Europe/Paris','YYYY-MM'),$1,140,2,3,'PLACE')`,[a]);
+ await q(`insert into special_standings(league_id,scope,user_id,points) values ('archive','season',$1,110),('archive',to_char(now() at time zone 'Europe/Paris','YYYY-MM'),$1,110)`,[a]);
+ const financial=()=>q('select id,status,stake,payout,placed_at,settled_at from bets order by id'),balances=()=>q('select * from player_accounts order by user_id');
+ const beforeFinancial=await financial(),beforeBalances=await balances();
+ const uniformMigration=await read('supabase/migrations/supabase-v31-schema.sql');
+ await db.exec(uniformMigration);
+ assert.deepEqual(await financial(),beforeFinancial);
+ assert.deepEqual(await balances(),beforeBalances);
+ assert.deepEqual((await q('select scoring_version from bets order by id')).map(r=>r.scoring_version),[2,2,2]);
+ assert.equal((await q('select status from bets where id=$1',[c]))[0].status,'pending');
+ assert.deepEqual((await q('select points::float from league_entries order by id')).map(r=>r.points),[40,40,40,40]);
+ assert.deepEqual((await q('select points::float from daily_picks order by id')).map(r=>r.points),[40,40]);
+ assert.equal((await q('select points::float from standings where user_id=$1 and season=football_season()',[a]))[0].points,120);
+ assert.equal((await q('select rank from standings where user_id=$1 and season=football_season()',[a]))[0].rank,1);
+ assert.deepEqual(await q('select points::float,group_rank,to_echelon,outcome from season_results'),[{points:120,group_rank:1,to_echelon:3,outcome:'PLACE'}]);
+ assert.deepEqual((await q("select points::float from special_standings where league_id='archive' order by scope")).map(r=>r.points),[80,80]);
+ assert.deepEqual((await q('select user_id from public_ranking_alltime order by rank')).map(r=>r.user_id),[a,b]);
+ await q('update bets set scoring_version=1 where id=$1',[c]);
+ assert.equal((await q('select scoring_version from bets where id=$1',[c]))[0].scoring_version,2);
+ await db.exec(uniformMigration);
+ assert.equal((await q('select points::float from standings where user_id=$1 and season=football_season()',[a]))[0].points,120);
+ assert.deepEqual((await q('select rescore_league_history() as result'))[0].result,{daily_changed:0,general_tickets_changed:0,special_tickets_changed:0});
+ assert.deepEqual(await balances(),beforeBalances);
+ await q("select settle_bet($1,'won',80,999999)",[c]);
+ assert.equal((await q('select points::float from league_entries where bet_id=$1',[c]))[0].points,40);
+ await q(`insert into fixtures(id,kickoff,completed) values ('old-played',now()-interval '60 days',false)`);
+ assert.equal(Number((await q(`select league_ticket_odd_at('[{"matchId":"old-played","odd":8}]',8,now()-interval '59 days') as odd`))[0].odd),8);
+ assert.equal((await q("select has_function_privilege('authenticated','rescore_league_history()','EXECUTE') as allowed"))[0].allowed,false);
+ for(const version of [1,2])for(const odds of [1,1.005,1.01,1.234,1.2345,1.9,4.9995,5,8,10,50])for(const status of ['won','lost','void']){
+   const sql=Number((await q('select league_score($1,$2,$3::smallint) as points',[status,odds,version]))[0].points);
+   assert.equal(sql,leaguePoints({status,odds,version}),`${status}, ${odds}, V${version}`);
+ }
+ console.log('OK : migrations V30/V31, 66 cas JS/SQL, recalcul intégral idempotent, archives et rangs, paris en attente, bankrolls préservées.');
 }finally{await db.close()}

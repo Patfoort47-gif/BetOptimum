@@ -102,19 +102,19 @@ test('le départage commun suit points, ROI, victoires puis identifiant stable',
   assert.ok(tieBreak({...p,points:60},p)<0);assert.ok(tieBreak({...p,roi:9},p)<0);assert.ok(tieBreak({...p,wins:4},p)<0);assert.ok(tieBreak({...p,user_id:'a'},p)<0);
   assert.equal(tieBreak({...p,joinedAt:'2025-01-01',dailyGood:999},p),0);
 });
-test('le règlement conserve le barème à la prise du pari, indépendamment de la mise',()=>{
+test('le même barème couvre tous les paris existants, indépendamment de leur version et de leur mise',()=>{
   const bet={id:'versioned',bet_type:'single',stake:10,selections:[leg('a','home',8)]},results=[done('a',1,0)];
-  assert.equal(planSettlements([{...bet,scoring_version:1}],results)[0].points,70);
+  assert.equal(planSettlements([{...bet,scoring_version:1}],results)[0].points,40);
   assert.equal(planSettlements([{...bet,scoring_version:2}],results)[0].points,40);
   assert.equal(planSettlements([{...bet,scoring_version:2,stake:1000}],results)[0].points,40);
-  assert.equal(planSettlements([bet],results)[0].points,70);
+  assert.equal(planSettlements([bet],results)[0].points,40);
   const picks=[{id:1,match_id:'a',pick:'home',odd:8,scoring_version:1},{id:2,match_id:'a',pick:'home',odd:8,scoring_version:2}];
-  assert.deepEqual(planDailySettlements(picks,results).map(p=>p.points),[70,40]);
+  assert.deepEqual(planDailySettlements(picks,results).map(p=>p.points),[40,40]);
 });
 test('le barème ne crée pas de points non finis ou négatifs pour une cote invalide',()=>{
   for(const odds of [NaN,Infinity,-2,0,undefined,'invalid'])assert.equal(leaguePoints({status:'won',odds}),0);
   assert.equal(leaguePoints({status:'won',odds:1.234}),2.34);
-  assert.equal(leaguePoints({status:'won',odds:25,version:1}),90);
+  assert.equal(leaguePoints({status:'won',odds:25,version:1}),40);
 });
 // BET-54 · défi du jour
 const real=['home','draw','away'],fx=(id,league,home,away,kickoff,odds,extra={})=>({id,league,home,away,kickoff,odds:{home:odds[0],draw:odds[1],away:odds[2]},realOddsMarkets:real,oddsBookmakerCounts:{home:8},...extra}),W={'Ligue des champions':42,'Premier League':34,'Ligue 1':30};

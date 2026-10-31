@@ -40,8 +40,8 @@ export function planSettlements(bets, results) {
     const outcome = settleTicket({ betType: bet.bet_type, stake: bet.stake, items, systemLines: bet.system_lines ?? [] }, results);
     if (outcome.status === 'pending') continue;
     // Points de ligue : cote effective du ticket (une sélection annulée est retirée), 0 si remboursé. Le serveur ne les inscrit en ligue générale que si le ticket compte ; les ligues spéciales les utilisent aussi.
-    const odds = outcome.status === 'won' ? (bet.scoring_version === 2 ? items.filter(item => selectionResult(item, results).status === 'won').reduce((product, item) => product * Number(item.odd), 1) : outcome.payout / Number(bet.stake)) : 1;
-    plan.push({ id: bet.id, status: outcome.status, payout: outcome.payout, points: leaguePoints({ status: outcome.status, odds, version: bet.scoring_version ?? 1 }) });
+    const odds = outcome.status === 'won' ? items.filter(item => selectionResult(item, results).status === 'won').reduce((product, item) => product * Number(item.odd), 1) : 1;
+    plan.push({ id: bet.id, status: outcome.status, payout: outcome.payout, points: leaguePoints({ status: outcome.status, odds }) });
   }
   return plan;
 }
@@ -59,7 +59,7 @@ export function planDailySettlements(picks, results) {
   const plan = [];
   for (const pick of picks) {
     const { status } = selectionResult({ matchId: pick.match_id, key: pick.pick }, results);
-    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd), version: pick.scoring_version ?? 1 }) });
+    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd) }) });
   }
   return plan;
 }

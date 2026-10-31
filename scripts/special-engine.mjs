@@ -16,7 +16,7 @@ export function planGridSettlements(picks, results) {
   const plan = [];
   for (const pick of picks) {
     const { status } = selectionResult({ matchId: pick.match_ids[0], key: pick.key }, results);
-    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd), version: pick.scoring_version ?? 1 }) });
+    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd) }) });
   }
   return plan;
 }

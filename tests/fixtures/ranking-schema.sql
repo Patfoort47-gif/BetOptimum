@@ -20,3 +20,6 @@ create function football_season(p_date timestamptz default now()) returns text l
 create function is_private_member(p_league uuid) returns boolean language sql as $$ select true $$;
 -- Reproduire les types de la vue existante pour détecter les changements incompatibles.
 create view daily_participation as select user_id,''::text as season,0::bigint as played,0::bigint as good,0::bigint as offered from player_league;
+create table standings(season text,user_id uuid,group_id bigint,points numeric default 0,picks int default 0,wins int default 0,roi numeric default 0,form text default '',daily_good int default 0,qualified boolean default true,rank int default 1,prev_rank int,snapshot_date date,updated_at timestamptz default now(),primary key(season,user_id));
+create table season_results(season text,user_id uuid,points numeric,group_rank int,to_echelon int,outcome text,primary key(season,user_id));
+create table special_standings(league_id text,scope text,user_id uuid,points numeric default 0,picks int default 0,wins int default 0,roi numeric default 0,rank int default 1,played_rounds int default 0,updated_at timestamptz default now(),primary key(league_id,scope,user_id));
