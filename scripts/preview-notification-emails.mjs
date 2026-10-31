@@ -10,7 +10,7 @@ const fixtures=[['lille-paris','Lille','Paris','Ligue 1','19:00'],['lens-rennes'
 const bets=[{id:'demo-simple',status:'pending',bet_type:'single',stake:10,odds:2.4,selections:[{matchId:'lille-paris',key:'home',label:'Lille gagne'}]},{id:'demo-combine',status:'pending',bet_type:'combined',stake:15,odds:4.8,selections:[{matchId:'lens-rennes',key:'home',label:'Lens gagne'},{matchId:'lille-paris',key:'over',label:'Plus de 2,5 buts'}]}];
 for(const [name,kinds] of [['quotidien',['daily']],['favoris',['favorites']]]){
  const data=buildBriefing(fixtures,prefs,{date:'2027-04-10',kinds},{bankroll:1245.50},bets,now,'2027-04-10T05:55:00Z');
- const email=briefingEmail({...data,demo:true},'https://patfoort47-gif.github.io/prono_patfoort/');
+ const email=briefingEmail({...data,demo:true},'https://patfoort47-gif.github.io/BetOptimum/');
  await writeFile(resolve(output,`${name}.html`),email.html);await writeFile(resolve(output,`${name}.txt`),email.text);
 }
 console.log(`Deux maquettes fictives HTML et texte : ${output}`);

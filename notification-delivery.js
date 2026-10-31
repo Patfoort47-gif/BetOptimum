@@ -1,5 +1,5 @@
 // BET-69 : adaptateurs utilisés uniquement côté serveur. Aucune clé dans le navigateur.
-import { briefingEmail } from './notification-email.js';
+import { briefingEmail, alertEmail } from './notification-email.js';
 import { alertText } from './notification-model.js';
 export function validateDestination(channel, value) {
   if (channel === 'discord') return typeof value?.url === 'string' && /^https:\/\/discord\.com\/api\/webhooks\/[0-9]{10,25}\/[A-Za-z0-9_-]{20,200}$/.test(value.url);
@@ -40,7 +40,8 @@ export async function deliver(channel, target, event, id, env, fetcher=fetch, we
     } else if(channel==='discord') response=await fetcher(target.url+'?wait=true',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:text,allowed_mentions:{parse:[]}}),signal:AbortSignal.timeout(10000)});
     else {
       if(!env.RESEND_API_KEY||!env.EMAIL_FROM)return {status:'failed',error:'Email non configuré'};
-      response=await fetcher('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`bet-notification-${id}`},body:JSON.stringify({from:env.EMAIL_FROM,to:[target.email],...(briefing?briefing:{}),subject:briefing?briefing.subject:testing?'BetOptimum : test de vos alertes email':'BetOptimum : une alerte sur vos favoris',text:briefing?briefing.text:text+'\n\nGérer les alertes et se désabonner : '+new URL('#profil',site).href}),signal:AbortSignal.timeout(10000)});
+      const email=(briefing||alertEmail({title:testing?'Votre alerte de test':'Une alerte sur vos favoris',message:testing?'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.':`${event.home} - ${event.away}\n${event.label} · cote ${event.odd.toFixed(2)}\n${event.bookmaker} · cote réelle${event.cached?' en cache':''}\nProbabilité du modèle : ${Math.round(event.confidence*100)} %. Une estimation ne garantit aucun résultat.\n${new Date(event.kickoff).toLocaleString('fr-FR',{timeZone:'Europe/Paris'})} (Paris)`,url:link,siteUrl:env.SITE_URL,testing}));
+      response=await fetcher('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`bet-notification-${id}`},body:JSON.stringify({from:env.EMAIL_FROM,to:[target.email],...email,subject:briefing?briefing.subject:testing?'BetOptimum : test de vos alertes email':'BetOptimum : une alerte sur vos favoris',text:email.text}),signal:AbortSignal.timeout(10000)});
     }
     if(response.ok)return {status:'sent'};
     if([404,410].includes(response.status))return {status:'failed',error:'Destination expirée',expired:true};
