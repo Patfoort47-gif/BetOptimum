@@ -84,3 +84,6 @@ Après V24, appliquer `supabase/migrations/supabase-v26-schema.sql`, puis redép
 ## Participation automatique (BET-128)
 
 Appliquer `supabase/migrations/supabase-v29-schema.sql` après V28 et avant de publier le nouveau Club. La migration ajoute les adhésions des comptes existants et installe les déclencheurs pour les nouveaux comptes et les compétitions gratuites ouvertes. Elle conserve les dates d’adhésion existantes, points et historiques sans ajouter de pronostics rétroactifs. Les ligues premium et privées restent inchangées.
+
+### BET-131 · Barème équitable et classements cohérents
+Après V29, appliquer `supabase/migrations/supabase-v30-schema.sql` **avant de publier le nouveau moteur JS**, puis relancer la synchronisation des résultats. V2 : plafond de cote 5, mise de référence 10 ; les paris déjà enregistrés gardent V1, y compris ceux en attente. Le serveur fixe la version et recalcule les points à partir des cotes. Départage commun, ROI sans annulations et participation calculée depuis l'arrivée du joueur. Aucun résultat déjà enregistré ni aucune bankroll n'est réécrit. Voir `docs/LEAGUE_SCORING.md` pour les compromis, la recette isolée et l'ordre de déploiement.

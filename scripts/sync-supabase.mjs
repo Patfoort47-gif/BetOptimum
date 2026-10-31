@@ -40,8 +40,8 @@ export function planSettlements(bets, results) {
     const outcome = settleTicket({ betType: bet.bet_type, stake: bet.stake, items, systemLines: bet.system_lines ?? [] }, results);
     if (outcome.status === 'pending') continue;
     // Points de ligue : cote effective du ticket (une sélection annulée est retirée), 0 si remboursé. Le serveur ne les inscrit en ligue générale que si le ticket compte ; les ligues spéciales les utilisent aussi.
-    const odds = outcome.status === 'won' ? outcome.payout / Number(bet.stake) : 1;
-    plan.push({ id: bet.id, status: outcome.status, payout: outcome.payout, points: leaguePoints({ status: outcome.status, odds }) });
+    const odds = outcome.status === 'won' ? (bet.scoring_version === 2 ? items.filter(item => selectionResult(item, results).status === 'won').reduce((product, item) => product * Number(item.odd), 1) : outcome.payout / Number(bet.stake)) : 1;
+    plan.push({ id: bet.id, status: outcome.status, payout: outcome.payout, points: leaguePoints({ status: outcome.status, odds, version: bet.scoring_version ?? 1 }) });
   }
   return plan;
 }
@@ -59,12 +59,12 @@ export function planDailySettlements(picks, results) {
   const plan = [];
   for (const pick of picks) {
     const { status } = selectionResult({ matchId: pick.match_id, key: pick.pick }, results);
-    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd) }) });
+    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd), version: pick.scoring_version ?? 1 }) });
   }
   return plan;
 }
 export async function settleDailyPicks(admin, results) {
-  const pending = await admin.select('daily_picks', 'status=eq.pending&select=id,match_id,pick,odd&limit=2000');
+  const pending = await admin.select('daily_picks', 'status=eq.pending&select=id,match_id,pick,odd,scoring_version&limit=2000');
   let settled = 0;
   for (const decision of planDailySettlements(pending, results))
     if (await admin.rpc('settle_daily_pick', { p_id: decision.id, p_status: decision.status, p_points: decision.points })) settled++;
@@ -86,7 +86,7 @@ export function valueBetIds(decisions, bets, matches) {
   return ids;
 }
 export async function settleServerBets(admin, results, matches = []) {
-  const pending = await admin.select('bets', 'status=eq.pending&select=id,bet_type,stake,counts_general,selections,system_lines&order=placed_at.asc&limit=1000'), accepted = [];
+  const pending = await admin.select('bets', 'status=eq.pending&select=id,bet_type,stake,counts_general,selections,system_lines,scoring_version&order=placed_at.asc&limit=1000'), accepted = [];
   for (const decision of planSettlements(pending, results))
     if (await admin.rpc('settle_bet', { p_bet_id: decision.id, p_status: decision.status, p_payout: decision.payout, p_points: decision.points })) accepted.push(decision);
   const valueIds = valueBetIds(accepted, pending, matches);

@@ -57,7 +57,7 @@ export function planClosure({ season, players, standings, groups, groupMembers, 
   const standing = new Map(standings.map(row => [row.user_id, row])), label = new Map(groups.map(group => [group.id, group.label])), member = new Map(groupMembers.map(item => [item.user_id, item.group_id]));
   const input = players.map(player => {
     const row = standing.get(player.user_id);
-    return { id: player.user_id, echelon: player.echelon, group: label.get(member.get(player.user_id)) ?? '', points: Number(row?.points ?? 0), roi: Number(row?.roi ?? 0), dailyGood: Number(row?.daily_good ?? 0), joinedAt: player.joined_at, active: Number(row?.picks ?? 0) > 0, qualified: row?.qualified ?? true, protected: Boolean(player.protected) };
+    return { id: player.user_id, echelon: player.echelon, group: label.get(member.get(player.user_id)) ?? '', points: Number(row?.points ?? 0), roi: Number(row?.roi ?? 0), wins: Number(row?.wins ?? 0), dailyGood: Number(row?.daily_good ?? 0), joinedAt: player.joined_at, active: Number(row?.picks ?? 0) > 0, qualified: row?.qualified ?? true, protected: Boolean(player.protected) };
   });
   const result = closeSeason(input, { barrage: weekendPoints });
   const points = new Map(input.map(player => [player.id, player.points]));
@@ -69,7 +69,7 @@ export async function closeOneSeason(admin, season) {
   await recomputeStandings(admin, new Date(), season, lastDayOf(season));
   const [players, standings, groups, groupMembers] = await Promise.all([
     admin.selectAll('player_league', 'select=user_id,echelon,joined_at,protected'),
-    admin.selectAll('standings', `season=eq.${season}&select=user_id,points,roi,daily_good,picks,qualified`),
+    admin.selectAll('standings', `season=eq.${season}&select=user_id,points,roi,wins,daily_good,picks,qualified`),
     admin.selectAll('league_groups', `season=eq.${season}&select=id,label`),
     admin.selectAll('group_members', `season=eq.${season}&select=user_id,group_id`)
   ]);
