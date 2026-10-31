@@ -2,7 +2,7 @@
 
 ## Installation
 
-Appliquer `supabase-v25-schema.sql` dans Supabase > SQL Editor après V23, avant de publier l’interface d’inscription. Le fichier est réexécutable. V24 peut être appliquée indépendamment. Aucun secret à changer ni fonction Edge à redéployer pour enregistrer les inscriptions.
+Appliquer `supabase/migrations/supabase-v25-schema.sql` dans Supabase > SQL Editor après V23, avant de publier l’interface d’inscription. Le fichier est réexécutable. V24 peut être appliquée indépendamment. Aucun secret à changer ni fonction Edge à redéployer pour enregistrer les inscriptions.
 
 ## Comportement
 

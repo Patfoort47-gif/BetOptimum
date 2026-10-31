@@ -60,10 +60,13 @@ jobs:
         run: node scripts/configure-supabase.mjs --required
       - uses: actions/configure-pages@v5
         if: steps.schedule.outputs.run == 'true'
+      - name: Préparer les fichiers publics
+        if: steps.schedule.outputs.run == 'true'
+        run: node scripts/prepare-pages.mjs
       - uses: actions/upload-pages-artifact@v3
         if: steps.schedule.outputs.run == 'true'
         with:
-          path: .
+          path: _site
       - name: Déployer le calendrier actualisé
         id: deployment
         if: steps.schedule.outputs.run == 'true'

@@ -1,6 +1,6 @@
 // Avatar 3D v2 (BET-49) : configuration versionnée, validation stricte, migration des anciens avatars et verrous des options.
 // Fonctions pures, sans DOM ni Three.js : utilisées par avatar.js (scène), avatar-studio.js (interface) et account.js (enregistrement).
-// supabase-v17-schema.sql (fonction avatar_config_valid) applique les mêmes règles côté serveur : les garder identiques.
+// supabase/migrations/supabase-v17-schema.sql (fonction avatar_config_valid) applique les mêmes règles côté serveur : les garder identiques.
 import { CATALOG } from './shop.js';
 
 export const AVATAR_VERSION = 2;
