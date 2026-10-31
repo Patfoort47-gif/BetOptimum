@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=bet116-scrollbars">
+  <link rel="stylesheet" href="styles.css?v=bet117-close">
   <script>try{if(localStorage.getItem('betmaster-theme')!=='dark')document.documentElement.classList.add('light')}catch{document.documentElement.classList.add('light')}</script>
 </head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
@@ -339,9 +339,9 @@
     <button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Mes paris</button>
     <button data-mobile-account><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Compte</button>
   </nav>
-  <dialog id="private-dialog" class="special-dialog" aria-labelledby="private-title"><div id="private-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
-  <dialog id="special-dialog" class="special-dialog" aria-labelledby="special-title"><div id="special-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
-  <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
+  <dialog id="private-dialog" class="special-dialog" aria-labelledby="private-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="private-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
+  <dialog id="special-dialog" class="special-dialog" aria-labelledby="special-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="special-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
+  <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <script type="module" src="app.js?v=club-49"></script>
 </body>

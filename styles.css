@@ -709,3 +709,10 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 /* BET-115 : comparer des familles de marchés sans assimiler leurs probabilités. */
 .match-analysis{display:grid;gap:12px;min-width:0}.analysis-intro{display:grid;gap:4px}.analysis-intro small,.analysis-note{color:var(--muted);font-size:12px}.analysis-note{margin:0}.analysis-families{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.analysis-families article{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;padding:14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}.analysis-families article>small{color:var(--muted);font-size:11px}.analysis-families strong{font-size:14px;overflow-wrap:anywhere}.analysis-families b{font-family:var(--display);font-size:28px;color:var(--accent-text)}.analysis-families span{font-size:11px;color:var(--muted)}.analysis-families .button{margin-top:auto;min-height:40px;padding:8px 12px;font-size:12px;white-space:normal}.match-analysis .recommended{width:100%;text-align:left}
 @media(max-width:700px){.analysis-families{grid-template-columns:minmax(0,1fr)}.analysis-families article{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}.analysis-families article>small:first-child{grid-column:1/-1}.analysis-families b{grid-column:2;grid-row:2}.analysis-families span{grid-column:1/-1}.analysis-families .button{grid-column:1/-1;justify-self:start}}
+
+/* BET-117 : fermeture visible pendant la lecture des fenêtres longues. */
+dialog .modal-head,dialog .dialog-tools{position:sticky;top:-26px;z-index:6;background:var(--surface);margin:-26px -26px 20px;padding:20px 26px 12px;border-bottom:1px solid var(--line)}
+dialog .dialog-tools{display:flex;justify-content:flex-end;margin-bottom:12px}
+dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-width:44px;min-height:44px}
+.detail-head{padding-right:76px}
+@media(max-width:700px){dialog .modal-head,dialog .dialog-tools{top:-20px;margin:-20px -16px 16px;padding:calc(14px + env(safe-area-inset-top)) 16px 10px}.detail-head{padding-right:72px}}
