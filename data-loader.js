@@ -1,0 +1,2 @@
+// URL stable et revalidation HTTP ; appels simultanés mutualisés, erreurs réessayables.
+export function createJsonLoader(fetcher=(...args)=>fetch(...args)){const pending=new Map();return function load(url){if(pending.has(url))return pending.get(url);const request=Promise.resolve().then(()=>fetcher(url,{cache:'no-cache'})).then(response=>{if(!response.ok)throw new Error(`HTTP ${response.status}`);return response.json()}).finally(()=>pending.delete(url));pending.set(url,request);return request}}

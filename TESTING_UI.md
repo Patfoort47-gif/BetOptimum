@@ -21,3 +21,11 @@ Variables facultatives : `BET_BASE_URL` (serveur local), `BET_CHROMIUM` (exécut
 Scénarios : stockage interdit, aides au clavier, Club non configuré, détails conservés, double clic, envoi incertain, cote refusée, match commencé/annulé, filtres et échantillon vide, panne réseau avec/sans calendrier, connexion simulée sans pari automatique, liens directs personnels, navigation clavier et retour de fiche. Les assertions ne sont pas remplacées par une simple présence de port ou une capture.
 
 `npm test` complète cette recette avec les tests du domaine, notamment envois idempotents, calcul du bilan et dates des sources.
+
+## Fluidité et chargement (BET-126)
+
+```sh
+NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-performance.cjs
+```
+
+Vérifie à 360 et 1280 px : archive lente sans blocage du calendrier, absence de fiches au démarrage, chargement au clic, conservation des cartes et détails ouverts pendant sélection et mise, modification d’une autre carte, absence de rendu du bilan caché, URL de données stables et archive mutualisée. Les données et comptes sont simulés, les appels externes bloqués. Les mesures de latence d’interaction locales sont documentées dans `docs/PERFORMANCE_BET126.md`.

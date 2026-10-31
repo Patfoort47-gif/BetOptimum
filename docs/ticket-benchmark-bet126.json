@@ -1,0 +1,272 @@
+[
+  {
+    "version": "before",
+    "trial": 0,
+    "selectMs": 181.10000000009313,
+    "selectReplacements": 1,
+    "stakeMs": 174.69999999995343,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 0,
+    "selectMs": 186.19999999995343,
+    "selectReplacements": 1,
+    "stakeMs": 159,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 0,
+    "selectMs": 166.19999999995343,
+    "selectReplacements": 1,
+    "stakeMs": 156.9000000001397,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 0,
+    "selectMs": 215.5,
+    "selectReplacements": 1,
+    "stakeMs": 203.19999999995343,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 0,
+    "selectMs": 275.70000000018626,
+    "selectReplacements": 1,
+    "stakeMs": 227.0999999998603,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 1,
+    "selectMs": 503.80000000004657,
+    "selectReplacements": 1,
+    "stakeMs": 231.39999999990687,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 1,
+    "selectMs": 224.60000000009313,
+    "selectReplacements": 1,
+    "stakeMs": 197.60000000009313,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 1,
+    "selectMs": 188.39999999990687,
+    "selectReplacements": 1,
+    "stakeMs": 184.60000000009313,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 1,
+    "selectMs": 386.30000000004657,
+    "selectReplacements": 1,
+    "stakeMs": 364.69999999995343,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 1,
+    "selectMs": 141.5,
+    "selectReplacements": 1,
+    "stakeMs": 170.5,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 2,
+    "selectMs": 273.9000000001397,
+    "selectReplacements": 1,
+    "stakeMs": 306.30000000004657,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 2,
+    "selectMs": 249.30000000004657,
+    "selectReplacements": 1,
+    "stakeMs": 137.4000000001397,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 2,
+    "selectMs": 139.10000000009313,
+    "selectReplacements": 1,
+    "stakeMs": 197.70000000018626,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 2,
+    "selectMs": 277.10000000009313,
+    "selectReplacements": 1,
+    "stakeMs": 121.30000000004657,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "before",
+    "trial": 2,
+    "selectMs": 149.39999999990687,
+    "selectReplacements": 1,
+    "stakeMs": 155.30000000004657,
+    "stakeReplacements": 1,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 0,
+    "selectMs": 16.600000000093132,
+    "selectReplacements": 0,
+    "stakeMs": 11,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 0,
+    "selectMs": 11.699999999953434,
+    "selectReplacements": 0,
+    "stakeMs": 11.5,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 0,
+    "selectMs": 36.700000000186265,
+    "selectReplacements": 0,
+    "stakeMs": 10.900000000139698,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 0,
+    "selectMs": 9.200000000186265,
+    "selectReplacements": 0,
+    "stakeMs": 8.600000000093132,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 0,
+    "selectMs": 7.099999999860302,
+    "selectReplacements": 0,
+    "stakeMs": 9.300000000046566,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 1,
+    "selectMs": 48.60000000009313,
+    "selectReplacements": 0,
+    "stakeMs": 28.899999999906868,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 1,
+    "selectMs": 16.800000000046566,
+    "selectReplacements": 0,
+    "stakeMs": 12.199999999953434,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 1,
+    "selectMs": 21.399999999906868,
+    "selectReplacements": 0,
+    "stakeMs": 5.900000000139698,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 1,
+    "selectMs": 9.399999999906868,
+    "selectReplacements": 0,
+    "stakeMs": 8.900000000139698,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 1,
+    "selectMs": 18,
+    "selectReplacements": 0,
+    "stakeMs": 14.800000000046566,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 2,
+    "selectMs": 28.800000000046566,
+    "selectReplacements": 0,
+    "stakeMs": 9,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 2,
+    "selectMs": 8.699999999953434,
+    "selectReplacements": 0,
+    "stakeMs": 1.7000000001862645,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 2,
+    "selectMs": 13.100000000093132,
+    "selectReplacements": 0,
+    "stakeMs": 12.699999999953434,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 2,
+    "selectMs": 8.300000000046566,
+    "selectReplacements": 0,
+    "stakeMs": 8.600000000093132,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  },
+  {
+    "version": "after",
+    "trial": 2,
+    "selectMs": 15,
+    "selectReplacements": 0,
+    "stakeMs": 2.1000000000931323,
+    "stakeReplacements": 0,
+    "initialModules": 20
+  }
+]

@@ -4,6 +4,8 @@
 
 Application web statique d’aide à la décision pour des paris sportifs **virtuels**. Elle analyse des matchs avec une distribution de Poisson, repère les écarts de valeur, construit des combinés et suit une bankroll locale.
 
+[Plan du dépôt et guides](docs/README.md)
+
 ## Lancer le projet
 
 ```bash

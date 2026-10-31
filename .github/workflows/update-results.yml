@@ -48,9 +48,11 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY }}
         run: node scripts/configure-supabase.mjs --required
       - uses: actions/configure-pages@v5
+      - name: Préparer les fichiers publics
+        run: node scripts/prepare-pages.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Déployer les scores actualisés
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,12 @@
+# Fichiers locaux et outils de recette
+node_modules/
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+!.env.example
+/work/
+/playwright-report/
+/test-results/
+/_site/

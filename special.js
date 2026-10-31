@@ -1,5 +1,5 @@
 // Ligues spéciales (BET-56) : compétitions et clubs. Fonctions pures, sans DOM ni réseau.
-// Mêmes règles que la fonction SQL special_try_pick (supabase-v9-schema.sql) : le serveur décide, ces fonctions servent à planifier les journées,
+// Mêmes règles que la fonction SQL special_try_pick (supabase/migrations/supabase-v9-schema.sql) : le serveur décide, ces fonctions servent à planifier les journées,
 // à prévenir le joueur sur le ticket (« Ce pari compte pour ») et aux tests.
 import { tieBreak, weekKey } from './model.js';
 

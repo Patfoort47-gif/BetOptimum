@@ -4,7 +4,7 @@ L’interface est dans Mon profil > Mes alertes. Aucun canal n’est actif par d
 
 ## Installation administrateur
 
-1. Appliquer `supabase-v23-schema.sql` après V17. Les autres migrations de ligues restent indépendantes.
+1. Appliquer `supabase/migrations/supabase-v23-schema.sql` après V17. Les autres migrations de ligues restent indépendantes.
 2. Déployer `supabase/functions/notifications` avec le CLI Supabase : `supabase functions deploy notifications --no-verify-jwt`. Le fichier importe les modules purs à la racine ; déployer depuis la racine du dépôt. La fonction vérifie elle-même le JWT utilisateur, le secret du worker ou celui du webhook Telegram pour chaque route.
 3. Configurer dans les secrets Edge : `SITE_URL` (URL HTTPS complète du site, avec son sous-répertoire et son `/` final), `NOTIFICATION_ENCRYPTION_KEY` (32 octets aléatoires encodés en base64), `NOTIFICATION_WORKER_SECRET` (au moins 32 octets aléatoires). `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY` sont fournis par Supabase à la fonction. Aucune de ces valeurs ne doit être copiée dans le front ni dans Git.
 4. Ajouter `NOTIFICATION_WORKER_SECRET` aux secrets GitHub Actions et vérifier `SUPABASE_URL`. Le workflow `notifications.yml` traite la file toutes les cinq minutes et après la collecte des matchs. Sans secret, il ne fait aucun envoi. Il ne contacte pas le fournisseur de cotes : les données de `fixtures.json` de moins de 24 h alimentent la détection. Une file déjà constituée continue à être traitée sans nouvelle détection.
@@ -73,7 +73,7 @@ La page distingue maintenant un échec des préférences SQL d’un échec de co
 
 ## Test email annulé après enregistrement des préférences (V24)
 
-Appliquer `supabase-v24-schema.sql` dans Supabase > SQL Editor, après V23. Le fichier est réexécutable, ne modifie aucun secret, ne réactive aucun consentement et ne déclenche aucun envoi.
+Appliquer `supabase/migrations/supabase-v24-schema.sql` dans Supabase > SQL Editor, après V23. Le fichier est réexécutable, ne modifie aucun secret, ne réactive aucun consentement et ne déclenche aucun envoi.
 
 Avant V24, chaque enregistrement des préférences annulait tous les envois en attente, y compris les tests. Après V24, un test reste en attente si son canal reste activé, consenti et associé ; le worker continue de respecter les heures silencieuses et les plafonds. Les alertes ordinaires en attente restent invalidées lors d’une modification des préférences.
 
@@ -85,7 +85,7 @@ Validation locale PostgreSQL 16 : V24 appliquée deux fois ; conservation du tes
 
 Ces emails sont indépendants de la newsletter de V25 et des alertes de value. Aucun utilisateur existant n’est abonné automatiquement. V26 n’active ni canal ni consentement.
 
-1. Appliquer `supabase-v26-schema.sql` **après V24** (V25 peut être appliquée indépendamment). Ne pas réappliquer V24 après V26 : V26 enveloppe sa fonction de sauvegarde et préserve ses règles de test. Le script V26 est réexécutable.
+1. Appliquer `supabase/migrations/supabase-v26-schema.sql` **après V24** (V25 peut être appliquée indépendamment). Ne pas réappliquer V24 après V26 : V26 enveloppe sa fonction de sauvegarde et préserve ses règles de test. Le script V26 est réexécutable.
 2. Redéployer la fonction `notifications` depuis la racine. Aucun nouveau fournisseur ni secret : les mêmes configuration Resend, clé de chiffrement et worker sont utilisés. Publier le front après la migration ; sur une ancienne base, les nouveaux contrôles restent masqués.
 3. Depuis Mon profil > Mes alertes, associer Email, cocher ce canal et le consentement, puis sélectionner explicitement « Mon briefing quotidien » et/ou « Les jours de match de mes favoris ». Enregistrer. Le consentement newsletter ne vaut pas consentement aux briefings.
 4. Quotidien : 15:00 par défaut, modifiable dans le fuseau choisi. Favoris : 120 minutes avant le premier match du jour par défaut (15 à 720). Les équipes et compétitions sont celles des préférences d’alertes ; utiliser « Reprendre mes favoris du site » si nécessaire.
@@ -110,10 +110,10 @@ Validation locale : tests métier Node, migration réexécutable et droits SQL s
 
 ### Horaire quotidien à 15 h (V27)
 
-Appliquer `supabase-v27-schema.sql` après V26 pour le nouveau défaut à 15 h. Les horaires déjà enregistrés sont conservés : pour un compte existant, régler « Heure du briefing quotidien » à `15:00` dans Mon profil > Mes alertes et enregistrer. Une sauvegarde sans horaire conserve désormais la valeur du compte. Le repli serveur est aussi à 15 h ; redéployer `notifications` depuis main pour mettre ce repli à jour. Les briefings favoris gardent leur délai avant match.
+Appliquer `supabase/migrations/supabase-v27-schema.sql` après V26 pour le nouveau défaut à 15 h. Les horaires déjà enregistrés sont conservés : pour un compte existant, régler « Heure du briefing quotidien » à `15:00` dans Mon profil > Mes alertes et enregistrer. Une sauvegarde sans horaire conserve désormais la valeur du compte. Le repli serveur est aussi à 15 h ; redéployer `notifications` depuis main pour mettre ce repli à jour. Les briefings favoris gardent leur délai avant match.
 
 ### Replanification explicite du quotidien (BET-125, V28)
 
-Appliquer `supabase-v28-schema.sql` après V27, puis redéployer la fonction `notifications` depuis cette version. Ne pas annoncer la replanification disponible avant ces deux étapes. Le worker ancien ne connaît pas la révision : après un changement d’horaire il ne réserve plus de quotidien, jusqu’au redéploiement. Les canaux et consentements sont conservés.
+Appliquer `supabase/migrations/supabase-v28-schema.sql` après V27, puis redéployer la fonction `notifications` depuis cette version. Ne pas annoncer la replanification disponible avant ces deux étapes. Le worker ancien ne connaît pas la révision : après un changement d’horaire il ne réserve plus de quotidien, jusqu’au redéploiement. Les canaux et consentements sont conservés.
 
 Un changement enregistré de l’heure ou du fuseau augmente `daily_revision` sous le même verrou que la réservation. Une heure future permet une nouvelle réservation aujourd’hui ; une heure passée ou identique à la minute actuelle commence demain. Une sauvegarde sans changement conserve la révision. Les réservations gardent leur historique et sont uniques par compte/date/type/révision (favoris : révision 0). Les files en attente sont annulées par la sauvegarde V24 ; une révision périmée est aussi refusée avant composition. Un envoi déjà remis au fournisseur ne peut pas être rappelé. Aucun rejeu automatique des résultats incertains. Les consentements, plafonds et plages silencieuses existants restent applicables.
