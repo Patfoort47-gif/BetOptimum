@@ -34,7 +34,7 @@
     "secondaryOddsMatches": 0,
     "statsMatches": 100,
     "oddsMatches": 6,
-    "settlements": 133
+    "settlements": 134
   },
   "settlements": [
     {
@@ -53,6 +53,15 @@
       "away": "Atlético Madrid",
       "homeScore": 0,
       "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401876709",
+      "date": "2026-10-31",
+      "home": "Annecy",
+      "away": "Montpellier",
+      "homeScore": 0,
+      "awayScore": 3,
       "completed": true
     },
     {
@@ -8814,12 +8823,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/274.png",
       "priority": 18,
       "featured": false,
-      "status": "First Half",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 1,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -21416,5 +21425,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-31T14:53:35.444Z"
+  "scoresUpdatedAt": "2026-10-31T15:53:37.085Z"
 }
