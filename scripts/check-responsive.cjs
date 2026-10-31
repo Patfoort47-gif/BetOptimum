@@ -16,7 +16,8 @@ let b;async function page(options={}){const p=await b.newPage({viewport:{width:o
   await p.locator('#account-label').evaluate(e=>e.textContent='UnPseudoTrèsLongDeJoueur');
   await p.locator('#topbar-bankroll').evaluate(e=>e.textContent='1 234 567,89 €');
   for(const tab of ['matches','standings','predictions','community','bankroll']){
-   if(width>700)await p.locator('.tabs [data-tab='+tab+']').click();
+   if(tab==='standings')await p.locator('#match-navigation [data-open-tab=standings]').click();
+   else if(width>700)await p.locator('.tabs [data-tab='+tab+']').click();
    else await p.locator('.mobile-nav [data-mobile-target='+tab+']').click();
    const layout=await p.evaluate(()=>{
     const header=document.querySelector('.topbar').getBoundingClientRect();

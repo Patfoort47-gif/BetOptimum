@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=bet117-close">
+  <link rel="stylesheet" href="styles.css?v=bet120-navigation">
   <script>try{if(localStorage.getItem('betmaster-theme')!=='dark')document.documentElement.classList.add('light')}catch{document.documentElement.classList.add('light')}</script>
 </head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
@@ -42,7 +42,7 @@
       <span class="brand-name">Bet<span>Optimum</span></span>
     </a>
     <nav aria-label="Navigation principale" class="tabs">
-      <button class="tab-button active" data-tab="matches" aria-label="Matchs &amp; combinés" title="Matchs &amp; combinés"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs &amp; combinés</button><button class="tab-button" data-tab="standings" aria-label="Classement des équipes" title="Classement des équipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 6h3v2a3 3 0 0 1-3 3M7 6H4v2a3 3 0 0 0 3 3"/></svg>Classement des équipes</button><button class="tab-button" data-tab="predictions" aria-label="Bilan des pronos" title="Bilan des pronos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Bilan des pronos</button><button class="tab-button" data-tab="community" aria-label="Communauté" title="Communauté"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M2 20c1-5 3-7 6-7s5 2 6 7M14 14c4-1 6 1 7 5"/></svg>Communauté</button><button class="tab-button" data-tab="bankroll" aria-label="Mes paris" title="Mes paris"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Mes paris</button>
+      <button class="tab-button active" data-tab="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button><button class="tab-button" data-tab="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button><button class="tab-button" data-tab="community"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M2 20c1-5 3-7 6-7s5 2 6 7M14 14c4-1 6 1 7 5"/></svg>Le Club</button><button class="tab-button" data-tab="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Mes paris</button>
     </nav>
     <div class="topbar-actions">
       <div class="topbar-bankroll"><small>BANKROLL</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="topbar-bankroll">1 000,00 €</strong></span></div>
@@ -53,13 +53,13 @@
   </header>
 
   <main id="dashboard" tabindex="-1">
-    <details class="card discovery" id="discovery"><summary>Première visite ? Comprendre le site en trois étapes</summary><p>Consultez les matchs, comparez les probabilités et retrouvez le bilan public. Un compte est nécessaire uniquement pour les fonctions du Club.</p><button class="button secondary" data-open-dialog="help-dialog">Ouvrir le guide</button><button class="button ghost" id="dismiss-discovery">Masquer cette introduction</button></details><section class="hero">
+    <details class="card discovery" id="discovery" data-view="matches"><summary>Première visite ? Comprendre le site en trois étapes</summary><p>Consultez les matchs, comparez les probabilités et retrouvez le bilan public. Un compte est nécessaire uniquement pour les fonctions du Club.</p><button class="button secondary" data-open-dialog="help-dialog">Ouvrir le guide</button><button class="button ghost" id="dismiss-discovery">Masquer cette introduction</button></details><section class="hero" data-view="matches">
       <div class="hero-main card">
         <svg class="hero-pitch" viewBox="0 0 400 300" aria-hidden="true"><rect x="10" y="10" width="380" height="280" rx="6"/><path d="M200 10V290"/><circle cx="200" cy="150" r="52"/><circle cx="200" cy="150" r="3"/><path d="M390 80H330V220H390M390 115H362V185H390"/><path d="M10 80H70V220H10M10 115H38V185H10"/></svg>
         <p class="eyebrow"><span class="live-dot"></span>ANALYSE DU JOUR</p>
-        <h1>Comprenez les matchs.<br><em>Testez vos pronostics.</em></h1>
-        <p class="hero-copy">Analysez les matchs, découvrez les probabilités du modèle et suivez les résultats de vos pronostics virtuels. Sans argent réel, sans garantie de résultat. 18+.</p>
-        <p class="section-subtitle">Accès libre : analyses et bilan. Avec le Club : paris virtuels certifiés, ligues et profil synchronisé.</p><div class="hero-actions"><button class="button primary" data-open-tab="matches">Voir les matchs</button><button class="button ghost" data-open-tab="predictions">Consulter le bilan</button><button class="button ghost" id="quick-combo">Générer un combiné</button></div>
+        <h1>Le foot en chiffres.<br><em>Vos pronostics à l’épreuve.</em></h1>
+        <p class="hero-copy">Analysez les rencontres et testez vos choix avec des paris virtuels. Sans argent réel, sans garantie de gain. 18+.</p>
+        <p class="section-subtitle">Matchs et résultats du modèle en accès libre. Le Club réunit vos ligues et les autres joueurs.</p><div class="hero-actions"><button class="button primary" data-open-tab="matches">Voir les matchs</button><button class="button ghost" data-open-tab="predictions">Résultats du modèle</button><button class="button ghost" id="quick-combo">Générer un combiné</button></div>
       </div>
       <button class="hero-score" id="hero-confidence" aria-label="Comprendre l’indice global du jour">
         <small>INDICE GLOBAL DU JOUR</small>
@@ -70,15 +70,13 @@
       </button>
     </section>
 
-    <section class="stats-grid tab-hidden" data-view="bankroll" aria-label="Résumé bankroll">
-      <article class="stat-main"><small>BANKROLL</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="bankroll-stat">1 000,00 €</strong></span></article>
-      <article><small>PROFIT / PERTE</small><strong id="profit-stat">0,00 €</strong></article>
-      <article><small>TAUX DE RÉUSSITE</small><strong id="winrate-stat">-</strong></article>
-      <article><small>PARIS PLACÉS</small><strong id="bets-stat">0</strong></article>
-      <article><small>ROI</small><strong id="roi-stat">-</strong></article>
-      <article><small>MEILLEURE COMPÉTITION</small><strong id="best-league-stat">-</strong></article>
-    </section>
 
+
+    <nav class="section-navigation" id="match-navigation" aria-label="Dans Matchs">
+      <button class="active" data-open-tab="matches" aria-current="page">Calendrier</button>
+      <button data-open-tab="standings">Classements des équipes</button>
+      <button data-open-ticket>Mon ticket <span id="match-ticket-count" hidden></span></button>
+    </nav>
     <div class="workspace">
       <nav id="match-rail" class="match-rail" data-view="matches" aria-label="Fil des matchs"></nav>
       <section id="matches" class="section-block" data-view="matches">
@@ -133,31 +131,42 @@
     </div>
 
     <section id="bankroll" class="section-block tab-hidden" data-view="bankroll">
-      <div class="section-heading"><div><p class="eyebrow">SUIVI</p><h2>Historique &amp; bankroll</h2></div><button class="button secondary" id="edit-bankroll">Rajouter du capital</button></div>
-      <div class="performance-grid"><div class="chart-card card"><div><strong>Évolution de la bankroll</strong><small>Paris et apports de capital inclus</small></div><div class="chart-wrap"><svg id="bankroll-chart" viewBox="0 0 700 220" preserveAspectRatio="none" role="img" aria-label="Courbe d’évolution de la bankroll"></svg><span class="chart-label max" id="chart-max"></span><span class="chart-label min" id="chart-min"></span><p class="chart-empty" id="chart-empty" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>La courbe apparaîtra après votre premier mouvement.</p></div></div><div class="league-card card"><strong>Réussite par compétition</strong><div id="league-performance"></div></div></div>
+      <div class="section-heading"><div><p class="eyebrow">SUIVI</p><h2>Mes paris</h2><p class="section-subtitle">Vos tickets, vos résultats et votre bankroll virtuelle.</p></div><button class="button secondary" id="edit-bankroll">Ajouter du capital</button></div>
+    <section class="stats-grid tab-hidden" data-view="bankroll" aria-label="Résumé bankroll">
+      <article class="stat-main"><small>BANKROLL</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="bankroll-stat">1 000,00 €</strong></span></article>
+      <article><small>PROFIT / PERTE</small><strong id="profit-stat">0,00 €</strong></article>
+      <article><small>TAUX DE RÉUSSITE</small><strong id="winrate-stat">-</strong></article>
+      <article><small>PARIS PLACÉS</small><strong id="bets-stat">0</strong></article>
+      <article><small>ROI</small><strong id="roi-stat">-</strong></article>
+      <article><small>MEILLEURE COMPÉTITION</small><strong id="best-league-stat">-</strong></article>
+    </section>
       <div class="history-wrap card"><table><thead><tr><th>Date</th><th>Sélections</th><th>Cote</th><th>Mise</th><th>Résultat</th><th>Retour</th></tr></thead><tbody id="history-body"></tbody></table><p id="empty-history" class="empty">Aucun pari placé pour le moment.</p></div>
+      <details class="section-details"><summary>Évolution de ma bankroll et performances</summary>      <div class="performance-grid"><div class="chart-card card"><div><strong>Évolution de la bankroll</strong><small>Paris et apports de capital inclus</small></div><div class="chart-wrap"><svg id="bankroll-chart" viewBox="0 0 700 220" preserveAspectRatio="none" role="img" aria-label="Courbe d’évolution de la bankroll"></svg><span class="chart-label max" id="chart-max"></span><span class="chart-label min" id="chart-min"></span><p class="chart-empty" id="chart-empty" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>La courbe apparaîtra après votre premier mouvement.</p></div></div><div class="league-card card"><strong>Réussite par compétition</strong><div id="league-performance"></div></div></div>
+</details>
       <div class="capital-log card"><strong>Apports de capital</strong><div id="capital-events"><p class="empty">Aucun apport supplémentaire.</p></div></div>
     </section>
     <section id="predictions" class="section-block tab-hidden" data-view="predictions">
-      <div class="section-heading"><div><p class="eyebrow">TRANSPARENCE DU MODÈLE</p><h2>Le bilan complet des pronostics</h2><p class="section-subtitle">Tous les conseils terminés sont comptabilisés, gagnants comme perdants. Résultats théoriques : aucune garantie de performance future.</p></div><span class="audit-badge">Mise simulée · 10 € par prono</span></div>
+      <div class="section-heading"><div><p class="eyebrow">TRANSPARENCE DU MODÈLE</p><h2>Résultats du modèle</h2><p class="section-subtitle">Le suivi public des pronostics du site, distinct de vos paris. Les gains et pertes sont simulés, sans garantie de performance future.</p></div><span class="audit-badge">Mise simulée · 10 € par prono</span></div>
       <p id="prediction-sample" class="archive-note" role="status"></p><div class="prediction-kpi-grid"><article><small>RÉUSSIS / TOTAL</small><strong id="site-score">0 / 0</strong><span id="site-winrate">-</span></article><article><small>PROFIT SIMULÉ</small><button class="help-inline" data-help="roi" aria-label="Comprendre le ROI">?</button><strong id="site-profit">0,00 €</strong><span id="site-roi">ROI -</span></article><article><small>CAPITAL SIMULÉ</small><strong id="site-bankroll">100,00 €</strong><span>Départ avec 100 €</span></article><article><small>MEILLEURE COTE GAGNÉE</small><strong id="site-best-odd">-</strong><span id="site-best-pick">En attente de résultats</span></article><article><small>MEILLEURE SÉRIE</small><strong id="site-best-streak">0</strong><span id="site-current-streak">Série actuelle : 0</span></article><article><small>COTE MOYENNE GAGNANTE</small><strong id="site-average-odd">-</strong><span id="site-returned">0,00 € retournés</span></article></div>
-      <details class="card"><summary>Comment lire ce bilan ?</summary><p>Chaque pronostic gagné ou perdu représente une mise fictive de 10 €. Le profit est le retour moins les mises ; le ROI est ce profit divisé par le total des mises. Les paris en attente et remboursés sont exclus de ces deux indicateurs. Les filtres changent l’échantillon : un petit nombre de résultats ne permet pas de conclure à la fiabilité du modèle.</p></details><section id="prediction-analytics" class="analytics-dashboard" aria-label="Graphiques de performance"></section>
+      <details class="card"><summary>Comment lire ce bilan ?</summary><p>Chaque pronostic gagné ou perdu représente une mise fictive de 10 €. Le profit est le retour moins les mises ; le ROI est ce profit divisé par le total des mises. Les paris en attente et remboursés sont exclus de ces deux indicateurs. Les filtres changent l’échantillon : un petit nombre de résultats ne permet pas de conclure à la fiabilité du modèle.</p></details><details class="section-details"><summary>Graphiques et analyses détaillées</summary><section id="prediction-analytics" class="analytics-dashboard" aria-label="Graphiques de performance"></section>
       <div class="prediction-insights"><article class="card"><div class="insight-head"><strong>Réussite par type de pari</strong><small>Ce que le modèle maîtrise le mieux</small></div><div id="market-performance"></div></article><article class="card"><div class="insight-head"><strong>Réussite par compétition</strong><small>Minimum un pronostic terminé</small></div><div id="site-league-performance"></div></article></div>
-      <article class="site-performance card"><div><div><p class="eyebrow">JOURNAL PUBLIC PERMANENT</p><h3>Chaque proposition, sans sélection a posteriori</h3></div><b id="site-predictions">0 pronostic</b></div><div class="prediction-toolbar" id="prediction-filters"><label>Période<select id="prediction-period"><option value="all">Depuis le début</option><option value="7">7 derniers jours</option><option value="30">30 derniers jours</option><option value="90">3 derniers mois</option><option value="365">12 derniers mois</option></select></label><label>Compétition<select id="prediction-league"><option value="all">Toutes</option></select></label><label>Marché<select id="prediction-market"><option value="all">Tous</option><option value="home">Victoire domicile</option><option value="draw">Match nul</option><option value="away">Victoire extérieure</option><option value="over">Plus de 2,5 buts</option><option value="btts">Les deux marquent</option></select></label><label>Résultat<select id="prediction-result"><option value="all">Tous</option><option value="won">Gagnés</option><option value="lost">Perdus</option></select></label><button class="button secondary" id="reset-prediction-filters">Réinitialiser</button></div><p class="archive-note" id="prediction-filter-summary">Historique complet</p><div id="prediction-history" class="prediction-history"></div><div class="prediction-pagination"><button class="button secondary" id="prediction-prev">Précédent</button><span id="prediction-page">Page 1</span><button class="button secondary" id="prediction-next">Suivant</button></div></article>
+</details>
+      <article class="site-performance card"><div><div><p class="eyebrow">JOURNAL PUBLIC PERMANENT</p><h3>Historique des pronostics</h3></div><b id="site-predictions">0 pronostic</b></div><div class="prediction-toolbar" id="prediction-filters"><label>Période<select id="prediction-period"><option value="all">Depuis le début</option><option value="7">7 derniers jours</option><option value="30">30 derniers jours</option><option value="90">3 derniers mois</option><option value="365">12 derniers mois</option></select></label><label>Compétition<select id="prediction-league"><option value="all">Toutes</option></select></label><label>Marché<select id="prediction-market"><option value="all">Tous</option><option value="home">Victoire domicile</option><option value="draw">Match nul</option><option value="away">Victoire extérieure</option><option value="over">Plus de 2,5 buts</option><option value="btts">Les deux marquent</option></select></label><label>Résultat<select id="prediction-result"><option value="all">Tous</option><option value="won">Gagnés</option><option value="lost">Perdus</option></select></label><button class="button secondary" id="reset-prediction-filters">Réinitialiser</button></div><p class="archive-note" id="prediction-filter-summary">Historique complet</p><div id="prediction-history" class="prediction-history"></div><div class="prediction-pagination"><button class="button secondary" id="prediction-prev">Précédent</button><span id="prediction-page">Page 1</span><button class="button secondary" id="prediction-next">Suivant</button></div></article>
     </section>
 
     <section id="standings" class="section-block tab-hidden" data-view="standings">
-      <div class="section-heading"><div><p class="eyebrow">COMPÉTITIONS</p><h2>Classement des équipes</h2></div><div class="mode-switch" role="group" aria-label="Type de classement"><button class="active" data-standings-mode="teams">Équipes</button><button data-standings-mode="scorers">Buteurs</button><button data-standings-mode="assists">Passeurs</button></div></div>
+      <div class="section-heading"><div><p class="eyebrow">COMPÉTITIONS</p><h2>Classements des équipes</h2><p class="section-subtitle">Compétitions, équipes, buteurs et passeurs. Pour les joueurs du site, rendez-vous dans Le Club.</p></div><div class="mode-switch" role="group" aria-label="Type de classement"><button class="active" data-standings-mode="teams">Équipes</button><button data-standings-mode="scorers">Buteurs</button><button data-standings-mode="assists">Passeurs</button></div></div>
       <div class="scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Compétitions précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="filters" id="standings-leagues" role="group" aria-label="Choisir une compétition"></div><button class="scroll-btn next" data-scroll="1" aria-label="Compétitions suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
       <div id="standings-body" class="standings-body card"></div>
     </section>
     <section id="boutique" class="section-block tab-hidden" data-view="shop" aria-label="Boutique"><div class="card"><p class="eyebrow">ESPACE PERSONNEL</p><h2>Objets, jetons et personnalisation</h2><p>Les jetons sont fictifs, sans valeur monétaire. Retrouvez votre avatar et vos objets depuis votre compte.</p><button class="button secondary" data-personal="profile">Mon profil</button><button class="button secondary" data-personal="avatar">Mon avatar</button></div><div id="shop-page" class="shop-page"></div></section>
     <section id="profil" class="section-block tab-hidden" data-view="profile" aria-label="Profil"><div id="profile-page" class="profile-page"></div></section>
     <section id="community" class="section-block tab-hidden" data-view="community">
-      <div class="section-heading"><div><p class="eyebrow">COMMUNAUTÉ</p><h2>Le club</h2><p class="section-subtitle">Ligues, classements, joueurs suivis et défis hebdomadaires.</p></div></div>
-      <div class="community-tabs" id="community-tabs" role="tablist" aria-label="Sections de la communauté">
-        <button role="tab" data-ctab="league" aria-selected="true">Ma ligue</button><button role="tab" data-ctab="general" aria-selected="false">Général</button><button role="tab" data-ctab="follows" aria-selected="false">Suivis<i class="tab-dot" id="feed-dot" hidden></i></button><button role="tab" data-ctab="private" aria-selected="false">Ligues privées</button><button role="tab" data-ctab="challenges" aria-selected="false">Challenges</button><button role="tab" data-ctab="fame" aria-selected="false">Hall of fame</button>
+      <div class="section-heading"><div><p class="eyebrow">JOUEZ ENSEMBLE</p><h2>Le Club</h2><p class="section-subtitle">Retrouvez vos ligues, comparez votre classement et jouez avec vos amis.</p></div></div>
+      <div class="community-tabs" id="community-tabs" role="tablist" aria-label="Dans Le Club">
+        <button role="tab" data-ctab="league" aria-selected="true">Mes ligues</button><button role="tab" data-ctab="general" aria-selected="false">Classement des joueurs</button><button role="tab" data-ctab="follows" aria-selected="false">Joueurs suivis<i class="tab-dot" id="feed-dot" hidden></i></button><button role="tab" data-ctab="private" aria-selected="false">Entre amis</button><button role="tab" data-ctab="challenges" aria-selected="false">Défis</button><button role="tab" data-ctab="fame" aria-selected="false">Palmarès</button>
       </div>
+      <p class="section-subtitle club-section-description" id="club-section-description">Vos ligues et les compétitions à rejoindre.</p>
       <div data-cpanel="league">
         <section id="my-leagues" class="my-leagues" aria-label="Mes ligues" hidden></section>
         <section id="my-league" class="my-league card" aria-label="Ma ligue" hidden></section>
@@ -175,7 +184,7 @@
       <div data-cpanel="follows" hidden><section id="follows-panel" class="follows card" aria-label="Joueurs suivis"></section></div>
       <div data-cpanel="private" hidden><section id="private-leagues" class="private-leagues card" aria-label="Ligues privées" hidden></section></div>
       <div data-cpanel="challenges" hidden><section id="badges-panel" class="badges-panel card" aria-label="Trophées" hidden></section>
-      <div class="challenge-list" id="challenge-list"><article class="challenge-card card" data-challenge="safe-week"><span>CETTE SEMAINE</span><h3>La semaine sécurisée</h3><p>Obtenir le meilleur score avec des cotes inférieures à 2,00.</p><small data-challenge-ranking>Rejoignez le challenge pour être classé.</small><button class="button secondary" data-join-challenge="safe-week">Participer</button></article><article class="challenge-card card" data-challenge="value-hunter"><span>CETTE SEMAINE</span><h3>Chasseur de value</h3><p>Marquer un maximum de points sur les value bets gagnants.</p><small data-challenge-ranking>Rejoignez le challenge pour être classé.</small><button class="button secondary" data-join-challenge="value-hunter">Participer</button></article><article class="challenge-card card" data-challenge="perfect-five"><span>CETTE SEMAINE</span><h3>Perfect Five</h3><p>Construire la plus longue série de paris gagnants.</p><small data-challenge-ranking>Rejoignez le challenge pour être classé.</small><button class="button secondary" data-join-challenge="perfect-five">Participer</button></article></div></div>
+      <div class="challenge-list" id="challenge-list"><article class="challenge-card card" data-challenge="safe-week"><span>CETTE SEMAINE</span><h3>La semaine sécurisée</h3><p>Obtenir le meilleur score avec des cotes inférieures à 2,00.</p><small data-challenge-ranking>Rejoignez le défi pour être classé.</small><button class="button secondary" data-join-challenge="safe-week">Participer</button></article><article class="challenge-card card" data-challenge="value-hunter"><span>CETTE SEMAINE</span><h3>Chasseur de value</h3><p>Marquer un maximum de points sur les value bets gagnants.</p><small data-challenge-ranking>Rejoignez le défi pour être classé.</small><button class="button secondary" data-join-challenge="value-hunter">Participer</button></article><article class="challenge-card card" data-challenge="perfect-five"><span>CETTE SEMAINE</span><h3>La série parfaite</h3><p>Construire la plus longue série de paris gagnants.</p><small data-challenge-ranking>Rejoignez le défi pour être classé.</small><button class="button secondary" data-join-challenge="perfect-five">Participer</button></article></div></div>
       <div data-cpanel="fame" hidden><section id="fame-panel" class="fame card" aria-label="Hall of fame"></section></div>
     </section>
   </main>
@@ -194,7 +203,7 @@
         <button data-footer-nav="matches">Matchs</button>
         <button data-footer-nav="builder">Combiné intelligent</button>
         <button data-footer-nav="standings">Classement des équipes</button>
-        <button data-footer-nav="predictions">Bilan des pronostics</button>
+        <button data-footer-nav="predictions">Résultats du modèle</button>
         <button data-footer-nav="bankroll">Mes paris et bankroll</button>
         <button data-footer-nav="community">Challenges et communauté</button>
         <button data-open-dialog="help-dialog">Aide et lexique</button>
@@ -332,10 +341,9 @@
   <dialog id="detail-dialog" class="sheet detail-sheet" aria-labelledby="detail-title"><div class="detail-head" id="detail-head"></div><div class="detail-tabs" id="detail-tabs" role="tablist"></div><div class="detail-body" id="detail-body"></div></dialog>
   <nav class="mobile-nav" aria-label="Navigation mobile">
     <button class="active" data-mobile-target="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button>
-    <button data-mobile-target="builder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/></svg>Combiné<i id="mobile-ticket-count" hidden></i></button>
-    <button data-mobile-target="standings" aria-label="Classement des équipes" title="Classement des équipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 6h3v2a3 3 0 0 1-3 3M7 6H4v2a3 3 0 0 0 3 3"/></svg>Équipes</button>
-    <button data-mobile-target="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Bilans</button>
-    <button data-mobile-target="community"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M2 20c1-5 3-7 6-7s5 2 6 7"/></svg>Club<i id="feed-dot-mobile" hidden></i></button>
+    <button data-mobile-target="builder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/></svg>Ticket<i id="mobile-ticket-count" hidden></i></button>
+    <button data-mobile-target="predictions" aria-label="Résultats du modèle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats</button>
+    <button data-mobile-target="community"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M2 20c1-5 3-7 6-7s5 2 6 7"/></svg>Le Club<i id="feed-dot-mobile" hidden></i></button>
     <button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Mes paris</button>
     <button data-mobile-account><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Compte</button>
   </nav>
@@ -343,6 +351,6 @@
   <dialog id="special-dialog" class="special-dialog" aria-labelledby="special-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="special-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
   <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=club-49"></script>
+  <script type="module" src="app.js?v=bet120-club-49"></script>
 </body>
 </html>
