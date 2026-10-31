@@ -264,6 +264,30 @@
     "score": "3 : 0"
   },
   {
+    "id": "espn-401882822",
+    "date": "2026-10-31",
+    "league": "La Liga",
+    "match": "Barcelona – Alavés",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.69,
+    "probability": 0.5481265362794845,
+    "status": "won",
+    "score": "6 : 1"
+  },
+  {
+    "id": "espn-401879250",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "Aston Villa – Fulham",
+    "label": "Aston Villa",
+    "key": "home",
+    "odd": 2.38,
+    "probability": 0.6393631888006248,
+    "status": "lost",
+    "score": "1 : 1"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",
