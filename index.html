@@ -162,21 +162,23 @@
     <section id="community" class="section-block tab-hidden" data-view="community">
       <div class="section-heading"><div><p class="eyebrow">JOUEZ ENSEMBLE</p><h2>Le Club</h2><p class="section-subtitle">Retrouvez vos ligues, comparez votre classement et jouez avec vos amis.</p></div></div>
       <div class="community-tabs" id="community-tabs" role="tablist" aria-label="Dans Le Club">
-        <button role="tab" data-ctab="league" aria-selected="true">Mes ligues</button><button role="tab" data-ctab="general" aria-selected="false">Classement des joueurs</button><button role="tab" data-ctab="follows" aria-selected="false">Joueurs suivis<i class="tab-dot" id="feed-dot" hidden></i></button><button role="tab" data-ctab="private" aria-selected="false">Entre amis</button><button role="tab" data-ctab="challenges" aria-selected="false">Défis</button><button role="tab" data-ctab="fame" aria-selected="false">Palmarès</button>
+        <button role="tab" data-ctab="league" aria-selected="true">Ligues et classements</button><button role="tab" data-ctab="follows" aria-selected="false">Joueurs suivis<i class="tab-dot" id="feed-dot" hidden></i></button><button role="tab" data-ctab="private" aria-selected="false">Entre amis</button><button role="tab" data-ctab="challenges" aria-selected="false">Défis</button><button role="tab" data-ctab="fame" aria-selected="false">Palmarès</button>
       </div>
-      <p class="section-subtitle club-section-description" id="club-section-description">Vos ligues et les compétitions à rejoindre.</p>
+      <p class="section-subtitle club-section-description" id="club-section-description">Choisissez une compétition, retrouvez votre place et visez le podium.</p>
       <div data-cpanel="league">
+        <div class="club-arena card"><div><p class="eyebrow">LA COURSE AU CLASSEMENT</p><h3>Chaque prono peut faire la différence</h3><p>Vos pronostics éligibles comptent automatiquement dans les compétitions publiques gratuites.</p></div><label>Classement<select id="club-league-select"><option value="general">Tous les joueurs</option><option value="group">Mon groupe de division</option></select></label></div>
+        <section id="club-competition" class="card" hidden aria-live="polite"></section>
         <section id="my-leagues" class="my-leagues" aria-label="Mes ligues" hidden></section>
         <section id="my-league" class="my-league card" aria-label="Ma ligue" hidden></section>
         <section id="league-catalog" class="league-catalog card" aria-label="Catalogue des ligues" hidden></section>
-      </div>
-      <div data-cpanel="general" hidden>
+      <div id="club-general">
         <section id="podium" class="podium card" aria-label="Podium de la saison" hidden></section>
         <section class="general card" aria-label="Classement général">
           <div class="general-filters"><div class="period-switch" id="general-scope"><button class="active" data-scope="season">Saison</button><button data-scope="alltime">Tous les temps</button></div><label>Division<select id="general-division"><option value="">Toutes</option><option value="0">District</option><option value="1">Régional</option><option value="2">National</option><option value="3">Pro</option><option value="4">Élite</option><option value="5">Champions</option><option value="6">Master</option></select></label><label>Club de cœur<select id="general-club"><option value="">Tous</option></select></label><label class="player-search"><span>Rechercher</span><input id="general-search" type="search" placeholder="Pseudo…" autocomplete="off"></label></div>
           <p class="muted" id="general-status">Chargement…</p><div id="general-list" class="league-table"></div>
           <div class="pager"><button class="button secondary" id="general-prev">Précédent</button><span id="general-page">Page 1</span><button class="button secondary" id="general-next">Suivant</button></div>
         </section>
+      </div>
       </div>
       <div data-cpanel="follows" hidden><section id="follows-panel" class="follows card" aria-label="Joueurs suivis"></section></div>
       <div data-cpanel="private" hidden><section id="private-leagues" class="private-leagues card" aria-label="Ligues privées" hidden></section></div>

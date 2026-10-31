@@ -225,3 +225,10 @@ table{width:100%;border-collapse:collapse;min-width:680px}th,td{text-align:left;
 .history-leg.won .leg-state>span{background:var(--accent);color:var(--on-accent)}.history-leg.lost .leg-state>span{background:var(--danger-soft);color:var(--danger)}
 .leg-main{min-width:0}.leg-main strong,.leg-main small,.leg-main span{display:block}.leg-main small{color:var(--muted);font-size:12px}.leg-main span{font-size:13px;margin-top:2px}.leg-main em{font-style:normal;color:var(--accent-text);font-weight:800}
 .leg-score{text-align:right}.leg-score small,.leg-score strong{display:block}.leg-score small{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em}.leg-score strong{font-family:var(--display);font-size:22px}
+
+/* Club : une compétition, un classement, une destination. */
+.club-arena{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:26px;margin-bottom:20px;background:radial-gradient(ellipse at top right,color-mix(in srgb,var(--accent) 14%,transparent),transparent 65%),var(--surface)}
+.club-arena h3{margin:6px 0;font-size:clamp(1.25rem,2.6vw,1.9rem)}
+.club-arena p{max-width:60ch}.club-arena label{display:grid;gap:8px;min-width:230px;font-weight:700}.club-arena select{width:100%;max-width:100%}
+#club-competition{padding:24px;margin-bottom:20px}.club-rankings{display:grid;gap:8px;margin-top:20px}.club-ranking{display:flex;align-items:center;gap:14px;width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);text-align:left;cursor:pointer}.club-ranking span:not(.mini-avatar){flex:1}.club-ranking small{display:block;margin-top:4px;color:var(--muted)}.club-ranking.me{border-color:var(--accent-text);background:color-mix(in srgb,var(--accent) 8%,transparent)}.club-rank{min-width:44px}.club-ranking:hover{border-color:var(--accent-text)}
+@media(max-width:700px){.club-arena{align-items:stretch;flex-direction:column;padding:20px}.club-arena label{min-width:0}#club-competition{padding:14px}.club-ranking{gap:8px;padding:10px}.club-rank{min-width:26px}.special-head{flex-wrap:wrap}}
