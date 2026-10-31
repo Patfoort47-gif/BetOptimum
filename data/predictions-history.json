@@ -180,6 +180,18 @@
     "score": "3 : 0"
   },
   {
+    "id": "espn-401874990",
+    "date": "2026-10-31",
+    "league": "Serie A",
+    "match": "Udinese – AS Roma",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 2.19,
+    "probability": 0.6583271655120895,
+    "status": "won",
+    "score": "2 : 5"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",
