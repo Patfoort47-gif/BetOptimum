@@ -16,12 +16,12 @@ export function planGridSettlements(picks, results) {
   const plan = [];
   for (const pick of picks) {
     const { status } = selectionResult({ matchId: pick.match_ids[0], key: pick.key }, results);
-    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd) }) });
+    if (status !== 'pending') plan.push({ id: pick.id, status, points: leaguePoints({ status, odds: Number(pick.odd), version: pick.scoring_version ?? 1 }) });
   }
   return plan;
 }
 export async function settleGridPicks(admin, results) {
-  const pending = await admin.selectAll('special_picks', 'status=eq.pending&source=eq.grid&select=id,match_ids,key,odd');
+  const pending = await admin.selectAll('special_picks', 'status=eq.pending&source=eq.grid&select=id,match_ids,key,odd,scoring_version');
   let settled = 0;
   for (const decision of planGridSettlements(pending, results)) if (await admin.rpc('settle_special_pick', { p_id: decision.id, p_status: decision.status, p_points: decision.points })) settled++;
   return settled;

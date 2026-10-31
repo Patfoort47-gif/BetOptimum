@@ -107,3 +107,6 @@ Navigation (BET-120) : quatre destinations principales (Matchs, Résultats du mo
 - CSS chargé dans l’ordre `styles.css`, `styles/details.css`, `styles/components.css` ; préserver cet ordre de cascade.
 - `node scripts/prepare-pages.mjs` prépare `_site/` à partir des modules navigateur accessibles, styles et données. Les workflows Pages publient uniquement ce dossier et partagent le groupe `betmaster-pages`.
 - Recette de stabilité des cartes et du chargement différé : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-performance.cjs`, sur serveur local uniquement.
+
+
+Classements (BET-131) : `supabase/migrations/supabase-v30-schema.sql` après V29, avant publication du moteur. `scoring_version` est fixé par le serveur à la prise du prono : V1 plafond 10 pour l'historique, V2 plafond 5 pour les nouveaux pronos. Points indépendants de la mise, départage commun points / ROI normalisé sans annulations / victoires / UUID stable. Promotion : 10 résultats décidés et 50 % des occasions du défi depuis l'arrivée. Le règlement et `repair_league_history` doivent préserver la version ; ne pas réinstaller les anciennes fonctions SQL après V30. Aide près des classements et dans le règlement ; détails et recette PostgreSQL isolée dans `docs/LEAGUE_SCORING.md`.

@@ -63,8 +63,8 @@ test('le client service_role refuse une configuration incomplète et ne fuit pas
   await assert.rejects(()=>admin.select('bets'),error=>error.message.includes('HTTP 401')&&!error.message.includes(secret));
 });
 // BET-53 · points de ligue et quota hebdomadaire
-test('les points de ligue : mise fixe de 10, cote plafonnée à 10,00, annulé à 0',()=>{
-  assert.equal(leaguePoints({status:'won',odds:1.01}),.1);assert.equal(leaguePoints({status:'won',odds:10}),90);assert.equal(leaguePoints({status:'won',odds:25}),90);
+test('les points de ligue : mise fixe de 10, cote plafonnée à 5,00, annulé à 0',()=>{
+  assert.equal(leaguePoints({status:'won',odds:1.01}),.1);assert.equal(leaguePoints({status:'won',odds:10}),40);assert.equal(leaguePoints({status:'won',odds:25}),40);
   assert.equal(leaguePoints({status:'lost',odds:3}),-10);assert.equal(leaguePoints({status:'void',odds:3}),0);assert.equal(leaguePoints({status:'won',odds:1.9}),9);
 });
 test('le règlement attribue les points d’un combiné compté avec sa cote totale, et 0 à un ticket non compté',()=>{
@@ -97,9 +97,24 @@ test('le 11e pari de la semaine ne compte pas et le motif est donné avant valid
   assert.equal(quotaRemaining([...counted,{countsGeneral:true,date:'2026-10-12T10:00:00Z',items:[]}],now),0);
   assert.equal(quotaRemaining([{countsGeneral:false,date:'2026-10-20T10:00:00Z',items:[]}],now),10);
 });
-test('le départage suit points, ROI, bons pronos du défi du jour, puis ancienneté',()=>{
-  const p={points:50,roi:5,dailyGood:3,joinedAt:'2026-01-01'};
-  assert.ok(tieBreak({...p,points:60},p)<0);assert.ok(tieBreak({...p,roi:9},p)<0);assert.ok(tieBreak({...p,dailyGood:4},p)<0);assert.ok(tieBreak({...p,joinedAt:'2025-01-01'},p)<0);assert.equal(tieBreak(p,{...p}),0);
+test('le départage commun suit points, ROI, victoires puis identifiant stable',()=>{
+  const p={user_id:'b',points:50,roi:5,wins:3,joinedAt:'2026-01-01'};
+  assert.ok(tieBreak({...p,points:60},p)<0);assert.ok(tieBreak({...p,roi:9},p)<0);assert.ok(tieBreak({...p,wins:4},p)<0);assert.ok(tieBreak({...p,user_id:'a'},p)<0);
+  assert.equal(tieBreak({...p,joinedAt:'2025-01-01',dailyGood:999},p),0);
+});
+test('le règlement conserve le barème à la prise du pari, indépendamment de la mise',()=>{
+  const bet={id:'versioned',bet_type:'single',stake:10,selections:[leg('a','home',8)]},results=[done('a',1,0)];
+  assert.equal(planSettlements([{...bet,scoring_version:1}],results)[0].points,70);
+  assert.equal(planSettlements([{...bet,scoring_version:2}],results)[0].points,40);
+  assert.equal(planSettlements([{...bet,scoring_version:2,stake:1000}],results)[0].points,40);
+  assert.equal(planSettlements([bet],results)[0].points,70);
+  const picks=[{id:1,match_id:'a',pick:'home',odd:8,scoring_version:1},{id:2,match_id:'a',pick:'home',odd:8,scoring_version:2}];
+  assert.deepEqual(planDailySettlements(picks,results).map(p=>p.points),[70,40]);
+});
+test('le barème ne crée pas de points non finis ou négatifs pour une cote invalide',()=>{
+  for(const odds of [NaN,Infinity,-2,0,undefined,'invalid'])assert.equal(leaguePoints({status:'won',odds}),0);
+  assert.equal(leaguePoints({status:'won',odds:1.234}),2.34);
+  assert.equal(leaguePoints({status:'won',odds:25,version:1}),90);
 });
 // BET-54 · défi du jour
 const real=['home','draw','away'],fx=(id,league,home,away,kickoff,odds,extra={})=>({id,league,home,away,kickoff,odds:{home:odds[0],draw:odds[1],away:odds[2]},realOddsMarkets:real,oddsBookmakerCounts:{home:8},...extra}),W={'Ligue des champions':42,'Premier League':34,'Ligue 1':30};
@@ -131,4 +146,11 @@ test('les pronos du défi sont réglés avec le barème de la ligue, un match an
 test('le défi du jour est envoyé à Supabase une fois par jour',async()=>{
   const sent=[],admin={upsert:async(...args)=>sent.push(args)};
   assert.equal(await syncDailyChallenge(admin,{date:DAY,picks:[]}),0);assert.equal(await syncDailyChallenge(admin,{date:DAY,picks:[{matchId:'a'}]}),1);assert.equal(sent.length,1);assert.equal(sent[0][0],'daily_challenges');assert.equal(sent[0][2],'day');
+});
+
+test('V2 : les petites mises et leurs arrondis ne changent pas les points',()=>{
+  const bet={id:'tiny',bet_type:'single',scoring_version:2,selections:[leg('a','home',2.35)]};
+  const points=[.1,1,10,1000].map(stake=>planSettlements([{...bet,stake}],[done('a',1,0)])[0].points);
+  assert.deepEqual(points,[13.5,13.5,13.5,13.5]);
+  assert.equal(leaguePoints({status:'won',odds:1.2345}),2.35);
 });

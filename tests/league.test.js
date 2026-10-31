@@ -66,7 +66,7 @@ test('le classement de saison additionne les points, donne la forme et applique 
   const members=[{user_id:'a',group_id:1,joined_at:'2026-01-01'},{user_id:'b',group_id:1,joined_at:'2026-01-02'},{user_id:'c',group_id:1,joined_at:'2025-01-01'},{user_id:'d',group_id:null,joined_at:'2026-01-01'}];
   const entries=[{user_id:'a',points:9,settled_at:'2026-10-01'},{user_id:'a',points:-10,settled_at:'2026-10-02'},{user_id:'a',points:15,settled_at:'2026-10-03'},{user_id:'b',points:14,settled_at:'2026-10-01'},{user_id:'c',points:14,settled_at:'2026-10-01'}];
   const rows=L.computeStandings({season:'2026-10',members,entries,participation:{a:{played:3,good:2,offered:4},b:{played:1,good:1,offered:4}},previous:{a:{rank:2,snapshot_date:'2026-10-02'},b:{rank:1,snapshot_date:'2026-10-03',prev_rank:3}},today:'2026-10-03'}),by=Object.fromEntries(rows.map(r=>[r.user_id,r]));
-  assert.equal(by.a.points,14);assert.equal(by.a.form,'VDV');assert.equal(by.a.picks,3);assert.equal(by.a.wins,2);assert.equal(by.a.qualified,true);assert.equal(by.b.qualified,false);
+  assert.equal(by.a.points,14);assert.equal(by.a.form,'VDV');assert.equal(by.a.picks,3);assert.equal(by.a.wins,2);assert.equal(by.a.qualified,false);assert.equal(by.b.qualified,false);
   assert.equal(by.b.rank,1);assert.equal(by.c.rank,2);assert.equal(by.a.rank,3);assert.equal(by.d.rank,1);assert.equal(by.d.picks,0);
   assert.equal(by.a.prev_rank,2);assert.equal(by.a.snapshot_date,'2026-10-03');assert.equal(by.b.prev_rank,3);assert.equal(by.b.snapshot_date,'2026-10-03');
 });
@@ -105,4 +105,22 @@ test('BET-78 : garder le calendrier mensuel si la migration manque, puis activer
 test('BET-78 : ne pas masquer une panne ou un calendrier serveur incohérent',async()=>{
   await assert.rejects(()=>leagueSeasonFor({rpc:async()=>{throw new Error('HTTP 403 accès interdit')}}),/403/);
   await assert.rejects(()=>leagueSeasonFor({rpc:async()=>null}),/incompatible/);
+});
+
+test('qualification : dix résultats décidés, moitié des occasions, sans pénaliser une annulation',()=>{
+  const members=[{user_id:'a',group_id:1}],entries=Array.from({length:10},(_,i)=>({user_id:'a',points:i<6?10:-10,settled_at:'2026-10-01'}));
+  const ranking=(items,participation={})=>L.computeStandings({season:'2026-2027',members,entries:items,participation,today:'2026-10-01'})[0];
+  assert.equal(ranking(entries.slice(0,9)).qualified,false);
+  assert.equal(ranking(entries).qualified,true);
+  assert.equal(ranking(entries,{a:{played:4,offered:10}}).qualified,false);
+  assert.equal(ranking(entries,{a:{played:5,offered:10}}).qualified,true);
+  assert.equal(ranking([...entries,{user_id:'a',points:0}]).roi,ranking(entries).roi);
+  assert.equal(ranking([...entries,{user_id:'a',points:0}]).picks,11);
+});
+test('un groupe et une ligue spéciale appliquent les mêmes points et départages',async()=>{
+  const {specialStandings}=await import('../special.js');
+  const members=[{user_id:'b',group_id:1},{user_id:'a',group_id:1}],entries=[{user_id:'a',points:20,status:'won'},{user_id:'a',points:-10,status:'lost'},{user_id:'b',points:10,status:'won'},{user_id:'b',points:0,status:'void'}];
+  const group=L.computeStandings({season:'2026-2027',members,entries,today:'2026-10-01'}).sort((a,b)=>a.rank-b.rank),special=specialStandings(entries,members);
+  assert.deepEqual(group.map(r=>[r.user_id,r.points,r.roi,r.rank]),special.map(r=>[r.user_id,r.points,r.roi,r.rank]));
+  assert.equal(group[0].user_id,'b');
 });
