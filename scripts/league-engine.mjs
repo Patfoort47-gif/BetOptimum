@@ -1,6 +1,7 @@
 // Moteur de la ligue générale (BET-55) : classements recalculés après chaque règlement, clôture mensuelle des saisons.
 // La logique de décision est dans league.js (pure, testée) ; ce fichier lit et écrit Supabase avec la clé service_role.
 import { DIVISION_UNLOCKS, MASTER, closeSeason, computeStandings, divisionIndex, lastWeekend, nextSeason, seasonDates, seasonKey, monthKey } from '../league.js';
+import {weekKey} from '../model.js';
 import { parisDate } from '../model.js';
 
 const lastDayOf = season => seasonDates(season).end;
@@ -38,7 +39,7 @@ export async function recomputeStandings(admin, now = new Date(), season = seaso
   const rows = computeStandings({ season, members: roster, entries, participation: Object.fromEntries(daily.map(item => [item.user_id, item])), previous: Object.fromEntries(old.map(item => [item.user_id, item])), today });
   await admin.upsert('standings', rows, 'season,user_id');
   // Un joueur inactif qui reprend ses pronos revient dans la ligue (sans groupe jusqu'à la prochaine clôture).
-  const back = players.filter(player => player.inactive && withEntries.has(player.user_id)).map(player => player.user_id);
+  const back = players.filter(player => player.inactive && entries.some(entry=>entry.user_id===player.user_id&&weekKey(entry.settled_at)===weekKey(now))).map(player => player.user_id);
   for (const id of back) await admin.patch('player_league', `user_id=eq.${id}`, { inactive: false, updated_at: new Date().toISOString() });
   return rows.length;
 }
@@ -68,14 +69,21 @@ export function planClosure({ season, players, standings, groups, groupMembers, 
 export async function closeOneSeason(admin, season) {
   await recomputeStandings(admin, new Date(), season, lastDayOf(season));
   const [players, standings, groups, groupMembers] = await Promise.all([
-    admin.selectAll('player_league', 'select=user_id,echelon,joined_at,protected'),
-    admin.selectAll('standings', `season=eq.${season}&select=user_id,points,roi,wins,daily_good,picks,qualified`),
+    admin.selectAll('player_league', 'select=user_id,echelon,joined_at,protected,inactive'),
+    admin.selectAll('standings', `season=eq.${season}&select=user_id,points,roi,wins,daily_good,picks,qualified,rank`),
     admin.selectAll('league_groups', `season=eq.${season}&select=id,label`),
     admin.selectAll('group_members', `season=eq.${season}&select=user_id,group_id`)
   ]);
   const [saturday, sunday] = lastWeekend(season), weekend = await admin.selectAll('daily_picks', `day=gte.${saturday}&day=lte.${sunday}&select=user_id,points`), weekendPoints = {};
   for (const pick of weekend) weekendPoints[pick.user_id] = (weekendPoints[pick.user_id] ?? 0) + Number(pick.points);
   const plan = planClosure({ season, players, standings, groups, groupMembers, weekendPoints });
+  // BET-133 : la fin d’année archive les points, les divisions évoluent uniquement chaque semaine.
+  const rounds = await admin.select('league_rounds', `season=eq.${season}&select=week_start&limit=1`);
+  if(rounds.length){
+    plan.results=players.map(player=>({user_id:player.user_id,from_echelon:player.echelon,to_echelon:player.echelon,outcome:'MAINTENU',group_rank:standings.find(row=>row.user_id===player.user_id)?.rank??null,group_size:groupMembers.filter(m=>m.group_id===groupMembers.find(m=>m.user_id===player.user_id)?.group_id).length,points:Number(standings.find(row=>row.user_id===player.user_id)?.points??0),protected:player.protected,inactive:player.inactive,unlocks:[],revoke:[]}));
+    const roster=await admin.selectAll('league_groups', `season=eq.${season}&select=id,label,echelon`);
+    plan.groups=roster.map(group=>({...group,members:groupMembers.filter(m=>m.group_id===group.id).map(m=>m.user_id)}));
+  }
   return admin.rpc('apply_season_close', { p_season: season, p_next: plan.next, p_results: plan.results, p_groups: plan.groups });
 }
 

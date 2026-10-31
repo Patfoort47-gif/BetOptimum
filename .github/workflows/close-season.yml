@@ -1,4 +1,4 @@
-name: Clôturer la saison de ligue
+name: Clôturer les journées et saisons de ligue
 
 on:
   schedule:
@@ -11,6 +11,8 @@ on:
       - scripts/close-season.mjs
       - scripts/league-engine.mjs
       - league.js
+      - league-round.js
+      - scripts/weekly-league-engine.mjs
       - .github/workflows/close-season.yml
 
 concurrency:

@@ -87,3 +87,10 @@ Appliquer `supabase/migrations/supabase-v29-schema.sql` après V28 et avant de p
 
 ### BET-131 / BET-132 · Barème unique et recalcul historique
 Après V29, appliquer V30 puis `supabase/migrations/supabase-v31-schema.sql` avant de publier le moteur JS. V31 applique le plafond de cote 5 et la mise fixe de 10 à tous les pronostics existants, réglés ou en attente. Le recalcul couvre les points des écritures générales, défis et compétitions, les totaux, ROI et rangs courants et archivés. Il ne rejoue aucun gain ni aucune promotion passée : bankrolls, payouts, statuts, dates et récompenses restent conservés. Relancer ensuite la synchronisation habituelle pour actualiser les classements courants. Voir `docs/LEAGUE_SCORING.md` pour la recette isolée et les contrôles.
+
+
+## Journées hebdomadaires du Club (BET-133)
+
+Appliquer `supabase/migrations/supabase-v32-schema.sql` après V31 avant de publier le navigateur et le moteur hebdomadaire. La migration ouvre uniquement la semaine courante, sans rejouer les semaines passées. `close-season.yml` traite les journées terminées après minuit à Paris : attribution et groupes sont enregistrés dans une transaction, une seule fois par semaine. Les statistiques de division couvrent les résultats réglés du lundi au dimanche ; le cumul de saison et les primes annuelles restent annuels. Aucun résultat tardif ne réouvre une semaine clôturée. Les comptes déjà inactifs ne perdent pas un nouvel échelon chaque semaine ; les semaines sans résultat global sont neutralisées.
+
+Contrôle : `league_rounds` contient la semaine courante ; `public_weekly_standings` expose les mêmes agrégats que le moteur ; `league_round_results` conserve les mouvements côté serveur. Tests : `tests/weekly-league.test.js`, `tests/club-table.test.js`.
