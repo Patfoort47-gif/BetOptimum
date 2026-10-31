@@ -426,3 +426,41 @@ dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-
 
 /* BET-133 : même tableau dans tous les classements du Club. */
 .club-table-scroll{overflow-x:auto;max-width:100%;margin-top:16px}.club-table{border-collapse:collapse;width:100%;min-width:650px;font-size:13px;font-variant-numeric:tabular-nums}.club-table th,.club-table td{padding:12px 10px;text-align:right;border-bottom:1px solid var(--line)}.club-table thead th{color:var(--muted);font-size:11px;text-transform:uppercase}.club-table th:nth-child(2){text-align:left;min-width:180px}.club-table td:first-child{font-weight:800;text-align:left}.club-player{display:flex;align-items:center;gap:10px}.club-player small{display:block;color:var(--muted);font-weight:400}.club-table .me{background:var(--accent-soft)}.club-table .up td:first-child{box-shadow:inset 3px 0 var(--accent)}.club-table .down td:first-child{box-shadow:inset 3px 0 var(--danger)}.club-table-note{font-size:11px;color:var(--muted);margin-top:8px}
+
+/* BET-134 : sélecteurs communs à toutes les pages, y compris les formulaires différés. */
+:root select{
+  appearance:none;min-height:46px;height:auto;max-width:100%;min-width:0;
+  padding:11px 42px 11px 14px;border:1px solid var(--line-strong);border-radius:12px;
+  background-color:var(--surface);color:var(--text);font:inherit;font-size:14px;font-weight:600;
+  line-height:1.4;text-overflow:ellipsis;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23929b90' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:16px;background-position:right 14px center;
+  box-shadow:0 1px 2px #0000000a;transition:border-color .16s,box-shadow .16s,background-color .16s;
+  color-scheme:dark;
+}
+:root.light select{color-scheme:light}
+:root select:not(:disabled):hover{border-color:var(--accent-text);background-color:var(--surface-2)}
+:root select:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px;border-color:var(--accent-text);box-shadow:0 0 0 4px var(--accent-soft)}
+:root select:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+:root select option,:root select optgroup{background:var(--surface);color:var(--text);font-weight:500}
+:root select optgroup{font-weight:800}
+:root select:is([multiple],[size]:not([size="1"])){padding:8px;background-image:none}
+/* Le menu personnalisable reste un vrai select : clavier, labels et événements natifs. */
+@supports (appearance:base-select){
+  @media (hover:hover) and (pointer:fine){
+    :root select:not([multiple]):not([size]),:root select[size="1"]{appearance:base-select;background-image:none;padding-right:14px;gap:20px;align-items:center}
+    :root select::picker(select){appearance:base-select;border:1px solid var(--line-strong);border-radius:16px;padding:6px;margin-block:6px;background:var(--surface);color:var(--text);box-shadow:0 16px 40px #00000030;max-height:min(360px,60dvh);overflow:auto;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
+    :root select::picker-icon{content:"";width:7px;height:7px;flex-shrink:0;margin-inline:4px 2px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);color:var(--muted);transition:rotate .16s}
+    :root select:open{border-color:var(--accent-text);box-shadow:0 0 0 3px var(--accent-soft)}
+    :root select:open::picker-icon{rotate:180deg}
+    :root select option{min-height:42px;padding:10px 12px;border-radius:10px;gap:12px;font-size:14px;line-height:1.4;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+    :root select option:not(:disabled):is(:hover,:focus){background:var(--surface-2);outline:0}
+    :root select option:checked{background:var(--accent-soft);color:var(--accent-text);font-weight:750}
+    :root select option::checkmark{color:var(--accent-text)}
+    :root select option:disabled{opacity:.45;cursor:not-allowed}
+    :root select optgroup{padding:6px;font-size:12px;color:var(--muted)}
+  }
+}
+@media(max-width:700px){:root select{font-size:16px;min-height:48px}}
+@media(prefers-reduced-motion:reduce){:root select,:root select::picker-icon{transition:none}}
+@media(forced-colors:active){:root select{appearance:auto;background-image:none;border:1px solid ButtonText;box-shadow:none}:root select:focus-visible{outline:2px solid Highlight}}
