@@ -94,11 +94,13 @@ Ces emails sont indépendants de la newsletter de V25 et des alertes de value. A
 
 ### Contenu et calculs
 
-Le HTML à tableaux et CSS intégré et sa version texte sont construits par `notification-email.js`. Les informations essentielles n’utilisent ni image, ni police externe, ni JavaScript. Affiche vedette, jusqu’à trois pistes sur des rencontres distinctes selon les seuils personnels, favoris et fil chronologique. Les conseils exigent un horodatage bookmaker vérifiable de moins de 24 h (cache compris) et un flux de matchs frais : des cotes sans date ne produisent pas de conseil. Le programme peut rester visible sans conseil.
+Le HTML à tableaux et CSS intégré et sa version texte sont construits par `notification-email.js`. Les informations essentielles n’utilisent ni image, ni police externe, ni JavaScript. Affiche vedette, deux pistes au maximum selon les seuils personnels et trois rencontres au maximum dans le programme. Un seul bouton principal renvoie vers le site. Les alertes et messages de test email utilisent la même présentation. Les conseils exigent un horodatage bookmaker vérifiable de moins de 24 h (cache compris) et un flux de matchs frais : des cotes sans date ne produisent pas de conseil. Le programme peut rester visible sans conseil.
 
 Juste avant l’envoi, le worker lit un snapshot privé et cohérent de `player_accounts` et des paris `pending` via un RPC réservé au service. Aucun solde ni sélection privée n’est stocké dans le payload de la file ni dans les logs. Il vérifie aussi que la destination associée correspond encore à l’email confirmé actuel du compte. Après un changement d’adresse, réassocier le canal ; l’ancienne destination est refusée pour les briefings.
 
-Les mises du périmètre comptent chaque ticket simple ou combiné une fois, seulement si toutes ses sélections sont sur les affiches présentées. Retour brut = mise × cote enregistrée ; bénéfice net = retour brut - mise. Si des résultats 1N2 se contredisent, aucun total « tous gagnants » n’est affiché : les scénarios restent séparés. Les combinés comprenant d’autres affiches sont listés à part. Les paris systèmes ou marchés non reconnus sont signalés et exclus des projections. Bankroll indisponible et bankroll nulle sont distinguées. Il n’y a ni mise hypothétique ni placement automatique.
+L’email affiche seulement la bankroll disponible et renvoie vers le profil pour les paris et leurs scénarios. Les projections détaillées restent calculées dans le snapshot métier mais ne sont plus affichées dans les emails. Bankroll indisponible et bankroll nulle sont distinguées. Aucun placement automatique.
+
+Après fusion de BET-119, redéployer la fonction `notifications` depuis la racine du dépôt pour appliquer les nouveaux modèles aux envois réels.
 
 ### Aperçus et recette avant production
 

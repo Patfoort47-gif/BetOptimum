@@ -78,3 +78,10 @@ test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429
  });assert.equal(result.status,'sent');
  assert.equal((await deliver('email',{email:'owner@example.com'},e,98,env,async()=>new Response('',{status:429}))).status,'pending');
 });
+test('email court : deux pistes, trois rendez-vous, sans projection financière détaillée et sans conseil périmé',()=>{
+ const m=match(),b=buildBriefing([m],prefs,planBriefing([m],prefs,now),{bankroll:0},[],now,new Date(now).toISOString());
+ b.matches=Array.from({length:12},(_,i)=>({...m,id:String(i),home:`Equipe ${i}`}));b.picks=Array.from({length:8},()=>b.picks[0]);
+ const mail=briefingEmail(b,'https://example.com/');
+ assert.equal((mail.text.match(/À analyser :/g)||[]).length,2);assert.ok(!mail.text.includes('retour brut'));assert.match(mail.text,/9 autre/);assert.match(mail.text,/0,00/);
+ const stale=briefingEmail({...b,fresh:false},'https://example.com/');assert.ok(!stale.text.includes('À analyser :'));assert.match(stale.text,/aucun conseil publié/);
+});
