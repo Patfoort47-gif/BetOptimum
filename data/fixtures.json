@@ -34,7 +34,7 @@
     "secondaryOddsMatches": 0,
     "statsMatches": 100,
     "oddsMatches": 6,
-    "settlements": 142
+    "settlements": 146
   },
   "settlements": [
     {
@@ -133,6 +133,42 @@
       "home": "Werder Bremen",
       "away": "TSG Hoffenheim",
       "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401879251",
+      "date": "2026-10-31",
+      "home": "AFC Bournemouth",
+      "away": "Leeds United",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401879247",
+      "date": "2026-10-31",
+      "home": "Coventry City",
+      "away": "Sunderland",
+      "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401878763",
+      "date": "2026-10-31",
+      "home": "Hull City",
+      "away": "Ipswich Town",
+      "homeScore": 2,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401882818",
+      "date": "2026-10-31",
+      "home": "Rayo Vallecano",
+      "away": "Celta Vigo",
+      "homeScore": 3,
       "awayScore": 0,
       "completed": true
     },
@@ -7487,11 +7523,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
       "priority": 34,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.35,
       "awayGoals": 1.3,
@@ -7663,12 +7699,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
       "priority": 34,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 3,
+      "awayScore": 1,
       "homeGoals": 1.62,
       "awayGoals": 1.15,
       "odds": {
@@ -7751,12 +7787,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
       "priority": 34,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 2,
       "homeGoals": 1.44,
       "awayGoals": 1.23,
       "odds": {
@@ -8015,11 +8051,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/85.png",
       "priority": 33,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "homeGoals": 0.99,
       "awayGoals": 1.61,
@@ -21497,5 +21533,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-31T16:55:21.241Z"
+  "scoresUpdatedAt": "2026-10-31T17:50:19.019Z"
 }

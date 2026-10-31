@@ -132,6 +132,54 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401879251",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "AFC Bournemouth – Leeds United",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5388791593805252,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401879247",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "Coventry City – Sunderland",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5481265362794845,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
+    "id": "espn-401878763",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "Hull City – Ipswich Town",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5400318889463649,
+    "status": "won",
+    "score": "2 : 2"
+  },
+  {
+    "id": "espn-401882818",
+    "date": "2026-10-31",
+    "league": "La Liga",
+    "match": "Rayo Vallecano – Celta Vigo",
+    "label": "Celta Vigo",
+    "key": "away",
+    "odd": 3.17,
+    "probability": 0.5183667633857951,
+    "status": "lost",
+    "score": "3 : 0"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",
