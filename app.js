@@ -421,3 +421,5 @@ if(typeof window!=='undefined'){document.querySelector('#account-menu')?.addEven
 
 // BET-120 : accès au ticket depuis le calendrier et les classements.
 document.querySelectorAll('[data-open-ticket]').forEach(button=>button.addEventListener('click',()=>{setActiveTab('matches');if(matchMedia('(max-width:700px)').matches)setBuilderDrawer(true);else $('#builder')?.scrollIntoView({behavior:motionBehavior()})}));
+// Les anciens liens de rubrique fonctionnent aussi sans recharger la page.
+globalThis.addEventListener?.('hashchange',()=>{const routes={'#dashboard':'matches','#classements':'standings','#bilan-pronos':'predictions','#communaute':'community','#bankroll':'bankroll','#challenges':'community'},tab=routes[location.hash];if(tab){const challenges=location.hash==='#challenges';setActiveTab(tab,true);if(challenges)setCommunityTab('challenges')}});
