@@ -228,6 +228,42 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401874795",
+    "date": "2026-10-31",
+    "league": "Serie A",
+    "match": "AC Milan – Internazionale",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.51,
+    "probability": 0.6782063742208888,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
+    "id": "espn-401876413",
+    "date": "2026-10-31",
+    "league": "Ligue 1",
+    "match": "Troyes – Le Mans",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5841661554556732,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401876707",
+    "date": "2026-10-31",
+    "league": "Ligue 2",
+    "match": "Guingamp – Saint-Étienne",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "lost",
+    "score": "3 : 0"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",

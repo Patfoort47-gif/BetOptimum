@@ -34,7 +34,7 @@
     "secondaryOddsMatches": 0,
     "statsMatches": 100,
     "oddsMatches": 6,
-    "settlements": 150
+    "settlements": 153
   },
   "settlements": [
     {
@@ -206,6 +206,33 @@
       "away": "Borussia Dortmund",
       "homeScore": 2,
       "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401876413",
+      "date": "2026-10-31",
+      "home": "Troyes",
+      "away": "Le Mans",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874795",
+      "date": "2026-10-31",
+      "home": "AC Milan",
+      "away": "Internazionale",
+      "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401876707",
+      "date": "2026-10-31",
+      "home": "Guingamp",
+      "away": "Saint-Étienne",
+      "homeScore": 3,
+      "awayScore": 0,
       "completed": true
     },
     {
@@ -7207,12 +7234,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
       "priority": 91,
       "featured": true,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 3,
+      "awayScore": 1,
       "homeGoals": 1.71,
       "awayGoals": 1.76,
       "odds": {
@@ -8879,11 +8906,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
       "priority": 30,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.26,
       "awayGoals": 1.69,
@@ -9042,11 +9069,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/178.png",
       "priority": 18,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -21569,5 +21596,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-10-31T20:54:51.357Z"
+  "scoresUpdatedAt": "2026-10-31T21:52:22.749Z"
 }
