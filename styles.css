@@ -706,17 +706,17 @@ body.join-open{overflow:hidden}.join-view{position:fixed;inset:0;z-index:200;dis
 
 @media(min-width:1600px){.topbar{gap:16px}.tab-button{padding-inline:10px;font-size:12px;letter-spacing:.02em}}
 
-/* BET-118 : même ligne et même centre vertical pour les trois zones. */
-@media(min-width:701px){
-  .topbar{grid-template-columns:max-content minmax(0,1fr) max-content;align-items:center}
-  .topbar>.brand,.topbar>.tabs,.topbar>.topbar-actions{grid-row:1;align-self:center}
-  .topbar>.brand{grid-column:1}.topbar>.tabs{grid-column:2;align-items:center;justify-content:center;flex-wrap:nowrap}.topbar>.topbar-actions{grid-column:3}
-}
-@media(min-width:701px) and (max-width:1599px){
+/* BET-120 : quatre destinations avec des noms toujours visibles. */
+@media(min-width:1101px){
   :root{--header-offset:92px}
-  .topbar>.tabs{gap:4px}.tabs .tab-button,.tabs .tab-button.active{flex:0 0 44px;width:44px;height:44px;padding:0;font-size:0;letter-spacing:0}.tabs .tab-button svg{display:block;width:20px;height:20px}
-  .match-strip{top:72px}
+  .topbar{grid-template-columns:max-content minmax(0,1fr) max-content;align-items:center;gap:12px}
+  .topbar>.brand,.topbar>.tabs,.topbar>.topbar-actions{grid-row:1;align-self:center}
+  .topbar>.brand{grid-column:1}.topbar>.tabs{grid-column:2;align-items:center;justify-content:center;flex-wrap:nowrap;gap:2px}.topbar>.topbar-actions{grid-column:3}
+  .tabs .tab-button{flex:none;width:auto;padding:0 8px;font-size:12px;letter-spacing:0;gap:6px}
+  .tabs .tab-button svg{display:block;width:17px;height:17px}.match-strip{top:72px}
 }
+@media(min-width:1101px) and (max-width:1399px){.topbar{gap:8px}.tabs .tab-button{padding-inline:5px;font-size:11px;gap:4px}.topbar-actions{gap:6px}.account-button{padding-right:10px}.account-button b{max-width:90px}.topbar-bankroll{min-width:114px;padding-inline:8px}}
+@media(min-width:701px) and (max-width:1100px){.topbar>.tabs{gap:4px;flex-wrap:nowrap}.tabs .tab-button{flex:none;width:auto;padding:0 10px;font-size:12px;letter-spacing:0}.tabs .tab-button svg{display:block;width:17px;height:17px}}
 
 /* BET-115 : comparer des familles de marchés sans assimiler leurs probabilités. */
 .match-analysis{display:grid;gap:12px;min-width:0}.analysis-intro{display:grid;gap:4px}.analysis-intro small,.analysis-note{color:var(--muted);font-size:12px}.analysis-note{margin:0}.analysis-families{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.analysis-families article{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;padding:14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}.analysis-families article>small{color:var(--muted);font-size:11px}.analysis-families strong{font-size:14px;overflow-wrap:anywhere}.analysis-families b{font-family:var(--display);font-size:28px;color:var(--accent-text)}.analysis-families span{font-size:11px;color:var(--muted)}.analysis-families .button{margin-top:auto;min-height:40px;padding:8px 12px;font-size:12px;white-space:normal}.match-analysis .recommended{width:100%;text-align:left}
@@ -728,3 +728,10 @@ dialog .dialog-tools{display:flex;justify-content:flex-end;margin-bottom:12px}
 dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-width:44px;min-height:44px}
 .detail-head{padding-right:76px}
 @media(max-width:700px){dialog .modal-head,dialog .dialog-tools{top:-20px;margin:-20px -16px 16px;padding:calc(14px + env(safe-area-inset-top)) 16px 10px}.detail-head{padding-right:72px}}
+
+/* Navigation secondaire et lecture progressive des pages. */
+.section-navigation{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:24px 0;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);scroll-margin-top:var(--header-offset)}
+.section-navigation[hidden]{display:none}.section-navigation button{min-height:44px;padding:10px 16px;border:0;border-radius:var(--radius-sm);background:transparent;color:var(--muted);font-weight:700;font-size:13px}.section-navigation button:hover{background:var(--surface-2);color:var(--text)}.section-navigation button.active{background:var(--accent-soft);color:var(--accent-text)}.section-navigation [data-open-ticket]{margin-left:auto;border:1px solid var(--line-strong);color:var(--text)}.section-navigation span{color:var(--accent-text)}
+.section-details{margin:16px 0;padding:var(--panel-padding);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}.section-details>summary{min-height:44px;align-content:center;cursor:pointer;font-weight:700;color:var(--accent-text)}.section-details[open]>summary{margin-bottom:16px}.section-details .performance-grid{margin:0}.section-details .analytics-dashboard{padding:0}.club-section-description{margin:0 0 20px}.community-tabs{flex-wrap:wrap}.community-tabs button{white-space:normal}
+#bankroll>.stats-grid{margin-bottom:20px}
+@media(max-width:700px){.mobile-nav{grid-template-columns:repeat(6,minmax(0,1fr))}.section-navigation{gap:4px;margin:16px 0;padding:6px}.section-navigation button{padding:8px;font-size:12px}.section-navigation [data-open-ticket]{margin-left:0}.community-tabs{gap:6px}.community-tabs button{flex:1 1 130px;text-align:center}}
