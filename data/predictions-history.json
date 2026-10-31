@@ -1,5 +1,29 @@
 [
   {
+    "id": "espn-401879248",
+    "date": "2026-10-31",
+    "league": "Premier League",
+    "match": "Chelsea – Manchester United",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.49,
+    "probability": 0.5879181591415851,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401882820",
+    "date": "2026-10-31",
+    "league": "La Liga",
+    "match": "Levante – Atlético Madrid",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.65,
+    "probability": 0.593102328039192,
+    "status": "lost",
+    "score": "0 : 2"
+  },
+  {
     "id": "espn-401876421",
     "date": "2026-10-30",
     "league": "Ligue 1",
