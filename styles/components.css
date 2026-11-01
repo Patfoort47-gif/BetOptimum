@@ -496,3 +496,24 @@ dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-
 /* BET-137 : le match et le choix avant les analyses. */
 .match-filter-context{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0 20px}.match-filter-context p{font-size:13px;line-height:1.6;color:var(--muted);margin:0;overflow-wrap:anywhere}.match-filter-context button{min-height:44px}.selection-feedback{margin:8px 0;padding:12px;background:var(--accent-soft);color:var(--accent-text);border-radius:var(--radius-sm);font-size:13px;line-height:1.6}.selection-feedback[hidden]{display:none}.match-analysis-disclosure>.match-analysis{padding-top:12px}.match-secondary>summary{min-height:44px;align-content:center;cursor:pointer}
 @media(max-width:700px){#matches .section-heading{gap:12px}.match-card{padding:16px;gap:14px}.match-head{align-items:flex-start;gap:8px;flex-wrap:wrap}.match-league{min-width:0;flex-wrap:wrap}.match-league b{overflow-wrap:anywhere}.match-teams{grid-template-columns:minmax(0,1fr) minmax(72px,auto) minmax(0,1fr);gap:8px}.match-teams .team{min-width:0;min-height:44px}.match-teams .team strong{font-size:14px;line-height:1.4;white-space:normal;overflow-wrap:anywhere}.match-teams .crest{width:36px;height:36px}.match-teams .countdown strong{font-size:19px}.match-teams .kickoff small{font-size:10px}.match-teams .live-badge{white-space:normal;font-size:10px}.market{min-height:92px;padding:10px 6px}.market>span:first-child{font-size:12px;white-space:normal;overflow-wrap:anywhere}.team-favorite,.favorite-toggle{min-width:44px;min-height:44px}.filters .filter,.date-navigator button,.details-button,.confidence-button{min-height:44px}.match-card .analysis{gap:8px;flex-wrap:wrap}.match-filter-context{gap:4px}.builder{overscroll-behavior:contain;scroll-padding-block:56px 24px}.mobile-nav [data-mobile-target=builder]{color:var(--accent-text);box-shadow:inset 0 0 0 1px var(--line-strong)}#matches{padding-bottom:calc(90px + env(safe-area-inset-bottom))}.market.selected{outline:2px solid var(--accent-text);outline-offset:-2px}.market.selected:after{content:'✓ Choisi';font-size:11px;font-weight:800;color:var(--accent-text)}}
+
+/* BET-138 : règles communes aux parcours et aux modules chargés à la demande. */
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--accent-text);outline-offset:4px}
+:where(input,textarea){font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:12px;max-width:100%;box-sizing:border-box}
+:where(button,input,select,textarea):disabled{cursor:not-allowed}
+:where(button){touch-action:manipulation}
+:where(.button,.icon-button,.text-button,.period-switch button,.community-tabs button){min-height:44px}
+:where(.icon-button){min-width:44px}
+:where(.status,.status-pill,.cert-tag){line-height:1.5;max-width:100%}
+:where(.empty){padding:24px 16px;line-height:1.7;text-align:center;overflow-wrap:anywhere}
+:where(.section-subtitle,.archive-note,.muted){line-height:1.65}
+:where(dialog){overscroll-behavior:contain;scroll-padding-block:80px 24px}
+:where(dialog input,dialog textarea,dialog select){scroll-margin-block:80px 24px}
+:where(.section-heading,.modal-head)>*{min-width:0}
+:where(.section-heading h2,.modal-head h2,.profile-heading h2){overflow-wrap:anywhere}
+:where(.stats-grid strong,.prediction-kpi-grid strong,.ticket-totals strong,.bankroll-amount){font-variant-numeric:tabular-nums}
+:where(.button,.text-button){white-space:normal;text-align:center}
+:where(.button){line-height:1.4}
+@media(max-width:700px){:where(input,textarea){font-size:16px;min-height:48px}.section-heading{flex-wrap:wrap}.section-heading>.button{max-width:100%}.mobile-nav button{font-size:10px;line-height:1.25}.heading-actions{flex-wrap:wrap;gap:8px}main{padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media(forced-colors:active){:where(.button,.status,.market.selected){border:1px solid ButtonText}:where(button,a,input,select,textarea,summary):focus-visible{outline-color:Highlight}}
