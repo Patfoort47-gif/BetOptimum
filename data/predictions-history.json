@@ -180,6 +180,18 @@
     "score": "2 : 0"
   },
   {
+    "id": "espn-401882826",
+    "date": "2026-11-01",
+    "league": "La Liga",
+    "match": "Athletic Club – Real Sociedad",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.78,
+    "probability": 0.6641021755591568,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",
