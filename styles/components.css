@@ -488,3 +488,24 @@ dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-
 @media(max-width:700px){.model-curve text{font-size:20px}.model-curve{min-height:170px}.model-story h2>span{overflow-wrap:anywhere}.model-intro{max-width:100%}}
 
 @media(max-width:700px){.model-success{order:-1;border-top:0;padding-top:0;border-bottom:1px solid #c8f03c22;padding-bottom:24px}.model-story h2{font-size:clamp(38px,11vw,60px)}.model-story .eyebrow{font-size:9px}}
+
+/* BET-138 : règles communes aux parcours et aux modules chargés à la demande. */
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--accent-text);outline-offset:4px}
+:where(input,textarea){font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:12px;max-width:100%;box-sizing:border-box}
+:where(button,input,select,textarea):disabled{cursor:not-allowed}
+:where(button){touch-action:manipulation}
+:where(.button,.icon-button,.text-button,.period-switch button,.community-tabs button){min-height:44px}
+:where(.icon-button){min-width:44px}
+:where(.status,.status-pill,.cert-tag){line-height:1.5;max-width:100%}
+:where(.empty){padding:24px 16px;line-height:1.7;text-align:center;overflow-wrap:anywhere}
+:where(.section-subtitle,.archive-note,.muted){line-height:1.65}
+:where(dialog){overscroll-behavior:contain;scroll-padding-block:80px 24px}
+:where(dialog input,dialog textarea,dialog select){scroll-margin-block:80px 24px}
+:where(.section-heading,.modal-head)>*{min-width:0}
+:where(.section-heading h2,.modal-head h2,.profile-heading h2){overflow-wrap:anywhere}
+:where(.stats-grid strong,.prediction-kpi-grid strong,.ticket-totals strong,.bankroll-amount){font-variant-numeric:tabular-nums}
+:where(.button,.text-button){white-space:normal;text-align:center}
+:where(.button){line-height:1.4}
+@media(max-width:700px){:where(input,textarea){font-size:16px;min-height:48px}.section-heading{flex-wrap:wrap}.section-heading>.button{max-width:100%}.mobile-nav button{font-size:10px;line-height:1.25}.heading-actions{flex-wrap:wrap;gap:8px}main{padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media(forced-colors:active){:where(.button,.status,.market.selected){border:1px solid ButtonText}:where(button,a,input,select,textarea,summary):focus-visible{outline-color:Highlight}}
