@@ -24,6 +24,54 @@
     "score": "3 : 1"
   },
   {
+    "id": "espn-401884750",
+    "date": "2026-11-01",
+    "league": "Bundesliga",
+    "match": "1. FC Union Berlin – FC Cologne",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401874782",
+    "date": "2026-11-01",
+    "league": "Serie A",
+    "match": "Frosinone – Torino",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.4,
+    "probability": 0.7406571394712641,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401874983",
+    "date": "2026-11-01",
+    "league": "Serie A",
+    "match": "Lazio – Cagliari",
+    "label": "Lazio",
+    "key": "home",
+    "odd": 1.5,
+    "probability": 0.7491569625201898,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
+    "id": "espn-401876414",
+    "date": "2026-11-01",
+    "league": "Ligue 1",
+    "match": "Strasbourg – AJ Auxerre",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.53,
+    "probability": 0.6806824599566413,
+    "status": "won",
+    "score": "5 : 1"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",
