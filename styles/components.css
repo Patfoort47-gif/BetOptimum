@@ -517,3 +517,6 @@ dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-
 @media(max-width:700px){:where(input,textarea){font-size:16px;min-height:48px}.section-heading{flex-wrap:wrap}.section-heading>.button{max-width:100%}.mobile-nav button{font-size:10px;line-height:1.25}.heading-actions{flex-wrap:wrap;gap:8px}main{padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
 @media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media(forced-colors:active){:where(.button,.status,.market.selected){border:1px solid ButtonText}:where(button,a,input,select,textarea,summary):focus-visible{outline-color:Highlight}}
+
+/* BET-54 : le texte d’un défi fermé reste lisible, son état est explicite. */
+.daily-row.closed .daily-teams{opacity:1}.daily-odd{min-height:44px}.daily-row[aria-busy=true] .daily-note:last-child{color:var(--accent-text)}
