@@ -156,6 +156,30 @@
     "score": "0 : 1"
   },
   {
+    "id": "espn-401874949",
+    "date": "2026-11-01",
+    "league": "Serie A",
+    "match": "Juventus – Napoli",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.7,
+    "probability": 0.6747136368278325,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401876417",
+    "date": "2026-11-01",
+    "league": "Ligue 1",
+    "match": "Marseille – Toulouse",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.49,
+    "probability": 0.6791528011378655,
+    "status": "lost",
+    "score": "2 : 0"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",

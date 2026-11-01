@@ -78,7 +78,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 111,
     "oddsMatches": 110,
-    "settlements": 147
+    "settlements": 149
   },
   "settlements": [
     {
@@ -196,6 +196,24 @@
       "away": "Valencia",
       "homeScore": 0,
       "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401876417",
+      "date": "2026-11-01",
+      "home": "Marseille",
+      "away": "Toulouse",
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401874949",
+      "date": "2026-11-01",
+      "home": "Juventus",
+      "away": "Napoli",
+      "homeScore": 2,
+      "awayScore": 0,
       "completed": true
     },
     {
@@ -7170,11 +7188,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/114.png",
       "priority": 91,
       "featured": true,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.62,
       "awayGoals": 1.84,
@@ -7997,11 +8015,11 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
       "priority": 60,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.89,
       "awayGoals": 1.61,
@@ -44688,5 +44706,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-11-01T20:55:32.434Z"
+  "scoresUpdatedAt": "2026-11-01T21:53:15.366Z"
 }
