@@ -144,6 +144,18 @@
     "score": "3 : 1"
   },
   {
+    "id": "espn-401882823",
+    "date": "2026-11-01",
+    "league": "La Liga",
+    "match": "Elche – Valencia",
+    "label": "Elche",
+    "key": "home",
+    "odd": 2.6,
+    "probability": 0.5356173100486111,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",

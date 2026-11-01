@@ -78,7 +78,7 @@
     "secondaryOddsMatches": 21,
     "statsMatches": 111,
     "oddsMatches": 110,
-    "settlements": 146
+    "settlements": 147
   },
   "settlements": [
     {
@@ -186,6 +186,15 @@
       "home": "Eintracht Frankfurt",
       "away": "Hamburg SV",
       "homeScore": 3,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401882823",
+      "date": "2026-11-01",
+      "home": "Elche",
+      "away": "Valencia",
+      "homeScore": 0,
       "awayScore": 1,
       "completed": true
     },
@@ -8779,12 +8788,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/94.png",
       "priority": 33,
       "featured": false,
-      "status": "Halftime",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 1,
       "homeGoals": 1.53,
       "awayGoals": 0.84,
       "odds": {
@@ -44679,5 +44688,5 @@
       }
     }
   ],
-  "scoresUpdatedAt": "2026-11-01T19:05:06.483Z"
+  "scoresUpdatedAt": "2026-11-01T19:54:12.956Z"
 }
