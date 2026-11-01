@@ -73,7 +73,7 @@
     <nav class="section-navigation" id="match-navigation" aria-label="Dans Matchs">
       <button class="active" data-open-tab="matches" aria-current="page">Calendrier</button>
       <button data-open-tab="standings">Classements des équipes</button>
-      <button data-open-ticket>Mon ticket <span id="match-ticket-count" hidden></span></button>
+      <button data-open-ticket aria-controls="builder" aria-expanded="false">Mon ticket <span id="match-ticket-count" hidden></span></button>
     </nav>
     <div class="workspace">
       <nav id="match-rail" class="match-rail" data-view="matches" aria-label="Fil des matchs"></nav>
@@ -89,6 +89,7 @@
         </div>
         <div class="scroller date-scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Dates précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="date-navigator" id="date-navigator" role="group" aria-label="Choisir une période"></div><button class="scroll-btn next" data-scroll="1" aria-label="Dates suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
         <div class="scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Compétitions précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="filters" id="filters" role="group" aria-label="Filtrer les compétitions"></div><button class="scroll-btn next" data-scroll="1" aria-label="Compétitions suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+        <div class="match-filter-context"><p id="match-filter-summary" role="status"></p><button class="text-button" id="reset-match-filters">Réinitialiser les filtres</button></div>
         <nav id="match-strip" class="match-strip" aria-label="Fil des matchs"></nav>
         <section id="daily-challenge" class="daily-challenge card" aria-label="Défi du jour" hidden></section>
         <div id="match-list" class="match-list" aria-live="polite"></div>
