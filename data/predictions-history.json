@@ -84,6 +84,66 @@
     "score": "0 : 3"
   },
   {
+    "id": "espn-401879246",
+    "date": "2026-11-01",
+    "league": "Premier League",
+    "match": "Liverpool – Arsenal",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.84,
+    "probability": 0.6641021755591568,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
+    "id": "espn-401884752",
+    "date": "2026-11-01",
+    "league": "Bundesliga",
+    "match": "Eintracht Frankfurt – Hamburg SV",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.01,
+    "probability": 0.5230665207414825,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
+    "id": "espn-401874968",
+    "date": "2026-11-01",
+    "league": "Serie A",
+    "match": "Lecce – Genoa",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 1.96,
+    "probability": 0.5731572860049322,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
+    "id": "espn-401876418",
+    "date": "2026-11-01",
+    "league": "Ligue 1",
+    "match": "Lyon – Angers",
+    "label": "Lyon",
+    "key": "home",
+    "odd": 1.4,
+    "probability": 0.6207434814820746,
+    "status": "won",
+    "score": "2 : 0"
+  },
+  {
+    "id": "espn-401876415",
+    "date": "2026-11-01",
+    "league": "Ligue 1",
+    "match": "Paris FC – AS Monaco",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.78,
+    "probability": 0.7042725956953183,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",
