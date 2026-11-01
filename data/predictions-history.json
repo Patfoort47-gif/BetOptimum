@@ -12,6 +12,18 @@
     "score": "1 : 0"
   },
   {
+    "id": "espn-401882821",
+    "date": "2026-11-01",
+    "league": "La Liga",
+    "match": "Getafe – Sevilla",
+    "label": "Les deux marquent",
+    "key": "btts",
+    "odd": 2.18,
+    "probability": 0.5294752462435222,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",
