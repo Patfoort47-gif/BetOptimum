@@ -72,6 +72,18 @@
     "score": "5 : 1"
   },
   {
+    "id": "espn-401882819",
+    "date": "2026-11-01",
+    "league": "La Liga",
+    "match": "Racing Santander – Real Madrid",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.25,
+    "probability": 0.7691317580584112,
+    "status": "won",
+    "score": "0 : 3"
+  },
+  {
     "id": "espn-401879248",
     "date": "2026-10-31",
     "league": "Premier League",
