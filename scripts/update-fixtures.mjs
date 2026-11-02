@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { parisDate, pickDailyChallenge, recommendedMarket } from '../model.js';
-import { ODDS_REFRESH_HOURS, SECONDARY_ODDS_WINDOW_HOURS, isInSecondaryOddsWindow, mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { ODDS_REFRESH_HOURS, SECONDARY_ODDS_WINDOW_HOURS, isInSecondaryOddsWindow, mergeCachedOffers, summarizeOffers, bookmakerOffer } from '../odds-cache.js';
 import { sameTeam } from '../team-match.js';
 
 const leagues = [
@@ -96,7 +96,7 @@ async function bookmakerOdds(upcomingMatches, refreshSecondary) {
     const extra = await response.json();
     for (const bookmaker of extra.bookmakers ?? []) {
       const target = event.bookmakers?.find(item => item.key === bookmaker.key);
-      if (target) target.markets.push(...(bookmaker.markets ?? []));
+      if (target) { target.markets ??= []; target.markets.push(...(bookmaker.markets ?? [])); }
       else event.bookmakers?.push(bookmaker);
     }
   }
@@ -118,20 +118,7 @@ function consensus(match, oddsEvents, previousOffers = []) {
   const event = oddsEvents.find(item => sameTeam(item.home_team, match.home) && sameTeam(item.away_team, match.away));
   const offers = [];
   for (const bookmaker of event?.bookmakers ?? []) {
-    const offer = { name: bookmaker.title };
-    const h2h = bookmaker.markets?.find(item => item.key === 'h2h');
-    for (const outcome of h2h?.outcomes ?? []) {
-      if (sameTeam(outcome.name, match.home)) offer.home = outcome.price;
-      else if (sameTeam(outcome.name, match.away)) offer.away = outcome.price;
-      else if (outcome.name === 'Draw') offer.draw = outcome.price;
-    }
-    for(const key of ['home','draw','away'])if(offer[key])offer[key+'UpdatedAt']=h2h?.last_update??bookmaker.last_update??null;
-    const btts = bookmaker.markets?.find(item => item.key === 'btts');
-    offer.btts = btts?.outcomes?.find(outcome => /^(yes|oui)$/i.test(outcome.name))?.price;
-    const totals = bookmaker.markets?.find(item => item.key === 'totals');
-    offer.over = totals?.outcomes?.find(outcome => /^over$/i.test(outcome.name) && Number(outcome.point) === 2.5)?.price;
-    if(offer.btts)offer.bttsUpdatedAt=btts?.last_update??bookmaker.last_update??null;
-    if(offer.over)offer.overUpdatedAt=totals?.last_update??bookmaker.last_update??null;
+    const offer = bookmakerOffer(bookmaker, match.home, match.away, sameTeam);
     if (offer.home || offer.draw || offer.away || offer.btts || offer.over) offers.push(offer);
   }
   const mergedOffers = mergeCachedOffers(offers, previousOffers);

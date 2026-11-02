@@ -17,13 +17,23 @@ export function mergeCachedSecondaryOffers(currentOffers = [], previousOffers = 
 }
 
 export function mergeCachedOffers(currentOffers = [], previousOffers = [], markets = ['home', 'draw', 'away', 'over', 'btts']) {
-  const offers = currentOffers.map(offer => ({ ...offer }));
+  const sameBook = (a, b) => a.key && b.key ? a.key === b.key : a.name === b.name;
+  const offers = [];
+  for (const current of currentOffers) {
+    const existing = offers.find(item => sameBook(item, current));
+    if (!existing) { offers.push({ ...current }); continue; }
+    for (const market of markets) if (Number.isFinite(Number(current[market])) && Number(current[market]) > 1) {
+      existing[market] = current[market];
+      existing[`${market}UpdatedAt`] = current[`${market}UpdatedAt`] ?? null;
+      delete existing[`${market}Cached`];
+    }
+  }
   for (const previous of previousOffers) {
-    let offer = offers.find(item => item.name === previous.name);
+    let offer = offers.find(item => sameBook(item, previous));
     for (const market of markets) {
       const cached = Number(previous[market]);
       if (!Number.isFinite(cached) || cached <= 1 || Number(offer?.[market]) > 1) continue;
-      if (!offer) { offer = { name: previous.name }; offers.push(offer); }
+      if (!offer) { offer = { name: previous.name, ...(previous.key ? { key: previous.key } : {}) }; offers.push(offer); }
       offer[market] = cached;
       offer[`${market}Cached`] = true;
       offer[`${market}UpdatedAt`] = previous[`${market}UpdatedAt`] ?? null;
@@ -38,4 +48,22 @@ export function summarizeOffers(offers = [], markets = ['home', 'draw', 'away', 
   const averages = Object.fromEntries(markets.map(market => { const values=prices(market); return [market,values.length?Number((values.reduce((sum,price)=>sum+price,0)/values.length).toFixed(2)):null] }));
   const cachedMarkets = markets.filter(market => counts[market] > 0 && offers.filter(offer => Number(offer[market]) > 1).every(offer => offer[`${market}Cached`]));
   return { counts, averages, cachedMarkets };
+}
+
+// Read every block: complementary responses can contain several blocks of the same market.
+export function bookmakerOffer(bookmaker, home, away, sameTeam) {
+  const offer = { key: bookmaker.key, name: bookmaker.title };
+  for (const market of bookmaker.markets ?? []) for (const outcome of market.outcomes ?? []) {
+    let key;
+    if (market.key === 'h2h') key = sameTeam(outcome.name, home) ? 'home' : sameTeam(outcome.name, away) ? 'away' : outcome.name === 'Draw' ? 'draw' : null;
+    else if (market.key === 'btts' && /^(yes|oui)$/i.test(outcome.name)) key = 'btts';
+    else if (market.key === 'totals' && /^over$/i.test(outcome.name) && Number(outcome.point) === 2.5) key = 'over';
+    const price = Number(outcome.price);
+    if (!key || !Number.isFinite(price) || price <= 1) continue;
+    const updatedAt = market.last_update ?? bookmaker.last_update ?? null;
+    if (offer[key] && Date.parse(offer[`${key}UpdatedAt`]) > Date.parse(updatedAt)) continue;
+    offer[key] = price;
+    offer[`${key}UpdatedAt`] = updatedAt;
+  }
+  return offer;
 }
