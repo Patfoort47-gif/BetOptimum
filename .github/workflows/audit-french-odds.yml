@@ -14,8 +14,9 @@ jobs:
           node-version: 20
       - name: Comparer les marchés fournisseur et les cotes explicites
         env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
-        run: node scripts/check-propline.mjs
+        run: node scripts/compare-odds-providers.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
