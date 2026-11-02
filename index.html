@@ -98,24 +98,24 @@
       <aside id="builder" class="builder" data-view="matches" aria-label="Combiné intelligent">
         <button class="icon-button builder-drawer-close" id="close-builder" aria-label="Fermer le ticket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
         <div class="builder-card card">
-          <p class="eyebrow">COMBINÉ INTELLIGENT</p><h2>Composez votre ticket</h2>
-          <p class="muted">Fixez une cote cible et un nombre maximum de matchs. Le moteur cherche la combinaison la plus proche en privilégiant la confiance.</p>
+          <p class="eyebrow">1 · TROUVER DES SÉLECTIONS</p><h2>Combiné intelligent</h2>
+          <p class="muted">Réglez vos préférences pour remplir votre ticket. Vous pourrez ensuite ajuster chaque choix.</p>
           <div class="builder-controls">
             <label class="range-label"><span>Cote cible <output id="target-output">3.00</output></span><input id="target-odds" type="range" min="1.5" max="10" value="3" step="0.1"></label>
             <div class="control-pair">
               <label>Matchs max<select id="selection-count"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
               <label>Profil de risque<select id="risk-profile"><option value="safe">Sécurisé</option><option value="balanced" selected>Équilibré</option><option value="bold">Audacieux</option></select></label>
             </div>
-            <button class="button primary full" id="generate-combo"><svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Trouver le combiné le plus proche</button>
+            <button class="button primary full" id="generate-combo"><svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Composer mon ticket</button>
           </div>
-          <div class="safe-picks"><div class="safe-picks-head"><strong>Lectures avec cotes réelles</strong><span>Période affichée</span></div><div id="safe-picks-list"></div></div>
+          <p id="combo-feedback" class="composer-feedback" role="status" aria-live="polite">La recherche utilise les matchs de la période et des filtres affichés.</p><details class="composer-help"><summary>Comment fonctionne la recherche ?</summary><p>Le moteur cherche la cote la plus proche de votre cible en privilégiant la confiance estimée. Une nouvelle recherche remplace les sélections du ticket. Aucune garantie de gain.</p></details><div class="safe-picks"><div class="safe-picks-head"><strong>Suggestions à ajouter</strong><span>Période affichée</span></div><div id="safe-picks-list"></div></div>
         </div>
         <div class="ticket" aria-live="polite">
-          <div class="ticket-head"><div><small>VOTRE TICKET</small><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
+          <div class="ticket-head"><div><small>2 · AJUSTER VOTRE TICKET</small><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
           <div class="bet-mode" id="bet-mode" role="group" aria-label="Type de pari"><button data-bet-mode="single">Simple</button><button class="active" data-bet-mode="combined">Combiné</button><button data-bet-mode="multiple">Multiple</button></div>
           <label class="system-control" id="system-control" hidden>Formule système<select id="system-formula"><option value="auto">Automatique</option><option value="2of3">2 sur 3</option><option value="2of4">2 sur 4</option><option value="3of4">3 sur 4</option><option value="trixie">Trixie (4 paris)</option><option value="yankee">Yankee (11 paris)</option></select></label>
-          <p class="muted">Choisissez un marché sur un match, vérifiez votre sélection et votre mise fictive, puis confirmez. Le pari est enregistré seulement après validation du serveur.</p><div id="ticket-items" class="ticket-items"><p class="empty">Ajoutez une sélection depuis les matchs.</p></div>
-          <div class="ticket-summary">
+          <p class="muted">Ajoutez ou remplacez vos choix depuis les matchs.</p><div id="ticket-items" class="ticket-items"><p class="empty">Ajoutez une sélection depuis les matchs.</p></div>
+          <p id="ticket-mode-note" class="muted"></p><div class="ticket-summary"><p class="ticket-step">3 · MISE ET CONFIRMATION</p>
             <div class="ticket-totals"><span class="total-main"><b id="odds-label">Cote totale</b><strong id="total-odds">1.00</strong></span><span id="target-gap-row">Écart à la cible <strong id="target-gap">-</strong></span></div>
             <div class="ticket-stake"><label><b id="stake-label">Mise (€)</b><input id="stake" type="number" min="1" step="1" value="20"></label><span>Total engagé <strong id="stake-total">20,00 €</strong></span><span>Gain potentiel <strong id="potential-win">20,00 €</strong></span></div>
             <small id="stake-advice">Mise conseillée : -</small>
@@ -124,7 +124,7 @@
           <div class="league-list" id="league-list" hidden></div>
           <p id="bet-feedback" role="status" aria-live="polite" class="muted"></p><button class="button ticket-cta full" id="place-bet" disabled>Placer le pari virtuel</button>
           <button class="button ticket-share full" id="share-combo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Partager le combiné</button>
-          <p class="responsible">18+ · Jouez de façon responsable. Ceci est une simulation.</p>
+          <p class="responsible">18+ · Jouez de façon responsable. Paris virtuels · aucune garantie de gain. Enregistrement après validation du serveur.</p>
         </div>
       </aside>
     </div>
