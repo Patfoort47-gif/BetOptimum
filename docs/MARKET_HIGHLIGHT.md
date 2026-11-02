@@ -21,3 +21,11 @@ NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-performance.cjs
 Le premier couvre 320/390/430/1280 pixels dans les deux thèmes : cotes réelles avec/sans value, estimation, ancien cache, match fermé, un seul maximum, animation effective, réduction des mouvements, focus, sélection, actualisation, absence de débordement et audit axe. Le deuxième couvre la réorganisation BET-139 ; il est disponible après intégration de ce ticket. Le troisième vérifie la stabilité des cartes et du chargement des fiches.
 
 Validation réalisée dans Chromium. Les appareils Android/iOS physiques et Safari ne sont pas déclarés testés par cette recette.
+
+## Lecture simplifiée (BET-141)
+
+Les cartes présentent d'abord le pronostic, puis deux chiffres séparés : cote et confiance estimée. Les titres sur deux lignes, les chiffres et la zone de repères s'alignent entre les cartes. La confiance maximale est libellée « Confiance max. » ; la mention complète et son caractère estimé restent dans le nom accessible et l'explication. Le calcul de value ne change pas.
+
+La source reste visible (« MOYENNE », « CACHE » ou « ESTIMÉE »). L'ancienneté est raccourcie (« Il y a 7 h », « Offre ancienne · 18 h », « Date inconnue »). « Sources et dates des cotes », juste sous la grille, fournit le nombre de bookmakers, les dates complètes en heure de Paris, l'ancienneté précise et les explications. Son ouverture n'ajoute aucune sélection et reste conservée pendant l'actualisation.
+
+Recette dédiée : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-market-readability.cjs`. Huit combinaisons largeur/thème, comparaison des prix et confiances avec le modèle, dates complètes, ancienneté visible, noms longs, alignement ordinateur, sélection et revalidation, audit axe. Les tests purs de `tests/market-card.test.js` vérifient aussi les dates absentes, les estimations et l'échappement des libellés. Aucun fournisseur supplémentaire n'est contacté.

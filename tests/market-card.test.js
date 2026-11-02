@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {marketCard,marketSources} from '../market-card.js';
+const market={key:'over',label:'Plus de 2,5 buts',odd:1.55,probability:.76,value:.178};
+const match={id:'a',realOddsMarkets:['over'],oddsBookmakerCounts:{over:10},bookmakerOffers:[{over:1.55,overUpdatedAt:new Date(Date.now()-30*3600000).toISOString()}]};
+test('une offre ancienne reste signalée dans la vue courte et datée dans le détail',()=>{const card=marketCard(match,market,true),sources=marketSources(match,[market]);assert.match(card,/Offre ancienne/);assert.match(card,/MOYENNE · 10/);assert.match(card,/Value \+18 %/);assert.match(card,/76/);assert.ok(!card.includes('(Paris)'));assert.match(sources,/Paris/);assert.match(sources,/10 bookmakers/);assert.match(sources,/offre ancienne/)});
+test('une estimation ne devient ni une moyenne ni une value ; les dates manquantes restent inconnues',()=>{const card=marketCard({...match,realOddsMarkets:[]},market);assert.match(card,/ESTIMÉE/);assert.ok(!card.includes('has-value'));assert.ok(!card.includes('MOYENNE'));assert.match(marketCard({...match,bookmakerOffers:[{over:1.55}]},market),/Date inconnue/);assert.ok(!marketCard({...match,oddsBookmakerCounts:{}},market).includes('undefined'))});
+test('les libellés et identifiants sont échappés sans altérer le prix ou la confiance',()=>{const card=marketCard({...match,id:'" onclick="bad()'},{...market,label:'<img onerror=bad()>'});assert.ok(!card.includes('<img'));assert.match(card,/&lt;img/);assert.match(card,/1\.55/);assert.match(card,/confiance estimée 76 %/)});
