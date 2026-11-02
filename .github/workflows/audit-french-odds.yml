@@ -14,9 +14,10 @@ jobs:
           node-version: 20
       - name: Comparer les marchés fournisseur et les cotes explicites
         env:
-          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
-        run: node scripts/audit-french-odds.mjs
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+        run: node scripts/check-propline.mjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: french-odds-audit
           path: french-odds-audit.json

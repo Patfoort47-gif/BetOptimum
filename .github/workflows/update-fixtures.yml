@@ -42,6 +42,7 @@ jobs:
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
         run: node scripts/update-fixtures.mjs
       - name: Publier les nouvelles données
         if: steps.schedule.outputs.run == 'true'

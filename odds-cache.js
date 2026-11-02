@@ -25,6 +25,7 @@ export function mergeCachedOffers(currentOffers = [], previousOffers = [], marke
     for (const market of markets) if (Number.isFinite(Number(current[market])) && Number(current[market]) > 1) {
       existing[market] = current[market];
       existing[`${market}UpdatedAt`] = current[`${market}UpdatedAt`] ?? null;
+      existing[`${market}Source`] = current[`${market}Source`] ?? null;
       delete existing[`${market}Cached`];
     }
   }
@@ -36,6 +37,7 @@ export function mergeCachedOffers(currentOffers = [], previousOffers = [], marke
       if (!offer) { offer = { name: previous.name, ...(previous.key ? { key: previous.key } : {}) }; offers.push(offer); }
       offer[market] = cached;
       offer[`${market}Cached`] = true;
+      offer[`${market}Source`] = previous[`${market}Source`] ?? null;
       offer[`${market}UpdatedAt`] = previous[`${market}UpdatedAt`] ?? null;
     }
   }
