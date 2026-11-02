@@ -27,3 +27,7 @@ Les compteurs `propLineRequested`, `propLineSucceeded` et `propLineMatches` perm
 - Tests : `node tests/propline-odds.test.js`, puis `npm test`.
 
 La disponibilité annoncée n’est pas une garantie de couverture de chaque rencontre. Sans réponse ou sans rapprochement certain, aucune cote n’est inventée et le cache suit ses règles existantes. Le diagnostic ne donne pas à lui seul la preuve de couverture de toutes les compétitions.
+
+## Vérification réelle avant activation
+
+Le 2 novembre 2026 à 11 h 33 (Paris), le diagnostic de branche a rapproché Newcastle-Everton (`espn-401878762`) et retenu BTTS et Over 2,5 chez Betclic FR et Winamax FR, avec des horodatages fournisseur de moins de deux minutes. Une requête groupée réussie, aucune erreur. Exécution : https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41429743360
