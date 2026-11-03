@@ -67,3 +67,9 @@ PGlite 0.5.15 est installé dans un dossier temporaire, jamais comme dépendance
 Remettre `PROPLINE_MARKET_STAGE` à `2` dans les deux étapes de `update-fixtures.yml`, publier ce changement puis relancer « Actualiser les matchs » pour retirer les nouvelles offres. Conserver V40 et le code de règlement tant que des paris de ce lot sont en attente. Ne pas annuler des paris acceptés pour réaliser un retour de version, ni supprimer leurs clés du moteur. Les sélections déjà placées continuent à être réglées normalement.
 
 Activation du 3 novembre 2026 : V40 appliquée et vérifiée sur le projet BetMaster avant fusion. La connexion GitHub ne peut pas modifier les variables de dépôt (HTTP 403) ; l’étape 3 est donc fixée explicitement dans le workflow, comme l’étape 2 l’était précédemment.
+
+## Correctif : dix bookmakers par cote
+
+V41 après V40 impose désormais au moins 10 bookmakers distincts pour chaque sélection, sur tous les marchés. Le compteur est dérivé des offres de cette sélection ; ni un doublon, ni le total du match, ni une probabilité calculée ne remplacent une offre. La même règle vaut dans le navigateur, les tickets, les défis et les grilles. Les cotes des paris déjà pris restent conservées. Voir [le guide du seuil](MARKETS_SETUP.md#seuil-de-dix-bookmakers-bet-170-v41).
+
+Avant de publier ce correctif, appliquer V41 et synchroniser le calendrier existant : cette synchronisation remplit `odds_bookmaker_counts` et retire les prix non qualifiés de `fixtures.odds`. Il n’est pas nécessaire de refaire une collecte fournisseur. Le contrôle de déploiement exige aussi la nouvelle colonne avant l’étape 3.

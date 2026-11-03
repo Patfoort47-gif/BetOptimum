@@ -1,3 +1,4 @@
+import {quoteAvailable,selectionBookmakerCount} from '../quote-policy.js';
 import {marketKeys} from '../markets.js';
 // Synchronise les matchs avec Supabase puis règle les paris certifiés en attente (BET-52).
 // Lancé par les workflows après la mise à jour de data/fixtures.json ; sans SUPABASE_SERVICE_ROLE_KEY il ne fait rien.
@@ -16,11 +17,11 @@ const MARKETS = ['home', 'draw', 'away', 'over', 'btts'];
 const STALE_DAYS = 10;
 // Ligne de la table fixtures pour un match de data/fixtures.json.
 export function fixtureRow(match, now = new Date()) {
-  const odds = Object.fromEntries(marketKeys(match.odds).filter(key => Number(match.odds?.[key]) > 1).map(key => [key, Number(match.odds[key])]));
+  const odds = Object.fromEntries(marketKeys(match.odds).filter(key => quoteAvailable(match,key)).map(key => [key, Number(match.odds[key])]));
   return { id: match.id, league: match.league, round: match.round ?? null, home: match.home, away: match.away, home_id: match.homeId ?? null, away_id: match.awayId ?? null,
     kickoff: match.kickoff ?? `${match.date}T12:00:00Z`, status: match.status ?? 'Programmé', completed: match.completed === true, voided: match.voided === true,
     home_score: Number.isFinite(match.homeScore) ? match.homeScore : null, away_score: Number.isFinite(match.awayScore) ? match.awayScore : null,
-    regulation: match.regulation ?? null, market_valid_until: match.marketValidUntil ?? {}, odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
+    regulation: match.regulation ?? null, market_valid_until: match.marketValidUntil ?? {}, odds_bookmaker_counts: Object.fromEntries(marketKeys(match.odds).map(key=>[key,selectionBookmakerCount(match,key)])), odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
 }
 // Résultats utilisables par settleTicket : scores terminés, matchs annulés, et matchs jamais joués au bout de STALE_DAYS jours.
 export function buildResults(settlements, fixtureRows = [], now = Date.now()) {

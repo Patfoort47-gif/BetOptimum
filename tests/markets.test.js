@@ -29,7 +29,7 @@ test('BET-153 : lignes séparées, prix réellement fournis et activation progre
  assert.deepEqual(propLineOffers(e,now,0),[]);const first=propLineOffers(e,now,1)[0];assert.equal(first.under,2.1);assert.equal(first.over15,1.8);assert.equal(first.bttsNo,2.2);assert.equal(first.homeDnb,undefined);assert.equal(first.homeOver15,undefined);
  const second=propLineOffers(e,now,2)[0];assert.equal(second.homeOver15,2.2);assert.equal(second.homeDnb,2);assert.equal(second.homeDraw,1.6667);assert.equal(second.drawAway,1.9091);assert.equal(second.homeAway,1.5);assert.equal(second.over,undefined);
  const cache=mergeCachedOffers([],[second]);assert.equal(cache[0].homeOver15Cached,true);assert.equal(summarizeOffers(cache).counts.homeOver15,1);assert.equal(summarizeOffers(cache).averages.over15,1.8);
- const row=fixtureRow({...match,realOddsMarkets:['homeOver15']});assert.equal(row.odds.homeOver15,2);assert.equal(row.odds_source.homeOver15,'real');
+ const row=fixtureRow({...match,realOddsMarkets:['homeOver15'],oddsBookmakerCounts:{homeOver15:10}});assert.equal(row.odds.homeOver15,2);assert.equal(row.odds_source.homeOver15,'real');
 });
 const {regulationScore}=await import('../regulation-score.js');
 test('BET-153 : prolongation et tirs au but ne remplacent pas le score réglementaire',()=>{

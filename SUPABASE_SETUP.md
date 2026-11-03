@@ -105,3 +105,6 @@ Appliquer `supabase/migrations/supabase-v39-schema.sql` après V38 (réexécutab
 
 ### Marchés du premier lot BET-170
 Appliquer `supabase/migrations/supabase-v40-schema.sql` après V39 avant l’activation de l’étape 3. Le contrôle de déploiement vérifie le schéma avant collecte ; les nouvelles offres ont une expiration contrôlée par la RPC. La migration ne réécrit aucun pari. [Ordre de publication et recette](docs/MARKETS_PRODUCTION.md).
+
+### Seuil de dix bookmakers (BET-170)
+Appliquer `supabase/migrations/supabase-v41-schema.sql` après V40 puis synchroniser le calendrier courant pour remplir `fixtures.odds_bookmaker_counts`. Tickets, défi du jour et grilles refusent toute nouvelle sélection sous dix bookmakers. Les prix déjà enregistrés dans les paris restent inchangés. Recette isolée : `scripts/check-quote-policy-sql.mjs`.

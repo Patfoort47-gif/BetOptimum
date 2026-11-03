@@ -11,7 +11,7 @@ La variable Actions `PROPLINE_MARKET_STAGE` vaut **0 par défaut**. Elle sélect
 - **2** : ajoute double chance 1N/N2/12, domicile/extérieur remboursé si nul et totaux par équipe sur les demi-lignes 0,5 à 5,5 effectivement fournies. Une ligne non prise en charge reste ignorée, sans arrondi ni substitution d’une ligne voisine.
 - **3** : après V40, ajoute le [premier lot BET-170](MARKETS_PRODUCTION.md) : scores exacts, handicaps européens, marges de victoire et demi-lignes de buts supplémentaires, sans modèle ni value.
 
-Utiliser d’abord le workflow de diagnostic avec l’étape choisie. Il reste sans écriture et sans déploiement ; il vérifie les prix réels. Ne pas passer la variable de production à 1 ou 2 tant que le diagnostic correspondant et la migration SQL ne sont pas validés. Les marchés indisponibles ne sont ni inventés ni proposés ; les cinq marchés historiques conservent leur repli estimé. Un nouveau marché doit avoir une cote réelle côté serveur.
+Utiliser d’abord le workflow de diagnostic avec l’étape choisie. Il reste sans écriture et sans déploiement ; il vérifie les prix réels. Ne pas passer la variable de production à 1 ou 2 tant que le diagnostic correspondant et la migration SQL ne sont pas validés. Les marchés indisponibles ne sont ni inventés ni proposés ; les probabilités restent disponibles, mais une cote affichée ou jouable exige désormais au moins 10 bookmakers pour cette sélection, même sur les cinq marchés historiques. Un nouveau marché doit avoir une cote réelle côté serveur.
 
 ## Calcul et règlement
 
@@ -49,3 +49,11 @@ Le diagnostic reconnaît le champ réel `outcomes_count`. Une période est seule
 Les nouveaux rapports conservent aussi `samples` (événement, compétition, période demandée et clés/compteurs), pour vérifier les ressemblances par match plutôt que sur la seule agrégation. Cela ne transforme pas une période demandée en période confirmée.
 
 BET-170 : V40 est appliquée et `update-fixtures.yml` fixe explicitement `PROPLINE_MARKET_STAGE=3` pour la production. Le défaut du collecteur hors workflow reste 0. La vérification en lecture seule de V40 précède la collecte à l’étape 3. [Procédure complète, validation réelle et retour arrière](MARKETS_PRODUCTION.md).
+
+## Seuil de dix bookmakers (BET-170, V41)
+
+La règle s’applique à toutes les cotes actuelles, et pas seulement aux nouvelles familles. `quote-policy.js` compte les identités distinctes disposant d’un prix pour la sélection exacte ; une répétition de la même identité ne compte pas deux fois. Le total de bookmakers du match ne remplace jamais le compteur par sélection. Les variantes régionales conservent les identités distinctes du collecteur. Les probabilités du modèle restent visibles, sans prix estimé proposé à la place d’une cote insuffisamment couverte.
+
+Cartes, sélection rapide, comparaisons, combinés, défis du jour et grilles utilisent cette règle. Les nouveaux paris sont également contrôlés côté serveur par V41 ; les anciennes cotes enregistrées ne sont pas réécrites. Les défis publiés conservent leurs prix figés : un ancien défi sans compteurs précis n’est jouable que si son prix correspond au consensus actuel qualifié. Les nouveaux défis enregistrent un compteur pour chacune des trois issues.
+
+Appliquer `supabase/migrations/supabase-v41-schema.sql` après V40, puis synchroniser le calendrier déjà collecté. La migration ajoute les compteurs aux fixtures et les contrôles aux trois RPC de prise de pari, sans nouvelle requête PropLine. Recette : `scripts/check-quote-policy-sql.mjs` avec PGlite, tests 9/10 et tests de lots dans `tests/quote-policy.test.js`.

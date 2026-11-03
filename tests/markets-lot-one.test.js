@@ -34,7 +34,7 @@ test('BET-170 : pas de réapparition du cache, prix périmés/suspendus/retirés
  assert.deepEqual(propLineOffers({...e,bookmakers:[{key:'test_fr',markets:[market]}]},now,3),[]);
 });
 test('BET-170 : sans modèle ni value, expiration locale et serveur, règlement 90 min indépendant des prix actuels',()=>{
- const until=new Date(Date.now()+3600000).toISOString(),match={id:'m',home:'Alpha',away:'Beta',homeGoals:1.4,awayGoals:1,odds:{home:2,draw:3,away:4,over:2,btts:2,score1_0:7,ehDrawM1:4},realOddsMarkets:['score1_0','ehDrawM1'],marketValidUntil:{score1_0:until,ehDrawM1:until}};
+ const until=new Date(Date.now()+3600000).toISOString(),match={id:'m',home:'Alpha',away:'Beta',homeGoals:1.4,awayGoals:1,odds:{home:2,draw:3,away:4,over:2,btts:2,score1_0:7,ehDrawM1:4},realOddsMarkets:['score1_0','ehDrawM1'],oddsBookmakerCounts:{score1_0:10,ehDrawM1:10},marketValidUntil:{score1_0:until,ehDrawM1:until}};
  const a=analyseMatch(match),score=a.markets.find(m=>m.key==='score1_0');assert.equal(score.probability,null);assert.equal(score.value,null);assert.ok(!isExtendedMarket(recommendedMarket(match).key));
  const card=marketCard(match,score);assert.match(card,/Sans modèle/);assert.ok(!/NaN|Value|Confiance estimée|confidence-track/.test(card));
  assert.equal(analyseMatch({...match,marketValidUntil:{}}).markets.some(m=>isExtendedMarket(m.key)),false);

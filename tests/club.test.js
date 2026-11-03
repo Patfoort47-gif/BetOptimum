@@ -33,8 +33,8 @@ test('un système 2 sur 3 paie les lignes gagnantes et tolère une erreur',()=>{
 });
 test('un résultat annulé est reconnu par selectionResult',()=>{assert.equal(selectionResult(leg('a','home',2),[{id:'a',voided:true}]).status,'void')});
 test('la ligne de la table fixtures reprend scores, cotes et provenance',()=>{
-  const row=fixtureRow({id:'espn-1',league:'Ligue 1',home:'Paris',away:'Lyon',homeId:'160',awayId:'167',kickoff:'2026-10-22T19:00:00.000Z',date:'2026-10-22',status:'Programmé',completed:false,odds:{home:1.8,draw:3.5,away:4.2,over:1.9,btts:0},realOddsMarkets:['home','draw']},new Date('2026-10-22T10:00:00Z'));
-  assert.deepEqual(row.odds,{home:1.8,draw:3.5,away:4.2,over:1.9});assert.deepEqual(row.odds_source,{home:'real',draw:'real',away:'estimated',over:'estimated'});
+  const row=fixtureRow({id:'espn-1',league:'Ligue 1',home:'Paris',away:'Lyon',homeId:'160',awayId:'167',kickoff:'2026-10-22T19:00:00.000Z',date:'2026-10-22',status:'Programmé',completed:false,odds:{home:1.8,draw:3.5,away:4.2,over:1.9,btts:0},realOddsMarkets:['home','draw'],oddsBookmakerCounts:{home:10,draw:10}},new Date('2026-10-22T10:00:00Z'));
+  assert.deepEqual(row.odds,{home:1.8,draw:3.5});assert.deepEqual(row.odds_source,{home:'real',draw:'real'});
   assert.equal(row.home_score,null);assert.equal(row.voided,false);assert.equal(row.home_id,'160');
 });
 test('les résultats ignorent les matchs en cours et annulent les matchs jamais joués après 10 jours',()=>{
@@ -117,12 +117,12 @@ test('le barème ne crée pas de points non finis ou négatifs pour une cote inv
   assert.equal(leaguePoints({status:'won',odds:25,version:1}),40);
 });
 // BET-54 · défi du jour
-const real=['home','draw','away'],fx=(id,league,home,away,kickoff,odds,extra={})=>({id,league,home,away,kickoff,odds:{home:odds[0],draw:odds[1],away:odds[2]},realOddsMarkets:real,oddsBookmakerCounts:{home:8},...extra}),W={'Ligue des champions':42,'Premier League':34,'Ligue 1':30};
+const real=['home','draw','away'],fx=(id,league,home,away,kickoff,odds,extra={})=>({id,league,home,away,kickoff,odds:{home:odds[0],draw:odds[1],away:odds[2]},realOddsMarkets:real,oddsBookmakerCounts:{home:10,draw:10,away:10},...extra}),W={'Ligue des champions':42,'Premier League':34,'Ligue 1':30};
 const NOW=Date.parse('2026-10-22T05:00:00Z'),DAY='2026-10-22';
 test('le défi du jour garde 4 matchs du jour avec cotes réelles, par importance puis cotes serrées',()=>{
   const matches=[fx('l1a','Ligue 1','A','B','2026-10-22T19:00:00Z',[2.1,3.3,3.4]),fx('pl','Premier League','C','D','2026-10-22T16:30:00Z',[2.5,3.3,2.8]),fx('cl1','Ligue des champions','E','F','2026-10-22T19:00:00Z',[1.5,4.2,6.5]),fx('cl2','Ligue des champions','G','H','2026-10-22T19:00:00Z',[2.4,3.3,2.9]),fx('l1b','Ligue 1','I','J','2026-10-22T19:00:00Z',[1.9,3.4,4]),fx('demain','Ligue des champions','K','L','2026-10-23T19:00:00Z',[2,3,3]),fx('estime','Ligue des champions','M','N','2026-10-22T19:00:00Z',[2,3,3],{realOddsMarkets:['home']})];
   const challenge=pickDailyChallenge(matches,DAY,W,null,NOW);
-  assert.equal(challenge.date,DAY);assert.deepEqual(challenge.picks.map(p=>p.matchId),['cl2','cl1','pl','l1a']);assert.deepEqual(challenge.picks[0].odds,{home:2.4,draw:3.3,away:2.9});assert.equal(challenge.picks[0].bookmakers,8);
+  assert.equal(challenge.date,DAY);assert.deepEqual(challenge.picks.map(p=>p.matchId),['cl2','cl1','pl','l1a']);assert.deepEqual(challenge.picks[0].odds,{home:2.4,draw:3.3,away:2.9});assert.equal(challenge.picks[0].bookmakers,10);
 });
 test('le défi compte moins de 4 matchs quand le jour est pauvre en matchs',()=>{
   const m=(n)=>Array.from({length:n},(_,i)=>fx('m'+i,'Ligue 1','A'+i,'B'+i,'2026-10-22T19:00:00Z',[2,3.2,3.5]));

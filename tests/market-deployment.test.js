@@ -8,7 +8,7 @@ test('BET-170 : étape 3 refusée avant V40, contrôle sans écriture',async()=>
  await assert.rejects(checkMarketDeployment(3,null),/Supabase serveur requis/);
  await assert.rejects(checkMarketDeployment(4,null),/Étape de marchés invalide/);
  const calls=[],admin={select:async(...args)=>{calls.push(args);return[]},rpc:async()=>null};
- await assert.rejects(checkMarketDeployment(3,admin),/V40/);assert.equal(calls[0][1],'select=market_valid_until&limit=1');
+ await assert.rejects(checkMarketDeployment(3,admin),/V41/);assert.equal(calls[0][1],'select=market_valid_until,odds_bookmaker_counts&limit=1');
  admin.rpc=async()=> 'Score exact 1 - 0';await checkMarketDeployment(3,admin);
 });
 test('BET-170 : le catalogue seul ne valide pas une activation, prix sur plusieurs compétitions requis',async()=>{
