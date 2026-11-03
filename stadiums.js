@@ -14,8 +14,8 @@ export function stadiumFor(match,catalog=STADIUMS){
 }
 export function stadiumMarkup(match,catalog=STADIUMS){
   const photo=stadiumFor(match,catalog),fallback=`<div class="stadium-placeholder"><img src="stadiums/default-stadium.svg" width="960" height="540" alt="" loading="lazy" decoding="async"></div><span class="stadium-placeholder-name">${escape(match.venue?.name||'Ambiance de stade')}<small>Illustration · photo à venir</small></span>`;if(!photo)return fallback;
-  const label=photo.confirmed?photo.name:`Stade habituel de ${match.home} · lieu du match non confirmé`;
-  return `${fallback}<img class="match-stadium-photo" src="${escape(photo.image)}" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="stadium-name">${escape(photo.name)}</span><details class="stadium-credit"><summary>Photo du stade</summary><span>${escape(label)} · ${escape(photo.author)} · <a href="${escape(photo.source)}" target="_blank" rel="noopener noreferrer">Source</a> · <a href="${escape(photo.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escape(photo.license)}</a> · image redimensionnée et recadrée</span></details>`;
+  const place=photo.confirmed?photo.name:`${photo.name} · lieu du match non confirmé`,credit=`${place} · ${photo.author} · ${photo.license} · image redimensionnée et recadrée`;
+  return `${fallback}<img class="match-stadium-photo" src="${escape(photo.image)}" width="960" height="540" alt="" loading="lazy" decoding="async"><a class="stadium-name" href="${escape(photo.source)}" target="_blank" rel="noopener noreferrer" title="${escape(credit)}" aria-label="Crédit photo : ${escape(credit)}">${escape(photo.name)}</a>`;
 }
 const watched=new WeakSet();
 export function bindStadiumImages(root){
