@@ -15,12 +15,12 @@ export const DEFAULT_BUDGET = 56, MAX_BUDGET = 60, EVENTS_PER_SPORT = 2;
 // Famille proposée d'après la clé fournisseur : indicative, la matrice (BET-170) tranche.
 const FAMILY_RULES = [
   ['Combinés', /(^|_)(and|combo|result_total|result_btts|double_chance_(total|btts)|btts_total)/],
-  ['Joueurs', /^player_|scorer|assist|shots|tackles|saves|fouls_committed|passes/],
+  ['Joueurs', /^player_|^[23]plus_goals$|scorer|assist|shots|tackles|saves|fouls_committed|passes/],
   ['Corners', /corner/],
   ['Cartons', /card|booking/],
   ['Équipes', /team_total|both_teams|btts|clean_sheet|to_score|first_team|last_team|win_to_nil/],
   ['Buts', /total|goal|over|under|correct_score|exact|odd_even/],
-  ['Résultat', /h2h|moneyline|1x2|double_chance|draw_no_bet|spread|handicap|winner|result|ht_ft|half_time_full_time/]
+  ['Résultat', /h2h|moneyline|1x2|double_chance|draw_no_bet|spread|handicap|winner|winning_margin|result|ht_ft|half_time_full_time/]
 ];
 export const familyOf = (key, period = 'full') => { const k = String(key).toLowerCase(), base = (FAMILY_RULES.find(([, re]) => re.test(k)) ?? ['Autre'])[0]; return period === 'full' ? base : `Périodes · ${base}`; };
 
@@ -29,17 +29,40 @@ export function parseMarkets(body) {
   const list = Array.isArray(body) ? body : Array.isArray(body?.markets) ? body.markets : body?.markets && typeof body.markets === 'object' ? body.markets : body && typeof body === 'object' ? body : null;
   if (!list) return null;
   const rows = Array.isArray(list)
-    ? list.map(item => typeof item === 'string' ? { key: item, outcomes: null } : { key: item?.key ?? item?.market ?? item?.market_key ?? item?.name, outcomes: Number.isFinite(Number(item?.outcomes ?? item?.outcome_count ?? item?.count)) ? Number(item.outcomes ?? item.outcome_count ?? item.count) : Array.isArray(item?.outcomes) ? item.outcomes.length : null })
+    ? list.map(item => typeof item === 'string' ? { key: item, outcomes: null } : { key: item?.key ?? item?.market ?? item?.market_key ?? item?.name, outcomes: outcomeCount(item) })
     : Object.entries(list).filter(([, value]) => typeof value === 'number' || Array.isArray(value)).map(([key, value]) => ({ key, outcomes: Array.isArray(value) ? value.length : value }));
   return rows.filter(row => typeof row.key === 'string' && /^[a-z0-9_:.-]{1,80}$/i.test(row.key));
+}
+
+// Format réel du 3 novembre : outcomes_count. Un compteur absent n'est pas zéro.
+function outcomeCount(item) {
+  if (Array.isArray(item?.outcomes)) return item.outcomes.length;
+  const value = item?.outcomes ?? item?.outcomes_count ?? item?.outcome_count ?? item?.count;
+  if (value == null || value === '' || typeof value === 'boolean') return null;
+  const number = Number(value);
+  return Number.isSafeInteger(number) && number >= 0 ? number : null;
+}
+
+// Des catalogues identiques ne prouvent pas que le fournisseur applique le filtre period.
+export function periodWarnings(samples) {
+  const byEvent = new Map(), warnings = [];
+  for (const sample of samples) {
+    const periods = byEvent.get(sample.eventId) ?? {};
+    periods[sample.period] = JSON.stringify([...sample.markets].sort((a, b) => a.key.localeCompare(b.key)));
+    byEvent.set(sample.eventId, periods);
+  }
+  for (const [eventId, periods] of byEvent) for (const period of ['h1', 'h2']) {
+    if (periods.full && periods[period] === periods.full) warnings.push(`${eventId} : catalogue ${period} identique à full, période non confirmée`);
+  }
+  return warnings;
 }
 
 // Agrège les relevés {league, eventId, period, markets:[{key, outcomes}]} en une ligne par clé et période.
 export function aggregate(samples) {
   const byKey = new Map();
   for (const sample of samples) for (const { key, outcomes } of sample.markets) {
-    const id = `${key}|${sample.period}`, row = byKey.get(id) ?? { key, period: sample.period, family: familyOf(key, sample.period), supported: sample.period === 'full' && SUPPORTED.includes(key), leagues: new Set(), events: new Set(), maxOutcomes: 0 };
-    row.leagues.add(sample.league); row.events.add(sample.eventId); row.maxOutcomes = Math.max(row.maxOutcomes, outcomes ?? 0); byKey.set(id, row);
+    const id = `${key}|${sample.period}`, row = byKey.get(id) ?? { key, period: sample.period, family: familyOf(key, sample.period), supported: sample.period === 'full' && SUPPORTED.includes(key), leagues: new Set(), events: new Set(), maxOutcomes: null };
+    row.leagues.add(sample.league); row.events.add(sample.eventId); if (outcomes != null) row.maxOutcomes = Math.max(row.maxOutcomes ?? 0, outcomes); byKey.set(id, row);
   }
   return [...byKey.values()].map(row => ({ ...row, leagues: [...row.leagues].sort(), events: row.events.size })).sort((a, b) => a.family.localeCompare(b.family, 'fr') || a.period.localeCompare(b.period) || a.key.localeCompare(b.key));
 }
@@ -48,8 +71,10 @@ const cell = value => String(value).replace(/\|/g, '/').replace(/[\r\n]+/g, ' ')
 export function renderMarkdown(report) {
   const lines = [`# Inventaire des marchés PropLine (BET-154)`, '', `Relevé du ${report.generatedAt} · ${report.requests} requêtes sur un budget de ${report.budget} · ${report.events} matchs dans ${report.leagues.length} compétitions.`, '', 'Une clé présente ici est servie par le fournisseur pour au moins un match : ce n’est ni une couverture garantie, ni une validation du règlement. La famille est une proposition à confirmer dans la matrice (BET-170).', ''];
   if (report.failures.length) lines.push('**Incidents** : ' + report.failures.map(cell).join(' ; '), '');
+  if (report.warnings?.length) lines.push('**Périodes à confirmer** : ' + report.warnings.map(cell).join(' ; '), '');
+  lines.push('La période est celle demandée à l’API, pas une période de sélection vérifiée. Les compteurs portent sur les issues du catalogue, pas sur le nombre de bookmakers ou de prix jouables. Les familles restent indicatives, notamment `2plus_goals` et `3plus_goals` (joueurs à confirmer sur les sélections).', '');
   lines.push('| Famille | Période | Clé fournisseur | Déjà collectée | Matchs | Issues max | Compétitions |', '|---|---|---|---|---|---|---|');
-  for (const row of report.markets) lines.push(`| ${cell(row.family)} | ${row.period} | \`${cell(row.key)}\` | ${row.supported ? 'oui' : 'non'} | ${row.events} | ${row.maxOutcomes || '?'} | ${row.leagues.map(cell).join(', ')} |`);
+  for (const row of report.markets) lines.push(`| ${cell(row.family)} | ${row.period} | \`${cell(row.key)}\` | ${row.supported ? 'oui' : 'non'} | ${row.events} | ${row.maxOutcomes ?? '?'} | ${row.leagues.map(cell).join(', ')} |`);
   if (report.unparsed.length) lines.push('', `Réponses sans clé de marché reconnue (${report.unparsed.length}) : extraits dans \`propline-inventory.json\` (\`unparsed\`).`);
   lines.push('', 'Format brut de `/markets` (un extrait par période) : `raw` dans `propline-inventory.json`.');
   return lines.join('\n') + '\n';
@@ -84,7 +109,7 @@ export async function inventory({ key, fetchImpl = fetch, budget = DEFAULT_BUDGE
     if (stopped) break;
   }
   const leagues = [...new Set(samples.map(sample => sample.league))];
-  return { generatedAt: now.toISOString(), budget: limit, requests, events: new Set(samples.map(sample => sample.eventId)).size, leagues, failures, unparsed, raw, markets: aggregate(samples) };
+  return { generatedAt: now.toISOString(), budget: limit, requests, events: new Set(samples.map(sample => sample.eventId)).size, leagues, failures, warnings: periodWarnings(samples), unparsed, raw, samples, markets: aggregate(samples) };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {

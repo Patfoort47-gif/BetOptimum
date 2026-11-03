@@ -1,0 +1,1774 @@
+{
+  "generatedAt": "2026-11-03T10:26:42.724Z",
+  "budget": 56,
+  "requests": 56,
+  "events": 16,
+  "leagues": [
+    "Premier League",
+    "Ligue 1",
+    "La Liga",
+    "Serie A",
+    "Bundesliga",
+    "Ligue des champions",
+    "Europa League",
+    "Conference League"
+  ],
+  "failures": [],
+  "unparsed": [],
+  "raw": {
+    "full": {
+      "league": "Premier League",
+      "sample": "[{\"key\":\"2plus_goals\",\"outcomes_count\":125},{\"key\":\"3plus_goals\",\"outcomes_count\":6},{\"key\":\"anytime_goal_scorer\",\"outcomes_count\":264},{\"key\":\"both_teams_to_score\",\"outcomes_count\":134},{\"key\":\"btts_total_goals\",\"outcomes_count\":6},{\"key\":\"correct_score\",\"outcomes_count\":406},{\"key\":\"double_chance\",\"outcomes_count\":182},{\"key\":\"double_chance_total_goals\",\"outcomes_count\":29},{\"key\":\"draw_no_bet\",\"outcomes_count\":87},{\"key\":\"european_handicap\",\"outcomes_count\":30},{\"key\":\"first_goal_scorer\",\"outcomes_count\":119},{\"key\":\"first_team_to_score\",\"outcomes_count\":9},{\"key\":\"goal_or_assist\",\"outcomes_count\":32},{\"key\":\"h2h\",\"outcomes_count\":285},{\"key\":\"h2h_early_payout\",\"outcomes_count\":9},{\"key\":\"half_time_full_time\",\"outcomes_count\":25},{\"key\":\"player_assists\",\"outcomes_count\":32},{\"key\":\"play"
+    },
+    "h1": {
+      "league": "Premier League",
+      "sample": "[{\"key\":\"2plus_goals\",\"outcomes_count\":125},{\"key\":\"3plus_goals\",\"outcomes_count\":6},{\"key\":\"anytime_goal_scorer\",\"outcomes_count\":264},{\"key\":\"both_teams_to_score\",\"outcomes_count\":134},{\"key\":\"btts_total_goals\",\"outcomes_count\":6},{\"key\":\"correct_score\",\"outcomes_count\":406},{\"key\":\"double_chance\",\"outcomes_count\":182},{\"key\":\"double_chance_total_goals\",\"outcomes_count\":29},{\"key\":\"draw_no_bet\",\"outcomes_count\":87},{\"key\":\"european_handicap\",\"outcomes_count\":30},{\"key\":\"first_goal_scorer\",\"outcomes_count\":119},{\"key\":\"first_team_to_score\",\"outcomes_count\":9},{\"key\":\"goal_or_assist\",\"outcomes_count\":32},{\"key\":\"h2h\",\"outcomes_count\":285},{\"key\":\"h2h_early_payout\",\"outcomes_count\":9},{\"key\":\"half_time_full_time\",\"outcomes_count\":25},{\"key\":\"player_assists\",\"outcomes_count\":32},{\"key\":\"play"
+    },
+    "h2": {
+      "league": "Premier League",
+      "sample": "[{\"key\":\"2plus_goals\",\"outcomes_count\":125},{\"key\":\"3plus_goals\",\"outcomes_count\":6},{\"key\":\"anytime_goal_scorer\",\"outcomes_count\":264},{\"key\":\"both_teams_to_score\",\"outcomes_count\":134},{\"key\":\"btts_total_goals\",\"outcomes_count\":6},{\"key\":\"correct_score\",\"outcomes_count\":406},{\"key\":\"double_chance\",\"outcomes_count\":182},{\"key\":\"double_chance_total_goals\",\"outcomes_count\":29},{\"key\":\"draw_no_bet\",\"outcomes_count\":87},{\"key\":\"european_handicap\",\"outcomes_count\":30},{\"key\":\"first_goal_scorer\",\"outcomes_count\":119},{\"key\":\"first_team_to_score\",\"outcomes_count\":9},{\"key\":\"goal_or_assist\",\"outcomes_count\":32},{\"key\":\"h2h\",\"outcomes_count\":285},{\"key\":\"h2h_early_payout\",\"outcomes_count\":9},{\"key\":\"half_time_full_time\",\"outcomes_count\":25},{\"key\":\"player_assists\",\"outcomes_count\":32},{\"key\":\"play"
+    }
+  },
+  "markets": [
+    {
+      "key": "bet_builder_boost",
+      "period": "full",
+      "family": "Autre",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "winning_margin",
+      "period": "full",
+      "family": "Autre",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "2plus_goals",
+      "period": "full",
+      "family": "Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "3plus_goals",
+      "period": "full",
+      "family": "Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "correct_score",
+      "period": "full",
+      "family": "Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "totals",
+      "period": "full",
+      "family": "Buts",
+      "supported": true,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_cards",
+      "period": "full",
+      "family": "Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_cards",
+      "period": "full",
+      "family": "Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "btts_total_goals",
+      "period": "full",
+      "family": "Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_btts",
+      "period": "full",
+      "family": "Combinés",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_total_goals",
+      "period": "full",
+      "family": "Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_btts",
+      "period": "full",
+      "family": "Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_total_goals",
+      "period": "full",
+      "family": "Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_european_handicap",
+      "period": "full",
+      "family": "Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_spread",
+      "period": "full",
+      "family": "Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_corners",
+      "period": "full",
+      "family": "Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_corners",
+      "period": "full",
+      "family": "Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "both_teams_to_score",
+      "period": "full",
+      "family": "Équipes",
+      "supported": true,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_team_to_score",
+      "period": "full",
+      "family": "Équipes",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "anytime_goal_scorer",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_goal_scorer",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goal_or_assist",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 13,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goalie_saves",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_assists",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_cards",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Europa League",
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 8,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots_on_target",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_tackles",
+      "period": "full",
+      "family": "Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "bet_builder_boost",
+      "period": "h1",
+      "family": "Périodes · Autre",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "winning_margin",
+      "period": "h1",
+      "family": "Périodes · Autre",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "bet_builder_boost",
+      "period": "h2",
+      "family": "Périodes · Autre",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "winning_margin",
+      "period": "h2",
+      "family": "Périodes · Autre",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "2plus_goals",
+      "period": "h1",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "3plus_goals",
+      "period": "h1",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "correct_score",
+      "period": "h1",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "totals",
+      "period": "h1",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "2plus_goals",
+      "period": "h2",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "3plus_goals",
+      "period": "h2",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "correct_score",
+      "period": "h2",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "totals",
+      "period": "h2",
+      "family": "Périodes · Buts",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_cards",
+      "period": "h1",
+      "family": "Périodes · Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_cards",
+      "period": "h1",
+      "family": "Périodes · Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_cards",
+      "period": "h2",
+      "family": "Périodes · Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_cards",
+      "period": "h2",
+      "family": "Périodes · Cartons",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "btts_total_goals",
+      "period": "h1",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_btts",
+      "period": "h1",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_total_goals",
+      "period": "h1",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_btts",
+      "period": "h1",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_total_goals",
+      "period": "h1",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "btts_total_goals",
+      "period": "h2",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_btts",
+      "period": "h2",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance_total_goals",
+      "period": "h2",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_btts",
+      "period": "h2",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "result_total_goals",
+      "period": "h2",
+      "family": "Périodes · Combinés",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_european_handicap",
+      "period": "h1",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_spread",
+      "period": "h1",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_corners",
+      "period": "h1",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_corners",
+      "period": "h1",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_european_handicap",
+      "period": "h2",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "corners_spread",
+      "period": "h2",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "team_corners",
+      "period": "h2",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 15,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "total_corners",
+      "period": "h2",
+      "family": "Périodes · Corners",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "both_teams_to_score",
+      "period": "h1",
+      "family": "Périodes · Équipes",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_team_to_score",
+      "period": "h1",
+      "family": "Périodes · Équipes",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "both_teams_to_score",
+      "period": "h2",
+      "family": "Périodes · Équipes",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_team_to_score",
+      "period": "h2",
+      "family": "Périodes · Équipes",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "anytime_goal_scorer",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_goal_scorer",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goal_or_assist",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 13,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goalie_saves",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_assists",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_cards",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Europa League",
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 8,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots_on_target",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_tackles",
+      "period": "h1",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "anytime_goal_scorer",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "first_goal_scorer",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goal_or_assist",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 13,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "goalie_saves",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_assists",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 12,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_cards",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Conference League",
+        "Europa League",
+        "Ligue des champions"
+      ],
+      "events": 6,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Europa League",
+        "Ligue 1",
+        "Ligue des champions",
+        "Serie A"
+      ],
+      "events": 8,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_shots_on_target",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "player_tackles",
+      "period": "h2",
+      "family": "Périodes · Joueurs",
+      "supported": false,
+      "leagues": [
+        "Ligue des champions"
+      ],
+      "events": 2,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "draw_no_bet",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "european_handicap",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h_early_payout",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "half_time_full_time",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "spreads",
+      "period": "h1",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "draw_no_bet",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "european_handicap",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h_early_payout",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "half_time_full_time",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "spreads",
+      "period": "h2",
+      "family": "Périodes · Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "double_chance",
+      "period": "full",
+      "family": "Résultat",
+      "supported": true,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "draw_no_bet",
+      "period": "full",
+      "family": "Résultat",
+      "supported": true,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "european_handicap",
+      "period": "full",
+      "family": "Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h",
+      "period": "full",
+      "family": "Résultat",
+      "supported": true,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "h2h_early_payout",
+      "period": "full",
+      "family": "Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "half_time_full_time",
+      "period": "full",
+      "family": "Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    },
+    {
+      "key": "spreads",
+      "period": "full",
+      "family": "Résultat",
+      "supported": false,
+      "leagues": [
+        "Bundesliga",
+        "Conference League",
+        "Europa League",
+        "La Liga",
+        "Ligue 1",
+        "Ligue des champions",
+        "Premier League",
+        "Serie A"
+      ],
+      "events": 16,
+      "maxOutcomes": 0
+    }
+  ]
+}
