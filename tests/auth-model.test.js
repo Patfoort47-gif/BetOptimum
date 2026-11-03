@@ -20,6 +20,12 @@ test('aucune erreur Supabase n’est affichée en anglais : identifiants, email 
   assert.match(t(new TypeError('Failed to fetch')),/connexion/);assert.match(t({message:'NetworkError when attempting to fetch resource.'}),/connexion/);assert.match(t({message:'New password should be different from the old password.',code:'same_password'}),/différent/);
   for(const raw of ['Something unexpected happened','Database error saving new user','',undefined,null]){const text=t(typeof raw==='string'?{message:raw}:raw);assert.equal(text,'Une erreur est survenue : réessayez dans un instant.')}
 });
+test('les échecs d’envoi email sont explicites sans confondre panne serveur et mot de passe utilisateur',()=>{
+  for(const error of [{status:500,code:'unexpected_failure',message:'Error sending confirmation email'},{message:'Error sending recovery email'},{code:'email_send_failed'}])assert.match(A.translateAuthError(error),/L’envoi de l’email est momentanément indisponible/);
+  assert.match(A.translateAuthError({status:429,message:'Error sending confirmation email'}),/Trop de tentatives/);
+  assert.equal(A.translateAuthError({status:500,code:'unexpected_failure',message:'Database error saving new user'}),'Une erreur est survenue : réessayez dans un instant.');
+  assert.equal(A.translateAuthError({code:'invalid_credentials'}),'Email ou mot de passe incorrect.');
+});
 test('l’étape Avatar n’existe qu’avec le personnage 3D : sinon deux étapes, aucun avatar simplifié',()=>{assert.deepEqual(A.signupSteps(),['identity','preferences']);assert.deepEqual(A.signupSteps(true),['identity','avatar','preferences'])});
 test('la validation d’identité refuse pseudo, email, mot de passe et case 18 ans manquants',()=>{
   assert.equal(A.validateIdentity({nickname:'Matteo',email:'m@x.fr',password:'Abcdefg1!',adult:true}).ok,true);

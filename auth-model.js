@@ -24,6 +24,7 @@ export function translateAuthError(error) {
   if (code === 'weak_password' || text.includes('password should be') || text.includes('weak password')) return 'Mot de passe trop faible : 8 caractères au moins, avec des lettres et des chiffres.';
   if (code === 'email_not_confirmed' || text.includes('email not confirmed')) return 'Adresse email non confirmée : ouvrez le lien reçu par email ou demandez un nouvel envoi.';
   if (status === 429 || code.includes('rate_limit') || text.includes('rate limit') || text.includes('too many') || text.includes('security purposes')) return 'Trop de tentatives : patientez quelques minutes avant de réessayer.';
+  if (code === 'email_send_failed' || text.includes('error sending confirmation email') || text.includes('error sending recovery email') || text.includes('error sending email')) return 'L’envoi de l’email est momentanément indisponible. Réessayez plus tard. Si le problème persiste, contactez l’équipe BetOptimum.';
   if (text.includes('failed to fetch') || text.includes('networkerror') || text.includes('network request failed') || text.includes('load failed') || error?.name === 'TypeError') return 'Problème de connexion : vérifiez votre réseau puis réessayez.';
   if (text.includes('signup') && text.includes('disabled')) return 'Les inscriptions sont momentanément fermées.';
   if (text.includes('invalid email') || code === 'validation_failed' && text.includes('email')) return 'Adresse email invalide.';
