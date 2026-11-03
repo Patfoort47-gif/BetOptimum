@@ -52,3 +52,14 @@ test('BET-170 : collecte étape 3 toujours groupée par compétition, sans nouve
  const r=await collectPropLine([{id:'espn-'+e.espn_event_id,home:e.home_team,away:e.away_team,kickoff:e.commence_time,league:e.league}],{[e.league]:'soccer_epl'},{key:'test',stage:3,now,fetchImpl:async url=>{count++;assert.match(url,/correct_score/);return{ok:true,json:async()=>[e]}}});
  assert.equal(count,1);assert.equal(r.succeeded,1);
 });
+test('BET-170 : un lot Supabase mêlant anciens et nouveaux marchés conserve des colonnes uniformes',async()=>{
+ const {syncFixtures}=await import('../scripts/sync-supabase.mjs'),{createAdmin}=await import('../scripts/supabase-admin.mjs');
+ let written=[];
+ const admin=createAdmin({SUPABASE_URL:'https://test.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'test'.repeat(10)},async(url,options)=>{
+  written=JSON.parse(options.body);const shape=Object.keys(written[0]).sort().join(',');
+  const uniform=written.every(row=>Object.keys(row).sort().join(',')===shape);
+  return {ok:uniform,status:uniform?201:400,text:async()=>uniform?'':'All object keys must match'};
+ });
+ await syncFixtures(admin,[{id:'old',home:'Alpha',away:'Beta',odds:{home:2}},{id:'new',home:'Gamma',away:'Delta',odds:{score1_0:7},marketValidUntil:{score1_0:'2026-11-04T08:00:00Z'}}]);
+ assert.equal(written.length,2);assert.deepEqual(written[0].market_valid_until,{});assert.equal(written[1].market_valid_until.score1_0,'2026-11-04T08:00:00Z');
+});
