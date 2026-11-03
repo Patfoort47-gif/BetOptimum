@@ -31,14 +31,13 @@ Le workflow « Inventorier les marchés PropLine » propose désormais `mode=pri
 ## Ordre de mise en production
 
 1. Appliquer `supabase/migrations/supabase-v40-schema.sql` après V39 dans le projet Supabase de production. La migration est réexécutable ; elle ajoute `fixtures.market_valid_until` et étend les labels/choix acceptés par la RPC sans réécrire les paris existants.
-2. Fusionner la PR BET-170 pour publier les modules et le moteur de règlement. La variable Actions de dépôt `PROPLINE_MARKET_STAGE` doit rester absente ou à `2` jusqu’à la fin de cette publication.
-3. Définir la variable Actions **de dépôt** `PROPLINE_MARKET_STAGE=3`, puis lancer manuellement « Actualiser les matchs » sur `main`. Le workflow vérifie d’abord la colonne V40 et un label serveur en lecture seule. Si le schéma manque, il échoue avant tout appel fournisseur et toute modification du calendrier.
+2. Fusionner la PR BET-170 pour publier les modules et le moteur de règlement. La version publiée du workflow fixe explicitement `PROPLINE_MARKET_STAGE=3` ; V40 doit donc être vérifiée avant cette fusion.
+3. Vérifier `PROPLINE_MARKET_STAGE=3` dans les deux étapes du workflow, puis lancer manuellement « Actualiser les matchs » sur `main`. Le workflow vérifie d’abord la colonne V40 et un label serveur en lecture seule. Si le schéma manque, il échoue avant tout appel fournisseur et toute modification du calendrier.
 4. Vérifier le succès de la collecte et de la synchronisation Supabase ; ouvrir un match couvert et vérifier les familles, les prix réels datés et « Manuel / Sans modèle ». Une famille peut manquer sur un match : c’est une absence d’offre, pas une erreur à combler avec une estimation.
 
 Commandes équivalentes pour les étapes Actions (après migration et fusion) :
 
 ```bash
-gh variable set PROPLINE_MARKET_STAGE --repo Patfoort47-gif/BetOptimum --body 3
 gh workflow run update-fixtures.yml --repo Patfoort47-gif/BetOptimum --ref main
 ```
 
@@ -65,4 +64,6 @@ PGlite 0.5.15 est installé dans un dossier temporaire, jamais comme dépendance
 
 ## Retour à l’étape 2
 
-Remettre `PROPLINE_MARKET_STAGE=2` puis relancer « Actualiser les matchs » pour retirer les nouvelles offres. Conserver V40 et le code de règlement tant que des paris de ce lot sont en attente. Ne pas annuler des paris acceptés pour réaliser un retour de version, ni supprimer leurs clés du moteur. Les sélections déjà placées continuent à être réglées normalement.
+Remettre `PROPLINE_MARKET_STAGE` à `2` dans les deux étapes de `update-fixtures.yml`, publier ce changement puis relancer « Actualiser les matchs » pour retirer les nouvelles offres. Conserver V40 et le code de règlement tant que des paris de ce lot sont en attente. Ne pas annuler des paris acceptés pour réaliser un retour de version, ni supprimer leurs clés du moteur. Les sélections déjà placées continuent à être réglées normalement.
+
+Activation du 3 novembre 2026 : V40 appliquée et vérifiée sur le projet BetMaster avant fusion. La connexion GitHub ne peut pas modifier les variables de dépôt (HTTP 403) ; l’étape 3 est donc fixée explicitement dans le workflow, comme l’étape 2 l’était précédemment.
