@@ -1,6 +1,6 @@
 import {venueFromCompetition} from '../stadiums.js';
 import {regulationScore} from '../regulation-score.js';
-import {marketKeys,LEGACY_MARKETS,STAGE_ONE} from '../markets.js';
+import {marketKeys,marketEnabled,isExtendedMarket,EXTENDED_ODDS_MAX_AGE} from '../markets.js';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { parisDate, pickDailyChallenge, recommendedMarket } from '../model.js';
 import { ODDS_REFRESH_HOURS, SECONDARY_ODDS_WINDOW_HOURS, mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
@@ -88,11 +88,12 @@ function teamForm(team, history) {
 }
 
 function consensus(currentOffers = [], previousOffers = []) {
-  const stage=Number(process.env.PROPLINE_MARKET_STAGE??0),keys=marketKeys(Object.assign({},...currentOffers,...previousOffers)).filter(key=>LEGACY_MARKETS.includes(key)||stage>=2||(stage===1&&STAGE_ONE.includes(key)));
+  const stage=Number(process.env.PROPLINE_MARKET_STAGE??0),keys=marketKeys(Object.assign({},...currentOffers,...previousOffers)).filter(key=>marketEnabled(key,stage));
   const mergedOffers = mergeCachedOffers(currentOffers, previousOffers,keys);
   if (!mergedOffers.length) return null;
   const summary=summarizeOffers(mergedOffers,keys);
-  return { offers:mergedOffers, counts:summary.counts, cachedMarkets:summary.cachedMarkets, ...summary.averages };
+  const validUntil=Object.fromEntries(keys.filter(key=>isExtendedMarket(key)&&summary.counts[key]>0).map(key=>[key,new Date(Math.min(...mergedOffers.filter(offer=>Number(offer[key])>1).map(offer=>Date.parse(offer[key+'UpdatedAt'])))+EXTENDED_ODDS_MAX_AGE).toISOString()]));
+  return { offers:mergedOffers, counts:summary.counts, cachedMarkets:summary.cachedMarkets, validUntil, ...summary.averages };
 }
 
 const results = await Promise.allSettled(leagues.map(async ([slug, label, weight]) => {
@@ -158,7 +159,7 @@ const enriched = unique.map(match => {
   if (realOdds) {
     const realMarkets = marketKeys(realOdds).filter(key => realOdds[key]);
     match.odds = {...match.odds,...Object.fromEntries(realMarkets.map(key => [key,realOdds[key]]))};
-    match.oddsSource = realOdds.offers.some(offer=>Object.keys(offer).some(key=>key.endsWith('Source')&&offer[key]==='PropLine')) ? 'PropLine' : 'Cache historique'; match.bookmakerOffers = realOdds.offers; match.bookmakerCount = realOdds.offers.length; match.oddsBookmakerCounts = realOdds.counts; match.realOddsMarkets = realMarkets; match.oddsCachedMarkets=realOdds.cachedMarkets;
+    match.marketValidUntil = realOdds.validUntil; match.oddsSource = realOdds.offers.some(offer=>Object.keys(offer).some(key=>key.endsWith('Source')&&offer[key]==='PropLine')) ? 'PropLine' : 'Cache historique'; match.bookmakerOffers = realOdds.offers; match.bookmakerCount = realOdds.offers.length; match.oddsBookmakerCounts = realOdds.counts; match.realOddsMarkets = realMarkets; match.oddsCachedMarkets=realOdds.cachedMarkets;
   }
   if (previous?.odds) match.oddsMovement=Object.fromEntries(Object.keys(match.odds).map(key=>{const before=Number(previous.odds[key]),current=Number(match.odds[key]),percent=before&&current?Number(((current-before)/before*100).toFixed(1)):0;return[key,{previous:before,current,percent,significant:Math.abs(percent)>=5}]}));
   match.suggestedPick=match.completed&&previous?.suggestedPick?previous.suggestedPick:{...recommendedMarket(match),capturedAt:new Date().toISOString()};

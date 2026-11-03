@@ -9,6 +9,7 @@ La variable Actions `PROPLINE_MARKET_STAGE` vaut **0 par défaut**. Elle sélect
 - **0** : 1N2, Over exactement 2,5, BTTS Oui (BET-152).
 - **1** : ajoute BTTS Non, Under 2,5, Over et Under 1,5 et 3,5. Même requête et même fréquence.
 - **2** : ajoute double chance 1N/N2/12, domicile/extérieur remboursé si nul et totaux par équipe sur les demi-lignes 0,5 à 5,5 effectivement fournies. Une ligne non prise en charge reste ignorée, sans arrondi ni substitution d’une ligne voisine.
+- **3** : après V40, ajoute le [premier lot BET-170](MARKETS_PRODUCTION.md) : scores exacts, handicaps européens, marges de victoire et demi-lignes de buts supplémentaires, sans modèle ni value.
 
 Utiliser d’abord le workflow de diagnostic avec l’étape choisie. Il reste sans écriture et sans déploiement ; il vérifie les prix réels. Ne pas passer la variable de production à 1 ou 2 tant que le diagnostic correspondant et la migration SQL ne sont pas validés. Les marchés indisponibles ne sont ni inventés ni proposés ; les cinq marchés historiques conservent leur repli estimé. Un nouveau marché doit avoir une cote réelle côté serveur.
 
@@ -46,3 +47,5 @@ Il n’écrit rien dans le dépôt, ne touche ni `data/fixtures.json` ni Supabas
 
 Le diagnostic reconnaît le champ réel `outcomes_count`. Une période est seulement un filtre demandé : des catalogues identiques à `full` déclenchent un avertissement, sans annoncer une couverture H1/H2. Les compteurs d’issues ne prouvent ni le nombre de bookmakers ni la présence de prix jouables. Le JSON historique est conservé tel quel dans `docs/evidence/` : ses compteurs inconnus ne doivent pas être interprétés comme des zéros réels.
 Les nouveaux rapports conservent aussi `samples` (événement, compétition, période demandée et clés/compteurs), pour vérifier les ressemblances par match plutôt que sur la seule agrégation. Cela ne transforme pas une période demandée en période confirmée.
+
+BET-170 : la variable Actions de dépôt `PROPLINE_MARKET_STAGE` permet désormais de choisir l’étape, avec repli sur **2** en production. La vérification en lecture seule de V40 précède la collecte à l’étape 3. [Procédure complète, validation réelle et retour arrière](MARKETS_PRODUCTION.md).

@@ -102,3 +102,6 @@ Marchés prioritaires BET-153 : appliquer V36 après V35, puis suivre [les étap
 
 ### Célébrations et carte joueur (BET-163)
 Appliquer `supabase/migrations/supabase-v39-schema.sql` après V38 (réexécutable). Elle élargit la vue `public_equipped` aux objets de la carte joueur (`card-bg`, `card-font`, `card-shine`) par la fonction `equipped_slot_public` ; les effets de victoire et les sons restent privés (`equipped_items`, lecture par le propriétaire). Aucune table ni colonne nouvelle. Tant que V37 n’est pas appliquée, `scripts/shop-engine.mjs` n’envoie pas ces nouveaux objets dans `shop_items`.
+
+### Marchés du premier lot BET-170
+Appliquer `supabase/migrations/supabase-v40-schema.sql` après V39 avant l’activation de l’étape 3. Le contrôle de déploiement vérifie le schéma avant collecte ; les nouvelles offres ont une expiration contrôlée par la RPC. La migration ne réécrit aucun pari. [Ordre de publication et recette](docs/MARKETS_PRODUCTION.md).

@@ -4,7 +4,7 @@
 
 Source : [inventaire Actions du 3 novembre 2026](https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41619288458), lancé à 11 h 26 Paris, commit `93d52de8c32d8bf2c686b5bb3981acd649cea87e`, artefact `13222224565` (`propline-inventory`). Le [JSON d’origine conservé](evidence/propline-inventory-2026-11-03.json) permet une revue après l’expiration de l’artefact le 10 novembre. Il est conservé sans régénération ni correction des données historiques.
 
-56 requêtes sur 56, 16 matchs, 8 compétitions, aucun incident ni réponse non reconnue. **35 clés distinctes, 105 couples clé/période demandée**. Ce sont des présences dans un catalogue, pas des preuves de prix disponibles ou de règlement fiable. Aucun nouveau marché n’est activé par BET-170 à ce stade. L’étape 2 de BET-153 reste la seule étape de collecte de production ; voir [son guide](MARKETS_SETUP.md).
+56 requêtes sur 56, 16 matchs, 8 compétitions, aucun incident ni réponse non reconnue. **35 clés distinctes, 105 couples clé/période demandée**. Ce sont des présences dans un catalogue, pas des preuves de prix disponibles ou de règlement fiable. Le premier lot est désormais implémenté et prêt à être activé à l’étape 3 après V40 : voir [la procédure de production](MARKETS_PRODUCTION.md). L’étape 2 de BET-153 reste la seule étape de collecte de production ; voir [son guide](MARKETS_SETUP.md).
 
 Limites constatées :
 
@@ -26,10 +26,10 @@ Les probabilités « dérivables » ne sont **pas implémentées ni exposées** 
 | `double_chance` | 16/16 · 8/8 | Score réglementaire | Oui : somme des issues 1N2 | Actif BET-153 : 1N, N2, 12 | 0 |
 | `draw_no_bet` | 16/16 · 8/8 | Score réglementaire | Oui : victoire et nul séparés | Actif BET-153 : nul remboursé | 0 |
 | `h2h` | 16/16 · 8/8 | Score réglementaire | Oui : 1N2 | Actif BET-153, identités home/draw/away conservées | 0 |
-| `totals` | 16/16 · 8/8 | Score réglementaire + ligne exacte | Oui pour 1,5 / 2,5 / 3,5 | Actif sur ces demi-lignes seulement ; autres lignes désactivées, entières/quarts en lot 4 | 0/1/4 |
-| `correct_score` | 16/16 · 8/8 | Score réglementaire + score sélectionné | Non exposée ; grille exploitable après validation, queue >8 à traiter | Désactivé : parseur de sélection, issues « autre score » et règlement à construire | 1 |
-| `european_handicap` | 16/16 · 8/8 | Score réglementaire + handicap entier orienté + issue 1/N/2 | Non exposée ; dérivable après validation | Désactivé : trois issues, aucun remboursement automatique au nul corrigé | 1 |
-| `winning_margin` | 16/16 · 8/8 | Score réglementaire + équipe + intervalle exact | Non exposée ; dérivable de la grille après validation | Désactivé : sens, bornes inclusives et nul à confirmer sur des sélections | 1 |
+| `totals` | 16/16 · 8/8 | Score réglementaire + ligne exacte | Oui pour 1,5 / 2,5 / 3,5 | Actif en étape 2 sur ces lignes ; nouvelles demi-lignes 0,5 et 4,5 à 9,5 prêtes en étape 3 sans modèle ; entières/quarts désactivées | 0/1/4 |
+| `correct_score` | 16/16 · 8/8 | Score réglementaire + score sélectionné | Non exposée ; grille exploitable après validation, queue >8 à traiter | Prêt en étape 3 : scores explicites 0 à 15, ordre domicile/extérieur strict ; issues « autre score » exclues | 1 |
+| `european_handicap` | 16/16 · 8/8 | Score réglementaire + handicap entier orienté + issue 1/N/2 | Non exposée ; dérivable après validation | Prêt en étape 3 : bloc trois issues vérifié, handicap domicile entier -9 à +9 ; aucun remboursement au nul corrigé | 1 |
+| `winning_margin` | 16/16 · 8/8 | Score réglementaire + équipe + intervalle exact | Non exposée ; dérivable de la grille après validation | Prêt en étape 3 : écarts exacts et seuils explicites, nul 0 - 0 / nul avec buts séparés | 1 |
 | `btts_total_goals` | 16/16 · 8/8 | Score réglementaire + BTTS + sens + ligne | Non exposée ; probabilité jointe à calculer | Désactivé : demi-lignes d’abord ; entière/quart reportée au lot 4 | 2 |
 | `double_chance_btts` | 6/16 · 3/8 | Score réglementaire + double chance + BTTS | Non exposée ; probabilité jointe à calculer | Désactivé : une sélection composite fournisseur indivisible | 2 |
 | `double_chance_total_goals` | 16/16 · 8/8 | Score réglementaire + double chance + sens + ligne | Non exposée ; probabilité jointe à calculer | Désactivé : demi-lignes d’abord ; entière/quart reportée au lot 4 | 2 |
@@ -99,6 +99,6 @@ L’inventaire ponctuel a consommé 56 requêtes (8 listes de matchs + 16 × 3 c
 
 ## Validation et état de livraison
 
-La branche BET-170 livre la matrice exhaustive, les décisions d’exclusion, les lots et la correction du diagnostic. Les tests utilisent l’extrait réel pour `outcomes_count` et un faux fournisseur pour les périodes identiques et les limites de requêtes. Aucune fréquence, RPC, cote publiée, interface ou règle de pari n’est changée ; aucune migration n’est appliquée.
+La branche BET-170 livre la matrice exhaustive, les décisions d’exclusion, les lots, la correction du diagnostic et [le premier lot déployable](MARKETS_PRODUCTION.md). Les tests utilisent l’extrait réel pour `outcomes_count` et un faux fournisseur pour les périodes identiques et les limites de requêtes. Les nouveaux choix de l’étape 3 étendent la RPC, l’interface et le règlement ; aucune migration ni activation de production n’est appliquée par cette branche.
 
-**Reste nécessaire pour terminer l’activation** : réponses de prix réelles et conditions de règlement par famille (lot 1 d’abord), preuve de période, puis développement et recettes serveur/SQL/interface de chaque lot. Le ticket reste ouvert ; un inventaire réussi ne constitue pas une recette de paris. L’accès local ne dispose pas de la clé PropLine, qui existe uniquement dans Actions.
+**Premier lot livré** : un [diagnostic de prix réel](MARKETS_PRODUCTION.md) complète maintenant ce catalogue, et le code de collecte, règlement, SQL et interface est implémenté pour les formats explicites du lot 1. Les autres familles restent désactivées ; la procédure de production précise les formats et bornes pris en charge. **Reste nécessaire pour les autres lots** : preuves de sélection et de période, sources fiables et recettes serveur/SQL/interface par famille. Le ticket reste ouvert ; un inventaire réussi ne constitue pas une recette de paris. L’accès local ne dispose pas de la clé PropLine, qui existe uniquement dans Actions.

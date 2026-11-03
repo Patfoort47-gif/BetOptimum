@@ -1,4 +1,4 @@
-import {LEGACY_MARKETS,STAGE_ONE,marketSpec} from '../markets.js';
+import {marketSpec,marketEnabled,isExtendedMarket} from '../markets.js';
 // Server-side only. PropLine prices are American unless price_decimal is supplied.
 import {sameTeam} from '../team-match.js';
 import {isInSecondaryOddsWindow} from '../odds-cache.js';
@@ -28,11 +28,11 @@ export function propLineOffers(event,now=Date.now(),stage=0){
       if(!Number.isFinite(updated)||updated>now+60000||now-updated>60*60000)continue;
       for(const outcome of market.outcomes??[]){
         if((outcome.team&&market.key!=='team_totals')||outcome.redacted||outcome.restricted)continue;
-        if(outcome.last_seen_at&&Date.parse(outcome.last_seen_at)<updated)continue;
+        if(outcome.last_seen_at&&(!Number.isFinite(Date.parse(outcome.last_seen_at))||Date.parse(outcome.last_seen_at)<updated||Date.parse(outcome.last_seen_at)>now+60000))continue;
         let key=null;
         if(market.key==='h2h')key=sameTeam(outcome.name,event.home_team)?'home':sameTeam(outcome.name,event.away_team)?'away':/^draw$/i.test(outcome.name)?'draw':null;
         else if(market.key==='both_teams_to_score')key=/^yes$/i.test(outcome.name)?'btts':/^no$/i.test(outcome.name)?'bttsNo':null;
-        else if(market.key==='totals'&&/^(over|under)$/i.test(outcome.name)&&[1.5,2.5,3.5].includes(Number(outcome.point))){const side=outcome.name.toLowerCase();key=Number(outcome.point)===2.5?(side==='over'?'over':'under'):side+String(Number(outcome.point)*10)}
+        else if(market.key==='totals'&&/^(over|under)$/i.test(outcome.name)&&[1.5,2.5,3.5,...(stage>=3?[.5,4.5,5.5,6.5,7.5,8.5,9.5]:[])].includes(Number(outcome.point))){const side=outcome.name.toLowerCase();key=Number(outcome.point)===2.5?(side==='over'?'over':'under'):side+String(Number(outcome.point)*10).padStart(2,'0')}
         else if(market.key==='double_chance'){
           key=({'1N':'homeDraw','1X':'homeDraw','N2':'drawAway','X2':'drawAway','12':'homeAway'})[outcome.name];
           if(!key){const parts=String(outcome.name??'').split('/').map(name=>name.trim()),home=parts.some(name=>sameTeam(name,event.home_team)),away=parts.some(name=>sameTeam(name,event.away_team)),draw=parts.some(name=>/^draw$/i.test(name));if(parts.length===2)key=home&&draw?'homeDraw':away&&draw?'drawAway':home&&away?'homeAway':null;}
@@ -42,7 +42,9 @@ export function propLineOffers(event,now=Date.now(),stage=0){
           const team=outcome.team??market.team,side=sameTeam(team,event.home_team)?'home':sameTeam(team,event.away_team)?'away':null,line=Number(outcome.point);
           if(side&&[.5,1.5,2.5,3.5,4.5,5.5].includes(line))key=side+outcome.name[0].toUpperCase()+outcome.name.slice(1).toLowerCase()+String(line*10).padStart(2,'0');
         }
-        if(!key||!marketSpec(key)||(!LEGACY_MARKETS.includes(key)&&(stage<1||(!STAGE_ONE.includes(key)&&stage<2))))continue;
+        if(!key&&stage>=3)key=lotOneSelection(event,market,outcome);
+        if(!key||!marketEnabled(key,stage))continue;
+        if(isExtendedMarket(key)&&(outcome.player_id||outcome.payout_multiplier!=null||outcome.dfs_odds_type||outcome.suspended_at||['suspended','removed','closed'].includes(outcome.status)))continue;
         const price=decimalPrice(outcome);if(!key||!price)continue;
         if(offer[key]&&Date.parse(offer[`${key}UpdatedAt`])>=updated)continue;
         offer[key]=price;offer[`${key}UpdatedAt`]=market.last_update;offer[`${key}Source`]='PropLine';
@@ -61,13 +63,13 @@ export function supplementOffers(primary,extra){
   return offers;
 }
 export async function collectPropLine(matches,leagueSports,{key=process.env.PROPLINE_API_KEY,fetchImpl=fetch,now=Date.now(),maxRequests=8,stage=Number(process.env.PROPLINE_MARKET_STAGE??0)}={}){
-  const result={offersByMatch:new Map(),requested:0,succeeded:0,failures:[]};if(![0,1,2].includes(stage)){result.failures.push('PropLine : étape de marchés invalide');return result}if(!key){result.failures.push('PropLine : secret PROPLINE_API_KEY absent');return result;}
+  const result={offersByMatch:new Map(),requested:0,succeeded:0,failures:[]};if(![0,1,2,3].includes(stage)){result.failures.push('PropLine : étape de marchés invalide');return result}if(!key){result.failures.push('PropLine : secret PROPLINE_API_KEY absent');return result;}
   const eligible=matches.filter(match=>!match.completed&&Date.parse(match.kickoff)>now&&Date.parse(match.kickoff)<=now+7*86400000&&!match.voided&&leagueSports[match.league]);
   for(const sport of [...new Set(eligible.map(match=>leagueSports[match.league]))]){
     if(result.requested>=maxRequests){result.failures.push('PropLine : budget de requêtes atteint');break}
     result.requested++;
     try{
-      const query=new URLSearchParams({markets:stage>=2?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals':'h2h,totals,both_teams_to_score',max_age:'3600'});
+      const query=new URLSearchParams({markets:stage>=3?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals,correct_score,european_handicap,winning_margin':stage>=2?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals':'h2h,totals,both_teams_to_score',max_age:'3600'});
       const response=await fetchImpl(`https://api.prop-line.com/v1/sports/${encodeURIComponent(sport)}/odds?${query}`,{headers:{'X-API-Key':key},signal:AbortSignal.timeout(20000),redirect:'error'});
       if(!response.ok){result.failures.push(`PropLine ${sport}: HTTP ${response.status}`);if([401,403,429].includes(response.status))break;continue}
       const events=await response.json();if(!Array.isArray(events))throw new Error('format');
@@ -79,3 +81,32 @@ export async function collectPropLine(matches,leagueSports,{key=process.env.PROP
   }
   return result;
 }
+
+// Formats observés le 3 novembre. Les variantes ambiguës restent ignorées.
+export function lotOneSelection(event,market,outcome){
+ if(market.period||market.team||outcome.team||outcome.player_id)return null;
+ const name=String(outcome.name??'');
+ if(market.key==='correct_score'){
+  const m=/^([0-9]|1[0-5])\s*[-:]\s*([0-9]|1[0-5])$/.exec(name);
+  return m&&outcome.point==null?`score${m[1]}_${m[2]}`:null;
+ }
+ if(market.key==='european_handicap'){
+  const m=/^3-Way Handicap ([+-][0-9])$/.exec(market.description??'');if(!m||Number(m[1])!==outcome.point)return null;
+  // Le même handicap à domicile doit figurer sur les trois issues du bloc.
+  const side=o=>/^Draw$/i.test(o.name)?'Draw':eventSide(event,o.name);
+  if(market.outcomes?.length!==3||new Set(market.outcomes.map(side)).size!==3||market.outcomes.some(o=>!side(o)||o.point!==outcome.point))return null;
+  const issue=side(outcome);if(!issue||outcome.side&&outcome.side.toLowerCase()!==issue.toLowerCase())return null;
+  return `eh${issue}${outcome.point<0?'M':'P'}${Math.abs(outcome.point)}`;
+ }
+ if(market.key==='winning_margin'&&outcome.point==null){
+  if(['0-0 Draw','No Goal'].includes(name))return 'marginDraw0';
+  if(['Score Draw','Any Score Draw (0:0 Excluded)'].includes(name))return 'marginDrawGoals';
+  const m=/^(.+?)(?: to win by (exactly )?([1-9]) (goal|goals)( or more)?| By ([1-9])(\+)?)$/.exec(name);if(!m)return null;
+  if(m[2]&&m[5])return null;
+  const team=eventSide(event,m[1])?.toLowerCase();
+  return team?`${team}Margin${m[3]??m[6]}${m[5]||m[7]?'Plus':''}`:null;
+ }
+ return null;
+}
+
+function eventSide(event,name){const home=sameTeam(name,event.home_team),away=sameTeam(name,event.away_team);return home===away?null:home?'Home':'Away'}

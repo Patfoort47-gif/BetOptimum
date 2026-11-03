@@ -20,7 +20,7 @@
 
 - [Recette UI](../TESTING_UI.md), [responsive](RESPONSIVE.md), [accessibilité](../ACCESSIBILITY_AUDIT.md), [mesures UI existantes](../UI_PERFORMANCE.md).
 - [Méthodes de pronostic](PREDICTION_METHODS.md) et [évaluation xG](../XG_EVALUATION.md).
-- [Marchés actifs et activation](MARKETS_SETUP.md), [inventaire réel et matrice des familles PropLine](MARKETS_INVENTORY.md).
+- [Marchés actifs et activation](MARKETS_SETUP.md), [inventaire réel et matrice des familles PropLine](MARKETS_INVENTORY.md), [mise en production du premier lot](MARKETS_PRODUCTION.md).
 - [Cadre juridique](../VALIDATION_JURIDIQUE.md).
 - `tests/*.test.js` : tests Node, lancés par `npm test`.
 - `examples/notification-emails/` : aperçus reproductibles, utiles pour la revue des emails.

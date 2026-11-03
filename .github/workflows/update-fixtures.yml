@@ -42,11 +42,18 @@ jobs:
         if: steps.schedule.outputs.run == 'true'
         with:
           node-version: 20
+      - name: Vérifier la migration des nouveaux marchés
+        if: steps.schedule.outputs.run == 'true'
+        env:
+          PROPLINE_MARKET_STAGE: ${{ vars.PROPLINE_MARKET_STAGE || '2' }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/check-market-deployment.mjs
       - name: Télécharger les calendriers officiels
         if: steps.schedule.outputs.run == 'true'
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
-          PROPLINE_MARKET_STAGE: '2'
+          PROPLINE_MARKET_STAGE: ${{ vars.PROPLINE_MARKET_STAGE || '2' }}
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
         run: node scripts/update-fixtures.mjs
       - name: Compléter les lieux des rencontres

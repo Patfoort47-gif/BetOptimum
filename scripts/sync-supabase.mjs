@@ -20,7 +20,7 @@ export function fixtureRow(match, now = new Date()) {
   return { id: match.id, league: match.league, round: match.round ?? null, home: match.home, away: match.away, home_id: match.homeId ?? null, away_id: match.awayId ?? null,
     kickoff: match.kickoff ?? `${match.date}T12:00:00Z`, status: match.status ?? 'Programmé', completed: match.completed === true, voided: match.voided === true,
     home_score: Number.isFinite(match.homeScore) ? match.homeScore : null, away_score: Number.isFinite(match.awayScore) ? match.awayScore : null,
-    regulation: match.regulation ?? null, odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
+    regulation: match.regulation ?? null, ...(Object.keys(match.marketValidUntil??{}).length?{market_valid_until:match.marketValidUntil}:{}), odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
 }
 // Résultats utilisables par settleTicket : scores terminés, matchs annulés, et matchs jamais joués au bout de STALE_DAYS jours.
 export function buildResults(settlements, fixtureRows = [], now = Date.now()) {

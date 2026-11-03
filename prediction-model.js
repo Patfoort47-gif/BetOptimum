@@ -1,4 +1,4 @@
-import {marketKeys,scoreOutcome,marketSpec} from './markets.js';
+import {isExtendedMarket,marketKeys,scoreOutcome,marketSpec} from './markets.js';
 // Probabilités cohérentes issues d'une même grille de scores. Les variantes restent expérimentales.
 export const OUTCOMES=['home','draw','away'];
 const validGoals=n=>Number.isFinite(n)&&n>0&&n<=10;
@@ -10,7 +10,7 @@ export function forecastMatch(match,{shrink=0,rho=0,marketWeight=0}={}){
   const poisson=lambda=>{const p=[Math.exp(-lambda)];for(let k=1;k<=40;k++)p.push(p[k-1]*lambda/k);return p},h=poisson(home),a=poisson(away),cells=[],base={home:0,draw:0,away:0};let total=0;
   for(let i=0;i<h.length;i++)for(let j=0;j<a.length;j++){const correction=i===0&&j===0?1-home*away*rho:i===0&&j===1?1+home*rho:i===1&&j===0?1+away*rho:i===1&&j===1?1-rho:1;if(correction<0)throw new Error('Correction Dixon-Coles négative');const p=h[i]*a[j]*correction,key=i>j?'home':i<j?'away':'draw';cells.push({i,j,p,key});base[key]+=p;total+=p}
   for(const k of OUTCOMES)base[k]/=total;
-  const reference=marketReference(match),weight=reference?marketWeight:0,probs=Object.fromEntries(marketKeys(match.odds).map(key=>[key,0]));
+  const reference=marketReference(match),weight=reference?marketWeight:0,probs=Object.fromEntries(marketKeys(match.odds).filter(key=>!isExtendedMarket(key)).map(key=>[key,0]));
   for(const {i,j,p,key} of cells){const mass=p/total*(weight?(1-weight)+weight*reference[key]/base[key]:1);for(const market of Object.keys(probs))if(scoreOutcome(market,i,j)==='won')probs[market]+=mass}
   return {probs,reference,parameters:{home,away,rho,marketWeight:weight,shrink}};
 }

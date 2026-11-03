@@ -1,0 +1,29 @@
+name: Vérifier les marchés et leur règlement
+on:
+  pull_request:
+    paths:
+      - '*.js'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/check-markets.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm test
+      - name: Installer PostgreSQL isolé pour la recette
+        run: npm install --prefix "$RUNNER_TEMP/bet-sql-tools" @electric-sql/pglite@0.5.15
+      - name: Vérifier les migrations sans accès à la production
+        run: |
+          export PGLITE_MODULE="$RUNNER_TEMP/bet-sql-tools/node_modules/@electric-sql/pglite/dist/index.js"
+          node scripts/check-markets-sql.mjs
+          node scripts/check-markets-lot-one-sql.mjs
+      - run: node scripts/prepare-pages.mjs

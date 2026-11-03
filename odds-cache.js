@@ -1,4 +1,4 @@
-import {marketKeys} from './markets.js';
+import {marketKeys,isExtendedMarket} from './markets.js';
 export const SECONDARY_ODDS_WINDOW_HOURS = 48;
 export const ODDS_REFRESH_HOURS = [6, 14];
 
@@ -33,6 +33,7 @@ export function mergeCachedOffers(currentOffers = [], previousOffers = [], marke
   for (const previous of previousOffers) {
     let offer = offers.find(item => sameBook(item, previous));
     for (const market of markets) {
+      if (isExtendedMarket(market)) continue;
       const cached = Number(previous[market]);
       if (!Number.isFinite(cached) || cached <= 1 || Number(offer?.[market]) > 1) continue;
       if (!offer) { offer = { name: previous.name, ...(previous.key ? { key: previous.key } : {}) }; offers.push(offer); }
