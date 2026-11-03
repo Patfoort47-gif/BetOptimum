@@ -3,6 +3,11 @@ name: Inventorier les marchés PropLine
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: 'Catalogue ou prix réels du premier lot BET-170'
+        type: choice
+        options: [catalogue, prices]
+        default: catalogue
       budget:
         description: 'Nombre maximal de requêtes PropLine (60 au plus)'
         default: '56'
@@ -22,7 +27,13 @@ jobs:
         env:
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
           PROPLINE_INVENTORY_BUDGET: ${{ inputs.budget }}
-        run: node scripts/propline-inventory.mjs
+          PROPLINE_INVENTORY_MODE: ${{ inputs.mode }}
+        run: |
+          if [ "$PROPLINE_INVENTORY_MODE" = "prices" ]; then
+            node scripts/propline-prices.mjs
+          else
+            node scripts/propline-inventory.mjs
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -30,5 +41,6 @@ jobs:
           path: |
             propline-inventory.json
             propline-inventory.md
+            propline-prices.json
           if-no-files-found: ignore
           retention-days: 7
