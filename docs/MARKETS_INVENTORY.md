@@ -26,7 +26,7 @@ Huit compétitions pour chacune des familles. Les 28 occurrences de libellés no
 
 Les diagnostics manuels `remaining`, `h1`, `h2` préparent les preuves des lots 3 à 7 : huit requêtes groupées maximum par lancement, aucun déploiement ni collecte planifiée supplémentaire. `requestedPeriod` conserve le filtre demandé ; le champ `period` du marché renvoyé reste intact et doit prouver la période réelle. Une réponse identique au match entier n’autorise aucun pari H1/H2.
 
-Les autres lots conservent leurs conditions de passage détaillées ci-dessous. Aucun marché nécessitant des données absentes ne doit être activé ni considéré comme terminé.
+Les [preuves détaillées des lots 3 à 7](MARKETS_REMAINING_EVIDENCE.md) sont maintenant conservées : périodes H1/H2 réelles, 142 choix H1 au seuil de dix, aucun H2, formats asiatiques/joueurs/corners et six résumés serveur ESPN. Ces lots restent non livrés. Les autres lots conservent leurs conditions de passage détaillées ci-dessous. Aucun marché nécessitant des données absentes ne doit être activé ni considéré comme terminé.
 
 ## Décision fondée sur le relevé réel
 
