@@ -36,6 +36,78 @@
     "score": "3 : 2"
   },
   {
+    "id": "espn-401915304",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "Borussia Dortmund – Real Betis",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.25,
+    "probability": 0.8169407482313533,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
+    "id": "espn-401915301",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "FC Porto – Napoli",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.24,
+    "probability": 0.849717284809024,
+    "status": "won",
+    "score": "4 : 1"
+  },
+  {
+    "id": "espn-401915306",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "RB Leipzig – Manchester City",
+    "label": "Double chance 12",
+    "key": "homeAway",
+    "odd": 1.17,
+    "probability": 0.7991122725633499,
+    "status": "won",
+    "score": "2 : 3"
+  },
+  {
+    "id": "espn-401915305",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "Lens – Como",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.21,
+    "probability": 0.8135801397865577,
+    "status": "lost",
+    "score": "1 : 9"
+  },
+  {
+    "id": "espn-401915303",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "PSV Eindhoven – Club Brugge",
+    "label": "Moins de 5,5 buts",
+    "key": "under55",
+    "odd": 1.16,
+    "probability": 0.9509628480130382,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
+    "id": "espn-401915302",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "Viking FK – Sabah FK",
+    "label": "Moins de 5,5 buts",
+    "key": "under55",
+    "odd": 1.17,
+    "probability": 0.812592722393234,
+    "status": "won",
+    "score": "4 : 1"
+  },
+  {
     "id": "espn-401915311",
     "date": "2026-11-03",
     "league": "Ligue des champions",
