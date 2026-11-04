@@ -30,6 +30,11 @@ test('BET-170 H1 : collecte tout-périodes bornée, sans appel supplémentaire n
  const r=await collectPropLine([m],{Test:'soccer_test'},{key:'test',now,stage:3,h1Enabled:true,fetchImpl:async url=>{requests++;assert.equal(new URL(url).searchParams.get('period'),'all');assert(!url.includes('result_btts'));return{ok:true,json:async()=>[{...event,espn_event_id:null,commence_time:m.kickoff}]}}});
  assert.equal(requests,1);assert(r.offersByMatch.get(m.id).some(o=>o.h1Home>1));
 });
+test('BET-170 H1 : requête réelle de production tout-périodes, 142 choix au seuil dont 52 à moins de 48 h',()=>{
+ const r=read('propline-h1-release'),now=Date.parse(r.generatedAt);let qualified=0,within=0;assert.equal(r.requests,8);assert.deepEqual(r.failures,[]);assert.equal(r.requestedPeriod,'all');
+ for(const event of r.samples){const offers=propLineOffers(event,now,3,true),keys=new Set(offers.flatMap(o=>Object.keys(o).filter(k=>halfTimeMarketSpec(k))));for(const key of keys)if(offers.filter(o=>o[key]>1).length>=10){qualified++;if(Date.parse(event.commence_time)<=now+48*3600000)within++;}assert(propLineOffers(event,now,3).every(o=>Object.keys(o).every(k=>!halfTimeMarketSpec(k))));}
+ assert.equal(qualified,142);assert.equal(within,52);assert(r.usage.every(u=>u['x-daily-remaining']>=953));
+});
 test('BET-170 H1 : preuve ESPN réelle, absence et incohérence attendent sans inventer zéro',()=>{
  assert.deepEqual(scores.h1,{home:0,away:1});
  for(const patch of [{completed:false},{id:'espn-999'},{homeId:away.id},{homeScore:8}])assert.equal(halfTimeResult(sample,{...match,...patch}),null);
