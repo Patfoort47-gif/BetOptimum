@@ -4,6 +4,8 @@ import {sameTeam} from '../team-match.js';
 import {isInSecondaryOddsWindow} from '../odds-cache.js';
 import {compositeSelection,COMPOSITE_MARKETS} from './propline-composites.mjs';
 const BOOKS={betclic:{key:'betclic_fr',name:'Betclic (FR)'},winamax:{key:'winamax_fr',name:'Winamax (FR)'}};
+// La réponse peut omettre type : les identités d'exchanges/DFS documentées restent exclues.
+export function excludedPropLineBook(book){return !book.key||/exchange|betfair|matchbook|smarkets|polymarket|kalshi/i.test(book.key)||/^(sxbet|novig|prophetx|betdaq|prizepicks|sleeper|dabble|parlayplay|draftkings_pick6)(_|$)/i.test(book.key)||['exchange','prediction_market','dfs'].includes(book.type)}
 export function decimalPrice(outcome){
   const decimal=Number(outcome.price_decimal);
   if(Number.isFinite(decimal)&&decimal>1)return decimal;
@@ -20,7 +22,7 @@ export function matchPropLineEvent(match,events){
 export function propLineOffers(event,now=Date.now(),stage=0){
   const offers=[];
   for(const book of event?.bookmakers??[]){
-    if(!book.key||/exchange|betfair|matchbook|smarkets|polymarket|kalshi/i.test(book.key)||book.type==='exchange'||book.type==='prediction_market')continue;
+    if(excludedPropLineBook(book))continue;
     const identity=BOOKS[book.key]??{key:book.key,name:book.title??book.key};
     const offer={...identity};
     for(const market of book.markets??[]){

@@ -28,6 +28,26 @@
           "snai",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "betathome",
+          "bovada",
+          "courtside",
+          "danskespil",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "ladbrokes_be",
+          "maxbet",
+          "meridianbet",
+          "mozzart",
+          "novibet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "veikkaus"
+        ],
         "periods": [
           "h1"
         ],
@@ -50,6 +70,32 @@
           "fliff",
           "hardrock",
           "kalshi",
+          "ladbrokes_be",
+          "livescorebet",
+          "lvbet",
+          "maxbet",
+          "meridianbet",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "olybet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "sportna",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "bet25",
+          "betathome",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
           "ladbrokes_be",
           "livescorebet",
           "lvbet",
@@ -98,6 +144,15 @@
           "mozzart",
           "pinnacle"
         ],
+        "eligibleBookmakers": [
+          "bovada",
+          "courtside",
+          "fanduel",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
         "periods": [
           "h1"
         ],
@@ -115,6 +170,13 @@
           "pinnacle",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "bovada",
+          "maxbet",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
         "periods": [
           "h1"
         ],
@@ -126,6 +188,12 @@
       "draw_no_bet": {
         "events": 16,
         "bookmakers": [
+          "bovada",
+          "fliff",
+          "hardrock",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
           "bovada",
           "fliff",
           "hardrock",
@@ -174,6 +242,12 @@
           "maxbet",
           "mozzart"
         ],
+        "eligibleBookmakers": [
+          "bovada",
+          "hardrock",
+          "maxbet",
+          "mozzart"
+        ],
         "periods": [
           "h2"
         ],
@@ -185,6 +259,14 @@
       "totals": {
         "events": 16,
         "bookmakers": [
+          "draftkings",
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
           "draftkings",
           "fliff",
           "hardrock",
@@ -214,6 +296,13 @@
           "mozzart",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
         "periods": [
           "h2"
         ],
@@ -227,6 +316,9 @@
         "bookmakers": [
           "hardrock"
         ],
+        "eligibleBookmakers": [
+          "hardrock"
+        ],
         "periods": [
           "h2"
         ],
@@ -238,6 +330,10 @@
       "double_chance": {
         "events": 16,
         "bookmakers": [
+          "maxbet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
           "maxbet",
           "veikkaus"
         ],
@@ -288,6 +384,24 @@
           "unibet",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "eurobet",
+          "fliff",
+          "hardrock",
+          "ladbrokes_be",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "pinnacle",
+          "rebet",
+          "snai",
+          "unibet",
+          "veikkaus"
+        ],
         "periods": [
           "full"
         ],
@@ -315,6 +429,12 @@
       "total_cards": {
         "events": 12,
         "bookmakers": [
+          "admiralbet",
+          "bovada",
+          "pinnacle",
+          "rebet"
+        ],
+        "eligibleBookmakers": [
           "admiralbet",
           "bovada",
           "pinnacle",
@@ -382,6 +502,39 @@
           "unibet",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "bet25",
+          "bet99",
+          "betathome",
+          "betonlineag",
+          "betrivers",
+          "betus",
+          "bookmaker_eu",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "heritage",
+          "jazzsports",
+          "lowvig",
+          "olybet",
+          "pinnacle",
+          "playup",
+          "rebet",
+          "sbobet",
+          "sportybet_ng",
+          "sts",
+          "supersport",
+          "synot",
+          "tab_au",
+          "tippmix",
+          "totalbet",
+          "unibet",
+          "veikkaus"
+        ],
         "periods": [
           "full"
         ],
@@ -440,6 +593,15 @@
           "underdog",
           "unibet"
         ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "rebet",
+          "underdog",
+          "unibet"
+        ],
         "periods": [
           "full"
         ],
@@ -472,6 +634,22 @@
           "underdog",
           "unibet"
         ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "betus",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "pinnacle",
+          "rebet",
+          "sportzino",
+          "underdog",
+          "unibet"
+        ],
         "periods": [
           "full"
         ],
@@ -498,6 +676,15 @@
           "underdog",
           "unibet"
         ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "underdog",
+          "unibet"
+        ],
         "periods": [
           "full"
         ],
@@ -514,6 +701,14 @@
       "first_goal_scorer": {
         "events": 16,
         "bookmakers": [
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "sportzino"
+        ],
+        "eligibleBookmakers": [
           "bovada",
           "courtside",
           "draftkings",
@@ -544,6 +739,15 @@
           "underdog",
           "unibet"
         ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "underdog",
+          "unibet"
+        ],
         "periods": [
           "full"
         ],
@@ -563,6 +767,12 @@
       "corners_spread": {
         "events": 16,
         "bookmakers": [
+          "bovada",
+          "pinnacle",
+          "rebet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
           "bovada",
           "pinnacle",
           "rebet",
@@ -603,6 +813,12 @@
           "pinnacle",
           "veikkaus"
         ],
+        "eligibleBookmakers": [
+          "bovada",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
         "periods": [
           "full"
         ],
@@ -623,6 +839,10 @@
       "team_cards": {
         "events": 8,
         "bookmakers": [
+          "bovada",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
           "bovada",
           "pinnacle"
         ],
@@ -647,6 +867,11 @@
           "prizepicks",
           "underdog"
         ],
+        "eligibleBookmakers": [
+          "bovada",
+          "draftkings",
+          "underdog"
+        ],
         "periods": [
           "full"
         ],
@@ -664,6 +889,9 @@
       "player_tackles": {
         "events": 4,
         "bookmakers": [
+          "bovada"
+        ],
+        "eligibleBookmakers": [
           "bovada"
         ],
         "periods": [
@@ -684,6 +912,12 @@
           "rebet",
           "underdog"
         ],
+        "eligibleBookmakers": [
+          "draftkings",
+          "hardrock",
+          "rebet",
+          "underdog"
+        ],
         "periods": [
           "full"
         ],
@@ -697,6 +931,12 @@
       "first_team_to_score": {
         "events": 16,
         "bookmakers": [
+          "fanduel",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
           "fanduel",
           "maxbet",
           "mozzart",
@@ -722,6 +962,13 @@
           "rebet",
           "underdog"
         ],
+        "eligibleBookmakers": [
+          "fanatics",
+          "fanduel",
+          "hardrock",
+          "rebet",
+          "underdog"
+        ],
         "periods": [
           "full"
         ],
@@ -741,6 +988,13 @@
           "merkurxbet",
           "mozzart"
         ],
+        "eligibleBookmakers": [
+          "fliff",
+          "maxbet",
+          "meridianbet",
+          "merkurxbet",
+          "mozzart"
+        ],
         "periods": [
           "full"
         ],
@@ -752,6 +1006,9 @@
       "3plus_goals": {
         "events": 12,
         "bookmakers": [
+          "hardrock"
+        ],
+        "eligibleBookmakers": [
           "hardrock"
         ],
         "periods": [
@@ -768,6 +1025,10 @@
           "rebet",
           "unibet"
         ],
+        "eligibleBookmakers": [
+          "rebet",
+          "unibet"
+        ],
         "periods": [
           "full"
         ],
@@ -779,6 +1040,9 @@
       "corners_european_handicap": {
         "events": 14,
         "bookmakers": [
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
           "veikkaus"
         ],
         "periods": [

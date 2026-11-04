@@ -31,28 +31,28 @@ Avant activation H1 : identité canonique incluant la période, collecte budgét
 
 **Bookmakers globaux par famille**, sur tout le relevé : il ne s’agit pas de comptes par sélection. En dessous de dix, aucun choix ne peut franchir le seuil sur cet échantillon. Au-dessus, il reste à normaliser et mesurer chaque sélection, ligne, joueur et région séparément. Les identifiants `espn:…` sont comptés comme présents, sans présumer qu’ils sont justes ni que la participation est validée.
 
-| Clé | Rencontres | Bookmakers globaux | Issues joueurs avec identifiant ESPN / issues joueurs |
-|---|---:|---:|---:|
-| `total_corners` | 16 | 18 | sans objet |
-| `total_cards` | 12 | 4 | sans objet |
-| `spreads` | 16 | 39 | sans objet |
-| `2plus_goals` | 16 | 10 | 1000/1822 |
-| `anytime_goal_scorer` | 16 | 18 | 5416/5957 |
-| `player_shots_on_target` | 16 | 12 | 3830/4073 |
-| `first_goal_scorer` | 16 | 6 | 2872/3231 |
-| `player_shots` | 13 | 11 | 4315/4548 |
-| `corners_spread` | 16 | 4 | sans objet |
-| `team_corners` | 14 | 5 | sans objet |
-| `team_cards` | 8 | 2 | sans objet |
-| `goalie_saves` | 14 | 4 | 374/396 |
-| `player_tackles` | 4 | 1 | 733/818 |
-| `player_assists` | 14 | 6 | 925/1048 |
-| `first_team_to_score` | 16 | 4 | sans objet |
-| `goal_or_assist` | 16 | 8 | 807/1306 |
-| `half_time_full_time` | 16 | 5 | sans objet |
-| `3plus_goals` | 12 | 1 | 0/45 |
-| `player_cards` | 11 | 2 | 328/430 |
-| `corners_european_handicap` | 14 | 1 | sans objet |
+| Clé | Rencontres | Sources globales brutes | Sources globales admissibles hors exchanges/DFS | Issues joueurs avec identifiant ESPN / issues joueurs |
+|---|---:|---:|---:|---:|
+| `total_corners` | 16 | 18 | 16 | sans objet |
+| `total_cards` | 12 | 4 | 4 | sans objet |
+| `spreads` | 16 | 39 | 31 | sans objet |
+| `2plus_goals` | 16 | 10 | 7 | 1000/1822 |
+| `anytime_goal_scorer` | 16 | 18 | 14 | 5416/5957 |
+| `player_shots_on_target` | 16 | 12 | 7 | 3830/4073 |
+| `first_goal_scorer` | 16 | 6 | 6 | 2872/3231 |
+| `player_shots` | 13 | 11 | 7 | 4315/4548 |
+| `corners_spread` | 16 | 4 | 4 | sans objet |
+| `team_corners` | 14 | 5 | 4 | sans objet |
+| `team_cards` | 8 | 2 | 2 | sans objet |
+| `goalie_saves` | 14 | 4 | 3 | 374/396 |
+| `player_tackles` | 4 | 1 | 1 | 733/818 |
+| `player_assists` | 14 | 6 | 4 | 925/1048 |
+| `first_team_to_score` | 16 | 4 | 4 | sans objet |
+| `goal_or_assist` | 16 | 8 | 5 | 807/1306 |
+| `half_time_full_time` | 16 | 5 | 5 | sans objet |
+| `3plus_goals` | 12 | 1 | 1 | 0/45 |
+| `player_cards` | 11 | 2 | 2 | 328/430 |
+| `corners_european_handicap` | 14 | 1 | 1 | sans objet |
 
 Les handicaps `spreads` contiennent effectivement des lignes entières et des quarts, dont ±0,25, ±0,75 et ±1,25. Leur règlement fractionné reste à implémenter dans les simples, combinés, systèmes, historiques, ROI et ligues. Les formats montrent deux issues avec handicaps opposés ; ne pas les confondre avec les handicaps européens à trois issues.
 
@@ -75,3 +75,11 @@ Points à résoudre avant de les utiliser :
 - Tous : persistance serveur, moteur conservant l’identité des paris historiques, corrections sans double versement, migrations dans l’ordre et recettes avant activation.
 
 La présence des champs sur six résumés n’établit ni une couverture générale ni une équivalence des définitions entre ESPN et chaque bookmaker. Les contrats fournisseur et les cas limites doivent être documentés. Aucun des lots 3 à 7 n’est annoncé terminé.
+
+## Vérification de la documentation fournisseur
+
+[Documentation officielle PropLine](https://prop-line.com/docs), consultée le 4 novembre 2026 : sections Authentication, Bookmakers, Period Markets, Prop Results et Markets. Elle confirme `h1`/`h2`, l’identité `espn:…`, les totaux équipe dans `totals.team` et les compteurs `X-Daily-*`. Les futurs diagnostics ne conservent que ces quatre compteurs numériques, pour mesurer l’usage sans exposer d’en-têtes sensibles. Les relevés déjà faits ne les contenaient pas ; aucun coût mesuré n’est reconstruit a posteriori.
+
+Le filtre de collecte exclut maintenant aussi SX Bet, Novig, ProphetX, Betdaq et les identités DFS à prix synthétique documentées, même lorsque `type` est absent. Les nombres bruts de sources du rapport initial incluent ces identités ; la colonne admissible les retire. Les prix individuels doivent encore être vérifiés. H1/H2 et les composites ne changent pas de comptes.
+
+`/results` et `/bets/settle` sont des pistes de contre-vérification, pas des remplacements déjà validés du règlement serveur. La documentation indique que les tacles joueurs ne sont pas gradués. Aucune nouvelle dépendance de production ou règle de règlement n’est adoptée sur la seule lecture de la documentation.

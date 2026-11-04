@@ -2,17 +2,18 @@
 import {readFile} from 'node:fs/promises';
 import {gunzipSync} from 'node:zlib';
 import {pathToFileURL} from 'node:url';
-import {propLineOffers} from './propline-odds.mjs';
+import {propLineOffers,excludedPropLineBook} from './propline-odds.mjs';
 import {marketSpec} from '../markets.js';
 import {MIN_BOOKMAKERS} from '../quote-policy.js';
 export function auditMarketEvidence(report){
  const families={};
  for(const event of report.samples??[])for(const book of event.bookmakers??[])for(const market of book.markets??[]){
-  const c=families[market.key]??={events:new Set(),books:new Set(),periods:new Set(),outcomes:0,playerOutcomes:0,identifiedPlayerOutcomes:0,lines:new Set()};
+  const c=families[market.key]??={events:new Set(),books:new Set(),eligibleBooks:new Set(),periods:new Set(),outcomes:0,playerOutcomes:0,identifiedPlayerOutcomes:0,lines:new Set()};
   c.events.add(event.id);c.books.add(book.key);c.periods.add(market.period??'full');
+  if(!excludedPropLineBook(book))c.eligibleBooks.add(book.key);
   for(const outcome of market.outcomes??[]){c.outcomes++;if(outcome.point!=null)c.lines.add(outcome.point);if(/player_|scorer|assist|saves|^[23]plus/.test(market.key)){c.playerOutcomes++;if(/^espn:\d+$/.test(outcome.player_id??''))c.identifiedPlayerOutcomes++;}}
  }
- const summary=Object.fromEntries(Object.entries(families).map(([key,c])=>[key,{events:c.events.size,bookmakers:[...c.books].sort(),periods:[...c.periods].sort(),outcomes:c.outcomes,playerOutcomes:c.playerOutcomes,identifiedPlayerOutcomes:c.identifiedPlayerOutcomes,lines:[...c.lines].sort((a,b)=>a-b)}]));
+ const summary=Object.fromEntries(Object.entries(families).map(([key,c])=>[key,{events:c.events.size,bookmakers:[...c.books].sort(),eligibleBookmakers:[...c.eligibleBooks].sort(),periods:[...c.periods].sort(),outcomes:c.outcomes,playerOutcomes:c.playerOutcomes,identifiedPlayerOutcomes:c.identifiedPlayerOutcomes,lines:[...c.lines].sort((a,b)=>a-b)}]));
  // Mesure par choix des marchés de score déjà normalisables, séparément par période réelle.
  // Retirer period ici sert uniquement à réutiliser la normalisation existante dans l'audit.
  const periods={};

@@ -9,7 +9,7 @@ export const PERIOD_PRICE_MARKETS=['h2h','totals','both_teams_to_score','double_
 export async function priceInventory({key,fetchImpl=fetch,sports=SPORTS,budget=8,now=new Date(),markets=PRICE_MARKETS,period='full'}={}){
  if(!key)throw new Error('Secret PROPLINE_API_KEY absent');
  if(!['full','h1','h2'].includes(period)||!Array.isArray(markets)||!markets.length||new Set(markets).size!==markets.length||markets.some(m=>![...PRICE_MARKETS,...COMPOSITE_PRICE_MARKETS,...REMAINING_PRICE_MARKETS,...PERIOD_PRICE_MARKETS].includes(m)))throw new Error('Familles de diagnostic invalides');
- const report={generatedAt:now.toISOString(),markets,requestedPeriod:period,budget:Math.min(8,Math.max(1,Math.floor(Number(budget)||8))),requests:0,failures:[],samples:[]};
+ const report={generatedAt:now.toISOString(),markets,requestedPeriod:period,budget:Math.min(8,Math.max(1,Math.floor(Number(budget)||8))),requests:0,failures:[],usage:[],samples:[]};
  for(const [league,sport] of Object.entries(sports)){
   if(report.requests>=report.budget)break;
   report.requests++;
@@ -17,6 +17,8 @@ export async function priceInventory({key,fetchImpl=fetch,sports=SPORTS,budget=8
    const query=new URLSearchParams({markets:markets.join(','),max_age:'3600'});
    if(period!=='full')query.set('period',period);
    const response=await fetchImpl(`${API}/sports/${encodeURIComponent(sport)}/odds?${query}`,{headers:{'X-API-Key':key,Accept:'application/json'},redirect:'error',signal:AbortSignal.timeout(20000)});
+   // Liste fermée des compteurs documentés ; jamais de dump des en-têtes.
+   const usage={};for(const field of ['x-daily-limit','x-daily-used','x-daily-remaining','x-daily-reset']){const value=response.headers?.get(field);if(value!=null&&/^\d+$/.test(value))usage[field]=Number(value);}report.usage.push({league,...usage});
    if(!response.ok){report.failures.push(`${league} : HTTP ${response.status}`);if([401,403,429].includes(response.status))break;continue}
    const events=await response.json();if(!Array.isArray(events)){report.failures.push(`${league} : format inattendu`);continue}
    // Conserver les prix de deux rencontres futures par compétition ; jamais les en-têtes de requête.
