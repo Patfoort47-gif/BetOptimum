@@ -1,3 +1,4 @@
+import {enrichHalfTimeResults} from './h1-results.mjs';
 import {selectionSnapshot} from '../selection-snapshot.js';
 import {venueFromCompetition} from '../stadiums.js';
 import {regulationScore} from '../regulation-score.js';
@@ -89,7 +90,7 @@ function teamForm(team, history) {
 }
 
 function consensus(currentOffers = [], previousOffers = []) {
-  const stage=Number(process.env.PROPLINE_MARKET_STAGE??0),keys=marketKeys(Object.assign({},...currentOffers,...previousOffers)).filter(key=>marketEnabled(key,stage));
+  const stage=Number(process.env.PROPLINE_MARKET_STAGE??0),keys=marketKeys(Object.assign({},...currentOffers,...previousOffers)).filter(key=>marketEnabled(key,stage,process.env.PROPLINE_H1_ENABLED==='true'));
   const mergedOffers = mergeCachedOffers(currentOffers, previousOffers,keys);
   if (!mergedOffers.length) return null;
   const summary=summarizeOffers(mergedOffers,keys);
@@ -142,7 +143,8 @@ const unique = allUnique
   .filter(match => match.date >= historyStart.toISOString().slice(0, 10) && match.date <= end.toISOString().slice(0, 10))
   .sort((a, b) => a.date.localeCompare(b.date) || b.priority - a.priority);
 const settlements = allUnique.filter(match => match.completed && Number.isFinite(match.homeScore) && Number.isFinite(match.awayScore))
-  .map(({id,date,home,away,homeScore,awayScore,completed,regulation})=>({id,date,home,away,homeScore,awayScore,completed,regulation}));
+  .map(({id,date,league,home,away,homeId,awayId,homeScore,awayScore,completed,regulation})=>({id,date,league,home,away,homeId,awayId,homeScore,awayScore,completed,regulation}));
+if(process.env.PROPLINE_H1_ENABLED==='true'){const h1=await enrichHalfTimeResults(settlements,previousData.settlements??[],{slugs:Object.fromEntries(leagues.map(([slug,label])=>[label,slug]))});console.info('Résultats H1 :',JSON.stringify(h1));for(const match of unique){const result=settlements.find(r=>r.id===match.id);if(result?.periodScores)match.periodScores=result.periodScores;}}
 const providerFailures = [...failures];
 let history = [];
 try { history = await footballHistory(); } catch (error) { providerFailures.push(error.message); }

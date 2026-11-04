@@ -1,5 +1,13 @@
 # Matrice des marchés PropLine (BET-170)
 
+## Décision du propriétaire du 4 novembre 2026 : H1 uniquement avant clôture
+
+Le propriétaire autorise désormais l’abandon des autres extensions et demande explicitement de **terminer H1, puis publier et clôturer BET-170**. Cette décision remplace l’exigence antérieure de terminer les lots 2 à 7. Aucun autre ticket n’est créé pour les extensions abandonnées.
+
+Périmètre conservé : premier lot déjà livré, seuil de dix bookmakers, correctif exchanges/DFS et H1 1N2 / totaux match 0,5, 1,5, 2,5. H1 reste sans modèle ni recommandation. Composites, H2, mi-temps/fin, lignes asiatiques/fractionnées, chronologie, joueurs, corners/cartons ne seront pas activés. Leurs preuves et préparations historiques restent documentées comme telles, sans être déclarées livrées. V44 composites n’est pas appliquée. La migration H1 V45 est indépendante de V44 et s’applique après la V43 déjà en production. Procédure : [H1](MARKETS_H1_PRODUCTION.md).
+
+Les mentions historiques « reste ouvert jusqu’à tous les lots » ci-dessous décrivent la demande précédente ; la clôture dépend maintenant de la livraison effective de H1 et de la vérification de production.
+
 ## Suivi du périmètre complet au 4 novembre 2026
 
 BET-170 reste **En cours** : le propriétaire demande de terminer les lots restants avant clôture. Le premier lot est en production (V40/V41, étape 3), mais les lots 2 à 7 ne sont pas livrés. Les paragraphes historiques ci-dessous décrivent la livraison initiale ; depuis BET-175, les probabilités/value du premier lot existent.

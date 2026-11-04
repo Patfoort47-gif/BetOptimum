@@ -2,13 +2,14 @@
 import {writeFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import {API,SPORTS} from './propline-inventory.mjs';
+export const H1_RELEASE_MARKETS=['h2h','totals','both_teams_to_score','double_chance','draw_no_bet','team_totals','correct_score','european_handicap','winning_margin'];
 export const PRICE_MARKETS=['h2h','totals','correct_score','winning_margin','european_handicap'];
 export const COMPOSITE_PRICE_MARKETS=['btts_total_goals','double_chance_btts','double_chance_total_goals','result_btts','result_total_goals'];
 export const REMAINING_PRICE_MARKETS=['half_time_full_time','spreads','first_team_to_score','2plus_goals','3plus_goals','anytime_goal_scorer','first_goal_scorer','goal_or_assist','goalie_saves','player_assists','player_cards','player_shots','player_shots_on_target','player_tackles','corners_european_handicap','corners_spread','team_cards','team_corners','total_cards','total_corners'];
 export const PERIOD_PRICE_MARKETS=['h2h','totals','both_teams_to_score','double_chance','draw_no_bet','team_totals'];
 export async function priceInventory({key,fetchImpl=fetch,sports=SPORTS,budget=8,now=new Date(),markets=PRICE_MARKETS,period='full'}={}){
  if(!key)throw new Error('Secret PROPLINE_API_KEY absent');
- if(!['full','h1','h2'].includes(period)||!Array.isArray(markets)||!markets.length||new Set(markets).size!==markets.length||markets.some(m=>![...PRICE_MARKETS,...COMPOSITE_PRICE_MARKETS,...REMAINING_PRICE_MARKETS,...PERIOD_PRICE_MARKETS].includes(m)))throw new Error('Familles de diagnostic invalides');
+ if(!['full','h1','h2','all'].includes(period)||!Array.isArray(markets)||!markets.length||new Set(markets).size!==markets.length||markets.some(m=>![...PRICE_MARKETS,...COMPOSITE_PRICE_MARKETS,...REMAINING_PRICE_MARKETS,...PERIOD_PRICE_MARKETS,...H1_RELEASE_MARKETS].includes(m)))throw new Error('Familles de diagnostic invalides');
  const report={generatedAt:now.toISOString(),markets,requestedPeriod:period,budget:Math.min(8,Math.max(1,Math.floor(Number(budget)||8))),requests:0,failures:[],usage:[],samples:[]};
  for(const [league,sport] of Object.entries(sports)){
   if(report.requests>=report.budget)break;
@@ -31,8 +32,8 @@ export async function priceInventory({key,fetchImpl=fetch,sports=SPORTS,budget=8
 }
 if(import.meta.url===pathToFileURL(process.argv[1]??'').href){
  const scope=process.env.PROPLINE_PRICE_SCOPE??'lot-one';
- if(!['lot-one','composites','remaining','h1','h2'].includes(scope))throw new Error('Périmètre de diagnostic invalide');
- const report=await priceInventory({key:process.env.PROPLINE_API_KEY,budget:process.env.PROPLINE_INVENTORY_BUDGET,markets:scope==='composites'?COMPOSITE_PRICE_MARKETS:scope==='remaining'?REMAINING_PRICE_MARKETS:['h1','h2'].includes(scope)?PERIOD_PRICE_MARKETS:PRICE_MARKETS,period:['h1','h2'].includes(scope)?scope:'full'});
+ if(!['lot-one','composites','remaining','h1','h2','h1-release'].includes(scope))throw new Error('Périmètre de diagnostic invalide');
+ const report=await priceInventory({key:process.env.PROPLINE_API_KEY,budget:process.env.PROPLINE_INVENTORY_BUDGET,markets:scope==='h1-release'?H1_RELEASE_MARKETS:scope==='composites'?COMPOSITE_PRICE_MARKETS:scope==='remaining'?REMAINING_PRICE_MARKETS:['h1','h2'].includes(scope)?PERIOD_PRICE_MARKETS:PRICE_MARKETS,period:scope==='h1-release'?'all':['h1','h2'].includes(scope)?scope:'full'});
  await writeFile('propline-prices.json',JSON.stringify(report,null,2)+'\n');
  const coverage=report.samples.map(e=>({league:e.league,markets:[...new Set(e.bookmakers.flatMap(b=>b.markets.map(m=>m.key)))]}));
  console.log(JSON.stringify({requests:report.requests,failures:report.failures,coverage}));

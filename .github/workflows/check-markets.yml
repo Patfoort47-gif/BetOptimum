@@ -27,5 +27,6 @@ jobs:
           node scripts/check-markets-sql.mjs
           node scripts/check-markets-lot-one-sql.mjs
           node scripts/check-quote-policy-sql.mjs
+          node scripts/check-markets-h1-sql.mjs
           node scripts/check-notification-sql.mjs
       - run: node scripts/prepare-pages.mjs

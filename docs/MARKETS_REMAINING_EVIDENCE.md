@@ -1,6 +1,6 @@
 # Preuves des lots 3 à 7 de BET-170, 4 novembre 2026
 
-Ces diagnostics font progresser l’analyse du périmètre. Ils ne livrent ni n’activent ces lots. BET-170 reste En cours, intégralement.
+État historique des diagnostics avant la décision du propriétaire : H1 doit être terminé ; les autres extensions sont abandonnées avec son accord. Les preuves ci-dessous ne constituent pas une livraison de ces autres extensions. Voir [la procédure H1](MARKETS_H1_PRODUCTION.md).
 
 ## Provenance et reproduction
 
