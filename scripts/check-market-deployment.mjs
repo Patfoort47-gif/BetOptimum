@@ -2,12 +2,13 @@
 import {pathToFileURL} from 'node:url';
 import {createAdmin} from './supabase-admin.mjs';
 export async function checkMarketDeployment(stage,admin){
- if(![0,1,2,3].includes(stage))throw new Error('Étape de marchés invalide');
+ if(![0,1,2,3,4].includes(stage))throw new Error('Étape de marchés invalide');
  if(stage<3)return;
  if(!admin)throw new Error('Étape 3 : Supabase serveur requis ; appliquer V41 avant activation');
  await admin.select('fixtures','select=market_valid_until,odds_bookmaker_counts&limit=1');
  const label=await admin.rpc('market_label',{k:'score1_0',home_team:'Alpha',away_team:'Beta'});
  if(label!=='Score exact 1 - 0')throw new Error('Étape 3 : migration V41 requise');
+ if(stage>=4){const composite=await admin.rpc('market_label',{k:'comboHomeBttsYes',home_team:'Alpha',away_team:'Beta'});if(composite!=='Alpha + Les deux marquent')throw new Error('Étape 4 : migration V44 requise');}
 }
 if(import.meta.url===pathToFileURL(process.argv[1]??'').href){
  await checkMarketDeployment(Number(process.env.PROPLINE_MARKET_STAGE??0),createAdmin());

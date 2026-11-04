@@ -2,6 +2,7 @@ import {marketSpec,marketEnabled,isExtendedMarket} from '../markets.js';
 // Server-side only. PropLine prices are American unless price_decimal is supplied.
 import {sameTeam} from '../team-match.js';
 import {isInSecondaryOddsWindow} from '../odds-cache.js';
+import {compositeSelection,COMPOSITE_MARKETS} from './propline-composites.mjs';
 const BOOKS={betclic:{key:'betclic_fr',name:'Betclic (FR)'},winamax:{key:'winamax_fr',name:'Winamax (FR)'}};
 export function decimalPrice(outcome){
   const decimal=Number(outcome.price_decimal);
@@ -43,6 +44,7 @@ export function propLineOffers(event,now=Date.now(),stage=0){
           if(side&&[.5,1.5,2.5,3.5,4.5,5.5].includes(line))key=side+outcome.name[0].toUpperCase()+outcome.name.slice(1).toLowerCase()+String(line*10).padStart(2,'0');
         }
         if(!key&&stage>=3)key=lotOneSelection(event,market,outcome);
+        if(!key&&stage>=4)key=compositeSelection(event,market,outcome);
         if(!key||!marketEnabled(key,stage))continue;
         if(isExtendedMarket(key)&&(outcome.player_id||outcome.payout_multiplier!=null||outcome.dfs_odds_type||outcome.suspended_at||['suspended','removed','closed'].includes(outcome.status)))continue;
         const price=decimalPrice(outcome);if(!key||!price)continue;
@@ -63,13 +65,14 @@ export function supplementOffers(primary,extra){
   return offers;
 }
 export async function collectPropLine(matches,leagueSports,{key=process.env.PROPLINE_API_KEY,fetchImpl=fetch,now=Date.now(),maxRequests=8,stage=Number(process.env.PROPLINE_MARKET_STAGE??0)}={}){
-  const result={offersByMatch:new Map(),requested:0,succeeded:0,failures:[]};if(![0,1,2,3].includes(stage)){result.failures.push('PropLine : étape de marchés invalide');return result}if(!key){result.failures.push('PropLine : secret PROPLINE_API_KEY absent');return result;}
+  const result={offersByMatch:new Map(),requested:0,succeeded:0,failures:[]};if(![0,1,2,3,4].includes(stage)){result.failures.push('PropLine : étape de marchés invalide');return result}if(!key){result.failures.push('PropLine : secret PROPLINE_API_KEY absent');return result;}
   const eligible=matches.filter(match=>!match.completed&&Date.parse(match.kickoff)>now&&Date.parse(match.kickoff)<=now+7*86400000&&!match.voided&&leagueSports[match.league]);
   for(const sport of [...new Set(eligible.map(match=>leagueSports[match.league]))]){
     if(result.requested>=maxRequests){result.failures.push('PropLine : budget de requêtes atteint');break}
     result.requested++;
     try{
       const query=new URLSearchParams({markets:stage>=3?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals,correct_score,european_handicap,winning_margin':stage>=2?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals':'h2h,totals,both_teams_to_score',max_age:'3600'});
+      if(stage>=4)query.set('markets',query.get('markets')+','+COMPOSITE_MARKETS.join(','));
       const response=await fetchImpl(`https://api.prop-line.com/v1/sports/${encodeURIComponent(sport)}/odds?${query}`,{headers:{'X-API-Key':key},signal:AbortSignal.timeout(20000),redirect:'error'});
       if(!response.ok){result.failures.push(`PropLine ${sport}: HTTP ${response.status}`);if([401,403,429].includes(response.status))break;continue}
       const events=await response.json();if(!Array.isArray(events))throw new Error('format');

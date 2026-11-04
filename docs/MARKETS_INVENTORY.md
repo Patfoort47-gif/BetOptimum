@@ -6,7 +6,25 @@ BET-170 reste **En cours** : le propriétaire demande de terminer les lots resta
 
 Travail du lot 2 sur `BET-170-composites` : identités canoniques `combo…`, probabilité jointe sur la même grille de scores (aucun produit de probabilités marginales), résultat conjoint, annulations et systèmes. V44 est préparée et testée en PostgreSQL isolé : labels JS/SQL, dix bookmakers, expiration, refus des doublons et des cotes falsifiées. **V44 n’est pas appliquée en production, l’étape 4 n’est pas activée et aucun parseur fournisseur composite n’est annoncé comme validé.**
 
-[Diagnostic de prix du 4 novembre](https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41833278549), commit `b6e8d284748f0c4db13ed880ffe965291021c28c`, artefact `13324580825` : huit requêtes, aucun incident, seize rencontres dans huit compétitions. Quatre familles figurent sur les seize rencontres ; `double_chance_btts` sur douze. Ce constat porte sur les clés présentes dans les réponses de prix, pas sur la validité de chaque sélection ni sur dix bookmakers par choix. Le rapport complet `propline-prices.json` est nécessaire pour vérifier les libellés, lignes et périodes avant d’écrire les parseurs. Le téléchargement de cet artefact vers l’environnement est actuellement bloqué par la politique réseau.
+[Diagnostic de prix du 4 novembre](https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41833278549), commit `b6e8d284748f0c4db13ed880ffe965291021c28c`, artefact `13324580825` : huit requêtes, aucun incident, seize rencontres dans huit compétitions. Quatre familles figurent sur les seize rencontres ; `double_chance_btts` sur douze. Ce constat porte sur les clés présentes dans les réponses de prix, pas sur la validité de chaque sélection ni sur dix bookmakers par choix. Le rapport complet `propline-prices.json` est nécessaire pour vérifier les libellés, lignes et périodes avant d’écrire les parseurs. L’artefact a été téléchargé et examiné dans l’environnement reconfiguré ; la preuve complète est conservée dans [le relevé de prix](evidence/propline-composites-2026-11-04.json). Le blocage réseau précédent est levé pour ce domaine.
+
+### Audit des sélections composites réelles
+
+Les cinq parseurs stricts sont implémentés dans `scripts/propline-composites.mjs` et branchés sur la collecte à l’étape 4. Cette étape reste désactivée en production. Le garde de déploiement exige V44. Les descriptions, lignes numériques et composants du libellé doivent concorder ; périodes, joueurs, promotions, suspensions et identités ambiguës sont rejetés. Aucun prix n’est fabriqué à partir des composants. Les variantes non observées restent soumises à ces contrôles stricts.
+
+Audit reproductible : `node scripts/check-markets-composites.mjs docs/evidence/propline-composites-2026-11-04.json`.
+
+| Famille | Rencontres | Choix distincts par rencontre cumulés | Maximum de bookmakers par choix | Choix avec au moins dix bookmakers |
+|---|---:|---:|---:|---:|
+| BTTS + total | 16 | 32 | 4 | 0 |
+| Double chance + BTTS | 12 | 24 | 1 | 0 |
+| Double chance + total | 16 | 330 | 4 | 0 |
+| Résultat + BTTS | 16 | 48 | 3 | 0 |
+| Résultat + total | 16 | 282 | 4 | 0 |
+
+Huit compétitions pour chacune des familles. Les 28 occurrences de libellés non rapprochables sans ambiguïté restent rejetées (ex. `Paris FC` contre l’identité événement `Paris`, `FC Kairat Almaty` contre `Kairat`). Elles ne sont pas des preuves d’offres supplémentaires. La couverture réelle exploitable est **nulle au seuil obligatoire de dix**, sur cet échantillon seulement. Le lot 2 reste donc ouvert et non livré : V44 non appliquée, étape 4 non activée. Une augmentation de couverture fournisseur reste nécessaire ; ne pas abaisser le seuil, additionner les bookmakers de choix différents ni compter deux fois une même identité.
+
+Les diagnostics manuels `remaining`, `h1`, `h2` préparent les preuves des lots 3 à 7 : huit requêtes groupées maximum par lancement, aucun déploiement ni collecte planifiée supplémentaire. `requestedPeriod` conserve le filtre demandé ; le champ `period` du marché renvoyé reste intact et doit prouver la période réelle. Une réponse identique au match entier n’autorise aucun pari H1/H2.
 
 Les autres lots conservent leurs conditions de passage détaillées ci-dessous. Aucun marché nécessitant des données absentes ne doit être activé ni considéré comme terminé.
 
