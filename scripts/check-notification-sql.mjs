@@ -7,7 +7,7 @@ const db=new PGlite(),uid='00000000-0000-0000-0000-000000000001';
 await db.exec(`create role anon;create role authenticated;create role service_role;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql as $$select '${uid}'::uuid$$;create table public.player_accounts(user_id uuid,bankroll numeric);create table public.bets(id uuid,user_id uuid,status text,bet_type text,stake numeric,odds numeric,selections jsonb);create table public.user_states(user_id uuid primary key,state jsonb);insert into auth.users values('${uid}');`);
 // V23 possède des extensions d’export sans rapport : prendre les tables et RPC notification.
 let v23=await readFile('supabase/migrations/supabase-v23-schema.sql','utf8');v23=v23.slice(0,v23.indexOf('-- Étend l’export existant'))+'commit;';await db.exec(v23);
-for(const v of [24,26,27,28,33,34])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+for(const v of [24,26,27,28,33,34,43,43])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
 const q=async(sql,args=[])=>(await db.query(sql,args)).rows;
 await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'email','demo')`,[uid]);
 const p={enabled:true,channels:['email'],daily_briefing:true,briefing_minute:0,timezone:'Europe/Paris',quiet_start:600,quiet_end:1000,min_value:.05,min_confidence:.6,teams:[],leagues:[],max_per_hour:3};
@@ -25,4 +25,49 @@ assert.equal(await queue({...event,daily_revision:2}),false);
 await q(`insert into user_states values($1,'{"favoriteTeams":["Lille"],"favoriteLeagues":[]}')`,[uid]);
 assert.deepEqual((await q('select notification_briefing_snapshot($1) s',[uid]))[0].s.favorites.teams,['Lille']);
 await q(`update notification_preferences set enabled=false`);assert.equal(await queue({...event,daily_revision:2}),false);
+
+// BET-69 : Telegram ne dépend ni du consentement ni de l'horaire email.
+assert.equal((await q('select my_telegram_notifications() s'))[0].s.preferences.enabled,false);
+assert.equal((await q("select has_table_privilege('authenticated','notification_telegram_preferences','select') ok"))[0].ok,false);
+assert.equal((await q("select has_function_privilege('authenticated','enqueue_telegram_notification(uuid,jsonb)','execute') ok"))[0].ok,false);
+await q(`insert into notification_endpoints values($1,'telegram','demo',now())`,[uid]);
+const telegram={enabled:true,min_value:.1,min_confidence:.65,max_per_day:2,quiet_start:0,quiet_end:0,timezone:'Europe/Paris'};
+await q('select save_telegram_notifications($1)',[JSON.stringify(telegram)]);
+assert.equal((await q('select enabled from notification_preferences'))[0].enabled,false);
+const signal={telegram:true,match_id:'one',market:'home',value:.2,confidence:.8,kickoff:new Date(Date.now()+3600000).toISOString(),expires_at:new Date(Date.now()+1800000).toISOString()};
+const enqueue=async(e=signal)=>(await q('select enqueue_telegram_notification($1,$2) ok',[uid,JSON.stringify(e)]))[0].ok;
+assert.equal(await enqueue({...signal,value:.01}),false);
+assert.equal(await enqueue({...signal,expires_at:new Date(Date.now()-1000).toISOString()}),false);
+assert.equal(await enqueue(),true);assert.equal(await enqueue({...signal,market:'away',odd:10}),false);
+assert.equal(await enqueue({...signal,match_id:'two'}),true);
+assert.equal(await enqueue({...signal,match_id:'three'}),true);
+assert.equal((await q('select * from claim_notification_deliveries()')).length,0);
+assert.equal((await q('select * from claim_telegram_notifications()')).length,2);
+assert.equal((await q("select count(*)::int n from notification_deliveries where channel='telegram' and status='cancelled'"))[0].n,1);
+// Un résultat incertain consomme le plafond, aucun nouvel envoi du même jour.
+await q("update notification_deliveries set status='unknown' where channel='telegram' and status='sending'");
+assert.equal(await enqueue({...signal,match_id:'four'}),true);
+assert.equal((await q('select * from claim_telegram_notifications()')).length,0);
+// Les tests restent explicites et dédupliqués par heure.
+assert.equal(await enqueue({...signal,test_channel:'telegram'}),true);
+assert.equal(await enqueue({...signal,test_channel:'telegram'}),false);
+assert.equal((await q('select * from claim_telegram_notifications()')).length,1);
+await q("update notification_deliveries set status='sent' where channel='telegram' and status='sending'");
+// Silence sur la minute courante : ne doit rien réserver.
+await q('select save_telegram_notifications($1)',[JSON.stringify({...telegram,quiet_start:0,quiet_end:1439})]);
+assert.equal(await enqueue({...signal,match_id:'quiet'}),true);
+assert.equal((await q('select * from claim_telegram_notifications()')).length,0);
+assert.equal((await q('select notification_telegram_snapshot($1) s',[uid]))[0].s.favorites.teams[0],'Lille');
+await q('select disconnect_telegram_notifications()');
+assert.equal((await q('select my_telegram_notifications() s'))[0].s.associated,false);
+assert.equal(await enqueue({...signal,match_id:'disabled'}),false);
+// Isolation propriétaire : RPC sans identifiant arbitraire, autres comptes invisibles.
+const other='00000000-0000-0000-0000-000000000002';
+await q('insert into auth.users values($1)',[other]);
+await q('insert into notification_telegram_preferences(user_id,enabled) values($1,true)',[other]);
+assert.equal((await q('select my_telegram_notifications() s'))[0].s.preferences.user_id,uid);
+await q('select unsubscribe_notifications()');
+assert.equal((await q('select enabled from notification_telegram_preferences where user_id=$1',[uid]))[0].enabled,false);
+await q('delete from auth.users where id=$1',[other]);
+assert.equal((await q('select count(*)::int n from notification_telegram_preferences where user_id=$1',[other]))[0].n,0);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');

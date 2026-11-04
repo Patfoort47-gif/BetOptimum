@@ -1,14 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {workerPayload,callNotificationWorker,WORKER_MAX_BYTES} from '../notification-worker-request.js';
+import {decodeWorkerMatches,encodeWorkerMatch} from '../notification-worker-codec.js';
 import {detectAlerts} from '../notification-model.js';
 import {buildBriefing,planBriefing} from '../notification-briefing.js';
 const now=Date.parse('2026-11-03T12:00:00Z');
 const prefs={enabled:true,channels:['email','discord'],daily_briefing:true,briefing_minute:660,timezone:'Europe/Paris',teams:['Lille'],leagues:[],quiet_start:0,quiet_end:0,min_value:0,min_confidence:0};
 const match={id:'m',home:'Lille',away:'Paris',league:'Ligue 1',kickoff:'2026-11-03T20:00:00Z',homeGoals:2,awayGoals:1,odds:{home:3,draw:4,away:5,over:3,btts:3,homeDnb:2},realOddsMarkets:['home'],oddsMovement:{home:{percent:6}},bookmakerOffers:[{name:'Test',home:3,draw:4,away:5,over:3,btts:3,homeDnb:2,homeCached:true,updatedAt:'2026-11-03T11:00:00Z',raw:'inutilisé'}],homeStats:{detail:'x'.repeat(2_100_000)}};
 const data={matches:[match],generatedAt:'2026-11-03T11:00:00Z'};
+test('le format 2 préserve les offres creuses et refuse les index invalides',()=>{
+ const original={id:'sparse',bookmakerOffers:[{key:'one',name:'Réel',home:2},{key:'two',away:3,awayCached:false}]};
+ assert.deepEqual(decodeWorkerMatches({format:2,matches:[encodeWorkerMatch(original)]}),[original]);
+ assert.deepEqual(decodeWorkerMatches({matches:[original]}),[original]);
+ for(const values of [[9,2],[0],[0,1,0,2],[-1,2]])assert.throws(()=>decodeWorkerMatches({format:2,offerFields:['home'],matches:[{bookmakerOffers:[values]}]}),/WORKER_FORMAT/);
+ const payload=workerPayload({...data,matches:[match,{...match,completed:true},{...match,voided:true},{...match,kickoff:'2026-11-03T10:00:00Z'}]});
+ assert.equal(payload.matches,1);
+});
 test('le contrat compact conserve détection, conseils et contenu du briefing sans les statistiques volumineuses',()=>{
- const p=workerPayload(data),compact=JSON.parse(p.body).matches;
+ const p=workerPayload(data),compact=decodeWorkerMatches(JSON.parse(p.body));
  assert.ok(p.bytes<WORKER_MAX_BYTES);assert.equal(p.matches,1);assert.ok(!p.body.includes('homeStats'));assert.ok(!p.body.includes('inutilisé'));
  const plan={max_favorites:5,odds_step:.1};
  assert.deepEqual(detectAlerts(compact,prefs,plan,now),detectAlerts([match],prefs,plan,now));
