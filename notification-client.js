@@ -22,7 +22,7 @@ export function createNotificationApi(client) {
       const expected=new Set(['Telegram non configuré','Confirmez votre adresse email','Activez et enregistrez ce canal avant de le tester','Canal invalide','Canal non configuré']);
       if(expected.has(response?.error))throw new Error(response.error);
       const reference=/^[a-f0-9-]{36}$/.test(String(response?.reference))?` Référence : ${response.reference}.`:'';
-      const messages={CONFIG_SITE_URL:'L’adresse du site n’est pas correctement configurée dans le service d’alertes.',CONFIG_SUPABASE:'La connexion du service d’alertes à la base doit être configurée.'};
+      const messages={CONFIG_SITE_URL:'L’adresse du site n’est pas correctement configurée dans le service d’alertes.',CONFIG_SUPABASE:'La connexion du service d’alertes à la base doit être configurée.',TELEGRAM_SETUP:'Le jeton et le nom du bot Telegram doivent être vérifiés par l’administrateur.',TELEGRAM_WEBHOOK_CONFLICT:'Ce bot Telegram est déjà relié à une autre application. Utilisez un bot dédié à BetOptimum.'};
       if(messages[response?.code])throw new Error(messages[response.code]+reference);
       throw new Error(translated(null,'function').message+reference);
     }
