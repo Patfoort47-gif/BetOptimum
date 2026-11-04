@@ -3,7 +3,8 @@ import { NotificationFailure, reportNotificationFailure } from '../../../notific
 import { notificationConfig } from '../../../notification-config.js';
 import { planBriefing } from '../../../notification-briefing.js';
 import { prepareBriefing } from '../../../notification-briefing-service.js';
-import { detectAlerts } from '../../../notification-model.js';
+import { detectTelegramAlerts, telegramEventCurrent } from '../../../notification-telegram.js';
+import { decodeWorkerMatches } from '../../../notification-worker-codec.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
 let site: URL | null = null;
@@ -24,6 +25,11 @@ async function db(path:string, method='GET',body?:unknown) {
 }
 async function endpoint(uid:string,channel:string,target:unknown) {
  if(!validateDestination(channel,target))throw new Error('DESTINATION');
+ if(channel==='telegram'){
+  // Une nouvelle association ne réutilise jamais l'accord d'une autre conversation.
+  await db(`notification_telegram_preferences?user_id=eq.${uid}`,'PATCH',{enabled:false,consent_at:null,updated_at:new Date().toISOString()});
+  await db(`notification_deliveries?user_id=eq.${uid}&channel=eq.telegram&status=eq.pending`,'PATCH',{status:'cancelled'});
+ }
  await db('notification_endpoints?on_conflict=user_id,channel','POST',{user_id:uid,channel,encrypted:await seal(target,env.NOTIFICATION_ENCRYPTION_KEY)});
 }
 async function pageAll(table:string,query:string) {
@@ -35,17 +41,32 @@ async function worker(matches:unknown[],generatedAt:string|null) {
  for(const p of prefs){const plan=plans.find((l:any)=>l.id===(entitlements.find((e:any)=>e.user_id===p.user_id)?.plan??'free'));if(!plan)continue;
   const briefing=planBriefing(matches,p);
   if(briefing&&await db('rpc/enqueue_notification_briefing','POST',{p_user:p.user_id,p_event:briefing}))queued++;
-  for(const event of detectAlerts(matches,{...p,channels:p.channels.filter((c:string)=>!['email','web'].includes(c))},plan)) if(await db('rpc/enqueue_notification','POST',{p_user:p.user_id,p_key:event.key,p_event:event,p_due:event.due_at}))queued++;
+
  }
- const deliveries=await db('rpc/claim_notification_deliveries','POST',{});let sent=0;
+ const telegram=notificationConfig(env).available.telegram;
+ if(telegram){
+  const subscribers=await pageAll('notification_telegram_preferences','enabled=eq.true&select=user_id');
+  for(const subscriber of subscribers){
+   const snapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:subscriber.user_id});
+   for(const event of detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites))if(await db('rpc/enqueue_telegram_notification','POST',{p_user:subscriber.user_id,p_event:event}))queued++;
+  }
+ }
+ const deliveries=await db('rpc/claim_notification_deliveries','POST',{});
+ if(telegram)deliveries.push(...await db('rpc/claim_telegram_notifications','POST',{}));
+ let sent=0;
  for(const delivery of deliveries){
   try {
    // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
    const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
-   if(!p?.channels.includes(delivery.channel)||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
-   if(delivery.channel==='web'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if((delivery.channel!=='telegram'&&!p?.channels.includes(delivery.channel))||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if(!['telegram','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    const target=await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY);
    let payload=event.payload;
+   let telegramSnapshot:any=null;
+   if(delivery.channel==='telegram'){
+    telegramSnapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
+    if(!telegramSnapshot?.preferences?.enabled||(!payload.test_channel&&!telegramEventCurrent(payload,telegramSnapshot.preferences,telegramSnapshot.favorites,matches))){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   }
    if(delivery.channel==='email'&&!payload.briefing&&!payload.test_channel){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    if(payload.briefing){
     if(delivery.channel!=='email'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
@@ -61,6 +82,10 @@ async function worker(matches:unknown[],generatedAt:string|null) {
    if(payload.briefing){
     const [latest]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`);
     if(!latest?.channels.includes('email')||latest.updated_at!==p.updated_at||Date.parse(payload.kickoff)<=Date.now()){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   }
+   if(delivery.channel==='telegram'){
+    const latest=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
+    if(!latest?.preferences?.enabled||latest.preferences.updated_at!==telegramSnapshot.preferences.updated_at){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
    const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch);
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
@@ -81,7 +106,8 @@ Deno.serve(async request=>{
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
   if(body.action==='worker'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
-   return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.now()-Date.parse(body.generatedAt)<864e5?body.matches:[],body.generatedAt??null));
+   if(body.format!==undefined&&body.format!==2)return json({error:'Format du worker invalide'},400);
+   return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.parse(body.generatedAt)<=Date.now()+60000&&Date.now()-Date.parse(body.generatedAt)<864e5?decodeWorkerMatches(body):[],body.generatedAt??null));
   }
   if(new URL(request.url).searchParams.get('action')==='telegram-webhook'){
    if(!await sameSecret(request.headers.get('x-telegram-bot-api-secret-token')??'',env.TELEGRAM_WEBHOOK_SECRET))return json({error:'Non autorisé'},401);
@@ -105,16 +131,21 @@ Deno.serve(async request=>{
   }
   if(body.action==='connect'){
    const channel=body.channel;
-   if(!['discord','email'].includes(channel))return json({error:'Canal invalide'},400);
+   if(channel!=='email')return json({error:'Canal invalide'},400);
    if(!config.available[channel])return json({error:'Canal non configuré'},503);
    if(channel==='email'&&!user.email_confirmed_at)return json({error:'Confirmez votre adresse email'},400);
    await endpoint(uid,channel,channel==='email'?{email:user.email}:body.destination);return json({ok:true});
   }
   if(body.action==='test'){
-   if(!['telegram','discord','email'].includes(body.channel))return json({error:'Canal invalide'},400);
+   if(!['telegram','email'].includes(body.channel))return json({error:'Canal invalide'},400);
    if(!config.available[body.channel])return json({error:'Canal non configuré'},503);
    // Le test utilise la même file et les mêmes limites que les alertes.
    const event={match_id:'test',home:'Test',away:'BetOptimum',label:'Vos alertes fonctionnent',odd:2,bookmaker:'Démonstration',value:.1,confidence:.6,movement:0,kickoff:new Date(Date.now()+864e5).toISOString(),test_channel:body.channel};
+   if(body.channel==='telegram'){
+    const snapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:uid});
+    if(!snapshot?.preferences?.enabled)return json({error:'Activez et enregistrez ce canal avant de le tester'},400);
+    const queued=await db('rpc/enqueue_telegram_notification','POST',{p_user:uid,p_event:event});return json({ok:true,queued:Boolean(queued)});
+   }
    const [p]=await db(`notification_preferences?user_id=eq.${uid}&select=enabled,channels`);if(!p?.enabled||!p.channels.includes(body.channel))return json({error:'Activez et enregistrez ce canal avant de le tester'},400);
    const queued=await db('rpc/enqueue_notification','POST',{p_user:uid,p_key:`test:${body.channel}:${Math.floor(Date.now()/3600000)}`,p_event:event,p_due:new Date().toISOString()});return json({ok:true,queued:Boolean(queued),message:queued?'Test placé dans la file, heures silencieuses et fréquence respectées':'Un test a déjà été demandé pour ce canal pendant cette heure. Consultez l’historique avant de réessayer.'});
   }

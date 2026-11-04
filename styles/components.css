@@ -696,3 +696,6 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
   .topbar{gap:6px;padding-inline:12px}.brand-name{font-size:18px}.topbar-actions{gap:4px}
   .mobile-nav{left:0;right:0;padding:3px;gap:0}.mobile-nav button{font-size:10px}
 }
+
+/* BET-69 : réglages Telegram, séparés du briefing quotidien. */
+.telegram-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:16px;margin:20px 0}.telegram-controls label{display:flex;flex-direction:column;gap:8px}.telegram-controls select,.telegram-controls input{width:100%;min-width:0}.daily-settings>[data-telegram-settings]{margin-top:24px}
