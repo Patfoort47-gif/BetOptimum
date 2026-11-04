@@ -5,8 +5,10 @@ import { planBriefing } from '../../../notification-briefing.js';
 import { prepareBriefing } from '../../../notification-briefing-service.js';
 import { detectTelegramAlerts, telegramEventCurrent } from '../../../notification-telegram.js';
 import { decodeWorkerMatches } from '../../../notification-worker-codec.js';
+import { createTelegramSetup } from '../../../notification-telegram-setup.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
 const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
+const setupTelegram=createTelegramSetup(env);
 let site: URL | null = null;
 try { const candidate = new URL(env.SITE_URL); if (candidate.protocol === 'https:') site = candidate; } catch { /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */ }
 const cors = { 'Access-Control-Allow-Origin': site?.origin ?? 'null', 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-client-info,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
@@ -43,7 +45,8 @@ async function worker(matches:unknown[],generatedAt:string|null) {
   if(briefing&&await db('rpc/enqueue_notification_briefing','POST',{p_user:p.user_id,p_event:briefing}))queued++;
 
  }
- const telegram=notificationConfig(env).available.telegram;
+ let telegram=notificationConfig(env).available.telegram;
+ if(telegram)try{await setupTelegram();}catch(error){telegram=false;reportNotificationFailure(error,crypto.randomUUID());}
  if(telegram){
   const subscribers=await pageAll('notification_telegram_preferences','enabled=eq.true&select=user_id');
   for(const subscriber of subscribers){
@@ -122,9 +125,13 @@ Deno.serve(async request=>{
   const auth=await fetch(`${env.SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:env.SUPABASE_SERVICE_ROLE_KEY}});
   if(!auth.ok)return json({error:'Connexion requise'},401);const user=await auth.json(),uid=user.id;
   const config=notificationConfig(env);
-  if(body.action==='config')return json(config);
+  if(body.action==='config'){
+   if(config.available.telegram)try{await setupTelegram();}catch(error){config.available.telegram=false;config.reasons.telegram='Le raccordement du bot Telegram doit être vérifié par l’administrateur.';reportNotificationFailure(error,crypto.randomUUID());}
+   return json(config);
+  }
   if(body.action==='telegram-pair'){
    if(!config.available.telegram)return json({error:'Canal non configuré'},503);
+   await setupTelegram();
    const code=[...crypto.getRandomValues(new Uint8Array(24))].map(x=>x.toString(16).padStart(2,'0')).join('');
    await db('notification_pairings?on_conflict=user_id','POST',{user_id:uid,code_hash:await hash(code),expires_at:new Date(Date.now()+600000).toISOString()});
    return json({url:`https://t.me/${env.TELEGRAM_BOT_NAME}?start=${code}`});
