@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'Catalogue ou prix réels du premier lot BET-170'
+        description: 'Catalogue ou prix réels BET-170 : premier lot / composites'
         type: choice
-        options: [catalogue, prices]
+        options: [catalogue, prices, composites]
         default: catalogue
       budget:
         description: 'Nombre maximal de requêtes PropLine (60 au plus)'
@@ -32,6 +32,8 @@ jobs:
           if [ "$PROPLINE_INVENTORY_MODE" = "prices" ]; then
             node scripts/propline-prices.mjs
             node scripts/check-markets-lot-one.mjs
+          elif [ "$PROPLINE_INVENTORY_MODE" = "composites" ]; then
+            PROPLINE_PRICE_SCOPE=composites node scripts/propline-prices.mjs
           else
             node scripts/propline-inventory.mjs
           fi
