@@ -29,3 +29,8 @@ test('le test email utilise Resend, une destination confirmée et un lien vers l
   const body=JSON.parse(init.body);assert.deepEqual(body.to,['confirmed@example.com']);assert.match(body.subject,/test.*email/);assert.match(body.text,/aucun pronostic réel/);assert.ok(body.text.includes('https://example.com/bet/#profil'));assert.ok(!body.text.includes('#match-test'));return Response.json({id:'message-id'});
  });assert.equal(result.status,'sent');
 });
+test('un aperçu Telegram conserve le format réel mais signale explicitement les chiffres fictifs',async()=>{
+ let message;
+ const result=await deliver('telegram',{chat_id:'123'},{...event,bookmaker:'Bookmaker (exemple)',test_channel:'telegram',preview:true},43,env,async(_url,init)=>{message=JSON.parse(init.body).text;return Response.json({ok:true});});
+ assert.equal(result.status,'sent');assert.ok(message.startsWith('DÉMONSTRATION · CHIFFRES FICTIFS'));assert.match(message,/Rennes - Paris/);assert.match(message,/cote 2\.00/);assert.match(message,/Value 10\.0 % · confiance 60 %/);assert.match(message,/aucune opportunité réelle/);assert.ok(message.includes('https://example.com/bet/#match-m'));
+});

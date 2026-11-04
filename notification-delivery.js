@@ -27,7 +27,8 @@ export async function deliver(channel, target, event, id, env, fetcher=fetch, we
   const site=new URL(env.SITE_URL); if(site.protocol!=='https:')throw new Error('SITE_CONFIG');
   const briefing=event.briefing_content?briefingEmail(event.briefing_content,env.SITE_URL):null;
   if(briefing&&channel!=='email')return {status:'failed',error:'Briefing réservé à l’email'};
-  const testing=Boolean(event.test_channel),link=new URL(testing?'#profil':`#match-${encodeURIComponent(event.match_id)}`,site).href,text=(briefing?'':testing?'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.':alertText(event))+'\n'+link;
+  const testing=Boolean(event.test_channel),preview=channel==='telegram'&&event.test_channel==='telegram'&&event.preview===true;
+  const link=new URL(testing&&!preview?'#profil':`#match-${encodeURIComponent(event.match_id)}`,site).href,text=(briefing?'':preview?'DÉMONSTRATION · CHIFFRES FICTIFS\n\n'+alertText(event)+'\n\nAperçu du format : ces chiffres sont fictifs, aucune opportunité réelle n’a été détectée pour cet exemple.':testing?'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.':alertText(event))+'\n'+link;
   try {
     let response;
     if(channel==='web') {
