@@ -12,6 +12,30 @@
     "score": "0 : 0"
   },
   {
+    "id": "espn-401915383",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "AEK Athens – Real Madrid",
+    "label": "Moins de 5,5 buts",
+    "key": "under55",
+    "odd": 1.2,
+    "probability": 0.8945918945308234,
+    "status": "won",
+    "score": "2 : 3"
+  },
+  {
+    "id": "espn-401915382",
+    "date": "2026-11-04",
+    "league": "Ligue des champions",
+    "match": "Fenerbahce – Liverpool",
+    "label": "Double chance 12",
+    "key": "homeAway",
+    "odd": 1.16,
+    "probability": 0.8108199530098741,
+    "status": "won",
+    "score": "3 : 2"
+  },
+  {
     "id": "espn-401915311",
     "date": "2026-11-03",
     "league": "Ligue des champions",
