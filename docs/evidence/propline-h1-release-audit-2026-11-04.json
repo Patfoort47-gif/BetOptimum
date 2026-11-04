@@ -1,0 +1,166 @@
+{
+  "run": 41841671085,
+  "artifact": 13329001896,
+  "generatedAt": "2026-11-04T13:49:58.126Z",
+  "requests": 8,
+  "failures": [],
+  "usage": [
+    {
+      "league": "Premier League",
+      "x-daily-limit": 1000,
+      "x-daily-used": 41,
+      "x-daily-remaining": 959,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Ligue 1",
+      "x-daily-limit": 1000,
+      "x-daily-used": 42,
+      "x-daily-remaining": 958,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "La Liga",
+      "x-daily-limit": 1000,
+      "x-daily-used": 42,
+      "x-daily-remaining": 958,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Serie A",
+      "x-daily-limit": 1000,
+      "x-daily-used": 44,
+      "x-daily-remaining": 956,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Bundesliga",
+      "x-daily-limit": 1000,
+      "x-daily-used": 45,
+      "x-daily-remaining": 955,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Ligue des champions",
+      "x-daily-limit": 1000,
+      "x-daily-used": 43,
+      "x-daily-remaining": 957,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Europa League",
+      "x-daily-limit": 1000,
+      "x-daily-used": 47,
+      "x-daily-remaining": 953,
+      "x-daily-reset": 1793836800
+    },
+    {
+      "league": "Conference League",
+      "x-daily-limit": 1000,
+      "x-daily-used": 43,
+      "x-daily-remaining": 957,
+      "x-daily-reset": 1793836800
+    }
+  ],
+  "qualifiedH1": 142,
+  "qualifiedH1Within48h": 52,
+  "fullTimeSelections": 2061,
+  "rows": [
+    {
+      "league": "Premier League",
+      "id": "631475",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Premier League",
+      "id": "631478",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Ligue 1",
+      "id": "635159",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Ligue 1",
+      "id": "635160",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "La Liga",
+      "id": "635200",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "La Liga",
+      "id": "635201",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Serie A",
+      "id": "652047",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Serie A",
+      "id": "651197",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Bundesliga",
+      "id": "635166",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Bundesliga",
+      "id": "635177",
+      "qualified": 9,
+      "inWindow": false
+    },
+    {
+      "league": "Ligue des champions",
+      "id": "372201",
+      "qualified": 9,
+      "inWindow": true
+    },
+    {
+      "league": "Ligue des champions",
+      "id": "551170",
+      "qualified": 9,
+      "inWindow": true
+    },
+    {
+      "league": "Europa League",
+      "id": "579883",
+      "qualified": 8,
+      "inWindow": true
+    },
+    {
+      "league": "Europa League",
+      "id": "372240",
+      "qualified": 8,
+      "inWindow": true
+    },
+    {
+      "league": "Conference League",
+      "id": "580222",
+      "qualified": 9,
+      "inWindow": true
+    },
+    {
+      "league": "Conference League",
+      "id": "580223",
+      "qualified": 9,
+      "inWindow": true
+    }
+  ]
+}

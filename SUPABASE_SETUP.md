@@ -114,3 +114,7 @@ Appliquer `supabase/migrations/supabase-v41-schema.sql` après V40 puis synchron
 Appliquer `supabase/migrations/supabase-v42-schema.sql` après V41, avant publication du correctif d'inscription. Le déclencheur de création du profil reprend `avatar2` seulement si sa configuration est valide et entièrement gratuite, avec révision d'image à zéro. Une métadonnée invalide ou contenant un objet verrouillé conserve le repli historique. La confirmation email ne réécrit pas le profil. Les profils existants ne sont pas écrasés ; le navigateur récupère le choix d'inscription lorsque seul un ancien état sans avatar v2 existe, puis le publie normalement. Un profil v2 sauvegardé reste prioritaire sur les métadonnées et sur le stockage de navigation.
 
 Recette isolée : `NODE_PATH=work/ui-tools/node_modules node scripts/check-registration-avatar.cjs`. Aucune requête à la production.
+
+### H1 BET-170 : V45
+
+Après V43, appliquer `supabase/migrations/supabase-v45-schema.sql` avant d’activer H1. V44 composites est abandonnée et volontairement non appliquée ; V45 n’en dépend pas. Colonne `fixtures.period_scores`, neuf labels H1, prix réels, seuil dix et expiration côté RPC. Recette isolée : `scripts/check-markets-h1-sql.mjs`. [Procédure et retour arrière](docs/MARKETS_H1_PRODUCTION.md).

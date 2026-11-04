@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'Catalogue ou prix réels du premier lot BET-170'
+        description: 'Catalogue ou prix BET-170 : lots, périodes demandées H1/H2'
         type: choice
-        options: [catalogue, prices]
+        options: [catalogue, prices, composites, remaining, h1, h2, h1-release]
         default: catalogue
       budget:
         description: 'Nombre maximal de requêtes PropLine (60 au plus)'
@@ -32,6 +32,11 @@ jobs:
           if [ "$PROPLINE_INVENTORY_MODE" = "prices" ]; then
             node scripts/propline-prices.mjs
             node scripts/check-markets-lot-one.mjs
+          elif [ "$PROPLINE_INVENTORY_MODE" = "composites" ]; then
+            PROPLINE_PRICE_SCOPE=composites node scripts/propline-prices.mjs
+            node scripts/check-markets-composites.mjs > propline-composites-audit.json
+          elif [ "$PROPLINE_INVENTORY_MODE" = "h1-release" ] || [ "$PROPLINE_INVENTORY_MODE" = "remaining" ] || [ "$PROPLINE_INVENTORY_MODE" = "h1" ] || [ "$PROPLINE_INVENTORY_MODE" = "h2" ]; then
+            PROPLINE_PRICE_SCOPE="$PROPLINE_INVENTORY_MODE" node scripts/propline-prices.mjs
           else
             node scripts/propline-inventory.mjs
           fi
@@ -43,5 +48,6 @@ jobs:
             propline-inventory.json
             propline-inventory.md
             propline-prices.json
+            propline-composites-audit.json
           if-no-files-found: ignore
           retention-days: 7

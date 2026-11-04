@@ -1,0 +1,1069 @@
+{
+  "h1": {
+    "requests": 8,
+    "failures": [],
+    "requestedPeriod": "h1",
+    "families": {
+      "h2h": {
+        "events": 16,
+        "bookmakers": [
+          "admiralbet",
+          "betathome",
+          "betfair_ex",
+          "bovada",
+          "courtside",
+          "danskespil",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "kalshi",
+          "ladbrokes_be",
+          "maxbet",
+          "meridianbet",
+          "mozzart",
+          "novibet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "betathome",
+          "bovada",
+          "courtside",
+          "danskespil",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "ladbrokes_be",
+          "maxbet",
+          "meridianbet",
+          "mozzart",
+          "novibet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "veikkaus"
+        ],
+        "periods": [
+          "h1"
+        ],
+        "outcomes": 816,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "totals": {
+        "events": 16,
+        "bookmakers": [
+          "admiralbet",
+          "bet25",
+          "betathome",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "kalshi",
+          "ladbrokes_be",
+          "livescorebet",
+          "lvbet",
+          "maxbet",
+          "meridianbet",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "olybet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "sportna",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "bet25",
+          "betathome",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "eurobet",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "ladbrokes_be",
+          "livescorebet",
+          "lvbet",
+          "maxbet",
+          "meridianbet",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "olybet",
+          "pinnacle",
+          "sbobet",
+          "snai",
+          "sportna",
+          "veikkaus"
+        ],
+        "periods": [
+          "h1"
+        ],
+        "outcomes": 2917,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          0.5,
+          0.75,
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2,
+          2.5,
+          3,
+          3.5,
+          4.5,
+          5.5
+        ]
+      },
+      "both_teams_to_score": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "courtside",
+          "fanduel",
+          "hardrock",
+          "kalshi",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "courtside",
+          "fanduel",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
+        "periods": [
+          "h1"
+        ],
+        "outcomes": 206,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "double_chance": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "maxbet",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "maxbet",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
+        "periods": [
+          "h1"
+        ],
+        "outcomes": 228,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "draw_no_bet": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "fliff",
+          "hardrock",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "fliff",
+          "hardrock",
+          "pinnacle"
+        ],
+        "periods": [
+          "h1"
+        ],
+        "outcomes": 108,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      }
+    },
+    "periods": {
+      "h1": {
+        "events": 16,
+        "selections": 318,
+        "maxBookmakersPerSelection": 23,
+        "qualifiedSelections": 142,
+        "qualifiedKeys": [
+          "away",
+          "draw",
+          "home",
+          "over",
+          "over05",
+          "over15",
+          "under",
+          "under05",
+          "under15"
+        ]
+      }
+    },
+    "warning": "Les présences et identifiants ne valident ni les prix, ni les règles fournisseur, ni les données de règlement. Les nombres globaux de bookmakers ne sont pas des nombres par sélection."
+  },
+  "h2": {
+    "requests": 8,
+    "failures": [],
+    "requestedPeriod": "h2",
+    "families": {
+      "both_teams_to_score": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "hardrock",
+          "maxbet",
+          "mozzart"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "hardrock",
+          "maxbet",
+          "mozzart"
+        ],
+        "periods": [
+          "h2"
+        ],
+        "outcomes": 114,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "totals": {
+        "events": 16,
+        "bookmakers": [
+          "draftkings",
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "draftkings",
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
+        "periods": [
+          "h2"
+        ],
+        "outcomes": 982,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          0.5,
+          1.5,
+          2.5,
+          3.5
+        ]
+      },
+      "h2h": {
+        "events": 16,
+        "bookmakers": [
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "fliff",
+          "hardrock",
+          "maxbet",
+          "mozzart",
+          "veikkaus"
+        ],
+        "periods": [
+          "h2"
+        ],
+        "outcomes": 201,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "draw_no_bet": {
+        "events": 12,
+        "bookmakers": [
+          "hardrock"
+        ],
+        "eligibleBookmakers": [
+          "hardrock"
+        ],
+        "periods": [
+          "h2"
+        ],
+        "outcomes": 24,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "double_chance": {
+        "events": 16,
+        "bookmakers": [
+          "maxbet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "maxbet",
+          "veikkaus"
+        ],
+        "periods": [
+          "h2"
+        ],
+        "outcomes": 96,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      }
+    },
+    "periods": {
+      "h2": {
+        "events": 16,
+        "selections": 264,
+        "maxBookmakersPerSelection": 6,
+        "qualifiedSelections": 0,
+        "qualifiedKeys": []
+      }
+    },
+    "warning": "Les présences et identifiants ne valident ni les prix, ni les règles fournisseur, ni les données de règlement. Les nombres globaux de bookmakers ne sont pas des nombres par sélection."
+  },
+  "remaining": {
+    "requests": 8,
+    "failures": [],
+    "requestedPeriod": "full",
+    "families": {
+      "total_corners": {
+        "events": 16,
+        "bookmakers": [
+          "admiralbet",
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "eurobet",
+          "fliff",
+          "hardrock",
+          "kalshi",
+          "ladbrokes_be",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "novig",
+          "pinnacle",
+          "rebet",
+          "snai",
+          "unibet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "eurobet",
+          "fliff",
+          "hardrock",
+          "ladbrokes_be",
+          "miseojeu",
+          "mozzart",
+          "novibet",
+          "pinnacle",
+          "rebet",
+          "snai",
+          "unibet",
+          "veikkaus"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 1480,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          5.5,
+          6.5,
+          7,
+          7.5,
+          8,
+          8.5,
+          9,
+          9.5,
+          10,
+          10.5,
+          11,
+          11.5,
+          12.5,
+          13.5,
+          14.5
+        ]
+      },
+      "total_cards": {
+        "events": 12,
+        "bookmakers": [
+          "admiralbet",
+          "bovada",
+          "pinnacle",
+          "rebet"
+        ],
+        "eligibleBookmakers": [
+          "admiralbet",
+          "bovada",
+          "pinnacle",
+          "rebet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 202,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          1.5,
+          2,
+          2.5,
+          3,
+          3.5,
+          4,
+          4.5,
+          5,
+          5.5,
+          6.5
+        ]
+      },
+      "spreads": {
+        "events": 16,
+        "bookmakers": [
+          "bet25",
+          "bet99",
+          "betathome",
+          "betfair_ex",
+          "betonlineag",
+          "betrivers",
+          "betus",
+          "bookmaker_eu",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "heritage",
+          "jazzsports",
+          "kalshi",
+          "lowvig",
+          "matchbook",
+          "novig",
+          "olybet",
+          "pinnacle",
+          "playup",
+          "polymarket_us",
+          "prophetx",
+          "rebet",
+          "sbobet",
+          "smarkets",
+          "sportybet_ng",
+          "sts",
+          "supersport",
+          "sxbet",
+          "synot",
+          "tab_au",
+          "tippmix",
+          "totalbet",
+          "unibet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "bet25",
+          "bet99",
+          "betathome",
+          "betonlineag",
+          "betrivers",
+          "betus",
+          "bookmaker_eu",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "heritage",
+          "jazzsports",
+          "lowvig",
+          "olybet",
+          "pinnacle",
+          "playup",
+          "rebet",
+          "sbobet",
+          "sportybet_ng",
+          "sts",
+          "supersport",
+          "synot",
+          "tab_au",
+          "tippmix",
+          "totalbet",
+          "unibet",
+          "veikkaus"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 3990,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          -5.5,
+          -5,
+          -4.5,
+          -4,
+          -3.5,
+          -3,
+          -2.75,
+          -2.5,
+          -2.25,
+          -2,
+          -1.75,
+          -1.5,
+          -1.25,
+          -1,
+          -0.75,
+          -0.5,
+          -0.25,
+          0,
+          0.25,
+          0.5,
+          0.75,
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2,
+          2.25,
+          2.5,
+          2.75,
+          3,
+          3.5,
+          4,
+          4.5,
+          5,
+          5.5
+        ]
+      },
+      "2plus_goals": {
+        "events": 16,
+        "bookmakers": [
+          "betrivers",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "parlayplay",
+          "polymarket_us",
+          "prizepicks",
+          "rebet",
+          "underdog",
+          "unibet"
+        ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "rebet",
+          "underdog",
+          "unibet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 1822,
+        "playerOutcomes": 1822,
+        "identifiedPlayerOutcomes": 1000,
+        "lines": [
+          1.5
+        ]
+      },
+      "anytime_goal_scorer": {
+        "events": 16,
+        "bookmakers": [
+          "betrivers",
+          "betus",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "novig",
+          "parlayplay",
+          "pinnacle",
+          "polymarket_us",
+          "prizepicks",
+          "rebet",
+          "sportzino",
+          "underdog",
+          "unibet"
+        ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "betus",
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "fliff",
+          "hardrock",
+          "pinnacle",
+          "rebet",
+          "sportzino",
+          "underdog",
+          "unibet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 5957,
+        "playerOutcomes": 5957,
+        "identifiedPlayerOutcomes": 5416,
+        "lines": [
+          0.5
+        ]
+      },
+      "player_shots_on_target": {
+        "events": 16,
+        "bookmakers": [
+          "betrivers",
+          "bovada",
+          "dabble",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "novig",
+          "parlayplay",
+          "prizepicks",
+          "sleeper",
+          "underdog",
+          "unibet"
+        ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "underdog",
+          "unibet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 4073,
+        "playerOutcomes": 4073,
+        "identifiedPlayerOutcomes": 3830,
+        "lines": [
+          0.5,
+          1.5,
+          2.5,
+          3.5
+        ]
+      },
+      "first_goal_scorer": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "sportzino"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "courtside",
+          "draftkings",
+          "fanatics",
+          "fanduel",
+          "sportzino"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 3231,
+        "playerOutcomes": 3231,
+        "identifiedPlayerOutcomes": 2872,
+        "lines": []
+      },
+      "player_shots": {
+        "events": 13,
+        "bookmakers": [
+          "betrivers",
+          "bovada",
+          "dabble",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "parlayplay",
+          "prizepicks",
+          "sleeper",
+          "underdog",
+          "unibet"
+        ],
+        "eligibleBookmakers": [
+          "betrivers",
+          "bovada",
+          "draftkings",
+          "fanduel",
+          "hardrock",
+          "underdog",
+          "unibet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 4548,
+        "playerOutcomes": 4548,
+        "identifiedPlayerOutcomes": 4315,
+        "lines": [
+          0.5,
+          1.5,
+          2.5,
+          3.5,
+          4.5,
+          5.5,
+          6.5
+        ]
+      },
+      "corners_spread": {
+        "events": 16,
+        "bookmakers": [
+          "bovada",
+          "pinnacle",
+          "rebet",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "pinnacle",
+          "rebet",
+          "veikkaus"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 308,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          -4.5,
+          -3.5,
+          -3,
+          -2.5,
+          -2,
+          -1.5,
+          -1,
+          -0.5,
+          0,
+          0.5,
+          1,
+          1.5,
+          2,
+          2.5,
+          3,
+          3.5,
+          4.5
+        ]
+      },
+      "team_corners": {
+        "events": 14,
+        "bookmakers": [
+          "bovada",
+          "kalshi",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "mozzart",
+          "pinnacle",
+          "veikkaus"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 308,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          1.5,
+          2.5,
+          3.5,
+          4.5,
+          5.5,
+          6.5,
+          7.5,
+          8.5
+        ]
+      },
+      "team_cards": {
+        "events": 8,
+        "bookmakers": [
+          "bovada",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "pinnacle"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 72,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          0.5,
+          1.5,
+          2.5,
+          3.5
+        ]
+      },
+      "goalie_saves": {
+        "events": 14,
+        "bookmakers": [
+          "bovada",
+          "draftkings",
+          "prizepicks",
+          "underdog"
+        ],
+        "eligibleBookmakers": [
+          "bovada",
+          "draftkings",
+          "underdog"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 396,
+        "playerOutcomes": 396,
+        "identifiedPlayerOutcomes": 374,
+        "lines": [
+          1.5,
+          2.5,
+          3.5,
+          5.5,
+          6.5
+        ]
+      },
+      "player_tackles": {
+        "events": 4,
+        "bookmakers": [
+          "bovada"
+        ],
+        "eligibleBookmakers": [
+          "bovada"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 818,
+        "playerOutcomes": 818,
+        "identifiedPlayerOutcomes": 733,
+        "lines": []
+      },
+      "player_assists": {
+        "events": 14,
+        "bookmakers": [
+          "draftkings",
+          "hardrock",
+          "parlayplay",
+          "prizepicks",
+          "rebet",
+          "underdog"
+        ],
+        "eligibleBookmakers": [
+          "draftkings",
+          "hardrock",
+          "rebet",
+          "underdog"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 1048,
+        "playerOutcomes": 1048,
+        "identifiedPlayerOutcomes": 925,
+        "lines": [
+          0.5
+        ]
+      },
+      "first_team_to_score": {
+        "events": 16,
+        "bookmakers": [
+          "fanduel",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
+        "eligibleBookmakers": [
+          "fanduel",
+          "maxbet",
+          "mozzart",
+          "pinnacle"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 183,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "goal_or_assist": {
+        "events": 16,
+        "bookmakers": [
+          "fanatics",
+          "fanduel",
+          "hardrock",
+          "novig",
+          "parlayplay",
+          "prizepicks",
+          "rebet",
+          "underdog"
+        ],
+        "eligibleBookmakers": [
+          "fanatics",
+          "fanduel",
+          "hardrock",
+          "rebet",
+          "underdog"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 1306,
+        "playerOutcomes": 1306,
+        "identifiedPlayerOutcomes": 807,
+        "lines": [
+          0.5
+        ]
+      },
+      "half_time_full_time": {
+        "events": 16,
+        "bookmakers": [
+          "fliff",
+          "maxbet",
+          "meridianbet",
+          "merkurxbet",
+          "mozzart"
+        ],
+        "eligibleBookmakers": [
+          "fliff",
+          "maxbet",
+          "meridianbet",
+          "merkurxbet",
+          "mozzart"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 415,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "3plus_goals": {
+        "events": 12,
+        "bookmakers": [
+          "hardrock"
+        ],
+        "eligibleBookmakers": [
+          "hardrock"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 45,
+        "playerOutcomes": 45,
+        "identifiedPlayerOutcomes": 0,
+        "lines": []
+      },
+      "player_cards": {
+        "events": 11,
+        "bookmakers": [
+          "rebet",
+          "unibet"
+        ],
+        "eligibleBookmakers": [
+          "rebet",
+          "unibet"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 430,
+        "playerOutcomes": 430,
+        "identifiedPlayerOutcomes": 328,
+        "lines": []
+      },
+      "corners_european_handicap": {
+        "events": 14,
+        "bookmakers": [
+          "veikkaus"
+        ],
+        "eligibleBookmakers": [
+          "veikkaus"
+        ],
+        "periods": [
+          "full"
+        ],
+        "outcomes": 126,
+        "playerOutcomes": 0,
+        "identifiedPlayerOutcomes": 0,
+        "lines": [
+          -4,
+          -3,
+          -2,
+          -1,
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    "periods": {},
+    "warning": "Les présences et identifiants ne valident ni les prix, ni les règles fournisseur, ni les données de règlement. Les nombres globaux de bookmakers ne sont pas des nombres par sélection."
+  }
+}

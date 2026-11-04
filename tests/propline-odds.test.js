@@ -23,3 +23,8 @@ test('BET-152 : plafond par collecte et arrêt au quota sans tentative répété
  const bounded=await collectPropLine(matches,sports,{key:'test',now,fetchImpl:response,maxRequests:1});assert.equal(calls,1);assert.equal(bounded.failures.length,1);
  calls=0;const limited=await collectPropLine(matches,sports,{key:'test',now,fetchImpl:async()=>{calls++;return{ok:false,status:429}}});assert.equal(calls,1);assert.match(limited.failures[0],/429/);
 });
+test('BET-170 : exchanges et DFS documentés exclus même sans champ type',()=>{
+ const market={key:'h2h',last_update:stamp,outcomes:[{name:match.home,price:110}]};
+ const keys=['novig','prophetx','sxbet','betdaq','prizepicks','sleeper','dabble','parlayplay','draftkings_pick6','novig_us','draftkings'];
+ assert.deepEqual(propLineOffers({...event,bookmakers:keys.map(key=>({key,markets:[market]}))},now).map(b=>b.key),['draftkings']);
+});

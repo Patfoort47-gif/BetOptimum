@@ -1,3 +1,4 @@
+import {enrichHalfTimeResults,RESULT_SLUGS} from './h1-results.mjs';
 import {selectionSnapshot} from '../selection-snapshot.js';
 import {regulationScore} from '../regulation-score.js';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -20,15 +21,16 @@ for (const league of leagues) {
       const competition = event.competitions?.[0];
       const home = competition?.competitors?.find(team => team.homeAway === 'home');
       const away = competition?.competitors?.find(team => team.homeAway === 'away');
-      if (voidStatuses.has(event.status?.type?.name) && home && away) { settlements.push({ id:`espn-${event.id}`, date:event.date.slice(0,10), home:home.team?.displayName, away:away.team?.displayName, completed:false, voided:true }); continue; }
+      if (voidStatuses.has(event.status?.type?.name) && home && away) { settlements.push({ id:`espn-${event.id}`, league:Object.keys(RESULT_SLUGS).find(k=>RESULT_SLUGS[k]===league), date:event.date.slice(0,10), homeId:home?.id,awayId:away?.id, home:home.team?.displayName, away:away.team?.displayName, completed:false, voided:true }); continue; }
       if (!event.status?.type?.completed || home?.score == null || away?.score == null) continue;
-      settlements.push({ id:`espn-${event.id}`, date:event.date.slice(0,10), home:home.team?.displayName, away:away.team?.displayName, regulation:regulationScore(event), homeScore:Number(home.score), awayScore:Number(away.score), completed:true });
+      settlements.push({ id:`espn-${event.id}`, league:Object.keys(RESULT_SLUGS).find(k=>RESULT_SLUGS[k]===league), date:event.date.slice(0,10), homeId:home?.id,awayId:away?.id, home:home.team?.displayName, away:away.team?.displayName, regulation:regulationScore(event), homeScore:Number(home.score), awayScore:Number(away.score), completed:true });
     }
   }
 }
 
 const file = 'data/fixtures.json';
 const data = JSON.parse(await readFile(file, 'utf8'));
+if(process.env.PROPLINE_H1_ENABLED==='true')console.info('Résultats H1 :',JSON.stringify(await enrichHalfTimeResults(settlements,data.settlements??[])));
 const merged = new Map((data.settlements ?? []).map(result => [result.id, result]));
 for (const result of settlements) merged.set(result.id, result);
 data.settlements = [...merged.values()].sort((a,b) => b.date.localeCompare(a.date));
@@ -36,7 +38,7 @@ for (const match of data.matches ?? []) {
   const result = merged.get(match.id);
   if (!result) continue;
   if (result.voided) { match.voided = true; match.status = 'Annulé'; continue; }
-  match.completed = true; match.status = 'Terminé'; match.homeScore = result.homeScore; match.awayScore = result.awayScore; match.regulation = result.regulation;
+  match.completed = true; match.status = 'Terminé'; match.homeScore = result.homeScore; match.awayScore = result.awayScore; match.regulation = result.regulation; match.periodScores=result.periodScores??null;
 }
 for(const match of data.matches??[])match.suggestedPick=selectionSnapshot(match);
 data.scoresUpdatedAt = new Date().toISOString();

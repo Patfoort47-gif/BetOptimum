@@ -33,6 +33,8 @@ jobs:
         with:
           node-version: 20
       - name: Télécharger les scores officiels récents
+        env:
+          PROPLINE_H1_ENABLED: 'true'
         run: node scripts/update-results.mjs
       - name: Publier les nouveaux résultats
         run: |
