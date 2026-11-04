@@ -1,5 +1,15 @@
 # Matrice des marchés PropLine (BET-170)
 
+## Suivi du périmètre complet au 4 novembre 2026
+
+BET-170 reste **En cours** : le propriétaire demande de terminer les lots restants avant clôture. Le premier lot est en production (V40/V41, étape 3), mais les lots 2 à 7 ne sont pas livrés. Les paragraphes historiques ci-dessous décrivent la livraison initiale ; depuis BET-175, les probabilités/value du premier lot existent.
+
+Travail du lot 2 sur `BET-170-composites` : identités canoniques `combo…`, probabilité jointe sur la même grille de scores (aucun produit de probabilités marginales), résultat conjoint, annulations et systèmes. V44 est préparée et testée en PostgreSQL isolé : labels JS/SQL, dix bookmakers, expiration, refus des doublons et des cotes falsifiées. **V44 n’est pas appliquée en production, l’étape 4 n’est pas activée et aucun parseur fournisseur composite n’est annoncé comme validé.**
+
+[Diagnostic de prix du 4 novembre](https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41833278549), commit `b6e8d284748f0c4db13ed880ffe965291021c28c`, artefact `13324580825` : huit requêtes, aucun incident, seize rencontres dans huit compétitions. Quatre familles figurent sur les seize rencontres ; `double_chance_btts` sur douze. Ce constat porte sur les clés présentes dans les réponses de prix, pas sur la validité de chaque sélection ni sur dix bookmakers par choix. Le rapport complet `propline-prices.json` est nécessaire pour vérifier les libellés, lignes et périodes avant d’écrire les parseurs. Le téléchargement de cet artefact vers l’environnement est actuellement bloqué par la politique réseau.
+
+Les autres lots conservent leurs conditions de passage détaillées ci-dessous. Aucun marché nécessitant des données absentes ne doit être activé ni considéré comme terminé.
+
 ## Décision fondée sur le relevé réel
 
 Source : [inventaire Actions du 3 novembre 2026](https://github.com/Patfoort47-gif/BetOptimum/actions/runs/41619288458), lancé à 11 h 26 Paris, commit `93d52de8c32d8bf2c686b5bb3981acd649cea87e`, artefact `13222224565` (`propline-inventory`). Le [JSON d’origine conservé](evidence/propline-inventory-2026-11-03.json) permet une revue après l’expiration de l’artefact le 10 novembre. Il est conservé sans régénération ni correction des données historiques.
