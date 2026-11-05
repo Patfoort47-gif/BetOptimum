@@ -735,3 +735,27 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
   .market-grid-wrap .featured-markets>.market:first-child{grid-column:auto;grid-row:auto}
 }
 @media(max-width:767px){#matches{padding-inline:0} .workspace{margin-inline:0} main{padding-inline:16px}}
+
+/* BET-184 : boîtes tactiles réelles, sans zone cliquable superposée. */
+:root{--touch-target:44px}
+@media(max-width:767px){
+  body :is(button,summary,a[href],input[type=range]){min-width:var(--touch-target);min-height:var(--touch-target);touch-action:manipulation}
+  body a[href]{display:inline-flex;align-items:center;max-width:100%;overflow-wrap:anywhere}
+  body summary{align-content:center;overflow-wrap:anywhere}
+  .match-card .team-favorite,.help-inline,.scroll-btn{width:var(--touch-target);height:var(--touch-target);min-width:var(--touch-target);min-height:var(--touch-target);flex-shrink:0}
+  .topbar-actions,.match-favorites,.heading-actions{gap:8px}
+  .mobile-nav{gap:8px}.mobile-nav button{min-height:56px}
+  .scroller{display:flex;align-items:center;gap:8px}
+  .scroller>.date-navigator,.scroller>.filters{min-width:0;flex:1}
+  .scroller>.scroll-btn{position:static;margin:0;display:none;opacity:1;flex:none}
+  .scroller.can-prev>.scroll-btn.prev,.scroller.can-next>.scroll-btn.next{display:grid}
+  .scroller>.scroll-btn:hover{transform:none}
+  label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:var(--touch-target);min-width:var(--touch-target);align-items:center;cursor:pointer}
+  .footer-col{gap:8px}
+  .filter-wrap{gap:8px}.filter-wrap .favorite-toggle{position:static;flex:none}
+  .filter-wrap .filter{padding-right:16px}
+  body :is(button,a[href],summary,input,select,textarea):focus-visible{outline:3px solid var(--accent-text);outline-offset:3px}
+  body button:disabled{opacity:.55;cursor:not-allowed}
+}
+@media(max-width:767px) and (hover:none){.scroller>.scroll-btn{display:none!important}}
+@media(max-width:767px){.hero-actions #quick-combo{min-height:var(--touch-target)}body button{max-width:100%;white-space:normal;overflow-wrap:anywhere}}
