@@ -559,7 +559,22 @@
       "regulation": null,
       "homeScore": 0,
       "awayScore": 1,
-      "completed": true
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401915825",
+        "homeId": "997",
+        "awayId": "126",
+        "verifiedAt": "2026-11-05T21:08:14.196Z",
+        "final": {
+          "home": 0,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
+      }
     },
     {
       "id": "espn-401915383",
@@ -287085,7 +287100,21 @@
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-05T16:26:23.860Z"
       },
-      "periodScores": null
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401915825",
+        "homeId": "997",
+        "awayId": "126",
+        "verifiedAt": "2026-11-05T21:08:14.196Z",
+        "final": {
+          "home": 0,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
+      }
     },
     {
       "id": "espn-401915824",
@@ -339112,7 +339141,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.710Z"
+        "capturedAt": "2026-11-05T21:08:14.264Z"
       }
     },
     {
@@ -347060,7 +347089,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.751Z"
+        "capturedAt": "2026-11-05T21:08:14.287Z"
       }
     },
     {
@@ -355371,7 +355400,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.778Z"
+        "capturedAt": "2026-11-05T21:08:14.305Z"
       }
     },
     {
@@ -363557,7 +363586,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.799Z"
+        "capturedAt": "2026-11-05T21:08:14.321Z"
       }
     },
     {
@@ -365827,7 +365856,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.820Z"
+        "capturedAt": "2026-11-05T21:08:14.337Z"
       }
     },
     {
@@ -367396,7 +367425,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.821Z"
+        "capturedAt": "2026-11-05T21:08:14.338Z"
       }
     },
     {
@@ -368957,7 +368986,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.822Z"
+        "capturedAt": "2026-11-05T21:08:14.338Z"
       }
     },
     {
@@ -370532,7 +370561,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.823Z"
+        "capturedAt": "2026-11-05T21:08:14.339Z"
       }
     },
     {
@@ -372110,7 +372139,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.824Z"
+        "capturedAt": "2026-11-05T21:08:14.340Z"
       }
     },
     {
@@ -373877,7 +373906,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.826Z"
+        "capturedAt": "2026-11-05T21:08:14.341Z"
       }
     },
     {
@@ -375505,7 +375534,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.829Z"
+        "capturedAt": "2026-11-05T21:08:14.341Z"
       }
     },
     {
@@ -377139,7 +377168,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.831Z"
+        "capturedAt": "2026-11-05T21:08:14.342Z"
       }
     },
     {
@@ -378696,7 +378725,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.833Z"
+        "capturedAt": "2026-11-05T21:08:14.343Z"
       }
     },
     {
@@ -380229,7 +380258,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.835Z"
+        "capturedAt": "2026-11-05T21:08:14.344Z"
       }
     },
     {
@@ -380648,7 +380677,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.837Z"
+        "capturedAt": "2026-11-05T21:08:14.344Z"
       }
     },
     {
@@ -382252,7 +382281,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.838Z"
+        "capturedAt": "2026-11-05T21:08:14.345Z"
       }
     },
     {
@@ -383856,7 +383885,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.840Z"
+        "capturedAt": "2026-11-05T21:08:14.346Z"
       }
     },
     {
@@ -385447,7 +385476,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.841Z"
+        "capturedAt": "2026-11-05T21:08:14.347Z"
       }
     },
     {
@@ -387034,7 +387063,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.842Z"
+        "capturedAt": "2026-11-05T21:08:14.348Z"
       }
     },
     {
@@ -388608,7 +388637,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.843Z"
+        "capturedAt": "2026-11-05T21:08:14.348Z"
       }
     },
     {
@@ -390140,7 +390169,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.844Z"
+        "capturedAt": "2026-11-05T21:08:14.349Z"
       }
     },
     {
@@ -391714,7 +391743,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.845Z"
+        "capturedAt": "2026-11-05T21:08:14.350Z"
       }
     },
     {
@@ -393316,7 +393345,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.846Z"
+        "capturedAt": "2026-11-05T21:08:14.351Z"
       }
     },
     {
@@ -397347,7 +397376,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.849Z"
+        "capturedAt": "2026-11-05T21:08:14.352Z"
       }
     },
     {
@@ -398916,7 +398945,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.851Z"
+        "capturedAt": "2026-11-05T21:08:14.353Z"
       }
     },
     {
@@ -400470,7 +400499,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.853Z"
+        "capturedAt": "2026-11-05T21:08:14.353Z"
       }
     },
     {
@@ -402006,7 +402035,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.855Z"
+        "capturedAt": "2026-11-05T21:08:14.354Z"
       }
     },
     {
@@ -403487,7 +403516,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.857Z"
+        "capturedAt": "2026-11-05T21:08:14.355Z"
       }
     },
     {
@@ -404968,7 +404997,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.858Z"
+        "capturedAt": "2026-11-05T21:08:14.356Z"
       }
     },
     {
@@ -406403,7 +406432,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.859Z"
+        "capturedAt": "2026-11-05T21:08:14.356Z"
       }
     },
     {
@@ -407884,7 +407913,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.860Z"
+        "capturedAt": "2026-11-05T21:08:14.357Z"
       }
     },
     {
@@ -409406,7 +409435,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.861Z"
+        "capturedAt": "2026-11-05T21:08:14.358Z"
       }
     },
     {
@@ -410960,7 +410989,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.862Z"
+        "capturedAt": "2026-11-05T21:08:14.359Z"
       }
     },
     {
@@ -412514,7 +412543,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.863Z"
+        "capturedAt": "2026-11-05T21:08:14.360Z"
       }
     },
     {
@@ -413997,7 +414026,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.864Z"
+        "capturedAt": "2026-11-05T21:08:14.360Z"
       }
     },
     {
@@ -415477,7 +415506,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.865Z"
+        "capturedAt": "2026-11-05T21:08:14.362Z"
       }
     },
     {
@@ -416986,7 +417015,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.866Z"
+        "capturedAt": "2026-11-05T21:08:14.362Z"
       }
     },
     {
@@ -418495,7 +418524,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.868Z"
+        "capturedAt": "2026-11-05T21:08:14.363Z"
       }
     },
     {
@@ -419537,7 +419566,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.869Z"
+        "capturedAt": "2026-11-05T21:08:14.364Z"
       }
     },
     {
@@ -420993,7 +421022,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.870Z"
+        "capturedAt": "2026-11-05T21:08:14.365Z"
       }
     },
     {
@@ -422488,7 +422517,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.871Z"
+        "capturedAt": "2026-11-05T21:08:14.365Z"
       }
     },
     {
@@ -423953,7 +423982,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.872Z"
+        "capturedAt": "2026-11-05T21:08:14.366Z"
       }
     },
     {
@@ -425444,7 +425473,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.873Z"
+        "capturedAt": "2026-11-05T21:08:14.367Z"
       }
     },
     {
@@ -426937,7 +426966,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.874Z"
+        "capturedAt": "2026-11-05T21:08:14.368Z"
       }
     },
     {
@@ -428330,7 +428359,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.875Z"
+        "capturedAt": "2026-11-05T21:08:14.369Z"
       }
     },
     {
@@ -429852,7 +429881,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.876Z"
+        "capturedAt": "2026-11-05T21:08:14.369Z"
       }
     },
     {
@@ -431358,7 +431387,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-05T20:11:00.877Z"
+        "capturedAt": "2026-11-05T21:08:14.370Z"
       }
     },
     {
@@ -432391,5 +432420,5 @@
       "suggestedPick": null
     }
   ],
-  "scoresUpdatedAt": "2026-11-05T20:11:00.878Z"
+  "scoresUpdatedAt": "2026-11-05T21:08:14.371Z"
 }
