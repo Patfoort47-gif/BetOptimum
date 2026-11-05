@@ -15,7 +15,7 @@ import {renderPredictionShowcase} from './prediction-showcase.js';
 import {predictionReport} from './prediction-report.js';
 import {freshness,sourceFreshness} from './data-freshness.js';
 import {initAnalytics} from './analytics.js';
-import {analyseMatch,recommendedMarket,confidenceKpi,optimizeCombo,selectionResult,settleBet,systemLines,settleSystemBet,settleTicket,quotaUsed,quotaRemaining,leagueEligibility,WEEKLY_QUOTA,LEAGUE_ODDS_CAP,parisDate,weekKey,levelFromXp,titleForLevel,selectSpotlight,selectDailySelection} from './model.js?v=bet181';
+import {analyseMatch,recommendedMarket,confidenceKpi,optimizeCombo,selectionResult,settleBet,systemLines,settleSystemBet,settleTicket,quotaUsed,quotaRemaining,leagueEligibility,WEEKLY_QUOTA,LEAGUE_ODDS_CAP,parisDate,weekKey,levelFromXp,titleForLevel,selectSpotlight,selectDailySelection} from './model.js?v=bet195';
 import {BADGES,challengeScore} from './rewards.js';
 import {nextOddsRefresh} from './odds-cache.js';
 import {roundEnd,roundLabel} from './league-round.js';
