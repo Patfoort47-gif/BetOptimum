@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{quickMatchFilter}from'../quick-filters.js';
+const match={date:'2026-11-05'},base={available:true,real:true,odd:2,value:.04};
+test('les filtres cote et EV portent sur une même sélection admissible',()=>{const f={odds:true,value:true};assert.equal(quickMatchFilter(match,f,match.date,[base]),true);for(const m of [{...base,odd:1.8},{...base,value:.03},{...base,available:false},{...base,real:false}])assert.equal(quickMatchFilter(match,f,match.date,[m]),false);assert.equal(quickMatchFilter(match,f,match.date,[{...base,odd:1.7},{...base,value:-.1}]),false)});
+test('le jour est une intersection et les filtres inactifs conservent le match',()=>{assert.equal(quickMatchFilter(match,{today:true},'2026-11-06',[]),false);assert.equal(quickMatchFilter(match,{},'2026-11-06',[]),true);assert.equal(quickMatchFilter(match,{today:true},match.date,[]),true)});
