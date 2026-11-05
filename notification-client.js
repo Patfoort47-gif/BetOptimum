@@ -11,7 +11,7 @@ function translated(error, source) {
 }
 export function createNotificationApi(client) {
   const rpc=async(name,args={})=>{const {data,error}=await client.rpc(name,args);if(error)throw translated(error,'preferences');return data;};
-  return {load:()=>rpc('my_notifications'),save:p=>rpc('save_notification_preferences',{p}),unsubscribe:()=>rpc('unsubscribe_notifications'),telegram:()=>rpc('my_telegram_notifications'),saveTelegram:p=>rpc('save_telegram_notifications',{p}),disconnectTelegram:()=>rpc('disconnect_telegram_notifications'),action:async body=>{
+  return {web:()=>rpc('my_web_notifications'),saveWeb:p=>rpc('save_web_notifications',{p}),disconnectWeb:()=>rpc('disconnect_web_notifications'),load:()=>rpc('my_notifications'),save:p=>rpc('save_notification_preferences',{p}),unsubscribe:()=>rpc('unsubscribe_notifications'),telegram:()=>rpc('my_telegram_notifications'),saveTelegram:p=>rpc('save_telegram_notifications',{p}),disconnectTelegram:()=>rpc('disconnect_telegram_notifications'),action:async body=>{
     let result;try{result=await client.functions.invoke('notifications',{body});}catch{throw translated(null,'function');}
     let response=result.data;
     if(result.error?.context&&typeof result.error.context.json==='function'){try{response=await result.error.context.json();}catch{}}

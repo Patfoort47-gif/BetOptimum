@@ -1,3 +1,4 @@
+import webPush from 'npm:web-push@3.6.7';
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
 import { NotificationFailure, reportNotificationFailure } from '../../../notification-diagnostics.js';
 import { notificationConfig } from '../../../notification-config.js';
@@ -27,6 +28,7 @@ async function db(path:string, method='GET',body?:unknown) {
 }
 async function endpoint(uid:string,channel:string,target:unknown) {
  if(!validateDestination(channel,target))throw new Error('DESTINATION');
+ if(channel==='web'){await db(`notification_web_preferences?user_id=eq.${uid}`,'PATCH',{enabled:false,consent_at:null,updated_at:new Date().toISOString()});await db(`notification_deliveries?user_id=eq.${uid}&channel=eq.web&status=eq.pending`,'PATCH',{status:'cancelled'});}
  if(channel==='telegram'){
   // Une nouvelle association ne réutilise jamais l'accord d'une autre conversation.
   await db(`notification_telegram_preferences?user_id=eq.${uid}`,'PATCH',{enabled:false,consent_at:null,updated_at:new Date().toISOString()});
@@ -54,15 +56,18 @@ async function worker(matches:unknown[],generatedAt:string|null) {
    for(const event of detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites))if(await db('rpc/enqueue_telegram_notification','POST',{p_user:subscriber.user_id,p_event:event}))queued++;
   }
  }
+ const web=notificationConfig(env).available.web;
+ if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});for(const event of detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,telegram:false,web:true}}))queued++;}}
  const deliveries=await db('rpc/claim_notification_deliveries','POST',{});
  if(telegram)deliveries.push(...await db('rpc/claim_telegram_notifications','POST',{}));
+ if(web)deliveries.push(...await db('rpc/claim_web_notifications','POST',{}));
  let sent=0;
  for(const delivery of deliveries){
   try {
    // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
    const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
-   if((delivery.channel!=='telegram'&&!p?.channels.includes(delivery.channel))||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
-   if(!['telegram','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if((!['telegram','web'].includes(delivery.channel)&&!p?.channels.includes(delivery.channel))||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if(!['telegram','web','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    const target=await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY);
    let payload=event.payload;
    let telegramSnapshot:any=null;
@@ -70,6 +75,7 @@ async function worker(matches:unknown[],generatedAt:string|null) {
     telegramSnapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
     if(!telegramSnapshot?.preferences?.enabled||(!payload.test_channel&&!telegramEventCurrent(payload,telegramSnapshot.preferences,telegramSnapshot.favorites,matches))){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
+   if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});if(!web||!snapshot?.preferences?.enabled||!telegramEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
    if(delivery.channel==='email'&&!payload.briefing&&!payload.test_channel){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    if(payload.briefing){
     if(delivery.channel!=='email'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
@@ -90,7 +96,7 @@ async function worker(matches:unknown[],generatedAt:string|null) {
     const latest=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
     if(!latest?.preferences?.enabled||latest.preferences.updated_at!==telegramSnapshot.preferences.updated_at){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
-   const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch);
+   const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch,async(target:object,payload:string)=>webPush.sendNotification(target,payload,{vapidDetails:{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY},TTL:900,timeout:10000}));
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
    await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status,error:result.error??null,...(status==='sent'?{sent_at:new Date().toISOString()}:{}),...(status==='pending'?{due_at:new Date(Date.now()+(result.retry??300)*1000).toISOString()}: {})});
    if(result.expired)await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,'DELETE');if(status==='sent')sent++;
@@ -138,7 +144,7 @@ Deno.serve(async request=>{
   }
   if(body.action==='connect'){
    const channel=body.channel;
-   if(channel!=='email')return json({error:'Canal invalide'},400);
+   if(!['email','web'].includes(channel))return json({error:'Canal invalide'},400);
    if(!config.available[channel])return json({error:'Canal non configuré'},503);
    if(channel==='email'&&!user.email_confirmed_at)return json({error:'Confirmez votre adresse email'},400);
    await endpoint(uid,channel,channel==='email'?{email:user.email}:body.destination);return json({ok:true});

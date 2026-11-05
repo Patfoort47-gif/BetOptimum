@@ -1,3 +1,5 @@
+import {initPwa} from './pwa.js';
+initPwa();
 import {UI_COPY,unitCaption,applyUiCopy} from './ui-copy.js';
 import {metricHelp,initMetricHelp} from './metric-help.js?v=bet194';
 import {quickMatchFilter} from './quick-filters.js';

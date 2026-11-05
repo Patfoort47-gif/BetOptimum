@@ -798,3 +798,5 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 :root{--opportunity-strong:#B5F5CC;--opportunity-strong-bg:#10351F;--opportunity-watch:#FFD18A;--opportunity-watch-bg:#3B260C}
 :root.light{--opportunity-strong:#166534;--opportunity-strong-bg:#DCFCE7;--opportunity-watch:#8A3F00;--opportunity-watch-bg:#FFF2D2}
 .market .opportunity-badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:750;line-height:1.4}.market .opportunity-badge.strong{color:var(--opportunity-strong);background:var(--opportunity-strong-bg)}.market .opportunity-badge.watch{color:var(--opportunity-watch);background:var(--opportunity-watch-bg)}.market-grid-wrap .market .market-value{color:var(--text);background:transparent;font-size:12px}.market .opportunity-note{font-size:11px;line-height:1.5;color:var(--muted)}
+
+.install-banner{position:fixed;bottom:85px;left:12px;right:12px;z-index:60;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;flex-wrap:wrap;gap:8px;align-items:center}.install-banner p{flex-basis:100%;margin:0}
