@@ -2,7 +2,7 @@ import {quoteAvailable,dailyQuoteAvailable,selectionBookmakerCount} from './quot
 import {stadiumMarkup,bindStadiumImages} from './stadiums.js';
 import {LEGACY_MARKETS,selectionCondition} from './markets.js';
 import {marketCard} from './market-card.js?v=bet175-confidence-v4';
-import {initPersonalDashboard} from './personal-dashboard.js';
+import {initPersonalDashboard} from './personal-dashboard.js?v=bet180';
 import {historyReport,historyCard} from './bet-history.js';
 import {createJsonLoader} from './data-loader.js';
 import {matchesWithBookmakers,orderCalendar,byConfidence} from './calendar-model.js';
