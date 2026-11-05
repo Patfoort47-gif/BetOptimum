@@ -702,3 +702,15 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 
 /* BET-180 : chiffres HTML à taille native, hors du redimensionnement SVG. */
 .dashboard-charts .chart-labels{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--text);font-size:13px;line-height:1.6;font-variant-numeric:tabular-nums}.dashboard-charts svg{height:200px}.dashboard-charts .chart-total{color:var(--text);font-variant-numeric:tabular-nums}
+
+/* BET-183 : quatre destinations mobiles, au-dessus de la zone système. */
+@media(max-width:767px){
+  .topbar>.tabs{display:none}
+  .mobile-nav{position:fixed;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));left:0;right:0;bottom:0;gap:4px;padding:4px max(4px,env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left));border-radius:20px 20px 0 0;background:var(--surface-2);z-index:45}
+  .mobile-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;gap:4px;min-width:44px;min-height:56px;padding:6px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted);font-size:12px;line-height:1.25;overflow-wrap:anywhere}
+  .mobile-nav button svg{width:22px;height:22px}
+  .mobile-nav button.active{background:var(--accent);color:var(--on-accent)}
+  main{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  #toast{bottom:calc(80px + env(safe-area-inset-bottom))}
+}
+@media(min-width:768px){.mobile-nav{display:none}}
