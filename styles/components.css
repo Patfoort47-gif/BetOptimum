@@ -798,3 +798,6 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 :root{--opportunity-strong:#B5F5CC;--opportunity-strong-bg:#10351F;--opportunity-watch:#FFD18A;--opportunity-watch-bg:#3B260C}
 :root.light{--opportunity-strong:#166534;--opportunity-strong-bg:#DCFCE7;--opportunity-watch:#8A3F00;--opportunity-watch-bg:#FFF2D2}
 .market .opportunity-badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:750;line-height:1.4}.market .opportunity-badge.strong{color:var(--opportunity-strong);background:var(--opportunity-strong-bg)}.market .opportunity-badge.watch{color:var(--opportunity-watch);background:var(--opportunity-watch-bg)}.market-grid-wrap .market .market-value{color:var(--text);background:transparent;font-size:12px}.market .opportunity-note{font-size:11px;line-height:1.5;color:var(--muted)}
+
+/* BET-197 : marchés principaux toujours ouverts sur le match du jour. */
+.spotlight-market-group{min-width:0;margin:12px 0}.spotlight-market-group .market{min-height:44px;min-width:0}.spotlight-market-group .markets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}@media(max-width:700px){.spotlight-market-group .markets{grid-template-columns:repeat(2,minmax(0,1fr))}}
