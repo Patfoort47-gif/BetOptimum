@@ -1,0 +1,5 @@
+# BET-184 · Cibles tactiles
+
+Sous 768 px, le token `--touch-target` fixe un minimum de 44 × 44 px pour les commandes et liens. Les exceptions plus petites (aides, favoris, recherche rapide, accordéons et liens du pied de page) sont corrigées ; la navigation garde ses 56 px. Les contrôles de défilement sont placés dans le flux, à côté de la liste, sans boîte absolue au-dessus d’un voisin. Cases et radios utilisent leur libellé cliquable. Focus clavier contrasté, état désactivé visible.
+
+Recette locale : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-touch-targets.cjs` après `npm start`. Chromium avec compte simulé et accès externes bloqués. Mesure des boîtes des commandes rendues sur Grille, Bankroll, Communauté, Algorithme, ticket et aide ; 375, 390, 430 et 767 px, texte natif puis chaque taille de texte doublée. Contrôles : aucun débordement, une seule action favorite déclenchée, focus visible au clavier, fenêtre fermée par Échap et aucun envoi par un bouton désactivé. Les éléments cachés ne sont pas comptés. Les classements et le moteur ne sont pas modifiés.
