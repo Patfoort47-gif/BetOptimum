@@ -5,7 +5,7 @@ import {stakeCents,validUnit,adjustStake,stakeIssue} from './stake-controls.js';
 import {quoteAvailable,dailyQuoteAvailable,selectionBookmakerCount} from './quote-policy.js';
 import {stadiumMarkup,bindStadiumImages} from './stadiums.js';
 import {LEGACY_MARKETS,selectionCondition} from './markets.js';
-import {marketCard} from './market-card.js?v=bet175-confidence-v4';
+import {marketCard} from './market-card.js?v=bet191';
 import {initPersonalDashboard} from './personal-dashboard.js?v=bet189';
 import {historyReport,historyCard} from './bet-history.js';
 import {createJsonLoader} from './data-loader.js';
