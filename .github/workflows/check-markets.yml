@@ -30,4 +30,5 @@ jobs:
           node scripts/check-markets-h1-sql.mjs
           node scripts/check-notification-sql.mjs
           node scripts/check-personal-dashboard-sql.cjs
+          node scripts/check-history-cursor-sql.cjs
       - run: node scripts/prepare-pages.mjs
