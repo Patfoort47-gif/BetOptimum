@@ -43,3 +43,5 @@ test('la réponse HTTP reste filtrée et les compteurs de succès sont lus',asyn
  await assert.rejects(callNotificationWorker('https://test.supabase.co','secret',data,async()=>new Response('secret',{status:413})),/HTTP 413$/);
  assert.deepEqual(await callNotificationWorker('https://test.supabase.co','secret',data,async()=>Response.json({queued:1,sent:1})),{queued:1,sent:1});
 });
+
+test('HTTP 546 est identifié sans exposer le corps ni rejouer un envoi partiel',async()=>{let calls=0;await assert.rejects(callNotificationWorker('https://test.supabase.co','private-secret',data,async()=>{calls++;return Response.json({code:'WORKER_LIMIT',message:'private-destination',secret:'private-secret'},{status:546})}),error=>/HTTP 546/.test(error.message)&&/limite de ressources/.test(error.message)&&/aucun rejeu automatique/.test(error.message)&&!/private/.test(error.message));assert.equal(calls,1)});

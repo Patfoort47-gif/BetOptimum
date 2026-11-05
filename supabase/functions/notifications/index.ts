@@ -98,7 +98,7 @@ async function worker(matches:unknown[],generatedAt:string|null) {
  }
  await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
  await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
- return {queued,sent};
+ return {queued,sent,claimed:deliveries.length,revision:'BET-195'};
 }
 Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
