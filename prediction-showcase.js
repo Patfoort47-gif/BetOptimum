@@ -1,5 +1,5 @@
 import {UI_COPY} from './ui-copy.js';
-import {metricHelp} from './metric-help.js';
+import {metricHelp} from './metric-help.js?v=bet194';
 // BET-135 : lecture visuelle du bilan public, à partir du même échantillon que les indicateurs.
 export function trajectoryOf(items){
  const days=new Map();
