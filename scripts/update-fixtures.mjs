@@ -1,3 +1,4 @@
+import {teamForm} from '../team-form.js';
 import {enrichHalfTimeResults} from './h1-results.mjs';
 import {selectionSnapshot} from '../selection-snapshot.js';
 import {venueFromCompetition} from '../stadiums.js';
@@ -78,16 +79,7 @@ async function footballHistory() {
   return responses;
 }
 
-function teamForm(team, history) {
-  const games = history.filter(game => sameTeam(game.homeTeam?.name ?? '', team) || sameTeam(game.awayTeam?.name ?? '', team))
-    .sort((a,b) => new Date(b.utcDate) - new Date(a.utcDate)).slice(0, 6);
-  let scored = 0, conceded = 0;
-  const form = games.map(game => {
-    const home = sameTeam(game.homeTeam.name, team), own = Number(game.score?.fullTime?.[home?'home':'away'] ?? 0), opp = Number(game.score?.fullTime?.[home?'away':'home'] ?? 0);
-    scored += own; conceded += opp; return own > opp ? 'V' : own === opp ? 'N' : 'D';
-  });
-  return { sample:games.length, form:form.join(''), avgScored:games.length?scored/games.length:null, avgConceded:games.length?conceded/games.length:null };
-}
+
 
 function consensus(currentOffers = [], previousOffers = []) {
   const stage=Number(process.env.PROPLINE_MARKET_STAGE??0),keys=marketKeys(Object.assign({},...currentOffers,...previousOffers)).filter(key=>marketEnabled(key,stage,process.env.PROPLINE_H1_ENABLED==='true'));
