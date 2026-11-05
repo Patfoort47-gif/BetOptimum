@@ -1,6 +1,6 @@
 import {quoteAvailable,selectionBookmakerCount} from './quote-policy.js';
 import {marketKeys,marketSpec,scoreOutcome,LEGACY_MARKETS,extendedPriceAvailable} from './markets.js';
-import {forecastMatch,analysisFamilies} from './prediction-model.js';
+import {forecastMatch,analysisFamilies} from './prediction-model.js?v=bet181';
 // Calculs purs partagés par le site (app.js) et le pipeline de données (scripts/update-fixtures.mjs).
 export function poisson(k,lambda){let f=1;for(let i=2;i<=k;i++)f*=i;return Math.exp(-lambda)*lambda**k/f}
 export function analyseMatch(match){const {probs,reference}=forecastMatch(match,{includeExtended:true});const markets=marketKeys(match.odds).filter(key=>extendedPriceAvailable(match,key)).map(key=>{const {label,family,dnb}=marketSpec(key,match);return [key,label,family,dnb]}).map(([key,label,family,dnb])=>{const odd=Number(match.odds[key]),real=match.realOddsMarkets?.includes(key)===true;const refundProbability=dnb?probs.draw:0;return{key,label,family,odd,available:quoteAvailable(match,key),probability:probs[key]??null,refundProbability,value:Number.isFinite(probs[key])&&real&&Number.isFinite(odd)&&odd>1?probs[key]*odd+refundProbability-1:null,real}});return{probs,markets,reference,families:analysisFamilies(markets),confidence:Math.round(Math.max(...markets.map(m=>m.probability))*100)} }
