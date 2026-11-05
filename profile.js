@@ -1,13 +1,13 @@
+import {PROFILE_FRAMES} from './profile-appearance.js';
 // Page profil (BET-50) : en-tête, onglets, carte joueur partageable, radar, saisons, trophées, compte et confidentialité. Chargée à la demande par app.js.
 // Les chiffres de la carte viennent de formules pures de model.js (cardAttributes, cardOverall) ; les données de la vue serveur public_player_card.
 import { avatarMarkup } from './avatar-view.js';
 import { sanitizeAvatar } from './avatar-config.js';
 import { profileHistory } from './profile-history.js';
 import { seasonLabel } from './league.js';
-import { CATALOG } from './shop.js';
 import { CELEBRATION_PENDING_KEY, celebrationColors, equippedOf, soundEnabled } from './celebration-model.js';
 const NS = 'http://www.w3.org/2000/svg';
-const TABS = [['overview', 'Aperçu'], ['badges', 'Trophées'], ['bets', 'Mes paris'], ['avatar', 'Avatar', true], ['notifications', 'Mes alertes', true], ['account', 'Compte et confidentialité', true]];
+const TABS = [['overview', 'Aperçu'], ['badges', 'Trophées'], ['bets', 'Mes paris'], ['avatar', 'Apparence', true], ['notifications', 'Mes alertes', true], ['account', 'Compte et confidentialité', true]];
 const DIVISION_COLORS = ['#8a6d4b', '#b87333', '#9aa5b1', '#d4a017', '#2fa4a4', '#7a4dd8', '#C8F03C'];
 // Personnalisation de la carte (BET-163) : fond, police du numéro et effet brillant équipés, publics par la vue public_equipped (V39). Mêmes choix dans l'image partagée.
 const CARD_LOOK = [['card-bg', 'cardbg'], ['card-font', 'cardfont'], ['card-shine', 'cardshine']];
@@ -101,12 +101,7 @@ export function initProfilePage(deps) {
   }
   function badges(info) {
     const earned = new Map(info.badges.map(item => [item.badge, item.earned_at]));
-    return `<div class="badge-grid">${BADGES.map(badge => `<div class="badge${earned.has(badge.id) ? ' earned' : ''}"><b>${html(badge.name)}</b><small>${html(badge.hint)}</small><em>${earned.has(badge.id) ? `Obtenu le ${dateLabel(earned.get(badge.id))}` : `+${badge.xp} XP`}</em></div>`).join('')}</div><h3>Vitrine</h3>${showcase(info)}`;
-  }
-  // Vitrine : les trophées que le joueur a posés devant son avatar.
-  function showcase(info) {
-    const ids = sanitizeAvatar(info.profile.avatar_config).showcase, items = ids.map(id => CATALOG.find(entry => entry.id === id)).filter(Boolean);
-    return items.length ? `<div class="badge-grid">${items.map(item => `<div class="badge earned"><b>${html(item.name)}</b><small>Posé devant son avatar</small></div>`).join('')}</div>` : `<p class="empty">${info.self ? 'Aucun trophée en vitrine : posez-en depuis le studio d’avatar (onglet Vitrine).' : 'Aucun trophée en vitrine.'}</p>`;
+    return `<div class="badge-grid">${BADGES.map(badge => `<div class="badge${earned.has(badge.id) ? ' earned' : ''}"><b>${html(badge.name)}</b><small>${html(badge.hint)}</small><em>${earned.has(badge.id) ? `Obtenu le ${dateLabel(earned.get(badge.id))}` : `+${badge.xp} XP`}</em></div>`).join('')}</div>`;
   }
   function bets(info) {
     if (info.self) return `<p class="muted">Votre historique complet est dans l’onglet « Mes paris ». Les autres joueurs ne voient le détail que si vous l’autorisez dans « Compte et confidentialité ».</p><button class="button secondary" data-open-bets>Ouvrir mes paris</button>`;
@@ -119,10 +114,10 @@ export function initProfilePage(deps) {
 <form data-form="email" class="settings-card"><h3>Adresse email</h3><p class="muted">Un lien de confirmation est envoyé à la nouvelle adresse.</p><div class="settings-row"><input name="email" type="email" placeholder="nouvelle@adresse.fr" required autocomplete="email" aria-label="Nouvelle adresse email"><button class="button secondary">Modifier</button></div></form>
 <form data-form="password" class="settings-card"><h3>Mot de passe</h3><div class="settings-row"><input name="password" type="password" minlength="8" placeholder="Nouveau mot de passe (8 caractères)" required autocomplete="new-password" aria-label="Nouveau mot de passe"><button class="button secondary">Modifier</button></div></form>
 </section><section class="account-group" aria-labelledby="account-visibility"><div class="account-group-title"><span>02</span><div><h3 id="account-visibility">Votre visibilité au Club</h3><p>Choisissez ce que les autres joueurs peuvent découvrir.</p></div></div><div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats restent visibles dans les classements.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
-</section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><div class="settings-card"><h3>Célébrations</h3><label class="switch-line"><input type="checkbox" data-pref="celebrationSound" ${soundEnabled(state.profile) ? 'checked' : ''}><span><b>Activer le son des célébrations</b><small>Coupé par défaut. Quand un prono est gagné, l’ambiance sonore équipée en boutique se joue tout de suite si vous avez déjà touché la page, sinon à votre premier clic ou à votre première touche pendant la célébration. Sons créés par le navigateur, aucun fichier téléchargé.</small></span></label></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues, XP, jetons) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
-</section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP et vos jetons sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
+</section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
+</section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
   }
-  function avatarTab() { return '<div class="avatar-studio-slot" data-studio></div>'; }
+  function avatarTab(info) { return `<section class="settings-card"><h3>Cadre de profil</h3><form data-profile-frame><label>Cadre<select name="frame">${PROFILE_FRAMES.map(([id,label])=>`<option value="${id}"${info.profile.profile_frame===id?' selected':''}>${label}</option>`).join('')}</select></label><button class="button secondary">Enregistrer le cadre</button></form><p>Vos badges gagnés sont affichés dans l’onglet Trophées.</p></section><div class="avatar-studio-slot" data-studio></div>`; }
 
   // Avatar 3D : scène de l'en-tête de l'aperçu (Three.js chargé à la demande) et studio de l'onglet Avatar ; une seule scène à la fois, libérée au changement d'onglet.
   function cleanup() { mountToken++; hero?.dispose(); hero = null; studio?.destroy(); studio = null; notifications?.destroy(); notifications = null; }
@@ -138,19 +133,15 @@ export function initProfilePage(deps) {
     } catch (error) { console.warn('Avatar 3D indisponible', error?.message); }
   }
   // Célébration 3D équipée, avec l'effet de victoire et, si le joueur l'a activé, le son équipé (objets privés : seulement sur son propre profil).
-  async function celebrateHero(info) {
-    if (!hero) return; hero.celebrate();
-    if (!info.self) return;
-    const state = getState(), equipped = state.progress?.equipped;
-    try { const { playEffect, playSound } = await import('./victory-effects.js'); playEffect(equippedOf(equipped, 'effect'), { colors: celebrationColors(info.profile.avatar_config) }); if (soundEnabled(state.profile)) playSound(equippedOf(equipped, 'sound')); } catch { /* effets indisponibles : la célébration 3D suffit */ }
-  }
+  async function celebrateHero(info) { hero?.celebrate(); }
+
   async function mountStudioTab(info) {
     const host = root.querySelector('[data-studio]'), mine = mountToken; if (!host) return;
     const { mountStudio } = await import('./avatar-studio.js');
     if (mine !== mountToken) return;
     const state = getState(), initial = sanitizeAvatar(info.profile.avatar_config ?? state.profile?.avatar2 ?? state.profile);
     const handle = await mountStudio(host, {
-      html, toast, initial, authenticated: Boolean(info.self), userId: info.profile.user_id, loadContext: () => accountApi.avatarContext(), openShop: () => navigate('shop'), openJoin,
+      html, toast, initial, authenticated: Boolean(info.self), userId: info.profile.user_id, freeOnly:true,tabs:['face','hair','kit'],loadContext:async()=>({inventory:[],unlocks:[]}),openJoin,
       save: async (config, blobs) => { const saved = await accountApi.saveAvatar(config, blobs); data.profile.avatar_config = saved; const slot = root.querySelector('.profile-id')?.firstElementChild; if (slot) slot.outerHTML = avatarMarkup(data.profile, { cls: 'avatar-3d', userId: data.profile.user_id }); deps.onAvatarSaved?.(saved); return saved; }
     });
     if (mine !== mountToken) { handle.destroy(); return; }
@@ -199,6 +190,7 @@ export function initProfilePage(deps) {
     if (mine === token) render();
   }
 
+  root.addEventListener('submit',async event=>{if(!event.target.matches('[data-profile-frame]'))return;event.preventDefault();const button=event.target.querySelector('button');button.disabled=true;try{const frame=new FormData(event.target).get('frame');await accountApi.setProfileFrame(frame);data.profile.profile_frame=frame;render();toast('Cadre enregistré')}catch(error){toast(error.message);button.disabled=false}});
   root.addEventListener('click', async event => {
     const connectionButton = event.target.closest('[data-connections]');
     if (connectionButton) { loadConnections(connectionButton.dataset.connections); return; }
@@ -233,6 +225,7 @@ export function initProfilePage(deps) {
     try { await accountApi.updateSettings({ [setting.dataset.setting]: checked }); current.profile[setting.dataset.setting] = checked; if (current === data) settingsFeedback('Préférence enregistrée'); } catch (error) { setting.checked = !checked; if (current === data) settingsFeedback(error.message, true); } finally { setting.disabled = false; }
   });
   root.addEventListener('submit', async event => {
+    if(!event.target.closest('[data-form]'))return;
     event.preventDefault();
     const form = event.target.closest('[data-form]'), values = Object.fromEntries(new FormData(form)), kind = form.dataset.form, button = form.querySelector('button');
     button.disabled = true; form.setAttribute('aria-busy', 'true');

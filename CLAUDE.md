@@ -44,6 +44,8 @@ Trois morceaux qui communiquent par le fichier `data/fixtures.json` (et, pour le
 
 3. **Tests (`tests/app.test.js`, `tests/club.test.js`)** : `node:test`. `tests/club.test.js` couvre les règles du Club (règlement serveur, ligues, niveaux, jetons). Les calculs sont testés depuis `model.js`. Un test charge aussi `app.js` après avoir simulé `localStorage`, `location` et `document`, car le module exécute du code DOM au chargement : tout nouvel accès global au DOM ou au navigateur au niveau module doit rester compatible avec ces stubs (ou être protégé par `typeof window !== 'undefined'`).
 
+Retrait BET-199 : V52 archive l’économie virtuelle et révoque les anciens achats/échanges. Le profil actif conserve avatar, cadre et badges. Les sections historiques ci-dessous sur les objets et la monnaie sont supersédées par `docs/PROFILE_CLEANUP.md`.
+
 ## Club : comptes, paris certifiés et ligues (lots 8 à 10)
 
 Les paris des joueurs connectés sont **enregistrés et réglés côté serveur** (Supabase). Le navigateur affiche et demande, il n'écrit plus aucune bankroll, aucun statut, aucune statistique.

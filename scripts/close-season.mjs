@@ -2,7 +2,6 @@
 import {closeWeeklyRounds} from './weekly-league-engine.mjs';
 import { closeFinishedSeasons, leagueSeasonFor } from './league-engine.mjs';
 import { awardSpecialTitles } from './special-engine.mjs';
-import { payGeneralSeasons, paySpecialLeagues } from './token-engine.mjs';
 import { createAdmin } from './supabase-admin.mjs';
 
 const admin = createAdmin();
@@ -11,5 +10,5 @@ const season = await leagueSeasonFor(admin), annual = season.length === 9;
 if (!annual) console.log('Migration V20 en attente : clôture de la ligue générale différée.');
 const weekly = annual ? await closeWeeklyRounds(admin) : 0;
 console.log(`${weekly} journée(s) hebdomadaire(s) clôturée(s).`);
-const closed = annual ? await closeFinishedSeasons(admin) : 0, titles = await awardSpecialTitles(admin), general = annual ? await payGeneralSeasons(admin) : 0, special = await paySpecialLeagues(admin);
-console.log(`${closed} saison(s) clôturée(s), ${titles} titre(s) de ligue spéciale attribué(s), ${general + special} gain(s) de jetons versé(s).`);
+const closed = annual ? await closeFinishedSeasons(admin) : 0, titles = await awardSpecialTitles(admin);
+console.log(`${closed} saison(s) clôturée(s), ${titles} titre(s) de ligue spéciale attribué(s).`);
