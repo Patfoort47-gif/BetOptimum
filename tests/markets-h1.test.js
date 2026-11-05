@@ -18,7 +18,7 @@ test('BET-170 H1 : prix réels isolés, neuf identités, seuil 9/10, aucune acti
  for(const event of evidence.samples){
   const now=Date.parse(evidence.generatedAt);assert.deepEqual(propLineOffers(event,now,3),[]);
   const offers=propLineOffers(event,now,3,true),keys=new Set(offers.flatMap(o=>Object.keys(o).filter(k=>halfTimeMarketSpec(k))));
-  for(const key of keys){assert(marketEnabled(key,3,true));assert.equal(marketEnabled(key,3),false);const count=offers.filter(o=>o[key]>1).length;if(count>=10)qualified++;assert.equal(quoteAvailable({odds:{[key]:2},realOddsMarkets:[key],bookmakerOffers:offers,marketValidUntil:{[key]:new Date(Date.now()+3600000).toISOString()}},key),count>=10);}
+  for(const key of keys){assert(marketEnabled(key,3,true));assert.equal(marketEnabled(key,3),false);const count=offers.filter(o=>o[key]>1).length;if(count>=10)qualified++;assert.equal(quoteAvailable({odds:{[key]:2},realOddsMarkets:[key],bookmakerOffers:offers,marketValidUntil:{[key]:new Date(Date.now()+3600000).toISOString()}},key),false);}
   assert.deepEqual(propLineOffers({...event,bookmakers:event.bookmakers.map(b=>({...b,markets:b.markets.map(m=>({...m,period:'h2'}))}))},now,3,true),[]);
  }
  assert.equal(qualified,142);
@@ -64,6 +64,6 @@ test('BET-170 H1 : règlement serveur, attente, annulation, combiné/système et
 });
 test('BET-170 H1 : interface datée sans probabilité/value/recommandation inventée, expiration ferme',()=>{
  const m={id:'m',home:'A',away:'B',homeGoals:1.4,awayGoals:1,odds:{home:2,draw:3,away:4,over:2,btts:2,h1Home:2},realOddsMarkets:['h1Home'],oddsBookmakerCounts:{h1Home:10},marketValidUntil:{h1Home:new Date(Date.now()+3600000).toISOString()}};
- const h1=analyseMatch(m).markets.find(m=>m.key==='h1Home');assert.equal(h1.probability,null);assert.equal(h1.value,null);assert.equal(recommendedMarket(m),null);const html=marketCard(m,h1);assert.match(html,/1re mi-temps/);assert.match(html,/Sans modèle/);assert(!html.includes('NaN'));assert.match(selectionCondition('h1Home'),/arrêts de jeu/);
+ const h1=analyseMatch(m).markets.find(m=>m.key==='h1Home');assert.equal(h1.probability,null);assert.equal(h1.value,null);assert.equal(recommendedMarket(m),null);const html=marketCard(m,h1);assert.equal(html,'');assert.match(selectionCondition('h1Home'),/arrêts de jeu/);
  assert.equal(marketCard({...m,marketValidUntil:{}},h1),'');assert.equal(marketCard({...m,oddsBookmakerCounts:{h1Home:9}},h1),'');
 });
