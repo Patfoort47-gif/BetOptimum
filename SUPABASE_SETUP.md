@@ -118,3 +118,5 @@ Recette isolée : `NODE_PATH=work/ui-tools/node_modules node scripts/check-regis
 ### H1 BET-170 : V45
 
 Après V43, appliquer `supabase/migrations/supabase-v45-schema.sql` avant d’activer H1. V44 composites est abandonnée et volontairement non appliquée ; V45 n’en dépend pas. Colonne `fixtures.period_scores`, neuf labels H1, prix réels, seuil dix et expiration côté RPC. Recette isolée : `scripts/check-markets-h1-sql.mjs`. [Procédure et retour arrière](docs/MARKETS_H1_PRODUCTION.md).
+
+BET-189 : appliquer `supabase/migrations/supabase-v47-schema.sql` après V46 avant publication du bandeau de bankroll. Cette migration ajoute les mises gagnées/perdues au bilan filtré pour le ROI ; les champs existants et les permissions restent inchangés. Recette isolée : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-personal-dashboard-sql.cjs`. Détails : `docs/BANKROLL_KPIS.md`.
