@@ -714,3 +714,24 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
   #toast{bottom:calc(80px + env(safe-area-inset-bottom))}
 }
 @media(min-width:768px){.mobile-nav{display:none}}
+
+/* BET-182 : lecture verticale de la carte, sans nouveau calcul métier. */
+.selection-ev,.selection-action{font-size:13px;line-height:1.5;grid-column:1/-1;overflow-wrap:anywhere}
+.selection-action{font-weight:750;color:var(--accent-text)}
+.match-loading{display:grid;gap:12px;color:var(--muted)}.match-skeleton{height:240px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(110deg,var(--surface),var(--surface-2),var(--surface));pointer-events:none}
+@media(max-width:1023px){
+  #matches,.match-list,.match-list>.match-card,.match-card>*{min-width:0;max-width:100%}
+  .match-list{gap:16px}
+  .match-card,.match-card.spotlight{width:100%;padding:16px;gap:12px}
+  .match-card>.market-grid-wrap,.match-card>.match-resources,.match-card>.match-overview,.match-card>.live-note,.match-card>.past-prediction,.match-card>.selection-feedback{margin-inline:0}
+  .match-card .match-overview{grid-template-columns:minmax(0,1fr);gap:12px}
+  .match-card .match-hero{border-radius:16px;padding:16px 12px 24px}
+  .match-card .team{min-width:0;max-width:100%}.match-card .team strong{white-space:normal;overflow-wrap:anywhere;line-height:1.4}
+  .match-card .match-selection{padding:16px;gap:8px 12px}
+  .match-card .match-selection .selection-title{font-size:20px;overflow-wrap:anywhere}
+  .match-card .match-selection .selection-price{min-width:0;padding:12px}
+  .match-card .selection-price b{font-size:28px}
+  .market-grid-wrap .featured-markets{grid-template-columns:minmax(0,1fr);grid-template-rows:auto}
+  .market-grid-wrap .featured-markets>.market:first-child{grid-column:auto;grid-row:auto}
+}
+@media(max-width:767px){#matches{padding-inline:0} .workspace{margin-inline:0} main{padding-inline:16px}}
