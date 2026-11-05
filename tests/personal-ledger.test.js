@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {settlePersonalBet,personalFigures} from '../personal-ledger.js';
+const ledger={initial:1000,bets:[{id:'a',personal:true,status:'pending',stake:10,odds:2}]};
+test('règlement personnel atomique, gain/perte/remboursement et KPI',()=>{assert.equal(personalFigures(ledger).balance,990);for(const [s,balance,net,roi] of [['won',1010,10,100],['lost',990,-10,-100],['void',1000,0,null]]){const settled=settlePersonalBet(ledger,'a',s);assert.deepEqual(personalFigures(settled),{balance,net,roi});assert.throws(()=>settlePersonalBet(settled,'a',s));assert.equal(ledger.bets[0].status,'pending')}});
+test('un pari certifié ne peut jamais être réglé manuellement',()=>{assert.throws(()=>settlePersonalBet({...ledger,bets:[{...ledger.bets[0],certified:true}]},'a','won'));assert.throws(()=>settlePersonalBet({...ledger,bets:[{...ledger.bets[0],personal:false}]},'a','won'))});
