@@ -768,3 +768,16 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 /* BET-188 : filtres rapides accessibles sans défilement horizontal. */
 .quick-filters{display:flex;flex-wrap:wrap;gap:8px;margin-block:12px;padding:12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}.quick-filters button{min-height:44px;min-width:44px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface-2);color:var(--text);font:inherit;font-size:13px;white-space:normal}.quick-filters button.active{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 @media(max-width:767px){.quick-filters{position:sticky;top:var(--header-offset);z-index:24;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.quick-filters button{font-size:12px;min-width:0}.match-strip{position:static}.match-card{scroll-margin-top:calc(var(--header-offset) + 140px)}}
+
+/* BET-186 : grille et ticket partagent la zone utile hors gouttière. */
+@media(min-width:1024px){
+  .workspace{grid-template-columns:minmax(0,65fr) minmax(0,35fr);gap:24px}
+  .workspace>.match-rail{display:none}.workspace .match-strip{display:block;position:static}
+  .workspace>.builder{position:sticky;top:var(--header-offset);display:flex;flex-direction:column;align-self:start;max-height:calc(100dvh - var(--header-offset) - 16px);overflow-y:auto;overflow-x:hidden;scroll-padding-block:12px;scrollbar-gutter:stable;border-radius:var(--radius)}
+  .builder>.builder-card,.builder>.ticket{flex:none;min-width:0;padding:16px}
+  .builder .ticket-stake{grid-template-columns:repeat(2,minmax(0,1fr))}.builder .ticket-stake>label{grid-column:1/-1}
+  .builder .ticket-totals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .builder .ticket-totals>span{min-width:0;overflow-wrap:anywhere}
+  .builder .safe-pick{flex-wrap:wrap}.builder .suggestion-values{min-width:0;text-align:left;flex:1 1 100%}
+}
+@media(min-width:768px) and (max-width:1023px){.workspace{grid-template-columns:minmax(0,1fr)}.workspace>.builder{position:static;display:flex;flex-direction:column;max-height:none;overflow:visible}}
