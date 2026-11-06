@@ -1,5 +1,6 @@
 import webPush from 'npm:web-push@3.6.7';
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
+import { runScheduledReminders } from '../../../notification-scheduler.js';
 import { NotificationFailure, reportNotificationFailure } from '../../../notification-diagnostics.js';
 import { notificationConfig } from '../../../notification-config.js';
 import { planBriefing } from '../../../notification-briefing.js';
@@ -9,7 +10,7 @@ import { detectTelegramAlerts, telegramEventCurrent } from '../../../notificatio
 import { decodeWorkerMatches } from '../../../notification-worker-codec.js';
 import { createTelegramSetup } from '../../../notification-telegram-setup.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
-const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
+const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_SCHEDULER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
 const setupTelegram=createTelegramSetup(env);
 let site: URL | null = null;
 try { const candidate = new URL(env.SITE_URL); if (candidate.protocol === 'https:') site = candidate; } catch { /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */ }
@@ -40,15 +41,15 @@ async function endpoint(uid:string,channel:string,target:unknown) {
 async function pageAll(table:string,query:string) {
  const result=[];for(let offset=0;;offset+=1000){const rows=await db(`${table}?${query}&limit=1000&offset=${offset}`);result.push(...rows);if(rows.length<1000)return result;}
 }
-async function worker(matches:unknown[],generatedAt:string|null) {
- const prefs=await pageAll('notification_preferences','enabled=eq.true&select=*'),plans=await db('notification_plans?select=*'),entitlements=await pageAll('notification_entitlements','select=*');
+async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=false) {
+ const prefs=remindersOnly?[]:await pageAll('notification_preferences','enabled=eq.true&select=*'),plans=remindersOnly?[]:await db('notification_plans?select=*'),entitlements=remindersOnly?[]:await pageAll('notification_entitlements','select=*');
  let queued=0;
  for(const p of prefs){const plan=plans.find((l:any)=>l.id===(entitlements.find((e:any)=>e.user_id===p.user_id)?.plan??'free'));if(!plan)continue;
   const briefing=planBriefing(matches,p);
   if(briefing&&await db('rpc/enqueue_notification_briefing','POST',{p_user:p.user_id,p_event:briefing}))queued++;
 
  }
- let telegram=notificationConfig(env).available.telegram;
+ let telegram=!remindersOnly&&notificationConfig(env).available.telegram;
  if(telegram)try{await setupTelegram();}catch(error){telegram=false;reportNotificationFailure(error,crypto.randomUUID());}
  if(telegram){
   const subscribers=await pageAll('notification_telegram_preferences','enabled=eq.true&select=user_id');
@@ -58,10 +59,10 @@ async function worker(matches:unknown[],generatedAt:string|null) {
   }
  }
  const web=notificationConfig(env).available.web;
- if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});for(const event of [...detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites),...detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites)])if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,telegram:false,web:true}}))queued++;}}
- const deliveries=await db('rpc/claim_notification_deliveries','POST',{});
+ if(web){const subscribers=await pageAll('notification_web_preferences',remindersOnly?'enabled=eq.true&favorite_reminders=eq.true&select=user_id':'enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});for(const event of (remindersOnly?detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites):detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites)))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,telegram:false,web:true}}))queued++;}}
+ const deliveries=remindersOnly?[]:await db('rpc/claim_notification_deliveries','POST',{});
  if(telegram)deliveries.push(...await db('rpc/claim_telegram_notifications','POST',{}));
- if(web)deliveries.push(...await db('rpc/claim_web_notifications','POST',{}));
+ if(web)deliveries.push(...await db(remindersOnly?'rpc/claim_favorite_reminders':'rpc/claim_web_notifications','POST',{}));
  let sent=0;
  for(const delivery of deliveries){
   try {
@@ -104,9 +105,9 @@ async function worker(matches:unknown[],generatedAt:string|null) {
    if(result.expired)await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,'DELETE');if(status==='sent')sent++;
   }catch(error) {reportNotificationFailure(error,crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'unknown',error:'Résultat de livraison inconnu'});}
  }
- await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
- await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
- return {queued,sent,claimed:deliveries.length,revision:'BET-242'};
+ if(!remindersOnly)await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
+ if(!remindersOnly)await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
+ return {queued,sent,claimed:deliveries.length,revision:'BET-243'};
 }
 Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
@@ -115,9 +116,14 @@ Deno.serve(async request=>{
   if(!site)throw new NotificationFailure('configuration','CONFIG_SITE_URL');
   if(Number(request.headers.get('content-length')??0)>2000000)return json({error:'Requête trop volumineuse'},413);
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
+  if(body.action==='scheduled-reminders'){
+   if(!await sameSecret(request.headers.get('x-scheduler-secret')??'',env.NOTIFICATION_SCHEDULER_SECRET))return json({error:'Non autorisé'},401);
+   if(body.dry_run===true)return json({revision:'BET-243',dry_run:true,available:notificationConfig(env).available});
+   return json(await runScheduledReminders(db,worker));
+  }
   if(body.action==='worker'||body.action==='health'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
-   if(body.action==='health')return json({revision:'BET-242',dry_run:true,available:notificationConfig(env).available});
+   if(body.action==='health')return json({revision:'BET-243',dry_run:true,available:notificationConfig(env).available});
    if(body.format!==undefined&&body.format!==2)return json({error:'Format du worker invalide'},400);
    return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.parse(body.generatedAt)<=Date.now()+60000&&Date.now()-Date.parse(body.generatedAt)<864e5?decodeWorkerMatches(body):[],body.generatedAt??null));
   }

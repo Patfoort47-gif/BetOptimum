@@ -36,7 +36,7 @@ export async function deliver(channel, target, event, id, env, fetcher=fetch, we
     let response;
     if(channel==='web') {
       if(!webSender) return {status:'failed',error:'Notifications web non configurées'};
-      await webSender(target,JSON.stringify({title:testing?'Test de vos alertes BetOptimum':reminder?'Votre équipe joue dans 2 h':'Value bet sur un favori',body:testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):alertText(event),url:link,tag:`bet-${id}`}));return {status:'sent'};
+      await webSender(target,JSON.stringify({title:testing?'Test de vos alertes BetOptimum':reminder?'Un match favori commence dans 2 h':'Value bet sur un favori',body:testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):alertText(event),url:link,tag:`bet-${id}`}));return {status:'sent'};
     }
     if(channel==='telegram') {
       if(!env.TELEGRAM_BOT_TOKEN)return {status:'failed',error:'Telegram non configuré'};
