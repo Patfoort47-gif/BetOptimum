@@ -1,5 +1,53 @@
 [
   {
+    "id": "espn-401879242",
+    "date": "2026-11-06",
+    "league": "Premier League",
+    "match": "Everton – Coventry City",
+    "label": "Moins de 3,5 buts",
+    "key": "under35",
+    "odd": 1.42,
+    "probability": 0.7575761331330665,
+    "status": "lost",
+    "score": "3 : 1"
+  },
+  {
+    "id": "espn-401882809",
+    "date": "2026-11-06",
+    "league": "La Liga",
+    "match": "Sevilla – Alavés",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.36,
+    "probability": 0.8274898607653066,
+    "status": "lost",
+    "score": "0 : 0"
+  },
+  {
+    "id": "espn-401874815",
+    "date": "2026-11-06",
+    "league": "Serie A",
+    "match": "Venezia – Udinese",
+    "label": "Moins de 3,5 buts",
+    "key": "under35",
+    "odd": 1.38,
+    "probability": 0.8054180194706702,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
+    "id": "espn-401876405",
+    "date": "2026-11-06",
+    "league": "Ligue 1",
+    "match": "Toulouse – Strasbourg",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.18,
+    "probability": 0.8389510608652856,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
     "id": "espn-401915534",
     "date": "2026-11-05",
     "league": "Europa League",
