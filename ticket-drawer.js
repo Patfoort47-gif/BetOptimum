@@ -1,0 +1,5 @@
+export function initTicketDrawer(builder,close){
+ if(!builder)return;const media=matchMedia('(max-width:767px)'),anchor=document.createComment('Emplacement desktop du ticket'),backdrop=document.createElement('div');builder.before(anchor);backdrop.className='ticket-backdrop';backdrop.setAttribute('aria-hidden','true');document.body.append(backdrop);backdrop.addEventListener('click',close);
+ const handle=document.createElement('button');handle.type='button';handle.className='ticket-drag-handle';handle.setAttribute('aria-label','Fermer le ticket en glissant vers le bas ou en cliquant');handle.innerHTML='<span></span>';builder.prepend(handle);handle.addEventListener('click',close);let start=null;handle.addEventListener('pointerdown',event=>{start={x:event.clientX,y:event.clientY};handle.setPointerCapture?.(event.pointerId)});handle.addEventListener('pointerup',event=>{if(start&&event.clientY-start.y>55&&Math.abs(event.clientX-start.x)<80)close();start=null});handle.addEventListener('pointercancel',()=>start=null);
+ function layout(){close();if(media.matches)document.body.append(builder);else anchor.after(builder)}media.addEventListener('change',layout);layout();
+}
