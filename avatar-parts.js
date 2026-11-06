@@ -36,7 +36,7 @@ export function buildCharacter(T, input, q) {
   const jersey = phys('#ffffff', { map: tex(kitCanvas), roughness: .78, sheen: .8, sheenRoughness: .55, sheenColor: new T.Color(mix(kit.c1, '#ffffff', .5)), bumpMap: weave, bumpScale: .018 });
   const sleeve = std(kit.c1, .78, 0, { bumpMap: weave, bumpScale: .012 }), trim = std(kit.c2, .7), shortsMat = std(kit.c2, .74, 0, { bumpMap: weave, bumpScale: .012 }), sockMat = std(kit.c1, .8);
   const hairMap = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#d9d9d9'; x.fillRect(0, 0, 256, 256); const r = rng('streaks'); for (let i = 0; i < 520; i++) { const g = 120 + Math.floor(r() * 135), px = r() * 256, w = .8 + r() * 2.2; x.strokeStyle = `rgba(${g},${g},${g},${.35 + r() * .5})`; x.lineWidth = w; x.beginPath(); x.moveTo(px, 0); x.bezierCurveTo(px + (r() - .5) * 14, 80, px + (r() - .5) * 14, 170, px + (r() - .5) * 10, 256); x.stroke(); } return tex(c, { repeat: [5, 1] }); })();
-  const hairMat = phys(hairHex, { map: hairMap, bumpMap: hairMap, bumpScale: .014, roughness: .4, sheen: 1, sheenRoughness: .35, sheenColor: new T.Color(mix(hairHex, '#ffffff', .45)), clearcoat: .25, clearcoatRoughness: .45 });
+  const hairMat = phys(hairHex, { map: hairMap, bumpMap: hairMap, bumpScale: .003, roughness: .68, sheen: .45, sheenRoughness: .65, sheenColor: new T.Color(mix(hairHex, '#ffffff', .18)), clearcoat: .04, clearcoatRoughness: .7 });
   const stubble = phys(mix(hairHex, skinHex, .62), { roughness: .6, sheen: .4 });
   const boot = phys(BOOTS[look.boots][0], { roughness: .38, clearcoat: .7, clearcoatRoughness: .25 }), sole = std('#101214', .7);
 
@@ -100,11 +100,21 @@ export function buildCharacter(T, input, q) {
   // --- Cheveux : calotte, mèches (instances) et formes propres à chaque coiffure.
   const hairGroup = new T.Group(); head.add(hairGroup);
   const hat = look.accessories.some(id => id === 'acc-cap' || id === 'acc-crown');
-  const hr = R * 1.045, rg = rng(`hair${look.hair}`), capGeo = (theta, k = 1) => { const g = new T.SphereGeometry(hr * k, seg, Math.round(seg * .6), 0, Math.PI * 2, 0, theta), p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i), n = 1 + .018 * Math.sin(x * 62 + z * 31) * Math.sin(y * 57 + x * 20); p.setXYZ(i, x * n * shape.w, y * n * shape.h, z * n * shape.d); } g.computeVertexNormals(); return g; };
-  const TILT = -.42, cap = (theta, material = hairMat, k = 1) => { const m = mesh(geo(capGeo(theta - Math.PI * .08, k)), material, hairGroup); m.rotation.x = TILT; return m; };
+  // Contour commun : front dégagé, tempes et nuque continues, sans calotte inclinée.
+  const hr = R * 1.025, rg = rng(`hair${look.hair}`);
+  const hairline = phi => .39 + .20 * (1 - Math.cos(phi)) / 2;
+  const capGeo = (theta, k = 1) => {
+    const g = new T.SphereGeometry(hr * k, seg, Math.round(seg * .6), 0, Math.PI * 2, 0, Math.PI / 2), p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const x = p.getX(i), y = p.getY(i), z = p.getZ(i), phi = Math.atan2(x, z), t = Math.acos(Math.min(1, Math.max(-1, y / (hr * k)))) / (Math.PI / 2), end = Math.min(theta, hairline(phi) * Math.PI), a = t * end;
+      p.setXYZ(i, Math.sin(a) * Math.sin(phi) * hr * k * shape.w, Math.cos(a) * hr * k * shape.h, Math.sin(a) * Math.cos(phi) * hr * k * shape.d);
+    }
+    g.computeVertexNormals(); return g;
+  };
+  const cap = (theta, material = hairMat, k = 1) => mesh(geo(capGeo(theta, k)), material, hairGroup);
   const dirOf = (theta, phi) => new T.Vector3(Math.sin(theta) * Math.sin(phi), Math.cos(theta), Math.sin(theta) * Math.cos(phi));
   const clumpGeo = geo(new T.CapsuleGeometry(.5, 1, 4, 8)), curlGeo = geo(new T.SphereGeometry(1, 10, 8)), ups = new T.Vector3(0, 1, 0), tmpM = new T.Matrix4(), tmpQ = new T.Quaternion(), tmpS = new T.Vector3(), tmpP = new T.Vector3();
-  const tilt = new T.Matrix4().makeRotationX(-.42);
+  const tilt = new T.Matrix4();
   const place = (geometry, material, items) => { if (!items.length) return; const inst = new T.InstancedMesh(geometry, material, items.length); items.forEach((it, i) => { tmpM.compose(it.p, it.q, it.s); inst.setMatrixAt(i, tmpM); }); inst.castShadow = true; inst.receiveShadow = true; inst.applyMatrix4(tilt); hairGroup.add(inst); };
   const strands = [], curls = [];
   const basisQ = (normal, tangent) => { const y = tangent.clone().addScaledVector(normal, -tangent.dot(normal)).normalize(), x = new T.Vector3().crossVectors(y, normal).normalize(); return new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(x, y, normal)); };
@@ -115,17 +125,22 @@ export function buildCharacter(T, input, q) {
   };
   const curl = (theta, phi, r, lift = 1.04) => { if (hat && theta < Math.PI * .34) return; const d = dirOf(theta, phi); curls.push({ p: d.multiply(new T.Vector3(shape.w, shape.h, shape.d)).multiplyScalar(hr * lift), q: new T.Quaternion(), s: new T.Vector3(r, r, r) }); };
   const front = phi => Math.abs(Math.atan2(Math.sin(phi), Math.cos(phi))) < .85;
-  const spread = (count, tMin, tMax, len, w, th, opts = {}) => { for (let i = 0; i < count * .8; i++) { const theta = lerp(tMin, Math.min(tMax, .5), rg()) * Math.PI, phi = rg() * Math.PI * 2; if (front(phi) && theta > Math.PI * (opts.hairline ?? .31)) continue; strand(theta, phi, len * (.7 + rg() * .45), w, th * .8, opts.sweep ?? .5); } };
+  const spread = (count, tMin, tMax, len, w, th, opts = {}) => { for (let i = 0; i < count * .8; i++) { const phi = rg() * Math.PI * 2, theta = lerp(tMin, Math.min(tMax, hairline(phi) - .035), rg()) * Math.PI; if (front(phi) && theta > Math.PI * (opts.hairline ?? .31)) continue; strand(theta, phi, len * (.65 + rg() * .2), w * .8, th * .45, opts.sweep ?? .5); } };
   const style = ['short', 'fade', 'mohawk', 'afro', 'bun', 'shaved', 'curls', 'long', 'braids', 'quiff', 'curly', 'ponytail'][look.hair];
-  const chain = (points, rad0, rad1, material = hairMat) => points.forEach((p, i) => { const t = i / Math.max(1, points.length - 1), m = mesh(geo(new T.SphereGeometry(lerp(rad0, rad1, t), 12, 9)), material, hairGroup, p); m.scale.set(1, 1.25, 1); });
+  // Mèches continues et effilées : plus de chapelets de sphères disjointes.
+  const chain = (points, rad0, rad1, material = hairMat) => {
+    const curve = new T.CatmullRomCurve3(points.map(p => new T.Vector3(...p))), g = new T.TubeGeometry(curve, 24, rad0, 8, false), position = g.attributes.position;
+    for (let i = 0; i < position.count; i++) { const t = Math.floor(i / 9) / 24, center = curve.getPointAt(t), v = new T.Vector3().fromBufferAttribute(position, i); v.sub(center).multiplyScalar(lerp(1, rad1 / rad0, t)).add(center); position.setXYZ(i, v.x, v.y, v.z); }
+    g.computeVertexNormals(); return mesh(geo(g), material, hairGroup);
+  };
   const tie = (p, color = '#f4f4f0') => { const m = mesh(geo(new T.TorusGeometry(.04, .011, 8, 16)), std(color, .5), hairGroup, p); m.rotation.x = Math.PI / 2; return m; };
-  if (style === 'short') { cap(Math.PI * .6); spread(80, .03, .56, .15, .026, .017); for (let i = 0; i < 9; i++) strand(Math.PI * (.25 + rg() * .05), (i - 4) * .17, .085, .03, .016, 0); }
-  else if (style === 'fade') { cap(Math.PI * .52, stubble, .995); cap(Math.PI * .36, hairMat, 1.03); spread(60, .04, .34, .1, .026, .018, { sweep: .3 }); for (let i = 0; i < 6; i++) strand(Math.PI * .3, (i - 2.5) * .22, .08, .024, .016, 0); }
-  else if (style === 'mohawk') { cap(Math.PI * .56, stubble, .995); for (let i = 0; i < 13; i++) { const a = lerp(-1.1, 1.2, i / 12), d = new T.Vector3(0, Math.cos(a), Math.sin(a)), lean = new T.Vector3(0, Math.cos(a - .5), Math.sin(a - .5)); if (hat) continue; tmpQ.setFromUnitVectors(ups, lean.normalize()); strands.push({ p: d.multiplyScalar(hr * .97).addScaledVector(lean, .07), q: tmpQ.clone(), s: new T.Vector3(.032 / .5, .17 / 2, .02 / .5) }); } }
-  else if (style === 'afro') { cap(Math.PI * .62); for (let i = 0; i < 150; i++) { const theta = rg() * Math.PI * .66, phi = rg() * Math.PI * 2; if (front(phi) && theta > Math.PI * .36) continue; curl(theta, phi, .07 + rg() * .03, 1.2); } }
+  if (style === 'short') { cap(Math.PI * .6); spread(100, .03, .56, .085, .016, .010); for (let i = 0; i < 9; i++) strand(Math.PI * (.25 + rg() * .05), (i - 4) * .17, .085, .03, .016, 0); }
+  else if (style === 'fade') { cap(Math.PI * .52, stubble, 1.002); cap(Math.PI * .36, hairMat, 1.03); spread(60, .04, .34, .1, .026, .018, { sweep: .3 }); for (let i = 0; i < 6; i++) strand(Math.PI * .3, (i - 2.5) * .22, .08, .024, .016, 0); }
+  else if (style === 'mohawk') { cap(Math.PI * .56, stubble, 1.002); if(!hat) { const points=Array.from({length:13},(_,i)=>{const a=lerp(-.9,1.25,i/12);return [0,Math.cos(a)*hr*1.17*shape.h,Math.sin(a)*hr*shape.d]}); chain(points,.042,.023); } }
+  else if (style === 'afro') { cap(Math.PI * .62); for (let i = 0; i < 380; i++) { const theta = rg() * Math.PI * .66, phi = rg() * Math.PI * 2; if (front(phi) && theta > Math.PI * .36) continue; curl(theta, phi, .034 + rg() * .008, 1.10); } }
   else if (style === 'bun') { cap(Math.PI * .6); spread(70, .05, .56, .12, .024, .016, { sweep: .9 }); mesh(geo(new T.SphereGeometry(.105, 22, 16)), hairMat, hairGroup, [0, R * .86, -R * .6]); tie([0, R * .72, -R * .55]).rotation.x = Math.PI / 2.6; }
-  else if (style === 'shaved') { cap(Math.PI * .58, stubble, .992); }
-  else if (style === 'curls') { cap(Math.PI * .58); for (let i = 0; i < 120; i++) { const theta = rg() * Math.PI * .6, phi = rg() * Math.PI * 2; if (front(phi) && theta > Math.PI * .38) continue; curl(theta, phi, .052 + rg() * .018, 1.03); } }
+  else if (style === 'shaved') { cap(Math.PI * .58, stubble, 1.002); }
+  else if (style === 'curls') { cap(Math.PI * .58); for (let i = 0; i < 240; i++) { const theta = rg() * Math.PI * .6, phi = rg() * Math.PI * 2; if (front(phi) && theta > Math.PI * .38) continue; curl(theta, phi, .029 + rg() * .007, 1.035); } }
   else if (style === 'long') { cap(Math.PI * .6); spread(80, .05, .58, .13, .025, .017, { sweep: .8 }); const m = mesh(geo(new T.CapsuleGeometry(.075, .3, 6, 12)), hairMat, hairGroup, [0, -.16, -R * .8]); m.scale.set(1.2, 1, .9); for (const s of [-1, 1]) { const lock = mesh(geo(new T.CapsuleGeometry(.04, .2, 6, 10)), hairMat, hairGroup, [s * R * .92, -.09, -R * .15]); lock.rotation.z = s * .06; } tie([0, -.03, -R * .82]); }
   else if (style === 'braids') { cap(Math.PI * .6); spread(60, .05, .56, .11, .024, .016, { sweep: .7 }); for (let b = 0; b < 7; b++) { const phi = Math.PI * (.62 + b * .125), d = dirOf(Math.PI * .56, phi).multiplyScalar(hr * .98), pts = []; for (let i = 0; i < 6; i++) pts.push([d.x * (1 + i * .05), d.y - i * .075, d.z * (1 + i * .07)]); chain(pts, .034, .024); } }
   else if (style === 'quiff') { cap(Math.PI * .58); spread(50, .05, .5, .1, .024, .016, { sweep: .4 }); if (!hat) for (let i = 0; i < 7; i++) strand(Math.PI * .22, (i - 3) * .15, .2, .05, .028, 0, new T.Vector3((i - 3) * .05, .55, .83).normalize()); }
