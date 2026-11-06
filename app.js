@@ -195,7 +195,7 @@ function renderAccountMenu(){
   head.innerHTML=`${avatarMarkup(state.profile,{userId:accountUserId})}<div><strong>${html(state.profile.nickname||'Parieur')}</strong><small>${state.progress?`Niv. ${info.level} · ${info.title}`:'Niveau en cours de calcul'}</small><span class="menu-division">${divisionBadge(state.league?.echelon??null)}</span><span class="level-bar"><i style="width:${Math.round(info.progress*100)}%"></i></span></div>`
 }
 const accountMenu=()=>$('#account-menu');
-function toggleAccountMenu(force){const menu=accountMenu();if(!menu)return;const open=force??menu.hidden;if(open&&!accountAuthenticated){openJoin('login');return}menu.hidden=!open;if(open){renderAccountMenu();menu.querySelector('button')?.focus()}$('#account-button')?.setAttribute('aria-expanded',String(open))}
+function toggleAccountMenu(force){const menu=accountMenu();if(!menu)return;const open=force??menu.hidden;if(open&&!accountAuthenticated){openJoin('login');return}menu.hidden=!open;if(open){renderAccountMenu();menu.querySelector('button:not([hidden])')?.focus()}$('#account-button')?.setAttribute('aria-expanded',String(open))}
 function menuAction(action){
   toggleAccountMenu(false);
   if(action==='profile'){setActiveTab('profile',true,{self:true})}
@@ -484,7 +484,7 @@ if(typeof window!=='undefined'){document.addEventListener('click',event=>{const 
 
 if(typeof window!=='undefined'){document.addEventListener('click',event=>{const button=event.target.closest('[data-personal]');if(!button)return;if(!accountAuthenticated){openJoin('login');return}setActiveTab('profile',true,{self:true,...(button.dataset.personal==='avatar'?{tab:'avatar'}:{})})})}
 
-if(typeof window!=='undefined'){document.querySelector('#account-menu')?.addEventListener('keydown',event=>{const items=[...accountMenu().querySelectorAll('[role=menuitem]')],i=items.indexOf(document.activeElement);if(event.key==='Escape'){event.preventDefault();toggleAccountMenu(false);$('#account-button').focus()}else if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();items[event.key==='Home'?0:event.key==='End'?items.length-1:(i+(event.key==='ArrowDown'?1:-1)+items.length)%items.length]?.focus()}else if(event.key==='Tab')toggleAccountMenu(false)});document.addEventListener('keydown',event=>{if(event.target.matches('[data-help]')&&event.key==='Escape')$('#help-dialog').close()})}
+if(typeof window!=='undefined'){document.querySelector('#account-menu')?.addEventListener('keydown',event=>{const items=[...accountMenu().querySelectorAll('[role=menuitem]:not([hidden])')],i=items.indexOf(document.activeElement);if(event.key==='Escape'){event.preventDefault();toggleAccountMenu(false);$('#account-button').focus()}else if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();items[event.key==='Home'?0:event.key==='End'?items.length-1:(i+(event.key==='ArrowDown'?1:-1)+items.length)%items.length]?.focus()}else if(event.key==='Tab')toggleAccountMenu(false)});document.addEventListener('keydown',event=>{if(event.target.matches('[data-help]')&&event.key==='Escape')$('#help-dialog').close()})}
 
 // BET-120 : accès au ticket depuis le calendrier et les classements.
 document.querySelectorAll('[data-open-ticket]').forEach(button=>button.addEventListener('click',()=>{setActiveTab('matches');if(matchMedia('(max-width:767px)').matches)setBuilderDrawer(true);else $('#builder')?.scrollIntoView({behavior:motionBehavior()})}));
