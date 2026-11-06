@@ -9,9 +9,7 @@ import { createAdmin } from './supabase-admin.mjs';
 import { recomputeStandings, leagueSeasonFor } from './league-engine.mjs';
 import { recomputeSpecialStandings, settleGridPicks, syncSpecialRounds } from './special-engine.mjs';
 import { awardXp } from './xp-engine.mjs';
-import { updateStreaks } from './token-engine.mjs';
 import { emitActivities } from './activity-engine.mjs';
-import { settleDuels, syncShop } from './shop-engine.mjs';
 
 const MARKETS = ['home', 'draw', 'away', 'over', 'btts'];
 const STALE_DAYS = 10;
@@ -101,13 +99,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   if (!admin) { console.log('Supabase (service_role) non configuré : synchronisation des matchs et règlement des paris ignorés.'); process.exit(0); }
   const data = JSON.parse(await readFile('data/fixtures.json', 'utf8'));
   const synced = await syncFixtures(admin, data.matches ?? []);
-  const shop = await syncShop(admin), rounds = await syncSpecialRounds(admin, data.matches ?? []);
+  const rounds = await syncSpecialRounds(admin, data.matches ?? []);
   const challenge = await syncDailyChallenge(admin, data.dailyChallenge);
   const results = await loadResults(admin, data.settlements ?? []);
   const settled = await settleServerBets(admin, results, data.matches ?? []), daily = await settleDailyPicks(admin, results), grid = await settleGridPicks(admin, results);
   const now = new Date(), season = await leagueSeasonFor(admin, now);
   const repaired = season.length === 9 ? await admin.rpc('repair_league_history') : 0;
   if (season.length === 7) console.log('Migration V20 en attente : maintien des classements mensuels.');
-  const ranked = await recomputeStandings(admin, now, season), special = await recomputeSpecialStandings(admin), xp = await awardXp(admin), streaks = await updateStreaks(admin, now, season), activities = await emitActivities(admin, now, season), duels = await settleDuels(admin);
-  console.log(`${repaired} rattachements historiques réparés, ${synced} matchs synchronisés, défi du jour : ${challenge} matchs, ${settled} paris certifiés et ${daily} pronos du défi réglés, ${ranked} classements de ligue générale et ${special} de ligues spéciales recalculés, ${rounds} journées de ligues spéciales, ${grid} pronos de grille réglés, ${xp} événements d’XP, ${streaks} séries et tirelires, ${activities} événements du fil d’activité, ${shop} objets de boutique, ${duels} duels réglés.`);
+  const ranked = await recomputeStandings(admin, now, season), special = await recomputeSpecialStandings(admin), xp = await awardXp(admin), activities = await emitActivities(admin, now, season);
+  console.log(`${repaired} rattachements historiques réparés, ${synced} matchs synchronisés, défi du jour : ${challenge} matchs, ${settled} paris certifiés et ${daily} pronos du défi réglés, ${ranked} classements de ligue générale et ${special} de ligues spéciales recalculés, ${rounds} journées de ligues spéciales, ${grid} pronos de grille réglés, ${xp} événements d’XP, ${activities} événements du fil d’activité.`);
 }

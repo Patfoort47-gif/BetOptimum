@@ -4,7 +4,7 @@
 
 - `index.html`, `styles.css`, `app.js` à la racine : structure, présentation et interface.
 - `model.js` et modules de règles : calculs partagés avec le pipeline.
-- `details.js`, `account.js`, `join.js`, `profile.js`, `shop-page.js` : fiches et espaces du Club.
+- `details.js`, `account.js`, `join.js`, `profile.js` : fiches et espaces du Club.
 - `avatar*.js` : configuration, affichage et studio 3D.
 - `data/` : calendrier généré et registre durable des pronostics. Ne pas nettoyer ces fichiers à la main.
 

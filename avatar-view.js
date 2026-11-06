@@ -1,3 +1,4 @@
+import {profileFrame} from './profile-appearance.js';
 // Affichage de l'avatar sans 3D (BET-49) : image enregistrée dans Supabase Storage (buste ou en pied) ou, à défaut, l'ancien avatar en CSS.
 // Les classements, le fil, les menus et la carte joueur passent par ici : aucun d'eux ne charge Three.js.
 import { SUPABASE_URL } from './supabase-config.js';
@@ -23,9 +24,10 @@ function listen() {
 }
 // Marque HTML de l'avatar : image différée si elle existe, sinon pastille CSS. `cls` : mini-avatar (listes), avatar-3d (grande), profile-photo (en-tête).
 export function avatarMarkup(source, { userId, cls = 'mini-avatar', kind = 'bust', label = '' } = {}) {
-  const legacy = legacyOf(source), fallback = `${cls} ${legacy.avatar} face-${legacy.face} accessory-${legacy.accessory}`, url = avatarUrl(source, userId, kind);
+  const framedClass = `${cls} profile-frame-${profileFrame(source?.profile_frame)}`;
+  const legacy = legacyOf(source), fallback = `${framedClass} ${legacy.avatar} face-${legacy.face} accessory-${legacy.accessory}`, url = avatarUrl(source, userId, kind);
   const inner = cls === 'avatar-3d' ? '<i></i><span></span><b></b><em></em>' : '';
   if (!url) return `<span class="${fallback}" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}>${inner}</span>`;
   listen();
-  return `<span class="${cls} avatar-photo" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}><img src="${escape(url)}" alt="" width="${kind === 'full' ? 192 : 96}" height="${kind === 'full' ? 256 : 96}" loading="lazy" decoding="async" data-fb="${escape(fallback)}">${inner}</span>`;
+  return `<span class="${framedClass} avatar-photo" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}><img src="${escape(url)}" alt="" width="${kind === 'full' ? 192 : 96}" height="${kind === 'full' ? 256 : 96}" loading="lazy" decoding="async" data-fb="${escape(fallback)}">${inner}</span>`;
 }

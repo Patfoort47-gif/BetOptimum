@@ -76,7 +76,6 @@ export async function closeWeeklyChallenges(admin, now = new Date()) {
       const rows = rankChallenge(list.map(entry => ({ user_id: entry.user_id, ...challengeScore(challenge, bets.filter(bet => bet.user_id === entry.user_id)) })));
       await admin.insertIgnore('challenge_results', rows.map(row => ({ week_start: week, challenge_id: challenge, user_id: row.user_id, score: row.score, bets: row.bets, wins: row.wins, rank: row.rank })), 'week_start,challenge_id,user_id');
       await admin.insertIgnore('xp_events', rows.map(row => ({ user_id: row.user_id, event_key: `challenge:${week}:${challenge}`, kind: 'challenge', xp: challengeXp(row.rank) })), 'user_id,event_key');
-      await admin.insertIgnore('token_ledger', rows.filter(row => challengeTokens(row.rank) > 0).map(row => ({ user_id: row.user_id, delta: challengeTokens(row.rank), reason: 'challenge', ref: `${week}:${challenge}` })), 'user_id,reason,ref');
       written += rows.length;
     }
   }
