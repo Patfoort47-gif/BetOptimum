@@ -119,7 +119,7 @@ dialog[open]{animation:pop .25s ease-out}
 @media(prefers-reduced-motion:reduce){.market.highest-confidence:not(.selected){animation:none!important;background:var(--surface-2);border-color:var(--accent-text)}}
 
 /* Cote qui s'envole vers le ticket */
-.fly-chip{position:fixed;z-index:70;padding:6px 12px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-family:var(--display);font-size:20px;font-weight:700;pointer-events:none;transform:translate(-50%,-50%)}
+.fly-chip{position:fixed;z-index:70;padding:6px 12px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-family:var(--display);font-size:20px;font-weight:700;pointer-events:none;will-change:transform,opacity;transform:translate3d(-50%,-50%,0)}
 #total-odds{display:inline-block}.bump{animation:bump .5s cubic-bezier(.3,1.6,.5,1)}@keyframes bump{40%{transform:scale(1.25)}}
 
 /* Grand écran : la colonne combiné reste visible pendant le défilement */
