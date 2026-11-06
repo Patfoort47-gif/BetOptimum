@@ -765,9 +765,6 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 .stake-controls button:hover:not(:disabled){border-color:var(--accent-text);color:var(--accent-text)}.stake-controls button:disabled{opacity:.55;cursor:not-allowed}.stake-feedback{color:var(--danger);font-size:13px;line-height:1.5;margin:8px 0}.stake-feedback:empty{display:none}.stake-unit-settings{font-size:13px;line-height:1.6;margin-block:12px}.stake-unit-settings>summary{min-height:44px;cursor:pointer;align-content:center;color:var(--accent-text)}.stake-unit-settings label{display:block}.stake-unit-form{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.stake-unit-form input{min-width:0;flex:1 1 100px;width:100%;max-width:100%;min-height:44px}.stake-unit-form button{flex:1 1 130px}
 @media(max-width:767px){body .mobile-nav button{min-height:56px}}
 
-/* BET-188 : filtres rapides accessibles sans défilement horizontal. */
-.quick-filters{display:flex;flex-wrap:wrap;gap:8px;margin-block:12px;padding:12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}.quick-filters button{min-height:44px;min-width:44px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface-2);color:var(--text);font:inherit;font-size:13px;white-space:normal}.quick-filters button.active{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-@media(max-width:767px){.quick-filters{position:sticky;top:var(--header-offset);z-index:24;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.quick-filters button{font-size:12px;min-width:0}.match-strip{position:static}.match-card{scroll-margin-top:calc(var(--header-offset) + 140px)}}
 
 /* BET-186 : grille et ticket partagent la zone utile hors gouttière. */
 @media(min-width:1024px){
