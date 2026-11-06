@@ -802,13 +802,16 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 /* BET-201 : forme sous les noms, accessible sans ouvrir les statistiques. */
 .team-group{display:flex;flex-direction:column;align-items:center;min-width:0}.team-group>.team{width:100%}.team-form{display:flex;align-items:center;justify-content:center;gap:3px;min-height:44px;min-width:110px;padding:6px 0;border:0;background:transparent;color:var(--text)}.team-form .fd{width:18px;height:18px;flex:0 0 18px;font-size:10px;border-radius:5px}.team-form:focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
 
-/* BET-209 : résumé du coupon au-dessus des quatre destinations. */
+/* BET-223 : coupon flottant, au-dessus de la navigation mobile. */
 .mobile-coupon{display:none}
 @media(max-width:767px){
- .mobile-coupon:not([hidden]){position:fixed;display:flex;align-items:center;justify-content:space-between;gap:8px;left:8px;right:8px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:46;min-height:48px;padding:8px 12px;border:1px solid var(--line-strong);border-radius:16px;background:var(--accent);color:var(--on-accent);font-size:13px;box-shadow:0 6px 24px #0003}
- .coupon-count{display:grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:var(--on-accent);color:var(--accent);font-weight:800}
- body.has-mobile-coupon main{padding-bottom:calc(160px + env(safe-area-inset-bottom))}
- body.has-mobile-coupon #toast{bottom:calc(132px + env(safe-area-inset-bottom))}
+ .mobile-coupon:not([hidden]){position:fixed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;right:16px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:46;min-width:72px;min-height:72px;max-width:calc(100vw - 32px);padding:12px;border:1px solid var(--line-strong);border-radius:36px;background:var(--accent);color:var(--on-accent);font-size:18px;box-shadow:0 6px 24px #0003;cursor:pointer;touch-action:manipulation}
+ .mobile-coupon:active{transform:scale(.94)}
+ .mobile-coupon:focus-visible{outline:3px solid var(--accent-text);outline-offset:4px}
+ .coupon-label{font-size:10px;font-weight:600}
+ .coupon-count{position:absolute;top:-6px;right:-4px;display:grid;place-items:center;min-width:26px;height:26px;padding:0 5px;border:2px solid var(--accent);border-radius:999px;background:var(--on-accent);color:var(--accent);font-size:12px;font-weight:800}
+ body.has-mobile-coupon main{padding-bottom:calc(168px + env(safe-area-inset-bottom))}
+ body.has-mobile-coupon #toast{bottom:calc(164px + env(safe-area-inset-bottom))}
  .ticket-drawer-open .mobile-coupon{visibility:hidden}
 }
 
