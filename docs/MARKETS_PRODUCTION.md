@@ -41,13 +41,13 @@ Commandes équivalentes pour les étapes Actions (après migration et fusion) :
 gh workflow run update-fixtures.yml --repo Patfoort47-gif/BetOptimum --ref main
 ```
 
-La collecte conserve ses deux créneaux de 6 h et 14 h Paris, et huit appels groupés au plus. L’extension ajoute des clés à ces appels, pas des appels par joueur ou par événement. Le coût commercial en crédits n’est pas déduit du nombre de requêtes ; le diagnostic prouve l’accès du compte et le nombre d’appels, pas son quota mensuel restant.
+La collecte conserve ses deux créneaux de 6 h et 18 h Paris, et huit appels groupés au plus. L’extension ajoute des clés à ces appels, pas des appels par joueur ou par événement. Le coût commercial en crédits n’est pas déduit du nombre de requêtes ; le diagnostic prouve l’accès du compte et le nombre d’appels, pas son quota mensuel restant.
 
 ## Validité, suspension et règlement
 
 Un nouveau prix est accepté à la collecte seulement si son horodatage fournisseur a moins d’une heure, n’est pas futur de plus d’une minute, et si la sélection n’est ni masquée ni suspendue. Les périodes, joueurs et conditions promotionnelles sont exclus de ce lot. Le prix est converti depuis le format américain explicitement, sans mélanger les lignes ni les issues.
 
-Les nouvelles sélections ne sont jamais restaurées depuis un ancien cache : une absence à la collecte suivante les retire. L’expiration dure est fixée à **20 heures après l’horodatage fournisseur**, pour couvrir la nuit entre 14 h et 6 h. Le consensus expire avec son offre la plus ancienne. Le navigateur masque les offres expirées et la RPC refuse un prix expiré ou sans date de validité, même si un ancien onglet tente encore de le jouer. Une suspension non encore observée entre deux collectes ne peut pas être détectée en temps réel ; le site expose une cote collectée, pas une prise de pari chez le bookmaker.
+Les nouvelles sélections ne sont jamais restaurées depuis un ancien cache : une absence à la collecte suivante les retire. L’expiration dure est fixée à **20 heures après l’horodatage fournisseur**, pour couvrir la nuit entre deux collectes. Le consensus expire avec son offre la plus ancienne. Le navigateur masque les offres expirées et la RPC refuse un prix expiré ou sans date de validité, même si un ancien onglet tente encore de le jouer. Une suspension non encore observée entre deux collectes ne peut pas être détectée en temps réel ; le site expose une cote collectée, pas une prise de pari chez le bookmaker.
 
 Les prix acceptés et labels serveur sont figés dans le pari ; le règlement ne relit pas les prix courants. Les scores après prolongation/tirs au but ne remplacent jamais les scores à 90 minutes des nouveaux marchés. Sans score réglementaire fiable, le règlement attend une vérification. Une annulation rembourse la sélection ; dans un combiné/système, elle vaut une cote de 1. Tous les barèmes existants des ligues et le plafond de cote restent appliqués.
 

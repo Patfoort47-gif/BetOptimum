@@ -8,7 +8,7 @@ H1 : 1N2 et totaux match 0,5 / 1,5 / 2,5, neuf clés canoniques `h1Home`, `h1Dra
 
 ## Collecte et résultats
 
-`PROPLINE_H1_ENABLED=true` est indépendant de l’étape 3 ; les composites ne sont pas activés. Un seul appel groupé par compétition, au plus huit comme auparavant, avec `period=all` ; seules les lignes du match entier déjà validées et les neuf identités H1 sont acceptées. H2 et totaux équipe restent exclus de H1. Les deux créneaux restent 6 h / 14 h Paris, aucun appel de cotes navigateur. Prix H1 de plus d’une heure refusés à la collecte, sans repli cache ; expiration serveur/navigateur à vingt heures, seuil par choix.
+`PROPLINE_H1_ENABLED=true` est indépendant de l’étape 3 ; les composites ne sont pas activés. Un seul appel groupé par compétition, au plus huit comme auparavant, avec `period=all` ; seules les lignes du match entier déjà validées et les neuf identités H1 sont acceptées. H2 et totaux équipe restent exclus de H1. Les deux créneaux restent 6 h / 18 h Paris, aucun appel de cotes navigateur. Prix H1 de plus d’une heure refusés à la collecte, sans repli cache ; expiration serveur/navigateur à vingt heures, seuil par choix.
 
 Les scripts de calendrier et de résultats prélèvent les résumés serveur ESPN des matchs terminés : au plus seize appels supplémentaires par exécution, cache six heures et vérification des corrections. Ce budget ne concerne pas PropLine. L’identité événement, l’orientation des équipes, les scores finaux et la cohérence des lignes sont vérifiés ; les buts de H1 proviennent des deux premières lignes de périodes, jamais du score final divisé par deux, ni d’un commentaire.
 

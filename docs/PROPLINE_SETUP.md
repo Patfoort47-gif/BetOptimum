@@ -8,7 +8,7 @@ Tous les bookmakers renvoyés sont examinés. Les identifiants régionaux resten
 
 Les prix américains sont convertis en décimal. Les périodes partielles, totaux équipe, offres masquées ou retirées et prix datant de plus d’une heure sont rejetés. Le rapprochement exige une orientation et un horaire cohérents, sans ambiguïté. Une réponse partielle conserve le dernier cache, clairement marqué comme tel ; aucune cote estimée n’est transformée en cote réelle.
 
-Les collectes ont lieu à 6 h et 14 h Europe/Paris. Le cron couvre les deux décalages UTC ; le contrôle local élimine les deux passages supplémentaires. Aucun appel au rechargement du site. Maximum huit requêtes par collecte, seize par jour, sans nouvelle tentative automatique. `maxRequests` permet de réduire ce budget ; il faut confronter ce plafond au quota réel du compte avant activation. Un refus 401, 403 ou 429 arrête les appels suivants. Une clé absente est signalée comme échec, sans exposer de secret.
+Les collectes ont lieu à 6 h et 18 h Europe/Paris. Le cron couvre les deux décalages UTC ; le contrôle local élimine les deux passages supplémentaires. Aucun appel au rechargement du site. Maximum huit requêtes par collecte, seize par jour, sans nouvelle tentative automatique. `maxRequests` permet de réduire ce budget ; il faut confronter ce plafond au quota réel du compte avant activation. Un refus 401, 403 ou 429 arrête les appels suivants. Une clé absente est signalée comme échec, sans exposer de secret.
 
 ## Validation avant fusion
 
@@ -16,4 +16,4 @@ Exécuter le diagnostic `scripts/check-propline.mjs` avec le secret Actions, sur
 
 ## Inventaire (BET-154)
 
-Le diagnostic `scripts/propline-inventory.mjs` est lancé à la main et consomme au plus 60 requêtes (56 par défaut), en plus des seize requêtes quotidiennes de la collecte. Le lancer en dehors des créneaux de 6 h et 14 h et vérifier le quota du compte avant. Voir `docs/MARKETS_SETUP.md`.
+Le diagnostic `scripts/propline-inventory.mjs` est lancé à la main et consomme au plus 60 requêtes (56 par défaut), en plus des seize requêtes quotidiennes de la collecte. Le lancer en dehors des créneaux de 6 h et 18 h et vérifier le quota du compte avant. Voir `docs/MARKETS_SETUP.md`.

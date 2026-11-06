@@ -4,7 +4,7 @@ Toutes les dates publiques sont rendues en Europe/Paris ; l’heure de télécha
 
 - Calendrier : ancien après 26 h ; génération du flux distincte des dates de cotes.
 - Scores consolidés : ancien après 90 min ; date inconnue si scoresUpdatedAt est absent.
-- Cotes : dernier créneau de 6 h ou 14 h Paris dépassé de 45 min. Aucune attente de mise à jour nocturne. Tests été/hiver.
+- Cotes : dernier créneau de 6 h ou 18 h Paris dépassé de 45 min. Aucune attente de mise à jour nocturne. Tests été/hiver.
 - Direct : affichage du temps depuis la réponse ESPN ; rafraîchissement habituel 20 s, échec explicite.
 - Offres bookmaker : date fournisseur propre au marché conservée en cache. Une offre sans métadonnée reste de date inconnue, même si le flux global est récent.
 
