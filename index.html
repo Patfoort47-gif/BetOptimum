@@ -94,10 +94,11 @@
         <div id="match-list" class="match-list" aria-live="polite"></div>
       </section>
 
-      <aside id="builder" class="builder" data-view="matches" aria-label="Combiné intelligent">
+      <aside id="builder" class="builder" data-view="matches" aria-label="Ticket et générateur">
         <button class="icon-button builder-drawer-close" id="close-builder" aria-label="Fermer le ticket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-        <div class="builder-card card">
-          <p class="eyebrow">1 · TROUVER DES SÉLECTIONS</p><h2>Combiné intelligent</h2>
+        <div class="builder-tabs" role="tablist" aria-label="Outil de ticket"><button type="button" id="ticket-tab" role="tab" aria-selected="true" aria-controls="ticket-panel" tabindex="0" data-builder-tab="ticket">Mon Ticket</button><button type="button" id="generator-tab" role="tab" aria-selected="false" aria-controls="generator-panel" tabindex="-1" data-builder-tab="generator">Générateur auto</button></div>
+        <div class="builder-card card" id="generator-panel" role="tabpanel" aria-labelledby="generator-tab" hidden>
+          <h2>Combiné intelligent</h2>
           <p class="muted">Réglez vos préférences pour remplir votre ticket. Vous pourrez ensuite ajuster chaque choix.</p>
           <div class="builder-controls">
             <label class="range-label"><span>Cote cible <output id="target-output">3.00</output></span><input id="target-odds" type="range" min="1.5" max="10" value="3" step="0.1"></label>
@@ -109,12 +110,12 @@
           </div>
           <p id="combo-feedback" data-copy="composerIntro" class="composer-feedback" role="status" aria-live="polite">La recherche utilise les matchs de la période et des filtres affichés.</p><details class="composer-help"><summary>Comment fonctionne la recherche ?</summary><p>Le moteur cherche la cote la plus proche de votre cible en privilégiant la confiance estimée. Une nouvelle recherche remplace les sélections du ticket. Aucune garantie de gain.</p></details><div class="safe-picks"><div class="safe-picks-head"><strong>Suggestions à ajouter</strong><span>Période affichée</span></div><div id="safe-picks-list"></div></div>
         </div>
-        <div class="ticket" aria-live="polite">
-          <div class="ticket-head"><div><small>2 · AJUSTER VOTRE TICKET</small><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
+        <div class="ticket" id="ticket-panel" role="tabpanel" aria-labelledby="ticket-tab" aria-live="polite">
+          <div class="ticket-head"><div><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
           <div class="bet-mode" id="bet-mode" role="group" aria-label="Type de pari"><button data-bet-mode="single">Simple</button><button class="active" data-bet-mode="combined">Combiné</button><button data-bet-mode="multiple">Multiple</button></div>
           <label class="system-control" id="system-control" hidden>Formule système<select id="system-formula"><option value="auto">Automatique</option><option value="2of3">2 sur 3</option><option value="2of4">2 sur 4</option><option value="3of4">3 sur 4</option><option value="trixie">Trixie (4 paris)</option><option value="yankee">Yankee (11 paris)</option></select></label>
           <p class="muted">Ajoutez ou remplacez vos choix depuis les matchs.</p><div id="ticket-items" class="ticket-items"><p class="empty">Ajoutez une sélection depuis les matchs.</p></div>
-          <p id="ticket-mode-note" class="muted"></p><div class="ticket-summary"><p class="ticket-step">3 · MISE ET CONFIRMATION</p>
+          <p id="ticket-mode-note" class="muted"></p><div class="ticket-summary">
             <div class="ticket-totals"><span class="total-main"><b id="odds-label">Cote totale</b><strong id="total-odds">1.00</strong></span><span id="target-gap-row">Écart à la cible <strong id="target-gap">-</strong></span></div>
             <div class="ticket-stake"><label><b id="stake-label">Mise (€)</b><input id="stake" type="number" min="1" step="0.01" inputmode="decimal" value="20" aria-describedby="stake-feedback"></label><span>Total engagé <strong id="stake-total">20,00 €</strong></span><span>Gain potentiel <strong id="potential-win">20,00 €</strong></span></div>
             <div class="stake-controls" id="stake-controls" role="group" aria-label="Ajuster la mise">
