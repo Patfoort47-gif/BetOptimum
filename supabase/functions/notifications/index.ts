@@ -104,7 +104,7 @@ async function worker(matches:unknown[],generatedAt:string|null) {
  }
  await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
  await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
- return {queued,sent,claimed:deliveries.length,revision:'BET-195'};
+ return {queued,sent,claimed:deliveries.length,revision:'BET-200'};
 }
 Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
@@ -113,8 +113,9 @@ Deno.serve(async request=>{
   if(!site)throw new NotificationFailure('configuration','CONFIG_SITE_URL');
   if(Number(request.headers.get('content-length')??0)>2000000)return json({error:'Requête trop volumineuse'},413);
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
-  if(body.action==='worker'){
+  if(body.action==='worker'||body.action==='health'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
+   if(body.action==='health')return json({revision:'BET-200',dry_run:true,available:notificationConfig(env).available});
    if(body.format!==undefined&&body.format!==2)return json({error:'Format du worker invalide'},400);
    return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.parse(body.generatedAt)<=Date.now()+60000&&Date.now()-Date.parse(body.generatedAt)<864e5?decodeWorkerMatches(body):[],body.generatedAt??null));
   }
