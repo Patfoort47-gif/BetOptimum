@@ -813,3 +813,12 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
  body.has-mobile-coupon #toast{bottom:calc(132px + env(safe-area-inset-bottom))}
  .ticket-drawer-open .mobile-coupon{visibility:hidden}
 }
+
+/* BET-210 : les flèches restent présentes sur écran tactile. */
+@media(max-width:767px){
+ .date-scroller{display:flex;align-items:center;gap:4px;min-width:0}
+ .date-scroller>.scroll-btn{display:grid!important;position:static;margin:0;opacity:1;pointer-events:auto;flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px}
+ .date-scroller>.scroll-btn:disabled{opacity:.3;cursor:default;pointer-events:none}
+ .date-scroller .date-navigator{flex:1;min-width:0;scroll-snap-type:x proximity;scroll-padding-inline:40%}
+ .date-scroller .date-chip{scroll-snap-align:center;white-space:nowrap;flex-shrink:0}
+}
