@@ -106,7 +106,7 @@ export function initProfilePage(deps) {
   function bets(info) {
     if (info.self) return `<p class="muted">Votre historique complet est dans l’onglet « Mes paris ». Les autres joueurs ne voient le détail que si vous l’autorisez dans « Compte et confidentialité ».</p><button class="button secondary" data-open-bets>Ouvrir mes paris</button>`;
     if (!info.profile.show_bets || !info.bets) return '<p class="empty">Ce joueur a choisi de masquer le détail de ses paris.</p>';
-    return info.bets.length ? `<div class="public-bets">${info.bets.map(bet => `<div class="public-bet ${bet.status}"><small>${dateLabel(bet.placed_at)} · ${bet.bet_type === 'multiple' ? 'Système' : bet.selections.length > 1 ? `Combiné ${bet.selections.length} sélections` : 'Simple'} · cote ${Number(bet.odds).toFixed(2)}</small>${bet.selections.map(item => `<span>${html(item.match)} · <b>${html(item.label)}</b></span>`).join('')}<em class="status ${bet.status}">${{ won: 'Gagné', lost: 'Perdu', void: 'Remboursé', pending: 'En attente' }[bet.status]}</em></div>`).join('')}</div>` : '<p class="empty">Aucun pari à afficher.</p>';
+    return info.bets.length ? `<div class="public-bets">${info.bets.map(bet => `<div class="public-bet ${bet.status}"><small>${dateLabel(bet.placed_at)} · ${bet.bet_type === 'multiple' ? 'Système' : bet.selections.length > 1 ? `Combiné ${bet.selections.length} sélections` : 'Simple'} · cote ${Number(bet.odds).toFixed(2)}</small>${bet.selections.map(item => `<span>${html(item.match)} · <b>${html(item.label)}</b></span>`).join('')}<em class="status ${bet.status}">${{ won: 'Gagné', lost: 'Perdu', void: 'Remboursé', pending: 'En attente' }[bet.status]}</em>${bet.status==='pending'&&bet.bet_type!=='multiple'?`<button type="button" class="button secondary" data-copy-bet="${html(bet.id)}">Copier le pari</button>`:''}</div>`).join('')}</div>` : '<p class="empty">Aucun pari à afficher.</p>';
   }
   function account(info) {
     const profile = info.profile, state = getState();
@@ -197,6 +197,7 @@ export function initProfilePage(deps) {
     if (event.target.closest('[data-more-connections]')) { loadConnections(connections.kind, true); return; }
     if (event.target.closest('[data-close-connections]')) { const kind = connections.kind; connections = null; connectionsRequest++; render(); root.querySelector(`[data-connections="${kind}"]`)?.focus(); return; }
     if (event.target.closest('[data-reload-profile]')) { show(target); return; }
+    const copyButton=event.target.closest('[data-copy-bet]');if(copyButton){const bet=data?.bets?.find(b=>b.id===copyButton.dataset.copyBet);if(bet)deps.copyBet?.(bet,data.profile.nickname);return;}
     const tabButton = event.target.closest('[data-tab]');
     if (tabButton) { tab = tabButton.dataset.tab; render(); root.querySelector(`#ptab-${tab}`)?.focus(); return; }
     if (event.target.closest('[data-share-card]')) { shareCard(data); return; }
