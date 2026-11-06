@@ -1,3 +1,4 @@
+import {emptyState} from './empty-state.js';
 import {sparkline} from './sparkline.js';
 import {mountBankrollExport} from './bankroll-export.js';
 import {UI_COPY} from './ui-copy.js';
@@ -32,7 +33,7 @@ export function initPersonalDashboard({api,root,getContext=()=>({})}){
    const opened=new Set([...root.querySelectorAll('details[open][data-bet-detail]')].map(x=>x.dataset.betDetail)),readingY=typeof window!=='undefined'?window.scrollY:0;if(!more){rows=new Map();$('#history-body').innerHTML=''}
    const added=data.rows.filter(row=>!rows.has(row.id));for(const row of added)rows.set(row.id,row);$('#history-body').insertAdjacentHTML('beforeend',added.map(row=>historyCard(dashboardBet(row),getContext())).join(''));root.querySelectorAll('[data-bet-detail]').forEach(el=>{if(opened.has(el.dataset.betDetail))el.open=true});
    nextCursor=data.has_more?data.next_cursor:null;lastFilters=filterKey;figures(data);pager(Boolean(nextCursor));$('#history-count').textContent=`${more?`${added.length} pari${added.length>1?'s':''} ajouté${added.length>1?'s':''} · `:''}${rows.size} sur ${data.total} affichés · plus récents en premier`;
-   $('#empty-history').hidden=rows.size>0;$('#empty-history').textContent=UI_COPY.historyEmpty;if(more&&typeof window!=='undefined')window.scrollTo({top:readingY,behavior:'instant'});
+   $('#empty-history').hidden=rows.size>0;$('#empty-history').innerHTML=emptyState('history',Boolean(f.search||f.status!=='all'||f.days!==null));if(more&&typeof window!=='undefined')window.scrollTo({top:readingY,behavior:'instant'});
   }catch(error){if(request!==serial)return;if(!more){$('#personal-kpis').innerHTML=`<div class="kpi-message"><dt role="status">Indicateurs indisponibles.</dt><dd><button type="button" class="button secondary" data-history-retry>${UI_COPY.retry}</button></dd></div>`;$('#personal-summary').innerHTML='';$('#personal-secondary').innerHTML='';$('#personal-charts').innerHTML=''}$('#history-count').textContent=`${error.message||'Chargement impossible'}. ${more?'Les paris affichés sont conservés. Réessayez le même lot.':'Réessayez le chargement.'}`;if(more&&button){button.disabled=false;button.textContent=UI_COPY.retry}else $('#history-pagination').innerHTML=`<button type="button" class="button secondary" data-history-retry>${UI_COPY.retry}</button>`;
   }finally{if(request===serial){busy=false;active=null;root.setAttribute('aria-busy','false')}}});active={key,promise};return promise;
  }
