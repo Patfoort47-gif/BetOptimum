@@ -822,3 +822,5 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
  .date-scroller .date-navigator{flex:1;min-width:0;scroll-snap-type:x proximity;scroll-padding-inline:40%}
  .date-scroller .date-chip{scroll-snap-align:center;white-space:nowrap;flex-shrink:0}
 }
+
+.stake-controls [data-stake-percent]{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:44px}.stake-controls [data-stake-percent] small{font-size:11px}.stake-controls [aria-pressed="true"]{border-color:var(--accent-text);color:var(--accent-text)}
