@@ -1,4 +1,3 @@
-import {mountPersonalLedger} from './personal-ledger.js';
 import {mountBankrollExport} from './bankroll-export.js';
 import {UI_COPY} from './ui-copy.js';
 import {historyCard} from './bet-history.js';
@@ -17,12 +16,9 @@ export function dashboardCharts(data){
 export function initPersonalDashboard({api,root,getContext=()=>({})}){
  const $=s=>root.querySelector(s),filters=()=>({days:$('#history-period').value==='all'?null:Number($('#history-period').value),status:$('#history-status').value,search:$('#history-search').value.trim().slice(0,100)}),cursorKey=c=>c?[c.snapshot_at,c.placed_at,c.id].join('|'):'first';
  let serial=0,timer,active=null,busy=false,nextCursor=null,rows=new Map(),lastFilters='';
- root.querySelector('.personal-history').insertAdjacentHTML('beforeend','<section id="personal-ledger" class="settings-card" aria-label="Paris personnels hors classement"></section>');
- const personalLedger=mountPersonalLedger(root.querySelector('#personal-ledger'),{getUserId:()=>getContext().userId});
  function figures(data){const kpis=dashboardKpis(data.summary);$('#personal-kpis').innerHTML=kpis.map(([label,value])=>`<div><dt>${label}${label==='ROI'?'<button type="button" class="metric-help" data-metric-help="roi" aria-label="Comprendre ROI">?</button>':''}</dt><dd>${value}</dd></div>`).join('');const scope=$('#history-period').selectedOptions?.[0]?.textContent??'Période sélectionnée';$('#personal-kpi-period').textContent=`ROI et bénéfice net : ${scope.toLowerCase()}, selon les filtres. Capital : solde disponible global actuel.`;const markup=figures=>figures.map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('');$('#personal-summary').innerHTML=markup(dashboardEssentialFigures(data.summary));$('#personal-secondary').innerHTML=markup(dashboardFigures(data.summary).filter(([label])=>!dashboardEssentialFigures(data.summary).some(([essential])=>essential===label)));$('#personal-charts').innerHTML=dashboardCharts({...data,days:filters().days})}
  function pager(hasMore){const box=$('#history-pagination'),previous=box.querySelector('[data-history-more]'),focused=previous===document.activeElement;if(hasMore){if(!previous)box.innerHTML=`<button type="button" class="button secondary" data-history-more>${UI_COPY.more}</button>`;const button=box.querySelector('[data-history-more]');button.disabled=false;button.textContent=UI_COPY.more}else{box.innerHTML=rows.size?`<p tabindex="-1" data-history-end>${UI_COPY.historyEnd}</p>`:'';if(focused)box.querySelector('[data-history-end]')?.focus({preventScroll:true})}}
  function load(options={}){
-  personalLedger.render();
   const more=options.more===true,f=filters(),filterKey=JSON.stringify(f);
   if(more&&(!nextCursor||busy))return active?.promise??Promise.resolve();
   if(!more&&!options.refresh&&rows.size>5&&lastFilters===filterKey)return Promise.resolve();
@@ -45,5 +41,5 @@ export function initPersonalDashboard({api,root,getContext=()=>({})}){
  $('#personal-filters').addEventListener('change',event=>{if(event.target.tagName!=='SELECT')return;serial++;active=null;nextCursor=null;clearTimeout(timer);load({refresh:true})});
  $('#reset-history').addEventListener('click',()=>{clearTimeout(timer);$('#history-period').value='all';$('#history-status').value='all';$('#history-search').value='';load({refresh:true})});
  root.addEventListener('click',event=>{const button=event.target.closest('[data-history-more],[data-history-retry],#refresh-history');if(!button||busy)return;load(button.hasAttribute('data-history-more')?{more:true}:{refresh:true})});
- return{load,clear(){personalLedger.clear();serial++;clearTimeout(timer);active=null;busy=false;nextCursor=null;rows=new Map();lastFilters='';$('#personal-kpis').innerHTML='<div class="kpi-message"><dt>Capital et performance</dt><dd>Connectez-vous pour consulter votre capital et vos résultats.</dd></div>';$('#personal-kpi-period').textContent='';for(const id of ['#personal-summary','#personal-secondary','#personal-charts','#history-body','#history-pagination'])$(id).innerHTML='';$('#history-count').textContent='Connectez-vous pour consulter vos paris certifiés.';root.setAttribute('aria-busy','false')}}
+ return{load,clear(){serial++;clearTimeout(timer);active=null;busy=false;nextCursor=null;rows=new Map();lastFilters='';$('#personal-kpis').innerHTML='<div class="kpi-message"><dt>Capital et performance</dt><dd>Connectez-vous pour consulter votre capital et vos résultats.</dd></div>';$('#personal-kpi-period').textContent='';for(const id of ['#personal-summary','#personal-secondary','#personal-charts','#history-body','#history-pagination'])$(id).innerHTML='';$('#history-count').textContent='Connectez-vous pour consulter vos paris certifiés.';root.setAttribute('aria-busy','false')}}
 }
