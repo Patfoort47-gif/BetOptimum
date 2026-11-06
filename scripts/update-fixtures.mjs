@@ -141,7 +141,11 @@ const settlements = allUnique.filter(match => match.completed && Number.isFinite
 const providerFailures = [...failures];
 let history = [];
 try { history = await footballHistory(); } catch (error) { providerFailures.push(error.message); }
-const propLineResult = await collectPropLine(unique, Object.fromEntries(Object.entries(providerMap).map(([league,[,sport]])=>[league,sport])));
+const reservations=JSON.parse(await readFile('data/odds-sync-attempts.json','utf8').catch(error=>{if(error.code==='ENOENT')return '[]';throw error})),reservedAt=process.env.ODDS_SYNC_RESERVED_AT;
+const quotaReserved=Boolean(reservedAt&&reservations.at(-1)===reservedAt&&Date.now()-Date.parse(reservedAt)>=0&&Date.now()-Date.parse(reservedAt)<15*60000);
+if(!quotaReserved)console.info('Cotes : aucune réservation de quota, cache uniquement.');
+const propLineResult = quotaReserved ? await collectPropLine(unique, Object.fromEntries(Object.entries(providerMap).map(([league,[,sport]])=>[league,sport])))
+: {offersByMatch:new Map(),requested:0,succeeded:0,failures:[]};
 providerFailures.push(...propLineResult.failures);
 const enriched = unique.map(match => {
   const homeStats = teamForm(match.home, history), awayStats = teamForm(match.away, history);
