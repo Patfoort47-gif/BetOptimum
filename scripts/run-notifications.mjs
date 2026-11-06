@@ -6,5 +6,5 @@ if(!url||!secret){console.log('Alertes non configurées : aucun envoi.');process
 if(!/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url))throw new Error('URL Supabase invalide');
 const data=JSON.parse(await readFile('data/fixtures.json','utf8'));
 const started=Date.now(),result=await callNotificationWorker(url,secret,data);
-console.log(`${Number(result.queued)||0} alertes mises en file, ${Number(result.sent)||0} livraisons confirmées · ${Date.now()-started} ms · worker ${/^BET-(195|200)$/.test(result.revision)?result.revision:'version antérieure'}.`);
+console.log(`${Number(result.queued)||0} alertes mises en file, ${Number(result.sent)||0} livraisons confirmées · ${Date.now()-started} ms · worker ${/^BET-(195|200|242)$/.test(result.revision)?result.revision:'version antérieure'}.`);
 if(result.claimed===0&&Number(result.queued)===0)console.log('Aucune alerte éligible à traiter.');
