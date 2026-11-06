@@ -1,3 +1,4 @@
+import {liveEntryFromPayload} from './live.js';
 const motionBehavior=()=>typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
 // Fiches détaillées (équipe, match, direct) et section Classements, alimentées à la demande par l'API publique d'ESPN.
 const API='https://site.api.espn.com/apis';
@@ -20,7 +21,7 @@ export function initDetails(context){
   dialog.addEventListener('close',()=>{clearInterval(liveTimer);renderToken++;view=null;const steps=history.state?.sheet?history.state.depth+1:0;stack=[];depth=0;if(steps)history.go(-steps)});
   addEventListener('popstate',()=>{if(!dialog.open)return;const target=history.state?.sheet?history.state.depth:null;if(target===null||!stack[target]){dialog.close();return}rememberScroll();depth=target;show(stack[target])});
   document.querySelector('#standings').addEventListener('click',onStandingsClick);
-  return {openTeam,openMatch,showStandings};
+  return {openTeam,openMatch,showStandings,refreshLive};
 }
 
 // Ouverture de la fenêtre et navigation par onglets
@@ -38,6 +39,7 @@ function tabsFor(){if(view.type==='team')return[['squad','Effectif'],['tables','
 function renderTabs(){document.querySelector('#detail-tabs').innerHTML=tabsFor().map(([key,label])=>`<button role="tab" tabindex="${view.tab===key?0:-1}" aria-selected="${view.tab===key}" class="${view.tab===key?'active':''}" data-sheet-tab="${key}">${label}</button>`).join('')}
 async function renderBody(){const current=view,token=++renderToken;if(!current)return;if(current.type==='match'&&!current.ids){await resolveIds(current);if(token!==renderToken||view!==current||!dialog.open)return;renderHead()}const body=document.querySelector('#detail-body'),builder=current.type==='team'?TEAM_TABS[current.tab]:MATCH_TABS[current.tab];if(!body.innerHTML||!body.dataset.tab||body.dataset.tab!==current.tab)body.innerHTML=loading;body.dataset.tab=current.tab;let html;try{html=await builder()}catch(error){if(token!==renderToken||view!==current)return;console.error(error);html=unavailable('Données indisponibles pour le moment. Réessayez dans quelques instants.')}if(token===renderToken&&view===current&&dialog.open){body.innerHTML=html;if(current.scroll){body.scrollTop=current.scroll;current.scroll=0}}}
 const closeButton='<button class="icon-button sheet-close" data-sheet-close aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+function refreshLive(){if(view?.type!=='match'||!dialog.open)return;view.match=ctx.allMatches().find(m=>m.id===view.match.id)??view.match;renderHead();renderTabs();if(view.match.completed)clearInterval(liveTimer)}
 function renderHead(){renderHeadContent();document.querySelector('#detail-head').insertAdjacentHTML('afterbegin',sheetNav())}
 function renderHeadContent(){const head=document.querySelector('#detail-head');head.style.removeProperty('--team');if(view.type==='team'){const info=view.info,leagues=teamLeagues(view.name),logo=info?.logo?(isDark()?info.logo.replace('/500/','/500-dark/'):info.logo):view.logo,record=/^(\d+)-(\d+)-(\d+)$/.exec(info?.recordSummary??''),color=/^[0-9a-f]{6}$/i.test(info?.color??'')?`#${info.color}`:null;if(color)head.style.setProperty('--team',color);head.innerHTML=`<div class="sheet-team-head">${ctx.logoTag('crest big',logo,view.name)}<div class="sheet-team-id"><p class="eyebrow">FICHE ÉQUIPE</p><h2 id="detail-title">${esc(view.name)}</h2><div class="team-facts">${info?.standingSummary?`<span><b>${esc(rankText(info.standingSummary))}</b></span>`:''}${record?`<span><b>${record[1]}</b> V · <b>${record[2]}</b> N · <b>${record[3]}</b> D</span>`:''}</div><div class="sheet-leagues">${leagues.map(name=>`<span>${ctx.logoTag('league-logo small',ctx.leagueLogoUrl(name),name)}${esc(name)}</span>`).join('')}</div></div></div>${closeButton}`;return}const m=view.match,live=ctx.isLive(m)?ctx.state.live[m.id]:null,center=m.completed?`<strong>${m.homeScore} : ${m.awayScore}</strong><small>Terminé</small>`:live?`<strong>${live.home} : ${live.away}</strong><small class="live-text">En direct · ${esc(live.clock)}</small>`:`<strong>${esc(m.time)}</strong><small>${frDate(ctx.kickoffAt(m),{weekday:'long',day:'numeric',month:'long'})}</small>`;head.innerHTML=`<div class="sheet-match-head"><p class="eyebrow">${ctx.logoTag('league-logo small',ctx.leagueLogoUrl(m.league),m.league)}${esc(m.league)}</p><div class="sheet-score"><button class="sheet-team" ${teamAttrs(sideId('home'),m.home,m.homeLogo,m.league)}>${ctx.logoTag('crest',m.homeLogo,m.home)}<span>${esc(m.home)}</span></button><div class="sheet-center" id="detail-title">${center}</div><button class="sheet-team" ${teamAttrs(sideId('away'),m.away,m.awayLogo,m.league)}>${ctx.logoTag('crest',m.awayLogo,m.away)}<span>${esc(m.away)}</span></button></div></div>${closeButton}`}
 
@@ -51,7 +53,7 @@ const groupOf=league=>ctx.LEAGUES[league]?.[2]??'other';
 const hasTable=league=>['league','europe'].includes(groupOf(league))&&!["Supercoupe d'Europe"].includes(league);
 const teamLeagues=name=>[...new Set(ctx.allMatches().filter(m=>m.home===name||m.away===name).map(m=>m.league))].sort((a,b)=>(ctx.LEAGUES[b]?.[1]??0)-(ctx.LEAGUES[a]?.[1]??0));
 const summaryPath=()=>`site/v2/sports/soccer/${slugOf(view.match.league)}/summary?event=${String(view.match.id).replace('espn-','')}`;
-const summary=()=>espn(summaryPath(),ctx.isLive(view.match)?25000:300000);
+const summary=()=>{const current=view,path=summaryPath(),match=current.match,started=Date.now()>=ctx.kickoffAt(match)-10*60e3;return espn(path,started&&!match.completed?20000:300000).then(data=>{if(view===current){const entry=liveEntryFromPayload(data,match.id,cache.get(path)?.at??Date.now());if(entry)ctx.onLiveEntry?.(match,entry)}return data})};
 const teamSlug=()=>slugOf(view.league)??slugOf(teamLeagues(view.name)[0])??'all';
 
 // Tableaux partagés : classement, buteurs
