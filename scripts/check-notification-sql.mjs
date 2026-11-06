@@ -106,4 +106,35 @@ assert.equal((await q('select * from claim_web_notifications()')).length,0);
 await q('select unsubscribe_notifications()');
 assert.equal((await q('select my_web_notifications() s'))[0].s.associated,false);
 assert.equal(await enqueueWeb({...reminder,match_id:'unsubscribed'}),false);
+// BET-243 : le worker GitHub ne réserve plus les rappels du minuteur serveur.
+for(const v of [55,55])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'web','demo')`,[uid]);
+await q('select save_web_notifications($1)',[JSON.stringify({...web,favorite_reminders:true})]);
+assert.equal(await enqueueWeb({...reminder,match_id:'scheduled-only'}),true);
+assert.equal((await q('select * from claim_web_notifications()')).length,0);
+assert.equal((await q('select * from claim_favorite_reminders()')).length,1);
+assert.equal((await q('select * from claim_favorite_reminders()')).length,0);
+// Bail atomique : deux déclenchements simultanés ne lancent pas deux traitements.
+assert.equal((await q('select claim_notification_scheduler() ok'))[0].ok,false);
+await q("update notification_scheduler set enabled=true,dry_run=false,endpoint='https://test.supabase.co/functions/v1/notifications'");
+assert.equal((await q('select claim_notification_scheduler() ok'))[0].ok,true);
+assert.equal((await q('select claim_notification_scheduler() ok'))[0].ok,false);
+await q('select finish_notification_scheduler(true,1,1)');
+assert.equal((await q('select last_ok from notification_scheduler'))[0].last_ok,true);
+assert.equal((await q('select claim_notification_scheduler() ok'))[0].ok,true);
+await q('select finish_notification_scheduler(false,0,0)');
+assert.equal((await q("select has_table_privilege('authenticated','notification_scheduler','select') ok"))[0].ok,false);
+assert.equal((await q("select has_function_privilege('authenticated','claim_notification_scheduler()','execute') ok"))[0].ok,false);
+// Stubs des seules extensions réseau/cron : la logique du minuteur est exécutée sans appel externe.
+await db.exec(`create schema vault;create table vault.decrypted_secrets(name text,decrypted_secret text);insert into vault.decrypted_secrets values('betoptimum_notification_scheduler','fictive-test-secret-at-least-32-characters');create schema net;create table net.requests(url text,body jsonb,headers jsonb);create function net.http_post(url text,headers jsonb,body jsonb,timeout_milliseconds int) returns bigint language plpgsql as $$begin insert into net.requests values(url,body,headers);return 1;end$$;create schema cron;create function cron.schedule(text,text,text) returns bigint language sql as $$select 1::bigint$$;`);
+let schedulerSQL=await readFile('supabase/notification-scheduler.sql','utf8');schedulerSQL=schedulerSQL.replace(/^create extension[^;]+;$/gm,'');
+await db.exec(schedulerSQL);await db.exec(schedulerSQL);
+assert.equal((await q('select tick_notification_scheduler() id'))[0].id,1);
+const [request]=await q('select * from net.requests');
+assert.equal(request.body.action,'scheduled-reminders');assert.equal(request.body.dry_run,false);
+assert.ok(request.headers['x-scheduler-secret']);
+assert.equal((await q("select has_function_privilege('authenticated','tick_notification_scheduler()','execute') ok"))[0].ok,false);
+assert.equal((await q("select has_function_privilege('service_role','tick_notification_scheduler()','execute') ok"))[0].ok,false);
+await q('update notification_scheduler set enabled=false');
+assert.equal((await q('select tick_notification_scheduler() id'))[0].id,null);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');
