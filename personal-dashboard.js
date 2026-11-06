@@ -1,4 +1,5 @@
 import {mountPersonalLedger} from './personal-ledger.js';
+import {mountBankrollExport} from './bankroll-export.js';
 import {UI_COPY} from './ui-copy.js';
 import {historyCard} from './bet-history.js';
 const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n));
@@ -38,6 +39,8 @@ export function initPersonalDashboard({api,root,getContext=()=>({})}){
   }catch(error){if(request!==serial)return;if(!more){$('#personal-kpis').innerHTML=`<div class="kpi-message"><dt role="status">Indicateurs indisponibles.</dt><dd><button type="button" class="button secondary" data-history-retry>${UI_COPY.retry}</button></dd></div>`;$('#personal-summary').innerHTML='';$('#personal-secondary').innerHTML='';$('#personal-charts').innerHTML=''}$('#history-count').textContent=`${error.message||'Chargement impossible'}. ${more?'Les paris affichés sont conservés. Réessayez le même lot.':'Réessayez ou actualisez les paris.'}`;if(more&&button){button.disabled=false;button.textContent=UI_COPY.retry}else $('#history-pagination').innerHTML=`<button type="button" class="button secondary" data-history-retry>${UI_COPY.retry}</button>`;
   }finally{if(request===serial){busy=false;active=null;root.setAttribute('aria-busy','false')}}});active={key,promise};return promise;
  }
+ root.querySelector('.personal-history').insertAdjacentHTML('beforeend','<section id="bankroll-export" class="settings-card" aria-label="Export CSV"></section>');
+ mountBankrollExport(root.querySelector('#bankroll-export'),{api});
  $('#personal-filters').addEventListener('input',()=>{serial++;active=null;nextCursor=null;clearTimeout(timer);timer=setTimeout(()=>load({refresh:true}),250)});
  $('#personal-filters').addEventListener('change',event=>{if(event.target.tagName!=='SELECT')return;serial++;active=null;nextCursor=null;clearTimeout(timer);load({refresh:true})});
  $('#reset-history').addEventListener('click',()=>{clearTimeout(timer);$('#history-period').value='all';$('#history-status').value='all';$('#history-search').value='';load({refresh:true})});
