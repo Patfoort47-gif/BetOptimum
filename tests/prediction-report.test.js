@@ -2,3 +2,9 @@ import test from 'node:test';import assert from 'node:assert/strict';import {pre
 const now=Date.parse('2026-10-30T12:00Z'),base={date:'2026-10-30',league:'Ligue 1',key:'home',odd:2};
 test('bilan : profit et ROI excluent attente remboursement et cote invalide',()=>{const r=predictionReport([{...base,status:'won'},{...base,status:'lost'},{...base,status:'pending'},{...base,status:'void'},{...base,status:'won',odd:null}],{},now);assert.equal(r.items.length,2);assert.equal(r.stake,20);assert.equal(r.returned,20);assert.equal(r.roi,0);assert.equal(r.pending,1);assert.equal(r.voided,1);assert.equal(r.invalid,1)});
 test('bilan : filtres et période en jours de Paris, y compris minuit',()=>{const rows=[{...base,status:'won',date:'2026-10-23'},{...base,status:'lost',date:'2026-10-24'},{...base,status:'won'}];assert.equal(predictionReport(rows,{period:'7'},now).items.length,2);assert.equal(predictionReport(rows,{result:'won',period:'7'},now).profit,10);assert.equal(predictionReport(rows,{league:'Autre'},now).roi,null);assert.equal(predictionReport([{...base,status:'won',date:'2026-10-31'}],{period:'1'},Date.parse('2026-10-30T23:30Z')).items.length,1)});
+
+test('BET-207 : Hier suit la date de Paris au changement d’heure et les autres filtres',()=>{
+ const rows=[{date:'2026-10-25',league:'A',key:'home',status:'won',odd:2},{date:'2026-10-25',league:'B',key:'away',status:'lost',odd:2},{date:'2026-10-26',league:'A',key:'home',status:'lost',odd:2}];
+ const report=predictionReport(rows,{period:'yesterday',league:'A'},Date.parse('2026-10-26T00:30:00+01:00'));
+ assert.equal(report.items.length,1);assert.equal(report.profit,10);assert.equal(report.first,'2026-10-25');assert.equal(report.last,'2026-10-25');
+});
