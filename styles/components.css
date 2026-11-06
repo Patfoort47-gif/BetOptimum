@@ -824,3 +824,7 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 }
 
 .stake-controls [data-stake-percent]{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:44px}.stake-controls [data-stake-percent] small{font-size:11px}.stake-controls [aria-pressed="true"]{border-color:var(--accent-text);color:var(--accent-text)}
+
+/* BET-213 : score et accès aux statistiques regroupés au centre. */
+.match-hero{padding:14px 18px 18px}.match-hero .match-teams{margin-top:0;gap:12px;align-items:center}.match-center{display:grid;justify-items:center;gap:6px;min-width:0}.match-center-stats{min-height:44px;padding:6px 10px;border:1px solid #ffffff60;border-radius:999px;background:#09172cc9;color:#fff;font:inherit;font-size:12px;white-space:nowrap;cursor:pointer}.match-center-stats:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.match-hero .crest img{object-fit:contain}
+@media(max-width:767px){.match-hero{padding:12px}.match-hero .match-teams{margin-top:0;gap:6px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}.match-center-stats{font-size:11px;padding:6px 8px}.match-hero .team{gap:6px}.match-hero .crest{width:44px;height:44px}.match-hero .team strong{font-size:14px}.match-hero .kickoff{padding:6px}.match-hero .kickoff strong{font-size:24px}}
