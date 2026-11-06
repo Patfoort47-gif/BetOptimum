@@ -3,8 +3,8 @@ name: Actualiser les matchs
 on:
   workflow_dispatch:
   schedule:
-    # 6 h et 14 h à Paris, avec les deux décalages UTC été/hiver.
-    - cron: '0 4,5,12,13 * * *'
+    # 6 h et 18 h à Paris, avec les deux décalages UTC été/hiver.
+    - cron: '0 4,5,16,17 * * *'
 
 permissions:
   contents: write
@@ -30,7 +30,7 @@ jobs:
             exit 0
           fi
           case "$(TZ=Europe/Paris date +%H)" in
-            06|14) echo "run=true" >> "$GITHUB_OUTPUT" ;;
+            06|18) echo "run=true" >> "$GITHUB_OUTPUT" ;;
             *) echo "run=false" >> "$GITHUB_OUTPUT" ;;
           esac
       - uses: actions/checkout@v4
@@ -50,9 +50,23 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: node scripts/check-market-deployment.mjs
+      - name: Réserver durablement le quota avant les appels fournisseur
+        id: quota
+        if: steps.schedule.outputs.run == 'true'
+        run: |
+          node scripts/odds-sync-quota.mjs
+          if ! git diff --quiet -- data/odds-sync-attempts.json || [ -n "$(git ls-files --others --exclude-standard data/odds-sync-attempts.json)" ]; then
+            git config user.name "betmaster-fixtures[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/odds-sync-attempts.json
+            git commit -m "BET-211 Réserve le quota des cotes"
+            git push origin HEAD:main
+            echo "reserved_at=$(node -p 'JSON.parse(require("fs").readFileSync("data/odds-sync-attempts.json")).at(-1)')" >> "$GITHUB_OUTPUT"
+          fi
       - name: Télécharger les calendriers officiels
         if: steps.schedule.outputs.run == 'true'
         env:
+          ODDS_SYNC_RESERVED_AT: ${{ steps.quota.outputs.reserved_at }}
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           PROPLINE_MARKET_STAGE: '3'
           PROPLINE_H1_ENABLED: 'false'

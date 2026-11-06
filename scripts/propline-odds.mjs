@@ -76,6 +76,7 @@ export async function collectPropLine(matches,leagueSports,{key=process.env.PROP
       const query=new URLSearchParams({markets:stage>=3?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals,correct_score,european_handicap,winning_margin':stage>=2?'h2h,totals,both_teams_to_score,double_chance,draw_no_bet,team_totals':'h2h,totals,both_teams_to_score',max_age:'3600'});
       if(h1Enabled)query.set('period','all');
       if(stage>=4)query.set('markets',query.get('markets')+','+COMPOSITE_MARKETS.join(','));
+      console.info(`[PropLine] ${new Date(now).toISOString()} sport=${sport} requête=${result.requested}/${maxRequests}`);
       const response=await fetchImpl(`https://api.prop-line.com/v1/sports/${encodeURIComponent(sport)}/odds?${query}`,{headers:{'X-API-Key':key},signal:AbortSignal.timeout(20000),redirect:'error'});
       if(!response.ok){result.failures.push(`PropLine ${sport}: HTTP ${response.status}`);if([401,403,429].includes(response.status))break;continue}
       const events=await response.json();if(!Array.isArray(events))throw new Error('format');
