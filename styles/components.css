@@ -473,6 +473,9 @@ dialog .modal-head .icon-button,dialog .dialog-tools .icon-button{flex:none;min-
 
 /* BET-135 : le bilan du modèle devient une page de performance éditoriale. */
 #predictions{--model-lime:#c8f03c;--model-ink:#10190e}
+/* BET-236 : deux indicateurs et la carte suivante invitent au défilement. */
+@media(max-width:700px){#predictions .prediction-kpi-grid{display:flex;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;gap:10px;padding:4px 2px 12px}#predictions .prediction-kpi-grid::-webkit-scrollbar{display:none}#predictions .prediction-kpi-grid article{flex:0 0 40%;min-width:0;scroll-snap-align:start}#predictions .prediction-kpi-grid:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}}
+
 .model-page-heading,.model-filter-title,.model-section-title{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .model-page-heading{margin-bottom:22px}.model-page-heading h1{font-family:var(--display);font-size:clamp(26px,3vw,40px);text-transform:uppercase;margin:4px 0 0}.model-page-heading .eyebrow{font-size:10px}
 .model-filter-panel{padding:18px 22px;border:1px solid var(--line);border-radius:20px;background:var(--surface);margin-bottom:18px}.model-filter-title>strong{font-size:13px}.model-period-shortcuts{display:flex;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px}.model-period-shortcuts button{border:0;border-radius:999px;padding:8px 14px;background:transparent;color:var(--muted);font-size:12px;font-weight:700;min-height:36px}.model-period-shortcuts button[aria-pressed=true]{background:var(--text);color:var(--bg)}.model-period-shortcuts button:focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
