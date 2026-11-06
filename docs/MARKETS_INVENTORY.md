@@ -129,7 +129,7 @@ L’ordre privilégie le score final déjà persisté et la couverture observée
 
 ## Quota et données supplémentaires
 
-Les deux collectes de production restent à **6 h et 14 h Paris**, aucun appel PropLine depuis le navigateur. Le collecteur actuel fait au plus huit appels groupés (un par compétition éligible) à chaque créneau. Ajouter des clés à une requête groupée peut augmenter le coût fournisseur : le relevé `/markets` ne documente pas ce coût. Il faut le mesurer avant activation, et ne pas supposer qu’une requête vaut un crédit pour toutes les familles.
+Les deux collectes de production restent à **6 h et 18 h Paris**, aucun appel PropLine depuis le navigateur. Le collecteur actuel fait au plus huit appels groupés (un par compétition éligible) à chaque créneau. Ajouter des clés à une requête groupée peut augmenter le coût fournisseur : le relevé `/markets` ne documente pas ce coût. Il faut le mesurer avant activation, et ne pas supposer qu’une requête vaut un crédit pour toutes les familles.
 
 L’inventaire ponctuel a consommé 56 requêtes (8 listes de matchs + 16 × 3 catalogues), plafond 60, sans nouvelle tentative ; ne pas l’ajouter à la planification. Les futurs diagnostics de prix doivent avoir un budget explicite, s’arrêter sur 401/403/429 et être exécutés hors créneaux de collecte. Les appels par événement/période/joueur et les nouvelles données de résultat représentent un budget supplémentaire non encore chiffré : aucune activation ne doit les ajouter silencieusement. Les secrets restent dans Actions.
 

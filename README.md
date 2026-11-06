@@ -24,7 +24,7 @@ Sans compte, les données utilisateur restent dans `localStorage`. Avec un compt
 
 ## Données sportives
 
-Le workflow `Actualiser les matchs` consolide chaque jour les calendriers ESPN, les résultats historiques de football-data.org et les cotes de PropLine. Il enregistre les sept prochains jours dans `data/fixtures.json`, puis republie GitHub Pages. Toutes les cotes 1N2, Over 2,5 et BTTS sont rafraîchies ensemble à 6 h et 14 h, heure de Paris, sans appel nocturne. Les marchés Over 2,5 et BTTS couvrent les rencontres des prochaines 48 heures chez les bookmakers disponibles. Lorsqu’un bookmaker ne renvoie temporairement plus l’un de ces marchés, sa dernière cote réelle est conservée en cache. Les autres valeurs restent des estimations internes clairement identifiées.
+Le workflow `Actualiser les matchs` consolide chaque jour les calendriers ESPN, les résultats historiques de football-data.org et les cotes de PropLine. Il enregistre les sept prochains jours dans `data/fixtures.json`, puis republie GitHub Pages. Toutes les cotes 1N2, Over 2,5 et BTTS sont rafraîchies ensemble à 6 h et 18 h, heure de Paris, sans appel nocturne. Les marchés Over 2,5 et BTTS couvrent les rencontres des prochaines 48 heures chez les bookmakers disponibles. Lorsqu’un bookmaker ne renvoie temporairement plus l’un de ces marchés, sa dernière cote réelle est conservée en cache. Les autres valeurs restent des estimations internes clairement identifiées.
 
 Deux secrets GitHub Actions sont requis : `FOOTBALL_DATA_TOKEN`. Ils ne sont jamais envoyés au navigateur ni écrits dans les données publiées.
 
