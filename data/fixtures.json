@@ -97,7 +97,7 @@
     "secondaryOddsMatches": 82,
     "statsMatches": 55,
     "oddsMatches": 86,
-    "settlements": 120
+    "settlements": 148
   },
   "settlements": [
     {
@@ -211,6 +211,610 @@
           "away": 0
         }
       }
+    },
+    {
+      "id": "espn-401878760",
+      "league": "Premier League",
+      "date": "2026-11-07",
+      "homeId": "359",
+      "awayId": "306",
+      "home": "Arsenal",
+      "away": "Hull City",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401878760",
+        "homeId": "359",
+        "awayId": "306",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401874811",
+      "league": "Serie A",
+      "date": "2026-11-07",
+      "homeId": "239",
+      "awayId": "113",
+      "home": "Torino",
+      "away": "Lecce",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 1,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401874811",
+        "homeId": "239",
+        "awayId": "113",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401884745",
+      "league": "Bundesliga",
+      "date": "2026-11-07",
+      "homeId": "124",
+      "awayId": "10388",
+      "home": "Borussia Dortmund",
+      "away": "SV Elversberg",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884745",
+        "homeId": "124",
+        "awayId": "10388",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401884740",
+      "league": "Bundesliga",
+      "date": "2026-11-07",
+      "homeId": "2950",
+      "awayId": "132",
+      "home": "Mainz",
+      "away": "Bayern Munich",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884740",
+        "homeId": "2950",
+        "awayId": "132",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 2
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "espn-401884744",
+      "league": "Bundesliga",
+      "date": "2026-11-07",
+      "homeId": "11420",
+      "awayId": "3841",
+      "home": "RB Leipzig",
+      "away": "FC Augsburg",
+      "regulation": null,
+      "homeScore": 5,
+      "awayScore": 2,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884744",
+        "homeId": "11420",
+        "awayId": "3841",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 5,
+          "away": 2
+        },
+        "h1": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "espn-401884737",
+      "league": "Bundesliga",
+      "date": "2026-11-07",
+      "homeId": "3307",
+      "awayId": "125",
+      "home": "SC Paderborn 07",
+      "away": "Eintracht Frankfurt",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 2,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884737",
+        "homeId": "3307",
+        "awayId": "125",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 2
+        },
+        "h1": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "espn-401931119",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "2731",
+      "awayId": "344",
+      "home": "Accrington Stanley",
+      "away": "Wycombe Wanderers",
+      "regulation": null,
+      "homeScore": 0,
+      "awayScore": 2,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931119",
+        "homeId": "2731",
+        "awayId": "344",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 0,
+          "away": 2
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "espn-401931103",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "280",
+      "awayId": "345",
+      "home": "Barnet",
+      "away": "Tranmere Rovers",
+      "regulation": null,
+      "homeScore": 3,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931103",
+        "homeId": "280",
+        "awayId": "345",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 3,
+          "away": 0
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931089",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "397",
+      "awayId": "632",
+      "home": "Barnsley",
+      "away": "Aldershot Town",
+      "regulation": null,
+      "homeScore": 7,
+      "awayScore": 2,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931089",
+        "homeId": "397",
+        "awayId": "632",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 7,
+          "away": 2
+        },
+        "h1": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931083",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "2595",
+      "awayId": "350",
+      "home": "Boreham Wood",
+      "away": "Wigan Athletic",
+      "regulation": null,
+      "homeScore": 0,
+      "awayScore": 3,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931083",
+        "homeId": "2595",
+        "awayId": "350",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 0,
+          "away": 3
+        },
+        "h1": {
+          "home": 0,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "espn-401931118",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "387",
+      "awayId": "20771",
+      "home": "Bradford City",
+      "away": "Marine",
+      "regulation": null,
+      "homeScore": 7,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931118",
+        "homeId": "387",
+        "awayId": "20771",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 7,
+          "away": 0
+        },
+        "h1": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931082",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "2567",
+      "awayId": "132415",
+      "home": "Burton Albion",
+      "away": "AFC Rushden & Diamonds",
+      "regulation": null,
+      "homeScore": 4,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931082",
+        "homeId": "2567",
+        "awayId": "132415",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 4,
+          "away": 0
+        },
+        "h1": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931090",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "322",
+      "awayId": "4703",
+      "home": "Carlisle United",
+      "away": "Salford City",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931090",
+        "homeId": "322",
+        "awayId": "4703",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931088",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "320",
+      "awayId": "312",
+      "home": "Cheltenham Town",
+      "away": "FC Halifax Town",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931088",
+        "homeId": "320",
+        "awayId": "312",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931081",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "343",
+      "awayId": "284",
+      "home": "Chesterfield",
+      "away": "Yeovil Town",
+      "regulation": null,
+      "homeScore": 4,
+      "awayScore": 3,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931081",
+        "homeId": "343",
+        "awayId": "284",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 4,
+          "away": 3
+        },
+        "h1": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "espn-401931102",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "339",
+      "awayId": "649",
+      "home": "Colchester United",
+      "away": "Worcester City",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 0,
+      "completed": true,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931102",
+        "homeId": "339",
+        "awayId": "649",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "espn-401931120",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "396",
+      "awayId": "3802",
+      "home": "Crewe Alexandra",
+      "away": "AFC Wimbledon",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401931107",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "293",
+      "awayId": "3887",
+      "home": "Dover Athletic",
+      "away": "Wealdstone",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401931096",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "19262",
+      "awayId": "13884",
+      "home": "Harrogate Town",
+      "away": "AFC Fylde",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 4,
+      "completed": true
+    },
+    {
+      "id": "espn-401931094",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "335",
+      "awayId": "324",
+      "home": "Huddersfield Town",
+      "away": "Exeter City",
+      "regulation": null,
+      "homeScore": 1,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401931106",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "319",
+      "awayId": "279",
+      "home": "Kidderminster Harriers",
+      "away": "Doncaster Rovers",
+      "regulation": null,
+      "homeScore": 3,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401931110",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "309",
+      "awayId": "22468",
+      "home": "Leyton Orient",
+      "away": "Harborough Town",
+      "regulation": null,
+      "homeScore": 5,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401931095",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "304",
+      "awayId": "131494",
+      "home": "Mansfield Town",
+      "away": "Macclesfield FC",
+      "regulation": null,
+      "homeScore": 3,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401931122",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "390",
+      "awayId": "341",
+      "home": "Milton Keynes Dons",
+      "away": "Swindon Town",
+      "regulation": null,
+      "homeScore": 2,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401931121",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "311",
+      "awayId": "285",
+      "home": "Oxford United",
+      "away": "Stevenage",
+      "regulation": null,
+      "homeScore": 0,
+      "awayScore": 1,
+      "completed": true
+    },
+    {
+      "id": "espn-401931275",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "307",
+      "awayId": "21711",
+      "home": "Plymouth Argyle",
+      "away": "Alvechurch",
+      "regulation": null,
+      "homeScore": 4,
+      "awayScore": 0,
+      "completed": true
+    },
+    {
+      "id": "espn-401931086",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "348",
+      "awayId": "313",
+      "home": "Port Vale",
+      "away": "Scunthorpe United",
+      "regulation": null,
+      "homeScore": 4,
+      "awayScore": 2,
+      "completed": true
+    },
+    {
+      "id": "espn-401931084",
+      "league": "FA Cup",
+      "date": "2026-11-07",
+      "homeId": "315",
+      "awayId": "353",
+      "home": "York City",
+      "away": "Northampton Town",
+      "regulation": null,
+      "homeScore": 4,
+      "awayScore": 0,
+      "completed": true
     },
     {
       "id": "espn-401879242",
@@ -214955,12 +215559,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
       "priority": 64,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 1,
       "awayScore": 0,
       "homeGoals": 1.89,
       "awayGoals": 0.84,
@@ -223283,6 +223887,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T14:57:43.990Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401878760",
+        "homeId": "359",
+        "awayId": "306",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
       }
     },
     {
@@ -231637,7 +232256,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:58.994Z"
+        "capturedAt": "2026-11-07T16:57:10.795Z"
       }
     },
     {
@@ -240027,7 +240646,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.027Z"
+        "capturedAt": "2026-11-07T16:57:10.825Z"
       }
     },
     {
@@ -240051,13 +240670,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
       "priority": 62,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 1.62,
       "awayGoals": 1.07,
       "odds": {
@@ -248364,6 +248983,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T14:04:09.949Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884745",
+        "homeId": "124",
+        "awayId": "10388",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
       }
     },
     {
@@ -248387,13 +249021,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
       "priority": 62,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 2,
       "homeGoals": 1.89,
       "awayGoals": 2.68,
       "odds": {
@@ -256778,6 +257412,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T14:04:09.961Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884740",
+        "homeId": "2950",
+        "awayId": "132",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 2
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
       }
     },
     {
@@ -258638,7 +259287,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.052Z"
+        "capturedAt": "2026-11-07T16:57:10.844Z"
       }
     },
     {
@@ -292537,7 +293186,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.053Z"
+        "capturedAt": "2026-11-07T16:57:10.844Z"
       }
     },
     {
@@ -292561,13 +293210,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
       "priority": 32,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 5,
+      "awayScore": 2,
       "homeGoals": 2.25,
       "awayGoals": 1.84,
       "odds": {
@@ -301074,6 +301723,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T14:04:09.998Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884744",
+        "homeId": "11420",
+        "awayId": "3841",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 5,
+          "away": 2
+        },
+        "h1": {
+          "home": 3,
+          "away": 1
+        }
       }
     },
     {
@@ -301097,13 +301761,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
       "priority": 32,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 2,
       "homeGoals": 1.53,
       "awayGoals": 1.3,
       "odds": {
@@ -309456,6 +310120,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T14:04:10.009Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401884737",
+        "homeId": "3307",
+        "awayId": "125",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 2
+        },
+        "h1": {
+          "home": 1,
+          "away": 1
+        }
       }
     },
     {
@@ -317771,7 +318450,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.054Z"
+        "capturedAt": "2026-11-07T16:57:10.845Z"
       }
     },
     {
@@ -326417,13 +327096,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/113.png",
       "priority": 31,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "homeGoals": 2.16,
       "awayGoals": 1.15,
       "odds": {
@@ -334743,6 +335422,21 @@
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
         "capturedAt": "2026-11-07T13:15:29.369Z"
+      },
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401874811",
+        "homeId": "239",
+        "awayId": "113",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 1
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
       }
     },
     {
@@ -342944,7 +343638,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.075Z"
+        "capturedAt": "2026-11-07T16:57:10.861Z"
       }
     },
     {
@@ -351477,7 +352171,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.096Z"
+        "capturedAt": "2026-11-07T16:57:10.878Z"
       }
     },
     {
@@ -359836,7 +360530,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.116Z"
+        "capturedAt": "2026-11-07T16:57:10.895Z"
       }
     },
     {
@@ -359860,13 +360554,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/344.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -359908,7 +360602,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931119",
+        "homeId": "2731",
+        "awayId": "344",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 0,
+          "away": 2
+        },
+        "h1": {
+          "home": 0,
+          "away": 1
+        }
+      }
     },
     {
       "id": "espn-401931116",
@@ -360002,12 +360711,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/345.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360050,7 +360759,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931103",
+        "homeId": "280",
+        "awayId": "345",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 3,
+          "away": 0
+        },
+        "h1": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931089",
@@ -360073,13 +360797,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/632.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 7,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -360121,7 +360845,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931089",
+        "homeId": "397",
+        "awayId": "632",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 7,
+          "away": 2
+        },
+        "h1": {
+          "home": 4,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931083",
@@ -360144,13 +360883,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/350.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -360192,7 +360931,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931083",
+        "homeId": "2595",
+        "awayId": "350",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 0,
+          "away": 3
+        },
+        "h1": {
+          "home": 0,
+          "away": 2
+        }
+      }
     },
     {
       "id": "espn-401931118",
@@ -360215,12 +360969,12 @@
       "awayLogo": "",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 7,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360263,7 +361017,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931118",
+        "homeId": "387",
+        "awayId": "20771",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 7,
+          "away": 0
+        },
+        "h1": {
+          "home": 4,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931091",
@@ -360357,12 +361126,12 @@
       "awayLogo": "",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 4,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360405,7 +361174,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931082",
+        "homeId": "2567",
+        "awayId": "132415",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 4,
+          "away": 0
+        },
+        "h1": {
+          "home": 2,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931090",
@@ -360428,12 +361212,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4703.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 1,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360476,7 +361260,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931090",
+        "homeId": "322",
+        "awayId": "4703",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931088",
@@ -360499,12 +361298,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/312.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360547,7 +361346,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931088",
+        "homeId": "320",
+        "awayId": "312",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 2,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931081",
@@ -360570,13 +361384,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/284.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 4,
+      "awayScore": 3,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -360618,7 +361432,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931081",
+        "homeId": "343",
+        "awayId": "284",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 4,
+          "away": 3
+        },
+        "h1": {
+          "home": 2,
+          "away": 1
+        }
+      }
     },
     {
       "id": "espn-401931102",
@@ -360641,12 +361470,12 @@
       "awayLogo": "",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 1,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360689,7 +361518,22 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": {
+        "source": "ESPN",
+        "matchId": "espn-401931102",
+        "homeId": "339",
+        "awayId": "649",
+        "verifiedAt": "2026-11-07T16:57:09.680Z",
+        "final": {
+          "home": 1,
+          "away": 0
+        },
+        "h1": {
+          "home": 1,
+          "away": 0
+        }
+      }
     },
     {
       "id": "espn-401931120",
@@ -360712,13 +361556,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3802.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -360760,7 +361604,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931107",
@@ -360783,12 +361628,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3887.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -360831,7 +361676,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931099",
@@ -361138,13 +361984,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/13884.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 4,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361186,7 +362032,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931094",
@@ -361209,13 +362056,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/324.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361257,7 +362104,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931106",
@@ -361280,12 +362128,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/279.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -361328,7 +362176,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931110",
@@ -361351,13 +362200,13 @@
       "awayLogo": "",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 5,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361399,7 +362248,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931100",
@@ -361493,12 +362343,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/131494.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -361541,7 +362391,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931122",
@@ -361564,13 +362415,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/341.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 2,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361612,7 +362463,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931117",
@@ -361706,13 +362558,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/285.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
       "homeScore": 0,
-      "awayScore": 0,
+      "awayScore": 1,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361754,7 +362606,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931275",
@@ -361777,12 +362630,12 @@
       "awayLogo": "",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 4,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -361825,7 +362678,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931086",
@@ -361848,13 +362702,13 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/313.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
-      "awayScore": 0,
+      "homeScore": 4,
+      "awayScore": 2,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
       "odds": {
@@ -361896,7 +362750,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931087",
@@ -361990,12 +362845,12 @@
       "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/353.png",
       "priority": 27,
       "featured": false,
-      "status": "Scheduled",
-      "completed": false,
+      "status": "Terminé",
+      "completed": true,
       "voided": false,
       "knockout": false,
       "regulation": null,
-      "homeScore": 0,
+      "homeScore": 4,
       "awayScore": 0,
       "homeGoals": 1.45,
       "awayGoals": 1.15,
@@ -362038,7 +362893,8 @@
           "significant": false
         }
       },
-      "suggestedPick": null
+      "suggestedPick": null,
+      "periodScores": null
     },
     {
       "id": "espn-401931097",
@@ -370836,7 +371692,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.137Z"
+        "capturedAt": "2026-11-07T16:57:10.912Z"
       }
     },
     {
@@ -379224,7 +380080,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.157Z"
+        "capturedAt": "2026-11-07T16:57:10.928Z"
       }
     },
     {
@@ -387603,7 +388459,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.176Z"
+        "capturedAt": "2026-11-07T16:57:10.945Z"
       }
     },
     {
@@ -396015,7 +396871,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.195Z"
+        "capturedAt": "2026-11-07T16:57:10.974Z"
       }
     },
     {
@@ -404264,7 +405120,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.215Z"
+        "capturedAt": "2026-11-07T16:57:10.993Z"
       }
     },
     {
@@ -412333,7 +413189,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.241Z"
+        "capturedAt": "2026-11-07T16:57:11.019Z"
       }
     },
     {
@@ -420468,7 +421324,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.259Z"
+        "capturedAt": "2026-11-07T16:57:11.033Z"
       }
     },
     {
@@ -428690,7 +429546,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.278Z"
+        "capturedAt": "2026-11-07T16:57:11.049Z"
       }
     },
     {
@@ -437030,7 +437886,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.296Z"
+        "capturedAt": "2026-11-07T16:57:11.068Z"
       }
     },
     {
@@ -445307,7 +446163,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.315Z"
+        "capturedAt": "2026-11-07T16:57:11.084Z"
       }
     },
     {
@@ -453701,7 +454557,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.333Z"
+        "capturedAt": "2026-11-07T16:57:11.098Z"
       }
     },
     {
@@ -461956,7 +462812,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.352Z"
+        "capturedAt": "2026-11-07T16:57:11.113Z"
       }
     },
     {
@@ -470153,7 +471009,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.371Z"
+        "capturedAt": "2026-11-07T16:57:11.127Z"
       }
     },
     {
@@ -478412,7 +479268,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.393Z"
+        "capturedAt": "2026-11-07T16:57:11.141Z"
       }
     },
     {
@@ -486559,7 +487415,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.415Z"
+        "capturedAt": "2026-11-07T16:57:11.155Z"
       }
     },
     {
@@ -493549,7 +494405,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.441Z"
+        "capturedAt": "2026-11-07T16:57:11.169Z"
       }
     },
     {
@@ -501596,7 +502452,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.459Z"
+        "capturedAt": "2026-11-07T16:57:11.182Z"
       }
     },
     {
@@ -509812,7 +510668,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.478Z"
+        "capturedAt": "2026-11-07T16:57:11.196Z"
       }
     },
     {
@@ -518012,7 +518868,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.497Z"
+        "capturedAt": "2026-11-07T16:57:11.211Z"
       }
     },
     {
@@ -526061,7 +526917,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.516Z"
+        "capturedAt": "2026-11-07T16:57:11.226Z"
       }
     },
     {
@@ -534277,7 +535133,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.534Z"
+        "capturedAt": "2026-11-07T16:57:11.249Z"
       }
     },
     {
@@ -541995,7 +542851,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.552Z"
+        "capturedAt": "2026-11-07T16:57:11.262Z"
       }
     },
     {
@@ -550140,7 +550996,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.568Z"
+        "capturedAt": "2026-11-07T16:57:11.275Z"
       }
     },
     {
@@ -558360,7 +559216,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-07T15:55:59.586Z"
+        "capturedAt": "2026-11-07T16:57:11.290Z"
       }
     },
     {
@@ -563286,5 +564142,5 @@
       "suggestedPick": null
     }
   ],
-  "scoresUpdatedAt": "2026-11-07T15:55:59.607Z"
+  "scoresUpdatedAt": "2026-11-07T16:57:11.310Z"
 }

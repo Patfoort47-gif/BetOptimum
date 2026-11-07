@@ -36,6 +36,78 @@
     "score": "1 : 0"
   },
   {
+    "id": "espn-401878760",
+    "date": "2026-11-07",
+    "league": "Premier League",
+    "match": "Arsenal – Hull City",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.23,
+    "probability": 0.8584113622347465,
+    "status": "won",
+    "score": "1 : 0"
+  },
+  {
+    "id": "espn-401884745",
+    "date": "2026-11-07",
+    "league": "Bundesliga",
+    "match": "Borussia Dortmund – SV Elversberg",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.36,
+    "probability": 0.8643924291111781,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
+    "id": "espn-401884740",
+    "date": "2026-11-07",
+    "league": "Bundesliga",
+    "match": "Mainz – Bayern Munich",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.24,
+    "probability": 0.8341436879196964,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
+    "id": "espn-401884744",
+    "date": "2026-11-07",
+    "league": "Bundesliga",
+    "match": "RB Leipzig – FC Augsburg",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.24,
+    "probability": 0.7747895147411782,
+    "status": "won",
+    "score": "5 : 2"
+  },
+  {
+    "id": "espn-401884737",
+    "date": "2026-11-07",
+    "league": "Bundesliga",
+    "match": "SC Paderborn 07 – Eintracht Frankfurt",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.25,
+    "probability": 0.8429740928848568,
+    "status": "won",
+    "score": "2 : 2"
+  },
+  {
+    "id": "espn-401874811",
+    "date": "2026-11-07",
+    "league": "Serie A",
+    "match": "Torino – Lecce",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.27,
+    "probability": 0.8426152911213792,
+    "status": "won",
+    "score": "1 : 1"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
