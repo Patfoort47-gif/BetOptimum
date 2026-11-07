@@ -12,6 +12,30 @@
     "score": "1 : 0"
   },
   {
+    "id": "espn-401882812",
+    "date": "2026-11-07",
+    "league": "La Liga",
+    "match": "Málaga – Racing Santander",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.19,
+    "probability": 0.8926202950904052,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
+    "id": "espn-401874791",
+    "date": "2026-11-07",
+    "league": "Serie A",
+    "match": "Cagliari – Frosinone",
+    "label": "Double chance 12",
+    "key": "homeAway",
+    "odd": 1.26,
+    "probability": 0.8042854750381538,
+    "status": "won",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
