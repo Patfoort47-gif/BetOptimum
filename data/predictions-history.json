@@ -144,6 +144,54 @@
     "score": "1 : 2"
   },
   {
+    "id": "espn-401878757",
+    "date": "2026-11-07",
+    "league": "Premier League",
+    "match": "Nottingham Forest – Manchester City",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.19,
+    "probability": 0.8287987432908615,
+    "status": "won",
+    "score": "3 : 1"
+  },
+  {
+    "id": "espn-401882811",
+    "date": "2026-11-07",
+    "league": "La Liga",
+    "match": "Osasuna – Athletic Club",
+    "label": "Athletic Club",
+    "key": "away",
+    "odd": 2.19,
+    "probability": 0.5379762822883677,
+    "status": "lost",
+    "score": "1 : 1"
+  },
+  {
+    "id": "espn-401884743",
+    "date": "2026-11-07",
+    "league": "Bundesliga",
+    "match": "VfB Stuttgart – Werder Bremen",
+    "label": "Moins de 5,5 buts",
+    "key": "under55",
+    "odd": 1.16,
+    "probability": 0.8705423698828116,
+    "status": "won",
+    "score": "1 : 0"
+  },
+  {
+    "id": "espn-401876411",
+    "date": "2026-11-07",
+    "league": "Ligue 1",
+    "match": "AJ Auxerre – Paris FC",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.21,
+    "probability": 0.8992239731132428,
+    "status": "lost",
+    "score": "0 : 1"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
