@@ -192,6 +192,18 @@
     "score": "0 : 1"
   },
   {
+    "id": "espn-401874803",
+    "date": "2026-11-07",
+    "league": "Serie A",
+    "match": "AS Roma – Sassuolo",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.34,
+    "probability": 0.8648703920886722,
+    "status": "won",
+    "score": "3 : 0"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
