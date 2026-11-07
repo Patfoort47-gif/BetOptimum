@@ -204,6 +204,30 @@
     "score": "3 : 0"
   },
   {
+    "id": "espn-401882808",
+    "date": "2026-11-07",
+    "league": "La Liga",
+    "match": "Valencia – Real Madrid",
+    "label": "Plus de 2,5 buts",
+    "key": "over",
+    "odd": 1.43,
+    "probability": 0.6641021755591564,
+    "status": "won",
+    "score": "0 : 3"
+  },
+  {
+    "id": "espn-401876407",
+    "date": "2026-11-07",
+    "league": "Ligue 1",
+    "match": "Paris Saint-Germain – Troyes",
+    "label": "Match nul",
+    "key": "draw",
+    "odd": 8.85,
+    "probability": 0.1325715219844963,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
