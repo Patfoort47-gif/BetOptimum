@@ -132,6 +132,18 @@
     "score": "0 : 0"
   },
   {
+    "id": "espn-401874974",
+    "date": "2026-11-07",
+    "league": "Serie A",
+    "match": "Parma – Bologna",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.31,
+    "probability": 0.7805751541359923,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401879242",
     "date": "2026-11-06",
     "league": "Premier League",
