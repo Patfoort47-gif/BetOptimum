@@ -12,6 +12,18 @@
     "score": "1 : 1"
   },
   {
+    "id": "espn-401882814",
+    "date": "2026-11-08",
+    "league": "La Liga",
+    "match": "Elche – Real Betis",
+    "label": "Moins de 4,5 buts",
+    "key": "under45",
+    "odd": 1.18,
+    "probability": 0.8643924291111781,
+    "status": "won",
+    "score": "0 : 2"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
