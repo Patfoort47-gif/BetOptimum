@@ -120,6 +120,18 @@
     "score": "0 : 1"
   },
   {
+    "id": "espn-401882810",
+    "date": "2026-11-08",
+    "league": "La Liga",
+    "match": "Real Sociedad – Rayo Vallecano",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.16,
+    "probability": 0.8828813104217248,
+    "status": "lost",
+    "score": "1 : 0"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
