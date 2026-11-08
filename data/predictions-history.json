@@ -276,6 +276,18 @@
     "score": "1 : 2"
   },
   {
+    "id": "espn-401882816",
+    "date": "2026-11-08",
+    "league": "La Liga",
+    "match": "Atlético Madrid – Barcelona",
+    "label": "Moins de 3,5 buts",
+    "key": "under35",
+    "odd": 1.96,
+    "probability": 0.8134215161823848,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
