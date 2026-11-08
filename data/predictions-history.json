@@ -240,6 +240,18 @@
     "score": "2 : 0"
   },
   {
+    "id": "espn-401884742",
+    "date": "2026-11-08",
+    "league": "Bundesliga",
+    "match": "TSG Hoffenheim – Schalke 04",
+    "label": "Moins de 3,5 buts",
+    "key": "under35",
+    "odd": 1.59,
+    "probability": 0.7554363809970123,
+    "status": "won",
+    "score": "2 : 1"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
