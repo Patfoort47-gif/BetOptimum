@@ -173,7 +173,7 @@
         "matchId": "espn-401879241",
         "homeId": "370",
         "awayId": "361",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 1
@@ -313,7 +313,7 @@
         "matchId": "espn-401882813",
         "homeId": "88",
         "awayId": "90",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 0
@@ -821,7 +821,7 @@
         "matchId": "espn-401931089",
         "homeId": "397",
         "awayId": "632",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 7,
           "away": 2
@@ -849,7 +849,7 @@
         "matchId": "espn-401931083",
         "homeId": "2595",
         "awayId": "350",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 3
@@ -877,7 +877,7 @@
         "matchId": "espn-401931118",
         "homeId": "387",
         "awayId": "20771",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 7,
           "away": 0
@@ -905,7 +905,7 @@
         "matchId": "espn-401931091",
         "homeId": "3129",
         "awayId": "402",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 2
@@ -933,7 +933,7 @@
         "matchId": "espn-401931082",
         "homeId": "2567",
         "awayId": "132415",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 4,
           "away": 0
@@ -961,7 +961,7 @@
         "matchId": "espn-401931090",
         "homeId": "322",
         "awayId": "4703",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -989,7 +989,7 @@
         "matchId": "espn-401931088",
         "homeId": "320",
         "awayId": "312",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 0
@@ -1017,7 +1017,7 @@
         "matchId": "espn-401931081",
         "homeId": "343",
         "awayId": "284",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 4,
           "away": 3
@@ -1045,7 +1045,7 @@
         "matchId": "espn-401931102",
         "homeId": "339",
         "awayId": "649",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -1073,7 +1073,7 @@
         "matchId": "espn-401931120",
         "homeId": "396",
         "awayId": "3802",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 1
@@ -1101,7 +1101,7 @@
         "matchId": "espn-401931107",
         "homeId": "293",
         "awayId": "3887",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 0
@@ -1129,7 +1129,7 @@
         "matchId": "espn-401931099",
         "homeId": "3897",
         "awayId": "302",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 2
@@ -1189,7 +1189,7 @@
         "matchId": "espn-401931101",
         "homeId": "389",
         "awayId": "642",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 1
@@ -1217,7 +1217,7 @@
         "matchId": "espn-401931092",
         "homeId": "2588",
         "awayId": "3231",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -205964,7 +205964,7 @@
         "matchId": "espn-401879241",
         "homeId": "370",
         "awayId": "361",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 1
@@ -217834,7 +217834,7 @@
         "matchId": "espn-401882813",
         "homeId": "88",
         "awayId": "90",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 0
@@ -271921,7 +271921,7 @@
         "matchId": "espn-401931089",
         "homeId": "397",
         "awayId": "632",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 7,
           "away": 2
@@ -272007,7 +272007,7 @@
         "matchId": "espn-401931083",
         "homeId": "2595",
         "awayId": "350",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 3
@@ -272093,7 +272093,7 @@
         "matchId": "espn-401931118",
         "homeId": "387",
         "awayId": "20771",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 7,
           "away": 0
@@ -272179,7 +272179,7 @@
         "matchId": "espn-401931091",
         "homeId": "3129",
         "awayId": "402",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 2
@@ -272265,7 +272265,7 @@
         "matchId": "espn-401931082",
         "homeId": "2567",
         "awayId": "132415",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 4,
           "away": 0
@@ -272351,7 +272351,7 @@
         "matchId": "espn-401931090",
         "homeId": "322",
         "awayId": "4703",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -272437,7 +272437,7 @@
         "matchId": "espn-401931088",
         "homeId": "320",
         "awayId": "312",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 0
@@ -272523,7 +272523,7 @@
         "matchId": "espn-401931081",
         "homeId": "343",
         "awayId": "284",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 4,
           "away": 3
@@ -272609,7 +272609,7 @@
         "matchId": "espn-401931102",
         "homeId": "339",
         "awayId": "649",
-        "verifiedAt": "2026-11-07T23:51:45.155Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -272695,7 +272695,7 @@
         "matchId": "espn-401931120",
         "homeId": "396",
         "awayId": "3802",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 1
@@ -272781,7 +272781,7 @@
         "matchId": "espn-401931107",
         "homeId": "293",
         "awayId": "3887",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 2,
           "away": 0
@@ -272867,7 +272867,7 @@
         "matchId": "espn-401931099",
         "homeId": "3897",
         "awayId": "302",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 2
@@ -273043,7 +273043,7 @@
         "matchId": "espn-401931101",
         "homeId": "389",
         "awayId": "642",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 0,
           "away": 1
@@ -273129,7 +273129,7 @@
         "matchId": "espn-401931092",
         "homeId": "2588",
         "awayId": "3231",
-        "verifiedAt": "2026-11-08T01:29:43.145Z",
+        "verifiedAt": "2026-11-08T09:08:40.056Z",
         "final": {
           "home": 1,
           "away": 0
@@ -283302,7 +283302,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.188Z"
+        "capturedAt": "2026-11-08T09:08:40.937Z"
       }
     },
     {
@@ -291948,7 +291948,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.224Z"
+        "capturedAt": "2026-11-08T09:08:40.964Z"
       }
     },
     {
@@ -300457,7 +300457,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.246Z"
+        "capturedAt": "2026-11-08T09:08:40.982Z"
       }
     },
     {
@@ -309056,7 +309056,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.268Z"
+        "capturedAt": "2026-11-08T09:08:40.999Z"
       }
     },
     {
@@ -317542,7 +317542,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.292Z"
+        "capturedAt": "2026-11-08T09:08:41.015Z"
       }
     },
     {
@@ -325789,7 +325789,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.313Z"
+        "capturedAt": "2026-11-08T09:08:41.035Z"
       }
     },
     {
@@ -334114,7 +334114,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.332Z"
+        "capturedAt": "2026-11-08T09:08:41.051Z"
       }
     },
     {
@@ -342493,7 +342493,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.358Z"
+        "capturedAt": "2026-11-08T09:08:41.066Z"
       }
     },
     {
@@ -350900,7 +350900,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.380Z"
+        "capturedAt": "2026-11-08T09:08:41.081Z"
       }
     },
     {
@@ -359482,7 +359482,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.406Z"
+        "capturedAt": "2026-11-08T09:08:41.096Z"
       }
     },
     {
@@ -367999,7 +367999,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.425Z"
+        "capturedAt": "2026-11-08T09:08:41.113Z"
       }
     },
     {
@@ -376453,7 +376453,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.444Z"
+        "capturedAt": "2026-11-08T09:08:41.135Z"
       }
     },
     {
@@ -384861,7 +384861,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.463Z"
+        "capturedAt": "2026-11-08T09:08:41.153Z"
       }
     },
     {
@@ -393240,7 +393240,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.483Z"
+        "capturedAt": "2026-11-08T09:08:41.168Z"
       }
     },
     {
@@ -401619,7 +401619,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.501Z"
+        "capturedAt": "2026-11-08T09:08:41.183Z"
       }
     },
     {
@@ -408655,7 +408655,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.538Z"
+        "capturedAt": "2026-11-08T09:08:41.199Z"
       }
     },
     {
@@ -416799,7 +416799,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.556Z"
+        "capturedAt": "2026-11-08T09:08:41.212Z"
       }
     },
     {
@@ -425038,7 +425038,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.576Z"
+        "capturedAt": "2026-11-08T09:08:41.229Z"
       }
     },
     {
@@ -433526,7 +433526,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.595Z"
+        "capturedAt": "2026-11-08T09:08:41.244Z"
       }
     },
     {
@@ -441640,7 +441640,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.614Z"
+        "capturedAt": "2026-11-08T09:08:41.260Z"
       }
     },
     {
@@ -449950,7 +449950,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.633Z"
+        "capturedAt": "2026-11-08T09:08:41.283Z"
       }
     },
     {
@@ -457732,7 +457732,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.652Z"
+        "capturedAt": "2026-11-08T09:08:41.300Z"
       }
     },
     {
@@ -465945,7 +465945,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.669Z"
+        "capturedAt": "2026-11-08T09:08:41.312Z"
       }
     },
     {
@@ -474266,7 +474266,7 @@
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-08T07:26:31.688Z"
+        "capturedAt": "2026-11-08T09:08:41.327Z"
       }
     },
     {
@@ -482669,5 +482669,5 @@
       "suggestedPick": null
     }
   ],
-  "scoresUpdatedAt": "2026-11-08T07:26:31.720Z"
+  "scoresUpdatedAt": "2026-11-08T09:08:41.352Z"
 }
