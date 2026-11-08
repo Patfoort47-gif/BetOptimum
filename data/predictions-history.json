@@ -216,6 +216,30 @@
     "score": "1 : 1"
   },
   {
+    "id": "espn-401882815",
+    "date": "2026-11-08",
+    "league": "La Liga",
+    "match": "Celta Vigo – Levante",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.28,
+    "probability": 0.7805751541359929,
+    "status": "lost",
+    "score": "0 : 0"
+  },
+  {
+    "id": "espn-401882807",
+    "date": "2026-11-08",
+    "league": "La Liga",
+    "match": "Villarreal – Getafe",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.24,
+    "probability": 0.8008517265285443,
+    "status": "won",
+    "score": "2 : 0"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
