@@ -24,6 +24,18 @@
     "score": "0 : 2"
   },
   {
+    "id": "espn-401876406",
+    "date": "2026-11-08",
+    "league": "Ligue 1",
+    "match": "Stade Rennais – Lille",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.2,
+    "probability": 0.8576327971442981,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
