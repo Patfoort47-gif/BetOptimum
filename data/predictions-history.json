@@ -252,6 +252,30 @@
     "score": "2 : 1"
   },
   {
+    "id": "espn-401875003",
+    "date": "2026-11-08",
+    "league": "Serie A",
+    "match": "Fiorentina – Juventus",
+    "label": "Plus de 1,5 buts",
+    "key": "over15",
+    "odd": 1.23,
+    "probability": 0.7854094417800114,
+    "status": "won",
+    "score": "2 : 2"
+  },
+  {
+    "id": "espn-401876404",
+    "date": "2026-11-08",
+    "league": "Ligue 1",
+    "match": "Lens – Marseille",
+    "label": "Double chance 12",
+    "key": "homeAway",
+    "odd": 1.25,
+    "probability": 0.8121688094373877,
+    "status": "won",
+    "score": "1 : 2"
+  },
+  {
     "id": "espn-401878758",
     "date": "2026-11-07",
     "league": "Premier League",
