@@ -1,5 +1,5 @@
 // BET-98 : planification et calculs purs. Aucune destination ni clé fournisseur.
-import { analyseMatch } from './model.js';
+import { recommendedMarket } from './model.js';
 const formatters=new Map();
 function formatter(timezone) {
   if(!formatters.has(timezone)){if(formatters.size>=100)formatters.clear();formatters.set(timezone,new Intl.DateTimeFormat('en-CA',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}));}
@@ -10,7 +10,7 @@ export function localDate(now, timezone = 'Europe/Paris') {
   const p=localParts(now,timezone);return `${p.year}-${p.month}-${p.day}`;
 }
 const minuteAt=(now,timezone)=>{const p=localParts(now,timezone);return Number(p.hour)*60+Number(p.minute);};
-const favorite = (m,p) => (p.teams??[]).includes(m.home)||(p.teams??[]).includes(m.away)||(p.leagues??[]).includes(m.league);
+const favorite = (m,p) => (p.teams??[]).includes(m.home)||(p.teams??[]).includes(m.away);
 export function dayMatches(matches, prefs, now) {
   const date=localDate(now,prefs.timezone);
   return [...new Map(matches.filter(m=>!m.completed&&!m.voided&&Number.isFinite(Date.parse(m.kickoff))&&localDate(m.kickoff,prefs.timezone)===date).map(m=>[m.id,m])).values()].sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff)||String(a.id).localeCompare(String(b.id)));
@@ -39,20 +39,19 @@ export function planBriefing(matches, prefs, now=Date.now()) {
   if(!Number.isFinite(daily)||now<daily||prefs.daily_not_before&&(daily<Date.parse(prefs.daily_not_before)||now<Date.parse(prefs.daily_not_before)))return null;
   return {briefing:true,kinds:['daily'],daily_revision:prefs.daily_revision??0,date:localDate(now,prefs.timezone),kickoff:new Date(daySchedule(now,prefs).end).toISOString()};
 }
-export function briefingPicks(matches,prefs,now=Date.now()) {
-  const candidates=[];
+export function briefingRecommendations(matches,prefs,now=Date.now()) {
+  const candidates=[],seen=new Set();
   for(const m of matches){
-    if(Date.parse(m.kickoff)<=now||!m.odds||![m.homeGoals,m.awayGoals].every(n=>Number.isFinite(Number(n))&&Number(n)>=0))continue;
-    const markets=analyseMatch(m).markets.flatMap(market=>{
-      const offers=(m.bookmakerOffers??[]).filter(o=>Number(o[market.key])>1&&Number.isFinite(Number(o[market.key]))&&Number.isFinite(Date.parse(o.updatedAt))&&Date.parse(o.updatedAt)<=now&&now-Date.parse(o.updatedAt)<864e5);
-      const offer=offers.sort((a,b)=>b[market.key]-a[market.key])[0];if(!offer)return [];
-      const odd=Number(offer[market.key]),value=market.probability*odd-1;
-      return value>=prefs.min_value&&market.probability>=prefs.min_confidence?[{...market,odd,value,bookmaker:String(offer.name??'Bookmaker'),cached:Boolean(offer[`${market.key}Cached`]),updatedAt:offer.updatedAt}]:[];
-    }).sort((a,b)=>b.probability-a.probability||b.value-a.value);
-    if(markets.length)candidates.push({...markets[0],match:m});
+    if(seen.has(m.id)||m.completed||m.voided||!Number.isFinite(Date.parse(m.kickoff))||Date.parse(m.kickoff)<=now)continue;
+    const fresh={...m,bookmakerOffers:(m.bookmakerOffers??[]).filter(o=>Number.isFinite(Date.parse(o.updatedAt))&&Date.parse(o.updatedAt)<=now&&now-Date.parse(o.updatedAt)<20*3600000)};
+    const pick=recommendedMarket(fresh);
+    if(!pick||pick.value<Number(prefs.min_value??0)||pick.probability<Number(prefs.min_confidence??0))continue;
+    seen.add(m.id);candidates.push({...pick,match:m});
   }
-  return candidates.sort((a,b)=>b.value-a.value||b.probability-a.probability||String(a.match.id).localeCompare(String(b.match.id))).slice(0,3);
+  return candidates.sort((a,b)=>b.probability-a.probability||String(a.match.kickoff).localeCompare(String(b.match.kickoff))||String(a.match.id).localeCompare(String(b.match.id)));
 }
+export function briefingPicks(matches,prefs,now=Date.now()) {return briefingRecommendations(matches,prefs,now).slice(0,3);}
+
 const money=n=>Math.round((n+Number.EPSILON)*100)/100;
 export function ticketProjection(bets, matchIds) {
   const ids=new Set(matchIds),seen=new Set(),tickets=[],outside=[];let unsupported=0;
@@ -74,6 +73,6 @@ export function buildBriefing(matches,prefs,event,account,bets,now=Date.now(),ge
   const today=dayMatches(matches,prefs,now).filter(m=>Date.parse(m.kickoff)>now),favorites=today.filter(m=>favorite(m,prefs));
   const selected=today;
   const fresh=Number.isFinite(Date.parse(generatedAt))&&Date.parse(generatedAt)<=now&&now-Date.parse(generatedAt)<864e5;
-  const picks=fresh?briefingPicks(selected,prefs,now):[];
-  return {date:event.date,kinds:event.kinds,timezone:prefs.timezone,generatedAt,now:new Date(now).toISOString(),fresh,matches:selected,favorites,hero:picks[0]?.match??selected[0]??null,picks,bankroll:account&&Number.isFinite(Number(account.bankroll))?Number(account.bankroll):null,projection:ticketProjection(bets,selected.map(m=>m.id))};
+  const recommendations=fresh?briefingRecommendations(selected,prefs,now):[],picks=recommendations.slice(0,3);
+  return {date:event.date,kinds:event.kinds,timezone:prefs.timezone,generatedAt,now:new Date(now).toISOString(),fresh,recommendations,matches:selected,favorites,hero:picks[0]?.match??selected[0]??null,picks,bankroll:account&&Number.isFinite(Number(account.bankroll))?Number(account.bankroll):null,projection:ticketProjection(bets,selected.map(m=>m.id))};
 }
