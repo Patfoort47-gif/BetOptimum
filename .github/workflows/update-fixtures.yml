@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     # 6 h et 18 h à Paris, avec les deux décalages UTC été/hiver.
-    - cron: '0 4,5,16,17 * * *'
+    - cron: '0 4,16 * * *'
+    - cron: '0 5,17 * * *'
 
 permissions:
   contents: write
@@ -29,10 +30,15 @@ jobs:
             echo "run=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          case "$(TZ=Europe/Paris date +%H)" in
-            06|18) echo "run=true" >> "$GITHUB_OUTPUT" ;;
-            *) echo "run=false" >> "$GITHUB_OUTPUT" ;;
-          esac
+          # Le cron peut démarrer en retard : sélectionner la saison, pas l'heure réelle de démarrage.
+          offset=$(TZ=Europe/Paris date +%z)
+          schedule='${{ github.event.schedule }}'
+          if { [ "$offset" = '+0200' ] && [ "$schedule" = '0 4,16 * * *' ]; } ||
+             { [ "$offset" = '+0100' ] && [ "$schedule" = '0 5,17 * * *' ]; }; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
         if: steps.schedule.outputs.run == 'true'
       - name: Synchroniser les dernières données
