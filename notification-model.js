@@ -1,6 +1,6 @@
 // BET-69 : détection pure, sans destination privée ni accès réseau.
 import { analyseMatch } from './model.js';
-export const CHANNELS = ['web', 'telegram', 'discord', 'email'];
+export const CHANNELS = ['web', 'discord', 'email'];
 export function localMinute(now, timezone = 'Europe/Paris') {
   const parts = new Intl.DateTimeFormat('en-GB', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(now));
   return Number(parts.find(p => p.type === 'hour').value) * 60 + Number(parts.find(p => p.type === 'minute').value);

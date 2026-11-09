@@ -161,4 +161,14 @@ assert.equal((await q('select * from claim_favorite_reminders()')).length,1);
 assert.equal((await q('select * from claim_favorite_reminders()')).length,0);
 await q('update notification_web_preferences set daily_summary=false');
 assert.equal(await dailyQueue({...daily,date:'2099-01-01'}),false);
+// BET-258 : disparition du canal, sans casser les préférences et le désabonnement actifs.
+for(const v of [60,60])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+assert.equal((await q("select to_regclass('public.notification_telegram_preferences') name"))[0].name,null);
+assert.equal((await q("select to_regclass('public.notification_pairings') name"))[0].name,null);
+assert.equal((await q("select count(*)::int n from pg_proc where pronamespace='public'::regnamespace and proname like '%telegram%'"))[0].n,0);
+assert.equal((await q("select count(*)::int n from notification_endpoints where channel='telegram'"))[0].n,0);
+assert.equal((await q("select count(*)::int n from notification_deliveries where channel='telegram'"))[0].n,0);
+assert.equal((await q('select unsubscribe_notifications() ok'))[0].ok,true);
+assert.equal((await q('select my_web_notifications() s'))[0].s.preferences.enabled,false);
+assert.equal((await q('select my_notifications() s'))[0].s.preferences.enabled,false);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');

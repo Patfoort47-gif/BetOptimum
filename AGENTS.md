@@ -59,7 +59,7 @@ Avatar 3D (BET-49 ; `avatar-config.js` pur et testé par `tests/avatar.test.js`,
 - `supabase/migrations/supabase-v22-schema.sql` étend la validation d’avatar et installe les nouveaux objets. `syncShop` exclut les nouveautés tant que cette validation n’est pas disponible, pour éviter un achat impossible à porter. `shop-art.js` contient les aperçus vectoriels des accessoires et nouveaux trophées ; les maillots et décors réutilisent `avatar-scenes.js`.
 - `notification-model.js` porte la détection pure et les plages silencieuses ; `notification-delivery.js` reste exclusivement côté serveur. `notification-page.js` est monté dans le profil, `notification-sw.js` affiche les Web Push sans cache des pages. Les destinations ne passent jamais au stockage local. SQL V23, fonction Edge et secrets sont nécessaires pour activer les canaux : voir `NOTIFICATIONS_SETUP.md`. La formule est décidée côté serveur. Aucun envoi ne doit être activé sans le consentement explicite du destinataire.
 
-PWA / Push BET-200 : V50 rétablit le canal navigateur sur consentement explicite, indépendant du briefing email et de Telegram. Les clés VAPID et le chiffrement complets sont nécessaires ; sans eux, le canal reste indisponible. Voir `docs/PWA_PUSH.md`.
+PWA / Push BET-200 : V50 rétablit le canal navigateur sur consentement explicite, indépendant du briefing email. Les clés VAPID et le chiffrement complets sont nécessaires ; sans eux, le canal reste indisponible. Voir `docs/PWA_PUSH.md`.
 
 `notification-config.js` calcule la disponibilité publique des canaux côté serveur à partir de leur configuration complète (chiffrement inclus), sans exposer de secret. Un test email est clairement identifié et renvoie au profil ; le retour de mise en file distingue un doublon d’une nouvelle demande.
 
@@ -98,7 +98,6 @@ Marchés BET-170, premier lot : V40 après V39, étape 3 activée explicitement 
 
 Cotes BET-170 : `quote-policy.js` exige au moins 10 bookmakers distincts par sélection pour toute cote actuelle (aucun recours au nombre global du match). En dessous : pas de cote affichée ni jouable, probabilités du modèle conservées. V41 après V40 contrôle tickets, défis et grilles via `fixtures.odds_bookmaker_counts`. Les instantanés des paris existants restent inchangés. Déployer V41 et synchroniser le calendrier avant publication.
 
-Alertes BET-69 : V43 après V42 ajoute Telegram facultatif, indépendant du briefing email, sans opt-in automatique. `notification-telegram.js` valide fraîcheur, dix bookmakers et signal avant livraison ; préférences privées séparées et plafond serveur de deux opportunités par jour. Navigateur et Discord restent indisponibles. Association ne vaut pas consentement ; aucun envoi réel de recette sans volontaire. Voir `NOTIFICATIONS_SETUP.md`.
 
 Retrait H1 BET-198 : décision du propriétaire du 5 novembre 2026, seuls les marchés de match complet restent proposés. V49 bloque les nouveaux paris H1 ; la collecte des résultats et le règlement historique sont conservés. Voir `docs/RETIRED_HALF_TIME.md`. Les indications suivantes décrivent le fonctionnement historique.
 
@@ -125,3 +124,5 @@ BET-255 : V58 retire le plafond quotidien des push, conserve déduplication, con
 BET-256 : les briefings email ne montrent que les équipes favorites, l’affiche et trois conseils au plus. Les cotes sont celles du modèle recommandé avec dix bookmakers datés. Aucun montant de compte dans les emails. Maquettes fictives : `examples/notification-emails/`, génération par `scripts/preview-notification-emails.mjs`. Mise en page en tables et styles en ligne pour Gmail/Outlook ; recette visuelle réelle dans ces clients à distinguer des captures Chromium.
 
 BET-257 : V59 ajoute `daily_summary`, désactivé par défaut, résumé push de 1 à 3 conseils à 9 h dans le fuseau du compte (Paris par défaut), fenêtre de 15 min, aucun envoi sans conseil. Le minuteur lit le calendrier sur 24 h et traite aussi ce résumé, indépendant des favoris. Déduplication compte/date, consentement et conseils relus avant envoi. `daily-picks.js` est partagé avec la vue `#conseils-du-jour`.
+
+BET-258 : V60 retire le canal abandonné, ses associations, préférences et RPC ; seuls email et smartphone sont actifs. Les migrations historiques restent pour reconstruire le schéma. Les adaptateurs et l’interface associés sont supprimés. Voir `NOTIFICATIONS_SETUP.md`.
