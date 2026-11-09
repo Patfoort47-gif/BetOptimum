@@ -900,3 +900,5 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 .tutorial-dialog{width:min(540px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:24px;border:1px solid var(--line-strong);border-radius:18px;background:var(--surface);color:var(--text)}.tutorial-dialog::backdrop{background:#0009}.tutorial-dialog p{line-height:1.65}.tutorial-dialog form{text-align:right}.tutorial-dialog .switch-line{margin:20px 0}.tutorial-dialog .hero-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
+
+.shared-ticket-notice{font-size:13px;line-height:1.5;padding:10px 12px;border:1px solid var(--accent-text);border-radius:10px;overflow-wrap:anywhere}.shared-ticket-notice p{margin:0}.shared-ticket-notice ul{padding-left:18px;margin:8px 0 0}.ticket-share-link{display:flex;gap:8px;flex-wrap:wrap}.ticket-share-link input{flex:1;min-width:0;width:100%;font-size:13px}.ticket-share-dialog{max-width:min(560px,calc(100vw - 24px))}
