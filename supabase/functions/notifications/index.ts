@@ -9,12 +9,9 @@ import { planBriefing } from '../../../notification-briefing.js';
 import { prepareBriefing } from '../../../notification-briefing-service.js';
 import { detectFavoriteReminders, favoriteReminderCurrent } from '../../../notification-reminder.js';
 import { detectWebAlerts, webEventCurrent } from '../../../notification-opportunity.js';
-import { detectTelegramAlerts, telegramEventCurrent } from '../../../notification-telegram.js';
 import { decodeWorkerMatches } from '../../../notification-worker-codec.js';
-import { createTelegramSetup } from '../../../notification-telegram-setup.js';
 import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
-const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_SCHEDULER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','TELEGRAM_BOT_TOKEN','TELEGRAM_WEBHOOK_SECRET','TELEGRAM_BOT_NAME','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
-const setupTelegram=createTelegramSetup(env);
+const env = Object.fromEntries(['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NOTIFICATION_WORKER_SECRET','NOTIFICATION_SCHEDULER_SECRET','NOTIFICATION_ENCRYPTION_KEY','SITE_URL','VAPID_PUBLIC_KEY','VAPID_PRIVATE_KEY','VAPID_SUBJECT','RESEND_API_KEY','EMAIL_FROM'].map(k=>[k,Deno.env.get(k)??'']));
 let site: URL | null = null;
 try { const candidate = new URL(env.SITE_URL); if (candidate.protocol === 'https:') site = candidate; } catch { /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */ }
 const cors = { 'Access-Control-Allow-Origin': site?.origin ?? 'null', 'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-client-info,x-worker-secret', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Vary':'Origin' };
@@ -34,11 +31,6 @@ async function db(path:string, method='GET',body?:unknown) {
 async function endpoint(uid:string,channel:string,target:unknown) {
  if(!validateDestination(channel,target))throw new Error('DESTINATION');
  if(channel==='web'){await db(`notification_web_preferences?user_id=eq.${uid}`,'PATCH',{enabled:false,consent_at:null,updated_at:new Date().toISOString()});await db(`notification_deliveries?user_id=eq.${uid}&channel=eq.web&status=eq.pending`,'PATCH',{status:'cancelled'});}
- if(channel==='telegram'){
-  // Une nouvelle association ne réutilise jamais l'accord d'une autre conversation.
-  await db(`notification_telegram_preferences?user_id=eq.${uid}`,'PATCH',{enabled:false,consent_at:null,updated_at:new Date().toISOString()});
-  await db(`notification_deliveries?user_id=eq.${uid}&channel=eq.telegram&status=eq.pending`,'PATCH',{status:'cancelled'});
- }
  await db('notification_endpoints?on_conflict=user_id,channel','POST',{user_id:uid,channel,encrypted:await seal(target,env.NOTIFICATION_ENCRYPTION_KEY)});
 }
 async function pageAll(table:string,query:string) {
@@ -52,34 +44,19 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
   if(briefing&&await db('rpc/enqueue_notification_briefing','POST',{p_user:p.user_id,p_event:briefing}))queued++;
 
  }
- let telegram=!remindersOnly&&notificationConfig(env).available.telegram;
- if(telegram)try{await setupTelegram();}catch(error){telegram=false;reportNotificationFailure(error,crypto.randomUUID());}
- if(telegram){
-  const subscribers=await pageAll('notification_telegram_preferences','enabled=eq.true&select=user_id');
-  for(const subscriber of subscribers){
-   const snapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:subscriber.user_id});
-   for(const event of detectTelegramAlerts(matches,snapshot?.preferences,snapshot?.favorites))if(await db('rpc/enqueue_telegram_notification','POST',{p_user:subscriber.user_id,p_event:event}))queued++;
-  }
- }
  const web=notificationConfig(env).available.web;
- if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});if(remindersOnly){const daily=planDailyPush(matches,snapshot?.preferences);if(daily&&await db('rpc/enqueue_daily_web_summary','POST',{p_user:subscriber.user_id,p_event:daily}))queued++;}for(const event of (remindersOnly?detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites):detectWebAlerts(matches,snapshot?.preferences,snapshot?.favorites)))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,telegram:false,web:true}}))queued++;}}
+ if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});if(remindersOnly){const daily=planDailyPush(matches,snapshot?.preferences);if(daily&&await db('rpc/enqueue_daily_web_summary','POST',{p_user:subscriber.user_id,p_event:daily}))queued++;}for(const event of (remindersOnly?detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites):detectWebAlerts(matches,snapshot?.preferences,snapshot?.favorites)))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,web:true}}))queued++;}}
  const deliveries=remindersOnly?[]:await db('rpc/claim_notification_deliveries','POST',{});
- if(telegram)deliveries.push(...await db('rpc/claim_telegram_notifications','POST',{}));
  if(web)deliveries.push(...await db(remindersOnly?'rpc/claim_favorite_reminders':'rpc/claim_web_notifications','POST',{}));
  let sent=0;
  for(const delivery of deliveries){
   try {
    // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
    const [p]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`),[e]=await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`),[event]=await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
-   if((!['telegram','web'].includes(delivery.channel)&&!p?.channels.includes(delivery.channel))||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
-   if(!['telegram','web','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if((!['web'].includes(delivery.channel)&&!p?.channels.includes(delivery.channel))||!e){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
+   if(!['web','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    const target=await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY);
    let payload=event.payload;
-   let telegramSnapshot:any=null;
-   if(delivery.channel==='telegram'){
-    telegramSnapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
-    if(!telegramSnapshot?.preferences?.enabled||(!payload.test_channel&&!telegramEventCurrent(payload,telegramSnapshot.preferences,telegramSnapshot.favorites,matches))){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
-   }
    if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});if(payload.daily_summary){const daily=dailyPushCurrent(payload,snapshot?.preferences,matches);if(!daily){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}payload=daily;}if(payload.favorite_reminder){const current=detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites).find(item=>item.match_id===payload.match_id);if(current)payload=current;}const result=payload.result_validated===true,bet=result&&/^[a-f0-9-]{36}$/.test(String(payload.bet_id))?(await db(`bets?id=eq.${payload.bet_id}&user_id=eq.${delivery.user_id}&select=status`))[0]:null;const valid=payload.daily_summary?Boolean(dailyPushCurrent(payload,snapshot?.preferences,matches)):result?validatedResultCurrent(payload,snapshot?.preferences,bet):snapshot?.preferences?.enabled&&!snapshot.preferences.essential&&(payload.favorite_reminder?favoriteReminderCurrent(payload,snapshot.preferences,snapshot.favorites,matches):webEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches));if(!web||!snapshot?.preferences?.enabled||!valid){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
    if(delivery.channel==='email'&&!payload.briefing&&!payload.test_channel){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    if(payload.briefing){
@@ -97,10 +74,6 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
     const [latest]=await db(`notification_preferences?user_id=eq.${delivery.user_id}&enabled=eq.true&select=*`);
     if(!latest?.channels.includes('email')||latest.updated_at!==p.updated_at||Date.parse(payload.kickoff)<=Date.now()){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
-   if(delivery.channel==='telegram'){
-    const latest=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
-    if(!latest?.preferences?.enabled||latest.preferences.updated_at!==telegramSnapshot.preferences.updated_at){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
-   }
    const pushTTL=120;
    const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch,async(target:object,payload:string)=>webPush.sendNotification(target,payload,{vapidDetails:{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY},TTL:pushTTL,timeout:10000}));
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
@@ -108,9 +81,8 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
    if(result.expired)await db(`notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,'DELETE');if(status==='sent')sent++;
   }catch(error) {reportNotificationFailure(error,crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'unknown',error:'Résultat de livraison inconnu'});}
  }
- if(!remindersOnly)await db('notification_pairings?expires_at=lt.'+new Date().toISOString(),'DELETE');
  if(!remindersOnly)await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
- return {queued,sent,claimed:deliveries.length,revision:'BET-257'};
+ return {queued,sent,claimed:deliveries.length,revision:'BET-258'};
 }
 Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
@@ -121,39 +93,21 @@ Deno.serve(async request=>{
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
   if(body.action==='scheduled-reminders'){
    if(!await sameSecret(request.headers.get('x-scheduler-secret')??'',env.NOTIFICATION_SCHEDULER_SECRET))return json({error:'Non autorisé'},401);
-   if(body.dry_run===true)return json({revision:'BET-257',dry_run:true,available:notificationConfig(env).available});
+   if(body.dry_run===true)return json({revision:'BET-258',dry_run:true,available:notificationConfig(env).available});
    return json(await runScheduledReminders(db,worker));
   }
   if(body.action==='worker'||body.action==='health'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
-   if(body.action==='health')return json({revision:'BET-257',dry_run:true,available:notificationConfig(env).available});
+   if(body.action==='health')return json({revision:'BET-258',dry_run:true,available:notificationConfig(env).available});
    if(body.format!==undefined&&body.format!==2)return json({error:'Format du worker invalide'},400);
    return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.parse(body.generatedAt)<=Date.now()+60000&&Date.now()-Date.parse(body.generatedAt)<864e5?decodeWorkerMatches(body):[],body.generatedAt??null));
-  }
-  if(new URL(request.url).searchParams.get('action')==='telegram-webhook'){
-   if(!await sameSecret(request.headers.get('x-telegram-bot-api-secret-token')??'',env.TELEGRAM_WEBHOOK_SECRET))return json({error:'Non autorisé'},401);
-   const message=body.message,code=String(message?.text??'').match(/^\/start ([a-f0-9]{48})$/)?.[1];
-   if(code&&message?.chat?.type==='private'){
-    const rows=await db(`notification_pairings?code_hash=eq.${await hash(code)}&expires_at=gt.${new Date().toISOString()}`,'DELETE');
-    if(rows?.length)await endpoint(rows[0].user_id,'telegram',{chat_id:String(message.chat.id)});
-   }return json({ok:true});
   }
   if(request.headers.get('origin')&&request.headers.get('origin')!==site.origin)return json({error:'Origine refusée'},403);
   const authorization=request.headers.get('authorization')??'';
   const auth=await fetch(`${env.SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:env.SUPABASE_SERVICE_ROLE_KEY}});
   if(!auth.ok)return json({error:'Connexion requise'},401);const user=await auth.json(),uid=user.id;
   const config=notificationConfig(env);
-  if(body.action==='config'){
-   if(config.available.telegram)try{await setupTelegram();}catch(error){config.available.telegram=false;config.reasons.telegram='Le raccordement du bot Telegram doit être vérifié par l’administrateur.';reportNotificationFailure(error,crypto.randomUUID());}
-   return json(config);
-  }
-  if(body.action==='telegram-pair'){
-   if(!config.available.telegram)return json({error:'Canal non configuré'},503);
-   await setupTelegram();
-   const code=[...crypto.getRandomValues(new Uint8Array(24))].map(x=>x.toString(16).padStart(2,'0')).join('');
-   await db('notification_pairings?on_conflict=user_id','POST',{user_id:uid,code_hash:await hash(code),expires_at:new Date(Date.now()+600000).toISOString()});
-   return json({url:`https://t.me/${env.TELEGRAM_BOT_NAME}?start=${code}`});
-  }
+  if(body.action==='config')return json(config);
   if(body.action==='connect'){
    const channel=body.channel;
    if(!['email','web'].includes(channel))return json({error:'Canal invalide'},400);
@@ -162,15 +116,10 @@ Deno.serve(async request=>{
    await endpoint(uid,channel,channel==='email'?{email:user.email}:body.destination);return json({ok:true});
   }
   if(body.action==='test'){
-   if(!['telegram','email'].includes(body.channel))return json({error:'Canal invalide'},400);
+   if(body.channel!=='email')return json({error:'Canal invalide'},400);
    if(!config.available[body.channel])return json({error:'Canal non configuré'},503);
    // Le test utilise la même file et les mêmes limites que les alertes.
    const event={match_id:'test',home:'Test',away:'BetOptimum',label:'Vos alertes fonctionnent',odd:2,bookmaker:'Démonstration',value:.1,confidence:.6,movement:0,kickoff:new Date(Date.now()+864e5).toISOString(),test_channel:body.channel};
-   if(body.channel==='telegram'){
-    const snapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:uid});
-    if(!snapshot?.preferences?.enabled)return json({error:'Activez et enregistrez ce canal avant de le tester'},400);
-    const queued=await db('rpc/enqueue_telegram_notification','POST',{p_user:uid,p_event:event});return json({ok:true,queued:Boolean(queued)});
-   }
    const [p]=await db(`notification_preferences?user_id=eq.${uid}&select=enabled,channels`);if(!p?.enabled||!p.channels.includes(body.channel))return json({error:'Activez et enregistrez ce canal avant de le tester'},400);
    const queued=await db('rpc/enqueue_notification','POST',{p_user:uid,p_key:`test:${body.channel}:${Math.floor(Date.now()/3600000)}`,p_event:event,p_due:new Date().toISOString()});return json({ok:true,queued:Boolean(queued),message:queued?'Test placé dans la file, heures silencieuses et fréquence respectées':'Un test a déjà été demandé pour ce canal pendant cette heure. Consultez l’historique avant de réessayer.'});
   }

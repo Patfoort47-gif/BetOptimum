@@ -1,51 +1,39 @@
-> Mise à jour BET-255 : le plafond quotidien est supprimé. Les alertes et rappels concernent seulement les équipes favorites, jamais un championnat seul. Les rappels incluent le conseil actuel (sélection, cote, confiance) si disponible ; sinon son absence est indiquée. Déduplication, consentement, silence et expiration restent actifs. V58 après V57 puis fonction Edge et synchronisation du calendrier avant le front. Les paragraphes historiques sur le plafond sont supersédés.
+# Application installable et notifications smartphone
 
-# Actualisation BET-246
+Le service worker offre le shell hors ligne, les notifications natives et l’ouverture du bon écran. Aucune donnée de compte, destination privée ni calendrier n’est ajoutée au cache hors ligne. Une page hors ligne indique l’indisponibilité des données ; aucun pari n’est validé sans serveur.
 
-V56 remplace l’exemption des rappels : tous les push (opportunités, rappels, résultats, tests) consomment le même plafond de 1 ou 2 par jour dans le fuseau du compte. Les tentatives incertaines consomment aussi leur place. Email et Telegram conservent leurs consentements et limites propres.
+## Consentement et configuration
 
-Le mode Éco / Essentiel ne reçoit que les nouveaux règlements certifiés de Mes paris. Le serveur vérifie de nouveau le consentement, le mode et le résultat avant livraison. Le message affiché sur l’écran verrouillé ne contient ni mise, ni gain, ni choix. Les notifications de résultats partagent un tag pour se remplacer. Un règlement passé n’est jamais rejoué.
+Le canal navigateur est indépendant du briefing email. Il exige un accord dans Mes alertes, la permission système, une association chiffrée et les clés VAPID complètes. Sur iOS/iPadOS 16.4 ou ultérieur, installer d’abord l’application sur l’écran d’accueil. Sans configuration complète, le canal reste indisponible.
 
-Déploiement : appliquer `supabase/migrations/supabase-v56-schema.sql` après V55, déployer `supabase/functions/notifications/index.ts` avec les modules partagés (dont `notification-result.js`), puis publier le front. Le minuteur V55 traite aussi les nouveaux résultats ; il doit être actif. TTL push 120 s et contrôle d’expiration dans le service worker, sans nouveau polling navigateur. Aucun envoi réel de recette sans destinataire volontaire.
+La fonction Edge utilise `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `NOTIFICATION_ENCRYPTION_KEY` ; voir `NOTIFICATIONS_SETUP.md`. Les subscriptions sont privées, chiffrées et contrôlées par le serveur. Une nouvelle association exige un nouvel accord. Un désabonnement arrête les envois et annule les livraisons en attente.
 
-Les indications historiques ci-dessous sur l’exemption des rappels sont remplacées par V56.
+Depuis V58 (BET-255), aucun plafond quotidien de push. La déduplication, les heures silencieuses (22 h à 8 h par défaut), la relecture du consentement et l’expiration restent actifs. Le mode Essentiel (V56) n’affiche que les résultats des paris certifiés, sans montant, et suspend opportunités, rappels et résumés.
 
-# BET-200 : installation et notifications push
+## Équipes favorites
 
-La publication Pages doit passer par `prepare-pages.mjs` : le manifeste hors ligne et les icônes y sont préparés. Le service worker conserve uniquement les ressources publiques du site. Les réponses Supabase et les données privées ne sont jamais mises en cache par le service worker.
+Seules les équipes favorites du compte déclenchent les rappels et opportunités. Un championnat favori seul ne déclenche plus de notification. Un match correspondant aux deux n’est traité qu’une fois.
 
-Appliquer V50 après V48, puis redéployer la fonction `notifications` avec `--no-verify-jwt` (contrôles d'identité explicites déjà présents). Configurer `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` et la clé de chiffrement existante. Le canal reste indisponible tant que sa configuration est incomplète. Aucun abonnement automatique ; la permission est demandée uniquement au clic sur le commutateur. Le désabonnement global retire aussi le canal navigateur.
+Les rappels sont dus environ deux heures avant le match, pendant une fenêtre de 15 minutes. Ils indiquent match, sélection recommandée, cote et confiance quand un conseil valide est disponible, sinon son absence. Le toucher ouvre le match ; aucun pari n’est placé automatiquement. Le minuteur lit `fixtures.notification_pick`, alimenté par `scripts/sync-supabase.mjs` avec le modèle commun. Au moins dix bookmakers par sélection, prix et calendrier actuels, conseil relu avant livraison.
 
-Les opportunités fortes suivent les critères Telegram existants (favoris du compte, EV >= 10 %, confiance >= 65 %, dix bookmakers distincts, fraîcheur, deux signaux par jour au maximum, silence nocturne). La file est consommée par le worker d'alertes existant. Le serveur relit l'accord et l'opportunité avant livraison. La destination est chiffrée ; une réassociation exige un nouvel accord.
+Les opportunités utilisent `notification-opportunity.js` : équipes favorites, EV >= 10 %, confiance >= 65 %, dix bookmakers distincts et offres datées de moins de 20 h. Une opportunité par match et jour ; aucun rejeu après tentative incertaine.
 
-Sur iOS 16.4 ou ultérieur, installer depuis Safari avant d'activer les notifications. Après deux visites, une proposition apparaît dans le flux de la page : guide visuel sur iPhone/iPad, bouton natif quand il est disponible sur Android/Chrome. Le menu compte et le pied de page gardent un accès manuel dès la première visite. La fermeture de la proposition est mémorisée pour la session. En mode standalone et après appinstalled, les accès à l’installation sont masqués. Aucun prompt natif sans clic et aucun abonnement aux notifications. Le guide clavier/tactile indique Partager → Sur l’écran d’accueil → Ajouter sur iOS ; un refus Android laisse le site utilisable. Le clic sur une notification ouvre la fiche du match.
+## Résumé quotidien de 9 h
 
-À vérifier en production après configuration : installation sur deux appareils volontaires, réception écran verrouillé et application fermée, ouverture du bon match, révocation de permission et désabonnement. Aucun envoi réel de test sans volontaire.
+V59 (BET-257) ajoute `daily_summary`, désactivé par défaut. Le résumé est indépendant des favoris. À 9 h dans le fuseau du compte, Europe/Paris par défaut, le minuteur réserve un seul résumé compte/date avec les trois conseils du jour disponibles. S’il n’y en a qu’un ou deux, envoie ce nombre ; aucun envoi sans conseil. Fenêtre 9 h à 9 h 15, sans rattrapage après ; changements d’heure respectés.
 
-## BET-242 : rappels des équipes favorites
+`daily-picks.js` est partagé avec la vue `#conseils-du-jour`. Le lien conserve le fuseau ; la vue montre les conseils et cotes actuels. Préférences, expiration et conseils sont relus avant envoi. Le mode Essentiel suspend ce résumé.
 
-Appliquer `supabase/migrations/supabase-v54-schema.sql` après V50, puis redéployer la fonction `notifications` avant le front. Le canal nécessite toujours les clés VAPID et le chiffrement. Depuis BET-243, les rappels sont vérifiés chaque minute par Supabase Cron. GitHub Actions conserve les autres alertes ; sa programmation seule ne garantit pas une fréquence de cinq minutes.
+## Minuteur Supabase
 
-Dans Profil > Mes alertes, activer les notifications push puis « Me rappeler les matchs de mes équipes et championnats favoris 2 h avant ». Ce choix est inactif par défaut, y compris pour les abonnés existants. Les équipes et compétitions viennent des favoris synchronisés du compte. Tous les matchs des compétitions favorites sont inclus. Une équipe et une compétition suivies ne créent pas deux rappels du même match. Le rappel n’exige ni cote ni signal de value et ouvre la fiche du match pour un prono virtuel.
+Appliquer V55 puis les migrations suivantes jusqu’à V60. Installer `supabase/notification-scheduler.sql` (extensions `pg_cron` et `pg_net`). Le secret dédié est dans Vault (`betoptimum_notification_scheduler`) et l’environnement Edge (`NOTIFICATION_SCHEDULER_SECRET`), jamais dans `cron.job`.
 
-Un rappel au plus par match et compte, indépendant du plafond de deux opportunités par jour. Détection de H-2 jusqu’à H-1 h 45, puis abandon et TTL limité au temps restant : aucun rattrapage tardif. Les heures silencieuses sont respectées (22 h à 8 h Paris par défaut). Avant livraison, relire l’accord, les favoris, l’annulation et l’horaire exact du dernier calendrier. Un report annule un ancien rappel ; une tentative déjà effectuée n’est pas répétée. Les événements et leur déduplication sont conservés 30 jours. Le système dépend de la fraîcheur du calendrier publié.
+Le job `betoptimum-favorite-reminders` tourne chaque minute ; il appelle `scheduled-reminders` et traite maintenant rappels et résumés. Il ne détecte pas d’opportunités et ne traite pas l’email. Initialement tester `dry_run=true`, sans envoi. Activer ensuite le minuteur uniquement pour les utilisateurs consentants. `notification_scheduler` garde bail, dernier succès et résultat du traitement, sans destination privée.
 
-Vérifications : `node --test tests/notification-reminder.test.js`, `npm test`, et `PGLITE_MODULE=<chemin>/@electric-sql/pglite/dist/index.js node scripts/check-notification-sql.mjs`. Recette téléphone à faire avec un volontaire : installation iOS 16.4+ depuis Safari ou Android, activation des deux choix, réception appli fermée, ouverture du match, désactivation. Aucun envoi réel de recette automatique.
+Au déploiement : migration SQL, fonction Edge avec `--no-verify-jwt`, calendrier synchronisé, puis front. Vérifier le worker avec `check-notification-production.yml`, sans envoi. Un résultat `last_ok=true` du minuteur atteste un passage réussi ; il ne prouve pas la réception sur le téléphone.
 
-## BET-243 : ordonnanceur Supabase
+## Recette
 
-1. Appliquer V55 après V54. La nouvelle table `notification_scheduler` est privée (RLS, aucun droit navigateur) et désactivée au départ.
-2. Générer un secret aléatoire dédié (32 octets au moins) et le placer dans les secrets de la fonction Edge sous `NOTIFICATION_SCHEDULER_SECRET` et dans Vault sous le nom `betoptimum_notification_scheduler`. Ne pas modifier le secret du worker GitHub, les clés VAPID ni les abonnements existants. Ne jamais inclure la valeur dans un fichier versionné ou le texte d’une tâche cron.
-3. Redéployer `notifications` avec la vérification JWT de passerelle désactivée : chaque route vérifie explicitement son identité. `scheduled-reminders` exige `x-scheduler-secret` et ne traite ni email, ni Telegram, ni détection d’opportunités.
-4. Installer `supabase/notification-scheduler.sql` (extensions pg_cron et pg_net). Renseigner dans `notification_scheduler` l’endpoint HTTPS exact du projet et `enabled=true`, en gardant `dry_run=true`. Attendre un déclenchement cron et vérifier une réponse HTTP 200 avec la révision BET-243. Ce mode n’envoie rien.
-5. Passer `dry_run=false`. Vérifier plusieurs exécutions cron et `last_success_at` récent. Un bail de deux minutes empêche les traitements qui se chevauchent ; il expire après un arrêt inattendu. Une erreur normale libère le bail et marque l’échec. Le traitement reprend à la minute suivante, dans la limite de la fenêtre du rappel.
+Tester une équipe favorite, un championnat seul et un match correspondant aux deux ; vérifier conseil, cote, confiance, absence de doublon et ouverture. Pour le résumé, tester fuseaux et changements d’heure, 0/1/2/3 conseils, relance, retrait d’accord, mode Essentiel et expiration. `scripts/check-notification-sql.mjs` couvre les réservations et droits sans envoi ; les tests Node simulent le transport.
 
-Le minuteur lit seulement les matchs à venir dans les deux heures, non terminés/non annulés et synchronisés depuis moins de 24 h. Il ne contacte aucun fournisseur de cotes. Les lots de rappels et les lots d’opportunités sont réservés séparément : un worker GitHub avec un ancien calendrier ne peut pas annuler les rappels du minuteur. L’événement reste unique par compte/match. Aucune activation automatique du consentement.
-
-Surveillance : `cron.job` doit contenir une seule tâche active `betoptimum-favorite-reminders` à `* * * * *`. Consulter les états de `cron.job_run_details`, les codes HTTP dans `net._http_response` et `notification_scheduler.last_success_at`. Ne pas lire ni publier les en-têtes des requêtes pg_net ou les secrets Vault. Le succès cron seul signifie que la requête HTTP a été placée en file ; vérifier aussi sa réponse et le dernier succès du worker. Une réponse envoyée au fournisseur push ne prouve pas son affichage physique sur le téléphone.
-
-Arrêt réversible : mettre `notification_scheduler.enabled=false`, puis désactiver la tâche cron si nécessaire. Cela ne change pas les préférences des utilisateurs. Recette : tests `notification-reminder`/`notification-scheduler`, SQL PGlite (bail, lots distincts, permissions et minuteur sans réseau), suite complète et contrôle production sans envoi. Tester ensuite la réception physique avec un volontaire.
-
-## Résumé de 9 h (BET-257)
-
-Appliquer V59 après V58 et déployer la fonction Edge. Le minuteur Supabase existant, à la minute, lit maintenant les rencontres des 24 prochaines heures. Option `daily_summary` distincte, inactive par défaut ; le mode Essentiel suspend ce résumé. Le fuseau du compte est utilisé (Europe/Paris par défaut), y compris aux changements d’heure. Entre 9 h et 9 h 15, envoie les 1 à 3 conseils du jour disponibles, sans filtrage de favoris et sans contenu inventé ; aucun envoi si aucun conseil. Pas de rattrapage après 9 h 15. Les relances partagent une clé unique compte/date. Avant livraison, les préférences et les conseils sont relus. Le toucher ouvre `#conseils-du-jour` dans le même fuseau. Les horaires restent soumis au transport push et au système du téléphone.
+TTL de transport et expiration côté service worker : 120 secondes. Les résultats certifiés utilisent une notification regroupée, sans montant. Les messages expirés sont ignorés. Aucun délai de réception ne peut être garanti par iOS, Android ou le navigateur.
