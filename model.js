@@ -44,7 +44,7 @@ export function settleTicket(bet,results){
 }
 // BET-132 : barème unique pour tous les pronostics, historique compris.
 export const WEEKLY_QUOTA=10,LEAGUE_ODDS_CAP=5,LEAGUE_SCORE_VERSION=2,MIN_RANKED_PICKS=10;
-export function leaguePoints({status,odds}){const odd=Number(odds),cap=LEAGUE_ODDS_CAP;return status==='won'?(Number.isFinite(odd)&&odd>=1?Math.round((Math.min(odd,cap)-1)*1000+1e-9)/100:0):status==='lost'?-10:0}
+export function leaguePoints({status,odds}){const odd=Number(odds),cap=LEAGUE_ODDS_CAP;return status==='won'?(Number.isFinite(odd)&&odd>=1?Math.round((Math.min(odd,cap)-1)*1000+1e-9)/100:0):status==='lost'?-1:0}
 // ROI normalisé des points, sans effet de la mise ni des annulations.
 export function leagueRoi(points,decided){return decided>0?Math.sign(points)*Math.round(Math.abs(points)*1000/(decided*10)+1e-9)/10:0}
 const parisDay=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'});
