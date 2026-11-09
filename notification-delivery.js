@@ -38,7 +38,7 @@ export async function deliver(channel, target, event, id, env, fetcher=fetch, we
     let response;
     if(channel==='web') {
       if(!webSender) return {status:'failed',error:'Notifications web non configurées'};
-      await webSender(target,JSON.stringify({title:result?'Résultat validé':testing?'Test de vos alertes BetOptimum':reminder?'Un match favori commence dans 2 h':'Value bet sur un favori',body:result?'Un pari virtuel vient d’être réglé. Consultez Mes paris pour voir votre résultat.':testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):alertText(event),url:link,tag:result?'bet-results':`bet-${id}`,expiresAt:new Date(Date.now()+120000).toISOString()}));return {status:'sent'};
+      await webSender(target,JSON.stringify({title:result?'Résultat validé':testing?'Test de vos alertes BetOptimum':reminder?`${event.home} - ${event.away}`:`${event.home} - ${event.away}`,body:result?'Un pari virtuel vient d’être réglé. Consultez Mes paris pour voir votre résultat.':testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):`${event.label} · cote ${Number(event.odd).toFixed(2)} · confiance ${Math.round(event.confidence*100)} %\nParis virtuels · 18+ · Aucune garantie.`,url:link,tag:result?'bet-results':`bet-${id}`,expiresAt:new Date(Date.now()+120000).toISOString()}));return {status:'sent'};
     }
     if(channel==='telegram') {
       if(!env.TELEGRAM_BOT_TOKEN)return {status:'failed',error:'Telegram non configuré'};
