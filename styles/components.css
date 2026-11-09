@@ -32,7 +32,7 @@ dialog{width:min(620px,calc(100% - 24px));max-height:88dvh;overflow:auto;padding
 .sync-status{padding:10px 14px;border-radius:14px;background:var(--accent-soft);color:var(--accent-text);font-size:13px}.sync-status.syncing{background:var(--warn-soft);color:var(--warn)}.sync-status.error,.account-message.error{color:var(--danger)}.sync-status.error{background:var(--danger-soft)}
 .config-warning{padding:14px;border-radius:14px;background:var(--warn-soft);color:var(--warn);font-size:13px}.account-message{min-height:18px;margin:12px 0 0;color:var(--accent-text);font-size:13px}
 
-#toast{position:fixed;left:50%;bottom:28px;z-index:60;transform:translate(-50%,20px);max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;background:var(--text);color:var(--bg);font-weight:700;font-size:14px;text-align:center;opacity:0;pointer-events:none;transition:.25s}#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast{position:fixed;left:50%;bottom:28px;z-index:60;transform:translate(-50%,20px);width:max-content;max-width:min(520px,calc(100% - 24px));padding:8px 14px;border-radius:12px;background:var(--text);color:var(--bg);font-weight:600;font-size:13px;line-height:1.4;text-align:center;overflow-wrap:anywhere;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}#toast.show{opacity:1;transform:translate(-50%,0)}
 .mobile-nav{display:none}
 
 /* Animations d’entrée et retours visuels */
@@ -900,3 +900,5 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 
 /* BET-249 : guide explicite, disponible aussi après masquage de l’accueil. */
 .tutorial-dialog{width:min(540px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:24px;border:1px solid var(--line-strong);border-radius:18px;background:var(--surface);color:var(--text)}.tutorial-dialog::backdrop{background:#0009}.tutorial-dialog p{line-height:1.65}.tutorial-dialog form{text-align:right}.tutorial-dialog .switch-line{margin:20px 0}.tutorial-dialog .hero-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
