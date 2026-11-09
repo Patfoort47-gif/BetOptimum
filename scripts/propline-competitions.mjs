@@ -33,17 +33,17 @@ export function resolveCompetition(league,catalog){
 export async function collectCalendarOdds(matches,{key=process.env.PROPLINE_API_KEY,fetchImpl=fetch,now=Date.now(),maxRequests=8,...options}={}){
  const upcoming=matches.filter(match=>!match.completed&&!match.voided&&Date.parse(match.kickoff)>now&&Date.parse(match.kickoff)<=now+7*86400000).sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff));
  const leagues=[...new Set(upcoming.map(match=>match.league))],sports={...PROPLINE_SPORTS};
- let discoveryRequests=0;const failures=[];
+ let discoveryRequests=0;const failures=[],catalogSports=[];
  if(key&&maxRequests>0&&leagues.some(league=>!sports[league])){
   discoveryRequests++;
   try{
    const response=await fetchImpl('https://api.prop-line.com/v1/sports',{headers:{'X-API-Key':key},signal:AbortSignal.timeout(20000),redirect:'error'});
    if(!response.ok){failures.push(`PropLine catalogue: HTTP ${response.status}`);if([401,403,429].includes(response.status))return {offersByMatch:new Map(),requested:1,succeeded:0,discoveryRequests,failures,unavailableLeagues:leagues.filter(league=>!sports[league])};}
-   else{const catalog=await response.json();if(!Array.isArray(catalog))throw Error('format');for(const league of leagues){const sport=resolveCompetition(league,catalog);if(sport)sports[league]=sport;}}
+   else{const catalog=await response.json();if(!Array.isArray(catalog))throw Error('format');catalogSports.push(...catalog.filter(sport=>typeof sport.key==='string'&&sport.key.startsWith('soccer_')).map(({key,title,active})=>({key,title,active})));for(const league of leagues){const sport=resolveCompetition(league,catalog);if(sport)sports[league]=sport;}}
   }catch{failures.push('PropLine : catalogue des compétitions indisponible');}
  }
  const unavailableLeagues=leagues.filter(league=>!sports[league]);
  for(const league of unavailableLeagues)failures.push(`PropLine : compétition sans couverture confirmée : ${league}`);
  const result=await collectPropLine(upcoming,sports,{...options,key,fetchImpl,now,maxRequests:Math.max(0,maxRequests-discoveryRequests)});
- return {...result,requested:result.requested+discoveryRequests,discoveryRequests,failures:[...failures,...result.failures],unavailableLeagues};
+ return {...result,requested:result.requested+discoveryRequests,discoveryRequests,catalogSports,failures:[...failures,...result.failures],unavailableLeagues};
 }
