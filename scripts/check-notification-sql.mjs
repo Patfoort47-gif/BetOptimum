@@ -146,4 +146,19 @@ await q('select save_web_notifications($1)',[JSON.stringify({...web,max_per_day:
 for(const id of ['uncapped-1','uncapped-2','uncapped-3'])assert.equal(await enqueueWeb({...signal,web:true,telegram:false,match_id:id,favorite_reminder:false}),true);
 assert.equal((await q('select * from claim_web_notifications()')).length,3);
 assert.equal((await q('select * from claim_web_notifications()')).length,0);
+// BET-257 : résumé désactivé par défaut, même unicité compte/date à travers les relances.
+for(const v of [59,59])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+assert.equal((await q('select daily_summary from notification_web_preferences'))[0].daily_summary,false);
+assert.equal((await q("select has_function_privilege('authenticated','enqueue_daily_web_summary(uuid,jsonb)','execute') ok"))[0].ok,false);
+await q('select save_web_notifications($1)',[JSON.stringify({...web,quiet_start:0,quiet_end:0,daily_summary:true})]);
+// Un fuseau POSIX de recette place l’horloge à 9 h sans changer l’horloge du moteur.
+await q(`with clock as (select floor(extract(epoch from (now() at time zone 'UTC')::time))::int-32400 delta) update notification_web_preferences set timezone=(select 'UTC'||case when delta>=0 then '+' else '-' end||(abs(delta)/3600)::text||':'||lpad(((abs(delta)%3600)/60)::text,2,'0')||':'||lpad((abs(delta)%60)::text,2,'0') from clock)`);
+const [dailyClock]=await q(`select timezone,(now() at time zone timezone)::date::text date from notification_web_preferences`);
+const daily={web:true,daily_summary:true,date:dailyClock.date,timezone:dailyClock.timezone,picks:[{match_id:'one',odd:2}],kickoff:new Date(Date.now()+600000).toISOString(),expires_at:new Date(Date.now()+600000).toISOString()};
+const dailyQueue=async e=>(await q('select enqueue_daily_web_summary($1,$2) ok',[uid,JSON.stringify(e)]))[0].ok;
+assert.equal(await dailyQueue(daily),true);assert.equal(await dailyQueue(daily),false);
+assert.equal((await q('select * from claim_favorite_reminders()')).length,1);
+assert.equal((await q('select * from claim_favorite_reminders()')).length,0);
+await q('update notification_web_preferences set daily_summary=false');
+assert.equal(await dailyQueue({...daily,date:'2099-01-01'}),false);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');

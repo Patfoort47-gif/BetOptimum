@@ -1,3 +1,4 @@
+import { dailyPushText } from './notification-daily.js';
 // BET-69 : adaptateurs utilisés uniquement côté serveur. Aucune clé dans le navigateur.
 import { briefingEmail, alertEmail } from './notification-email.js';
 import { favoriteReminderText } from './notification-reminder.js';
@@ -28,17 +29,20 @@ export async function deliver(channel, target, event, id, env, fetcher=fetch, we
   const site=new URL(env.SITE_URL); if(site.protocol!=='https:')throw new Error('SITE_CONFIG');
   const briefing=event.briefing_content?briefingEmail(event.briefing_content,env.SITE_URL):null;
   if(briefing&&channel!=='email')return {status:'failed',error:'Briefing réservé à l’email'};
+  const daily=event.daily_summary===true;
+  if(daily&&channel!=='web')return {status:'failed',error:'Résumé réservé aux notifications push'};
   const result=event.result_validated===true;
   if(result&&channel!=='web')return {status:'failed',error:'Résultat réservé aux notifications push'};
   const reminder=event.favorite_reminder===true;
   if(reminder&&channel!=='web')return {status:'failed',error:'Rappel réservé aux notifications push'};
   const testing=Boolean(event.test_channel),preview=channel==='telegram'&&event.test_channel==='telegram'&&event.preview===true;
-  const link=new URL(result?'#bankroll':testing&&!preview?'#profil':`#match-${encodeURIComponent(event.match_id)}`,site).href,text=(result?'Un résultat de pari virtuel est disponible.':briefing?'':reminder?favoriteReminderText(event):preview?'DÉMONSTRATION · CHIFFRES FICTIFS\n\n'+alertText(event)+'\n\nAperçu du format : ces chiffres sont fictifs, aucune opportunité réelle n’a été détectée pour cet exemple.':testing?'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.':alertText(event))+'\n'+link;
+  if(daily)site.searchParams.set('conseils_tz',event.timezone);
+  const link=new URL(daily?'#conseils-du-jour':result?'#bankroll':testing&&!preview?'#profil':`#match-${encodeURIComponent(event.match_id)}`,site).href,text=(daily?dailyPushText(event):result?'Un résultat de pari virtuel est disponible.':briefing?'':reminder?favoriteReminderText(event):preview?'DÉMONSTRATION · CHIFFRES FICTIFS\n\n'+alertText(event)+'\n\nAperçu du format : ces chiffres sont fictifs, aucune opportunité réelle n’a été détectée pour cet exemple.':testing?'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.':alertText(event))+'\n'+link;
   try {
     let response;
     if(channel==='web') {
       if(!webSender) return {status:'failed',error:'Notifications web non configurées'};
-      await webSender(target,JSON.stringify({title:result?'Résultat validé':testing?'Test de vos alertes BetOptimum':reminder?`${event.home} - ${event.away}`:`${event.home} - ${event.away}`,body:result?'Un pari virtuel vient d’être réglé. Consultez Mes paris pour voir votre résultat.':testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):`${event.label} · cote ${Number(event.odd).toFixed(2)} · confiance ${Math.round(event.confidence*100)} %\nParis virtuels · 18+ · Aucune garantie.`,url:link,tag:result?'bet-results':`bet-${id}`,expiresAt:new Date(Date.now()+120000).toISOString()}));return {status:'sent'};
+      await webSender(target,JSON.stringify({title:daily?`${event.picks.length} conseil${event.picks.length>1?'s':''} du jour`:result?'Résultat validé':testing?'Test de vos alertes BetOptimum':reminder?`${event.home} - ${event.away}`:`${event.home} - ${event.away}`,body:daily?dailyPushText(event):result?'Un pari virtuel vient d’être réglé. Consultez Mes paris pour voir votre résultat.':testing?'Votre canal de notifications fonctionne.':reminder?favoriteReminderText(event):`${event.label} · cote ${Number(event.odd).toFixed(2)} · confiance ${Math.round(event.confidence*100)} %\nParis virtuels · 18+ · Aucune garantie.`,url:link,tag:daily?`daily-${event.date}`:result?'bet-results':`bet-${id}`,expiresAt:new Date(Date.now()+120000).toISOString()}));return {status:'sent'};
     }
     if(channel==='telegram') {
       if(!env.TELEGRAM_BOT_TOKEN)return {status:'failed',error:'Telegram non configuré'};
