@@ -25,3 +25,7 @@ La collecte utilise `scripts/propline-competitions.mjs`, indépendante de l’hi
 Le catalogue compte dans le plafond existant de huit requêtes par collecte. Il n’est interrogé que si une compétition à venir n’a pas de correspondance connue. Les appels de cotes sont ordonnés par prochain coup d’envoi ; si le budget est insuffisant, une erreur partielle le signale. Aucun changement aux réservations espacées de douze heures. Le diagnostic `check-propline.mjs` utilise la même découverte. La validation réelle doit lire le rapport Actions avec la clé de production ; les tests locaux utilisent des réponses simulées.
 
 Référence fournisseur : https://www.prop-line.com/docs (`GET /v1/sports`), https://www.prop-line.com/llms-full.txt (clés Ligue des nations et DFB-Pokal).
+
+## Collecte manuelle forcée (BET-252)
+
+Sur demande explicite du propriétaire, lancer le workflow `update-fixtures.yml` avec `force_odds_sync=true` permet une collecte immédiate malgré le délai de douze heures ou les deux tentatives sur vingt-quatre heures. L’option est désactivée par défaut et n’est transmise au script de quota que pour `workflow_dispatch`. La tentative supplémentaire reste dans le journal durable avant tout appel ; les collectes automatiques suivantes la comptent normalement. Le plafond de huit requêtes, l’arrêt sur 401/403/429 et les contrôles de cotes restent appliqués.

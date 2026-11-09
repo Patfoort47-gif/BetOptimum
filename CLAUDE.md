@@ -149,3 +149,5 @@ BET-244 : `inLiveWindow` (`live.js`) convertit explicitement le coup d’envoi e
 BET-246 : V56 après V55 ajoute le mode push Essentiel (résultats certifiés uniquement) et un plafond commun de 1 ou 2 push/jour, rappels et tests compris. Expiration transport à 120 secondes et notification générique regroupée pour les résultats, sans montants. Aucun opt-in automatique ni rejeu des anciens règlements. Déployer la fonction Edge notifications avec V56 avant le front.
 
 BET-251 : `scripts/propline-competitions.mjs` étend la collecte aux compétitions du calendrier par catalogue PropLine et alias exacts (dont Coupe de France et Copa del Rey). La découverte compte dans le budget de huit appels ; les compétitions non couvertes sont signalées. Historique football-data.org indépendant, quota et dix bookmakers par sélection inchangés. Voir `docs/PROPLINE_SETUP.md`.
+
+BET-252 : exception administrative explicite au quota par `workflow_dispatch` avec `force_odds_sync=true`. Désactivée par défaut, inaccessible aux lancements planifiés, tentative toujours journalisée avant les appels. Aucun changement au plafond de huit requêtes par collecte.

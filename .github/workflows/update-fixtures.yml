@@ -2,6 +2,11 @@ name: Actualiser les matchs
 
 on:
   workflow_dispatch:
+    inputs:
+      force_odds_sync:
+        description: 'Forcer une collecte de cotes maintenant (exception au délai de 12 h)'
+        type: boolean
+        default: false
   schedule:
     # 6 h et 18 h à Paris, avec les deux décalages UTC été/hiver.
     - cron: '0 4,16 * * *'
@@ -58,6 +63,8 @@ jobs:
         run: node scripts/check-market-deployment.mjs
       - name: Réserver durablement le quota avant les appels fournisseur
         id: quota
+        env:
+          FORCE_ODDS_SYNC: ${{ github.event_name == 'workflow_dispatch' && inputs.force_odds_sync == true }}
         if: steps.schedule.outputs.run == 'true'
         run: |
           node scripts/odds-sync-quota.mjs
