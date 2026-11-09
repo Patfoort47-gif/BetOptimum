@@ -1,3 +1,4 @@
+import { validatedResultCurrent } from '../../../notification-result.js';
 import webPush from 'npm:web-push@3.6.7';
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
 import { runScheduledReminders } from '../../../notification-scheduler.js';
@@ -77,7 +78,7 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
     telegramSnapshot=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
     if(!telegramSnapshot?.preferences?.enabled||(!payload.test_channel&&!telegramEventCurrent(payload,telegramSnapshot.preferences,telegramSnapshot.favorites,matches))){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
-   if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});if(!web||!snapshot?.preferences?.enabled||!(payload.favorite_reminder?favoriteReminderCurrent(payload,snapshot.preferences,snapshot.favorites,matches):telegramEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches))){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
+   if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});const result=payload.result_validated===true,bet=result&&/^[a-f0-9-]{36}$/.test(String(payload.bet_id))?(await db(`bets?id=eq.${payload.bet_id}&user_id=eq.${delivery.user_id}&select=status`))[0]:null;const valid=result?validatedResultCurrent(payload,snapshot?.preferences,bet):snapshot?.preferences?.enabled&&!snapshot.preferences.essential&&(payload.favorite_reminder?favoriteReminderCurrent(payload,snapshot.preferences,snapshot.favorites,matches):telegramEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches));if(!web||!snapshot?.preferences?.enabled||!valid){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
    if(delivery.channel==='email'&&!payload.briefing&&!payload.test_channel){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    if(payload.briefing){
     if(delivery.channel!=='email'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
@@ -98,7 +99,7 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
     const latest=await db('rpc/notification_telegram_snapshot','POST',{p_user:delivery.user_id});
     if(!latest?.preferences?.enabled||latest.preferences.updated_at!==telegramSnapshot.preferences.updated_at){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    }
-   const pushTTL=payload.favorite_reminder?Math.max(1,Math.min(900,Math.floor((Date.parse(payload.expires_at)-Date.now())/1000))):900;
+   const pushTTL=120;
    const result=await deliver(delivery.channel,target,payload,delivery.id,env,fetch,async(target:object,payload:string)=>webPush.sendNotification(target,payload,{vapidDetails:{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY},TTL:pushTTL,timeout:10000}));
    const status=result.status==='pending'&&delivery.attempts>=4?'failed':result.status;
    await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status,error:result.error??null,...(status==='sent'?{sent_at:new Date().toISOString()}:{}),...(status==='pending'?{due_at:new Date(Date.now()+(result.retry??300)*1000).toISOString()}: {})});
