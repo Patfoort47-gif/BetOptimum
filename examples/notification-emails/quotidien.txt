@@ -1,45 +1,47 @@
 MAQUETTE · DONNÉES FICTIVES
 
-Votre pause foot du jour
+Le jeu se prépare ici.
 
-Mes matchs favoris
+Mes équipes favorites
 Lens - Rennes
+Plus de 2,5 buts · cote 2.00
 Ligue 1 · 19:00 (Europe/Paris)
+Cote réelle · paris virtuels
 Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-lens-rennes
 
 Lille - Paris
+Plus de 2,5 buts · cote 2.00
 Ligue 1 · 21:00 (Europe/Paris)
+Cote réelle · paris virtuels
 Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-lille-paris
 
 Le match du jour
 Madrid - Barcelone
+Plus de 2,5 buts · cote 2.00
 Liga · 22:00 (Europe/Paris)
+Cote réelle · paris virtuels
 Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-madrid-barcelona
 
 Les 3 conseils du jour
 1 · Madrid - Barcelone
 Plus de 2,5 buts · cote 2.00
-Probabilité du modèle : 64 % · value 28.1 %. Ces seuils expliquent ce conseil, sans garantie de résultat.
-Bookmaker fictif · cote réelle, actualisée le 10/04/2027 07:55:00.
-Voir l’analyse : https://patfoort47-gif.github.io/BetOptimum/#match-madrid-barcelona
+Liga · 22:00 (Europe/Paris)
+Cote réelle · paris virtuels
+Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-madrid-barcelona
 
 2 · Lens - Rennes
 Plus de 2,5 buts · cote 2.00
-Probabilité du modèle : 62 % · value 24.0 %. Ces seuils expliquent ce conseil, sans garantie de résultat.
-Bookmaker fictif · cote réelle, actualisée le 10/04/2027 07:55:00.
-Voir l’analyse : https://patfoort47-gif.github.io/BetOptimum/#match-lens-rennes
+Ligue 1 · 19:00 (Europe/Paris)
+Cote réelle · paris virtuels
+Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-lens-rennes
 
 3 · Lille - Paris
 Plus de 2,5 buts · cote 2.00
-Probabilité du modèle : 60 % · value 19.8 %. Ces seuils expliquent ce conseil, sans garantie de résultat.
-Bookmaker fictif · cote réelle, actualisée le 10/04/2027 07:55:00.
-Voir l’analyse : https://patfoort47-gif.github.io/BetOptimum/#match-lille-paris
+Ligue 1 · 21:00 (Europe/Paris)
+Cote réelle · paris virtuels
+Voir le match : https://patfoort47-gif.github.io/BetOptimum/#match-lille-paris
 
-Votre espace
-Bankroll disponible : 1 245,50 €.
-Retrouvez vos paris et leurs détails sur votre profil.
-
-Découvrir ma journée : https://patfoort47-gif.github.io/BetOptimum/#match-madrid-barcelona
+Voir les conseils du jour : https://patfoort47-gif.github.io/BetOptimum/#conseils-du-jour
 
 Gérer mes préférences et me désabonner (après connexion) : https://patfoort47-gif.github.io/BetOptimum/#profil
 
