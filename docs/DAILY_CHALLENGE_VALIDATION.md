@@ -1,6 +1,6 @@
 # Défi du jour : finalisation BET-54
 
-Le défi utilise le barème commun BET-132 : mise de référence de 10 points, cote plafonnée à 5, perte de 10 points, annulation à zéro. Il ne débite aucune bankroll. La sélection et les cotes restent figées ; les places libres peuvent être complétées avant le coup d'envoi. Les règles de qualification courantes sont celles de `docs/LEAGUE_SCORING.md`.
+Le défi utilise le barème commun BET-132 : mise de référence de 10 points, cote plafonnée à 5, perte de 1 point depuis BET-253, annulation à zéro. Il ne débite aucune bankroll. La sélection et les cotes restent figées ; les places libres peuvent être complétées avant le coup d'envoi. Les règles de qualification courantes sont celles de `docs/LEAGUE_SCORING.md`.
 
 ## Corrections de finition
 

@@ -5,7 +5,7 @@ Le classement additionne les résultats à mise fixe : il récompense le résult
 ## Points
 
 - Gagné : `(min(cote effective, 5) - 1) × 10`, arrondi au centième.
-- Perdu : -10. Annulé : 0. Les systèmes restent exclus.
+- Perdu : -1 (BET-253). Annulé : 0. Les systèmes restent exclus.
 - Un combiné est un seul ticket. Sa cote effective est le produit des sélections gagnées ; les sélections annulées sont retirées. La cote ne provient pas du gain monétaire arrondi, pour ne pas favoriser certaines mises.
 - Aucun multiplicateur lié à la division, au niveau, à la série ou aux jetons.
 - Même formule pour tous les pronostics éligibles, historique compris : ligue générale, grilles et compétitions. Les ligues privées reprennent la ligue générale.
@@ -48,3 +48,7 @@ PGLITE_MODULE=/tmp/bet-ranking-tools/node_modules/@electric-sql/pglite/dist/inde
 ```
 
 Elle vérifie la transition de schéma, la correspondance JS/SQL sur 66 cas, le recalcul intégral et son idempotence, les archives et rangs, les paris en attente, les annulations, les permissions et la conservation des bankrolls, gains, statuts et dates. Aucun accès réseau ni donnée réelle n'est requis par cette recette.
+
+## BET-253 : pénalité de défaite à -1
+
+Appliquer `supabase/migrations/supabase-v57-schema.sql` après V56. La migration met à jour le calcul serveur, recalcule les points existants et reconstruit les totaux et rangs. Les pertes anciennes de -10 deviennent -1, soit +9 points par défaite éligible. Les gains restent plafonnés à +40, les annulations à 0. Les règles de rang confirmé sont conservées, comme les montants et les promotions passées. Le ROI de classement reste calculé sur la référence de 10 ; il mesure ce barème et ne représente pas le rendement financier.

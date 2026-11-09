@@ -50,7 +50,7 @@ test('le classement d’une ligue additionne les pronos réglés, par saison ou 
 const E=await import('../scripts/special-engine.mjs');
 test('les pronos de grille sont réglés avec le barème de la ligue, un match annulé vaut 0',()=>{
   const done=(id,h,a)=>({id,completed:true,homeScore:h,awayScore:a}),picks=[{id:1,match_ids:['a'],key:'home',odd:2.5},{id:2,match_ids:['a'],key:'over',odd:1.8},{id:3,match_ids:['b'],key:'draw',odd:3},{id:4,match_ids:['c'],key:'home',odd:2}];
-  assert.deepEqual(E.planGridSettlements(picks,[done('a',1,0),{id:'b',voided:true}]),[{id:1,status:'won',points:15},{id:2,status:'lost',points:-10},{id:3,status:'void',points:0}]);
+  assert.deepEqual(E.planGridSettlements(picks,[done('a',1,0),{id:'b',voided:true}]),[{id:1,status:'won',points:15},{id:2,status:'lost',points:-1},{id:3,status:'void',points:0}]);
 });
 test('les lignes de classement comptent saison, mois et journées jouées',()=>{
   const members=[{user_id:'a',joined_at:'2026-09-01'},{user_id:'b',joined_at:'2026-09-02'}],picks=[{user_id:'a',round_id:'r1',points:15,status:'won',settled_at:'2026-10-02T10:00:00Z'},{user_id:'a',round_id:'r2',points:-10,status:'lost',settled_at:'2026-09-30T10:00:00Z'},{user_id:'a',round_id:'r2',points:9,status:'won',settled_at:'2026-10-03T10:00:00Z'}];

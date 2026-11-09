@@ -4,7 +4,7 @@ Comparatif : `docs/studies/BET-169-proposal.md`. Validation explicite reçue le 
 
 ## Déploiement et transition
 
-Appliquer V38 après V37 **avant** de publier les scripts et le site. Le barème numérique reste V2 (gain plafonné à cote 5, perte -10, remboursement 0). La version de classement est distincte : V3 à compter d’une période démarrant le 9 novembre 2026 ou après.
+Appliquer V38 après V37 **avant** de publier les scripts et le site. Le barème numérique reste V2 (gain plafonné à cote 5, perte -1 depuis BET-253, remboursement 0). La version de classement est distincte : V3 à compter d’une période démarrant le 9 novembre 2026 ou après.
 
 - Groupe hebdomadaire : prochaine journée, lundi **9 novembre 2026 à 00 h Paris** (8 novembre à 23 h UTC).
 - Classements mensuels spéciaux : **1er décembre 2026**.
@@ -33,3 +33,5 @@ Départage : points, ROI existant hors annulations, victoires, UUID. Même class
 ## Livraison vérifiée
 
 V38 appliquée le 3 novembre 2026 dans une transaction répétable, avec comparaison avant/après des paris, comptes, entrées de ligue, pronostics journaliers/spéciaux, résultats hebdomadaires/annuels, titres, journal de jetons et trois classements publics. Aucun changement des données ni des rangs actuels ; V2 cette semaine et V3 prête pour le 9 novembre. 291 tests Node passent. Captures V3 de données de test : `docs/recette/BET-169-*.png` (desktop, 320 px clair et sombre, zones nommées dans l’arbre accessible).
+
+BET-253 actualise les points des défaites existantes à -1 sans modifier les seuils de confirmation. Le comparatif BET-169 ci-dessus décrit le barème historique à sa date.

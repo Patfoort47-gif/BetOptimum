@@ -65,18 +65,18 @@ test('le client service_role refuse une configuration incomplète et ne fuit pas
 // BET-53 · points de ligue et quota hebdomadaire
 test('les points de ligue : mise fixe de 10, cote plafonnée à 5,00, annulé à 0',()=>{
   assert.equal(leaguePoints({status:'won',odds:1.01}),.1);assert.equal(leaguePoints({status:'won',odds:10}),40);assert.equal(leaguePoints({status:'won',odds:25}),40);
-  assert.equal(leaguePoints({status:'lost',odds:3}),-10);assert.equal(leaguePoints({status:'void',odds:3}),0);assert.equal(leaguePoints({status:'won',odds:1.9}),9);
+  assert.equal(leaguePoints({status:'lost',odds:3}),-1);assert.equal(leaguePoints({status:'void',odds:3}),0);assert.equal(leaguePoints({status:'won',odds:1.9}),9);
 });
 test('le règlement attribue les points d’un combiné compté avec sa cote totale, et 0 à un ticket non compté',()=>{
   const bet={id:'c',bet_type:'combined',stake:10,counts_general:true,selections:[leg('a','home',2),leg('b','over',2.5)]};
   assert.deepEqual(planSettlements([bet],[done('a',1,0),done('b',2,1)]),[{id:'c',status:'won',payout:50,points:40}]);
   assert.equal(planSettlements([{...bet,counts_general:false}],[done('a',1,0),done('b',2,1)])[0].points,40);
   assert.equal(planSettlements([bet],[done('a',1,0),{id:'b',voided:true}])[0].points,10);
-  assert.equal(planSettlements([bet],[done('a',0,1)])[0].points,-10);
+  assert.equal(planSettlements([bet],[done('a',0,1)])[0].points,-1);
 });
-test('exemple de la proposition : A devant B devant C au classement par points',()=>{
+test('le nouveau barème pénalise chaque défaite de 1 point dans les séries',()=>{
   const score=(count,won,odds)=>won*leaguePoints({status:'won',odds})+(count-won)*leaguePoints({status:'lost'}),A=score(50,30,1.9),B=score(2,2,2.5),C=score(120,38,3);
-  assert.deepEqual([A,B,C].map(Math.round),[70,30,-60]);assert.ok(A>B&&B>C);
+  assert.deepEqual([A,B,C].map(Math.round),[250,30,678]);assert.ok(C>A&&A>B);
 });
 test('la semaine de quota va du lundi 00:00 au dimanche 23:59, heure de Paris',()=>{
   assert.equal(weekKey('2026-10-19T00:00:00+02:00'),'2026-10-19');assert.equal(weekKey('2026-10-25T23:59:59+01:00'),'2026-10-19');assert.equal(weekKey('2026-10-26T00:00:00+01:00'),'2026-10-26');
@@ -141,7 +141,7 @@ test('la sélection publiée est figée avec ses cotes, seules les places libres
 test('le jour du défi suit l’heure de Paris',()=>{assert.equal(parisDate('2026-10-22T22:30:00Z'),'2026-10-23');assert.equal(parisDate('2026-10-22T21:30:00Z'),'2026-10-22')});
 test('les pronos du défi sont réglés avec le barème de la ligue, un match annulé vaut 0',()=>{
   const picks=[{id:1,match_id:'a',pick:'home',odd:2.5},{id:2,match_id:'a',pick:'away',odd:3},{id:3,match_id:'b',pick:'draw',odd:3.2},{id:4,match_id:'c',pick:'home',odd:2}];
-  assert.deepEqual(planDailySettlements(picks,[done('a',2,0),{id:'b',voided:true}]),[{id:1,status:'won',points:15},{id:2,status:'lost',points:-10},{id:3,status:'void',points:0}]);
+  assert.deepEqual(planDailySettlements(picks,[done('a',2,0),{id:'b',voided:true}]),[{id:1,status:'won',points:15},{id:2,status:'lost',points:-1},{id:3,status:'void',points:0}]);
 });
 test('le défi du jour est envoyé à Supabase une fois par jour',async()=>{
   const sent=[],admin={upsert:async(...args)=>sent.push(args)};
