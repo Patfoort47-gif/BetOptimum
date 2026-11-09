@@ -176,7 +176,7 @@ const personalFilters={period:'all',status:'all',search:''};
 let personalDashboard=null;
 function renderHistory(){if(activeTab!=='bankroll')return;if(!accountAuthenticated){personalDashboard?.clear();$('#history-count').textContent='Connectez-vous pour consulter vos paris certifiés.';return}if(!accountApi?.personalHistory)return;if(!personalDashboard)personalDashboard=initPersonalDashboard({api:accountApi,root:$('#bankroll'),getContext:()=>({userId:accountUserId,results:state.results,live:state.live,fixtures:state.liveMatches})});personalDashboard.load({refresh:true})}
 let toastTimer=null;
-function toast(message){clearTimeout(toastTimer);const t=$('#toast');t.textContent=message;t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),6000)}
+function toast(message){clearTimeout(toastTimer);const t=$('#toast');t.textContent=message;t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),2500)}
 
 // Page profil (profile.js, chargé à la demande) : #profil et #joueur-<pseudo).
 let profilePage=null,profilePending=null;
