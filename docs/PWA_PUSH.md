@@ -1,3 +1,13 @@
+# Actualisation BET-246
+
+V56 remplace l’exemption des rappels : tous les push (opportunités, rappels, résultats, tests) consomment le même plafond de 1 ou 2 par jour dans le fuseau du compte. Les tentatives incertaines consomment aussi leur place. Email et Telegram conservent leurs consentements et limites propres.
+
+Le mode Éco / Essentiel ne reçoit que les nouveaux règlements certifiés de Mes paris. Le serveur vérifie de nouveau le consentement, le mode et le résultat avant livraison. Le message affiché sur l’écran verrouillé ne contient ni mise, ni gain, ni choix. Les notifications de résultats partagent un tag pour se remplacer. Un règlement passé n’est jamais rejoué.
+
+Déploiement : appliquer `supabase/migrations/supabase-v56-schema.sql` après V55, déployer `supabase/functions/notifications/index.ts` avec les modules partagés (dont `notification-result.js`), puis publier le front. Le minuteur V55 traite aussi les nouveaux résultats ; il doit être actif. TTL push 120 s et contrôle d’expiration dans le service worker, sans nouveau polling navigateur. Aucun envoi réel de recette sans destinataire volontaire.
+
+Les indications historiques ci-dessous sur l’exemption des rappels sont remplacées par V56.
+
 # BET-200 : installation et notifications push
 
 La publication Pages doit passer par `prepare-pages.mjs` : le manifeste hors ligne et les icônes y sont préparés. Le service worker conserve uniquement les ressources publiques du site. Les réponses Supabase et les données privées ne sont jamais mises en cache par le service worker.
