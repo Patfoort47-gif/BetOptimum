@@ -1,3 +1,4 @@
+import { recommendedMarket } from '../model.js';
 import {quoteAvailable,selectionBookmakerCount} from '../quote-policy.js';
 import {marketKeys} from '../markets.js';
 // Synchronise les matchs avec Supabase puis règle les paris certifiés en attente (BET-52).
@@ -19,7 +20,7 @@ export function fixtureRow(match, now = new Date()) {
   return { id: match.id, league: match.league, round: match.round ?? null, home: match.home, away: match.away, home_id: match.homeId ?? null, away_id: match.awayId ?? null,
     kickoff: match.kickoff ?? `${match.date}T12:00:00Z`, status: match.status ?? 'Programmé', completed: match.completed === true, voided: match.voided === true,
     home_score: Number.isFinite(match.homeScore) ? match.homeScore : null, away_score: Number.isFinite(match.awayScore) ? match.awayScore : null,
-    regulation: match.regulation ?? null, period_scores:match.periodScores??null, market_valid_until: match.marketValidUntil ?? {}, odds_bookmaker_counts: Object.fromEntries(marketKeys(match.odds).map(key=>[key,selectionBookmakerCount(match,key)])), odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
+    notification_pick: recommendedMarket(match), regulation: match.regulation ?? null, period_scores:match.periodScores??null, market_valid_until: match.marketValidUntil ?? {}, odds_bookmaker_counts: Object.fromEntries(marketKeys(match.odds).map(key=>[key,selectionBookmakerCount(match,key)])), odds, odds_source: Object.fromEntries(Object.keys(odds).map(key => [key, match.realOddsMarkets?.includes(key) ? 'real' : 'estimated'])), updated_at: now.toISOString() };
 }
 // Résultats utilisables par settleTicket : scores terminés, matchs annulés, et matchs jamais joués au bout de STALE_DAYS jours.
 export function buildResults(settlements, fixtureRows = [], now = Date.now()) {

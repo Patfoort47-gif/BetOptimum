@@ -137,4 +137,13 @@ assert.equal((await q("select has_function_privilege('authenticated','tick_notif
 assert.equal((await q("select has_function_privilege('service_role','tick_notification_scheduler()','execute') ok"))[0].ok,false);
 await q('update notification_scheduler set enabled=false');
 assert.equal((await q('select tick_notification_scheduler() id'))[0].id,null);
+// BET-255 : plus de plafond quotidien, mais aucune deuxième réservation du même événement.
+await db.exec('create table public.fixtures(id text primary key)');
+for(const v of [56,58,58])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+await q("update notification_deliveries set status='cancelled' where channel='web' and status in ('pending','sending')");
+await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'web','demo') on conflict do nothing`,[uid]);
+await q('select save_web_notifications($1)',[JSON.stringify({...web,max_per_day:1,favorite_reminders:true,essential:false})]);
+for(const id of ['uncapped-1','uncapped-2','uncapped-3'])assert.equal(await enqueueWeb({...signal,web:true,telegram:false,match_id:id,favorite_reminder:false}),true);
+assert.equal((await q('select * from claim_web_notifications()')).length,3);
+assert.equal((await q('select * from claim_web_notifications()')).length,0);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');

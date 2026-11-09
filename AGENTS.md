@@ -119,3 +119,5 @@ BET-251 : `scripts/propline-competitions.mjs` étend la collecte aux compétitio
 BET-252 : exception administrative explicite au quota par `workflow_dispatch` avec `force_odds_sync=true`. Désactivée par défaut, inaccessible aux lancements planifiés, tentative toujours journalisée avant les appels. Aucun changement au plafond de huit requêtes par collecte.
 
 BET-253 : V57 après V56 remplace la pénalité des classements par -1, y compris les paris, défis et grilles déjà réglés. Recalcul transactionnel des points, ROI et rangs ; les rangs provisoires restent NULL. Gains, bankrolls et décisions de promotion conservés. `leaguePoints` et `league_score` restent identiques.
+
+BET-255 : V58 retire le plafond quotidien des push, conserve déduplication, consentement, silence et expiration. Équipes favorites uniquement, y compris les opportunités (`notification-opportunity.js`). Les rappels incluent le conseil disponible, sa cote et sa confiance ; `fixtures.notification_pick` est alimenté par `sync-supabase.mjs` pour le minuteur. Appliquer V58 et déployer Edge avant le front.

@@ -10,3 +10,5 @@ __pycache__/
 /playwright-report/
 /test-results/
 /_site/
+
+/supabase/.temp/

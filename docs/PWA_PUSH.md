@@ -1,3 +1,5 @@
+> Mise à jour BET-255 : le plafond quotidien est supprimé. Les alertes et rappels concernent seulement les équipes favorites, jamais un championnat seul. Les rappels incluent le conseil actuel (sélection, cote, confiance) si disponible ; sinon son absence est indiquée. Déduplication, consentement, silence et expiration restent actifs. V58 après V57 puis fonction Edge et synchronisation du calendrier avant le front. Les paragraphes historiques sur le plafond sont supersédés.
+
 # Actualisation BET-246
 
 V56 remplace l’exemption des rappels : tous les push (opportunités, rappels, résultats, tests) consomment le même plafond de 1 ou 2 par jour dans le fuseau du compte. Les tentatives incertaines consomment aussi leur place. Email et Telegram conservent leurs consentements et limites propres.
