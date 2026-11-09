@@ -126,3 +126,5 @@ BET-256 : les briefings email ne montrent que les équipes favorites, l’affich
 BET-257 : V59 ajoute `daily_summary`, désactivé par défaut, résumé push de 1 à 3 conseils à 9 h dans le fuseau du compte (Paris par défaut), fenêtre de 15 min, aucun envoi sans conseil. Le minuteur lit le calendrier sur 24 h et traite aussi ce résumé, indépendant des favoris. Déduplication compte/date, consentement et conseils relus avant envoi. `daily-picks.js` est partagé avec la vue `#conseils-du-jour`.
 
 BET-258 : V60 retire le canal abandonné, ses associations, préférences et RPC ; seuls email et smartphone sont actifs. Les migrations historiques restent pour reconstruire le schéma. Les adaptateurs et l’interface associés sont supprimés. Voir `NOTIFICATIONS_SETUP.md`.
+
+BET-259 : fournisseur Google configuré dans Supabase, Site URL sur `/BetOptimum/`. `auth-return.js` distingue refus OAuth et confirmation email expirée sans afficher les paramètres sensibles. Aucun secret OAuth côté navigateur. Le déclencheur de profil reste idempotent ; voir `docs/GOOGLE_SIGN_IN.md`.
