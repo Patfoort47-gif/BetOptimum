@@ -67,7 +67,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
     if (modeButton) { const form = content.querySelector('#join-form'); if (form) syncDraft(form); setMode(modeButton.dataset.mode); return; }
     if (event.target.closest('[data-back]')) { syncDraft(content.querySelector('#join-form')); stepIndex = Math.max(0, stepIndex - 1); render({}); return; }
     if (team) { syncDraft(content.querySelector('#join-form')); draft.club = draft.club?.id === team.dataset.team ? null : { id: team.dataset.team, name: team.dataset.teamName }; render({ keepFocus: true }); return; }
-    if (event.target.closest('[data-google]')) { try { await auth.google(); } catch (error) { fail(error); } return; }
+    if (event.target.closest('[data-google]')) { if(busy)return;busy=true;const button=event.target.closest('[data-google]');button.disabled=true;button.setAttribute('aria-busy','true');try { await auth.google(); } catch (error) { fail(error); } return; }
     if (event.target.closest('[data-resend]')) {
       if (Date.now() < resendAt) { render({ error: `Patientez ${Math.ceil((resendAt - Date.now()) / 1000)} s avant un nouvel envoi.` }); return; }
       draft.email = root.querySelector('[data-confirmation-email]')?.value.trim() || draft.email; if (!validEmail(draft.email)) { render({ error: 'Saisissez une adresse email valide.' }); return; } busy = true; render({}); try { await auth.resend(draft.email); resendAt = Date.now() + 30000; busy = false; render({ info: 'Lien renvoyé : pensez à vérifier vos courriers indésirables.' }); } catch (error) { fail(error); }
@@ -123,5 +123,5 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
     lastFocus?.focus?.();
   }
   addEventListener('popstate', () => { if(location.hash!=='#rejoindre')close() });
-  return { open, close, confirmationError: () => { open('check'); render({ error: 'Ce lien a expiré ou a déjà été utilisé. Connectez-vous si votre adresse est confirmée, ou saisissez votre adresse pour recevoir un nouveau lien.' }); }, recovery: () => { open('recovery'); mode = 'recovery'; render({}); }, STYLE_LABELS, RISK_STYLES };
+  return { open, close, oauthError:()=>{open('login');render({error:'Connexion Google annulée ou refusée. Vous pouvez réessayer ou utiliser votre email.'});}, confirmationError: () => { open('check'); render({ error: 'Ce lien a expiré ou a déjà été utilisé. Connectez-vous si votre adresse est confirmée, ou saisissez votre adresse pour recevoir un nouveau lien.' }); }, recovery: () => { open('recovery'); mode = 'recovery'; render({}); }, STYLE_LABELS, RISK_STYLES };
 }
