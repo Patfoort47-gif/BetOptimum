@@ -136,6 +136,7 @@ for (const match of data.matches ?? []) {
     odd: pick.odd,
     probability: pick.probability,
     ...predictionProvenance(pick, match),
+    quoteTracking: match.quoteTracking ?? null,
     status,
     score: `${match.homeScore} : ${match.awayScore}`
   });
