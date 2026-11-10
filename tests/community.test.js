@@ -22,7 +22,7 @@ test('12 emblèmes proposés, un emblème inconnu retombe sur le ballon',()=>{as
 const F=await import('../community.js'),M2=await import('../model.js');
 test('le fil parle français et n’affiche jamais de montant : aucune mise, aucune bankroll dans les phrases',()=>{
   const texts=[['combo-win',{odds:7.5,legs:3}],['promotion',{to:12}],['title',{league:'Ligue des champions'}],['badge',{badge:'streak-5'}],['level',{level:50}],['private-join',{}],['overtake',{rank:3}],['overtake',{rank:1}],['inconnu',{}]].map(([k,p])=>F.activityText(k,p,'Alice'));
-  assert.deepEqual(texts,['Alice a gagné un combiné de 3 matchs à la cote 7.50','Alice est promu en Élite III','Alice est champion de Ligue des champions','Alice a obtenu le trophée « Série de 5 »','Alice passe niveau 50','Alice a rejoint une ligue privée','Alice grimpe à la 3e place de son groupe','Alice grimpe à la 1re place de son groupe','Alice a une nouvelle activité']);
+  assert.deepEqual(texts,['Alice a gagné un combiné de 3 matchs à la cote 7,50','Alice est promu en Élite III','Alice est champion de Ligue des champions','Alice a obtenu le trophée « Série de 5 »','Alice passe niveau 50','Alice a rejoint une ligue privée','Alice grimpe à la 3e place de son groupe','Alice grimpe à la 1re place de son groupe','Alice a une nouvelle activité']);
   assert.ok(texts.every(t=>!/€|euro|mise|bankroll/i.test(t)));
 });
 test('les événements du fil : combiné gagné à 5,00 ou plus, montée, titre, trophée, paliers de niveau tous les 50, ligue privée, dépassement',()=>{
