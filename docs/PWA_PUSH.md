@@ -37,3 +37,15 @@ Au déploiement : migration SQL, fonction Edge avec `--no-verify-jwt`, calendrie
 Tester une équipe favorite, un championnat seul et un match correspondant aux deux ; vérifier conseil, cote, confiance, absence de doublon et ouverture. Pour le résumé, tester fuseaux et changements d’heure, 0/1/2/3 conseils, relance, retrait d’accord, mode Essentiel et expiration. `scripts/check-notification-sql.mjs` couvre les réservations et droits sans envoi ; les tests Node simulent le transport.
 
 TTL de transport et expiration côté service worker : 120 secondes. Les résultats certifiés utilisent une notification regroupée, sans montant. Les messages expirés sont ignorés. Aucun délai de réception ne peut être garanti par iOS, Android ou le navigateur.
+
+## Rappel du défi du jour (BET-310)
+
+V65 après V64 ajoute `daily_challenge_reminder` et son consentement horodaté, désactivés pour tous les comptes existants. Dans Mon profil > Mes alertes, installer le site puis activer le canal push et cocher l’accord spécifique. iOS/iPadOS 16.4+ exige une ouverture depuis l’écran d’accueil ; Android Chrome propose l’installation. Le profil permet d’arrêter ce seul rappel. Désactiver le canal, le déconnecter ou se désabonner de tout efface également cet accord. Le mode Essentiel le suspend.
+
+Le minuteur existant vérifie à 10 h dans le fuseau du compte, pendant quinze minutes. Le jour du défi reste celui de Paris. Aucun rappel si le défi est absent, tous les choix remplis, les matchs fermés/annulés ou sans marché admissible. Les heures silencieuses s’appliquent ; aucun rattrapage au-delà de la fenêtre. Une seule réservation par compte et jour du défi, même après changement de fuseau ou nouvelle association. Le consentement, la participation et le calendrier sont relus au retrait de la file puis juste avant le transport.
+
+Message générique « Ton défi du jour t’attend », sans cote, choix ni montant. Le lien `#defi-du-jour` ouvre les matchs et fait défiler jusqu’au défi après chargement ; aucune validation automatique. Expiration transport à 120 secondes.
+
+Déployer V65, puis la fonction Edge notifications (révision BET-310, vérification JWT de passerelle désactivée, identités toujours contrôlées dans chaque route), puis le front. Ne pas envoyer de notification de test à un utilisateur sans son accord ; les recettes automatisées utilisent un transport fictif. La vérification de production `health` ne livre rien.
+
+Recettes : `npm test`, `PGLITE_MODULE=… node scripts/check-notification-sql.mjs`, navigateur mobile avec Android et iOS installés simulés. Vérifier séparément la réception sur un véritable Android Chrome et un iPhone/iPad installé : les simulations ne prouvent ni l’installation native ni la livraison APNs/FCM réelle.

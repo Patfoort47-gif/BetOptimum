@@ -4,7 +4,7 @@ Deux canaux actifs : le briefing email et les notifications push. Leurs consente
 
 ## Installation et ordre de publication
 
-1. Appliquer les migrations dans l’ordre du guide `SUPABASE_SETUP.md`, jusqu’à V60 après V59. Les anciennes migrations restent dans l’historique ; V60 retire le canal abandonné, ses RPC, ses préférences, ses associations et ses destinations chiffrées.
+1. Appliquer les migrations dans l’ordre du guide `SUPABASE_SETUP.md`, jusqu’à V65 après V64. Les anciennes migrations restent dans l’historique ; V60 retire le canal abandonné, ses RPC, ses préférences, ses associations et ses destinations chiffrées.
 2. Configurer la fonction Edge `notifications` avec `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NOTIFICATION_WORKER_SECRET`, `NOTIFICATION_SCHEDULER_SECRET`, `NOTIFICATION_ENCRYPTION_KEY` (32 octets encodés en base64), `SITE_URL` (`https://patfoort47-gif.github.io/BetOptimum/`). Aucun secret dans le dépôt ni dans le navigateur.
 3. Email : `RESEND_API_KEY`, `EMAIL_FROM`, domaine d’envoi validé dans Resend. Push : `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` (`mailto:` ou `https:`).
 4. Déployer `supabase/functions/notifications/index.ts` avec `--no-verify-jwt`. Chaque route vérifie explicitement son identité : session Auth pour les préférences, secret worker pour les traitements GitHub, secret scheduler pour le minuteur. L’origine du navigateur doit correspondre à `SITE_URL`.
@@ -44,3 +44,5 @@ Le test email reste identifié comme démonstration, sans conseil réel et avec 
 - Un workflow réussi ne prouve pas l’accès du navigateur : vérifier aussi origine, session, migrations et droits RPC dans Mes alertes. Une réponse `queued:false` signifie qu’une demande existe déjà, pas un nouvel envoi.
 
 Le transport dépend du fournisseur, du système du téléphone et du réseau. Aucun résultat ni délai de livraison n’est garanti. Paris virtuels · 18+ · Aucune garantie de gain.
+
+BET-310 : le rappel du défi du jour demande un accord push distinct, inactif par défaut. Appliquer V65 avant la fonction Edge révision BET-310, puis publier le front. Voir `docs/PWA_PUSH.md`. Le minuteur existant traite ce rappel sans nouvel horaire cron ni nouveau fournisseur.

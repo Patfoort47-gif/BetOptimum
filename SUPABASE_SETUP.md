@@ -142,3 +142,7 @@ Après V62 et publication du formulaire sans recherche anonyme, appliquer `supab
 ## Retrait de l’ajout libre (BET-309)
 
 Appliquer `supabase/migrations/supabase-v64-schema.sql` après V63 avant le front BET-309. La RPC historique refuse tout crédit, et ses droits sont révoqués pour tous les clients. Soldes et `capital_events` restent inchangés ; aucune recharge en jetons ni remise à zéro n’est réactivée. Le défi quotidien reste gratuit.
+
+## Rappel du défi (BET-310)
+
+Appliquer `supabase/migrations/supabase-v65-schema.sql` après V64. Consentement spécifique inactif par défaut, RPC de réservation et snapshot réservés au service. Déployer ensuite la fonction notifications révision BET-310, vérifier le contrôle sans envoi, puis publier le front. Guide : `docs/PWA_PUSH.md`.

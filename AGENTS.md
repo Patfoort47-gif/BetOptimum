@@ -146,3 +146,7 @@ BET-278 : calendrier, affiche du jour, aperçu HTML public et briefing email exc
 Sécurité BET-302 : clients Supabase JS 2.81.1 et Three.js 0.170.0 servis localement depuis `vendor/`, sans import jsDelivr. Versions npm verrouillées, licences et empreintes conservées ; reconstruction explicite par `scripts/build-vendor.mjs`, voir `vendor/README.md`. La publication inclut les modules vendor accessibles et leurs notices, pas les outils de compilation.
 
 CSP BET-303 : scripts et workers locaux uniquement ; pas de gestionnaire JavaScript dans le HTML. La CSP meta de `index.html` limite les connexions au projet Supabase courant et à ESPN. Les styles inline restent nécessaires aux rendus dynamiques. Adapter explicitement cette liste à tout nouveau service. Recette : `scripts/check-security-ui.cjs`, guide `docs/SECURITY_LOT15.md`.
+
+BET-309 : V64 bloque `add_capital` pour tous les anciens clients, sans modifier les soldes ni les apports passés. Aucun formulaire ni API navigateur de crédit libre. Défi du jour gratuit ; la recharge en jetons reste retirée par V52.
+
+BET-310 : V65 ajoute le rappel du défi, accord spécifique horodaté et inactif par défaut. À 10 h dans le fuseau du compte, fenêtre de quinze minutes, seulement si le défi de Paris garde un choix jouable non rempli. `notification-challenge.js`, snapshot et réservation SQL service-only ; relecture de l’accord, silence et participation avant transport. Désabonnement du canal efface l’accord. Edge BET-310 après V65, avant le front. Lien `#defi-du-jour`, aucun pari automatique. Guide `docs/PWA_PUSH.md`.
