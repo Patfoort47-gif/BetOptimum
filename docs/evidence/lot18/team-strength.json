@@ -1,0 +1,135 @@
+{
+  "snapshots": 548,
+  "total": 281,
+  "testStart": "2026-11-05",
+  "testDays": 4,
+  "baseline": {
+    "count": 92,
+    "brier": 0.5972559614081777,
+    "ece": 0.06289027644078964
+  },
+  "candidate": {
+    "count": 92,
+    "brier": 0.6303869425749665,
+    "ece": 0.045805987315981914
+  },
+  "deltaBrier": 0.03313098116678881,
+  "dayBootstrapCI95": [
+    0.01817167760915052,
+    0.05252335298608116
+  ],
+  "byCompetition": [
+    {
+      "league": "Europa League",
+      "baseline": {
+        "count": 17,
+        "brier": 0.653466074288611,
+        "ece": 0.039627680332087856
+      },
+      "candidate": {
+        "count": 17,
+        "brier": 0.6388026146067133,
+        "ece": 0.1069658780002245
+      }
+    },
+    {
+      "league": "Conference League",
+      "baseline": {
+        "count": 18,
+        "brier": 0.5840400710213254,
+        "ece": 0.1047270173766442
+      },
+      "candidate": {
+        "count": 18,
+        "brier": 0.6264824160757982,
+        "ece": 0.09679982241836126
+      }
+    },
+    {
+      "league": "Ligue 2",
+      "baseline": {
+        "count": 9,
+        "brier": 0.5337113915093185,
+        "ece": 0.22530357493017905
+      },
+      "candidate": {
+        "count": 9,
+        "brier": 0.5744622328779599,
+        "ece": 0.19655943756282573
+      }
+    },
+    {
+      "league": "Bundesliga",
+      "baseline": {
+        "count": 9,
+        "brier": 0.48469321452813996,
+        "ece": 0.1520616898509345
+      },
+      "candidate": {
+        "count": 9,
+        "brier": 0.5874737020450908,
+        "ece": 0.10717504159324805
+      }
+    },
+    {
+      "league": "Serie A",
+      "baseline": {
+        "count": 10,
+        "brier": 0.7051137350734334,
+        "ece": 0.15316359316160252
+      },
+      "candidate": {
+        "count": 10,
+        "brier": 0.6660432298763942,
+        "ece": 0.08298179467042284
+      }
+    },
+    {
+      "league": "Ligue 1",
+      "baseline": {
+        "count": 9,
+        "brier": 0.40814026083732613,
+        "ece": 0.18325675389524268
+      },
+      "candidate": {
+        "count": 9,
+        "brier": 0.6328118346645412,
+        "ece": 0.1010895478698386
+      }
+    },
+    {
+      "league": "Premier League",
+      "baseline": {
+        "count": 10,
+        "brier": 0.6253446069513592,
+        "ece": 0.12288343248603431
+      },
+      "candidate": {
+        "count": 10,
+        "brier": 0.6054576037739736,
+        "ece": 0.13789671082133925
+      }
+    },
+    {
+      "league": "La Liga",
+      "baseline": {
+        "count": 10,
+        "brier": 0.7182416686141112,
+        "ece": 0.13089398142815628
+      },
+      "candidate": {
+        "count": 10,
+        "brier": 0.6991532516426442,
+        "ece": 0.09165424323208832
+      }
+    }
+  ],
+  "activation": false,
+  "reasons": [
+    "Recherche isolée, aucun remplacement dans le pipeline actif",
+    "Archive trop courte pour démontrer une amélioration dans toutes les compétitions",
+    "Coupes à élimination directe exclues sans preuve du score à 90 minutes",
+    "Résultats utilisables seulement après leur première publication Git ; paramètres Elo fixés avant le test",
+    "Un Brier et une calibration améliorés hors échantillon, avec couverture suffisante par compétition et incertitude maîtrisée, sont indispensables avant activation"
+  ]
+}
