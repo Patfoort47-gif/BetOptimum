@@ -13,10 +13,10 @@ const { chromium } = require('playwright'),
     await page.route('**/*', (r) => {
       const u = new URL(r.request().url());
       if (u.hostname !== '127.0.0.1') return r.abort();
-      if (u.pathname === '/personal-dashboard.js')
+      if (u.pathname === '/src/history/personal-dashboard.js')
         return r.fulfill({
           contentType: 'text/javascript',
-          body: fs.readFileSync('personal-dashboard.js', 'utf8')
+          body: fs.readFileSync('src/history/personal-dashboard.js', 'utf8')
         });
       if (u.pathname === '/styles/components.css')
         return r.fulfill({
@@ -32,7 +32,7 @@ const { chromium } = require('playwright'),
     });
     await page.goto('http://127.0.0.1:4173');
     await page.evaluate(async () => {
-      const { initPersonalDashboard } = await import('/personal-dashboard.js');
+      const { initPersonalDashboard } = await import('/src/history/personal-dashboard.js');
       document.body.innerHTML =
         '<section id="bankroll"><div id="personal-filters"><select id="history-period"><option value="all">Tout</option><option value="7">7 jours</option></select><select id="history-status"><option value="all">Tous</option><option value="won">Gagnés</option><option value="pending">En attente</option></select><input id="history-search"><button id="reset-history">Réinitialiser</button></div><dl id="personal-summary"></dl><dl id="personal-secondary"></dl><div id="personal-charts"></div><p id="history-count"></p><div id="history-body"></div><div id="empty-history"></div><div id="history-pagination"></div></section>';
       window.calls = [];

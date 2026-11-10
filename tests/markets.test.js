@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { analyseMatch, selectionResult, settleTicket } from '../model.js';
-import { marketSpec, scoreOutcome } from '../markets.js';
+import { analyseMatch, selectionResult, settleTicket } from '../src/model/model.js';
+import { marketSpec, scoreOutcome } from '../src/model/markets.js';
 import { propLineOffers } from '../scripts/propline-odds.mjs';
-import { mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { mergeCachedOffers, summarizeOffers } from '../src/model/odds-cache.js';
 import { fixtureRow } from '../scripts/sync-supabase.mjs';
 const match = {
   id: 'm',
@@ -174,7 +174,7 @@ test('BET-153 : lignes séparées, prix réellement fournis et activation progre
   assert.equal(row.odds.homeOver15, 2);
   assert.equal(row.odds_source.homeOver15, 'real');
 });
-const { regulationScore } = await import('../regulation-score.js');
+const { regulationScore } = await import('../src/model/regulation-score.js');
 test('BET-153 : prolongation et tirs au but ne remplacent pas le score réglementaire', () => {
   const event = {
       status: { period: 4, type: { name: 'STATUS_FINAL_AET' } },

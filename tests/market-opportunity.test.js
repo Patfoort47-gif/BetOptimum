@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classifyOpportunity, opportunityMarkup } from '../market-opportunity.js';
+import { classifyOpportunity, opportunityMarkup } from '../src/matches/market-opportunity.js';
 test('table validée : bornes exactes avant arrondi, EV réelle et cote admissible', () => {
   for (const [value, level] of [
     [-1, null],

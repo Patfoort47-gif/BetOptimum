@@ -1,19 +1,24 @@
-import { teamForm } from '../team-form.js';
+import { teamForm } from '../src/matches/team-form.js';
 import { enrichHalfTimeResults } from './h1-results.mjs';
-import { selectionSnapshot } from '../selection-snapshot.js';
+import { selectionSnapshot } from '../src/model/selection-snapshot.js';
 import { publishFixtures } from './fixture-files.mjs';
-import { venueFromCompetition } from '../stadiums.js';
-import { regulationScore } from '../regulation-score.js';
-import { marketKeys, marketEnabled, isExtendedMarket, EXTENDED_ODDS_MAX_AGE } from '../markets.js';
+import { venueFromCompetition } from '../src/matches/stadiums.js';
+import { regulationScore } from '../src/model/regulation-score.js';
+import {
+  marketKeys,
+  marketEnabled,
+  isExtendedMarket,
+  EXTENDED_ODDS_MAX_AGE
+} from '../src/model/markets.js';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { parisDate, pickDailyChallenge } from '../model.js';
+import { parisDate, pickDailyChallenge } from '../src/model/model.js';
 import {
   ODDS_REFRESH_HOURS,
   SECONDARY_ODDS_WINDOW_HOURS,
   mergeCachedOffers,
   summarizeOffers
-} from '../odds-cache.js';
-import { sameTeam } from '../team-match.js';
+} from '../src/model/odds-cache.js';
+import { sameTeam } from '../src/matches/team-match.js';
 import { collectCalendarOdds } from './propline-competitions.mjs';
 
 const leagues = [

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { bookmakerOffer, mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { bookmakerOffer, mergeCachedOffers, summarizeOffers } from '../src/model/odds-cache.js';
 test('BET-151 : conserve les blocs complémentaires et la ligne 2,5', () => {
   const offer = bookmakerOffer(
     {

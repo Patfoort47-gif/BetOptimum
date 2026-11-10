@@ -70,7 +70,7 @@ const raw = fs
     await p.route('**/*', (r) => {
       const u = new URL(r.request().url());
       if (u.origin !== 'http://127.0.0.1:4173') return r.abort();
-      if (u.pathname === '/account.js')
+      if (u.pathname === '/src/account/account.js')
         return r.fulfill({ contentType: 'text/javascript', body: mock });
       if (u.pathname === '/data/fixtures.json') return r.fulfill({ json: fixtures });
       if (u.pathname === '/data/predictions-history.json') return r.fulfill({ json: [] });

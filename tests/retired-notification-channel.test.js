@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { deliver, validateDestination } from '../notification-delivery.js';
-import { notificationConfig } from '../notification-config.js';
+import { deliver, validateDestination } from '../src/notifications/notification-delivery.js';
+import { notificationConfig } from '../src/notifications/notification-config.js';
 test('le canal retiré ne peut plus envoyer même avec une ancienne configuration', async () => {
   let calls = 0;
   const channel = ['tele', 'gram'].join('');

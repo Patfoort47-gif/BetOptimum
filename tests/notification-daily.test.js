@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planDailyPush, dailyPushCurrent } from '../notification-daily.js';
-import { dailyPicks } from '../daily-picks.js';
-import { deliver } from '../notification-delivery.js';
+import { planDailyPush, dailyPushCurrent } from '../src/notifications/notification-daily.js';
+import { dailyPicks } from '../src/club/daily-picks.js';
+import { deliver } from '../src/notifications/notification-delivery.js';
 const prefs = {
   enabled: true,
   daily_summary: true,

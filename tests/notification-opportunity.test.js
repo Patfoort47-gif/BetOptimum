@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectWebAlerts, webEventCurrent } from '../notification-opportunity.js';
-import { workerPayload } from '../notification-worker-request.js';
-import { decodeWorkerMatches } from '../notification-worker-codec.js';
+import { detectWebAlerts, webEventCurrent } from '../src/notifications/notification-opportunity.js';
+import { workerPayload } from '../src/notifications/notification-worker-request.js';
+import { decodeWorkerMatches } from '../src/notifications/notification-worker-codec.js';
 const now = Date.parse('2026-11-04T13:00:00Z');
 const preferences = {
   enabled: true,

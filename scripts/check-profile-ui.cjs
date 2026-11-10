@@ -28,8 +28,8 @@ require('node:fs').mkdirSync('work', { recursive: true });
     await page.evaluate(async () => {
       document.body.innerHTML =
         '<main style="max-width:1240px;margin:auto;padding:12px"><div id="profile-page"></div></main>';
-      const { initProfilePage } = await import('/profile.js'),
-        model = await import('/model.js');
+      const { initProfilePage } = await import('/src/account/profile.js'),
+        model = await import('/src/model/model.js');
       window.calls = [];
       window.failSettings = false;
       const profile = {

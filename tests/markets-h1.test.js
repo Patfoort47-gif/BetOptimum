@@ -2,14 +2,24 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
-import { halfTimeMarketSpec, marketEnabled, marketSpec, selectionCondition } from '../markets.js';
+import {
+  halfTimeMarketSpec,
+  marketEnabled,
+  marketSpec,
+  selectionCondition
+} from '../src/model/markets.js';
 import { propLineOffers, collectPropLine } from '../scripts/propline-odds.mjs';
-import { quoteAvailable } from '../quote-policy.js';
+import { quoteAvailable } from '../src/model/quote-policy.js';
 import { halfTimeResult, enrichHalfTimeResults } from '../scripts/h1-results.mjs';
-import { analyseMatch, recommendedMarket, selectionResult, settleTicket } from '../model.js';
+import {
+  analyseMatch,
+  recommendedMarket,
+  selectionResult,
+  settleTicket
+} from '../src/model/model.js';
 import { fixtureRow, buildResults, planSettlements } from '../scripts/sync-supabase.mjs';
-import { marketCard } from '../market-card.js';
-import { historyCard } from '../bet-history.js';
+import { marketCard } from '../src/matches/market-card.js';
+import { historyCard } from '../src/history/bet-history.js';
 const read = (name) =>
   JSON.parse(
     gunzipSync(

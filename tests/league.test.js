@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-55 · ligue générale : échelons, groupes, saisons, montées et descentes
-const L = await import('../league.js');
+const L = await import('../src/club/league.js');
 const mk = (n, echelon, over = {}) =>
   Array.from({ length: n }, (_, i) => ({
     id: `${over.prefix ?? ''}${echelon}-${i}`,
@@ -390,7 +390,7 @@ test('qualification : dix résultats décidés, moitié des occasions, sans pén
   assert.equal(ranking([...entries, { user_id: 'a', points: 0 }]).picks, 11);
 });
 test('un groupe et une ligue spéciale appliquent les mêmes points et départages', async () => {
-  const { specialStandings } = await import('../special.js');
+  const { specialStandings } = await import('../src/club/special.js');
   const members = [
       { user_id: 'b', group_id: 1 },
       { user_id: 'a', group_id: 1 }

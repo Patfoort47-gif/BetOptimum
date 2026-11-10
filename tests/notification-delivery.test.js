@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateDestination, deliver, seal, unseal } from '../notification-delivery.js';
+import {
+  validateDestination,
+  deliver,
+  seal,
+  unseal
+} from '../src/notifications/notification-delivery.js';
 const env = {
   SITE_URL: 'https://example.com/bet/',
   RESEND_API_KEY: 'test',

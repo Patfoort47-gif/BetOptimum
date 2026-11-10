@@ -13,12 +13,12 @@ test('la publication contient les modules différés, styles et données, sans t
       names = await readdir(out);
     for (const name of [
       'app.js',
-      'details.js',
-      'account.js',
-      'profile.js',
-      'avatar.js',
+      'src/matches/details.js',
+      'src/account/account.js',
+      'src/account/profile.js',
+      'src/avatar/avatar.js',
       'notification-sw.js',
-      'supabase-config.js'
+      'src/account/supabase-config.js'
     ])
       assert.ok(modules.includes(name), name);
     for (const name of [
@@ -48,8 +48,8 @@ test('la publication contient les modules différés, styles et données, sans t
             'CLAUDE.md',
             'work',
             '.git',
-            'notification-delivery.js',
-            'notification-email.js'
+            'src/notifications/notification-delivery.js',
+            'src/notifications/notification-email.js'
           ].includes(name)
       )
     );

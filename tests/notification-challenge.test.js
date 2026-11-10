@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planChallengeReminder, challengeReminderCurrent } from '../notification-challenge.js';
-import { deliver } from '../notification-delivery.js';
+import {
+  planChallengeReminder,
+  challengeReminderCurrent
+} from '../src/notifications/notification-challenge.js';
+import { deliver } from '../src/notifications/notification-delivery.js';
 const prefs = {
   enabled: true,
   daily_challenge_reminder: true,

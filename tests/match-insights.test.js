@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { matchInsights } from '../match-insights.js';
+import { matchInsights } from '../src/matches/match-insights.js';
 const ids = { home: '1', away: '2' },
   event = (id, date, home = '1', away = '2') => ({
     id,

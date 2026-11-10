@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { predictionReport } from '../prediction-report.js';
+import { predictionReport } from '../src/history/prediction-report.js';
 const now = Date.parse('2026-10-30T12:00Z'),
   base = { date: '2026-10-30', league: 'Ligue 1', key: 'home', odd: 2, oddsSource: 'bookmaker' };
 test('bilan : profit et ROI excluent attente remboursement et cote invalide', () => {

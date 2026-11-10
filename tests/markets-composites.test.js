@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { marketSpec, scoreOutcome, marketEnabled } from '../markets.js';
-import { forecastMatch } from '../prediction-model.js';
-import { selectionResult, settleTicket } from '../model.js';
+import { marketSpec, scoreOutcome, marketEnabled } from '../src/model/markets.js';
+import { forecastMatch } from '../src/model/prediction-model.js';
+import { selectionResult, settleTicket } from '../src/model/model.js';
 test('BET-170 : les cinq familles composites expriment une conjonction indivisible', () => {
   const keys = [
     'comboHomeBttsYes',

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { stadiumFor, stadiumMarkup, venueFromCompetition } from '../stadiums.js';
+import { stadiumFor, stadiumMarkup, venueFromCompetition } from '../src/matches/stadiums.js';
 const photo = {
   venueId: '42',
   name: 'Stade test',

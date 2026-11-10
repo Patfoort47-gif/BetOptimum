@@ -1,12 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { marketSpec, scoreOutcome, marketEnabled, isExtendedMarket } from '../markets.js';
-import { analyseMatch, recommendedMarket, selectionResult, settleTicket } from '../model.js';
+import { marketSpec, scoreOutcome, marketEnabled, isExtendedMarket } from '../src/model/markets.js';
+import {
+  analyseMatch,
+  recommendedMarket,
+  selectionResult,
+  settleTicket
+} from '../src/model/model.js';
 import { propLineOffers, lotOneSelection, collectPropLine } from '../scripts/propline-odds.mjs';
-import { mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { mergeCachedOffers, summarizeOffers } from '../src/model/odds-cache.js';
 import { fixtureRow, planSettlements } from '../scripts/sync-supabase.mjs';
-import { marketCard } from '../market-card.js';
+import { marketCard } from '../src/matches/market-card.js';
 const evidence = JSON.parse(
   await readFile(
     new URL('../docs/evidence/propline-lot-one-2026-11-03.json', import.meta.url),

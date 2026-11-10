@@ -4,10 +4,13 @@ import {
   workerPayload,
   callNotificationWorker,
   WORKER_MAX_BYTES
-} from '../notification-worker-request.js';
-import { decodeWorkerMatches, encodeWorkerMatch } from '../notification-worker-codec.js';
-import { detectAlerts } from '../notification-model.js';
-import { buildBriefing, planBriefing } from '../notification-briefing.js';
+} from '../src/notifications/notification-worker-request.js';
+import {
+  decodeWorkerMatches,
+  encodeWorkerMatch
+} from '../src/notifications/notification-worker-codec.js';
+import { detectAlerts } from '../src/notifications/notification-model.js';
+import { buildBriefing, planBriefing } from '../src/notifications/notification-briefing.js';
 const now = Date.parse('2026-11-03T12:00:00Z');
 const prefs = {
   enabled: true,

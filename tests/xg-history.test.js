@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildXgHistory } from '../xg-history.js';
-import { evaluateXg } from '../xg-evaluation.js';
+import { buildXgHistory } from '../src/model/xg-history.js';
+import { evaluateXg } from '../src/model/xg-evaluation.js';
 const games = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   date: `2026-10-${String(i + 1).padStart(2, '0')}`,

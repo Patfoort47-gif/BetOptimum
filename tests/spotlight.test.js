@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectSpotlight } from '../model.js';
-import { buildBriefing } from '../notification-briefing.js';
-import { briefingEmail } from '../notification-email.js';
+import { selectSpotlight } from '../src/model/model.js';
+import { buildBriefing } from '../src/notifications/notification-briefing.js';
+import { briefingEmail } from '../src/notifications/notification-email.js';
 const now = Date.parse('2026-11-10T08:00:00Z');
 const match = (id, extra = {}) => ({
   id,

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cardRadarAttributes, cardAttributes } from '../model.js';
+import { cardRadarAttributes, cardAttributes } from '../src/model/model.js';
 test('radar : mêmes formules que la carte pour des données complètes', () => {
   const raw = {
     settled: 100,

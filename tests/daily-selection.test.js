@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectDailySelection } from '../model.js';
-import { forecastMatch } from '../prediction-model.js';
+import { selectDailySelection } from '../src/model/model.js';
+import { forecastMatch } from '../src/model/prediction-model.js';
 const now = Date.parse('2026-11-04T10:00:00Z'),
   day = '2026-11-04';
 const fixture = (odds, extra = {}) => ({
@@ -67,7 +67,7 @@ test('Exclut passé, direct, dates différentes, données invalides et prix expi
   assert.equal(selectDailySelection([m], day, now, new Set(['a'])), null);
 });
 test('La sélection de chaque match suit exactement la même règle que celle du jour', async () => {
-  const { recommendedMarket, analyseMatch } = await import('../model.js');
+  const { recommendedMarket, analyseMatch } = await import('../src/model/model.js');
   const m = fixture({ home: 2.1, btts: 1.9, under35: 1.16, homeDraw: 1.15, under45: 1.14 });
   const pick = recommendedMarket(m);
   assert.equal(pick.key, 'under35');
@@ -76,20 +76,20 @@ test('La sélection de chaque match suit exactement la même règle que celle du
   assert.equal(pick.modelVersion, 'poisson-confidence-v4');
 });
 test('Sans sélection admissible, aucun ancien marché ni cote synthétique ne sert de repli', async () => {
-  const { recommendedMarket } = await import('../model.js');
+  const { recommendedMarket } = await import('../src/model/model.js');
   assert.equal(recommendedMarket(fixture({ home: 1.15, btts: 1.1 })), null);
   assert.equal(recommendedMarket(fixture({ home: 2 }, { realOddsMarkets: [] })), null);
   assert.equal(recommendedMarket(fixture({ home: 2 }, { oddsBookmakerCounts: { home: 9 } })), null);
   assert.equal(recommendedMarket(fixture({ home: 2 }, { homeGoals: NaN })), null);
 });
 test('Aucun plafond de cote ou minimum de confiance ne masque un candidat admissible', async () => {
-  const { recommendedMarket } = await import('../model.js');
+  const { recommendedMarket } = await import('../src/model/model.js');
   const m = fixture({ score1_0: 7 });
   assert.equal(recommendedMarket(m).key, 'score1_0');
   assert.ok(recommendedMarket(m).probability < 0.48);
 });
 test('Instantanés : réactualise les matchs futurs, fige les matchs commencés et ne crée pas de pari absent', async () => {
-  const { selectionSnapshot } = await import('../selection-snapshot.js');
+  const { selectionSnapshot } = await import('../src/model/selection-snapshot.js');
   const old = {
       key: 'home',
       label: 'A',

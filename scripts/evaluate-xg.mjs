@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { evaluateXg } from '../xg-evaluation.js';
+import { evaluateXg } from '../src/model/xg-evaluation.js';
 const [path, weight] = process.argv.slice(2);
 if (!path || weight === undefined)
   throw new Error('Usage : node scripts/evaluate-xg.mjs donnees-test.json ponderation-fixee');

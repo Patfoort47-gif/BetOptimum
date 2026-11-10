@@ -1,5 +1,5 @@
 // Détection et envoi côté Edge Function, sans destination privée dans GitHub Actions.
-import { callNotificationWorker } from '../notification-worker-request.js';
+import { callNotificationWorker } from '../src/notifications/notification-worker-request.js';
 import { readFile } from 'node:fs/promises';
 const url = process.env.SUPABASE_URL?.replace(/\/$/, ''),
   secret = process.env.NOTIFICATION_WORKER_SECRET;

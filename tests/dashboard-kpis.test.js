@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dashboardKpis } from '../personal-dashboard.js';
+import { dashboardKpis } from '../src/history/personal-dashboard.js';
 test('KPI : solde global, net signé et ROI des seules mises décidées', () => {
   const figures = dashboardKpis({
     bankroll: 950,

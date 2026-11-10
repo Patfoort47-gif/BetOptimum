@@ -1,7 +1,7 @@
 // PGLITE_MODULE=/tmp/bet-sql-tools/node_modules/@electric-sql/pglite/dist/index.js node scripts/check-markets-sql.mjs
 import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { marketSpec } from '../markets.js';
+import { marketSpec } from '../src/model/markets.js';
 const { PGlite } = await import(process.env.PGLITE_MODULE),
   db = new PGlite();
 await db.exec(`create role anon; create role authenticated;

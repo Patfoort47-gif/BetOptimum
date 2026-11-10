@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validatedResultCurrent } from '../notification-result.js';
-import { deliver } from '../notification-delivery.js';
+import { validatedResultCurrent } from '../src/notifications/notification-result.js';
+import { deliver } from '../src/notifications/notification-delivery.js';
 const now = Date.now(),
   event = {
     result_validated: true,

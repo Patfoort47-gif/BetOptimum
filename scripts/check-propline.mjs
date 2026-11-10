@@ -1,8 +1,8 @@
 // Bounded read-only diagnostic, executed in Actions with the provider secret.
 import { readFile, writeFile } from 'node:fs/promises';
-import { STAGE_ONE, STAGE_TWO } from '../markets.js';
+import { STAGE_ONE, STAGE_TWO } from '../src/model/markets.js';
 import { collectCalendarOdds } from './propline-competitions.mjs';
-import { summarizeOffers } from '../odds-cache.js';
+import { summarizeOffers } from '../src/model/odds-cache.js';
 if (!process.env.PROPLINE_API_KEY) throw new Error('Secret PROPLINE_API_KEY absent');
 const data = JSON.parse(await readFile('data/fixtures.json', 'utf8')),
   matches = data.matches.filter(

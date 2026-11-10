@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { propLineOffers } from './propline-odds.mjs';
 import { COMPOSITE_MARKETS, compositeSelection } from './propline-composites.mjs';
-import { MIN_BOOKMAKERS } from '../quote-policy.js';
+import { MIN_BOOKMAKERS } from '../src/model/quote-policy.js';
 export function auditComposites(report) {
   const coverage = Object.fromEntries(
     COMPOSITE_MARKETS.map((key) => [

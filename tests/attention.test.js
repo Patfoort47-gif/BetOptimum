@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createAttention } from '../attention.js';
+import { createAttention } from '../src/club/attention.js';
 test('les pastilles détectent un nouveau résultat une fois, persistent et se vident à la visite', () => {
   const map = new Map(),
     store = { getItem: (k) => map.get(k), setItem: (k, v) => map.set(k, v) };

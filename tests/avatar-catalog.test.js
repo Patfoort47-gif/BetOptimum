@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as A from '../avatar-config.js';
-import { CATALOG } from '../shop.js';
-import { CELEBRATIONS } from '../avatar.js';
+import * as A from '../src/avatar/avatar-config.js';
+import { CATALOG } from '../src/club/shop.js';
+import { CELEBRATIONS } from '../src/avatar/avatar.js';
 
 test('chaque objet du catalogue avatar s’applique, se verrouille et se retire sans perte', () => {
   for (const item of CATALOG.filter((item) => A.AVATAR_CATEGORIES.includes(item.category))) {

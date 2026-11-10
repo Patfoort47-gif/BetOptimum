@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { matchesWithBookmakers, orderCalendar, byConfidence } from '../calendar-model.js';
+import { matchesWithBookmakers, orderCalendar, byConfidence } from '../src/model/calendar-model.js';
 test('BET-122 : affiche, favoris, direct, horaires complets et terminés, sans doublons', () => {
   const rows = [
       { id: 'done', completed: true, t: 1 },

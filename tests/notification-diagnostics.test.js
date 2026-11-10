@@ -5,7 +5,7 @@ import {
   safeNotificationDiagnostic,
   reportNotificationFailure,
   workerFailureMessage
-} from '../notification-diagnostics.js';
+} from '../src/notifications/notification-diagnostics.js';
 test('les erreurs SQL utiles sont identifiables sans exposer le contenu de la réponse', () => {
   const e = new NotificationFailure('database', '42501', 403, 'notification_preferences');
   e.message = 'Bearer secret webhook privé';

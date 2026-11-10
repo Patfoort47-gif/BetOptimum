@@ -5,7 +5,7 @@ const { chromium } = require('playwright'),
 const base = process.env.BET_BASE_URL || 'http://127.0.0.1:4173';
 assert.ok(['localhost', '127.0.0.1'].includes(new URL(base).hostname));
 (async () => {
-  const { recommendedMarket } = await import('../model.js'),
+  const { recommendedMarket } = await import('../src/model/model.js'),
     now = Date.now(),
     date = new Intl.DateTimeFormat('en-CA', {
       timeZone: 'Europe/Paris',
@@ -66,7 +66,7 @@ assert.ok(['localhost', '127.0.0.1'].includes(new URL(base).hostname));
     await page.route('**/*', (r) => {
       const u = new URL(r.request().url());
       if (u.origin !== new URL(base).origin) return r.abort();
-      if (u.pathname.endsWith('/account.js'))
+      if (u.pathname.endsWith('/src/account/account.js'))
         return r.fulfill({
           contentType: 'text/javascript',
           body: 'export async function initAccountSync(c){c.onAuthChange(false);c.onCommunityStatus("off");return {configured:false,community:{ranking:async()=>({rows:[],total:0}),podium:async()=>({rows:[]})},auth:{}}}'

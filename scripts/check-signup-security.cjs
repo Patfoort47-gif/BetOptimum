@@ -17,7 +17,7 @@ const assert = require('node:assert/strict'),
       await p.route('**/*', (r) => {
         const u = new URL(r.request().url());
         if (u.hostname !== '127.0.0.1') return r.abort();
-        if (u.pathname.endsWith('/account.js'))
+        if (u.pathname.endsWith('/src/account/account.js'))
           return r.fulfill({
             contentType: 'text/javascript',
             body: 'export async function initAccountSync(){return {configured:false}}'

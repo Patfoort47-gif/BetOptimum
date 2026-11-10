@@ -58,7 +58,7 @@ const now = Date.now(),
   };
 let browser;
 (async () => {
-  const { analyseMatch } = await import('../model.js');
+  const { analyseMatch } = await import('../src/model/model.js');
   const expected = analyseMatch(match).markets;
   browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
   for (const width of [320, 390, 430, 1280])
@@ -76,7 +76,7 @@ let browser;
       await p.route('**/*', (r) => {
         const u = new URL(r.request().url());
         if (u.origin !== base) return r.abort();
-        if (u.pathname.endsWith('/account.js'))
+        if (u.pathname.endsWith('/src/account/account.js'))
           return r.fulfill({ contentType: 'text/javascript', body: mock });
         if (u.pathname.endsWith('/data/fixtures.json')) return r.fulfill({ json: fixtures });
         if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });

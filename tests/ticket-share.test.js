@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { shareSummary } from '../ticket-share.js';
+import { shareSummary } from '../src/ticket/ticket-share.js';
 test('le partage décrit un simple par sa sélection et sa cote', () => {
   assert.equal(
     shareSummary({ items: [{ label: 'Victoire Paris', odd: 1.75 }], betType: 'single' }),

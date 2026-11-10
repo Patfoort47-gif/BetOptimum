@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { historyReport, historyCard, ticketAmounts } from '../bet-history.js';
+import { historyReport, historyCard, ticketAmounts } from '../src/history/bet-history.js';
 const item = {
   matchId: 'a',
   match: 'Paris - Lyon',

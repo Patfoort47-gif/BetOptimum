@@ -1,6 +1,6 @@
 // BET-276 : HTML public généré au déploiement, sans appel réseau ni serveur permanent.
-import { analyseMatch, parisDate } from '../model.js';
-import { matchesWithBookmakers } from '../calendar-model.js';
+import { analyseMatch, parisDate } from '../src/model/model.js';
+import { matchesWithBookmakers } from '../src/model/calendar-model.js';
 const escape = (s) =>
   String(s ?? '').replace(
     /[&<>"']/g,

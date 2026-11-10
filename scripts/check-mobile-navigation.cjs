@@ -15,7 +15,7 @@ const root = require('node:path').resolve(__dirname, '..'),
       await p.route('**/*', (r) => {
         const u = new URL(r.request().url());
         if (u.origin !== 'http://127.0.0.1:4173') return r.abort();
-        if (u.pathname === '/account.js')
+        if (u.pathname === '/src/account/account.js')
           return r.fulfill({ contentType: 'text/javascript', body: mock });
         return r.continue();
       });

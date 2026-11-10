@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectAlerts, quietAt, nextAllowed } from '../notification-model.js';
+import { detectAlerts, quietAt, nextAllowed } from '../src/notifications/notification-model.js';
 const now = Date.parse('2026-10-23T12:00:00Z');
 const prefs = {
   enabled: true,

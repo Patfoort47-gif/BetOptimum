@@ -2,7 +2,7 @@ const assert = require('node:assert/strict'),
   { pathToFileURL } = require('node:url'),
   { browser, page, fixtures, match, root } = require('./ui-mobile-fixtures.cjs');
 (async () => {
-  const { analyseMatch } = await import(pathToFileURL(root + '/model.js').href),
+  const { analyseMatch } = await import(pathToFileURL(root + '/src/model/model.js').href),
     prob = analyseMatch(match).markets.find((m) => m.key === 'home').probability,
     make = (id, ratio) => {
       const odd = ratio / prob;

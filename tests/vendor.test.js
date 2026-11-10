@@ -10,8 +10,8 @@ test('BET-302 : artefacts figés, contrôlés et sans imports CDN', async () => 
     assert.equal(createHash('sha256').update(source).digest('hex'), hash);
     assert.doesNotMatch(source.toString(), /(?:import\s*\(|from\s*)['"]https:\/\//);
   }
-  assert.doesNotMatch(await readFile('account.js', 'utf8'), /cdn\.jsdelivr/);
-  assert.doesNotMatch(await readFile('avatar.js', 'utf8'), /cdn\.jsdelivr/);
+  assert.doesNotMatch(await readFile('src/account/account.js', 'utf8'), /cdn\.jsdelivr/);
+  assert.doesNotMatch(await readFile('src/avatar/avatar.js', 'utf8'), /cdn\.jsdelivr/);
 });
 test('BET-302 : vrai SDK local, connexion, inscription, récupération et Google sur transport simulé', async () => {
   const calls = [],

@@ -1,7 +1,7 @@
 // Formats de prix observés dans l'artefact 13324580825, le 4 novembre 2026.
 // Un prix conjoint reste une seule sélection ; aucune cote n'est reconstruite.
-import { sameTeam } from '../team-match.js';
-import { compositeMarketSpec } from '../markets.js';
+import { sameTeam } from '../src/matches/team-match.js';
+import { compositeMarketSpec } from '../src/model/markets.js';
 export const COMPOSITE_MARKETS = [
   'btts_total_goals',
   'double_chance_btts',

@@ -6,7 +6,7 @@ const mock = fs
     .match(/const mock\s*=\s*`([\s\S]*?)`;/)[1],
   base = 'http://127.0.0.1:4173';
 (async () => {
-  const { STADIUM_PHOTOS } = await import('../stadium-catalog.js');
+  const { STADIUM_PHOTOS } = await import('../src/matches/stadium-catalog.js');
   const browser = await chromium.launch({
     executablePath: '/usr/bin/chromium',
     args: ['--no-sandbox']
@@ -59,7 +59,7 @@ const mock = fs
         await page.route('**/*', (r) => {
           const u = new URL(r.request().url());
           if (u.origin !== base) return r.abort();
-          if (u.pathname.endsWith('/account.js'))
+          if (u.pathname.endsWith('/src/account/account.js'))
             return r.fulfill({ contentType: 'text/javascript', body: mock });
           if (u.pathname.endsWith('/data/fixtures.json'))
             return r.fulfill({

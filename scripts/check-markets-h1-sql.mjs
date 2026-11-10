@@ -59,7 +59,7 @@ assert.equal(Number((await db.query('select odd from daily_picks')).rows[0].odd)
 
 await db.exec(await readFile('supabase/migrations/20261110000045_legacy_v45.sql', 'utf8'));
 await db.exec(await readFile('supabase/migrations/20261110000045_legacy_v45.sql', 'utf8'));
-const { marketSpec } = await import('../markets.js');
+const { marketSpec } = await import('../src/model/markets.js');
 const keys = [
   'h1Home',
   'h1Draw',

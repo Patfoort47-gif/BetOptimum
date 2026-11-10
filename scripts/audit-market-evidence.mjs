@@ -3,8 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { gunzipSync } from 'node:zlib';
 import { pathToFileURL } from 'node:url';
 import { propLineOffers, excludedPropLineBook } from './propline-odds.mjs';
-import { marketSpec } from '../markets.js';
-import { MIN_BOOKMAKERS } from '../quote-policy.js';
+import { marketSpec } from '../src/model/markets.js';
+import { MIN_BOOKMAKERS } from '../src/model/quote-policy.js';
 export function auditMarketEvidence(report) {
   const families = {};
   for (const event of report.samples ?? [])

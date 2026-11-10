@@ -26,16 +26,18 @@ const {
   systemLines,
   settleSystemBet,
   selectSpotlight
-} = await import('../model.js');
+} = await import('../src/model/model.js');
 const {
   isInSecondaryOddsWindow,
   mergeCachedSecondaryOffers,
   mergeCachedOffers,
   summarizeOffers,
   nextOddsRefresh
-} = await import('../odds-cache.js');
-const { parseLiveEvent, liveEntryFromPayload, previousDate } = await import('../live.js');
-const { sameTeam, canonicalTeam } = await import('../team-match.js');
+} = await import('../src/model/odds-cache.js');
+const { parseLiveEvent, liveEntryFromPayload, previousDate } = await import(
+  '../src/matches/live.js'
+);
+const { sameTeam, canonicalTeam } = await import('../src/matches/team-match.js');
 test('app.js se charge avec les calculs partagés', async () => {
   await import('../app.js');
 });
@@ -240,7 +242,7 @@ test('l’historique public des pronostics contient des résultats auditables', 
 });
 test('BET-309 : aucun formulaire ni accès client à l’ajout libre de capital', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8'),
-    account = await readFile(new URL('../account.js', import.meta.url), 'utf8');
+    account = await readFile(new URL('../src/account/account.js', import.meta.url), 'utf8');
   assert.doesNotMatch(html, /id="(?:edit-bankroll|bankroll-form|bankroll-dialog)"/);
   assert.doesNotMatch(account, /addCapital|rpc\('add_capital'/);
   assert.match(html, /L’ajout libre de capital est désactivé/);

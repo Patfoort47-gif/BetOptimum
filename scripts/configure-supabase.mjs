@@ -23,7 +23,7 @@ if (key && key.length <= 20) {
 }
 
 await writeFile(
-  'supabase-config.js',
+  'src/account/supabase-config.js',
   `export const SUPABASE_URL = ${JSON.stringify(url)};\nexport const SUPABASE_ANON_KEY = ${JSON.stringify(key)};\n`
 );
 console.log(

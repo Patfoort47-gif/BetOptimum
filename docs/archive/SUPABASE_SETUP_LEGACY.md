@@ -57,7 +57,7 @@ Exécuter `supabase/migrations/supabase-v22-schema.sql` après V17. Cette migrat
 
 ## Alertes multicanales (BET-69)
 
-La migration `supabase/migrations/supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](../../NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.
+La migration `supabase/migrations/supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](../operations/NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.
 
 
 ## Activation groupée des tickets encore en attente

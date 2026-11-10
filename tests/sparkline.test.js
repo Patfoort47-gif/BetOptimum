@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { sparkline } from '../sparkline.js';
+import { sparkline } from '../src/core/sparkline.js';
 test('sparkline : vide, un point, courbe plate et directions accessibles', () => {
   for (const values of [[], [12], [NaN]]) {
     const output = sparkline(values);

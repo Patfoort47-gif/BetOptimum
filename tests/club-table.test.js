@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { renderClubTable } from '../club-table.js';
+import { renderClubTable } from '../src/club/club-table.js';
 const html = (value) => String(value).replaceAll('<', '&lt;');
 test('BET-133 : mêmes statistiques, ROI serveur et absence de NaN pour les nouveaux joueurs', () => {
   const out = renderClubTable(

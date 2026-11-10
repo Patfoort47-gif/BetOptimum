@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createNewsletterApi } from '../newsletter.js';
+import { createNewsletterApi } from '../src/account/newsletter.js';
 test('le choix newsletter passe uniquement par les RPC privés et exige un booléen explicite', async () => {
   const calls = [],
     api = createNewsletterApi({

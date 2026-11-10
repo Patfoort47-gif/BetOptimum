@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { compositeSelection } from '../scripts/propline-composites.mjs';
 import { propLineOffers, collectPropLine } from '../scripts/propline-odds.mjs';
 import { auditComposites } from '../scripts/check-markets-composites.mjs';
-import { quoteAvailable } from '../quote-policy.js';
+import { quoteAvailable } from '../src/model/quote-policy.js';
 const report = JSON.parse(
   readFileSync(new URL('../docs/evidence/propline-composites-2026-11-04.json', import.meta.url))
 );

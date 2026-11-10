@@ -30,7 +30,7 @@ const fs = require('fs');
       await page.route('**/*', async (r) => {
         const u = new URL(r.request().url());
         if (u.hostname !== '127.0.0.1') return r.abort();
-        if (u.pathname.endsWith('/account.js'))
+        if (u.pathname.endsWith('/src/account/account.js'))
           return r.fulfill({
             contentType: 'text/javascript',
             body: 'export async function initAccountSync(){return {configured:false}}'
@@ -41,7 +41,10 @@ const fs = require('fs');
           });
         if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });
         const name = u.pathname.slice(1);
-        if (version === 'before' && ['app.js', 'markets.js', 'prediction-model.js'].includes(name))
+        if (
+          version === 'before' &&
+          ['app.js', 'src/model/markets.js', 'src/model/prediction-model.js'].includes(name)
+        )
           return r.fulfill({
             contentType: 'text/javascript',
             body: fs.readFileSync('work/before/' + name, 'utf8')

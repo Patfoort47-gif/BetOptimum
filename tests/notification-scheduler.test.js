@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runScheduledReminders } from '../notification-scheduler.js';
+import { runScheduledReminders } from '../src/notifications/notification-scheduler.js';
 const now = Date.parse('2026-11-06T18:00:00Z');
 test('le minuteur saute un traitement déjà réservé sans lire ni envoyer de données', async () => {
   let calls = 0;

@@ -6,10 +6,10 @@ import {
   briefingPicks,
   ticketProjection,
   buildBriefing
-} from '../notification-briefing.js';
-import { prepareBriefing } from '../notification-briefing-service.js';
-import { briefingEmail } from '../notification-email.js';
-import { deliver } from '../notification-delivery.js';
+} from '../src/notifications/notification-briefing.js';
+import { prepareBriefing } from '../src/notifications/notification-briefing-service.js';
+import { briefingEmail } from '../src/notifications/notification-email.js';
+import { deliver } from '../src/notifications/notification-delivery.js';
 const now = Date.parse('2026-10-30T07:05:00Z');
 const prefs = {
   enabled: true,

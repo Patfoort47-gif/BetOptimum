@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFile } from 'node:fs/promises';
-import { notificationConfig } from '../notification-config.js';
+import { notificationConfig } from '../src/notifications/notification-config.js';
 test('push : destination limitée au site et clic sur le match', async () => {
   const listeners = {},
     shown = [],

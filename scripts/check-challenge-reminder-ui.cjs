@@ -49,7 +49,7 @@ const { chromium, devices } = require('playwright'),
           quiet_start: 1320,
           quiet_end: 480
         };
-        const { mountWebPush } = await import('/web-push-page.js');
+        const { mountWebPush } = await import('/src/notifications/web-push-page.js');
         window.view = await mountWebPush(document.querySelector('#root'), {
           api: {
             web: async () => ({ preferences: prefs }),

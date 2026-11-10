@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildAnalytics } from '../analytics.js';
+import { buildAnalytics } from '../src/history/analytics.js';
 test('BET-91 : mises et retours à leurs dates, apports distincts des profits', () => {
   const bet = {
     id: 'a',

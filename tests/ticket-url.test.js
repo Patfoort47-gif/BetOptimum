@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ticketUrl, readTicket } from '../ticket-url.js';
+import { ticketUrl, readTicket } from '../src/ticket/ticket-url.js';
 test('lien avec cote de référence, sans mise ni paramètres de compte', () => {
   const items = [{ matchId: 'espn-42', key: 'home', odd: 200, stake: 100 }];
   const url = new URL(ticketUrl('https://example.org/?token=secret#profil', items));

@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createNotificationApi, loadNotificationSettings } from '../notification-client.js';
+import {
+  createNotificationApi,
+  loadNotificationSettings
+} from '../src/notifications/notification-client.js';
 const data = { preferences: {}, plan: {}, endpoints: [], history: [] },
   config = { available: { web: true } };
 test('le chargement distingue le refus SQL de l’échec de l’appel navigateur', async () => {

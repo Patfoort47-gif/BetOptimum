@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { teamForm, teamFormMarkup } from '../team-form.js';
+import { teamForm, teamFormMarkup } from '../src/matches/team-form.js';
 test('la forme garde adversaires, scores et ordre des cinq derniers matchs sans inventer de résultat', () => {
   const history = Array.from({ length: 7 }, (_, i) => ({
     utcDate: `2026-11-0${i + 1}T12:00:00Z`,

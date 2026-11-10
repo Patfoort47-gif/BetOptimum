@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { copyBetSelections } from '../copy-bet.js';
+import { copyBetSelections } from '../src/ticket/copy-bet.js';
 const match = {
     id: 'x',
     home: 'A',
