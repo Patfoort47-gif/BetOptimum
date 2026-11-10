@@ -22,7 +22,7 @@
   <script src="theme-bootstrap.js?v=bet190"></script>
   <link rel="stylesheet" href="styles.css?v=bet126">
   <link rel="stylesheet" href="styles/details.css?v=bet126">
-  <link rel="stylesheet" href="styles/components.css?v=bet194">
+  <link rel="stylesheet" href="styles/components.css?v=bet261">
 <link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#0f1a14"><link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png"></head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
   <svg id="emblems" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -128,8 +128,7 @@
           <label class="league-toggle" id="league-toggle" hidden><input type="checkbox" id="counts-league" checked><span><b>Compte en ligue</b><small id="league-note"></small></span></label>
           <div class="league-list" id="league-list" hidden></div>
           <p id="bet-feedback" role="status" aria-live="polite" class="muted"></p><button class="button ticket-cta full" id="place-bet" disabled>Placer le pari virtuel</button>
-          <button class="button secondary full" id="share-ticket-url" disabled>Partager mon ticket</button>
-          <button class="button ticket-share full" id="share-combo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Partager le combiné</button>
+          <button class="button ticket-share full" id="share-combo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Partager le ticket</button>
           <p class="responsible">18+ · Jouez de façon responsable. Paris virtuels · aucune garantie de gain. Enregistrement après validation du serveur.</p>
         </div>
       </aside>
@@ -287,7 +286,7 @@
     <p>Les cotes sont collectées côté serveur auprès de PropLine. Aucune donnée de compte, préférence ou pari personnel n’est envoyée à ce fournisseur ; votre navigateur ne les contacte pas.</p>
     <h3>Vos droits</h3>
     <p>Newsletter facultative : si vous cochez la case à l’inscription ou dans votre profil, nous enregistrons votre choix, la date de votre consentement et la confirmation de votre email. Votre inscription est activée après confirmation de votre adresse. Vous pouvez vous désabonner dans Profil > Compte et confidentialité. Ces informations sont incluses dans votre export et supprimées avec votre compte.</p>
-    <p>Partage de coupons : les liens contiennent seulement les identifiants de matchs, les marchés choisis, les cotes de référence et le type de coupon, sans identité, mise ni donnée de compte. Un brouillon limité aux sélections est conservé dans la session du navigateur pendant 24 h au maximum pour retrouver le coupon après connexion. À la création d’un aperçu par un joueur connecté, son visuel est envoyé dans le stockage public Supabase sous un nom aléatoire sans identifiant de joueur. Le lien d’aperçu est hébergé avec Sites (OpenAI/Cloudflare) et transmet seulement les sélections et l’adresse de l’image, sans accès au compte BetOptimum. Le visuel est accessible aux personnes qui ont le lien ; il expire après 30 jours et est supprimé lors du prochain nettoyage horaire, ou après suppression du compte. Les copies ou aperçus déjà conservés par les destinataires et messageries peuvent subsister. L’ouverture d’un lien ne place aucun pari.</p>
+    <p>Partage de coupons : les liens contiennent seulement les identifiants de matchs, les marchés choisis, les cotes de référence et le type de coupon, sans identité, mise ni donnée de compte. Le partage envoie un résumé textuel et le lien, sans créer ni joindre d’image. Un brouillon limité aux sélections est conservé dans la session du navigateur pendant 24 h au maximum pour retrouver le coupon après connexion. Les anciens visuels déjà créés expirent après 30 jours et sont supprimés lors du prochain nettoyage horaire, ou après suppression du compte. Les copies ou aperçus déjà conservés par les destinataires et messageries peuvent subsister. L’ouverture d’un lien ne place aucun pari.</p>
     <p>Alertes facultatives : le briefing email et les notifications smartphone demandent deux accords indépendants depuis Mon profil. Nous enregistrons le consentement, les préférences et le fuseau horaire. Les destinations sont chiffrées et réservées au serveur. Resend reçoit votre adresse confirmée et le contenu du briefing : matchs, pronostics et cotes conseillées, sans bankroll ni paris privés. Les notifications smartphone exigent aussi l’autorisation du navigateur. Les rappels et opportunités concernent uniquement les équipes favorites, jamais un championnat suivi seul. Le rappel d’environ deux heures avant le match peut contenir le pronostic, sa cote et sa confiance estimée. Une option distincte, inactive par défaut, permet un résumé de jusqu’à trois conseils à 9 h dans le fuseau du compte, indépendamment des favoris. Le titre, les équipes, les conseils, leurs cotes et le lien sont transmis au service push du navigateur. Aucun plafond quotidien ne s’applique ; déduplication, heures silencieuses et expiration restent actives. Le mode Essentiel limite les push aux résultats certifiés sans montant. Les rappels et résumés sont vérifiés chaque minute côté serveur ; les autres alertes suivent leur traitement périodique. Les journaux de livraison sont conservés 30 jours. Vous pouvez désactiver tous les canaux et supprimer les destinations dans Mes alertes. L’export inclut vos préférences ; la suppression du compte efface aussi ces données. Aucun résultat ni délai de livraison n’est garanti.</p>
     <p>Les compteurs d’abonnés et d’abonnements reflètent les relations de suivi. Les listes accessibles depuis un profil public affichent les profils publics ; les profils privés sont masqués, sauf votre propre profil.</p>
     <p>Conformément au RGPD, vous pouvez accéder à vos données (export au format JSON), les rectifier (pseudo une fois par mois, email, mot de passe) et supprimer votre compte vous-même depuis Mon profil, onglet Compte et confidentialité : la suppression efface votre profil, vos paris, vos classements, votre XP. Vous choisissez aussi si votre profil est public et si le détail de vos paris est visible. La rubrique Contact reste disponible pour toute demande. Les données d'un compte sont conservées tant qu'il existe. Vous pouvez aussi adresser une réclamation à la CNIL (cnil.fr).</p>
@@ -369,6 +368,6 @@
   <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
   <p id="pipeline-health" role="status" class="section-subtitle" hidden></p>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=bet194"></script>
+  <script type="module" src="app.js?v=bet261"></script>
 </body>
 </html>

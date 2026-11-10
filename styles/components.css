@@ -888,7 +888,7 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 /* BET-231 : signal discret, avec une alternative pour les lecteurs d’écran. */
 [data-tab],[data-ctab]{position:relative}.attention-dot{position:absolute;top:5px;right:10px;width:8px;height:8px;max-width:8px;max-height:8px;border-radius:50%;background:var(--danger);pointer-events:none}.attention-dot[hidden]{display:none}
 /* BET-232 : aperçu prêt avant le clic qui ouvre le partage natif. */
-.ticket-share-dialog{width:min(560px,94vw);max-height:90dvh;overflow:auto;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:20px;padding:20px}.ticket-share-dialog::backdrop{background:rgba(0,0,0,.7)}.ticket-share-dialog img{display:block;max-width:100%;max-height:52dvh;object-fit:contain;margin:auto}.ticket-share-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}.bet-success{padding:16px;margin-bottom:16px}
+.ticket-share-dialog{width:min(560px,94vw);max-height:90dvh;overflow:auto;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:20px;padding:20px}.ticket-share-dialog::backdrop{background:rgba(0,0,0,.7)}.ticket-share-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}.bet-success{padding:16px;margin-bottom:16px}
 /* BET-233 : les écrans vides proposent une action utile. */
 .ticket-empty{display:grid;justify-items:center;gap:12px;padding:32px 12px;text-align:center}.ticket-empty svg{width:96px;height:96px;color:var(--muted);opacity:.4}.ticket-empty h4{margin:0;font-size:18px}.ticket-empty p{margin:0;max-width:28ch;line-height:1.6;color:var(--muted);font-size:13px}
 
