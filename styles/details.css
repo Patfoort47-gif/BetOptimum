@@ -79,3 +79,5 @@ dialog.detail-sheet{width:min(880px,calc(100% - 32px));max-height:88dvh;padding:
 /* Section Classements */
 .mode-switch{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .standings-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+
+.insight-games{list-style:none;padding:0}.insight-games li{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.insight-games time{color:var(--muted);font-size:12px}.insight-games strong{margin-left:auto}
