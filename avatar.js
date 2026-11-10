@@ -5,7 +5,7 @@ import { QUALITY, qualityFor, sanitizeAvatar } from './avatar-config.js';
 import { buildCharacter, DIM, EXPRESSIONS } from './avatar-parts.js';
 import { drawBackground, backgroundAccent, FLOOR_LINE } from './avatar-scenes.js';
 
-export const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
+export const THREE_URL = './vendor/three-0.170.0.js';
 let loading = null;
 export const loadThree = () => loading ??= import(THREE_URL).catch(error => { loading = null; throw error; });
 export function webglSupported() { try { const canvas = document.createElement('canvas'); return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl')); } catch { return false; } }

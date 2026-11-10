@@ -1,0 +1,1 @@
+{"private":true,"description":"Sources figées des bibliothèques navigateur ; installer dans un dossier de travail, pas sur le site.","dependencies":{"@supabase/supabase-js":"2.81.1","three":"0.170.0"},"devDependencies":{"esbuild":"0.25.12"},"type":"module"}
