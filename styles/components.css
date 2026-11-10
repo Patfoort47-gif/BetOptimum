@@ -11983,3 +11983,34 @@ section.club-ranking {
   font-size: 12px;
   line-height: 1.45;
 }
+
+[data-invitation-email] {
+  display: grid;
+  gap: 14px;
+  margin-block: 18px;
+}
+[data-invitation-email] label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+[data-invitation-email] input[type='email'] {
+  width: 100%;
+  min-width: 0;
+}
+[data-invitation-email] input[type='checkbox'] {
+  width: 22px;
+  flex: 0 0 22px;
+}
+.daily-share {
+  margin-top: 18px;
+}
+.daily-share small,
+.model-comparison small,
+.private-invite small {
+  display: block;
+  width: 100%;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}

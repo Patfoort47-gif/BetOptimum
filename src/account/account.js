@@ -91,6 +91,7 @@ export async function initAccountSync({
       auth: {
         nicknameAvailable: unavailable,
         signIn: unavailable,
+        magicInvite: unavailable,
         signUp: unavailable,
         resend: unavailable,
         reset: unavailable,
@@ -1141,6 +1142,22 @@ export async function initAccountSync({
       const { data, error } = await client.rpc('pseudo_disponible', { p_nickname: nickname });
       if (error) throw authError(error);
       return data === true;
+    },
+    magicInvite: async (email, code) => {
+      const clean = normalizeCode(code);
+      if (!clean || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        throw new Error('Vérifiez votre email et le code de ligue.');
+      const target = new URL(redirect);
+      target.searchParams.set('invitation', clean);
+      const { error } = await client.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: target.href,
+          data: { adult_confirmed: true }
+        }
+      });
+      if (error) throw authError(error);
     },
     signIn: async (email, password) => {
       const { data, error } = await client.auth.signInWithPassword({ email, password });

@@ -1,3 +1,12 @@
+import {
+  INVITATION_KEY,
+  invitationPreview,
+  invitationLink,
+  invitationCard,
+  parseInvitation,
+  saveInvitation,
+  readInvitation
+} from './src/club/private-invitation.js';
 import { dailyShare } from './src/sharing/daily-share.js';
 import { shareVisualCard } from './src/sharing/visual-card.js';
 import { closingMarkup } from './src/history/closing-odds.js';
@@ -96,8 +105,6 @@ import {
   PRIVATE_EMBLEMS,
   emblemOf,
   normalizeCode,
-  parsePrivateHash,
-  privateLink,
   validLeagueName,
   canCreateOrJoin,
   PRIVATE_LIMITS,
@@ -3094,6 +3101,7 @@ async function openSpecialLeague(id) {
   $('#special-content').innerHTML =
     `<div class="special-head">${logoTag('league-logo competition-badge', specialLogo(league), league.name)}<div><p class="eyebrow">LIGUE ${league.kind === 'club' ? 'CLUB' : 'SPÉCIALE'}</p><h2 id="special-title">${html(league.name)}</h2></div></div><section class="grid-guide" aria-labelledby="special-grid-title"><p class="eyebrow">GRATUIT · SANS MISE</p><h3 id="special-grid-title">Ma grille du jour</h3><ol><li>Repérez le match phare et choisissez 1 (domicile), N (nul) ou 2 (extérieur).</li><li>Complétez les pronostics libres selon les places disponibles ci-dessous.</li><li>Chaque clic enregistre votre choix immédiatement. Vous pouvez le modifier avant le coup d’envoi.</li></ol></section>${grid}<section class="league-ranking-surface">${leagueWatermark(league)}<h3>Classement de la compétition</h3><div class="period-switch" id="special-scope"><button class="active" data-scope="season">Saison</button><button data-scope="${monthKey(Date.now())}">Ce mois</button></div><div id="special-standings" class="special-standings"><p class="empty">Chargement du classement…</p></div></section>`;
   dialog.dataset.league = id;
+  dialog.__invitePreview = invitationPreview(league);
   if (!dialog.open) dialog.showModal();
   loadSpecialStandings(id, 'season');
 }
@@ -3728,7 +3736,89 @@ $('#community')?.addEventListener('click', async (e) => {
     }
   }
 });
-let pendingPrivateCode = parsePrivateHash(location.hash);
+let invitationStorage = null;
+try {
+  invitationStorage = sessionStorage;
+} catch {}
+let pendingInvitation = parseInvitation(location.href) ?? readInvitation(invitationStorage);
+if (parseInvitation(location.href)) {
+  const saved = readInvitation(invitationStorage);
+  if (saved?.code === pendingInvitation.code)
+    pendingInvitation = {
+      ...pendingInvitation,
+      preview: pendingInvitation.preview ?? saved.preview,
+      autoJoin: saved.autoJoin
+    };
+  saveInvitation(
+    invitationStorage,
+    pendingInvitation,
+    pendingInvitation.autoJoin,
+    saved?.code === pendingInvitation.code ? saved.createdAt : Date.now()
+  );
+}
+let pendingPrivateCode = pendingInvitation?.code ?? null;
+let inviteJoining = false;
+function showPrivateInvitation(message = '') {
+  if (message && pendingInvitation) pendingInvitation.message = message;
+  if (!pendingPrivateCode || !accountApi) return;
+  message = message || pendingInvitation?.message || '';
+  const dialog = $('#private-dialog'),
+    p = pendingInvitation?.preview;
+  if (!dialog?.showModal) return;
+  $('#private-content').innerHTML =
+    `<h2 id="private-title">${html(p?.name ?? 'Invitation à une ligue privée')}</h2><p>${html(pendingPrivateCode)}</p>${p ? `<p>${p.members}/50 membres · podium anonyme : ${p.ranking.map((n, i) => `${i + 1}. ${decimal(n, 1)} pts`).join(' · ') || 'à venir'}</p><small>Aperçu fourni par l’invitation, non vérifié et susceptible d’être ancien. Aucun membre identifié ; classement confirmé après adhésion.</small>` : ''}<p>En rejoignant cette ligue, votre pseudo et vos points seront visibles de ses membres. 50 membres au maximum.</p><p role="status">${html(message)}</p>${accountAuthenticated ? '<button class="button primary" data-accept-invitation>Rejoindre cette ligue</button>' : `<form data-invitation-email><label>Adresse email<input name="email" type="email" autocomplete="email" required maxlength="254"></label><label><input name="adult" type="checkbox" required> J’ai 18 ans ou plus et j’accepte le règlement du club.</label><button class="button primary" type="submit">Recevoir mon lien email et rejoindre</button><small>Compte existant ou nouveau : connexion sans mot de passe. Aucun abonnement à une newsletter.</small></form>`}<button class="text-button" data-cancel-invitation>Annuler l’invitation</button>`;
+  delete dialog.dataset.league;
+  delete dialog.__invitePreview;
+  if (!dialog.open) dialog.showModal();
+}
+function clearPrivateInvitation() {
+  pendingPrivateCode = null;
+  pendingInvitation = null;
+  try {
+    invitationStorage?.removeItem(INVITATION_KEY);
+  } catch {}
+  const url = new URL(location.href);
+  url.searchParams.delete('invitation');
+  if (url.hash.startsWith('#ligue-privee-') || /access_token=|refresh_token=/.test(url.hash))
+    url.hash = '#communaute';
+  history.replaceState(null, '', url);
+}
+$('#private-dialog')?.addEventListener('submit', async (e) => {
+  if (!e.target.matches('[data-invitation-email]')) return;
+  e.preventDefault();
+  if (!e.target.reportValidity()) return;
+  const button = e.target.querySelector('button');
+  button.disabled = true;
+  try {
+    if (!accountApi?.auth?.magicInvite) throw new Error('La connexion par email est indisponible.');
+    saveInvitation(invitationStorage, pendingInvitation, true);
+    pendingInvitation.autoJoin = true;
+    await accountApi.auth.magicInvite(
+      String(new FormData(e.target).get('email')).trim(),
+      pendingPrivateCode
+    );
+    showPrivateInvitation(
+      'Si l’adresse peut être utilisée, un lien de connexion arrive par email. Ouvrez-le pour continuer. Vérifiez aussi les indésirables.'
+    );
+  } catch (error) {
+    if (pendingInvitation) {
+      pendingInvitation.autoJoin = false;
+      saveInvitation(invitationStorage, pendingInvitation, false);
+      showPrivateInvitation(error.message);
+    }
+  }
+});
+$('#private-dialog')?.addEventListener('click', (e) => {
+  if (e.target.closest('[data-cancel-invitation]')) {
+    clearPrivateInvitation();
+    $('#private-dialog').close();
+  }
+  if (e.target.closest('[data-accept-invitation]')) {
+    pendingInvitation.autoJoin = true;
+    saveInvitation(invitationStorage, pendingInvitation, true);
+    offerPrivateJoin();
+  }
+});
 function renderPrivate() {
   if (activeTab !== 'community') return;
   const box = $('#private-leagues'),
@@ -3745,7 +3835,7 @@ async function openPrivateLeague(id, season = null) {
     dialog = $('#private-dialog');
   if (!league || !dialog?.showModal) return;
   $('#private-content').innerHTML =
-    `<div class="special-head"><span class="private-emblem big" aria-hidden="true">${emblemOf(league.emblem)}</span><div><p class="eyebrow">LIGUE PRIVÉE</p><h2 id="private-title">${html(league.name)}</h2></div></div><div class="private-invite"><b>${html(league.code)}</b><button class="button secondary" data-copy-code="${html(league.code)}">Copier le code</button><button class="button secondary" data-copy-link="${html(league.code)}">Copier le lien</button></div><div id="private-ranking" class="special-standings"><p class="empty">Chargement du classement…</p></div><div class="private-admin">${league.owner ? `<button class="text-button" data-private-regen="${html(league.id)}">Nouveau code</button><button class="text-button danger-text" data-private-delete="${html(league.id)}">Supprimer la ligue</button>` : ''}<button class="text-button" data-private-leave="${html(league.id)}">Quitter la ligue</button></div>`;
+    `<div class="special-head"><span class="private-emblem big" aria-hidden="true">${emblemOf(league.emblem)}</span><div><p class="eyebrow">LIGUE PRIVÉE</p><h2 id="private-title">${html(league.name)}</h2></div></div><div class="private-invite"><b>${html(league.code)}</b><button class="button secondary" data-copy-code="${html(league.code)}">Copier le code</button><button class="button secondary" data-copy-link="${html(league.code)}">Copier le lien</button><button class="button secondary" data-share-invitation>Partager l’invitation en image</button><small>Partager expose le nom de la ligue, son effectif et le podium anonyme, sans identité de membre. Toute personne disposant du code peut demander à rejoindre.</small></div><div id="private-ranking" class="special-standings"><p class="empty">Chargement du classement…</p></div><div class="private-admin">${league.owner ? `<button class="text-button" data-private-regen="${html(league.id)}">Nouveau code</button><button class="text-button danger-text" data-private-delete="${html(league.id)}">Supprimer la ligue</button>` : ''}<button class="text-button" data-private-leave="${html(league.id)}">Quitter la ligue</button></div>`;
   dialog.dataset.league = id;
   if (!dialog.open) dialog.showModal();
   try {
@@ -3755,6 +3845,7 @@ async function openPrivateLeague(id, season = null) {
       ]),
       current = season ?? seasonKey(Date.now()),
       options = [...new Set([seasonKey(Date.now()), ...seasons])];
+    dialog.__invitePreview = invitationPreview(league, rows);
     $('#private-ranking').innerHTML =
       `<label class="private-season">Saison <select data-private-season>${options.map((item) => `<option value="${html(item)}" ${item === current ? 'selected' : ''}>${html(item)}</option>`).join('')}</select></label>${clubTable(rows, { details: (row) => `${league.owner && row.user_id !== state.private.me ? ` <button class="text-button danger-text" data-private-kick="${html(row.user_id)}" aria-label="Exclure ${html(row.nickname)}">Exclure</button>` : ''}${row.user_id === league.owner_id ? ' <small>propriétaire</small>' : ''}` })}`;
   } catch (error) {
@@ -3775,11 +3866,37 @@ async function privateAction(action, done) {
 }
 async function offerPrivateJoin() {
   const code = pendingPrivateCode;
-  if (!code || !accountAuthenticated || !state.serverReady || !state.private) return;
-  pendingPrivateCode = null;
-  if (state.private.leagues.some((item) => item.code === code)) return;
-  if (confirm(`Rejoindre la ligue privée ${code} ?`))
-    privateAction(() => accountApi.privateLeagues.join(code), 'Ligue rejointe');
+  if (!code || !accountApi || inviteJoining) return;
+  if (!accountAuthenticated || !state.serverReady || !state.private) {
+    showPrivateInvitation();
+    return;
+  }
+  if (state.private.leagues.some((item) => item.code === code)) {
+    clearPrivateInvitation();
+    $('#private-dialog')?.close();
+    return;
+  }
+  if (!pendingInvitation?.autoJoin) {
+    showPrivateInvitation();
+    return;
+  }
+  inviteJoining = true;
+  try {
+    await accountApi.privateLeagues.join(code);
+    clearPrivateInvitation();
+    $('#private-dialog')?.close();
+    toast('Ligue rejointe');
+    setActiveTab('community');
+    setCommunityTab('private');
+  } catch (error) {
+    if (pendingInvitation) {
+      pendingInvitation.autoJoin = false;
+      saveInvitation(invitationStorage, pendingInvitation, false);
+      showPrivateInvitation(error.message);
+    }
+  } finally {
+    inviteJoining = false;
+  }
 }
 $('#private-leagues')?.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -3821,10 +3938,29 @@ $('#private-dialog')?.addEventListener('click', async (e) => {
   const dialog = $('#private-dialog'),
     id = dialog.dataset.league,
     copy = e.target.closest('[data-copy-code],[data-copy-link]');
+  if (e.target.closest('[data-share-invitation]')) {
+    const league = state.private?.leagues.find((l) => l.id === id);
+    if (!league) return;
+    const preview = dialog.__invitePreview;
+    try {
+      const url = invitationLink(league.code, preview, location.origin + location.pathname);
+      const result = await shareVisualCard(invitationCard(preview), url);
+      if (result === 'downloaded')
+        toast('Image téléchargée. Le bouton Copier le lien fournit l’invitation.');
+    } catch {
+      toast('Partage indisponible, utilisez Copier le lien.');
+    }
+    return;
+  }
+
   if (copy) {
     const text =
       copy.dataset.copyCode ??
-      privateLink(copy.dataset.copyLink, location.origin + location.pathname);
+      invitationLink(
+        copy.dataset.copyLink,
+        dialog.__invitePreview,
+        location.origin + location.pathname
+      );
     try {
       await navigator.clipboard.writeText(text);
       toast(copy.dataset.copyCode ? 'Code copié' : 'Lien copié');
@@ -4689,6 +4825,22 @@ if (typeof window !== 'undefined') {
           renderHistory();
         },
         onAuthEvent: (event) => {
+          if (event === 'SIGNED_OUT' || event === 'PASSWORD_RECOVERY') {
+            clearPrivateInvitation();
+          }
+          if (
+            pendingInvitation &&
+            ['CONFIRMATION_FAILED', 'OAUTH_FAILED', 'PASSWORD_RECOVERY'].includes(event)
+          ) {
+            pendingInvitation.autoJoin = false;
+            saveInvitation(invitationStorage, pendingInvitation, false);
+            if (event !== 'PASSWORD_RECOVERY') {
+              showPrivateInvitation(
+                'Le lien a expiré ou la connexion a échoué. Demandez un nouveau lien.'
+              );
+              return;
+            }
+          }
           if (event === 'EMAIL_CONFIRMED') {
             toast('Adresse confirmée. Bienvenue au Club !');
             setActiveTab('community', true);
@@ -4752,6 +4904,7 @@ if (typeof window !== 'undefined') {
         toast
       }).then((api) => {
         accountApi = api;
+        offerPrivateJoin();
         renderHistory();
         {
           let tab = 'league';

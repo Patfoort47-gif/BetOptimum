@@ -23,3 +23,9 @@
 Les [archives](archive/README.md) conservent les audits, mesures et procédures remplacées. Les données générées de `data/` et les preuves de `docs/evidence/` ne sont pas nettoyées à la main.
 
 [Aperçus factuels des matchs](MATCH_PREVIEWS.md).
+
+## Lot 18
+
+- [Recherche de force des équipes](TEAM_STRENGTH.md), [dernières cotes observées](CLOSING_ODDS.md)
+- [Partage du défi](DAILY_SHARING.md), [comparatif joueur/modèle](MODEL_COMPARISON.md)
+- [Invitations privées et lien email](PRIVATE_INVITATIONS.md)
