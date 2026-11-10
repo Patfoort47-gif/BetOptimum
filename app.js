@@ -2575,6 +2575,7 @@ async function loadPredictionArchive() {
         ...archive
       ];
       archiveLoadedAt = Date.now();
+      if (activeTab === 'profile') profilePage?.refresh?.();
       renderHomePerformance();
       renderPredictionStats();
       if (activeTab === 'matches') renderConfidenceKpi();
