@@ -66,7 +66,7 @@ test('HTML et texte cohérents, échappement, liens sûrs, aucun script ni image
  const m=match();m.home='<script>"&';const e=planBriefing([m],prefs,now);
  const b=buildBriefing([m],prefs,e,{bankroll:250},[],now,new Date(now).toISOString());
  const mail=briefingEmail({...b,demo:true},'https://example.com/bet/');
- assert.match(mail.html,/&lt;script&gt;/);assert.ok(!mail.html.includes('<script>'));assert.ok(!mail.text.includes('Bankroll'));assert.match(mail.html,/DONNÉES FICTIVES/);assert.match(mail.text,/18\+/);assert.match(mail.text,/me désabonner/);assert.match(mail.html,/role="presentation"/);assert.match(mail.html,/name="viewport"/);assert.ok(!mail.html.includes('<img'));
+ assert.match(mail.html,/&lt;script&gt;/);assert.ok(!mail.html.includes('<script>'));assert.match(mail.text,/bankroll virtuelle actuelle/);assert.match(mail.html,/DONNÉES FICTIVES/);assert.match(mail.text,/18\+/);assert.match(mail.text,/me désabonner/);assert.match(mail.html,/role="presentation"/);assert.match(mail.html,/name="viewport"/);assert.ok(!mail.html.includes('<img'));
  assert.throws(()=>briefingEmail(b,'javascript:alert(1)'));
 });
 test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429',async()=>{
@@ -74,7 +74,7 @@ test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429
  const env={SITE_URL:'https://example.com/',EMAIL_FROM:'bot@example.com',RESEND_API_KEY:'secret'};
  const e={briefing_content:b};
  const result=await deliver('email',{email:'owner@example.com'},e,98,env,async(url,init)=>{
-  const body=JSON.parse(init.body);assert.match(body.html,/Mes équipes favorites/);assert.ok(!body.text.includes('Bankroll'));assert.match(body.subject,/briefing/);assert.equal(init.headers['Idempotency-Key'],'bet-notification-98');return new Response('{}');
+  const body=JSON.parse(init.body);assert.match(body.html,/Mes équipes favorites/);assert.match(body.text,/bankroll virtuelle actuelle/);assert.match(body.subject,/Ligue 1.*Lille - Paris/);assert.equal(init.headers['Idempotency-Key'],'bet-notification-98');return new Response('{}');
  });assert.equal(result.status,'sent');
  assert.equal((await deliver('email',{email:'owner@example.com'},e,98,env,async()=>new Response('',{status:429}))).status,'pending');
 });
@@ -83,10 +83,10 @@ test('BET-143 : trois conseils, favoris avant conseils, héros identifié sans r
  b.picks=Array.from({length:3},()=>b.picks[0]);
  const mail=briefingEmail(b,'https://example.com/');
  assert.ok(mail.text.indexOf('Mes équipes favorites')<mail.text.indexOf('Les 3 conseils du jour'));
- assert.match(mail.text,/★ Le match du jour/);assert.match(mail.text,/3 · Lille/);assert.ok(!mail.text.includes('Bankroll'));
+ assert.match(mail.text,/★ Le match du jour/);assert.match(mail.text,/3 · Lille/);assert.match(mail.text,/bankroll virtuelle actuelle/);
  const limited=briefingEmail({...b,favorites:[],picks:b.picks.slice(0,1)},'https://example.com/');
- assert.ok(!limited.text.includes('Mes équipes favorites'));assert.match(limited.text,/1 conseil/);
- const stale=briefingEmail({...b,fresh:false},'https://example.com/');assert.match(stale.text,/aucun conseil publié/);
+ assert.ok(!limited.text.includes('Mes équipes favorites'));assert.match(limited.text,/Les 3 conseils du jour/);
+ const stale=briefingEmail({...b,fresh:false},'https://example.com/');assert.doesNotMatch(stale.text,/indisponible|conseil\(s\)|Probabilités du modèle/i);
 });
 test('BET-125 : nouvelle heure future, aucun rattrapage et révision portée au worker',async()=>{
  const p={...prefs,favorite_briefing:false,quiet_start:0,quiet_end:0,briefing_minute:1080,daily_revision:1,daily_not_before:'2026-10-30T15:00:00Z'};
@@ -105,4 +105,21 @@ test('BET-143 : favoris relus sur le compte au moment de la préparation',async(
  const m=match(),event=planBriefing([m],prefs,now);
  const b=await prepareBriefing(async()=>({account:null,bets:[],favorites:{teams:[],leagues:[]}}),'u',event,prefs,[m],new Date(now).toISOString(),now);
  assert.equal(b.favorites.length,0);assert.equal(b.matches.length,1);
+});
+
+test('BET-273 : aucun conseil, probabilités réelles du modèle, CTA et suivi personnalisé',()=>{
+ const m=match(),b=buildBriefing([m],{...prefs,min_confidence:1},planBriefing([m],prefs,now),{bankroll:0},[],now,new Date(now).toISOString());
+ assert.equal(b.picks.length,0);
+ const email=briefingEmail(b,'https://example.com/');
+ for(const content of [email.text,email.html]){
+  assert.match(content,/Probabilités du modèle/);assert.match(content,/Nul/);assert.match(content,/Mon suivi/);assert.match(content,/0,00/);
+  assert.doesNotMatch(content,/indisponible|0 conseil|conseil\(s\)|Pas de conseil forcé/i);
+ }
+ assert.match(email.subject,/Ligue 1.*Lille - Paris/);
+ assert.match(email.html,/class="mail-button"[^>]+background:#c8f03c/);
+ assert.match(email.text,/Explorer le match du jour/);
+ const missing=briefingEmail({...b,bankroll:null,hero:{...m,homeGoals:null},favorites:[]},'https://example.com/');
+ assert.doesNotMatch(missing.text,/Probabilités du modèle|bankroll virtuelle actuelle|NaN|null/);
+ const empty=briefingEmail({...b,hero:null,favorites:[],matches:[]},'https://example.com/');
+ assert.match(empty.text,/Explorer le calendrier/);assert.doesNotMatch(empty.text,/indisponible|0 conseil/i);
 });

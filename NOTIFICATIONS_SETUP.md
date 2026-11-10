@@ -14,7 +14,7 @@ Deux canaux actifs : le briefing email et les notifications push. Leurs consente
 
 L’utilisateur associe l’adresse confirmée de son compte, choisit l’heure dans son fuseau, puis active le briefing dans Mon profil > Mes alertes. Association seule ne vaut pas accord. L’abonnement est indépendant de la newsletter.
 
-Le contenu se limite aux équipes favorites qui jouent, au match du jour et à trois conseils au plus : match, sélection et cote réelle. Les conseils viennent du modèle commun avec dix bookmakers datés par sélection. Aucun montant de bankroll ni projection financière dans l’email. Si un conseil manque, son absence est signalée sans inventer de cote. Le lien de désabonnement ouvre les préférences après connexion.
+Le contenu se limite aux équipes favorites qui jouent, au match du jour et à trois conseils au plus : match, sélection et cote réelle. Les conseils viennent du modèle commun avec dix bookmakers datés par sélection. Le bloc « Mon suivi » rappelle la bankroll virtuelle actuelle du destinataire (BET-273), relue dans le snapshot privé avant livraison. Aucune projection financière. Sans conseil, une analyse statistique du match du jour remplace les messages d’absence ; sans données récentes, repli éditorial sans probabilités. Objet spécifique à l’affiche et boutons verts en HTML, liens équivalents en texte. Aucune cote ni recommandation inventée. Le lien de désabonnement ouvre les préférences après connexion.
 
 Les réglages d’horaire utilisent une révision et une date minimale : pas de rattrapage d’un ancien rendez-vous, une seule livraison par compte et par jour. Les favoris et l’adresse confirmée sont relus juste avant livraison. Un changement d’adresse impose une nouvelle association.
 
