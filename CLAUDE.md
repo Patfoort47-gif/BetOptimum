@@ -46,6 +46,12 @@ Trois morceaux qui communiquent par le fichier `data/fixtures.json` (et, pour le
 
 Retrait BET-199 : V52 archive l’économie virtuelle et révoque les anciens achats/échanges. Le profil actif conserve avatar, cadre et badges. Les sections historiques ci-dessous sur les objets et la monnaie sont supersédées par `docs/PROFILE_CLEANUP.md`.
 
+## Recentrage produit (BET-308 · 10 novembre 2026)
+
+La demande du propriétaire de réaliser le lot 16 fixe la règle commune à Codex et Claude Code : les nouvelles mécaniques sont gelées en dehors du défi du jour et des ligues privées entre amis. Les corrections, la sécurité, l’accessibilité et la maintenance des fonctions existantes restent possibles ; ne pas étendre divisions, ligues spéciales, défis hebdomadaires, niveaux, trophées, duels ou économie virtuelle.
+
+Les jetons, achats, échanges, duels et boutique restent hors production (retrait V52, BET-199). Aucune réactivation avant avis écrits sur les points 1 à 4 de `VALIDATION_JURIDIQUE.md` et décision explicite du propriétaire. Cette règle remplace pour les évolutions futures la décision du 4 novembre 2026 (BET-63). Les archives sont conservées ; aucune suppression de comptes, paris, points ou résultats historiques. Voir `docs/PRODUCT_FOCUS.md`.
+
 ## Club : comptes, paris certifiés et ligues (lots 8 à 10)
 
 Les paris des joueurs connectés sont **enregistrés et réglés côté serveur** (Supabase). Le navigateur affiche et demande, il n'écrit plus aucune bankroll, aucun statut, aucune statistique.
