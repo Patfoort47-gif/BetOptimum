@@ -7,3 +7,6 @@ export function selectionBookmakerCount(match,key){
 }
 export function quoteAvailable(match,key){return !/^h1/.test(key)&&match?.realOddsMarkets?.includes(key)===true&&Number.isFinite(Number(match.odds?.[key]))&&Number(match.odds[key])>1&&selectionBookmakerCount(match,key)>=MIN_BOOKMAKERS&&extendedPriceAvailable(match,key)}
 export function dailyQuoteAvailable(pick,match,key){return quoteAvailable(match,key)&&(Number(pick.bookmakerCounts?.[key])>=MIN_BOOKMAKERS||Number(pick.odds?.[key])===Number(match.odds?.[key]))}
+
+// BET-278 : au moins une sélection jouable, sans exception pour l’affiche.
+export function matchHasAvailableQuote(match){return (match?.realOddsMarkets??[]).some(key=>quoteAvailable(match,key))}
