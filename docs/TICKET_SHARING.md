@@ -10,13 +10,13 @@ Avant connexion, un brouillon de session limité aux sélections et cotes est en
 
 ## Aperçus des liens
 
-Page préparée avec le skill Sites : `https://betoptimum-partage.honedchord2.chatgpt.site/`, projet `appgprj_6af1efca402481919a4c894a488f8ac3`, source dans son dépôt Sites. Le Worker utilise `ticket-preview.js` et `ticket-url.js` de ce dépôt ; recopier ces modules et reconstruire le Worker lors d’une évolution du format. Pas de secret ni accès aux comptes dans ce service, seulement les sélections du lien et l’adresse publique du PNG.
+Page publique hébergée avec le skill Sites : `https://betoptimum-partage.honedchord2.chatgpt.site/`, projet `appgprj_6af1efca402481919a4c894a488f8ac3`, source dans son dépôt Sites. Le Worker utilise `ticket-preview.js` et `ticket-url.js` de ce dépôt ; recopier ces modules et reconstruire le Worker lors d’une évolution du format. Pas de secret ni accès aux comptes dans ce service, seulement les sélections du lien et l’adresse publique du PNG.
 
 La page sert Open Graph et Twitter Card avec le vrai PNG, puis ouvre le coupon canonique dans BetOptimum par JavaScript (lien visible sans JavaScript). Elle n’accepte aucune destination de redirection arbitraire. Les robots lisent le HTML côté serveur sans exécuter le script. Le domaine Supabase standard réécrit le HTML en `text/plain` : la fonction Supabase n’est donc pas utilisée pour servir ces pages.
 
 Les images sont déposées par les utilisateurs connectés dans `ticket-previews` sous un UUID aléatoire, jamais sous leur identifiant de joueur. Sans compte ou si le dépôt échoue, le lien direct et le PNG téléchargeable restent disponibles. Le service ne stocke aucun identifiant de destinataire et ne contacte aucune messagerie. Les tests de partage natif simulent le système ; aucune conversation réelle n’est utilisée pour la recette.
 
-**Accès public soumis à accord explicite du propriétaire.** Tant que cet accord manque, la page Sites reste privée et les liens correspondants ne doivent pas être publiés dans le front. Une version privée prête à être publiée est enregistrée dans Sites.
+**Accès public autorisé explicitement par le propriétaire le 10 novembre 2026.** Le service est accessible sans compte ChatGPT ; seuls les sélections et le visuel du coupon partagé y sont exposés.
 
 ## Stockage et purge
 
