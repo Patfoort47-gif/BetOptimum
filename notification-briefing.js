@@ -1,5 +1,6 @@
 // BET-98 : planification et calculs purs. Aucune destination ni clé fournisseur.
 import { recommendedMarket, selectSpotlight } from './model.js';
+import {matchHasAvailableQuote} from './quote-policy.js';
 const formatters=new Map();
 function formatter(timezone) {
   if(!formatters.has(timezone)){if(formatters.size>=100)formatters.clear();formatters.set(timezone,new Intl.DateTimeFormat('en-CA',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}));}
@@ -13,7 +14,7 @@ const minuteAt=(now,timezone)=>{const p=localParts(now,timezone);return Number(p
 const favorite = (m,p) => (p.teams??[]).includes(m.home)||(p.teams??[]).includes(m.away);
 export function dayMatches(matches, prefs, now) {
   const date=localDate(now,prefs.timezone);
-  return [...new Map(matches.filter(m=>!m.completed&&!m.voided&&Number.isFinite(Date.parse(m.kickoff))&&localDate(m.kickoff,prefs.timezone)===date).map(m=>[m.id,m])).values()].sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff)||String(a.id).localeCompare(String(b.id)));
+  return [...new Map(matches.filter(m=>matchHasAvailableQuote(m)&&!m.completed&&!m.voided&&Number.isFinite(Date.parse(m.kickoff))&&localDate(m.kickoff,prefs.timezone)===date).map(m=>[m.id,m])).values()].sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff)||String(a.id).localeCompare(String(b.id)));
 }
 // Recherche sur l’axe UTC : la première occurrence d’une heure répétée fait foi,
 // une heure absente au printemps est reportée au premier instant local suivant.
