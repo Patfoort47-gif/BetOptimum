@@ -13,8 +13,14 @@ for c in commits:
  captured=stamp(d.get('generatedAt',''))
  if not captured:continue
  snapshots+=1
+ observed=int(subprocess.check_output(['git','show','-s','--format=%ct',c],text=True).strip())
  for m in d.get('matches',[])+d.get('settlements',[]):
-  if m.get('completed') and all(isinstance(m.get(k),(int,float)) for k in ['homeScore','awayScore']):results[m['id']]={'homeScore':m['homeScore'],'awayScore':m['awayScore']}
+  if m.get('completed') and all(isinstance(m.get(k),(int,float)) for k in ['homeScore','awayScore']):
+   result={'homeScore':m['homeScore'],'awayScore':m['awayScore']}
+   old=results.get(m['id'],{})
+   result['resultSeenAt']=old.get('resultSeenAt',observed) if all(old.get(k)==v for k,v in result.items()) else observed
+   result['regulation']=m.get('regulation')
+   results[m['id']]=result
  for m in d.get('matches',[]):
   kick=stamp(m.get('kickoff',''))
   if kick and captured<kick and not m.get('completed') and not m.get('voided') and all(isinstance(m.get(k),(int,float)) and m[k]>0 for k in ['homeGoals','awayGoals']):
