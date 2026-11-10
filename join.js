@@ -1,13 +1,13 @@
 // Page « Rejoindre le club » (BET-46) : connexion, inscription en étapes, mot de passe oublié, vérification d'email. Chargée à la demande par app.js.
 // La logique de validation est dans auth-model.js (pure, testée) ; les appels Supabase passent par l'objet `auth` fourni par account.js.
-import { RISK_STYLES, STYLE_LABELS, passwordStrength, sanitizePreferences, signupSteps, validNickname, validateIdentity, validEmail } from './auth-model.js';
+import { RISK_STYLES, STYLE_LABELS, passwordStrength, sanitizePreferences, signupSteps, validateIdentity, validEmail } from './auth-model.js';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const STYLE_COPY = { safe: ['Prudent', 'Des cotes basses et des pronos fiables'], balanced: ['Équilibré', 'Un mélange de sécurité et de value'], bold: ['Audacieux', 'Des cotes plus hautes, plus de risque'] };
 
 export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toast, onDone }) {
   const root = document.querySelector('#rejoindre'), content = root.querySelector('#join-content');
-  let returnUrl=null;let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, nicknameState = '', nicknameTimer = null, resendAt = 0, teamQuery = '';
+  let returnUrl=null;let studio = null, mode = 'login', draft = { nickname: '', email: '', password: '', adult: false, newsletter: false, club: null, leagues: [], style: 'balanced', avatar: null }, stepIndex = 0, busy = false, lastFocus = null, resendAt = 0, teamQuery = '';
   const steps = signupSteps(avatarStudio);
 
   const field = (id, label, input, hint = '', error = '') => `<div class="join-field"><label for="${id}">${label}</label>${input}${hint ? `<small id="${id}-hint">${hint}</small>` : ''}<small class="join-error" id="${id}-error" role="alert">${escape(error)}</small></div>`;
@@ -24,7 +24,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
     if (mode === 'check') return `<div class="join-check"><h2 id="join-title">Vérifiez vos emails</h2><p>Nous avons envoyé un lien de confirmation à <strong>${escape(draft.email)}</strong>. Ouvrez-le : vous reviendrez ici, connecté.</p>${banner(error)}${banner(info, 'info')}<label>Adresse e-mail<input type="email" data-confirmation-email value="${escape(draft.email)}" autocomplete="email"></label><button class="button secondary full" data-resend ${busy ? 'disabled' : ''}>Renvoyer le lien</button><button class="text-button" data-mode="login">J’ai confirmé : me connecter</button></div>`;
     const step = steps[stepIndex], progress = `<ol class="join-steps" aria-label="Étapes de l’inscription">${steps.map((name, index) => `<li class="${index === stepIndex ? 'current' : index < stepIndex ? 'done' : ''}" ${index === stepIndex ? 'aria-current="step"' : ''}>${{ identity: 'Identité', avatar: 'Avatar', preferences: 'Préférences' }[name]}</li>`).join('')}</ol>`;
     if (step === 'identity') {
-      const strength = passwordStrength(draft.password), nick = nicknameState === 'free' ? '<span class="ok">✓ Pseudo disponible</span>' : nicknameState === 'taken' ? '<span class="ko">Ce pseudo est déjà pris</span>' : nicknameState === 'checking' ? 'Vérification…' : '3 à 24 caractères, visible dans les classements';
+      const strength = passwordStrength(draft.password), nick = '3 à 24 caractères. Si ce pseudo est déjà pris, un pseudo disponible vous sera attribué à l’inscription. Vous pourrez le modifier depuis votre profil.';
       return `${tabs()}${progress}<form id="join-form" novalidate><h2 id="join-title">Créez votre identité</h2>${banner(error)}${field('join-nickname', 'Pseudo', `<input id="join-nickname" name="nickname" autocomplete="nickname" required maxlength="24" value="${escape(draft.nickname)}" aria-describedby="join-nickname-hint join-nickname-error">`, `<span id="join-nick-status">${nick}</span>`, errors.nickname)}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}">`, '', errors.email)}${field('join-password', 'Mot de passe (8 caractères minimum)', passwordInput('join-password', 'new-password'), '', errors.password)}<div class="join-meter" id="join-meter" aria-live="polite"><i class="s${strength.score}"></i><span>${draft.password ? strength.label : ''}</span></div><label class="join-check-line"><input type="checkbox" name="adult" ${draft.adult ? 'checked' : ''}><span>J’ai 18 ans ou plus · paris virtuels sans argent réel</span></label><small class="join-error" role="alert">${escape(errors.adult ?? '')}</small><button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>Continuer</button><p class="join-sep"><span>ou</span></p>${google}</form>`;
     }
     if (step === 'avatar') return `${tabs()}${progress}<form id="join-form" novalidate><button type="button" class="text-button" data-back>← Retour</button><h2 id="join-title">Créez votre joueur</h2><p class="muted">Visage, coiffure et maillot : vous pourrez tout changer, et débloquer bien plus, depuis votre profil.</p><div class="join-studio" data-join-studio></div><button class="button primary full">Continuer</button></form>`;
@@ -46,18 +46,11 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
   const syncDraft = form => { const data = new FormData(form); for (const key of ['nickname', 'email']) if (data.has(key)) draft[key] = String(data.get(key)); if (data.has('join-password') && mode !== 'recovery') draft.password = String(data.get('join-password')); if (form.querySelector('[name=newsletter]')) draft.newsletter = data.has('newsletter'); if (form.querySelector('[name=adult]')) draft.adult = data.has('adult'); if (form.querySelector('[name=style]')) draft.style = String(data.get('style') ?? draft.style); if (form.querySelector('[name=league]')) draft.leagues = data.getAll('league').map(String); };
   const finish = async (event, user) => { busy = false; close(); onDone(event, user); };
 
-  async function checkNickname() {
-    clearTimeout(nicknameTimer);
-    if (!validNickname(draft.nickname)) { nicknameState = ''; return; }
-    nicknameState = 'checking'; updateNicknameLabel();
-    nicknameTimer = setTimeout(async () => { const asked = draft.nickname; try { const free = await auth.nicknameAvailable(asked); if (asked === draft.nickname) nicknameState = free ? 'free' : 'taken'; } catch { nicknameState = ''; } updateNicknameLabel(); }, 400);
-  }
-  function updateNicknameLabel() { const label = content.querySelector('#join-nick-status'); if (label) label.innerHTML = nicknameState === 'free' ? '<span class="ok">✓ Pseudo disponible</span>' : nicknameState === 'taken' ? '<span class="ko">Ce pseudo est déjà pris</span>' : nicknameState === 'checking' ? 'Vérification…' : '3 à 24 caractères, visible dans les classements'; }
   function updateMeter() { const meter = content.querySelector('#join-meter'), input = content.querySelector('#join-password'); if (!meter || !input) return; const strength = passwordStrength(input.value); meter.innerHTML = `<i class="s${strength.score}"></i><span>${input.value ? strength.label : ''}</span>`; }
 
   content.addEventListener('input', event => {
     const target = event.target;
-    if (target.id === 'join-nickname') { draft.nickname = target.value; nicknameState = ''; checkNickname(); }
+    if (target.id === 'join-nickname') { draft.nickname = target.value; }
     else if (target.id === 'join-password') updateMeter();
     else if (target.id === 'join-team-search') { teamQuery = target.value.trim().toLowerCase(); const form = target.form; syncDraft(form); const caret = target.selectionStart; render({ keepFocus: true }); const again = content.querySelector('#join-team-search'); again?.focus(); again?.setSelectionRange(caret, caret); }
   });
@@ -96,7 +89,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       const check = validateIdentity(draft);
       if (!check.ok) { render({ errors: check.errors }); return; }
       busy = true; render({ keepFocus: true });
-      try { const free = await auth.nicknameAvailable(draft.nickname); busy = false; nicknameState = free ? 'free' : 'taken'; if (!free) { render({ errors: { nickname: 'Ce pseudo est déjà pris : choisissez-en un autre.' } }); return; } stepIndex++; render({}); } catch (error) { fail(error); }
+      busy = false; stepIndex++; render({});
     } else if (steps[stepIndex] === 'avatar') {
       stopStudio(); stepIndex++; render({});
     } else {
@@ -118,7 +111,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
   function close() {
     stopStudio();
     releaseBackground();if (root.hidden) return;
-    root.hidden = true; document.body.classList.remove('join-open'); clearTimeout(nicknameTimer);
+    root.hidden = true; document.body.classList.remove('join-open');
     if (location.hash === '#rejoindre' && typeof history !== 'undefined') history.replaceState(null, '', returnUrl||location.pathname + location.search);
     lastFocus?.focus?.();
   }

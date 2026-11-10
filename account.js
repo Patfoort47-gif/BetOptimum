@@ -136,7 +136,7 @@ export async function initAccountSync({getState,applyState,resetState,registerCl
   // API de connexion utilisée par join.js : les erreurs sont traduites en français (auth-model.js), le pseudo est vérifié par la RPC pseudo_disponible.
   const authError=error=>{const failure=new Error(translateAuthError(error));failure.code=error?.code??error?.name;return failure};
   const auth={
-    nicknameAvailable:async nickname=>{const {data,error}=await client.rpc('pseudo_disponible',{p_nickname:nickname});if(error)throw authError(error);return data===true},
+    nicknameAvailable:async nickname=>{if(!currentUser)throw authError({code:'AUTH_REQUIRED'});const {data,error}=await client.rpc('pseudo_disponible',{p_nickname:nickname});if(error)throw authError(error);return data===true},
     signIn:async(email,password)=>{const {data,error}=await client.auth.signInWithPassword({email,password});if(error)throw authError(error);return data.user},
     signUp:async({email,password,username,prefs,avatar,newsletter=false})=>{const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:redirect,data:{username,newsletter_opt_in:newsletter===true,prefs:sanitizePreferences(prefs),...(registrationAvatar(avatar)?{avatar2:registrationAvatar(avatar)}:{})}}});if(error)throw authError(error);if(data.user&&data.user.identities?.length===0)throw authError({code:'user_already_exists'});return{confirmed:Boolean(data.session)}},
     resend:async email=>{const {error}=await client.auth.resend({type:'signup',email,options:{emailRedirectTo:redirect}});if(error)throw authError(error)},
