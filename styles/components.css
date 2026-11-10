@@ -902,3 +902,6 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
 
 .shared-ticket-notice{font-size:13px;line-height:1.5;padding:10px 12px;border:1px solid var(--accent-text);border-radius:10px;overflow-wrap:anywhere}.shared-ticket-notice p{margin:0}.shared-ticket-notice ul{padding-left:18px;margin:8px 0 0}.ticket-share-link{display:flex;gap:8px;flex-wrap:wrap}.ticket-share-link input{flex:1;min-width:0;width:100%;font-size:13px}.ticket-share-dialog{max-width:min(560px,calc(100vw - 24px))}
+
+.inbox-button{position:relative;flex-shrink:0}.inbox-button b:empty{display:none}.inbox-button b{position:absolute;top:-3px;right:-4px;background:var(--accent);color:var(--on-accent);font-size:10px;min-width:16px;border-radius:12px}.inbox-list{list-style:none;padding:0;max-height:55dvh;overflow:auto}.inbox-list li{border-bottom:1px solid var(--line);padding:8px}.inbox-list .unread{border-left:3px solid var(--accent)}.inbox-list button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;height:auto;gap:6px;width:100%}.inbox-list time{font-size:12px;color:var(--muted)}#inbox-dialog{width:min(520px,calc(100vw - 24px));box-sizing:border-box}#open-inbox[hidden]{display:none}
+@media(max-width:359px){.topbar:has(#open-inbox:not([hidden])) .brand-mark{display:none}}
