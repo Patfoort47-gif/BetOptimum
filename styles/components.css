@@ -907,6 +907,58 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
 .hero-main .hero-cta{align-self:flex-start;position:relative;z-index:1;min-height:48px;white-space:normal;text-align:center}
 @media(max-width:767px){.hero-main .hero-cta{width:100%}.hero-main{gap:12px}}
 
+/* BET-279 à BET-285 : l'accueil mobile mène directement au calendrier. */
+@media(max-width:700px){
+  main{gap:10px;padding-top:10px}
+  main>.hero{order:1}
+  main>#match-navigation{order:2}
+  main>.workspace{order:3}
+  main>#discovery{order:4}
+  main>.home-performance{order:5}
+  .hero{display:block}
+  .hero-main{min-height:0;padding:10px 12px;gap:6px;border-radius:16px}
+  .hero-main .hero-pitch,.hero-main>.eyebrow,.hero-main>.section-subtitle,.hero-main>.hero-actions,.hero-score{display:none}
+  .hero h1{font-size:22px;line-height:1.05;text-transform:none;letter-spacing:-.02em}
+  .hero-copy{font-size:10px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero-main .hero-cta{position:absolute;right:28px;top:78px;width:auto;min-height:36px;padding:0 12px;font-size:11px}
+  #match-navigation{display:none}
+  .workspace{display:block}
+  #matches{display:flex;flex-direction:column;padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+  #matches>.section-heading{order:1;margin:0 0 4px}
+  #matches>.section-heading .eyebrow,#matches>.section-heading h2,#matches>.section-heading .section-meta{display:none}
+  #matches>.date-scroller{order:2;margin:0 0 4px}
+  #matches>.scroller:not(.date-scroller){order:3;margin:0 0 4px}
+  #matches>.match-filter-context{order:4;margin:0;min-height:0}
+  #matches>#match-strip{order:5;display:none}
+  #matches>#match-list{order:6}
+  #matches>#conseils-du-jour,#matches>#daily-selection,#matches>#daily-challenge{order:7;margin-top:12px}
+  .date-navigator{padding:3px;border-radius:14px}
+  .date-chip{min-width:60px;min-height:42px;padding:4px 8px}
+  .date-chip strong{font-size:9px}.date-chip span{font-size:14px}
+  .filters{gap:5px}.filter{min-height:38px;padding-block:0;font-size:11px}.filter em{display:none}
+  .match-filter-context{font-size:10px}.match-filter-context .text-button{min-height:32px;font-size:10px}
+  .match-list{gap:10px}
+  .match-card,.match-card.spotlight{padding:8px;gap:7px;border-radius:16px}
+  .match-card .match-hero,.match-hero:has(.stadium-placeholder){min-height:0;padding:8px;border-radius:12px;background:#0b1c31}
+  .match-card .match-stadium-photo,.match-card .stadium-placeholder,.match-card .match-favorites,.match-card .team-form,.match-card .match-center-stats{display:none}
+  .match-card .match-head{margin-bottom:4px}.match-card .match-league b{font-size:9px}
+  .match-card .match-teams{grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);gap:4px}
+  .match-card .match-hero .crest{width:34px;height:34px}
+  .match-card .match-hero .team{gap:3px}.match-card .match-hero .team strong{font-size:11px}
+  .match-card .match-hero .kickoff{padding:3px}.match-card .match-hero .kickoff strong{font-size:18px}
+  .match-card .match-overview{display:none}
+  .match-card .market-grid-wrap .market-categories,.match-card .match-resources,.match-card .match-disclaimer{display:none}
+  .match-card .market-grid-wrap .predictions-heading{display:none}
+  .match-card .market-grid-wrap .featured-markets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .match-card .market-grid-wrap .featured-markets>.market{position:relative;display:none;min-height:52px;height:auto;padding:5px;grid-row:auto;gap:2px;justify-content:center;overflow:visible}
+  .match-card .market-grid-wrap .featured-markets>.market[data-market="home"],.match-card .market-grid-wrap .featured-markets>.market[data-market="draw"],.match-card .market-grid-wrap .featured-markets>.market[data-market="away"]{display:flex}
+  .match-card .market-grid-wrap .market-label{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.match-card .market-grid-wrap .market-price>strong{font-size:17px}
+  .match-card .market-grid-wrap .market-numbers{display:block}.match-card .market-grid-wrap .market-price{display:flex;align-items:baseline;justify-content:center;gap:4px}.match-card .market-grid-wrap .market-price small{font-size:8px}
+  .match-card .market-grid-wrap .market>:not(.market-label):not(.market-numbers){display:none}
+  .match-card .market-grid-wrap .market-confidence{display:none}
+  .match-card .market-grid-wrap .highest-confidence:after{content:"PRONO";position:absolute;top:-6px;right:3px;padding:2px 4px;border-radius:5px;background:var(--accent);color:var(--on-accent);font-size:7px;font-weight:800;letter-spacing:.04em}
+}
+
 .home-performance{padding:20px;margin-block:16px}.home-performance dl{display:flex;flex-wrap:wrap;gap:24px}.home-performance dt{color:var(--muted)}.home-performance dd{margin:4px 0;font-size:24px;font-weight:800}.home-performance .muted{font-size:12px}
 
 /* BET-266 : trois étapes visibles sans défilement horizontal. */
