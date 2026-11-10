@@ -62,11 +62,42 @@ await db.query(
 );
 await db.exec(`set test.uid='${users[1]}';set role authenticated;`);
 assert.equal((await join(codes[0])).code, codes[0]);
+await db.exec('reset role');
+const fullLeague = (await db.query('select id from private_leagues where code=$1', [codes[0]]))
+  .rows[0].id;
+await db.query('delete from private_league_members where league_id=$1', [fullLeague]);
+const fill = (
+  await db.query(
+    'insert into auth.users select gen_random_uuid() from generate_series(1,50) returning id'
+  )
+).rows;
+for (const u of fill)
+  await db.query('insert into private_league_members values($1,$2)', [fullLeague, u.id]);
+await db.exec(`set test.uid='${users[2]}';set role authenticated;`);
+assert.equal((await join(codes[0])).error, 'LIGUE_PLEINE');
+await db.exec('reset role');
+await db.query('delete from private_league_members where league_id=$1 and user_id=$2', [
+  fullLeague,
+  fill[0].id
+]);
+await db.exec(`set test.uid='${users[2]}';set role authenticated;`);
+assert.equal((await join(codes[0])).code, codes[0]);
+await db.exec('reset role');
+assert.equal(
+  Number(
+    (
+      await db.query('select count(*) n from private_league_members where league_id=$1', [
+        fullLeague
+      ])
+    ).rows[0].n
+  ),
+  50
+);
 await db.exec('reset role;set role anon');
 await assert.rejects(join('BM-AB2C'), /permission denied/);
 await db.exec("reset role;set test.uid=''");
 await assert.rejects(join('BM-AB2C'), /AUTH_REQUIRED/);
 await db.close();
 console.log(
-  'OK SQL BET-304 : vrai pgcrypto, 1000 codes, anciens/nouveaux liens, dix échecs persistants, blocage, expiration, isolation et droits, migration deux fois.'
+  'OK SQL BET-304 : vrai pgcrypto, 1000 codes, anciens/nouveaux liens, dix échecs persistants, blocage, expiration, isolation et droits, migration deux fois, limite serveur de 50 membres.'
 );
