@@ -355,7 +355,7 @@ test('le catalogue serveur ne vend les effets, sons et objets de carte quâ€™aprÃ
 test('V39 rend publics le titre, le cadre et les objets de la carte, jamais les effets ni les sons', async () => {
   const { readFile } = await import('node:fs/promises'),
     sql = await readFile(
-      new URL('../supabase/migrations/supabase-v39-schema.sql', import.meta.url),
+      new URL('../supabase/migrations/20261110000039_legacy_v39.sql', import.meta.url),
       'utf8'
     ),
     list = /p_slot in \(([^)]*)\)/

@@ -19,7 +19,7 @@ export async function checkClubActivation(admin, now = new Date()) {
       );
     if (/PGRST202|42883/.test(String(error?.message ?? '')))
       throw new ClubActivationError(
-        'La saison de football n’est pas accessible : appliquez supabase/migrations/supabase-activation-club.sql dans le projet utilisé par GitHub.'
+        'La saison de football n’est pas accessible : appliquez supabase/legacy/supabase-activation-club.sql dans le projet utilisé par GitHub.'
       );
     throw new ClubActivationError(
       'Impossible de vérifier la saison de football : contrôlez l’accès serveur et réessayez.'
@@ -32,7 +32,7 @@ export async function checkClubActivation(admin, now = new Date()) {
   const club = await admin.select('special_leagues', 'kind=eq.club&open=eq.true&select=id&limit=1');
   if (club.length)
     throw new ClubActivationError(
-      'Des ligues de clubs sont encore ouvertes : appliquez supabase/migrations/supabase-activation-club.sql.'
+      'Des ligues de clubs sont encore ouvertes : appliquez supabase/legacy/supabase-activation-club.sql.'
     );
   for (const id of ['kit-mosaic', 'trophy-crystal', 'bg-aurora-in', 'celeb-heart']) {
     let valid = false;
@@ -41,7 +41,7 @@ export async function checkClubActivation(admin, now = new Date()) {
     } catch {}
     if (valid !== true)
       throw new ClubActivationError(
-        'Les nouveaux objets d’avatar ne sont pas acceptés par la base : appliquez supabase/migrations/supabase-activation-club.sql.'
+        'Les nouveaux objets d’avatar ne sont pas acceptés par la base : appliquez supabase/legacy/supabase-activation-club.sql.'
       );
   }
   console.log(

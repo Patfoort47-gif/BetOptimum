@@ -8,13 +8,13 @@ await db.exec(
 const users = ['00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002'];
 for (const uid of users) await db.query('insert into auth.users values($1)', [uid]);
 await db.query("insert into profiles values($1,'Victor'),($2,'Autre')", users);
-const v4 = await readFile('supabase/migrations/supabase-v4-schema.sql', 'utf8'),
+const v4 = await readFile('supabase/migrations/20261110000004_legacy_v04.sql', 'utf8'),
   start = v4.indexOf('create or replace function public.pseudo_libre('),
   end = v4.indexOf('$$;', start) + 3;
 await db.exec(v4.slice(start, end));
 await db.exec('grant execute on function public.pseudo_libre(text) to anon,authenticated');
 const sql = await readFile(
-  process.env.NICKNAME_MIGRATION ?? 'supabase/migrations/supabase-v63-schema.sql',
+  process.env.NICKNAME_MIGRATION ?? 'supabase/migrations/20261110000103_legacy_v63.sql',
   'utf8'
 );
 await db.exec(sql);

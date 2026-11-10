@@ -30,7 +30,7 @@ Le workflow « Inventorier les marchés PropLine » propose désormais `mode=pri
 
 ## Ordre de mise en production
 
-1. Appliquer `supabase/migrations/supabase-v40-schema.sql` après V39 dans le projet Supabase de production. La migration est réexécutable ; elle ajoute `fixtures.market_valid_until` et étend les labels/choix acceptés par la RPC sans réécrire les paris existants.
+1. Appliquer `supabase/migrations/20261110000040_legacy_v40.sql` après V39 dans le projet Supabase de production. La migration est réexécutable ; elle ajoute `fixtures.market_valid_until` et étend les labels/choix acceptés par la RPC sans réécrire les paris existants.
 2. Fusionner la PR BET-170 pour publier les modules et le moteur de règlement. La version publiée du workflow fixe explicitement `PROPLINE_MARKET_STAGE=3` ; V40 doit donc être vérifiée avant cette fusion.
 3. Vérifier `PROPLINE_MARKET_STAGE=3` dans les deux étapes du workflow, puis lancer manuellement « Actualiser les matchs » sur `main`. Le workflow vérifie d’abord la colonne V40 et un label serveur en lecture seule. Si le schéma manque, il échoue avant tout appel fournisseur et toute modification du calendrier.
 4. Vérifier le succès de la collecte et de la synchronisation Supabase ; ouvrir un match couvert et vérifier les familles, les prix réels datés et « Manuel / Sans modèle ». Une famille peut manquer sur un match : c’est une absence d’offre, pas une erreur à combler avec une estimation.

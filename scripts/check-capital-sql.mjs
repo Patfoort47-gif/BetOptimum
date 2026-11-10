@@ -6,7 +6,7 @@ const db = new PGlite();
 await db.exec(
   `create role anon;create role authenticated;create role service_role;create table player_accounts(bankroll numeric);insert into player_accounts values(123.45);create table capital_events(amount numeric);insert into capital_events values(50);`
 );
-const sql = await readFile('supabase/migrations/supabase-v64-schema.sql', 'utf8');
+const sql = await readFile('supabase/migrations/20261110000104_legacy_v64.sql', 'utf8');
 await db.exec(sql);
 await db.exec(sql);
 for (const role of ['anon', 'authenticated', 'service_role']) {

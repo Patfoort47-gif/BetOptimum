@@ -16,18 +16,18 @@ insert into special_leagues values('test','competition');
 create table special_picks(id serial primary key,user_id uuid,league_id text,source text,match_ids text[],key text,status text default 'pending');
 create function special_try_pick(p_user uuid,p_league text,p_selections jsonb,p_source text,p_bet uuid,p_odd numeric) returns text language plpgsql as $$begin insert into special_picks(user_id,league_id,source,match_ids,key) values(p_user,p_league,p_source,array[p_selections->0->>'matchId'],p_selections->0->>'key');return null;end$$;
 insert into fixtures values('m','Alpha','Beta','Test',now()+interval '1 day',false,false,'{"home":2,"draw":3,"score1_0":7}','{"home":"real","draw":"real","score1_0":"real"}');`);
-const base = await readFile('supabase/migrations/supabase-v5-schema.sql', 'utf8');
+const base = await readFile('supabase/migrations/20261110000005_legacy_v05.sql', 'utf8');
 await db.exec(
   base.slice(
     base.indexOf('create or replace function public.system_lines('),
     base.indexOf('create or replace function public.place_bet(')
   )
 );
-await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql', 'utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql', 'utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql', 'utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql', 'utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000040_legacy_v40.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000041_legacy_v41.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000041_legacy_v41.sql', 'utf8'));
+await db.exec(await readFile('supabase/legacy/supabase-v44-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/legacy/supabase-v44-schema.sql', 'utf8'));
 await db.exec(`update fixtures set odds_bookmaker_counts='{"home":9,"draw":10,"score1_0":10}',market_valid_until=jsonb_build_object('score1_0',now()+interval '1 hour');
 insert into daily_challenges values(current_date,jsonb_build_array(jsonb_build_object('matchId','m','odds',jsonb_build_object('home',2,'draw',3))));`);
 const bet = (key, odd) =>

@@ -1,6 +1,6 @@
 # BET-180 : filtres et graphiques de Mes paris
 
-Appliquer `supabase/migrations/supabase-v46-schema.sql` avant de publier le nouveau module `personal-dashboard.js`. Cette migration remplace seulement la fonction privée de lecture `my_bet_dashboard` ; elle ne modifie aucun pari, solde ou règlement. Elle est réexécutable et indépendante de V44, après V45.
+Appliquer `supabase/migrations/20261110000046_legacy_v46.sql` avant de publier le nouveau module `personal-dashboard.js`. Cette migration remplace seulement la fonction privée de lecture `my_bet_dashboard` ; elle ne modifie aucun pari, solde ou règlement. Elle est réexécutable et indépendante de V44, après V45.
 
 Période, statut et recherche sélectionnent un ensemble commun de tickets, par date de prise. Liste paginée, montants, réussite, répartition et graphiques utilisent cet ensemble. Les agrégats portent sur toutes les pages. Les résultats sont regroupés par date de règlement de ces tickets. L’historique global du profil (`history`) est conservé, indépendant de ces filtres.
 

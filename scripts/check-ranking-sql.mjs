@@ -14,7 +14,7 @@ const a = '00000000-0000-0000-0000-000000000001',
   c = '00000000-0000-0000-0000-000000000003';
 try {
   await db.exec(await read('tests/fixtures/ranking-schema.sql'));
-  const v9 = await read('supabase/migrations/supabase-v9-schema.sql'),
+  const v9 = await read('supabase/migrations/20261110000009_legacy_v09.sql'),
     start = v9.indexOf('create or replace function public.special_try_pick('),
     end = v9.indexOf('end $$;', start) + 7;
   await db.exec(v9.slice(start, end));
@@ -28,7 +28,7 @@ try {
   await q(`insert into daily_picks(user_id,day,match_id,odd) values ($1,current_date,'legacy',8)`, [
     a
   ]);
-  const migration = await read('supabase/migrations/supabase-v30-schema.sql');
+  const migration = await read('supabase/migrations/20261110000030_legacy_v30.sql');
   await db.exec(migration);
   assert.equal((await q('select scoring_version from bets'))[0].scoring_version, 1);
   await q(`insert into bets(id,user_id,stake,odds,scoring_version) values ($1,$1,10,8,1)`, [b]);
@@ -200,7 +200,7 @@ try {
     balances = () => q('select * from player_accounts order by user_id');
   const beforeFinancial = await financial(),
     beforeBalances = await balances();
-  const uniformMigration = await read('supabase/migrations/supabase-v31-schema.sql');
+  const uniformMigration = await read('supabase/migrations/20261110000031_legacy_v31.sql');
   await db.exec(uniformMigration);
   assert.deepEqual(await financial(), beforeFinancial);
   assert.deepEqual(await balances(), beforeBalances);
@@ -322,7 +322,7 @@ try {
   await q('update standings set confirmed=false where user_id=$1', [b]);
   const moneyBefore57 = await financial(),
     accountsBefore57 = await balances();
-  const v57 = await read('supabase/migrations/supabase-v57-schema.sql');
+  const v57 = await read('supabase/migrations/20261110000057_legacy_v57.sql');
   await db.exec(v57);
   assert.deepEqual(await financial(), moneyBefore57);
   assert.deepEqual(await balances(), accountsBefore57);

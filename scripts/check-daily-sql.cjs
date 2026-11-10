@@ -1,3 +1,4 @@
+const { migrationFile } = require('./migration-file.cjs');
 // Recette isolée : aucune connexion à la base de production.
 const { PGlite } = require('@electric-sql/pglite'),
   fs = require('node:fs'),
@@ -7,7 +8,7 @@ const { PGlite } = require('@electric-sql/pglite'),
   await db.exec(
     `create role anon;create role authenticated;create role service_role;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;create table public.fixtures(id text primary key,kickoff timestamptz,completed boolean default false,voided boolean default false);create table public.league_entries(id bigint generated always as identity primary key,bet_id bigint,user_id uuid,league text,points numeric,week_start date,season text,settled_at timestamptz);`
   );
-  await db.exec(fs.readFileSync('supabase/migrations/supabase-v7-schema.sql', 'utf8'));
+  await db.exec(fs.readFileSync('supabase/migrations/20261110000007_legacy_v07.sql', 'utf8'));
   await db.exec('alter table public.daily_picks add column scoring_version smallint default 2');
   const definitions = process.env.BET_DAILY_FUNCTIONS
     ? JSON.parse(fs.readFileSync(process.env.BET_DAILY_FUNCTIONS, 'utf8'))
@@ -16,7 +17,7 @@ const { PGlite } = require('@electric-sql/pglite'),
         ['league_score', '31'],
         ['settle_daily_pick', '30']
       ].map(([name, version]) => {
-        const sql = fs.readFileSync(`supabase/migrations/supabase-v${version}-schema.sql`, 'utf8'),
+        const sql = fs.readFileSync(migrationFile(version), 'utf8'),
           start = sql.indexOf('create or replace function public.' + name + '('),
           end = sql.indexOf('$$;', start) + 3;
         assert.ok(start >= 0 && end > start);

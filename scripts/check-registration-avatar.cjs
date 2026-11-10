@@ -1,9 +1,10 @@
+const { migrationFile } = require('./migration-file.cjs');
 // Recette SQL isolée : aucun accès à la production.
 const { PGlite } = require('@electric-sql/pglite'),
   fs = require('node:fs'),
   assert = require('node:assert/strict');
 const definition = (version, name) => {
-  const sql = fs.readFileSync(`supabase/migrations/supabase-v${version}-schema.sql`, 'utf8'),
+  const sql = fs.readFileSync(migrationFile(version), 'utf8'),
     start = sql.indexOf(`create or replace function public.${name}(`),
     end = sql.indexOf('$$;', start) + 3;
   assert.ok(start >= 0 && end > start);
@@ -28,7 +29,7 @@ const definition = (version, name) => {
   await db.exec(
     `create trigger profiles_check_avatar before insert or update of avatar_config on profiles for each row execute function profiles_check_avatar();`
   );
-  const migration = fs.readFileSync('supabase/migrations/supabase-v42-schema.sql', 'utf8');
+  const migration = fs.readFileSync('supabase/migrations/20261110000042_legacy_v42.sql', 'utf8');
   await db.exec(migration);
   await db.exec(migration);
   await db.exec(

@@ -10,12 +10,12 @@ create function ensure_player_account() returns void language sql as $$insert in
 create table fixtures(id text primary key,home text,away text,league text,kickoff timestamptz,completed boolean default false,voided boolean default false,odds jsonb,odds_source jsonb);
 create table bets(id uuid primary key default gen_random_uuid(),user_id uuid,client_ref uuid,bet_type text,stake numeric,odds numeric,counts_general boolean,system_formula text,system_lines jsonb,selections jsonb);
 insert into fixtures values('m','Alpha','Beta','Test',now()+interval '1 day',false,false,'{"home":2,"homeDnb":2.1,"homeOver15":1.8,"under":1.9}', '{"home":"estimated","homeDnb":"real","homeOver15":"real","under":"estimated"}');`);
-const original = await readFile('supabase/migrations/supabase-v5-schema.sql', 'utf8');
+const original = await readFile('supabase/migrations/20261110000005_legacy_v05.sql', 'utf8');
 const start = original.indexOf('create or replace function public.system_lines('),
   end = original.indexOf('create or replace function public.place_bet(', start);
 await db.exec(original.slice(start, end));
-await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql', 'utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000036_legacy_v36.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000036_legacy_v36.sql', 'utf8'));
 const place = (items, type = 'single', ref = null) =>
   db.query('select place_bet($1::jsonb,10,false,$2,null,$3::uuid) as bet', [
     JSON.stringify(items),

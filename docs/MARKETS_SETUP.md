@@ -2,7 +2,7 @@
 
 ## Activation par étapes
 
-Installer `supabase/migrations/supabase-v36-schema.sql` après V35 et déployer le nouveau code de règlement avant d’activer la collecte supplémentaire. Les paris existants gardent leurs identifiants, libellés et cotes enregistrés. La migration ne réécrit aucune sélection.
+Installer `supabase/migrations/20261110000036_legacy_v36.sql` après V35 et déployer le nouveau code de règlement avant d’activer la collecte supplémentaire. Les paris existants gardent leurs identifiants, libellés et cotes enregistrés. La migration ne réécrit aucune sélection.
 
 La variable Actions `PROPLINE_MARKET_STAGE` vaut **0 par défaut**. Elle sélectionne :
 
@@ -56,4 +56,4 @@ La règle s’applique à toutes les cotes actuelles, et pas seulement aux nouve
 
 Cartes, sélection rapide, comparaisons, combinés, défis du jour et grilles utilisent cette règle. Les nouveaux paris sont également contrôlés côté serveur par V41 ; les anciennes cotes enregistrées ne sont pas réécrites. Les défis publiés conservent leurs prix figés : un ancien défi sans compteurs précis n’est jouable que si son prix correspond au consensus actuel qualifié. Les nouveaux défis enregistrent un compteur pour chacune des trois issues.
 
-Appliquer `supabase/migrations/supabase-v41-schema.sql` après V40, puis synchroniser le calendrier déjà collecté. La migration ajoute les compteurs aux fixtures et les contrôles aux trois RPC de prise de pari, sans nouvelle requête PropLine. Recette : `scripts/check-quote-policy-sql.mjs` avec PGlite, tests 9/10 et tests de lots dans `tests/quote-policy.test.js`.
+Appliquer `supabase/migrations/20261110000041_legacy_v41.sql` après V40, puis synchroniser le calendrier déjà collecté. La migration ajoute les compteurs aux fixtures et les contrôles aux trois RPC de prise de pari, sans nouvelle requête PropLine. Recette : `scripts/check-quote-policy-sql.mjs` avec PGlite, tests 9/10 et tests de lots dans `tests/quote-policy.test.js`.

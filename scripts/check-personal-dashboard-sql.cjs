@@ -9,7 +9,7 @@ const fs = require('node:fs'),
   await db.exec(
     `create schema auth;create role anon;create role authenticated;create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;create table player_accounts(user_id uuid,bankroll numeric,created_at timestamptz);create table bets(id uuid,user_id uuid,placed_at timestamptz,settled_at timestamptz,status text,stake numeric,payout numeric,odds numeric,bet_type text,selections jsonb,system_lines jsonb);`
   );
-  await db.exec(fs.readFileSync('supabase/migrations/supabase-v47-schema.sql', 'utf8'));
+  await db.exec(fs.readFileSync('supabase/migrations/20261110000047_legacy_v47.sql', 'utf8'));
   const uid = '00000000-0000-0000-0000-000000000001',
     other = '00000000-0000-0000-0000-000000000002';
   await db.query(`select set_config('test.uid',$1,false)`, [uid]);
