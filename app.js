@@ -214,15 +214,18 @@ async function openJoin(mode='login'){rememberTicket();
   $('#join-config').hidden=accountApi.configured!==false;join.open(mode)
 }
 function renderAccountMenu(){
+  document.querySelectorAll('#account-menu [data-menu]').forEach(button=>{button.hidden=button.dataset.menu==='login'?accountAuthenticated:!['theme','login'].includes(button.dataset.menu)&&!accountAuthenticated});const sync=$('#sync-status');if(sync)sync.hidden=!accountAuthenticated;const menuHead=$('#menu-head');if(menuHead)menuHead.hidden=!accountAuthenticated;
   const icon=$('#account-avatar'),nickname=state.profile.nickname||'Parieur';if(icon)icon.innerHTML=accountAuthenticated?avatarMarkup(state.profile,{userId:accountUserId}):ICONS.user;$('#account-button')?.setAttribute?.('aria-label',accountAuthenticated?`Compte de ${nickname}`:'Ouvrir mon compte');if(accountAuthenticated)$('#account-label').textContent=nickname;
   const head=$('#menu-head');if(!head||!accountAuthenticated)return;const config=avatarConfig(state.profile),xp=state.progress?.xp??0,info=levelInfo(xp);
   head.innerHTML=`${avatarMarkup(state.profile,{userId:accountUserId})}<div><strong>${html(state.profile.nickname||'Parieur')}</strong><small>${state.progress?`Niv. ${info.level} · ${info.title}`:'Niveau en cours de calcul'}</small><span class="menu-division">${divisionBadge(state.league?.echelon??null)}</span><span class="level-bar"><i style="width:${Math.round(info.progress*100)}%"></i></span></div>`
 }
 const accountMenu=()=>$('#account-menu');
-function toggleAccountMenu(force){const menu=accountMenu();if(!menu)return;const open=force??menu.hidden;if(open&&!accountAuthenticated){openJoin('login');return}menu.hidden=!open;if(open){renderAccountMenu();menu.querySelector('button:not([hidden])')?.focus()}$('#account-button')?.setAttribute('aria-expanded',String(open))}
+function toggleAccountMenu(force){const menu=accountMenu();if(!menu)return;const open=force??menu.hidden;menu.hidden=!open;if(open){renderAccountMenu();menu.querySelector('button:not([hidden])')?.focus()}$('#account-button')?.setAttribute('aria-expanded',String(open))}
 function menuAction(action){
   toggleAccountMenu(false);
-  if(action==='profile'){setActiveTab('profile',true,{self:true})}
+  if(action==='theme'){$('#theme-dialog').showModal()}
+  else if(action==='login'){openJoin('login')}
+  else if(action==='profile'){setActiveTab('profile',true,{self:true})}
   else if(action==='shop'){setActiveTab('shop',true)}
   else if(action==='league'){setActiveTab('community',true);setCommunityTab('league');$('#club-league-select').value='group';selectClubLeague();setTimeout(()=>$('#my-league')?.scrollIntoView({behavior:motionBehavior(),block:'start'}),50)}
   else if(action==='avatar'){setActiveTab('profile',true,{self:true,tab:'avatar'})}
