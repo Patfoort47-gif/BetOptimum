@@ -940,7 +940,10 @@ section.club-ranking{padding:clamp(14px,3vw,24px)}
   .match-list{gap:10px}
   .match-card,.match-card.spotlight{padding:8px;gap:7px;border-radius:16px}
   .match-card .match-hero,.match-hero:has(.stadium-placeholder){min-height:0;padding:8px;border-radius:12px;background:#0b1c31}
-  .match-card .match-stadium-photo,.match-card .stadium-placeholder,.match-card .match-favorites,.match-card .team-form,.match-card .match-center-stats{display:none}
+  .match-card .match-favorites,.match-card .team-form,.match-card .match-center-stats{display:none}
+  .match-card .match-stadium-photo,.match-card .stadium-placeholder{display:block}
+  .match-card .match-hero:before{background:linear-gradient(180deg,#06112499,#061124e6)}
+  .match-card .stadium-name{top:5px;left:5px;max-width:calc(100% - 10px);padding:2px 5px;font-size:8px;opacity:.78}
   .match-card .match-head{margin-bottom:4px}.match-card .match-league b{font-size:9px}
   .match-card .match-teams{grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);gap:4px}
   .match-card .match-hero .crest{width:34px;height:34px}
