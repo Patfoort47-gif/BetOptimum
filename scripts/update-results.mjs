@@ -54,7 +54,7 @@ for(const match of data.matches??[]){
   if(!match.completed||!match.suggestedPick?.key||predictions.has(match.id))continue;
   const pick=match.suggestedPick,status=selectionResult({...pick,matchId:match.id},[match]).status;
   if(status==='pending')continue;
-  predictions.set(match.id,{id:match.id,date:match.date,league:match.league,match:`${match.home} – ${match.away}`,label:pick.label,key:pick.key,odd:pick.odd,probability:pick.probability,...predictionProvenance(pick),status,score:`${match.homeScore} : ${match.awayScore}`});
+  predictions.set(match.id,{id:match.id,date:match.date,league:match.league,match:`${match.home} – ${match.away}`,label:pick.label,key:pick.key,odd:pick.odd,probability:pick.probability,...predictionProvenance(pick,match),status,score:`${match.homeScore} : ${match.awayScore}`});
 }
 predictionHistory=[...predictions.values()].sort((a,b)=>b.date.localeCompare(a.date));
 await writeFile(historyFile,`${JSON.stringify(predictionHistory)}\n`);

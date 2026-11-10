@@ -1,5 +1,7 @@
 // Hors production : snapshots strictement antérieurs au coup d'envoi, résultats séparés.
 import{readFile}from'node:fs/promises';import{forecastMatch}from'../prediction-model.js';
+import {evaluateCalibration} from '../prediction-calibration.js';
+if(process.argv[2]==='--archive'){const archive=JSON.parse(await readFile(process.argv[3]||'data/predictions-history.json','utf8'));console.log(JSON.stringify(evaluateCalibration(archive),null,2));process.exit(0)}
 if(!process.argv[2])throw new Error('Usage : node scripts/evaluate-prediction-model.mjs historique.json');
 const source=JSON.parse(await readFile(process.argv[2],'utf8')),rows=source.rows.slice().sort((a,b)=>a.kickoff-b.kickoff);if(rows.length<30)throw new Error('Historique insuffisant');for(const r of rows)if(!(r.captured<r.kickoff)||r.match.completed||!['homeScore','awayScore'].every(k=>Number.isInteger(r[k])&&r[k]>=0))throw new Error('Snapshot non prématch');
 const cut=rows[Math.floor(rows.length*.7)].match.date,valid=rows.filter(r=>r.match.date<cut),test=rows.filter(r=>r.match.date>=cut),variants=[{name:'Poisson',options:{}},{name:'Poisson régularisé 25 %',options:{shrink:.25}},{name:'Poisson régularisé 50 %',options:{shrink:.5}},{name:'Dixon-Coles -0,10',options:{rho:-.1}},{name:'Poisson + marché 50 %',options:{marketWeight:.5}},{name:'Régularisé + Dixon-Coles + marché',options:{shrink:.25,rho:-.1,marketWeight:.5}}];
