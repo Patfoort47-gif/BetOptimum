@@ -138,3 +138,7 @@ Après V61, publier l’interface qui accepte les codes longs et les refus JSON,
 ## V63 · vérification des pseudos (BET-306)
 
 Après V62 et publication du formulaire sans recherche anonyme, appliquer `supabase/migrations/supabase-v63-schema.sql`. Appels de disponibilité réservés aux comptes connectés, vingt par minute ; générateur interne inaccessible par RPC aux rôles anon et authenticated. Déclencheur d’inscription préservé. Recettes et limites : `docs/SECURITY_LOT15.md`.
+
+## Retrait de l’ajout libre (BET-309)
+
+Appliquer `supabase/migrations/supabase-v64-schema.sql` après V63 avant le front BET-309. La RPC historique refuse tout crédit, et ses droits sont révoqués pour tous les clients. Soldes et `capital_events` restent inchangés ; aucune recharge en jetons ni remise à zéro n’est réactivée. Le défi quotidien reste gratuit.
