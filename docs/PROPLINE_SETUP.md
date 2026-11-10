@@ -1,6 +1,6 @@
 # PropLine : source unique des cotes (BET-152)
 
-Le pipeline demande `h2h,totals,both_teams_to_score` en une requête par compétition ayant un match à venir. 1N2 couvre sept jours ; Over exactement 2,5 et BTTS Oui restent limités à 48 heures. Les autres lignes ne sont pas activées par cette migration.
+Le pipeline demande `h2h,totals,both_teams_to_score` en une requête par compétition ayant un match à venir. Tous les marchés de match complet activés couvrent les sept prochains jours, y compris les totaux, BTTS, doubles chances, handicaps et scores exacts (BET-262). Le seuil de dix bookmakers par sélection et l’expiration des marchés étendus restent applicables. La même réponse groupée est utilisée, sans appel supplémentaire.
 
 Le secret Actions `PROPLINE_API_KEY` est envoyé uniquement à `api.prop-line.com` via `X-API-Key`. Aucun secret dans Pages. The Odds API n’est plus appelé par le pipeline ; son ancien cache reste lisible avec ses dates et sa provenance.
 
