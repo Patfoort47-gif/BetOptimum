@@ -1,0 +1,387 @@
+{
+  "migrations": [
+    {
+      "version": "20261110000001",
+      "legacy": "supabase-schema.sql",
+      "file": "20261110000001_legacy_v01.sql",
+      "sha256": "21d82d6676c866d4d7df43488a92b490d78ac02343b0f87d8702bd0b0b931cad"
+    },
+    {
+      "version": "20261110000003",
+      "legacy": "supabase-v3-schema.sql",
+      "file": "20261110000003_legacy_v03.sql",
+      "sha256": "48dd66397a5235eec7cdae0e545c2db997667b399dd791b0e28a789ebd9e11e3"
+    },
+    {
+      "version": "20261110000004",
+      "legacy": "supabase-v4-schema.sql",
+      "file": "20261110000004_legacy_v04.sql",
+      "sha256": "40a4795c42346623b44b2127b4f510760691f168016bb3748f0775de9ad3b294"
+    },
+    {
+      "version": "20261110000005",
+      "legacy": "supabase-v5-schema.sql",
+      "file": "20261110000005_legacy_v05.sql",
+      "sha256": "93dbfcc6654578e421834fa50aa4905942c64ff8083b51415c270430ac795879"
+    },
+    {
+      "version": "20261110000006",
+      "legacy": "supabase-v6-schema.sql",
+      "file": "20261110000006_legacy_v06.sql",
+      "sha256": "605383b6faf478a1d8c9029796816fe32d061a141968364b1670221f4c80677f"
+    },
+    {
+      "version": "20261110000007",
+      "legacy": "supabase-v7-schema.sql",
+      "file": "20261110000007_legacy_v07.sql",
+      "sha256": "3c8e5abfeb8d97007ab7bd3c513bc3bba7f3d02aa0a6f06ec4c71f4896c53c51"
+    },
+    {
+      "version": "20261110000008",
+      "legacy": "supabase-v8-schema.sql",
+      "file": "20261110000008_legacy_v08.sql",
+      "sha256": "0689230deb59504e645008bb8df0e1ca45a8324c20d80921244153fdfc4956a2"
+    },
+    {
+      "version": "20261110000009",
+      "legacy": "supabase-v9-schema.sql",
+      "file": "20261110000009_legacy_v09.sql",
+      "sha256": "4ce9b177a5e9821adbea69e24426a4eb041c5a1ca0a01177cf1b8f06018167d8"
+    },
+    {
+      "version": "20261110000010",
+      "legacy": "supabase-v10-schema.sql",
+      "file": "20261110000010_legacy_v10.sql",
+      "sha256": "6e44afb8a748a7f93509c49455f5b60db448e0b389387e23ab66f3c3410fdebb"
+    },
+    {
+      "version": "20261110000011",
+      "legacy": "supabase-v11-schema.sql",
+      "file": "20261110000011_legacy_v11.sql",
+      "sha256": "2746de21ed133b3a15e0d165d308e032ca59081290606e3cf19bc174d07425d2"
+    },
+    {
+      "version": "20261110000012",
+      "legacy": "supabase-v12-schema.sql",
+      "file": "20261110000012_legacy_v12.sql",
+      "sha256": "0190d4ffb2c87f420ede453ec1766f79792e08e262aee44b02b6b14bf37ea27f"
+    },
+    {
+      "version": "20261110000013",
+      "legacy": "supabase-v13-schema.sql",
+      "file": "20261110000013_legacy_v13.sql",
+      "sha256": "78db8fd705f66df1f86d1eddd45c51be68e743383c051aa4eab676f6bc72a785"
+    },
+    {
+      "version": "20261110000014",
+      "legacy": "supabase-v14-schema.sql",
+      "file": "20261110000014_legacy_v14.sql",
+      "sha256": "7813312d48d047530a6a968c5d2832383b3db515282edd41410b0f7cd86ee695"
+    },
+    {
+      "version": "20261110000015",
+      "legacy": "supabase-v15-schema.sql",
+      "file": "20261110000015_legacy_v15.sql",
+      "sha256": "ecc2e1109702274f875dbe243e6ddf980d7143e1282e58d4d4bfc1b554dd58e4"
+    },
+    {
+      "version": "20261110000016",
+      "legacy": "supabase-v16-schema.sql",
+      "file": "20261110000016_legacy_v16.sql",
+      "sha256": "7a0da42668d87acf97a5028c4bf176e585bc3477e7972d8a28fe4883a86178ec"
+    },
+    {
+      "version": "20261110000017",
+      "legacy": "supabase-v17-schema.sql",
+      "file": "20261110000017_legacy_v17.sql",
+      "sha256": "9385ad9d38213847c8c8a63ef67c77b3f42474123f5214178053b20013391c34"
+    },
+    {
+      "version": "20261110000018",
+      "legacy": "supabase-v18-schema.sql",
+      "file": "20261110000018_legacy_v18.sql",
+      "sha256": "a80a03bfab722775642df065136824845de015338553300c7223b6d2e030e1d9"
+    },
+    {
+      "version": "20261110000019",
+      "legacy": "supabase-v19-schema.sql",
+      "file": "20261110000019_legacy_v19.sql",
+      "sha256": "8b821db9c940580a65e5c4a74a2e02ef97b3ba90e0669a9fb2aa8d799c896745"
+    },
+    {
+      "version": "20261110000020",
+      "legacy": "supabase-v20-schema.sql",
+      "file": "20261110000020_legacy_v20.sql",
+      "sha256": "25dfd380db09526dd7b78ab08bdd2597f6a0595977bd265707c54e86ed1f15a9"
+    },
+    {
+      "version": "20261110000021",
+      "legacy": "supabase-v21-schema.sql",
+      "file": "20261110000021_legacy_v21.sql",
+      "sha256": "ec6b696f855c0c9a8563ee72079e090870b0f6dbc4d3c8ec321932f6d2ac44a8"
+    },
+    {
+      "version": "20261110000022",
+      "legacy": "supabase-v22-schema.sql",
+      "file": "20261110000022_legacy_v22.sql",
+      "sha256": "8225cd9a03c434172e31539821a48252da7b8736009bf660b1e4142b40f42856"
+    },
+    {
+      "version": "20261110000023",
+      "legacy": "supabase-v23-schema.sql",
+      "file": "20261110000023_legacy_v23.sql",
+      "sha256": "b72a57890498e9c433cb26b656d65f60dd6a9ef4c8d956eabc80a411f20b1a2e"
+    },
+    {
+      "version": "20261110000024",
+      "legacy": "supabase-v24-schema.sql",
+      "file": "20261110000024_legacy_v24.sql",
+      "sha256": "ce06b73dcd3c5d5d19547e84dd40e226f7847465e97f62a8630fdd0e5e7fb0eb"
+    },
+    {
+      "version": "20261110000025",
+      "legacy": "supabase-v25-schema.sql",
+      "file": "20261110000025_legacy_v25.sql",
+      "sha256": "9625eb27e42823b64fc56ca7381c682c9c439a0a5af7f7a4ec978de80c6944f9"
+    },
+    {
+      "version": "20261110000026",
+      "legacy": "supabase-v26-schema.sql",
+      "file": "20261110000026_legacy_v26.sql",
+      "sha256": "0a16c40df4521fd7a615ed45c40f55885d44ace1c8d597cf0cff3eaa6a8d1e11"
+    },
+    {
+      "version": "20261110000027",
+      "legacy": "supabase-v27-schema.sql",
+      "file": "20261110000027_legacy_v27.sql",
+      "sha256": "0db984c6cff56b834988ceafa597951ba9247132ed7b2d952924199af15b3382"
+    },
+    {
+      "version": "20261110000028",
+      "legacy": "supabase-v28-schema.sql",
+      "file": "20261110000028_legacy_v28.sql",
+      "sha256": "ed707dff128a19c93be46b629721bed7b55d21e0dc98b2bc18857bc241e87b2f"
+    },
+    {
+      "version": "20261110000029",
+      "legacy": "supabase-v29-schema.sql",
+      "file": "20261110000029_legacy_v29.sql",
+      "sha256": "38379978835c77a40be1f32b8506ed9408e286f8d58f91a410e6d8f755447f01"
+    },
+    {
+      "version": "20261110000030",
+      "legacy": "supabase-v30-schema.sql",
+      "file": "20261110000030_legacy_v30.sql",
+      "sha256": "feed7fd344c9eb533fce84e7141a969a697ebd776126415c9b1d330de1de13f1"
+    },
+    {
+      "version": "20261110000031",
+      "legacy": "supabase-v31-schema.sql",
+      "file": "20261110000031_legacy_v31.sql",
+      "sha256": "c4ce68233253686635524e39c260262454b0fe91a53d1baa116d04061624102e"
+    },
+    {
+      "version": "20261110000032",
+      "legacy": "supabase-v32-schema.sql",
+      "file": "20261110000032_legacy_v32.sql",
+      "sha256": "680a3eb55d1919c2b789f5af3962e637bfffb12fcd568389cfb9b472cbed1ad9"
+    },
+    {
+      "version": "20261110000033",
+      "legacy": "supabase-v33-schema.sql",
+      "file": "20261110000033_legacy_v33.sql",
+      "sha256": "94e94464f09061e8d7c3593339c275bc08cc0175bf3c4a59e36841f725f93c59"
+    },
+    {
+      "version": "20261110000034",
+      "legacy": "supabase-v34-schema.sql",
+      "file": "20261110000034_legacy_v34.sql",
+      "sha256": "86392f02e8a48e1c97f44ce2615a3f13da7445f8ab63b2f5d12f9cbc36dbc831"
+    },
+    {
+      "version": "20261110000035",
+      "legacy": "supabase-v35-schema.sql",
+      "file": "20261110000035_legacy_v35.sql",
+      "sha256": "3a2ef5e192f3a23d12c9c0832c72b51f2de01a0c8ac959fc1750e3e40d7d16ab"
+    },
+    {
+      "version": "20261110000036",
+      "legacy": "supabase-v36-schema.sql",
+      "file": "20261110000036_legacy_v36.sql",
+      "sha256": "b55eda14054a9e93de8f1160d9ee3f9d7ced36d559808d2d45f2704d1f9baecf"
+    },
+    {
+      "version": "20261110000037",
+      "legacy": "supabase-v37-schema.sql",
+      "file": "20261110000037_legacy_v37.sql",
+      "sha256": "6fe6ce17a0b7233456ebe85805002157e84c9d1850d3121ed4b85b7b6d9f744e"
+    },
+    {
+      "version": "20261110000038",
+      "legacy": "supabase-v38-schema.sql",
+      "file": "20261110000038_legacy_v38.sql",
+      "sha256": "ab0065719716eb21064b28af4ae93840e10518ff8d60cbd6fba6b5cbc0fb22a5"
+    },
+    {
+      "version": "20261110000039",
+      "legacy": "supabase-v39-schema.sql",
+      "file": "20261110000039_legacy_v39.sql",
+      "sha256": "5534ff98ba237abb9945b28758009d96323fcf410b958bc8c54eedc0cd1603ba"
+    },
+    {
+      "version": "20261110000040",
+      "legacy": "supabase-v40-schema.sql",
+      "file": "20261110000040_legacy_v40.sql",
+      "sha256": "fb6b24cf11c919c762e3cab1f6d2b75471c28d054f6d40a2ec43f18c3ee279be"
+    },
+    {
+      "version": "20261110000041",
+      "legacy": "supabase-v41-schema.sql",
+      "file": "20261110000041_legacy_v41.sql",
+      "sha256": "1f3daef0e8343b753749d9df17a305a9d72f680952e82f05f3baa4b1744fd533"
+    },
+    {
+      "version": "20261110000042",
+      "legacy": "supabase-v42-schema.sql",
+      "file": "20261110000042_legacy_v42.sql",
+      "sha256": "2724bec5100a37a7133eef874f7ee70129650d1785134d19e9070c2396ab1ef1"
+    },
+    {
+      "version": "20261110000043",
+      "legacy": "supabase-v43-schema.sql",
+      "file": "20261110000043_legacy_v43.sql",
+      "sha256": "590d9a91485667a4e5b31b6b233cdf99d6cd55f3afd48bc5f8d6c1f8ec3d27ff"
+    },
+    {
+      "version": "20261110000045",
+      "legacy": "supabase-v45-schema.sql",
+      "file": "20261110000045_legacy_v45.sql",
+      "sha256": "0b56155cc84abdb786f89ee877edbbdb1a681e1c01eb5c7c0f5cf18acdead412"
+    },
+    {
+      "version": "20261110000046",
+      "legacy": "supabase-v46-schema.sql",
+      "file": "20261110000046_legacy_v46.sql",
+      "sha256": "235a8bc9ef4a6adc53d339a1a937cf732559c70a09ad211e682de223c0923794"
+    },
+    {
+      "version": "20261110000047",
+      "legacy": "supabase-v47-schema.sql",
+      "file": "20261110000047_legacy_v47.sql",
+      "sha256": "89f6762fe61af59c035465397e4578548ed0fbf6ecb16a396acb510f296bab40"
+    },
+    {
+      "version": "20261110000048",
+      "legacy": "supabase-v48-schema.sql",
+      "file": "20261110000048_legacy_v48.sql",
+      "sha256": "2a816f7603c2b57874154318c093dfb819066454b38dd2c7fc8d51f9a74e4158"
+    },
+    {
+      "version": "20261110000049",
+      "legacy": "supabase-v49-schema.sql",
+      "file": "20261110000049_legacy_v49.sql",
+      "sha256": "910ddd78fdf33433925761c4730afb82cad3a8efe1c0ebc5057a09ce2de1f26e"
+    },
+    {
+      "version": "20261110000050",
+      "legacy": "supabase-v50-schema.sql",
+      "file": "20261110000050_legacy_v50.sql",
+      "sha256": "6489a8c545585a6d04ccfbdf7ac846540b77308f586e555061c954a2ddabc775"
+    },
+    {
+      "version": "20261110000051",
+      "legacy": "supabase-v51-schema.sql",
+      "file": "20261110000051_legacy_v51.sql",
+      "sha256": "dc346cfb778a0502acbb329b4f5604ae975217f3b469ddfa3d6127462e0f96c0"
+    },
+    {
+      "version": "20261110000052",
+      "legacy": "supabase-v52-schema.sql",
+      "file": "20261110000052_legacy_v52.sql",
+      "sha256": "5125f585b4bbca760ddb4ade452d521d75a93c3a93d124b8471eb95e7e6b0658"
+    },
+    {
+      "version": "20261110000053",
+      "legacy": "supabase-v53-schema.sql",
+      "file": "20261110000053_legacy_v53.sql",
+      "sha256": "6c936d08d3bc06ebcf864f17715ea6319c5acbf7a420ea1a6d69625e9f95ffcb"
+    },
+    {
+      "version": "20261110000054",
+      "legacy": "supabase-v54-schema.sql",
+      "file": "20261110000054_legacy_v54.sql",
+      "sha256": "cf874cd26d5c99dd306d5cb380345a36449328c754ab67e58257bd09c4dd0b6f"
+    },
+    {
+      "version": "20261110000055",
+      "legacy": "supabase-v55-schema.sql",
+      "file": "20261110000055_legacy_v55.sql",
+      "sha256": "702490f30dad6d748aaf84ea8fbab1683666423f50d62691b899572b016b38f3"
+    },
+    {
+      "version": "20261110000056",
+      "legacy": "supabase-v56-schema.sql",
+      "file": "20261110000056_legacy_v56.sql",
+      "sha256": "47abe73db061f2d470565f31339e88f948dea2d8fd088ac70e33c0fa05a33c03"
+    },
+    {
+      "version": "20261110000057",
+      "legacy": "supabase-v57-schema.sql",
+      "file": "20261110000057_legacy_v57.sql",
+      "sha256": "a97d52c6894764e3427815efdb9ecc7415d36f0204bf7a8970f78fd148ff00d5"
+    },
+    {
+      "version": "20261110000058",
+      "legacy": "supabase-v58-schema.sql",
+      "file": "20261110000058_legacy_v58.sql",
+      "sha256": "0f5381f4837741b804bff6ffc1320057363f288290be389842290d980da34ef4"
+    },
+    {
+      "version": "20261110000059",
+      "legacy": "supabase-v59-schema.sql",
+      "file": "20261110000059_legacy_v59.sql",
+      "sha256": "f9aa8afb8ccc1cce524901434416abbbfa82a4d19a1435f169c762968363ff46"
+    },
+    {
+      "version": "20261110000100",
+      "legacy": "supabase-v60-schema.sql",
+      "file": "20261110000100_legacy_v60.sql",
+      "sha256": "59dafcfd07269b2fab47a918ddc6e072f4e42960448d7d0cadf4222e040cd67c"
+    },
+    {
+      "version": "20261110000101",
+      "legacy": "supabase-v61-schema.sql",
+      "file": "20261110000101_legacy_v61.sql",
+      "sha256": "aed83a14476fec42d727646b4c7275b6d12ec0bcc9a1cebe509690e97c03de9e"
+    },
+    {
+      "version": "20261110000102",
+      "legacy": "supabase-v62-schema.sql",
+      "file": "20261110000102_legacy_v62.sql",
+      "sha256": "71fcb409d264b557e8373ded1a54ccca677bc9e59c6e8aaf1fbe2e37ff094427"
+    },
+    {
+      "version": "20261110000103",
+      "legacy": "supabase-v63-schema.sql",
+      "file": "20261110000103_legacy_v63.sql",
+      "sha256": "b2cdfd149ed2d3dc2c3eb91d6ac449bb58fc1de72f87b3e40ad96b4c359c3ea5"
+    },
+    {
+      "version": "20261110000104",
+      "legacy": "supabase-v64-schema.sql",
+      "file": "20261110000104_legacy_v64.sql",
+      "sha256": "31d4f2ae7260a823a23b1870345367bb28c73c6ad12c603b7fa3fb7bb57bce70"
+    },
+    {
+      "version": "20261110000105",
+      "legacy": "supabase-v65-schema.sql",
+      "file": "20261110000105_legacy_v65.sql",
+      "sha256": "14ac55646ffae56d6c3f5c45c5305cdd7fae27ce4bee52628a0568467704f32b"
+    }
+  ],
+  "excluded": [
+    "supabase-v44-schema.sql",
+    "supabase-activation-club.sql",
+    "supabase-v5-recette.sql"
+  ]
+}

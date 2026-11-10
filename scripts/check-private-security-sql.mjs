@@ -23,7 +23,7 @@ await db.query(
   "insert into private_leagues(name,emblem,owner_id,code) values('Ancienne','ball',$1,'BM-AB2C')",
   [users[0]]
 );
-const sql = await readFile('supabase/migrations/supabase-v62-schema.sql', 'utf8');
+const sql = await readFile('supabase/migrations/20261110000102_legacy_v62.sql', 'utf8');
 await db.exec(sql);
 await db.exec(sql);
 const codes = (

@@ -6,7 +6,7 @@ await db.exec(`create role anon;create role authenticated;create schema auth;cre
 create table player_accounts(user_id uuid,bankroll numeric,initial numeric,created_at timestamptz);
 create table bets(id uuid,user_id uuid,placed_at timestamptz,settled_at timestamptz,stake numeric,odds numeric,status text,payout numeric,bet_type text,selections jsonb,system_lines jsonb);
 create table capital_events(user_id uuid,amount numeric,created_at timestamptz);`);
-await db.exec(await readFile('supabase/migrations/supabase-v37-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/20261110000037_legacy_v37.sql', 'utf8'));
 const uid = '00000000-0000-0000-0000-000000000001',
   other = '00000000-0000-0000-0000-000000000002';
 await db.exec(`set test.uid='${uid}';insert into player_accounts values('${uid}',1015,1000,now()-interval '3 days');insert into player_accounts values('${other}',99999,99999,now());

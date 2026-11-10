@@ -1,148 +1,47 @@
-# Activer les comptes BetOptimum
+# Supabase : installation et migrations
 
-La synchronisation utilise l'offre gratuite de Supabase. Les données de chaque compte sont isolées par les règles RLS de la base.
+Le site statique utilise le projet Supabase BetMaster pour les comptes, les paris certifiés et les notifications. Les clés de service restent dans les secrets des workflows et des fonctions Edge, jamais dans le navigateur.
 
-1. Créez un projet sur [supabase.com](https://supabase.com/), puis ouvrez **SQL Editor** et exécutez le contenu de `supabase/migrations/supabase-schema.sql`.
-   Pour activer les profils, avatars et classements de la V3, exécutez ensuite `supabase/migrations/supabase-v3-schema.sql` dans le même éditeur. Le script est réexécutable : relancez-le après une mise à jour de ces fonctions.
-   Exécutez enfin `supabase/migrations/supabase-v4-schema.sql` (annuaire des joueurs) : il crée un profil public pour chaque compte, à l'inscription et pour les comptes existants, et rend le pseudo unique sans tenir compte de la casse. Ensuite `supabase/migrations/supabase-v5-schema.sql` (tickets certifiés) : paris, bankroll et statistiques passent côté serveur. Ordre à respecter : `supabase/migrations/supabase-schema.sql` (v1), `supabase/migrations/supabase-v3-schema.sql`, `supabase/migrations/supabase-v4-schema.sql`, `supabase/migrations/supabase-v5-schema.sql`, `supabase/migrations/supabase-v6-schema.sql` (points de ligue et quota hebdomadaire), `supabase/migrations/supabase-v7-schema.sql` (défi du jour), `supabase/migrations/supabase-v8-schema.sql` (ligue générale : saisons, groupes, classements), `supabase/migrations/supabase-v9-schema.sql` (ligues spéciales : compétitions et clubs), `supabase/migrations/supabase-v10-schema.sql` (XP, niveaux, trophées, défis hebdomadaires), `supabase/migrations/supabase-v11-schema.sql` (jetons et récompenses de saison), `supabase/migrations/supabase-v12-schema.sql` (club de cœur sur le profil), `supabase/migrations/supabase-v13-schema.sql` (page profil : confidentialité, pseudo mensuel, export et suppression du compte), `supabase/migrations/supabase-v14-schema.sql` (ligues privées entre amis), `supabase/migrations/supabase-v15-schema.sql` (hub communauté : suivis, fil d'activité, classements généraux, hall of fame), `supabase/migrations/supabase-v16-schema.sql` (boutique, bouclier de série, recharge de bankroll, duels, ligues premium payées en jetons). Les jetons n'ont aucune valeur : ils ne s'achètent pas, ne s'échangent pas et ne se convertissent pas. Les identifiants ESPN des 12 clubs de lancement sont dans ce script : à vérifier sur la première journée jouée. Jouez ensuite la recette de sécurité `supabase/migrations/supabase-v5-recette.sql`.
-   Contrôle après exécution (doit renvoyer 0) : `select count(*) from auth.users u left join public.profiles p on p.user_id = u.id where p.user_id is null;`
-2. Dans **Authentication > URL Configuration**, renseignez (la page « Rejoindre le club » renvoie ici après la confirmation d'email, la connexion Google et la réinitialisation du mot de passe) :
-   - Site URL : `https://patfoort47-gif.github.io/prono_patfoort/`
-   - Redirect URL : `https://patfoort47-gif.github.io/prono_patfoort/`
-3. Dans le dépôt GitHub, ouvrez **Settings > Secrets and variables > Actions > Variables**, puis ajoutez :
-   - `SUPABASE_URL` : l'URL du projet Supabase ;
-   - `SUPABASE_ANON_KEY` : la clé publique `anon` / `publishable` du projet.
-   Le déploiement accepte également ces valeurs dans **Secrets**. Si Supabase affiche une clé au nouveau format, vous pouvez la nommer `SUPABASE_PUBLISHABLE_KEY`.
-4. Relancez le workflow **Deploy GitHub Pages** ou poussez un commit sur `main`.
+## Base locale ou vierge
 
-Avatar 3D (BET-49) : exécutez `supabase/migrations/supabase-v17-schema.sql` après `supabase/migrations/supabase-v16-schema.sql`. Il valide la configuration de l'avatar, vérifie que chaque objet porté est possédé, offre aux anciens joueurs les lunettes et la casquette qu'ils portaient, et crée le seau public **avatars** dans Storage (Storage > Buckets doit le lister : public, 1,5 Mo au plus, WebP, JPEG ou PNG). Aucune clé supplémentaire : le navigateur envoie les images avec la session du joueur, chacun n'écrit que dans son dossier (`{user_id}/bust` et `{user_id}/full`). Contrôle : `select id, public from storage.buckets where id = 'avatars';` doit renvoyer une ligne.
+Installer la [CLI Supabase](https://supabase.com/docs/guides/cli/getting-started) et Docker. La recette de référence utilise la CLI 2.58.5 et PostgreSQL 17, même version majeure que la production.
 
-La clé `service_role` n'est jamais utilisée par le site ni écrite dans le dépôt. Elle sert uniquement aux workflows : ajoutez-la comme **Secret** GitHub Actions nommé `SUPABASE_SERVICE_ROLE_KEY` (Settings > Secrets and variables > Actions > Secrets) pour que `scripts/sync-supabase.mjs` envoie les matchs et règle les paris certifiés. Sans ce secret, les paris restent en attente. La clé `anon` est publique ; la confidentialité repose sur les politiques RLS et les fonctions des scripts SQL.
+```sh
+supabase db start
+supabase db reset --local --no-seed
+supabase migration list --local
+node scripts/check-migrations.mjs
+```
 
-Le workflow `close-season.yml` clôture chaque mois la saison de la ligue générale (montées, descentes, nouveaux groupes) avec le même secret `SUPABASE_SERVICE_ROLE_KEY`. Il tourne chaque jour à 00 h 30 (Paris) et ne fait rien tant qu'aucune saison n'est terminée ; il est relançable à la main (Actions > Clôturer la saison de ligue).
+`supabase/config.toml` configure l’environnement local. `supabase/migrations/` contient uniquement les migrations actives, horodatées et exécutées dans l’ordre. `supabase/migrations.json` conserve les correspondances historiques et les empreintes SHA-256. Les migrations déjà publiées sont immuables : toute correction se fait par une nouvelle migration (`supabase migration new description`).
 
-## Connexion Google
+V44 (composites abandonnés), le regroupement d’activation et la recette V5 restent dans `supabase/legacy/` comme archives ; ils ne sont jamais exécutés par un reset ou un push. Ne pas activer de marché abandonné en reconstruisant la base.
 
-La page « Rejoindre le club » propose « Continuer avec Google ». Pour l'activer :
+## Projet existant et déploiement
 
-1. Dans la [console Google Cloud](https://console.cloud.google.com/), créez un projet puis un **ID client OAuth** de type « Application Web ». Ajoutez comme URI de redirection autorisée l'adresse de callback affichée par Supabase dans **Authentication > Providers > Google** (de la forme `https://<projet>.supabase.co/auth/v1/callback`).
-2. Dans Supabase, ouvrez **Authentication > Providers > Google**, activez le fournisseur et collez l'ID client et le secret client.
-3. Dans **Authentication > URL Configuration**, vérifiez que l'adresse GitHub Pages du site figure dans les URL de redirection autorisées (étape 2 ci-dessus).
+La reprise initiale BET-313 enregistre les versions déjà présentes, sans rejouer leur SQL et sans modifier les comptes ni les résultats. Ne jamais faire `db reset --linked` sur la production. Le manifeste et les vérifications de schéma servent de preuve de cette reprise ; ne pas marquer une version comme appliquée si son effet n’a pas été vérifié.
 
-Le secret client Google reste dans Supabase : il n'est jamais écrit dans le dépôt. Sans cette configuration, le bouton Google affiche une erreur et la connexion par email reste disponible. Dans **Authentication > Sign In / Providers**, vérifiez aussi que la confirmation d'email est activée.
+Pour les évolutions suivantes, lier le projet voulu et vérifier l’écart avant application :
 
-### BET-79 · Ligues sans limite
-Après V17, exécuter `supabase/migrations/supabase-v18-schema.sql`. Les ligues de clubs sont fermées et masquées, leurs résultats et adhésions sont conservés pour archive. Les ligues de compétitions et privées n’ont plus de limite par joueur ; les ligues privées gardent leur capacité de 50 membres. Les prix premium et les protections de solde restent en vigueur.
-### BET-77 · Rattrapage de l’historique de ligue
-Après V18, exécuter `supabase/migrations/supabase-v19-schema.sql`. Le pipeline appelle `repair_league_history` après le règlement et avant les classements. Pour une réparation immédiate : `select public.repair_league_history();`, puis relancer la synchronisation habituelle pour recalculer les classements.
-La ligue générale récupère uniquement les paris certifiés marqués `counts_general`, hors systèmes et hors saisons closes. Les ligues de compétitions récupèrent les paris certifiés placés pendant leur saison, même avant l’adhésion, dans l’ordre chronologique et selon les quotas/unicité habituels. Les anciens paris locaux ne sont pas importés comme résultats certifiés. Aucun solde ni gain n’est modifié. Les journées absentes du serveur doivent être synchronisées avant le rattrapage.
-### BET-78 · Saisons de football
-Après V19, exécuter `supabase/migrations/supabase-v20-schema.sql`, puis lancer la synchronisation habituelle. La ligue générale utilise la clé `AAAA-AAAA` (1er juillet au 30 juin, Paris). Les points de l’année sportive courante sont rattachés à cette clé sans duplication, le dernier groupe est repris ; les classements et résultats mensuels passés restent consultables. Les anciennes saisons mensuelles ouvertes sont archivées sans nouvelle montée/descente. Les clôtures suivantes ont lieu après le 30 juin. Les mois des primes de compétitions et les quotas hebdomadaires restent distincts des saisons. Les dates propres aux compétitions restent dans `special_leagues.season_start/season_end` et doivent être mises à jour pour chaque édition.
+```sh
+supabase link --project-ref <reference-du-projet>
+supabase migration list --linked
+supabase db push --dry-run
+supabase db push
+```
 
-Le code peut être publié avant V20 : les workflows vérifient la présence de `football_season`, maintiennent les classements mensuels si elle manque et diffèrent la clôture de la ligue générale. Le rattrapage et les saisons annuelles sont activés après V18, V19 puis V20 et la synchronisation suivante. Les erreurs d’accès ou de serveur ne sont pas masquées.
+Le mot de passe de base et le jeton CLI s’injectent par les mécanismes de secrets, jamais dans Git ni dans les commandes copiées dans une issue. Vérifier les sauvegardes et lire la nouvelle migration avant tout push. Aucun déploiement du site ne lance automatiquement ces commandes.
 
-### BET-92 · Échec à l’adhésion d’une ligue de championnat
+## Services à configurer
 
-Exécuter `supabase/migrations/supabase-v21-schema.sql` dans le SQL Editor du projet Supabase du site (V16 au minimum doit déjà être présente). Le script est autonome par rapport aux migrations V18 à V20, qui restent nécessaires pour leurs autres fonctionnalités. Il remplace la RPC d’adhésion : suppression de l’ancienne limite de trois ligues, droits explicites, protection des doubles inscriptions et des doubles débits premium, et indépendance de la création du compte de bankroll. Les inscriptions et les soldes existants sont conservés. La notification finale recharge le cache des fonctions de l’API.
+- Auth : URL du site et redirections sur `https://patfoort47-gif.github.io/BetOptimum/`, confirmation email active. [Connexion Google](docs/GOOGLE_SIGN_IN.md).
+- GitHub Actions : `SUPABASE_URL` et clé publique `SUPABASE_ANON_KEY` ou `SUPABASE_PUBLISHABLE_KEY` ; clé `SUPABASE_SERVICE_ROLE_KEY` uniquement en secret serveur.
+- Notifications : [configuration](NOTIFICATIONS_SETUP.md), [PWA et consentements](docs/PWA_PUSH.md). Les secrets Edge/Vault et le cron ne font pas partie de la reconstruction des données applicatives.
+- Apparence : avatar, cadre et badges uniquement ; [retrait de l’économie](docs/PROFILE_CLEANUP.md).
+- [Décision produit](docs/PRODUCT_FOCUS.md) : aucune recharge libre ni réactivation des jetons.
 
-Pour identifier la cause d’un refus avant la correction, relever le code de la réponse `join_special_league` dans l’onglet Réseau du navigateur : `LIGUES_MAX` indique l’ancienne limite, `PGRST202`/`42883` une fonction absente, `42501` des droits manquants. Un manque de jetons ou une ligue fermée reste un refus normal. Le site distingue ces situations d’une coupure réseau et vérifie si l’adhésion a été enregistrée avant de signaler un échec.
+## Recettes isolées
 
-Vérification après application : rejoindre une quatrième ligue ouverte puis recharger le site ; elle doit figurer dans Mes ligues. Réessayer sur une ligue déjà rejointe ne doit créer ni doublon ni nouveau débit. Sans accès SQL administrateur, publier le code ne suffit pas à remplacer la fonction de la base.
+`npm test`, `node scripts/check-migrations.mjs`, puis les scripts `scripts/check-*-sql.*` selon la fonction modifiée. Les recettes PGlite demandent `PGLITE_MODULE` ou `NODE_PATH` vers l’outil de test ; elles n’accèdent pas à la production. Le reset CLI est la preuve complémentaire de reconstruction sur PostgreSQL réel.
 
-Diagnostic confirmé pour BET-92 : la réponse reçue est `{"code":"P0001","details":null,"hint":null,"message":"LIGUES_MAX"}`. Le serveur exécute donc encore la fonction avec sa limite historique. Son comptage inclut toutes les lignes de `league_members`, y compris les anciennes ligues de clubs que l’interface masque. La recette PostgreSQL reproduit un refus avec une seule ligue de championnat visible et deux adhésions de clubs masquées ; V21 supprime le refus sans supprimer ces archives. Le HTTP 400 est un refus de cette règle métier, pas une indisponibilité réseau.
-
-## Nouveaux objets de personnalisation (BET-82 à BET-85)
-
-Exécuter `supabase/migrations/supabase-v22-schema.sql` après V17. Cette migration étend la validation stricte sans modifier les inventaires, les soldes ou les avatars existants, et ajoute les nouveaux objets au catalogue serveur. Trois maillots à motifs, deux trophées génériques, deux ambiances et deux stades (intérieur et extérieur), ainsi que trois célébrations sont disponibles. Les aperçus et le rendu équipé partagent les mêmes textures et identifiants. Les règles d’achat et de possession continuent à être vérifiées par les RPC du Club. Le pipeline conserve la synchronisation du catalogue et des prix.
-
-## Alertes multicanales (BET-69)
-
-La migration `supabase/migrations/supabase-v23-schema.sql` et la fonction Edge ne sont pas déployées par GitHub Pages. Suivre [NOTIFICATIONS_SETUP.md](NOTIFICATIONS_SETUP.md) pour la configuration, les canaux, le consentement, les quotas et la rotation des secrets. Sans cette configuration, le site affiche une indisponibilité explicite et aucun envoi ne se produit.
-
-
-## Activation groupée des tickets encore en attente
-
-Pour BET-77, BET-78, BET-79, BET-82 à BET-85 et BET-92, le fichier [supabase/migrations/supabase-activation-club.sql](supabase/migrations/supabase-activation-club.sql) regroupe V18 à V22 et lance la reprise des paris certifiés éligibles dans une seule transaction. Il fonctionne après V17, y compris si V23 des alertes est déjà appliquée. Il peut être réexécuté : les points ne sont pas doublés, les mises et soldes ne sont pas modifiés, les archives et les destinations de notifications sont conservées. Si une étape échoue, toute la transaction est annulée.
-
-1. Dans le SQL Editor du projet Supabase du site, copier tout le fichier et cliquer sur Run. Aucun redéploiement de la fonction notifications n’est requis pour ce script.
-2. Dans GitHub > Settings > Secrets and variables > Actions, vérifier `SUPABASE_URL` et ajouter `SUPABASE_SERVICE_ROLE_KEY`. Il s’agit de la clé serveur du même projet Supabase, à conserver dans le secret GitHub, pas dans le code. Les secrets configurés pour la fonction Edge ne sont pas transmis automatiquement à GitHub.
-3. Dans GitHub > Actions > **Vérifier et synchroniser le Club**, cliquer sur Run workflow, branche `main`. Les contrôles vérifient la saison annuelle, les ligues de clubs fermées et l’acceptation des nouveaux objets avant de lancer la synchronisation existante : matchs, résultats, journées, catalogue, rattachements historiques et classements. Aucun appel au fournisseur de cotes n’est ajouté.
-4. Vérifier sur le site : adhésion à une ligue de championnat, points historiques et dates de saison dans Ma ligue, nouveaux objets dans Boutique. Les refus réels restent protégés par les RPC (solde, ligue fermée, possession).
-
-Le fichier groupé est généré depuis les migrations sources avec `node scripts/prepare-club-activation.mjs` ; après une modification d’une de ces migrations, régénérer le fichier. Ne pas y ajouter V23 : elle est configurée séparément et peut déjà être en service.
-
-BET-65 nécessite séparément un quota The Odds API disponible ; une migration Supabase ne résout pas `OUT_OF_USAGE_CREDITS`. BET-69 nécessite une livraison de test confirmée dans le canal choisi pour terminer sa validation.
-
-Pour les tests d’alertes annulés après sauvegarde des préférences, appliquer `supabase/migrations/supabase-v24-schema.sql` après V23 (voir `NOTIFICATIONS_SETUP.md`). Aucun secret à changer ni envoi automatique.
-
-Newsletter facultative : appliquer `supabase/migrations/supabase-v25-schema.sql` après V23 et avant publication du formulaire (voir `NEWSLETTER_SETUP.md`). L’enregistrement des inscriptions ne nécessite aucun secret ni redéploiement Edge. Les campagnes restent à définir.
-
-## Briefings email (BET-98)
-
-Après V24, appliquer `supabase/migrations/supabase-v26-schema.sql`, puis redéployer la fonction `notifications` et publier le front. V25 reste indépendante. Les deux abonnements sont désactivés par défaut. Ne pas réappliquer V24 après V26. Voir `NOTIFICATIONS_SETUP.md` pour la recette email et les calculs.
-
-## Participation automatique (BET-128)
-
-Appliquer `supabase/migrations/supabase-v29-schema.sql` après V28 et avant de publier le nouveau Club. La migration ajoute les adhésions des comptes existants et installe les déclencheurs pour les nouveaux comptes et les compétitions gratuites ouvertes. Elle conserve les dates d’adhésion existantes, points et historiques sans ajouter de pronostics rétroactifs. Les ligues premium et privées restent inchangées.
-
-### BET-131 / BET-132 · Barème unique et recalcul historique
-Après V29, appliquer V30 puis `supabase/migrations/supabase-v31-schema.sql` avant de publier le moteur JS. V31 applique le plafond de cote 5 et la mise fixe de 10 à tous les pronostics existants, réglés ou en attente. Le recalcul couvre les points des écritures générales, défis et compétitions, les totaux, ROI et rangs courants et archivés. Il ne rejoue aucun gain ni aucune promotion passée : bankrolls, payouts, statuts, dates et récompenses restent conservés. Relancer ensuite la synchronisation habituelle pour actualiser les classements courants. Voir `docs/LEAGUE_SCORING.md` pour la recette isolée et les contrôles.
-
-
-## Journées hebdomadaires du Club (BET-133)
-
-Appliquer `supabase/migrations/supabase-v32-schema.sql` après V31 avant de publier le navigateur et le moteur hebdomadaire. La migration ouvre uniquement la semaine courante, sans rejouer les semaines passées. `close-season.yml` traite les journées terminées après minuit à Paris : attribution et groupes sont enregistrés dans une transaction, une seule fois par semaine. Les statistiques de division couvrent les résultats réglés du lundi au dimanche ; le cumul de saison et les primes annuelles restent annuels. Aucun résultat tardif ne réouvre une semaine clôturée. Les comptes déjà inactifs ne perdent pas un nouvel échelon chaque semaine ; les semaines sans résultat global sont neutralisées.
-
-Contrôle : `league_rounds` contient la semaine courante ; `public_weekly_standings` expose les mêmes agrégats que le moteur ; `league_round_results` conserve les mouvements côté serveur. Tests : `tests/weekly-league.test.js`, `tests/club-table.test.js`.
-
-### Compteurs et listes de suivi (BET-145)
-Appliquer `supabase/migrations/supabase-v35-schema.sql` après V34 avant publication. La RPC `profile_connections` renvoie les deux compteurs réels et des listes paginées de 25 profils. Un profil privé est consultable uniquement par son propriétaire ; les personnes privées sont masquées des listes (les compteurs conservent le total réel). Les politiques RLS de `follows` restent inchangées.
-
-Marchés prioritaires BET-153 : appliquer V36 après V35, puis suivre [les étapes d’activation](docs/MARKETS_SETUP.md). Ne pas activer de nouveaux marchés avant migration et validation fournisseur.
-
-### Célébrations et carte joueur (BET-163)
-Appliquer `supabase/migrations/supabase-v39-schema.sql` après V38 (réexécutable). Elle élargit la vue `public_equipped` aux objets de la carte joueur (`card-bg`, `card-font`, `card-shine`) par la fonction `equipped_slot_public` ; les effets de victoire et les sons restent privés (`equipped_items`, lecture par le propriétaire). Aucune table ni colonne nouvelle. Tant que V37 n’est pas appliquée, `scripts/shop-engine.mjs` n’envoie pas ces nouveaux objets dans `shop_items`.
-
-### Marchés du premier lot BET-170
-Appliquer `supabase/migrations/supabase-v40-schema.sql` après V39 avant l’activation de l’étape 3. Le contrôle de déploiement vérifie le schéma avant collecte ; les nouvelles offres ont une expiration contrôlée par la RPC. La migration ne réécrit aucun pari. [Ordre de publication et recette](docs/MARKETS_PRODUCTION.md).
-
-### Seuil de dix bookmakers (BET-170)
-Appliquer `supabase/migrations/supabase-v41-schema.sql` après V40 puis synchroniser le calendrier courant pour remplir `fixtures.odds_bookmaker_counts`. Tickets, défi du jour et grilles refusent toute nouvelle sélection sous dix bookmakers. Les prix déjà enregistrés dans les paris restent inchangés. Recette isolée : `scripts/check-quote-policy-sql.mjs`.
-
-### V42 : avatar d'inscription (BET-176)
-
-Appliquer `supabase/migrations/supabase-v42-schema.sql` après V41, avant publication du correctif d'inscription. Le déclencheur de création du profil reprend `avatar2` seulement si sa configuration est valide et entièrement gratuite, avec révision d'image à zéro. Une métadonnée invalide ou contenant un objet verrouillé conserve le repli historique. La confirmation email ne réécrit pas le profil. Les profils existants ne sont pas écrasés ; le navigateur récupère le choix d'inscription lorsque seul un ancien état sans avatar v2 existe, puis le publie normalement. Un profil v2 sauvegardé reste prioritaire sur les métadonnées et sur le stockage de navigation.
-
-Recette isolée : `NODE_PATH=work/ui-tools/node_modules node scripts/check-registration-avatar.cjs`. Aucune requête à la production.
-
-### H1 BET-170 : V45
-
-Après V43, appliquer `supabase/migrations/supabase-v45-schema.sql` avant d’activer H1. V44 composites est abandonnée et volontairement non appliquée ; V45 n’en dépend pas. Colonne `fixtures.period_scores`, neuf labels H1, prix réels, seuil dix et expiration côté RPC. Recette isolée : `scripts/check-markets-h1-sql.mjs`. [Procédure et retour arrière](docs/MARKETS_H1_PRODUCTION.md).
-
-BET-189 : appliquer `supabase/migrations/supabase-v47-schema.sql` après V46 avant publication du bandeau de bankroll. Cette migration ajoute les mises gagnées/perdues au bilan filtré pour le ROI ; les champs existants et les permissions restent inchangés. Recette isolée : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-personal-dashboard-sql.cjs`. Détails : `docs/BANKROLL_KPIS.md`.
-
-BET-193 : appliquer `supabase/migrations/supabase-v48-schema.sql` après V47 avant publication du chargement progressif. Nouvelle RPC privée `my_bet_history` par lots de cinq et curseur date/UUID/snapshot ; la RPC du profil `my_bet_dashboard` reste inchangée. Recette : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-history-cursor-sql.cjs`. Voir `docs/HISTORY_CURSOR.md`.
-
-BET-207 : appliquer `supabase/migrations/supabase-v53-schema.sql` après V48 avant de publier le filtre Hier (journée précédente exacte en Europe/Paris).
-
-## Coupons partagés (BET-260)
-
-V61 après V60 crée le seau `ticket-previews` : PNG publics de 1,5 Mo maximum, chemins UUID aléatoires sans identifiant de joueur. Seul un utilisateur authentifié peut déposer sous son propriétaire ; aucune mise à jour publique. Déployer la fonction Edge `ticket-preview` avec `--no-verify-jwt` : POST réservé au secret du minuteur, pour purger les images expirées ou orphelines. Installer `supabase/ticket-preview-cleanup.sql` après la fonction ; le secret reste dans Vault, jamais dans cron.job. Le rôle service est seul autorisé à lister les candidats de purge.
-
-La page HTML d’aperçu est hébergée séparément avec Sites : le domaine Supabase standard transforme les réponses HTML en texte brut. Le propriétaire a autorisé explicitement l’accès public au service d’aperçu le 10 novembre 2026. Voir `docs/TICKET_SHARING.md`.
-
-## V62 · invitations privées sécurisées (BET-304)
-
-Après V61, publier l’interface qui accepte les codes longs et les refus JSON, puis appliquer `supabase/migrations/supabase-v62-schema.sql`. Les anciens codes restent valides. Nouveaux codes sur pgcrypto, huit caractères ; dix codes incorrects par compte sur une heure glissante. Guide et recette isolée : `docs/SECURITY_LOT15.md`.
-
-## V63 · vérification des pseudos (BET-306)
-
-Après V62 et publication du formulaire sans recherche anonyme, appliquer `supabase/migrations/supabase-v63-schema.sql`. Appels de disponibilité réservés aux comptes connectés, vingt par minute ; générateur interne inaccessible par RPC aux rôles anon et authenticated. Déclencheur d’inscription préservé. Recettes et limites : `docs/SECURITY_LOT15.md`.
-
-## Retrait de l’ajout libre (BET-309)
-
-Appliquer `supabase/migrations/supabase-v64-schema.sql` après V63 avant le front BET-309. La RPC historique refuse tout crédit, et ses droits sont révoqués pour tous les clients. Soldes et `capital_events` restent inchangés ; aucune recharge en jetons ni remise à zéro n’est réactivée. Le défi quotidien reste gratuit.
-
-## Rappel du défi (BET-310)
-
-Appliquer `supabase/migrations/supabase-v65-schema.sql` après V64. Consentement spécifique inactif par défaut, RPC de réservation et snapshot réservés au service. Déployer ensuite la fonction notifications révision BET-310, vérifier le contrôle sans envoi, puis publier le front. Guide : `docs/PWA_PUSH.md`.
+L’historique détaillé des opérations manuelles est conservé dans [le guide archivé](docs/archive/SUPABASE_SETUP_LEGACY.md). Il explique les anciennes versions, mais ne remplace plus la CLI.

@@ -1,3 +1,4 @@
+import { migrationFile } from './migration-file.cjs';
 // PGLITE_MODULE=/tmp/bet-ui-tools/node_modules/@electric-sql/pglite/dist/index.js node scripts/check-notification-sql.mjs
 import { pathToFileURL } from 'node:url';
 const { PGlite } = await import(pathToFileURL(process.env.PGLITE_MODULE).href);
@@ -9,11 +10,11 @@ await db.exec(
   `create role anon;create role authenticated;create role service_role;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql as $$select '${uid}'::uuid$$;create table public.player_accounts(user_id uuid,bankroll numeric);create table public.bets(id uuid,user_id uuid,status text,bet_type text,stake numeric,odds numeric,selections jsonb);create table public.user_states(user_id uuid primary key,state jsonb);insert into auth.users values('${uid}');`
 );
 // V23 possède des extensions d’export sans rapport : prendre les tables et RPC notification.
-let v23 = await readFile('supabase/migrations/supabase-v23-schema.sql', 'utf8');
+let v23 = await readFile('supabase/migrations/20261110000023_legacy_v23.sql', 'utf8');
 v23 = v23.slice(0, v23.indexOf('-- Étend l’export existant')) + 'commit;';
 await db.exec(v23);
 for (const v of [24, 26, 27, 28, 33, 34, 43, 43])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+  await db.exec(await readFile(migrationFile(v), 'utf8'));
 const q = async (sql, args = []) => (await db.query(sql, args)).rows;
 await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'email','demo')`, [
   uid
@@ -174,8 +175,7 @@ assert.equal(
   0
 );
 // BET-242 : push existant conservé, rappels distincts et consentement explicite.
-for (const v of [50, 54, 54])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [50, 54, 54]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 assert.equal(
   (await q('select my_web_notifications() s'))[0].s.preferences.favorite_reminders,
   false
@@ -268,8 +268,7 @@ await q('select unsubscribe_notifications()');
 assert.equal((await q('select my_web_notifications() s'))[0].s.associated, false);
 assert.equal(await enqueueWeb({ ...reminder, match_id: 'unsubscribed' }), false);
 // BET-243 : le worker GitHub ne réserve plus les rappels du minuteur serveur.
-for (const v of [55, 55])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [55, 55]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'web','demo')`, [
   uid
 ]);
@@ -337,8 +336,7 @@ await q('update notification_scheduler set enabled=false');
 assert.equal((await q('select tick_notification_scheduler() id'))[0].id, null);
 // BET-255 : plus de plafond quotidien, mais aucune deuxième réservation du même événement.
 await db.exec('create table public.fixtures(id text primary key)');
-for (const v of [56, 58, 58])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [56, 58, 58]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 await q(
   "update notification_deliveries set status='cancelled' where channel='web' and status in ('pending','sending')"
 );
@@ -363,8 +361,7 @@ for (const id of ['uncapped-1', 'uncapped-2', 'uncapped-3'])
 assert.equal((await q('select * from claim_web_notifications()')).length, 3);
 assert.equal((await q('select * from claim_web_notifications()')).length, 0);
 // BET-257 : résumé désactivé par défaut, même unicité compte/date à travers les relances.
-for (const v of [59, 59])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [59, 59]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 assert.equal(
   (await q('select daily_summary from notification_web_preferences'))[0].daily_summary,
   false
@@ -405,8 +402,7 @@ assert.equal((await q('select * from claim_favorite_reminders()')).length, 0);
 await q('update notification_web_preferences set daily_summary=false');
 assert.equal(await dailyQueue({ ...daily, date: '2099-01-01' }), false);
 // BET-258 : disparition du canal, sans casser les préférences et le désabonnement actifs.
-for (const v of [60, 60])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [60, 60]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 assert.equal(
   (await q("select to_regclass('public.notification_telegram_preferences') name"))[0].name,
   null
@@ -435,8 +431,7 @@ assert.equal((await q('select my_notifications() s'))[0].s.preferences.enabled, 
 await db.exec(
   `create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(name text primary key,bucket_id text,owner_id text,created_at timestamptz default now());alter table storage.objects enable row level security;grant usage on schema storage,auth to authenticated;grant all on storage.objects to authenticated;`
 );
-for (const v of [61, 61])
-  await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`, 'utf8'));
+for (const v of [61, 61]) await db.exec(await readFile(migrationFile(v), 'utf8'));
 assert.equal(
   (await q("select public from storage.buckets where id='ticket-previews'"))[0].public,
   true
@@ -483,7 +478,7 @@ await db.exec(
   `alter table fixtures add column kickoff timestamptz,add column completed boolean default false,add column voided boolean default false,add column odds jsonb,add column odds_source jsonb,add column odds_bookmaker_counts jsonb;create table daily_challenges(day date primary key,picks jsonb);create table daily_picks(user_id uuid,day date,match_id text);`
 );
 const challengeSQL = (
-  await readFile('supabase/migrations/supabase-v65-schema.sql', 'utf8')
+  await readFile('supabase/migrations/20261110000105_legacy_v65.sql', 'utf8')
 ).replaceAll('now()', "'2026-11-10T09:05:00Z'::timestamptz");
 await db.exec(challengeSQL);
 await db.exec(challengeSQL);

@@ -10,15 +10,15 @@ try {
   await db.exec(`create schema auth;create table auth.users(id uuid primary key);alter table player_league add column inactive boolean default false,add column protected boolean default false;
  create table league_groups(id bigint primary key,season text,echelon int,label text);create table group_members(season text,user_id uuid,group_id bigint);
  create table special_titles(league_id text,season text,user_id uuid,kind text);`);
-  await db.exec(await read('supabase/migrations/supabase-v30-schema.sql'));
-  await db.exec(await read('supabase/migrations/supabase-v32-schema.sql'));
+  await db.exec(await read('supabase/migrations/20261110000030_legacy_v30.sql'));
+  await db.exec(await read('supabase/migrations/20261110000032_legacy_v32.sql'));
   await db.exec(
     `create function apply_league_round(p_week date,p_results jsonb,p_groups jsonb) returns boolean language plpgsql as $$begin insert into league_round_results select p_week,(x->>'user_id')::uuid,x from jsonb_array_elements(p_results) x;return true;end$$;`.replace(
       'create function',
       'create or replace function'
     )
   );
-  const migration = await read('supabase/migrations/supabase-v38-schema.sql');
+  const migration = await read('supabase/migrations/20261110000038_legacy_v38.sql');
   await db.exec(migration);
   const a = '00000000-0000-0000-0000-000000000001',
     b = '00000000-0000-0000-0000-000000000002',

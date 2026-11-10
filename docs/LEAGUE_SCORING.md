@@ -24,7 +24,7 @@ Promotion : au moins 10 résultats décidés et 50 % des pronos du défi accessi
 
 ## Recalcul de l'historique et déploiement
 
-1. Appliquer `supabase/migrations/supabase-v31-schema.sql` après V30. La migration est transactionnelle et réexécutable.
+1. Appliquer `supabase/migrations/20261110000031_legacy_v31.sql` après V30. La migration est transactionnelle et réexécutable.
 2. Déployer les modules JS et l'aide HTML, puis lancer la synchronisation habituelle pour actualiser les classements courants.
 3. Vérifier qu'aucun pronostic enregistré ne conserve un autre calcul et que les totaux du général, du groupe et des ligues concordent avec leurs sources.
 
@@ -51,4 +51,4 @@ Elle vérifie la transition de schéma, la correspondance JS/SQL sur 66 cas, le 
 
 ## BET-253 : pénalité de défaite à -1
 
-Appliquer `supabase/migrations/supabase-v57-schema.sql` après V56. La migration met à jour le calcul serveur, recalcule les points existants et reconstruit les totaux et rangs. Les pertes anciennes de -10 deviennent -1, soit +9 points par défaite éligible. Les gains restent plafonnés à +40, les annulations à 0. Les règles de rang confirmé sont conservées, comme les montants et les promotions passées. Le ROI de classement reste calculé sur la référence de 10 ; il mesure ce barème et ne représente pas le rendement financier.
+Appliquer `supabase/migrations/20261110000057_legacy_v57.sql` après V56. La migration met à jour le calcul serveur, recalcule les points existants et reconstruit les totaux et rangs. Les pertes anciennes de -10 deviennent -1, soit +9 points par défaite éligible. Les gains restent plafonnés à +40, les annulations à 0. Les règles de rang confirmé sont conservées, comme les montants et les promotions passées. Le ROI de classement reste calculé sur la référence de 10 ; il mesure ce barème et ne représente pas le rendement financier.
