@@ -39,3 +39,5 @@ test('les suggestions : même échelon, même division, même club de cœur ; pr
   const list=[p('same',11,null),p('div',10,null),p('club',3,'160'),p('both',11,'160'),p('far',3,null),p('private',11,'160',false),p('me',11,'160'),p('followed',11,'160')];
   assert.deepEqual(F.suggestPlayers(list,me,new Set(['followed'])).map(x=>x.user_id),['both','club','same','div']);assert.deepEqual(F.suggestPlayers(list,me,new Set(['followed']),2).map(x=>x.user_id),['both','club']);assert.deepEqual(F.suggestPlayers([],me),[]);assert.deepEqual(F.suggestPlayers(list,{user_id:'x',echelon:null,heart_club_id:null}),[]);
 });
+
+test('BET-304 : codes de huit caractères et liens historiques acceptés',()=>{assert.equal(C.normalizeCode(' bm-ab2cde3f '),'BM-AB2CDE3F');assert.equal(C.parsePrivateHash('#ligue-privee-BM-AB2CDE3F'),'BM-AB2CDE3F');for(const bad of ['BM-ABCDEFG','BM-ABCD1234','BM-ABCDEFGHI'])assert.equal(C.normalizeCode(bad),null);assert.equal(C.normalizeCode('BM-AB2C'),'BM-AB2C')});

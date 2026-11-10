@@ -1,11 +1,11 @@
 // Communauté (BET-60, BET-61) : règles pures partagées par le site et les tests, sans DOM ni réseau.
-// Ligues privées : code BM-XXXX (alphabet sans I, O, 0 ni 1), sans limite de ligues par joueur, 50 membres au plus.
+// Ligues privées : nouveau code BM-XXXXXXXX (alphabet sans I, O, 0 ni 1), sans limite de ligues par joueur, 50 membres au plus.
 export const PRIVATE_LIMITS = { leaguesPerPlayer: Infinity, members: 50, nameMin: 3, nameMax: 30 };
 export const PRIVATE_EMBLEMS = [['ball', '⚽'], ['trophy', '🏆'], ['star', '⭐'], ['bolt', '⚡'], ['shield', '🛡️'], ['flame', '🔥'], ['crown', '👑'], ['target', '🎯'], ['rocket', '🚀'], ['lion', '🦁'], ['eagle', '🦅'], ['wolf', '🐺']];
 export const emblemOf = key => PRIVATE_EMBLEMS.find(([name]) => name === key)?.[1] ?? '⚽';
 // Accepte « bm-ab2c », « BMAB2C » ou « BM-AB2C » : renvoie le code normalisé ou null.
 export function normalizeCode(value) {
-  const raw = String(value ?? '').toUpperCase().replace(/[^A-Z0-9]/g, ''), match = /^BM([A-HJ-NP-Z2-9]{4})$/.exec(raw);
+  const raw = String(value ?? '').toUpperCase().replace(/[^A-Z0-9]/g, ''), match = /^BM([A-HJ-NP-Z2-9]{4}|[A-HJ-NP-Z2-9]{8})$/.exec(raw);
   return match ? `BM-${match[1]}` : null;
 }
 export const privateLink = (code, base) => `${base}#ligue-privee-${code}`;
