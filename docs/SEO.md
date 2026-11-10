@@ -21,3 +21,13 @@ Les robots consultent **`https://patfoort47-gif.github.io/robots.txt` à la raci
 Lighthouse 13, Chromium 154 headless, audit SEO local : **100/100** le 10 novembre 2026. Audit local, pas une mesure du site publié. Relancer après déploiement sur l’URL officielle.
 
 Les aperçus réels WhatsApp, Telegram et X doivent être vérifiés après publication : ces services récupèrent l’URL publique et peuvent conserver leur cache. Aucun aperçu réel dans ces clients n’a été validé dans cette session.
+
+## BET-276 : hiérarchie et pré-rendu
+
+Le HTML source contient un seul h1 principal et des titres de section h2. Les titres HTML, Open Graph et Twitter utilisent BetOptimum ; la description, le canonique et l’image sociale sont présents avant toute exécution JavaScript.
+
+À chaque publication, `node scripts/prepare-pages.mjs` pré-rend dans `_site/index.html` un aperçu des rencontres publiques et de leurs probabilités à partir de `data/fixtures.json`. Aucun appel réseau supplémentaire, service payant ou serveur permanent. Le calendrier interactif remplace cet aperçu après chargement. Les données sont échappées ; aucune donnée de compte, bankroll ou classement privé n’est publiée. L’aperçu est daté, limité aux sept prochains jours et à 60 rencontres, sans cote ni conseil inventé. Les workflows de calendrier et de scores republient déjà le site après actualisation des données.
+
+`robots.txt` autorise l’exploration et indique `sitemap.xml`. Le sitemap contient l’unique URL canonique : les onglets en `#` ne sont pas des pages indépendantes. Il n’existe pas de nouvelle vue publique à ajouter au sitemap.
+
+Suivi : dans Google Search Console, inspecter l’URL canonique, demander l’indexation et soumettre le sitemap. Ce contrôle nécessite un accès à la propriété Search Console et n’a pas été effectué par Codex. Les classements du club et vues personnalisées restent interactifs ; ils ne sont pas exportés au déploiement. Si des pages publiques dédiées par compétition deviennent souhaitées, générer de vraies URL HTML et les ajouter au sitemap. Le pré-rendu améliore l’accès au contenu sans garantir une position ni un délai d’indexation.
