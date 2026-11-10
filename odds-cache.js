@@ -1,5 +1,5 @@
 import {marketKeys,isExtendedMarket} from './markets.js';
-export const SECONDARY_ODDS_WINDOW_HOURS = 48;
+export const SECONDARY_ODDS_WINDOW_HOURS = 7 * 24;
 export const ODDS_REFRESH_HOURS = [6, 18];
 
 export function nextOddsRefresh(hours = ODDS_REFRESH_HOURS, now = new Date()) {
