@@ -1,0 +1,7 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><title>BET-271 : mesure des analyses</title><h1>Mesure BET-271</h1><p>Ouvrir cette page isolée avec npm start. Recharger pour chaque mesure à froid. Aucun rendu des cartes dans ce benchmark.</p><pre id="result">Mesure en cours...</pre><script type="module">
+import {analyseMatch} from '../../model.js';
+const matches=(await (await fetch('../../data/fixtures.json')).json()).matches;
+const start=performance.now();for(const match of matches)analyseMatch(match);const cold=performance.now()-start;
+const again=performance.now();for(const match of matches)analyseMatch(match);const warm=performance.now()-again;
+const worker=new Worker('../../analysis-worker.js',{type:'module'}),sent=performance.now();worker.onmessage=({data})=>{document.querySelector('#result').textContent=JSON.stringify({browser:navigator.userAgent,matchCount:matches.length,maxMarkets:Math.max(...matches.map(m=>Object.keys(m.odds).length)),coldMs:cold,warmMs:warm,workerComputeMs:data.computeMs,workerRoundTripMs:performance.now()-sent,note:'Le round trip comprend démarrage, calcul, sérialisation et transferts. Le rendu DOM et les images sont exclus.'},null,2);worker.terminate()};worker.postMessage(matches);
+</script></html>
