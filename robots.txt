@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://patfoort47-gif.github.io/BetOptimum/sitemap.xml
