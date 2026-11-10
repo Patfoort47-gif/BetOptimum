@@ -1,6 +1,6 @@
 # Partage d’un coupon (BET-260)
 
-Le visuel et le lien représentent les mêmes sélections. Le partage natif propose PNG + URL quand le système l’accepte, sinon l’URL seule. Copier le lien et télécharger l’image restent toujours disponibles. Aucune identité, bankroll ou mise ne figure dans le lien ni le PNG. Le destinataire choisit sa propre mise, vérifie les cotes actuelles et valide lui-même son pari.
+Le partage natif envoie uniquement un résumé textuel et l’URL du coupon. Un pari simple indique la sélection et sa cote ; un combiné indique le nombre de sélections et la cote totale. Aucune image n’est créée ni jointe. Aucune identité, bankroll ou mise ne figure dans le lien. Le destinataire choisit sa propre mise, vérifie les cotes actuelles et valide lui-même son pari.
 
 ## Ouverture
 
@@ -14,7 +14,7 @@ Page publique hébergée avec le skill Sites : `https://betoptimum-partage.honed
 
 La page sert Open Graph et Twitter Card avec le vrai PNG, puis ouvre le coupon canonique dans BetOptimum par JavaScript (lien visible sans JavaScript). Elle n’accepte aucune destination de redirection arbitraire. Les robots lisent le HTML côté serveur sans exécuter le script. Le domaine Supabase standard réécrit le HTML en `text/plain` : la fonction Supabase n’est donc pas utilisée pour servir ces pages.
 
-Les images sont déposées par les utilisateurs connectés dans `ticket-previews` sous un UUID aléatoire, jamais sous leur identifiant de joueur. Sans compte ou si le dépôt échoue, le lien direct et le PNG téléchargeable restent disponibles. Le service ne stocke aucun identifiant de destinataire et ne contacte aucune messagerie. Les tests de partage natif simulent le système ; aucune conversation réelle n’est utilisée pour la recette.
+Depuis BET-261, le navigateur ne dépose plus d’image dans `ticket-previews` et partage toujours le lien direct. Le service ne stocke aucun identifiant de destinataire et ne contacte aucune messagerie. Les tests de partage natif simulent le système ; aucune conversation réelle n’est utilisée pour la recette.
 
 **Accès public autorisé explicitement par le propriétaire le 10 novembre 2026.** Le service est accessible sans compte ChatGPT ; seuls les sélections et le visuel du coupon partagé y sont exposés.
 
@@ -24,6 +24,6 @@ V61 après V60 : seau public PNG de 1,5 Mo maximum, dépôt authentifié lié au
 
 ## Validation
 
-Tests Node : V1/V2, syntaxe, doublons, prix de référence, mode/formule, restauration avec indisponibles, brouillon OAuth et métadonnées HTML. Recette SQL isolée : migration réexécutable, dépôt sous le bon propriétaire, refus d’usurpation et purge des expirés/orphelins. Essais Chromium à 320 et 1440 px : ouverture à froid, coupon simple/combiné, prix modifié, choix absent, PNG + lien, repli lien seul et retour OAuth. Capture dans `docs/ticket-sharing/partage-mobile.png`.
+Tests Node : V1/V2, syntaxe, doublons, prix de référence, mode/formule, résumé de partage et restauration avec indisponibles. Essais Chromium sur téléphone et ordinateur : un seul bouton, aucune image, texte adapté au simple ou au combiné, lien copiable et partage natif simulé.
 
 L’affichage effectif d’un aperçu dépend du cache et des règles de la messagerie. Le lien direct recharge toujours les choix actuels disponibles ; les cotes enregistrées dans le visuel sont celles du partage.
