@@ -12,7 +12,7 @@ const {
   tieBreak,
   pickDailyChallenge,
   parisDate
-} = await import('../model.js');
+} = await import('../src/model/model.js');
 const {
   fixtureRow,
   buildResults,

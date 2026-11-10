@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { quoteAvailable } from '../quote-policy.js';
-import { selectionResult } from '../model.js';
+import { quoteAvailable } from '../src/model/quote-policy.js';
+import { selectionResult } from '../src/model/model.js';
 test('aucune cote H1 jouable, même dans un ancien cache valide', () => {
   const m = {
     odds: { h1Home: 2, home: 2 },

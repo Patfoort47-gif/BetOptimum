@@ -59,7 +59,7 @@ await assert.rejects(bet('draw', 3.5), /MARCHE_INDISPONIBLE/);
 assert.equal(Number((await db.query('select odds from bets order by odds')).rows[0].odds), 3);
 assert.equal(Number((await db.query('select odd from daily_picks')).rows[0].odd), 3);
 // BET-170 : labels composites et expiration contrôlés par la même RPC.
-const { marketSpec } = await import('../markets.js');
+const { marketSpec } = await import('../src/model/markets.js');
 const compositeKeys = [
   ...['Home', 'Draw', 'Away', 'HomeDraw', 'DrawAway', 'HomeAway'].flatMap((side) =>
     ['BttsYes', 'BttsNo'].map((btts) => 'combo' + side + btts)

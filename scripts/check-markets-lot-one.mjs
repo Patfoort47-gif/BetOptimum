@@ -2,7 +2,7 @@
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { propLineOffers } from './propline-odds.mjs';
-import { isExtendedMarket, marketSpec } from '../markets.js';
+import { isExtendedMarket, marketSpec } from '../src/model/markets.js';
 export function auditLotOne(report) {
   const families = ['Score exact', 'Handicap européen', 'Marge de victoire', 'Buts'],
     coverage = Object.fromEntries(

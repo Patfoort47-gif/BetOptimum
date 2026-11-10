@@ -1,6 +1,6 @@
 // Moteur d'XP, de trophées et de défis hebdomadaires (BET-57). Décisions pures dans rewards.js ; ce fichier assemble les données et écrit avec la clé service_role.
-import { streakState, weekKey } from '../model.js';
-import { completedCollections } from '../shop.js';
+import { streakState, weekKey } from '../src/model/model.js';
+import { completedCollections } from '../src/club/shop.js';
 import {
   challengeScore,
   challengeTokens,
@@ -9,7 +9,7 @@ import {
   evaluateBadges,
   planXpEvents,
   rankChallenge
-} from '../rewards.js';
+} from '../src/club/rewards.js';
 
 const parisDay = (date) =>
   new Intl.DateTimeFormat('en-CA', {

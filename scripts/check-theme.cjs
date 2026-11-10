@@ -33,7 +33,7 @@ async function open(context, { stored, blocked = false } = {}) {
         contentType: 'text/javascript',
         body: fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8')
       });
-    if (u.pathname.endsWith('/account.js'))
+    if (u.pathname.endsWith('/src/account/account.js'))
       return r.fulfill({ contentType: 'text/javascript', body: mock });
     if (u.pathname.endsWith('/data/fixtures.json')) return r.fulfill({ json: fixtures });
     if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });

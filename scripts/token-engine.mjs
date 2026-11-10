@@ -1,6 +1,6 @@
 // Moteur des jetons (BET-58) : séries et tirelires, récompenses de fin de saison, primes mensuelles et défis.
 // Calculs purs dans rewards.js ; les gains sont écrits dans token_ledger (clé unique par raison et par joueur : idempotent).
-import { streakState } from '../model.js';
+import { streakState } from '../src/model/model.js';
 import {
   SPECIAL_MONTH_TOKENS,
   divisionDifficulty,
@@ -8,8 +8,8 @@ import {
   piggyBank,
   rankPrize,
   seasonReward
-} from '../rewards.js';
-import { divisionIndex, seasonKey, seasonDates, monthKey } from '../league.js';
+} from '../src/club/rewards.js';
+import { divisionIndex, seasonKey, seasonDates, monthKey } from '../src/club/league.js';
 import { entrySequences, group } from './xp-engine.mjs';
 
 // Séries et tirelires de la saison : une ligne par joueur et par ligue ('general' ou identifiant de ligue spéciale).

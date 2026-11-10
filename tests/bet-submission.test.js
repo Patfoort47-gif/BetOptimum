@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSubmission } from '../bet-submission.js';
+import { createSubmission } from '../src/ticket/bet-submission.js';
 test('envoi incertain : réconciliation sans nouvel envoi si le serveur a enregistré', async () => {
   let calls = 0;
   const attempt = createSubmission([{ stake: 10 }], () => 'stable');

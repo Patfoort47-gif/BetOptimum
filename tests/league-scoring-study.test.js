@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { comparePlayer, compareRanking, controlledSeries } from '../league-scoring-study.js';
+import {
+  comparePlayer,
+  compareRanking,
+  controlledSeries
+} from '../src/club/league-scoring-study.js';
 test('Étude : barème intact, pertes, plafond, annulations et quatre approches', () => {
   const rows = [
     { status: 'won', odd: 10 },

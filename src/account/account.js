@@ -1,0 +1,1279 @@
+import { authCallbackStatus } from './auth-return.js';
+import { registrationAvatar, resolveAccountAvatar } from './registration-avatar.js';
+import { createNewsletterApi } from './newsletter.js';
+import { createNotificationApi } from '../notifications/notification-client.js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js?v=accounts-v6';
+import { sanitizePreferences, translateAuthError } from './auth-model.js';
+import { normalizeCode } from '../club/community.js';
+import { sanitizeAvatar, legacyView } from '../avatar/avatar-config.js';
+import { createLeagueJoiner } from '../club/league-access.js';
+import { readHistoryPages } from './profile-history.js';
+import { seasonKey } from '../club/league.js';
+import { weekKey } from '../model/model.js';
+
+const $ = (selector) => document.querySelector(selector);
+
+export async function initAccountSync({
+  getState,
+  applyState,
+  resetState,
+  registerCloudSave,
+  onAuthChange = () => {},
+  onCommunityData = () => {},
+  onCommunityStatus = () => {},
+  onServerData = () => {},
+  onLeagueData = () => {},
+  onSpecialData = () => {},
+  onProgressData = () => {},
+  onAuthEvent = () => {},
+  onPrivateData = () => {},
+  onFollowData = () => {},
+  toast
+}) {
+  const button = $('#account-button'),
+    label = $('#account-label'),
+    status = $('#sync-status');
+  let client = null,
+    currentUser = null,
+    loadedUserId = null,
+    saveTimer = null;
+  const configured =
+    /^https:\/\/.+\.supabase\.co\/?$/.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length > 20;
+  const showMessage = (value, error = false) => {
+    if (error) toast(value);
+  };
+  const setView = (user) => {
+    currentUser = user ?? null;
+    const nickname = getState().profile?.nickname || user?.user_metadata?.username;
+    label.textContent = user
+      ? nickname || user.email?.split('@')[0] || 'Mon profil'
+      : configured
+        ? 'Connexion'
+        : 'Compte';
+    button.classList.toggle('connected', Boolean(user));
+    onAuthChange(Boolean(user), user);
+  };
+  const unavailable = async () => {
+      throw new Error('Comptes non configurés');
+    },
+    redirect = `${location.origin}${location.pathname}`;
+
+  if (!configured) {
+    setView(null);
+    onCommunityStatus('off');
+    return {
+      configured: false,
+      newsletter: { load: unavailable, set: unavailable },
+      avatarContext: async () => ({ inventory: [], unlocks: [] }),
+      saveAvatar: unavailable,
+      setProfileFrame: unavailable,
+      community: {
+        connections: unavailable,
+        ranking: async () => ({ rows: [], total: 0, pageSize: 25 }),
+        podium: async () => ({ echelon: null, rows: [] }),
+        follows: async () => null,
+        follow: unavailable,
+        unfollow: unavailable,
+        unread: async () => 0,
+        hall: async () => ({ masters: [], specials: [], fortune: [] }),
+        followers: async () => ({ data: null })
+      },
+      privateLeagues: {
+        create: unavailable,
+        join: unavailable,
+        leave: unavailable,
+        kick: unavailable,
+        regenerate: unavailable,
+        remove: unavailable,
+        ranking: async () => [],
+        seasons: async () => []
+      },
+      auth: {
+        nicknameAvailable: unavailable,
+        signIn: unavailable,
+        signUp: unavailable,
+        resend: unavailable,
+        reset: unavailable,
+        updatePassword: unavailable,
+        google: unavailable,
+        signOut: unavailable
+      },
+      reloadCommunity: () => {},
+      refreshServer: async () => false,
+      placeBet: unavailable,
+      playDailyPick: unavailable,
+      markSeasonSeen: async () => {},
+      joinChallenge: unavailable,
+      leaveChallenge: unavailable,
+      joinLeague: unavailable,
+      leaveLeague: unavailable,
+      playSpecialPick: unavailable,
+      clearSpecialPick: unavailable,
+      leagueStandings: async () => [],
+      loadPlayer: async () => null,
+      updateSettings: unavailable,
+      changeNickname: unavailable,
+      updateEmail: unavailable,
+      exportData: unavailable,
+      deleteAccount: unavailable
+    };
+  }
+
+  const { createClient } = await import('../../vendor/supabase-js-2.81.1.js');
+  const callback = authCallbackStatus(location.href),
+    signupReturn = callback.kind === 'signup',
+    confirmationError = callback.kind === 'confirmation-error';
+  client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
+  // Annuaire complet : pages de 500 profils (ordre alphabétique stable, le pseudo est unique), jusqu'à 5 000 joueurs.
+  const COMMUNITY_PAGE = 500,
+    COMMUNITY_MAX = 5000;
+  const loadCommunity = async () => {
+    onCommunityStatus('loading');
+    const rows = [];
+    let source = 'public_profiles';
+    for (let from = 0; from < COMMUNITY_MAX; from += COMMUNITY_PAGE) {
+      let { data, error } = await client
+        .from(source)
+        .select('user_id,nickname,avatar,avatar_config,heart_club_id,heart_club_name,is_public')
+        .order('nickname', { ascending: true })
+        .range(from, from + COMMUNITY_PAGE - 1);
+      if (error && source === 'public_profiles' && ['42P01', 'PGRST205'].includes(error.code)) {
+        source = 'profiles';
+        ({ data, error } = await client
+          .from(source)
+          .select('user_id,nickname,avatar,avatar_config,heart_club_id,heart_club_name,is_public')
+          .order('nickname', { ascending: true })
+          .range(from, from + COMMUNITY_PAGE - 1));
+      }
+      if (error) {
+        if (error.code !== '42P01') console.warn('Classement indisponible', error.message);
+        onCommunityStatus('error');
+        return;
+      }
+      rows.push(...data);
+      if (data.length < COMMUNITY_PAGE) break;
+    }
+    onCommunityData(rows);
+    onCommunityStatus('ready');
+  };
+  // Le navigateur n'écrit plus que le pseudo et l'avatar : les statistiques viennent des paris certifiés (vue public_profiles).
+  const publishCommunity = async (payload) => {
+    if (!currentUser) return;
+    const profile = payload.profile ?? {},
+      v2 = profile.avatar2?.v === 2 ? sanitizeAvatar(profile.avatar2) : null,
+      avatar = v2
+        ? legacyView(v2).avatar
+        : ['lime', 'blue', 'purple', 'orange'].includes(profile.avatar)
+          ? profile.avatar
+          : 'lime',
+      avatar_config = v2 ?? {
+        avatar,
+        face: ['smile', 'cool', 'focused', 'wink'].includes(profile.face) ? profile.face : 'smile',
+        accessory: ['none', 'glasses', 'cap', 'crown'].includes(profile.accessory)
+          ? profile.accessory
+          : 'none'
+      },
+      row = {
+        user_id: currentUser.id,
+        avatar,
+        avatar_config,
+        updated_at: new Date().toISOString(),
+        ...(profile.heartClub
+          ? { heart_club_id: profile.heartClub.id, heart_club_name: profile.heartClub.name }
+          : {})
+      },
+      { error } = await client.from('profiles').upsert(row, { onConflict: 'user_id' });
+    if (error) {
+      if (error.code !== '42P01') console.warn('Classement indisponible', error.message);
+      return;
+    }
+    label.textContent = profile.nickname || currentUser.user_metadata?.username || 'Mon profil';
+    await loadCommunity();
+  };
+  // Paris certifiés (BET-52) : compte de jeu, paris et apports vivent sur le serveur ; le navigateur affiche et demande.
+  const BET_ERRORS = {
+    AUTH_REQUIRED: 'Connectez-vous pour placer un pari.',
+    COTE_CHANGEE: 'Une cote a changé : le calendrier est actualisé, vérifiez votre ticket.',
+    MATCH_COMMENCE: 'Un match de votre ticket a déjà commencé.',
+    MATCH_INCONNU:
+      'Un match du ticket ne peut pas être parié (match ajouté à la main ou calendrier pas à jour).',
+    MATCH_EN_DOUBLE: 'Deux sélections portent sur le même match.',
+    MARCHE_INDISPONIBLE: 'Ce marché n’est pas disponible pour le moment.',
+    BANKROLL_INSUFFISANTE: 'Bankroll insuffisante pour cette mise.',
+    MISE_INVALIDE: 'La mise est invalide.',
+    FORMULE_INVALIDE: 'Cette formule ne correspond pas au nombre de sélections.',
+    SELECTIONS_INVALIDES: 'Le ticket est invalide.',
+    MONTANT_INVALIDE: 'Le montant est invalide.',
+    DEFI_INCONNU: 'Ce match ne fait pas partie du défi du jour.'
+  };
+  const betError = (error) => {
+    const code =
+        error?.status === 401 || ['PGRST301', 'PGRST303'].includes(error?.code)
+          ? 'AUTH_REQUIRED'
+          : Object.keys(BET_ERRORS).find((key) => String(error?.message ?? '').includes(key)),
+      failure = new Error(
+        code
+          ? BET_ERRORS[code]
+          : 'Le serveur est momentanément indisponible, réessayez dans un instant.'
+      );
+    failure.code = code ?? 'UNAVAILABLE';
+    return failure;
+  };
+  const personalDashboard = async ({ days = null, status = 'all', search = '', page = 1 } = {}) => {
+    if (!currentUser) throw betError({ message: 'AUTH_REQUIRED' });
+    const { data, error } = await client.rpc('my_bet_dashboard', {
+      p_days: days,
+      p_status: status,
+      p_search: search,
+      p_page: page
+    });
+    if (error) throw betError(error);
+    return data;
+  };
+  const personalHistory = async ({
+    days = null,
+    status = 'all',
+    search = '',
+    cursor = null
+  } = {}) => {
+    if (!currentUser) throw betError({ message: 'AUTH_REQUIRED' });
+    const { data, error } = await client.rpc('my_bet_history', {
+      p_days: days,
+      p_status: status,
+      p_search: search,
+      p_cursor: cursor
+    });
+    if (error) throw betError(error);
+    return data;
+  };
+  const refreshServer = async () => {
+    if (!currentUser) return false;
+    const [account, bets, events, daily] = await Promise.all([
+      client.rpc('ensure_player_account'),
+      readHistoryPages(() =>
+        client
+          .from('bets')
+          .select(
+            'id,placed_at,bet_type,stake,odds,status,payout,settled_at,counts_general,value_bet,system_formula,system_lines,selections'
+          )
+          .gte('placed_at', `${weekKey(Date.now())}T00:00:00+02:00`)
+          .order('placed_at', { ascending: false })
+          .order('id', { ascending: false })
+      ),
+      readHistoryPages(() =>
+        client
+          .from('capital_events')
+          .select('amount,created_at')
+          .order('created_at', { ascending: false })
+          .order('id', { ascending: false })
+      ),
+      client
+        .from('daily_picks')
+        .select('id,day,match_id,pick,odd,status,points')
+        .order('placed_at', { ascending: false })
+        .limit(200)
+    ]);
+    if (account.error || bets.error) {
+      console.warn('Paris certifiés indisponibles', (account.error ?? bets.error).message);
+      onServerData(null);
+      return false;
+    }
+    onServerData({
+      account: account.data,
+      bets: bets.data ?? [],
+      events: events.data ?? [],
+      dailyPicks: daily.data ?? []
+    });
+    loadLeague().catch(() => onLeagueData(null));
+    loadSpecial().catch(() => onSpecialData(null));
+    loadProgress().catch(() => onProgressData(null));
+    loadPrivate().catch(() => onPrivateData(null));
+    loadFollowing().catch(() => onFollowData(null));
+    return true;
+  };
+  // Ligue générale (BET-55) : échelon du joueur, classement de son groupe et résultat de la dernière saison close, jamais encore vu.
+  const loadLeague = async () => {
+    if (!currentUser) return;
+    const [pl, seasons, mine, results] = await Promise.all([
+      client
+        .from('player_league')
+        .select('echelon,inactive,protected')
+        .eq('user_id', currentUser.id)
+        .maybeSingle(),
+      client
+        .from('league_seasons')
+        .select('season')
+        .eq('status', 'open')
+        .order('season', { ascending: false })
+        .limit(1),
+      client
+        .from('group_members')
+        .select('season,group_id')
+        .eq('user_id', currentUser.id)
+        .order('season', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      client
+        .from('season_results')
+        .select('season,from_echelon,to_echelon,outcome,group_rank,group_size,points,unlocks')
+        .eq('user_id', currentUser.id)
+        .eq('seen', false)
+        .order('season', { ascending: false })
+        .limit(1)
+    ]);
+    if (pl.error || !pl.data) {
+      onLeagueData(null);
+      return;
+    }
+    const season = seasons.data?.[0]?.season;
+    let rows = [];
+    if (season && mine.data?.season === season) {
+      let query = client
+        .from('public_weekly_standings')
+        .select(
+          'user_id,nickname,avatar,avatar_config,echelon,points,picks,wins,roi,rank,qualified,group_label,decided,confirmed,ranking_version'
+        )
+        .order('rank', { ascending: true })
+        .order('points', { ascending: false })
+        .limit(60);
+      query = mine.data.group_id
+        ? query.eq('group_id', mine.data.group_id)
+        : query.is('group_id', null);
+      const { data, error } = await query;
+      if (error) throw error;
+      rows = data ?? [];
+    } else if (season) {
+      const { data, error } = await client
+        .from('public_weekly_standings')
+        .select('*')
+        .is('group_id', null)
+        .order('rank')
+        .order('points', { ascending: false })
+        .limit(60);
+      if (error) throw error;
+      rows = data ?? [];
+    }
+    const result = results.data?.[0] ?? null;
+    if (result) {
+      const rewards = await client
+        .from('season_rewards')
+        .select('league,piggy,regularity,prize,difficulty,feats,total')
+        .eq('user_id', currentUser.id)
+        .eq('season', result.season);
+      result.rewards = rewards.data ?? [];
+    }
+    onLeagueData({
+      me: currentUser.id,
+      season,
+      echelon: pl.data.echelon,
+      inactive: pl.data.inactive,
+      protectedSeason: pl.data.protected,
+      groupLabel: rows[0]?.group_label ?? null,
+      rows,
+      result
+    });
+  };
+  // Ligues spéciales (BET-56) : catalogue, inscriptions, journées, pronos et classements du joueur.
+  const SPECIAL_ERRORS = {
+    LIGUE_FERMEE: 'Cette ligue n’est pas ouverte pour le moment.',
+    CHANGEMENT_MENSUEL: 'Vous ne pouvez quitter qu’une ligue par mois.',
+    SPECIAL_NON_INSCRIT: 'Rejoignez la ligue pour jouer sa grille.',
+    SPECIAL_HORS_LIGUE: 'Ce match ne compte pas dans cette ligue.',
+    SPECIAL_MATCH_DEJA_COMPTE: 'Un prono compte déjà sur ce match dans cette ligue.',
+    SPECIAL_QUOTA_JOURNEE: 'Vous avez utilisé tous vos pronos de cette journée.',
+    SPECIAL_CLUB_SIMPLE_SEULEMENT: 'En ligue club, seuls les paris simples comptent.'
+  };
+  const specialError = (error) => {
+    const code = Object.keys(SPECIAL_ERRORS).find((key) =>
+      String(error?.message ?? '').includes(key)
+    );
+    if (code) {
+      const failure = new Error(SPECIAL_ERRORS[code]);
+      failure.code = code;
+      return failure;
+    }
+    return betError(error);
+  };
+  const loadSpecial = async () => {
+    if (!currentUser) return;
+    const now = new Date(Date.now() - 864e5).toISOString(),
+      [leagues, counts, mine, rounds, picks, standings] = await Promise.all([
+        client
+          .from('special_leagues')
+          .select('id,kind,name,league_label,team_id,season_start,season_end,access,difficulty')
+          .eq('open', true)
+          .eq('kind', 'competition')
+          .order('kind', { ascending: true })
+          .order('name', { ascending: true }),
+        client.from('special_league_counts').select('league_id,members'),
+        client.from('league_members').select('league_id,joined_at').eq('user_id', currentUser.id),
+        client
+          .from('special_rounds')
+          .select('id,league_id,label,starts_at,ends_at,match_ids,anchor,knockout,free_slots')
+          .gte('ends_at', now)
+          .order('starts_at', { ascending: true })
+          .limit(400),
+        client
+          .from('special_picks')
+          .select('id,league_id,round_id,match_ids,kind,source,key,odd,status,points')
+          .order('placed_at', { ascending: false })
+          .limit(500),
+        client
+          .from('special_standings')
+          .select('league_id,scope,points,picks,rank,decided,confirmed,ranking_version')
+          .eq('user_id', currentUser.id)
+      ]);
+    if (leagues.error) {
+      onSpecialData(null);
+      return;
+    }
+    onSpecialData({
+      leagues: leagues.data ?? [],
+      counts: Object.fromEntries((counts.data ?? []).map((item) => [item.league_id, item.members])),
+      mine: (mine.data ?? [])
+        .map((item) => item.league_id)
+        .filter((id) => (leagues.data ?? []).some((league) => league.id === id)),
+      rounds: rounds.data ?? [],
+      picks: picks.data ?? [],
+      standings: standings.data ?? []
+    });
+  };
+  const requestLeagueJoin = createLeagueJoiner(client, () => currentUser?.id);
+  const joinLeague = async (id) => {
+    await requestLeagueJoin(id);
+    await loadSpecial();
+  };
+  const leaveLeague = async (id) => {
+    const { error } = await client.rpc('leave_special_league', { p_league: id });
+    if (error) throw specialError(error);
+    await loadSpecial();
+  };
+  const playSpecialPick = async (league, match, key) => {
+    const { error } = await client.rpc('play_special_pick', {
+      p_league: league,
+      p_match: match,
+      p_key: key
+    });
+    if (error) throw specialError(error);
+    await loadSpecial();
+  };
+  const clearSpecialPick = async (league, match) => {
+    const { error } = await client.rpc('clear_special_pick', { p_league: league, p_match: match });
+    if (error) throw specialError(error);
+    await loadSpecial();
+  };
+  const leagueStandings = async (league, scope) => {
+    const { data, error } = await client
+      .from('public_special_standings')
+      .select(
+        'user_id,nickname,avatar,avatar_config,points,picks,wins,roi,rank,played_rounds,decided,confirmed,ranking_version'
+      )
+      .eq('league_id', league)
+      .eq('scope', scope)
+      .order('rank', { ascending: true })
+      .order('points', { ascending: false })
+      .limit(50);
+    if (error) throw specialError(error);
+    return data ?? [];
+  };
+  // XP, trophées et défis hebdomadaires (BET-57) : tout est calculé et écrit par le serveur, le navigateur lit et demande à participer. Objets équipés du joueur (effet et son de victoire, BET-163) lus avec.
+  const loadProgress = async () => {
+    if (!currentUser) return;
+    const [xp, events, badges, entries, results, all] = await Promise.all([
+      client.from('public_xp').select('xp').eq('user_id', currentUser.id).maybeSingle(),
+      client
+        .from('xp_events')
+        .select('kind,xp,created_at')
+        .order('created_at', { ascending: false })
+        .limit(30),
+      client.from('user_badges').select('badge,earned_at').eq('user_id', currentUser.id),
+      client.from('challenge_entries').select('challenge_id,week_start'),
+      client
+        .from('challenge_results')
+        .select('week_start,challenge_id,rank,score')
+        .eq('user_id', currentUser.id)
+        .order('week_start', { ascending: false })
+        .limit(9),
+      client.from('public_xp').select('user_id,xp').limit(5000)
+    ]);
+    if (xp.error) {
+      onProgressData(null);
+      return;
+    }
+    onProgressData({
+      xp: xp.data?.xp ?? 0,
+      events: events.data ?? [],
+      badges: (badges.data ?? []).map((item) => item.badge),
+      challenges: (entries.data ?? []).map((item) => item.challenge_id),
+      results: results.data ?? [],
+      xpMap: Object.fromEntries((all.data ?? []).map((item) => [item.user_id, item.xp])),
+      equipped: {}
+    });
+  };
+  const joinChallenge = async (id) => {
+    const { error } = await client.rpc('join_challenge', { p_challenge: id });
+    if (error) throw betError(error);
+    await loadProgress();
+  };
+  const leaveChallenge = async (id) => {
+    const { error } = await client.rpc('leave_challenge', { p_challenge: id });
+    if (error) throw betError(error);
+    await loadProgress();
+  };
+  // Schéma Supabase incomplet (scripts SQL non exécutés) : message explicite plutôt qu'un faux « compte inexistant ».
+  const schemaGap = (error) =>
+    Boolean(error) &&
+    (['42P01', '42883', 'PGRST205', 'PGRST202'].includes(error.code) ||
+      error.status === 404 ||
+      /does not exist|schema cache|Could not find the (table|function)/i.test(
+        String(error.message ?? '')
+      ));
+  const schemaError = () => {
+    const failure = new Error(
+      'Le serveur du club n’est pas à jour : le propriétaire du projet doit exécuter les scripts SQL (voir SUPABASE_SETUP.md), puis recharger la page.'
+    );
+    failure.code = 'SCHEMA';
+    return failure;
+  };
+  // Page profil (BET-50) : lecture d'un joueur (public ou soi-même), réglages, pseudo mensuel, export et suppression du compte.
+  const PROFILE_ERRORS = {
+    OBJET_ABSENT: 'Cette apparence n’est plus disponible. Choisissez une option gratuite.',
+    AVATAR_INVALIDE: 'Configuration d’avatar invalide.',
+    PSEUDO_INVALIDE:
+      'Le pseudo compte 3 à 24 caractères : lettres, chiffres, espace, point, tiret ou souligné.',
+    PSEUDO_PRIS: 'Ce pseudo est déjà pris.',
+    CONFIRMATION_INVALIDE: 'La confirmation ne correspond pas à votre pseudo.'
+  };
+  const profileError = (error) => {
+    if (schemaGap(error)) return schemaError();
+    const message = String(error?.message ?? '');
+    if (message.includes('PSEUDO_RECENT')) {
+      const date = /(\d{4}-\d{2}-\d{2})/.exec(message)?.[1];
+      const failure = new Error(
+        `Vous pourrez changer de pseudo à partir du ${date ? new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'mois prochain'}.`
+      );
+      failure.code = 'PSEUDO_RECENT';
+      return failure;
+    }
+    const code = Object.keys(PROFILE_ERRORS).find((key) => message.includes(key));
+    if (code) {
+      const failure = new Error(PROFILE_ERRORS[code]);
+      failure.code = code;
+      return failure;
+    }
+    return authError(error);
+  };
+  const likeEscape = (value) => value.replace(/[\\%_]/g, (match) => `\\${match}`);
+  const loadPlayer = async (target) => {
+    const columns =
+      'user_id,nickname,avatar,avatar_config,heart_club_id,heart_club_name,is_public,show_bets,joined_at,metrics,period_stats,profile_frame';
+    let profile = null;
+    if (target.self) {
+      if (!currentUser) return null;
+      const { data, error } = await client
+        .from('public_profiles')
+        .select(columns)
+        .eq('user_id', currentUser.id)
+        .maybeSingle();
+      if (error) throw profileError(error);
+      profile = data;
+    } else {
+      const { data, error } = await client
+        .from('public_profiles')
+        .select(columns)
+        .ilike('nickname', likeEscape(target.nickname))
+        .limit(5);
+      if (error) throw profileError(error);
+      profile =
+        (data ?? []).find(
+          (item) => item.nickname.toLowerCase() === target.nickname.toLowerCase()
+        ) ?? null;
+    }
+    if (!profile) return { missing: true };
+    const self = currentUser?.id === profile.user_id;
+    if (!profile.is_public && !self)
+      return { private: true, profile: { nickname: profile.nickname, user_id: profile.user_id } };
+    const id = profile.user_id,
+      [xp, badges, league, seasons, card, standing, equipped] = await Promise.all([
+        client.from('public_xp').select('xp').eq('user_id', id).maybeSingle(),
+        client
+          .from('user_badges')
+          .select('badge,earned_at')
+          .eq('user_id', id)
+          .order('earned_at', { ascending: false }),
+        client.from('player_league').select('echelon').eq('user_id', id).maybeSingle(),
+        client
+          .from('public_season_results')
+          .select('season,from_echelon,to_echelon,outcome,group_rank,group_size,points')
+          .eq('user_id', id)
+          .order('season', { ascending: false })
+          .limit(24),
+        client
+          .from('public_player_card')
+          .select('settled,wins,staked,returned,avg_odds,tickets_30,active_days_30,avg_stake_ratio')
+          .eq('user_id', id)
+          .maybeSingle(),
+        client
+          .from('public_standings')
+          .select(
+            'season,group_id,rank,points,picks,wins,roi,form,decided,confirmed,ranking_version'
+          )
+          .eq('user_id', id)
+          .order('season', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+        Promise.resolve({ data: [] })
+      ]);
+    const raw = card.error
+      ? {}
+      : card.data
+        ? Object.fromEntries(
+            Object.entries({
+              settled: 'settled',
+              wins: 'wins',
+              staked: 'staked',
+              returned: 'returned',
+              avgOdds: 'avg_odds',
+              tickets30: 'tickets_30',
+              activeDays30: 'active_days_30',
+              avgStakeRatio: 'avg_stake_ratio'
+            }).map(([key, column]) => [
+              key,
+              card.data[column] == null ? null : Number(card.data[column])
+            ])
+          )
+        : {};
+    const groupRaws = [];
+    let bets = null;
+    if (!self && profile.show_bets) {
+      const rows = await client
+        .from('public_bets')
+        .select('id,placed_at,bet_type,odds,status,selections')
+        .eq('user_id', id)
+        .order('placed_at', { ascending: false })
+        .limit(20);
+      bets = rows.data ?? [];
+    }
+    const historySummary = self ? (await personalDashboard()).history : null;
+    return {
+      profile,
+      self,
+      historySummary,
+      equipped: Object.fromEntries((equipped.data ?? []).map((row) => [row.slot, row])),
+      xp: xp.data?.xp ?? 0,
+      badges: badges.data ?? [],
+      echelon: league.data?.echelon ?? null,
+      seasons: seasons.data ?? [],
+      raw,
+      standing: standing.data ?? null,
+      groupRaws,
+      bets
+    };
+  };
+  const updateSettings = async (settings) => {
+    if (!currentUser) throw new Error('Connectez-vous pour modifier votre profil.');
+    const { error } = await client
+      .from('profiles')
+      .update({ ...settings, updated_at: new Date().toISOString() })
+      .eq('user_id', currentUser.id);
+    if (error) throw profileError(error);
+  };
+  const changeNickname = async (nickname) => {
+    const { data, error } = await client.rpc('change_nickname', { p_nickname: nickname });
+    if (error) throw profileError(error);
+    label.textContent = data;
+    loadCommunity();
+    return data;
+  };
+  const updateEmail = async (email) => {
+    const { error } = await client.auth.updateUser({ email }, { emailRedirectTo: redirect });
+    if (error) throw authError(error);
+  };
+  // Avatar 3D (BET-49) : objets possédés (boutique) et débloqués par division, puis enregistrement de la configuration et des images (buste, en pied) dans Supabase Storage.
+  const avatarContext = async () => ({ inventory: [], unlocks: [] });
+  const saveAvatar = async (config, blobs) => {
+    if (!currentUser) throw new Error('Connectez-vous pour enregistrer votre avatar.');
+    let value = sanitizeAvatar(config),
+      rev = value.rev;
+    if (blobs?.bust && blobs?.full) {
+      try {
+        for (const [name, blob] of [
+          ['bust', blobs.bust],
+          ['full', blobs.full]
+        ]) {
+          const { error } = await client.storage
+            .from('avatars')
+            .upload(`${currentUser.id}/${name}`, blob, {
+              upsert: true,
+              contentType: blob.type || 'image/webp',
+              cacheControl: '31536000'
+            });
+          if (error) throw error;
+        }
+        rev = Math.floor(Date.now() / 1000);
+      } catch (error) {
+        console.warn('Image de l’avatar non envoyée', error?.message);
+      }
+    }
+    value = { ...value, rev };
+    const { error } = await client
+      .from('profiles')
+      .update({
+        avatar: legacyView(value).avatar,
+        avatar_config: value,
+        updated_at: new Date().toISOString()
+      })
+      .eq('user_id', currentUser.id);
+    if (error) throw profileError(error);
+    return value;
+  };
+  const notifications = createNotificationApi(client),
+    newsletter = createNewsletterApi(client);
+  const exportData = async () => {
+    const { data, error } = await client.rpc('export_my_data');
+    if (error) throw profileError(error);
+    return data;
+  };
+  const deleteAccount = async (confirmation) => {
+    const own = currentUser?.id;
+    if (own)
+      await client.storage
+        .from('avatars')
+        .remove([`${own}/bust`, `${own}/full`])
+        .catch(() => {});
+    const { error } = await client.rpc('delete_my_account', { p_confirm: confirmation });
+    if (error) throw profileError(error);
+    await client.auth.signOut().catch(() => {});
+    currentUser = null;
+    loadedUserId = null;
+    clearTimeout(saveTimer);
+    setView(null);
+    onServerData(null);
+    resetState();
+  };
+  // Ligues privées (BET-61) : création, code d'invitation, classement des membres, administration par le propriétaire.
+  const PRIVATE_ERRORS = {
+    TROP_ESSAIS_LIGUE: 'Trop de codes incorrects. Réessayez dans une heure.',
+    NOM_INVALIDE: 'Le nom compte 3 à 30 caractères.',
+    LIGUES_PRIVEES_MAX: 'Vous êtes déjà dans 5 ligues privées : quittez-en une d’abord.',
+    CODE_INVALIDE: 'Ce code ne correspond à aucune ligue : vérifiez-le auprès de votre ami.',
+    LIGUE_PLEINE: 'Cette ligue compte déjà 50 membres.',
+    PROPRIETAIRE_REQUIS: 'Seul le propriétaire peut faire cela.',
+    EXCLUSION_IMPOSSIBLE: 'Vous ne pouvez pas vous exclure : quittez la ligue.',
+    MEMBRE_REQUIS: 'Vous devez être membre de cette ligue.'
+  };
+  const privateError = (error) => {
+    const code = Object.keys(PRIVATE_ERRORS).find((key) =>
+      String(error?.message ?? '').includes(key)
+    );
+    if (code) {
+      const failure = new Error(PRIVATE_ERRORS[code]);
+      failure.code = code;
+      return failure;
+    }
+    return betError(error);
+  };
+  const loadPrivate = async () => {
+    if (!currentUser) return;
+    const leagues = await client
+      .from('private_leagues')
+      .select('id,name,emblem,owner_id,code,created_at')
+      .order('created_at', { ascending: true });
+    if (leagues.error) {
+      onPrivateData(null);
+      return;
+    }
+    const ids = (leagues.data ?? []).map((item) => item.id),
+      members = ids.length
+        ? await client
+            .from('private_league_members')
+            .select('league_id')
+            .in('league_id', ids)
+            .limit(1000)
+        : { data: [] },
+      counts = {};
+    for (const row of members.data ?? []) counts[row.league_id] = (counts[row.league_id] ?? 0) + 1;
+    onPrivateData({
+      me: currentUser.id,
+      leagues: (leagues.data ?? []).map((item) => ({
+        ...item,
+        members: counts[item.id] ?? 1,
+        owner: item.owner_id === currentUser.id
+      }))
+    });
+  };
+  const privateCall = async (name, args) => {
+    const { data, error } = await client.rpc(name, args);
+    if (error || data?.error) throw privateError(error ?? { message: data.error });
+    await loadPrivate();
+    return data;
+  };
+  const privateApi = {
+    create: (name, emblem) =>
+      privateCall('create_private_league', { p_name: name, p_emblem: emblem }),
+    join: (code) => {
+      const clean = normalizeCode(code);
+      if (!clean)
+        throw Object.assign(new Error(PRIVATE_ERRORS.CODE_INVALIDE), { code: 'CODE_INVALIDE' });
+      return privateCall('join_private_league', { p_code: clean });
+    },
+    leave: (id) => privateCall('leave_private_league', { p_league: id }),
+    kick: (id, user) => privateCall('kick_private_member', { p_league: id, p_user: user }),
+    regenerate: (id) => privateCall('regenerate_private_code', { p_league: id }),
+    remove: (id) => privateCall('delete_private_league', { p_league: id }),
+    ranking: async (id, season) => {
+      const { data, error } = await client.rpc('private_league_ranking', {
+        p_league: id,
+        p_season: season ?? null
+      });
+      if (error) throw privateError(error);
+      return data ?? [];
+    },
+    seasons: async (id) => {
+      const { data, error } = await client.rpc('private_league_seasons', { p_league: id });
+      if (error) throw privateError(error);
+      return data ?? [];
+    }
+  };
+  // Hub communauté (BET-60) : classements paginés, suivis, fil d'activité, hall of fame.
+  const COMMUNITY_ERRORS = {
+    SUIVI_IMPOSSIBLE: 'Vous ne pouvez pas vous suivre vous-même.',
+    PROFIL_PRIVE: 'Ce joueur a choisi un profil privé.',
+    SUIVIS_MAX: 'Vous suivez déjà 200 joueurs : arrêtez-en un d’abord.'
+  };
+  const communityError = (error) => {
+    const code = Object.keys(COMMUNITY_ERRORS).find((key) =>
+      String(error?.message ?? '').includes(key)
+    );
+    if (code) {
+      const failure = new Error(COMMUNITY_ERRORS[code]);
+      failure.code = code;
+      return failure;
+    }
+    return betError(error);
+  };
+  const GENERAL_PAGE = 25,
+    likeSafe = (value) => value.replace(/[\\%_,()]/g, (match) => `\\${match}`);
+  const generalRanking = async ({
+    scope = 'season',
+    division = '',
+    club = '',
+    search = '',
+    page = 1,
+    sort = 'points'
+  }) => {
+    const metric = ['points', 'roi', 'wins'].includes(sort) ? sort : 'points';
+    let query = client
+      .from(scope === 'alltime' ? 'public_ranking_alltime' : 'public_ranking_season')
+      .select(
+        'user_id,nickname,avatar,avatar_config,echelon,heart_club_id,points,picks,wins,rank,roi,decided,confirmed,ranking_version',
+        { count: 'exact' }
+      )
+      .order('confirmed', { ascending: false })
+      .order(metric, { ascending: false })
+      .order('rank', { ascending: true })
+      .order('user_id', { ascending: true })
+      .range((page - 1) * GENERAL_PAGE, page * GENERAL_PAGE - 1);
+    if (division !== '') {
+      const index = Number(division);
+      query =
+        index >= 5
+          ? query.eq('echelon', index + 10)
+          : query.gte('echelon', index * 3).lte('echelon', index * 3 + 2);
+    }
+    if (club) query = query.eq('heart_club_id', club);
+    if (search) query = query.ilike('nickname', `%${likeSafe(search)}%`);
+    const [ranking, own] = await Promise.all([
+      query,
+      currentUser
+        ? client
+            .from(scope === 'alltime' ? 'public_ranking_alltime' : 'public_ranking_season')
+            .select('rank,points,decided,confirmed,ranking_version')
+            .eq('user_id', currentUser.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null })
+    ]);
+    const { data, count, error } = ranking;
+    if (error) throw communityError(error);
+    return {
+      rows: data ?? [],
+      total: count ?? 0,
+      pageSize: GENERAL_PAGE,
+      me: own.error ? null : own.data
+    };
+  };
+  const loadPodium = async () => {
+    const top = await client
+      .from('public_ranking_season')
+      .select('echelon')
+      .eq('confirmed', true)
+      .not('echelon', 'is', null)
+      .order('echelon', { ascending: false })
+      .limit(1);
+    const echelon = top.data?.[0]?.echelon;
+    if (echelon == null) return { echelon: null, rows: [] };
+    const { data } = await client
+      .from('public_ranking_season')
+      .select('user_id,nickname,avatar,avatar_config,points,picks')
+      .eq('echelon', echelon)
+      .eq('confirmed', true)
+      .order('rank', { ascending: true })
+      .order('points', { ascending: false })
+      .limit(3);
+    return { echelon, rows: data ?? [] };
+  };
+  const profileConnections = async (user, kind = null, offset = 0) => {
+    const { data, error } = await client.rpc('profile_connections', {
+      p_user: user,
+      p_kind: kind,
+      p_offset: offset
+    });
+    if (error) throw communityError(error);
+    return data;
+  };
+  const loadFollowing = async () => {
+    if (!currentUser) return;
+    const { data, error } = await client.from('follows').select('followed_id');
+    if (error) {
+      onFollowData(null);
+      return;
+    }
+    onFollowData({ ids: (data ?? []).map((item) => item.followed_id) });
+  };
+  const followCall = async (name, user) => {
+    const { error } = await client.rpc(name, { p_user: user });
+    if (error) throw communityError(error);
+    await loadFollowing();
+  };
+  const loadFollows = async () => {
+    if (!currentUser) return null;
+    const [follows, leagues, feed] = await Promise.all([
+      client.from('follows').select('followed_id'),
+      client.from('player_league').select('user_id,echelon').limit(5000),
+      client
+        .from('activities')
+        .select('id,actor_id,kind,payload,created_at')
+        .order('created_at', { ascending: false })
+        .limit(40)
+    ]);
+    if (follows.error) throw communityError(follows.error);
+    const ids = [
+        ...new Set([
+          ...(follows.data ?? []).map((item) => item.followed_id),
+          ...(feed.data ?? []).map((item) => item.actor_id)
+        ])
+      ],
+      names = ids.length
+        ? await client
+            .from('public_profiles')
+            .select('user_id,nickname,avatar,avatar_config')
+            .in('user_id', ids)
+        : { data: [] },
+      byId = Object.fromEntries((names.data ?? []).map((item) => [item.user_id, item]));
+    return {
+      following: (follows.data ?? []).map((item) => byId[item.followed_id]).filter(Boolean),
+      echelons: Object.fromEntries(
+        (leagues.data ?? []).map((item) => [item.user_id, item.echelon])
+      ),
+      activities: (feed.data ?? []).map((item) => ({
+        ...item,
+        nickname: byId[item.actor_id]?.nickname ?? 'Un joueur'
+      }))
+    };
+  };
+  const feedUnread = async (since) => {
+    if (!currentUser) return 0;
+    const { count } = await client
+      .from('activities')
+      .select('id', { count: 'exact', head: true })
+      .gt('created_at', since);
+    return count ?? 0;
+  };
+  const loadHall = async () => {
+    const [masters, specials] = await Promise.all([
+      client
+        .from('hall_master_champions')
+        .select('season,user_id,nickname,points')
+        .order('season', { ascending: false })
+        .limit(24),
+      client
+        .from('hall_special_champions')
+        .select('league_name,season,user_id,nickname')
+        .order('season', { ascending: false })
+        .limit(24)
+    ]);
+    if (masters.error || specials.error) throw communityError(masters.error ?? specials.error);
+    return { masters: masters.data ?? [], specials: specials.data ?? [], fortune: [] };
+  };
+  const markSeasonSeen = async (season) => {
+    await client.rpc('mark_season_seen', { p_season: season });
+  };
+  const findBetsByRefs = async (refs) => {
+    if (!currentUser) throw betError({ message: 'AUTH_REQUIRED' });
+    const { data, error } = await client.from('bets').select('client_ref').in('client_ref', refs);
+    if (error) throw betError(error);
+    return (data ?? []).map((row) => row.client_ref);
+  };
+  const placeBet = async ({
+    selections,
+    stake,
+    countsGeneral = false,
+    betType = 'combined',
+    formula = null,
+    clientRef = crypto.randomUUID()
+  }) => {
+    const { data, error } = await client.rpc('place_bet', {
+      p_selections: selections,
+      p_stake: stake,
+      p_counts_general: countsGeneral,
+      p_bet_type: betType,
+      p_formula: formula,
+      p_client_ref: clientRef
+    });
+    if (error) throw betError(error);
+    return data;
+  };
+  const playDailyPick = async (matchId, pick) => {
+    const { error } = await client.rpc('play_daily_pick', { p_match_id: matchId, p_pick: pick });
+    if (error) throw betError(error);
+    await refreshServer();
+  };
+  const saveNow = async (payload) => {
+    if (!currentUser) return;
+    status.textContent = 'Synchronisation en cours…';
+    status.className = 'sync-status syncing';
+    const { error } = await client
+      .from('user_states')
+      .upsert(
+        { user_id: currentUser.id, state: payload, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id' }
+      );
+    if (error) {
+      status.textContent = 'Échec de synchronisation · nouvel essai au prochain changement';
+      status.className = 'sync-status error';
+      console.error(error);
+      return;
+    }
+    status.textContent = `Synchronisé à ${new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date())}`;
+    status.className = 'sync-status';
+    publishCommunity(payload);
+  };
+  registerCloudSave((payload) => {
+    if (!currentUser) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => saveNow(payload), 600);
+  });
+
+  const loadUser = async (user) => {
+    setView(user);
+    if (!user || loadedUserId === user.id) return;
+    loadedUserId = user.id;
+    status.textContent = 'Récupération de vos données…';
+    const { data, error } = await client
+      .from('user_states')
+      .select('state')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    if (error) {
+      loadedUserId = null;
+      status.textContent = 'Impossible de récupérer vos données';
+      status.className = 'sync-status error';
+      showMessage(error.message, true);
+      return;
+    }
+    const meta = user.user_metadata ?? {},
+      prefs = sanitizePreferences(meta.prefs),
+      metaProfile = {
+        nickname: String(meta.username || 'Parieur').slice(0, 24),
+        avatar: meta.avatar || 'lime',
+        face: meta.face || 'smile',
+        accessory: meta.accessory || 'none',
+        ...(meta.avatar2?.v === 2 ? { avatar2: sanitizeAvatar(meta.avatar2) } : {}),
+        heartClub: prefs.club,
+        riskStyle: prefs.style
+      },
+      payload = data?.state ?? {
+        ...getState(),
+        profile: metaProfile,
+        favoriteTeams: prefs.club ? [prefs.club.name] : [],
+        favoriteLeagues: prefs.leagues
+      },
+      { data: own } = await client
+        .from('profiles')
+        .select('nickname,heart_club_id,heart_club_name,avatar_config')
+        .eq('user_id', user.id)
+        .maybeSingle();
+    const accountAvatar = resolveAccountAvatar(
+      own?.avatar_config,
+      payload.profile?.avatar2,
+      meta.avatar2
+    );
+    if (accountAvatar) payload.profile = { ...payload.profile, avatar2: accountAvatar };
+    if (own?.nickname)
+      payload.profile = {
+        ...payload.profile,
+        nickname: own.nickname,
+        ...(own.avatar_config?.v === 2 ? { avatar2: sanitizeAvatar(own.avatar_config) } : {}),
+        ...(own.heart_club_id
+          ? { heartClub: { id: own.heart_club_id, name: own.heart_club_name } }
+          : {})
+      };
+    applyState(payload);
+    if (!data?.state) await saveNow(payload);
+    await publishCommunity(payload);
+    await refreshServer();
+    setView(user);
+    status.textContent = 'Synchronisation à jour';
+    status.className = 'sync-status';
+  };
+
+  // API de connexion utilisée par join.js : les erreurs sont traduites en français (auth-model.js), le pseudo est vérifié par la RPC pseudo_disponible.
+  const authError = (error) => {
+    const failure = new Error(translateAuthError(error));
+    failure.code = error?.code ?? error?.name;
+    return failure;
+  };
+  const auth = {
+    nicknameAvailable: async (nickname) => {
+      if (!currentUser) throw authError({ code: 'AUTH_REQUIRED' });
+      const { data, error } = await client.rpc('pseudo_disponible', { p_nickname: nickname });
+      if (error) throw authError(error);
+      return data === true;
+    },
+    signIn: async (email, password) => {
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error) throw authError(error);
+      return data.user;
+    },
+    signUp: async ({ email, password, username, prefs, avatar, newsletter = false }) => {
+      const { data, error } = await client.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirect,
+          data: {
+            username,
+            newsletter_opt_in: newsletter === true,
+            prefs: sanitizePreferences(prefs),
+            ...(registrationAvatar(avatar) ? { avatar2: registrationAvatar(avatar) } : {})
+          }
+        }
+      });
+      if (error) throw authError(error);
+      if (data.user && data.user.identities?.length === 0)
+        throw authError({ code: 'user_already_exists' });
+      return { confirmed: Boolean(data.session) };
+    },
+    resend: async (email) => {
+      const { error } = await client.auth.resend({
+        type: 'signup',
+        email,
+        options: { emailRedirectTo: redirect }
+      });
+      if (error) throw authError(error);
+    },
+    reset: async (email) => {
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: redirect });
+      if (error) throw authError(error);
+    },
+    updatePassword: async (password) => {
+      const { error } = await client.auth.updateUser({ password });
+      if (error) throw authError(error);
+    },
+    google: async () => {
+      const { error } = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: redirect }
+      });
+      if (error) throw authError(error);
+    },
+    signOut: async () => {
+      const { error } = await client.auth.signOut();
+      if (error) throw authError(error);
+      currentUser = null;
+      loadedUserId = null;
+      clearTimeout(saveTimer);
+      setView(null);
+      onServerData(null);
+      resetState();
+    }
+  };
+
+  client.auth.onAuthStateChange((event, session) => {
+    onAuthEvent(event, session?.user ?? null);
+    if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      loadedUserId = null;
+      setView(null);
+      onServerData(null);
+      resetState();
+      return;
+    }
+    if (session?.user) setTimeout(() => loadUser(session.user), 0);
+  });
+  loadCommunity();
+  client.auth.getSession().then(({ data, error }) => {
+    if (confirmationError) {
+      onAuthEvent('CONFIRMATION_FAILED');
+      history.replaceState(null, '', redirect);
+    } else if (callback.kind === 'oauth-error') {
+      history.replaceState(null, '', redirect);
+      onAuthEvent('OAUTH_FAILED');
+      showMessage(callback.message, true);
+    }
+    if (error) showMessage(translateAuthError(error), true);
+    else if (data.session?.user) {
+      loadUser(data.session.user);
+      if (signupReturn && data.session.user.email_confirmed_at) onAuthEvent('EMAIL_CONFIRMED');
+    } else setView(null);
+  });
+  const setProfileFrame = async (frame) => {
+    const { error } = await client.rpc('set_profile_frame', { p_frame: frame });
+    if (error) throw profileError(error);
+  };
+  return {
+    configured: true,
+    setProfileFrame,
+    personalDashboard,
+    personalHistory,
+    notifications,
+    newsletter,
+    auth,
+    privateLeagues: privateApi,
+    community: {
+      connections: profileConnections,
+      ranking: generalRanking,
+      podium: loadPodium,
+      follows: loadFollows,
+      follow: (user) => followCall('follow_player', user),
+      unfollow: (user) => followCall('unfollow_player', user),
+      unread: feedUnread,
+      hall: loadHall,
+      followers: (user) =>
+        client.from('public_follow_counts').select('followers').eq('user_id', user).maybeSingle()
+    },
+    loadPlayer,
+    avatarContext,
+    saveAvatar,
+    updateSettings,
+    changeNickname,
+    updateEmail,
+    exportData,
+    deleteAccount,
+    reloadCommunity: loadCommunity,
+    refreshServer,
+    findBetsByRefs,
+    placeBet,
+    playDailyPick,
+    markSeasonSeen,
+    joinChallenge,
+    leaveChallenge,
+    joinLeague,
+    leaveLeague,
+    playSpecialPick,
+    clearSpecialPick,
+    leagueStandings
+  };
+}

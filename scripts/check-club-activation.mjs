@@ -1,8 +1,8 @@
 // Contrôles en lecture seule avant de lancer la synchronisation existante du Club.
 import { pathToFileURL } from 'node:url';
 import { createAdmin } from './supabase-admin.mjs';
-import { seasonKey } from '../league.js';
-import { defaultAvatar, applyItem } from '../avatar-config.js';
+import { seasonKey } from '../src/club/league.js';
+import { defaultAvatar, applyItem } from '../src/avatar/avatar-config.js';
 class ClubActivationError extends Error {}
 export async function checkClubActivation(admin, now = new Date()) {
   if (!admin)

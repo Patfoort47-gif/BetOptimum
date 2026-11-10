@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-62 · boutique et usages des jetons
-const S = await import('../shop.js');
+const S = await import('../src/club/shop.js');
 test('le catalogue : identifiants uniques, prix dans la fourchette de la rareté, exclusifs non achetables', () => {
   const ids = S.CATALOG.map((e) => e.id);
   assert.equal(new Set(ids).size, ids.length);
@@ -148,8 +148,8 @@ test('duels : mises de 50 à 5 000 jetons, le meilleur prono du jour remporte le
   assert.equal(S.duelWinner({ picks: 2, points: -10 }, { picks: 0, points: 0 }), 'creator');
 });
 const E = await import('../scripts/shop-engine.mjs'),
-  M = await import('../model.js'),
-  R = await import('../rewards.js');
+  M = await import('../src/model/model.js'),
+  R = await import('../src/club/rewards.js');
 test('les lignes envoyées au serveur : catalogue puis les packs recalculés, exclusifs gratuits, rien d’autre', () => {
   const rows = E.shopRows();
   assert.equal(rows.length, S.CATALOG.length + S.PACKS.length);

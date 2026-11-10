@@ -1,7 +1,7 @@
 // Source simulée : réponses de cinq lignes, aucun compte ni service distant.
 async function mountHistory(p) {
   await p.evaluate(async () => {
-    const { initPersonalDashboard } = await import('/personal-dashboard.js');
+    const { initPersonalDashboard } = await import('/src/history/personal-dashboard.js');
     const now = Date.now();
     window.__h = {
       calls: [],

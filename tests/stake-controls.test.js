@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { stakeCents, adjustStake, validUnit, stakeIssue } from '../stake-controls.js';
+import { stakeCents, adjustStake, validUnit, stakeIssue } from '../src/ticket/stake-controls.js';
 test('montants rapides : additions exactes en centimes, zéro et rafale', () => {
   let value = '0';
   for (const [action, expected] of [
@@ -41,7 +41,7 @@ test('validation : précision, minimum et total des simples face au solde', () =
 });
 
 test('BET-206 : pourcentages de bankroll arrondis en centimes', async () => {
-  const { percentageStake } = await import('../stake-controls.js');
+  const { percentageStake } = await import('../src/ticket/stake-controls.js');
   assert.equal(percentageStake(500, 2), 1000);
   assert.equal(percentageStake(123.45, 3), 370);
   assert.equal(percentageStake(0, 5), 0);

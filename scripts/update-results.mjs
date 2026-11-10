@@ -1,9 +1,9 @@
-import { predictionProvenance } from '../prediction-provenance.js';
+import { predictionProvenance } from '../src/history/prediction-provenance.js';
 import { enrichHalfTimeResults, RESULT_SLUGS } from './h1-results.mjs';
-import { selectionSnapshot } from '../selection-snapshot.js';
-import { regulationScore } from '../regulation-score.js';
+import { selectionSnapshot } from '../src/model/selection-snapshot.js';
+import { regulationScore } from '../src/model/regulation-score.js';
 import { readFile, writeFile } from 'node:fs/promises';
-import { selectionResult } from '../model.js';
+import { selectionResult } from '../src/model/model.js';
 import { writeFixtureIndex } from './fixture-files.mjs';
 
 const leagues = [

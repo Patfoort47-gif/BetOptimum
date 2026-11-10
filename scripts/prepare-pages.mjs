@@ -22,6 +22,13 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
     for (const [, ref] of source.matchAll(/['"]((?:\.\.?\/)[^'"\s]+\.js(?:\?[^'"\s]*)?)['"]/g))
       pending.push(new URL(ref, file));
   }
+  const modulePaths = JSON.parse(await readFile(new URL('config/module-paths.json', root), 'utf8'));
+  const aliases = [];
+  for (const [legacy, target] of Object.entries(modulePaths)) {
+    if (!seen.has(new URL(target, root).href)) continue;
+    await writeFile(new URL(legacy, out), `export * from './${target}';\n`);
+    aliases.push(legacy);
+  }
   for (const name of [
     'index.html',
     'theme-bootstrap.js',
@@ -71,7 +78,8 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       'fonts/barlow-condensed-latin-600-normal.woff2',
       'fonts/barlow-condensed-latin-700-normal.woff2',
       'fonts/barlow-condensed-latin-800-normal.woff2',
-      ...[...seen].map((url) => new URL(url).pathname.slice(root.pathname.length))
+      ...[...seen].map((url) => new URL(url).pathname.slice(root.pathname.length)),
+      ...aliases
     ])
   );
   return [...seen].map((url) => new URL(url).pathname.slice(root.pathname.length));

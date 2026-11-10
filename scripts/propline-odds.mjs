@@ -1,7 +1,7 @@
-import { marketSpec, marketEnabled, isExtendedMarket } from '../markets.js';
+import { marketSpec, marketEnabled, isExtendedMarket } from '../src/model/markets.js';
 // Server-side only. PropLine prices are American unless price_decimal is supplied.
-import { sameTeam } from '../team-match.js';
-import { isInSecondaryOddsWindow } from '../odds-cache.js';
+import { sameTeam } from '../src/matches/team-match.js';
+import { isInSecondaryOddsWindow } from '../src/model/odds-cache.js';
 import { compositeSelection, COMPOSITE_MARKETS } from './propline-composites.mjs';
 const BOOKS = {
   betclic: { key: 'betclic_fr', name: 'Betclic (FR)' },

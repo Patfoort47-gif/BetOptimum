@@ -7,7 +7,7 @@ import {
   supplementOffers,
   collectPropLine
 } from '../scripts/propline-odds.mjs';
-import { mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { mergeCachedOffers, summarizeOffers } from '../src/model/odds-cache.js';
 const now = Date.parse('2026-11-02T12:00:00Z'),
   stamp = new Date(now - 60000).toISOString();
 const match = {

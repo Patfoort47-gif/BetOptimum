@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-57 · niveaux, XP, titres, trophées, défis hebdomadaires
-const M = await import('../model.js'),
-  R = await import('../rewards.js');
+const M = await import('../src/model/model.js'),
+  R = await import('../src/club/rewards.js');
 test('la courbe d’XP : 85 pour le niveau 2, 205 au niveau 100, environ 790 au niveau 1000, environ 486 000 au total', () => {
   assert.equal(M.xpForLevel(1), 85);
   assert.equal(M.xpForLevel(100), 205);

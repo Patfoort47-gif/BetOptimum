@@ -9,7 +9,7 @@ L’étape **3** ajoute des choix manuels en temps réglementaire :
 - marges de victoire exactes de 1 à 9 buts et seuils « ou plus », ainsi que nul 0 - 0 et nul avec buts ;
 - Over/Under sur les demi-lignes 0,5 et 4,5 à 9,5. Les lignes 1,5 / 2,5 / 3,5 gardent leurs identités et modèle existants.
 
-Aucune cote absente n’est créée. Les totaux entiers/quarts, marchés joueurs, corners, cartons, composites et mi-temps restent désactivés ; voir [la matrice](MARKETS_INVENTORY.md). La livraison constitue le premier lot déployable de BET-170, pas l’activation des 35 clés.
+Aucune cote absente n’est créée. Les totaux entiers/quarts, marchés joueurs, corners, cartons, composites et mi-temps restent désactivés ; voir [la matrice](archive/MARKETS_INVENTORY.md). La livraison constitue le premier lot déployable de BET-170, pas l’activation des 35 clés.
 
 Les nouveaux choix n’ont ni probabilité, ni value, ni recommandation automatique, ni conseil de mise. Les cinq recommandations historiques sont conservées. Le ticket, la comparaison et l’historique utilisent la même clé stable que le règlement. Une seule sélection par match demeure autorisée dans tout ticket, y compris les systèmes.
 

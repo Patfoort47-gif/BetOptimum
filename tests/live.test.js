@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inLiveWindow, applyLiveSnapshot, liveEntryFromPayload } from '../live.js';
+import { inLiveWindow, applyLiveSnapshot, liveEntryFromPayload } from '../src/matches/live.js';
 const kickoff = '2026-11-06T19:00:00Z',
   time = Date.parse(kickoff);
 test('les objets Date et les dates ISO déclenchent le direct pendant les quatre heures du match', () => {

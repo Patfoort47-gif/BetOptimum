@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFixtureCache, writeFixtureCache, clearLegacyFixtureCache } from '../fixture-cache.js';
+import {
+  readFixtureCache,
+  writeFixtureCache,
+  clearLegacyFixtureCache
+} from '../src/core/fixture-cache.js';
 test('BET-293 : le cache du calendrier utilise Cache API et supprime seulement l’ancienne clé', async () => {
   const entries = new Map(),
     original = globalThis.caches;

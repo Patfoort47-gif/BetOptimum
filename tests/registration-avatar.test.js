@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { defaultAvatar, restrictedIds } from '../avatar-config.js';
-import { registrationAvatar, resolveAccountAvatar } from '../registration-avatar.js';
+import { defaultAvatar, restrictedIds } from '../src/avatar/avatar-config.js';
+import { registrationAvatar, resolveAccountAvatar } from '../src/account/registration-avatar.js';
 const chosen = () => ({
   ...defaultAvatar(),
   skin: 4,

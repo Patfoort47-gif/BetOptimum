@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { blendXg, scoreProbabilities, evaluateXg } from '../xg-evaluation.js';
+import { blendXg, scoreProbabilities, evaluateXg } from '../src/model/xg-evaluation.js';
 const match = {
     home: 'A',
     away: 'B',

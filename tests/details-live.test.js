@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyLiveSnapshot } from '../live.js';
-import { initDetails } from '../details.js';
+import { applyLiveSnapshot } from '../src/matches/live.js';
+import { initDetails } from '../src/matches/details.js';
 test('la fiche remplace l’heure par le score issu des statistiques, puis suit le score et la fin du match', async () => {
   const saved = Object.fromEntries(
     ['document', 'history', 'addEventListener', 'fetch', 'setInterval', 'clearInterval'].map(

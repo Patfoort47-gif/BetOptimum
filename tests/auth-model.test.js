@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-46 · connexion et inscription : règles pures
-const A = await import('../auth-model.js');
+const A = await import('../src/account/auth-model.js');
 test('le pseudo compte 3 à 24 caractères autorisés, sans espace en bordure', () => {
   assert.equal(A.validNickname('Matteo'), true);
   assert.equal(A.validNickname('Jean-Luc_2'), true);

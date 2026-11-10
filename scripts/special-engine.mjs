@@ -1,8 +1,8 @@
 // Moteur des ligues spéciales (BET-56) : journées, règlement des pronos de grille, classements et titres de fin de saison.
 // Décisions pures dans special.js ; ce fichier lit et écrit Supabase avec la clé service_role.
-import { leaguePoints, selectionResult } from '../model.js';
-import { championEligible, planRounds, specialStandings, tier } from '../special.js';
-import { monthKey } from '../league.js';
+import { leaguePoints, selectionResult } from '../src/model/model.js';
+import { championEligible, planRounds, specialStandings, tier } from '../src/club/special.js';
+import { monthKey } from '../src/club/league.js';
 
 export async function syncSpecialRounds(admin, matches) {
   const leagues = await admin.selectAll(

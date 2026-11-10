@@ -66,7 +66,7 @@ const fixtures = {
         await page.route('**/*', (r) => {
           const u = new URL(r.request().url());
           if (u.origin !== new URL(base).origin) return r.abort();
-          if (u.pathname.endsWith('/account.js'))
+          if (u.pathname.endsWith('/src/account/account.js'))
             return r.fulfill({ contentType: 'text/javascript', body: mock });
           if (u.pathname.endsWith('/data/fixtures.json')) return r.fulfill({ json: fixtures });
           if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });

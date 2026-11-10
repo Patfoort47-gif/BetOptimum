@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { forecastMatch, marketReference, analysisFamilies } from '../prediction-model.js';
-import { analyseMatch, recommendedMarket, rankRecommendedMarkets } from '../model.js';
+import { forecastMatch, marketReference, analysisFamilies } from '../src/model/prediction-model.js';
+import { analyseMatch, recommendedMarket, rankRecommendedMarkets } from '../src/model/model.js';
 const fixture = {
   home: 'A',
   away: 'B',

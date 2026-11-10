@@ -27,7 +27,7 @@ for (const source of sources) {
   };
 }
 await writeFile(
-  'stadium-catalog.js',
+  'src/matches/stadium-catalog.js',
   '// Généré par scripts/build-stadium-catalog.mjs depuis les sources approuvées.\nexport const STADIUM_PHOTOS=Object.freeze(' +
     JSON.stringify(photos, null, 2) +
     ');\n'

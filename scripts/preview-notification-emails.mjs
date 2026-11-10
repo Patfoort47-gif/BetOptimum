@@ -1,8 +1,8 @@
 // BET-98 : aperçus locaux uniquement, aucun envoi ni donnée personnelle.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { buildBriefing } from '../notification-briefing.js';
-import { briefingEmail } from '../notification-email.js';
+import { buildBriefing } from '../src/notifications/notification-briefing.js';
+import { briefingEmail } from '../src/notifications/notification-email.js';
 const output = resolve(process.argv[2] ?? 'work/email-previews');
 await mkdir(output, { recursive: true });
 const now = Date.parse('2027-04-10T06:00:00Z');

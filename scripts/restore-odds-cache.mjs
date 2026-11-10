@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readFile, writeFile } from 'node:fs/promises';
-import { mergeCachedOffers, summarizeOffers } from '../odds-cache.js';
+import { mergeCachedOffers, summarizeOffers } from '../src/model/odds-cache.js';
 
 const ref = process.argv[2];
 if (!/^[0-9a-f]{7,40}$/i.test(ref ?? ''))

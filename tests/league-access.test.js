@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { leagueAccessError, createLeagueJoiner } from '../league-access.js';
+import { leagueAccessError, createLeagueJoiner } from '../src/club/league-access.js';
 test('BET-92 : distingue limite ancienne, mise en service, refus métier et session expirée', () => {
   assert.equal(
     leagueAccessError({ code: 'P0001', details: null, hint: null, message: 'LIGUES_MAX' }).code,

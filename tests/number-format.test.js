@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { decimal } from '../number-format.js';
+import { decimal } from '../src/core/number-format.js';
 test('format français des cotes, points, pourcentages et ROI', () => {
   assert.equal(decimal(2.01), '2,01');
   assert.equal(decimal(59.4, 1), '59,4');

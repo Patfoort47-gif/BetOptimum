@@ -58,13 +58,13 @@ const match = {
         await page.route('**/*', async (route) => {
           const u = new URL(route.request().url());
           if (u.origin !== base) return route.abort();
-          if (u.pathname.endsWith('/account.js'))
+          if (u.pathname.endsWith('/src/account/account.js'))
             return route.fulfill({ contentType: 'text/javascript', body: mock });
-          if (u.pathname.endsWith('/stadiums.js'))
+          if (u.pathname.endsWith('/src/matches/stadiums.js'))
             return route.fulfill({
               contentType: 'text/javascript',
               body: fs
-                .readFileSync('stadiums.js', 'utf8')
+                .readFileSync('src/matches/stadiums.js', 'utf8')
                 .replace(
                   /export const STADIUMS=Object.freeze\([\s\S]*?\);/,
                   `export const STADIUMS=Object.freeze(${JSON.stringify({ 160: photo, 176: { ...photo, image: 'stadiums/broken.webp', venueId: '43' } })});`

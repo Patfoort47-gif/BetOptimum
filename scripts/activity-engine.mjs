@@ -1,7 +1,7 @@
 // Fil d'activité (BET-60) : alimenté uniquement par le serveur, jamais de bankroll ni de mise. Calculs purs dans community.js (planActivities).
-import { planActivities } from '../community.js';
-import { seasonKey } from '../league.js';
-import { parisDate } from '../model.js';
+import { planActivities } from '../src/club/community.js';
+import { seasonKey } from '../src/club/league.js';
+import { parisDate } from '../src/model/model.js';
 
 export async function emitActivities(admin, now = new Date(), season = seasonKey(now)) {
   const since = new Date(now.getTime() - 8 * 864e5).toISOString();

@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { rankPeriod, rankingVersion, decidedEntry } from '../ranking-policy.js';
-import { specialStandings } from '../special.js';
+import { rankPeriod, rankingVersion, decidedEntry } from '../src/club/ranking-policy.js';
+import { specialStandings } from '../src/club/special.js';
 import { planTitles } from '../scripts/special-engine.mjs';
 import { planClosure } from '../scripts/league-engine.mjs';
 import { planMonthlyPrizes } from '../scripts/token-engine.mjs';
-import { renderClubTable } from '../club-table.js';
+import { renderClubTable } from '../src/club/club-table.js';
 const members = ['a', 'b', 'c'].map((user_id) => ({ user_id, joined_at: '2026-11-01' })),
   series = (user_id, n, w) =>
     Array.from({ length: n }, (_, i) => ({

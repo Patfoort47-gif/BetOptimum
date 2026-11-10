@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { authCallbackStatus } from '../auth-return.js';
-import { translateAuthError } from '../auth-model.js';
+import { authCallbackStatus } from '../src/account/auth-return.js';
+import { translateAuthError } from '../src/account/auth-model.js';
 test('le refus Google ne devient pas une erreur de confirmation email', () => {
   for (const suffix of [
     '#error=access_denied&error_description=secret',

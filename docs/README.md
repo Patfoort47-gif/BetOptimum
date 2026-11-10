@@ -1,32 +1,23 @@
-# Repères du dépôt
+# Plan du dépôt
 
-## Application
+## Développer et publier
 
-- `index.html`, `styles.css`, `app.js` à la racine : structure, présentation et interface.
-- `model.js` et modules de règles : calculs partagés avec le pipeline.
-- `details.js`, `account.js`, `join.js`, `profile.js` : fiches et espaces du Club.
-- `avatar*.js` : configuration, affichage et studio 3D.
-- `data/` : calendrier généré et registre durable des pronostics. Ne pas nettoyer ces fichiers à la main.
+- [Architecture et domaines du code](ARCHITECTURE.md)
+- [Supabase : CLI et migrations](../SUPABASE_SETUP.md)
+- [Recettes UI](ui/TESTING_UI.md), [responsive](RESPONSIVE.md), [accessibilité](ui/ACCESSIBILITY_AUDIT.md)
+- [Configuration des notifications](operations/NOTIFICATIONS_SETUP.md), [PWA et consentements](PWA_PUSH.md), [newsletter](operations/NEWSLETTER_SETUP.md)
 
-## Exploitation
+`src/` regroupe les sources par domaine. `scripts/` contient la collecte, la synchronisation et les recettes ; `tests/` les tests Node ; `supabase/` le SQL et les fonctions Edge. `vendor/` conserve les dépendances du navigateur, leurs licences et leurs empreintes. Les outils npm restent réservés au développement.
 
-- [Installation Supabase](../SUPABASE_SETUP.md) : ordre des migrations SQL, regroupées dans `supabase/migrations/`, sans modification de leur SQL.
-- [Notifications](../NOTIFICATIONS_SETUP.md) et [newsletter](../NEWSLETTER_SETUP.md).
-- `scripts/` : mises à jour, synchronisation, moteurs serveur et outils de recette.
-- `.github/workflows/` : automatisation et déploiement GitHub Pages.
-- `supabase/functions/` : fonctions Edge.
+`app.js`, `theme-bootstrap.js` et `notification-sw.js` restent à la racine pour leurs URL et leur portée. Les autres anciennes URL de modules sont conservées par des alias générés lors de `prepare-pages.mjs`, sans dupliquer les sources maintenues.
 
-## Qualité et recherche
+## Règles et domaines
 
-- [Recette UI](../TESTING_UI.md), [responsive](RESPONSIVE.md), [accessibilité](../ACCESSIBILITY_AUDIT.md), [mesures UI existantes](../UI_PERFORMANCE.md).
-- [Méthodes de pronostic](PREDICTION_METHODS.md) et [évaluation xG](../XG_EVALUATION.md).
-- [Marchés actifs et activation](MARKETS_SETUP.md), [inventaire réel et matrice des familles PropLine](MARKETS_INVENTORY.md), [mise en production du premier lot](MARKETS_PRODUCTION.md).
-- [Cadre juridique](../VALIDATION_JURIDIQUE.md).
-- `tests/*.test.js` : tests Node, lancés par `npm test`.
-- `examples/notification-emails/` : aperçus reproductibles, utiles pour la revue des emails.
+- [Priorité produit](PRODUCT_FOCUS.md), [apparence et économie retirée](PROFILE_CLEANUP.md), [cadre juridique](../VALIDATION_JURIDIQUE.md)
+- [Données et fraîcheur](data/DATA_FRESHNESS.md), [cotes PropLine](PROPLINE_SETUP.md), [marchés actifs](MARKETS_SETUP.md)
+- [Méthodes du modèle](PREDICTION_METHODS.md), [évaluation xG](research/XG_EVALUATION.md)
+- [Barème des ligues](LEAGUE_SCORING.md), [classement confirmé](RANKING_CONFIRMATION.md), [défi du jour](DAILY_CHALLENGE_VALIDATION.md)
+- [Historique personnel](PERSONAL_DASHBOARD.md), [partage des tickets](TICKET_SHARING.md), [connexion Google](GOOGLE_SIGN_IN.md)
+- [Sécurité](SECURITY_LOT15.md), [états d’erreur](ui/ERROR_STATES.md)
 
-Les modules du navigateur restent à la racine ; les styles sont répartis entre `styles.css` et `styles/`. Tests et migrations ont des dossiers dédiés, avec chemins mis à jour. Les fichiers locaux de recette et les dépendances externes sont exclus par `.gitignore`.
-
-[Audit du dépôt et recommandations du 31 octobre 2026](REPOSITORY_AUDIT.md).
-
-[Mesures et validation de BET-126](PERFORMANCE_BET126.md).
+Les [archives](archive/README.md) conservent les audits, mesures et procédures remplacées. Les données générées de `data/` et les preuves de `docs/evidence/` ne sont pas nettoyées à la main.

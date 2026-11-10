@@ -1,26 +1,34 @@
 import {
   planChallengeReminder,
   challengeReminderCurrent
-} from '../../../notification-challenge.js';
-import { planDailyPush, dailyPushCurrent } from '../../../notification-daily.js';
-import { validatedResultCurrent } from '../../../notification-result.js';
+} from '../../../src/notifications/notification-challenge.js';
+import { planDailyPush, dailyPushCurrent } from '../../../src/notifications/notification-daily.js';
+import { validatedResultCurrent } from '../../../src/notifications/notification-result.js';
 import webPush from 'npm:web-push@3.6.7';
 // BET-69 : déployer avec --no-verify-jwt ; chaque route vérifie explicitement son identité.
-import { runScheduledReminders } from '../../../notification-scheduler.js';
+import { runScheduledReminders } from '../../../src/notifications/notification-scheduler.js';
 import {
   NotificationFailure,
   reportNotificationFailure
-} from '../../../notification-diagnostics.js';
-import { notificationConfig } from '../../../notification-config.js';
-import { planBriefing } from '../../../notification-briefing.js';
-import { prepareBriefing } from '../../../notification-briefing-service.js';
+} from '../../../src/notifications/notification-diagnostics.js';
+import { notificationConfig } from '../../../src/notifications/notification-config.js';
+import { planBriefing } from '../../../src/notifications/notification-briefing.js';
+import { prepareBriefing } from '../../../src/notifications/notification-briefing-service.js';
 import {
   detectFavoriteReminders,
   favoriteReminderCurrent
-} from '../../../notification-reminder.js';
-import { detectWebAlerts, webEventCurrent } from '../../../notification-opportunity.js';
-import { decodeWorkerMatches } from '../../../notification-worker-codec.js';
-import { deliver, seal, unseal, validateDestination } from '../../../notification-delivery.js';
+} from '../../../src/notifications/notification-reminder.js';
+import {
+  detectWebAlerts,
+  webEventCurrent
+} from '../../../src/notifications/notification-opportunity.js';
+import { decodeWorkerMatches } from '../../../src/notifications/notification-worker-codec.js';
+import {
+  deliver,
+  seal,
+  unseal,
+  validateDestination
+} from '../../../src/notifications/notification-delivery.js';
 const env = Object.fromEntries(
   [
     'SUPABASE_URL',

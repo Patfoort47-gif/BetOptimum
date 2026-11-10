@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { marketCard, marketSources } from '../market-card.js';
+import { marketCard, marketSources } from '../src/matches/market-card.js';
 const market = {
   key: 'over',
   label: 'Plus de 2,5 buts',

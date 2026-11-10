@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createInbox } from '../in-app-notifications.js';
+import { createInbox } from '../src/club/in-app-notifications.js';
 const store = () => {
   const m = new Map();
   return { getItem: (k) => m.get(k), setItem: (k, v) => m.set(k, v) };

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fairMarket, dataConfidence, evTone } from '../opportunity.js';
-import { analyseMatch } from '../model.js';
-import { prepareAnalyses } from '../analysis-loader.js';
+import { fairMarket, dataConfidence, evTone } from '../src/matches/opportunity.js';
+import { analyseMatch } from '../src/model/model.js';
+import { prepareAnalyses } from '../src/model/analysis-loader.js';
 const at = '2026-11-10T06:00:00Z',
   offer = (key = 'a') => ({
     key,

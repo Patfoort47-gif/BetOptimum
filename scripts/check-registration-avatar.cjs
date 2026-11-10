@@ -35,7 +35,7 @@ const definition = (version, name) => {
   await db.exec(
     `create trigger creer_profil_inscription after insert on auth.users for each row execute function creer_profil_inscription();`
   );
-  const { defaultAvatar } = await import('../avatar-config.js'),
+  const { defaultAvatar } = await import('../src/avatar/avatar-config.js'),
     chosen = {
       ...defaultAvatar(),
       skin: 4,

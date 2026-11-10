@@ -1,9 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { quoteAvailable, selectionBookmakerCount, dailyQuoteAvailable } from '../quote-policy.js';
+import {
+  quoteAvailable,
+  selectionBookmakerCount,
+  dailyQuoteAvailable
+} from '../src/model/quote-policy.js';
 import { fixtureRow } from '../scripts/sync-supabase.mjs';
-import { marketCard } from '../market-card.js';
-import { analyseMatch, optimizeCombo } from '../model.js';
+import { marketCard } from '../src/matches/market-card.js';
+import { analyseMatch, optimizeCombo } from '../src/model/model.js';
 const match = (n, key = 'home') => ({
   id: 'm',
   home: 'Alpha',

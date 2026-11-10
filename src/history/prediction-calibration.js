@@ -1,0 +1,147 @@
+import { decimal } from '../core/number-format.js';
+import { predictionOddsSource } from './prediction-provenance.js';
+const eligible = (row) =>
+  ['won', 'lost'].includes(row.status) &&
+  typeof row.probability === 'number' &&
+  Number.isFinite(row.probability) &&
+  row.probability >= 0 &&
+  row.probability <= 1;
+const mean = (values) =>
+  values.length ? values.reduce((sum, n) => sum + n, 0) / values.length : null;
+export function calibrationReport(history) {
+  const rows = (history ?? []).filter(eligible),
+    bins = Array.from({ length: 10 }, (_, index) => {
+      const items = rows.filter((row) => Math.min(9, Math.floor(row.probability * 10)) === index),
+        count = items.length,
+        observed = mean(items.map((row) => Number(row.status === 'won'))),
+        announced = mean(items.map((row) => row.probability));
+      if (!count)
+        return {
+          lower: index / 10,
+          upper: (index + 1) / 10,
+          count: 0,
+          announced: null,
+          observed: null,
+          interval: null
+        };
+      const z = 1.96,
+        den = 1 + (z * z) / count,
+        center = (observed + (z * z) / (2 * count)) / den,
+        half =
+          (z * Math.sqrt((observed * (1 - observed)) / count + (z * z) / (4 * count * count))) /
+          den;
+      return {
+        lower: index / 10,
+        upper: (index + 1) / 10,
+        count,
+        announced,
+        observed,
+        interval: [Math.max(0, center - half), Math.min(1, center + half)]
+      };
+    });
+  return {
+    count: rows.length,
+    excluded: (history ?? []).length - rows.length,
+    announced: mean(rows.map((row) => row.probability)),
+    observed: mean(rows.map((row) => Number(row.status === 'won'))),
+    brier: mean(rows.map((row) => (row.probability - Number(row.status === 'won')) ** 2)),
+    bins
+  };
+}
+// Ajustement par marché appris sur les seules dates d'entraînement, jamais sur le test.
+export function evaluateCalibration(history) {
+  const rows = (history ?? [])
+      .filter(
+        (row) =>
+          eligible(row) &&
+          predictionOddsSource(row) === 'bookmaker' &&
+          /^\d{4}-\d{2}-\d{2}$/.test(row.date)
+      )
+      .slice()
+      .sort((a, b) => a.date.localeCompare(b.date) || String(a.id).localeCompare(String(b.id))),
+    dates = [...new Set(rows.map((row) => row.date))],
+    cut = dates[Math.floor(dates.length * 0.7)] ?? null,
+    training = rows.filter((row) => row.date < cut),
+    test = rows.filter((row) => row.date >= cut),
+    markets = [...new Set(training.map((row) => row.key))],
+    factors = Object.fromEntries(
+      markets.map((key) => {
+        const group = training.filter((row) => row.key === key),
+          avg = mean(group.map((row) => row.probability)),
+          rate = mean(group.map((row) => Number(row.status === 'won')));
+        return [
+          key,
+          { count: group.length, factor: avg > 0 ? Math.max(0.5, Math.min(1.5, rate / avg)) : 1 }
+        ];
+      })
+    ),
+    correct = (row) => Math.max(0, Math.min(1, row.probability * (factors[row.key]?.factor ?? 1))),
+    before = calibrationReport(test),
+    after = calibrationReport(test.map((row) => ({ ...row, probability: correct(row) }))),
+    trainingDays = new Set(training.map((row) => row.date)).size,
+    testDays = new Set(test.map((row) => row.date)).size,
+    required = { trainingPerMarket: 200, testPerMarket: 100, trainingDays: 14, testDays: 7 },
+    marketEvidence = [...new Set(test.map((row) => row.key))].map((key) => ({
+      key,
+      training: factors[key]?.count ?? 0,
+      test: test.filter((row) => row.key === key).length
+    })),
+    sufficient =
+      marketEvidence.length > 0 &&
+      marketEvidence.every(
+        (m) => m.training >= required.trainingPerMarket && m.test >= required.testPerMarket
+      ) &&
+      trainingDays >= required.trainingDays &&
+      testDays >= required.testDays;
+  // Des archives sans capture prématch prouvée ne permettent aucune activation.
+  const prematchProven =
+    rows.length > 0 &&
+    rows.every(
+      (row) =>
+        Number.isFinite(Date.parse(row.capturedAt)) &&
+        Number.isFinite(Date.parse(row.kickoff)) &&
+        Date.parse(row.capturedAt) < Date.parse(row.kickoff)
+    );
+  return {
+    count: rows.length,
+    dateRange: dates.length ? [dates[0], dates.at(-1)] : [],
+    testStart: cut,
+    training: { count: training.length, days: trainingDays },
+    test: { count: test.length, days: testDays, before, after },
+    factors,
+    required,
+    marketEvidence,
+    sufficient,
+    prematchProven,
+    activation: false,
+    decision: !sufficient
+      ? 'Échantillon insuffisant par marché et par dates.'
+      : !prematchProven
+        ? 'Captures prématch non prouvées.'
+        : 'Validation prospective nécessaire avant activation.',
+    limitations: [
+      'Brier binaire du seul choix archivé, pas du vecteur 1N2 complet.',
+      'Facteurs expérimentaux évalués sur des dates distinctes ; probabilités historiques inchangées.',
+      'Cotes synthétiques et inconnues exclues.',
+      'Versions historiques du modèle mélangées ; résultats descriptifs, sans preuve de généralisation.'
+    ]
+  };
+}
+export function renderCalibration(history) {
+  const report = calibrationReport(history),
+    pct = (n) => `${decimal(n * 100, 1)} %`,
+    bins = report.bins.filter((bin) => bin.count);
+  return `<h3>Calibration des probabilités</h3><p>La probabilité annoncée est comparée à la fréquence de réussite observée, par tranches de 10 points, sur les résultats filtrés. Une bonne calibration rapproche les points de la diagonale. Les intervalles à 95 % et les effectifs rendent l’incertitude visible.</p>${
+    !report.count
+      ? '<p>Aucune probabilité exploitable pour ces filtres.</p>'
+      : `<p>${report.count} pronostics · Brier binaire : ${decimal(report.brier, 4)} (0 est idéal) · annoncé ${pct(report.announced)} · observé ${pct(report.observed)}. ${report.excluded} probabilité(s) invalide(s) exclue(s).</p><svg viewBox="0 0 400 280" role="img" aria-labelledby="calibration-title calibration-desc" style="display:block;width:100%;height:auto;max-width:600px;stroke:none;font-size:14px"><title id="calibration-title">Probabilité annoncée contre réussite observée</title><desc id="calibration-desc">Axe horizontal : annoncé, de 0 à 100 %. Axe vertical : observé, de 0 à 100 %. Le tableau suivant donne toutes les valeurs et les intervalles à 95 %.</desc><path d="M45 20V230H365" fill="none" stroke="currentColor"/><path d="M45 230L365 20" fill="none" stroke="currentColor" stroke-dasharray="5 5"/><text x="45" y="250" fill="currentColor">0 %</text><text x="320" y="250" fill="currentColor">100 %</text><text x="8" y="25" fill="currentColor">100</text><text x="8" y="230" fill="currentColor">0</text><text x="150" y="275" fill="currentColor">Annoncé (%)</text>${bins
+          .map((bin) => {
+            const x = 45 + bin.announced * 320,
+              y = 230 - bin.observed * 210;
+            return `<path d="M${x} ${230 - bin.interval[0] * 210}V${230 - bin.interval[1] * 210}" stroke="currentColor"/><circle cx="${x}" cy="${y}" r="5" fill="var(--accent-text)"><title>${pct(bin.announced)} annoncés, ${pct(bin.observed)} observés, ${bin.count} résultats</title></circle>`;
+          })
+          .join(
+            ''
+          )}</svg><div style="overflow-x:auto"><table><caption>Calibration par tranche · intervalles de Wilson à 95 %</caption><thead><tr><th scope="col">Tranche</th><th scope="col">Effectif</th><th scope="col">Annoncé</th><th scope="col">Observé</th><th scope="col">Intervalle observé</th></tr></thead><tbody>${bins.map((bin) => `<tr><th scope="row">${Math.round(bin.lower * 100)} à ${Math.round(bin.upper * 100)} %</th><td>${bin.count}</td><td>${pct(bin.announced)}</td><td>${pct(bin.observed)}</td><td>${pct(bin.interval[0])} à ${pct(bin.interval[1])}</td></tr>`).join('')}</tbody></table></div>`
+  }<p>Les petits effectifs ne permettent pas de conclure. Cette mesure porte sur les choix archivés et les versions successives du modèle. Aucune correction automatique n’est activée sans validation sur un échantillon suffisant et indépendant.</p>`;
+}

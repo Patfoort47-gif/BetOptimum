@@ -11,9 +11,9 @@ import {
   seasonDates,
   seasonKey,
   monthKey
-} from '../league.js';
-import { weekKey } from '../model.js';
-import { parisDate } from '../model.js';
+} from '../src/club/league.js';
+import { weekKey } from '../src/model/model.js';
+import { parisDate } from '../src/model/model.js';
 
 const lastDayOf = (season) => seasonDates(season).end;
 

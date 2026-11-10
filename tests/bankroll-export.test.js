@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { bankrollCsv } from '../bankroll-export.js';
+import { bankrollCsv } from '../src/history/bankroll-export.js';
 const data = {
   account: { bankroll: 1010 },
   capital_events: [],

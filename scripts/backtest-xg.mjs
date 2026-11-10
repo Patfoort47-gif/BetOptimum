@@ -1,8 +1,8 @@
 // Recherche uniquement : aucune activation du modèle de production.
 import { readFile } from 'node:fs/promises';
-import { evaluateXg, blendXg, scoreProbabilities } from '../xg-evaluation.js';
-import { analyseMatch } from '../model.js';
-import { buildXgHistory } from '../xg-history.js';
+import { evaluateXg, blendXg, scoreProbabilities } from '../src/model/xg-evaluation.js';
+import { analyseMatch } from '../src/model/model.js';
+import { buildXgHistory } from '../src/model/xg-history.js';
 const path = process.argv[2];
 if (!path) throw new Error('Usage : node scripts/backtest-xg.mjs summaries.json');
 const source = JSON.parse(await readFile(path, 'utf8')),

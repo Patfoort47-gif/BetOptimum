@@ -1,8 +1,15 @@
 // Boutique et duels (BET-62) : catalogue et objet de la semaine envoyés à Supabase, duels réglés après le défi du jour.
 // Décisions pures dans shop.js ; ce fichier écrit avec la clé service_role (jetons : journal token_ledger, jamais d'écriture depuis le navigateur).
-import { BET163_CATEGORIES, CATALOG, PACKS, duelWinner, packPrice, weeklyItem } from '../shop.js';
-import { defaultAvatar, applyItem } from '../avatar-config.js';
-import { parisDate, weekKey } from '../model.js';
+import {
+  BET163_CATEGORIES,
+  CATALOG,
+  PACKS,
+  duelWinner,
+  packPrice,
+  weeklyItem
+} from '../src/club/shop.js';
+import { defaultAvatar, applyItem } from '../src/avatar/avatar-config.js';
+import { parisDate, weekKey } from '../src/model/model.js';
 
 // Lignes de shop_items : objets du catalogue puis packs stade (prix recalculé à 80 % des éléments).
 export function shopRows(catalog = CATALOG, packs = PACKS) {

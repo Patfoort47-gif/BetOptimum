@@ -60,7 +60,7 @@ let browser;
       const url = new URL(route.request().url());
       requests.push(url);
       if (url.origin !== new URL(base).origin) return route.abort();
-      if (url.pathname.endsWith('/account.js'))
+      if (url.pathname.endsWith('/src/account/account.js'))
         return route.fulfill({ contentType: 'text/javascript', body: mock });
       if (url.pathname.endsWith('/data/fixtures.json')) return route.fulfill({ json: fixtures });
       if (url.pathname.endsWith('/data/predictions-history.json'))
@@ -72,7 +72,7 @@ let browser;
       () => document.querySelectorAll('#match-list .match-card').length === 2
     );
     assert.equal(
-      requests.filter((url) => url.pathname.endsWith('/details.js')).length,
+      requests.filter((url) => url.pathname.endsWith('/src/matches/details.js')).length,
       0,
       'Les fiches restent chargées à la demande'
     );
@@ -94,7 +94,10 @@ let browser;
     }
     await card.locator('[data-details]').click();
     await page.locator('#detail-dialog').waitFor({ state: 'visible' });
-    assert.equal(requests.filter((url) => url.pathname.endsWith('/details.js')).length, 1);
+    assert.equal(
+      requests.filter((url) => url.pathname.endsWith('/src/matches/details.js')).length,
+      1
+    );
     await page.keyboard.press('Escape');
     assert.deepEqual(errors, []);
     console.log(`OK ${width}px : premier match, carte stable et fiche à la demande`);

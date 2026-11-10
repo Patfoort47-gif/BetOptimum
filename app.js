@@ -1,42 +1,55 @@
-import { decimal } from './number-format.js';
-import { escapeHtml as html } from './html.js';
-import { installImageFallbacks } from './image-fallback.js';
-import { renderCalibration } from './prediction-calibration.js';
-import { predictionProvenance } from './prediction-provenance.js';
-import { opportunityMarkup } from './opportunity.js';
-import { prepareAnalyses } from './analysis-loader.js';
-import { initInbox } from './in-app-notifications.js';
-import { dailyPicks } from './daily-picks.js';
-import { ticketUrl, ticketToken, saveTicketDraft, readTicketDraft } from './ticket-url.js';
-import { restoreTicket } from './ticket-restore.js';
-import { emptyState } from './empty-state.js';
-import { createAttention } from './attention.js';
-import { initPwa } from './pwa.js';
+import { decimal } from './src/core/number-format.js';
+import { escapeHtml as html } from './src/core/html.js';
+import { installImageFallbacks } from './src/core/image-fallback.js';
+import { renderCalibration } from './src/history/prediction-calibration.js';
+import { predictionProvenance } from './src/history/prediction-provenance.js';
+import { opportunityMarkup } from './src/matches/opportunity.js';
+import { prepareAnalyses } from './src/model/analysis-loader.js';
+import { initInbox } from './src/club/in-app-notifications.js';
+import { dailyPicks } from './src/club/daily-picks.js';
+import {
+  ticketUrl,
+  ticketToken,
+  saveTicketDraft,
+  readTicketDraft
+} from './src/ticket/ticket-url.js';
+import { restoreTicket } from './src/ticket/ticket-restore.js';
+import { emptyState } from './src/core/empty-state.js';
+import { createAttention } from './src/club/attention.js';
+import { initPwa } from './src/core/pwa.js';
 initPwa();
-import { teamFormMarkup } from './team-form.js';
-import { copyBetSelections } from './copy-bet.js';
-import { UI_COPY, applyUiCopy } from './ui-copy.js';
-import { initMetricHelp } from './metric-help.js?v=bet194';
-import { initHeaderOffset } from './layout-offset.js';
-import { adjustStake, stakeIssue, percentageStake } from './stake-controls.js';
-import { quoteAvailable, dailyQuoteAvailable, selectionBookmakerCount } from './quote-policy.js';
-import { stadiumMarkup, bindStadiumImages } from './stadiums.js';
-import { LEGACY_MARKETS, selectionCondition } from './markets.js';
-import { marketCard } from './market-card.js?v=bet191';
-import { initPersonalDashboard } from './personal-dashboard.js?v=bet194';
-import { historyReport, historyCard } from './bet-history.js';
-import { createJsonLoader } from './data-loader.js';
-import { readFixtureCache, writeFixtureCache, clearLegacyFixtureCache } from './fixture-cache.js';
-import { matchesWithBookmakers, orderCalendar, byConfidence } from './calendar-model.js';
+import { teamFormMarkup } from './src/matches/team-form.js';
+import { copyBetSelections } from './src/ticket/copy-bet.js';
+import { UI_COPY, applyUiCopy } from './src/core/ui-copy.js';
+import { initMetricHelp } from './src/matches/metric-help.js?v=bet194';
+import { initHeaderOffset } from './src/core/layout-offset.js';
+import { adjustStake, stakeIssue, percentageStake } from './src/ticket/stake-controls.js';
+import {
+  quoteAvailable,
+  dailyQuoteAvailable,
+  selectionBookmakerCount
+} from './src/model/quote-policy.js';
+import { stadiumMarkup, bindStadiumImages } from './src/matches/stadiums.js';
+import { LEGACY_MARKETS, selectionCondition } from './src/model/markets.js';
+import { marketCard } from './src/matches/market-card.js?v=bet191';
+import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet194';
+import { historyReport, historyCard } from './src/history/bet-history.js';
+import { createJsonLoader } from './src/core/data-loader.js';
+import {
+  readFixtureCache,
+  writeFixtureCache,
+  clearLegacyFixtureCache
+} from './src/core/fixture-cache.js';
+import { matchesWithBookmakers, orderCalendar, byConfidence } from './src/model/calendar-model.js';
 const motionBehavior = () =>
   typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
     ? 'auto'
     : 'smooth';
-import { createSubmission } from './bet-submission.js';
-import { renderPredictionShowcase } from './prediction-showcase.js?v=bet194';
-import { predictionReport } from './prediction-report.js';
-import { freshness, sourceFreshness } from './data-freshness.js';
-import { initAnalytics } from './analytics.js';
+import { createSubmission } from './src/ticket/bet-submission.js';
+import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
+import { predictionReport } from './src/history/prediction-report.js';
+import { freshness, sourceFreshness } from './src/core/data-freshness.js';
+import { initAnalytics } from './src/history/analytics.js';
 import {
   analyseMatch,
   recommendedMarket,
@@ -58,11 +71,11 @@ import {
   titleForLevel,
   selectSpotlight,
   selectDailySelection
-} from './model.js';
-import { BADGES, challengeScore } from './rewards.js';
-import { nextOddsRefresh, ODDS_REFRESH_HOURS } from './odds-cache.js';
-import { roundEnd, roundLabel } from './league-round.js';
-import { renderClubTable } from './club-table.js';
+} from './src/model/model.js';
+import { BADGES, challengeScore } from './src/club/rewards.js';
+import { nextOddsRefresh, ODDS_REFRESH_HOURS } from './src/model/odds-cache.js';
+import { roundEnd, roundLabel } from './src/club/league-round.js';
+import { renderClubTable } from './src/club/club-table.js';
 import {
   echelonName,
   chevrons,
@@ -73,8 +86,8 @@ import {
   seasonLabel,
   monthKey,
   outcomeLabel
-} from './league.js';
-import { ticketFit, MAX_SPECIAL_LEAGUES } from './special.js';
+} from './src/club/league.js';
+import { ticketFit, MAX_SPECIAL_LEAGUES } from './src/club/special.js';
 import {
   PRIVATE_EMBLEMS,
   emblemOf,
@@ -86,9 +99,14 @@ import {
   PRIVATE_LIMITS,
   activityText,
   suggestPlayers
-} from './community.js';
-import { avatarMarkup, legacyOf } from './avatar-view.js';
-import { liveEntryFromPayload, previousDate, inLiveWindow, applyLiveSnapshot } from './live.js';
+} from './src/club/community.js';
+import { avatarMarkup, legacyOf } from './src/avatar/avatar-view.js';
+import {
+  liveEntryFromPayload,
+  previousDate,
+  inLiveWindow,
+  applyLiveSnapshot
+} from './src/matches/live.js';
 import {
   CELEBRATION_SEEN_KEY,
   CELEBRATION_PENDING_KEY,
@@ -96,7 +114,7 @@ import {
   celebrationColors,
   equippedOf,
   soundEnabled
-} from './celebration-model.js';
+} from './src/club/celebration-model.js';
 const STORAGE_KEY = 'betmaster-state-v1';
 const isoDate = (offset) => {
   const d = new Date();
@@ -452,7 +470,7 @@ const joinOnLoad = location.hash === '#rejoindre',
 let pendingAlertMatch = /^#match-(espn-[0-9]+)$/.exec(location.hash)?.[1] ?? null;
 function ensureDetails() {
   if (!detailsPromise)
-    detailsPromise = import('./details.js?v=fiches-8')
+    detailsPromise = import('./src/matches/details.js?v=fiches-8')
       .then(
         (module) =>
           (details = module.initDetails({
@@ -2194,8 +2212,8 @@ async function openProfile(target) {
   }
   if (!profilePage) {
     const [module, model] = await Promise.all([
-      import('./profile.js?v=profil-bet310'),
-      import('./model.js')
+      import('./src/account/profile.js?v=profil-bet310'),
+      import('./src/model/model.js')
     ]);
     if (profilePage) return profilePage.show(profilePending);
     profilePage = module.initProfilePage({
@@ -2323,7 +2341,7 @@ async function openJoin(mode = 'login') {
     return;
   }
   if (!join) {
-    const module = await import('./join.js?v=join-bet306');
+    const module = await import('./src/account/join.js?v=join-bet306');
     join = module.initJoin({
       auth: accountApi.auth,
       getTeams: joinTeams,
@@ -3276,7 +3294,7 @@ function celebrateWins(progress) {
     return;
   }
   const config = state.profile.avatar2;
-  import('./victory-effects.js')
+  import('./src/club/victory-effects.js')
     .then(({ showVictory }) =>
       showVictory({
         avatar: avatarMarkup(
@@ -4132,7 +4150,7 @@ $('#clear-ticket').addEventListener('click', () => {
 });
 $('#close-builder').addEventListener('click', () => setBuilderDrawer(false));
 function shareTicket(bet) {
-  return import('./ticket-share.js?v=bet261')
+  return import('./src/ticket/ticket-share.js?v=bet261')
     .then(({ openTicketShare }) => openTicketShare(bet, { baseUrl: location.href }))
     .catch(() => toast('Impossible de préparer le partage. Réessayez.'));
 }
@@ -4614,7 +4632,7 @@ if (typeof window !== 'undefined') {
     5 * 60 * 1000
   );
   setInterval(updateFreshness, 60000);
-  import('./account.js?v=accounts-bet309')
+  import('./src/account/account.js?v=accounts-bet309')
     .then(({ initAccountSync }) =>
       initAccountSync({
         getState: userStatePayload,
@@ -4735,7 +4753,7 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof window !== 'undefined')
-  import('./onboarding.js').then(({ initOnboarding }) =>
+  import('./src/core/onboarding.js').then(({ initOnboarding }) =>
     initOnboarding($('#discovery'), {
       initialSeen: state.onboardingSeen,
       onSeen: () => {
@@ -4825,7 +4843,7 @@ globalThis.addEventListener?.('hashchange', () => {
   }
 });
 if (typeof window !== 'undefined')
-  import('./filter-chips.js').then(({ enhanceFilterChips }) =>
+  import('./src/core/filter-chips.js').then(({ enhanceFilterChips }) =>
     [
       'prediction-league',
       'prediction-market',
@@ -4857,7 +4875,7 @@ if (typeof window !== 'undefined')
   });
 
 if (typeof window !== 'undefined')
-  drawerReady = import('./ticket-drawer.js')
+  drawerReady = import('./src/ticket/ticket-drawer.js')
     .then(({ initTicketDrawer }) => initTicketDrawer($('#builder'), () => setBuilderDrawer(false)))
     .catch(() => {});
 

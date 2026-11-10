@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ticketToken, readTicketDraft, saveTicketDraft } from '../ticket-url.js';
-import { restoreTicket } from '../ticket-restore.js';
-import { ticketPreviewResponse } from '../ticket-preview.js';
+import { ticketToken, readTicketDraft, saveTicketDraft } from '../src/ticket/ticket-url.js';
+import { restoreTicket } from '../src/ticket/ticket-restore.js';
+import { ticketPreviewResponse } from '../src/server/ticket-preview.js';
 const now = Date.now(),
   match = {
     id: 'espn-42',

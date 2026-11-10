@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createJsonLoader } from '../data-loader.js';
+import { createJsonLoader } from '../src/core/data-loader.js';
 test('les appels simultanés partagent une revalidation et les appels suivants revalident', async () => {
   const calls = [];
   let release;

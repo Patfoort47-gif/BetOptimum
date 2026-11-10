@@ -1,7 +1,7 @@
 // Hors production : snapshots strictement antérieurs au coup d'envoi, résultats séparés.
 import { readFile } from 'node:fs/promises';
-import { forecastMatch } from '../prediction-model.js';
-import { evaluateCalibration } from '../prediction-calibration.js';
+import { forecastMatch } from '../src/model/prediction-model.js';
+import { evaluateCalibration } from '../src/history/prediction-calibration.js';
 if (process.argv[2] === '--archive') {
   const archive = JSON.parse(
     await readFile(process.argv[3] || 'data/predictions-history.json', 'utf8')

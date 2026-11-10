@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-61 · ligues privées : règles pures (les limites et le transfert sont aussi vérifiés côté SQL)
-const C = await import('../community.js');
+const C = await import('../src/club/community.js');
 test('le code d’invitation est normalisé : casse, tiret et espaces tolérés, caractères ambigus refusés', () => {
   assert.equal(C.normalizeCode('BM-AB2C'), 'BM-AB2C');
   assert.equal(C.normalizeCode(' bm-ab2c '), 'BM-AB2C');
@@ -60,8 +60,8 @@ test('12 emblèmes proposés, un emblème inconnu retombe sur le ballon', () => 
   assert.equal(C.emblemOf('???'), '⚽');
 });
 // BET-60 · fil d'activité, suggestions
-const F = await import('../community.js'),
-  M2 = await import('../model.js');
+const F = await import('../src/club/community.js'),
+  M2 = await import('../src/model/model.js');
 test('le fil parle français et n’affiche jamais de montant : aucune mise, aucune bankroll dans les phrases', () => {
   const texts = [
     ['combo-win', { odds: 7.5, legs: 3 }],

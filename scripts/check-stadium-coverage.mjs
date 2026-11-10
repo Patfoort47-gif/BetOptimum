@@ -1,5 +1,5 @@
 import { readFile, stat } from 'node:fs/promises';
-import { stadiumFor, stadiumMarkup } from '../stadiums.js';
+import { stadiumFor, stadiumMarkup } from '../src/matches/stadiums.js';
 const fixtures = JSON.parse(await readFile('data/fixtures.json', 'utf8')),
   missing = [];
 let confirmed = 0,

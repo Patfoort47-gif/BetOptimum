@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { trajectoryOf, renderPredictionShowcase } from '../prediction-showcase.js';
-import { predictionReport } from '../prediction-report.js';
+import { trajectoryOf, renderPredictionShowcase } from '../src/history/prediction-showcase.js';
+import { predictionReport } from '../src/history/prediction-report.js';
 const html = (value) =>
     String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;'),
   money = (value) => value.toFixed(2) + ' €',

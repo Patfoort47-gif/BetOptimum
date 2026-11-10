@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dashboardFigures, dashboardCharts, dashboardBet } from '../personal-dashboard.js';
-import { historyCard } from '../bet-history.js';
+import {
+  dashboardFigures,
+  dashboardCharts,
+  dashboardBet
+} from '../src/history/personal-dashboard.js';
+import { historyCard } from '../src/history/bet-history.js';
 test('Cote totale exacte, système sans cote fictive', () => {
   const bet = dashboardBet({
     id: '1',
@@ -62,7 +66,7 @@ test('Graphiques : état vide, chiffres exacts en texte et infobulles', () => {
   assert.doesNotMatch(html, /NaN/);
 });
 test('La vue principale garde quatre repères et réserve les mouvements au détail', async () => {
-  const { dashboardEssentialFigures } = await import('../personal-dashboard.js');
+  const { dashboardEssentialFigures } = await import('../src/history/personal-dashboard.js');
   const s = { bankroll: 125, net: -15, engaged: 20, wins: 1, decided: 2 };
   const figures = dashboardEssentialFigures(s);
   assert.equal(figures.length, 4);

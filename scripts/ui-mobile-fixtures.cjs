@@ -80,7 +80,7 @@ async function page(
   await p.route('**/*', async (r) => {
     const u = new URL(r.request().url());
     if (u.origin !== base) return r.abort();
-    if (u.pathname.endsWith('/account.js'))
+    if (u.pathname.endsWith('/src/account/account.js'))
       return r.fulfill({ contentType: 'text/javascript', body: mock });
     if (u.pathname.endsWith('/data/fixtures.json')) {
       if (delay) await delay;

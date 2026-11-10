@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { escapeHtml } from '../html.js';
-import { teamAttrs, lineupHeading } from '../details.js';
-import { parsePrivateHash } from '../community.js';
+import { escapeHtml } from '../src/core/html.js';
+import { teamAttrs, lineupHeading } from '../src/matches/details.js';
+import { parsePrivateHash } from '../src/club/community.js';
 const name = 'Coupe <test> "élite" & club\'s';
 test('BET-305 : textes et attributs, tous les caractères spéciaux et valeurs vides', () => {
   assert.equal(escapeHtml(name), 'Coupe &lt;test&gt; &quot;élite&quot; &amp; club&#39;s');

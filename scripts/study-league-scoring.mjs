@@ -1,5 +1,9 @@
 import { readFile } from 'node:fs/promises';
-import { comparePlayer, compareRanking, controlledSeries } from '../league-scoring-study.js';
+import {
+  comparePlayer,
+  compareRanking,
+  controlledSeries
+} from '../src/club/league-scoring-study.js';
 const path = process.argv[2] ?? 'docs/studies/BET-169-anonymized.json';
 const week = process.argv[3] ?? '2026-11-02';
 const groups = {};

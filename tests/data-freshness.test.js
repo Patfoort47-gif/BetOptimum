@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { freshness } from '../data-freshness.js';
+import { freshness } from '../src/core/data-freshness.js';
 test('fraîcheur : dates absentes invalides futures et anciennes', () => {
   const now = Date.parse('2026-10-30T12:00:00Z');
   for (const stamp of [null, 'invalide', '2026-10-31T12:00:00Z'])
@@ -10,7 +10,7 @@ test('fraîcheur : dates absentes invalides futures et anciennes', () => {
   assert.match(freshness('2026-10-30T11:00:00Z', now).label, /Paris/);
 });
 
-const { sourceFreshness, offerFreshness } = await import('../data-freshness.js');
+const { sourceFreshness, offerFreshness } = await import('../src/core/data-freshness.js');
 test('créneaux Paris : grâce, nuit et changements heure été/hiver', () => {
   assert.equal(
     sourceFreshness('2026-10-30T06:05:00Z', 'odds', Date.parse('2026-10-30T17:20:00Z')).status,

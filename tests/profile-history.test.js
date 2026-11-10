@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { profileHistory, readHistoryPages } from '../profile-history.js';
+import { profileHistory, readHistoryPages } from '../src/account/profile-history.js';
 test('BET-76 : historique certifié et ancien sans doublon ni remboursement dans le ROI', () => {
   const won = { id: 'a', status: 'won', stake: 10, returnAmount: 30, date: '2026-10-01' };
   const result = profileHistory([

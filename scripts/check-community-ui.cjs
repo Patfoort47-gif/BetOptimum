@@ -91,7 +91,7 @@ const mock = `export async function initAccountSync(c){const data=${JSON.stringi
               body: '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><rect width="500" height="500" fill="green"/></svg>'
             });
           if (u.origin !== new URL(base).origin) return r.abort();
-          if (u.pathname.endsWith('/account.js'))
+          if (u.pathname.endsWith('/src/account/account.js'))
             return r.fulfill({ contentType: 'text/javascript', body: mock });
           if (u.pathname.endsWith('/data/fixtures.json'))
             return r.fulfill({

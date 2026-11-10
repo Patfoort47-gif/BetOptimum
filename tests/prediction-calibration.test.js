@@ -1,11 +1,11 @@
-import { predictionProvenance } from '../prediction-provenance.js';
+import { predictionProvenance } from '../src/history/prediction-provenance.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   calibrationReport,
   evaluateCalibration,
   renderCalibration
-} from '../prediction-calibration.js';
+} from '../src/history/prediction-calibration.js';
 const row = (date, p, status, key = 'home') => ({
   date,
   probability: p,

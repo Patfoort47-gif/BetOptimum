@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-56 · ligues spéciales : compétitions, clubs, grille de journée
-const S = await import('../special.js');
+const S = await import('../src/club/special.js');
 const ldc = { id: 'ldc', kind: 'competition', league_label: 'Ligue des champions' },
   liga = { id: 'liga', kind: 'competition', league_label: 'La Liga' },
   barca = { id: 'club-83', kind: 'club', team_id: '83' };

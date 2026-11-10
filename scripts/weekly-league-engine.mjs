@@ -1,7 +1,7 @@
 // BET-133 : les périodes clôturées sont persistées atomiquement côté serveur.
-import { roundEnd } from '../league-round.js';
-import { weekKey } from '../model.js';
-import { seasonKey } from '../league.js';
+import { roundEnd } from '../src/club/league-round.js';
+import { weekKey } from '../src/model/model.js';
+import { seasonKey } from '../src/club/league.js';
 import { planClosure } from './league-engine.mjs';
 export async function closeWeeklyRounds(admin, now = new Date()) {
   const current = weekKey(now),

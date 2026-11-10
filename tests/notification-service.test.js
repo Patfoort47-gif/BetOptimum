@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { notificationConfig } from '../notification-config.js';
+import { notificationConfig } from '../src/notifications/notification-config.js';
 const env = {
   NOTIFICATION_ENCRYPTION_KEY: btoa('x'.repeat(32)),
   VAPID_PUBLIC_KEY: 'public',

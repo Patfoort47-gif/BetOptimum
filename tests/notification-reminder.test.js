@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectFavoriteReminders, favoriteReminderCurrent } from '../notification-reminder.js';
-import { deliver } from '../notification-delivery.js';
+import {
+  detectFavoriteReminders,
+  favoriteReminderCurrent
+} from '../src/notifications/notification-reminder.js';
+import { deliver } from '../src/notifications/notification-delivery.js';
 const now = Date.parse('2026-11-06T16:00:00Z');
 const match = {
   id: 'espn-1',

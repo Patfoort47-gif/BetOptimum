@@ -1,11 +1,11 @@
-import { recommendedMarket } from '../model.js';
-import { quoteAvailable, selectionBookmakerCount } from '../quote-policy.js';
-import { marketKeys } from '../markets.js';
+import { recommendedMarket } from '../src/model/model.js';
+import { quoteAvailable, selectionBookmakerCount } from '../src/model/quote-policy.js';
+import { marketKeys } from '../src/model/markets.js';
 // Synchronise les matchs avec Supabase puis règle les paris certifiés en attente (BET-52).
 // Lancé par les workflows après la mise à jour de data/fixtures.json ; sans SUPABASE_SERVICE_ROLE_KEY il ne fait rien.
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { analyseMatch, leaguePoints, selectionResult, settleTicket } from '../model.js';
+import { analyseMatch, leaguePoints, selectionResult, settleTicket } from '../src/model/model.js';
 import { createAdmin } from './supabase-admin.mjs';
 import { recomputeStandings, leagueSeasonFor } from './league-engine.mjs';
 import {

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as A from '../avatar-config.js';
-import { CATALOG } from '../shop.js';
+import * as A from '../src/avatar/avatar-config.js';
+import { CATALOG } from '../src/club/shop.js';
 
 const UID = '0b8f6c52-1d3a-4f5e-9a7b-2c4d6e8f0a1b';
 
@@ -144,7 +144,7 @@ test('chaque objet d’avatar de la boutique a son rendu, et chaque option payan
 });
 
 test('les éléments débloqués par division correspondent à league.js', async () => {
-  const { DIVISION_UNLOCKS } = await import('../league.js');
+  const { DIVISION_UNLOCKS } = await import('../src/club/league.js');
   assert.deepEqual(Object.keys(A.UNLOCK_IDS).sort(), Object.values(DIVISION_UNLOCKS).flat().sort());
 });
 

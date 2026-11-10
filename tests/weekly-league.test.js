@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { roundEnd, parisMidnight } from '../league-round.js';
+import { roundEnd, parisMidnight } from '../src/club/league-round.js';
 import { closeWeeklyRounds } from '../scripts/weekly-league-engine.mjs';
 test('BET-133 : fin de journée lundi Paris, changements d’heure inclus', () => {
   assert.equal(

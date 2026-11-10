@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { venueFromCompetition } from '../stadiums.js';
+import { venueFromCompetition } from '../src/matches/stadiums.js';
 const LEAGUES = {
   'Premier League': 'eng.1',
   'Ligue 1': 'fra.1',

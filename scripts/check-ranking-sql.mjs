@@ -3,8 +3,8 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { leaguePoints } from '../model.js';
-import { computeStandings } from '../league.js';
+import { leaguePoints } from '../src/model/model.js';
+import { computeStandings } from '../src/club/league.js';
 const { PGlite } = await import(pathToFileURL(process.env.PGLITE_MODULE).href),
   db = new PGlite();
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');

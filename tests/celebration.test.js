@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // BET-163 · célébration automatique d'un prono gagné, préférence son, couleurs des effets
-const C = await import('../celebration-model.js'),
-  V = await import('../victory-effects.js'),
-  A = await import('../avatar-config.js');
+const C = await import('../src/club/celebration-model.js'),
+  V = await import('../src/club/victory-effects.js'),
+  A = await import('../src/avatar/avatar-config.js');
 const ev = (kind, created_at, xp = 10) => ({ kind, xp, created_at });
 test('un nouveau prono gagné déclenche une célébration, puis la marque avance', () => {
   const events = [
@@ -89,7 +89,7 @@ test('couleurs des effets : maillot de l’avatar, sinon repli (null) sur l’ac
   assert.equal(C.celebrationColors({ avatar: 'lime' }), null);
 });
 test('chaque effet et chaque son de la boutique a un rendu, et rien ne se joue hors navigateur', async () => {
-  const S = await import('../shop.js');
+  const S = await import('../src/club/shop.js');
   for (const item of S.CATALOG.filter((e) => e.category === 'effect'))
     assert.ok(V.effectKind(item.id), item.id);
   for (const item of S.CATALOG.filter((e) => e.category === 'sound'))
