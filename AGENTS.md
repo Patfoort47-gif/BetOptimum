@@ -6,6 +6,8 @@ BetOptimum est un site statique en français (HTML et modules JavaScript natifs)
 
 Les nouvelles mécaniques sont gelées hors défi du jour et ligues privées entre amis (BET-308). Corrections, sécurité, accessibilité et maintenance restent possibles. L’économie virtuelle, les achats, échanges et duels restent retirés (V52). Aucune réactivation sans avis écrits sur les points 1 à 4 de VALIDATION_JURIDIQUE.md et nouvelle décision explicite du propriétaire. Aucun ajout libre de capital (V64). Conserver les historiques.
 
+Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre BET-316 à BET-321 : recherche du modèle sous validation préalable, mesure de clôture, partages du défi/comparaison, aperçus et invitations privées. Cette exception ne réactive pas l’économie et ne dispense jamais du consentement ni de la confidentialité.
+
 ## Travail et vérification
 
 - Une branche par ticket, créée depuis main : `BET-<n>-description`. Numéro du ticket dans chaque commit et titre de PR. Fermer le ticket après fusion de sa PR.

@@ -1,3 +1,4 @@
+import { buildMatchPreview } from '../src/matches/match-preview.js';
 import { teamForm } from '../src/matches/team-form.js';
 import { enrichHalfTimeResults } from './h1-results.mjs';
 import { selectionSnapshot } from '../src/model/selection-snapshot.js';
@@ -380,6 +381,7 @@ const enriched = unique.map((match) => {
       })
     );
   match.suggestedPick = selectionSnapshot(match, previous);
+  match.preview = buildMatchPreview(match);
   return match;
 });
 // Diagnostic de couverture à chaque collecte, sans nouvel appel fournisseur.

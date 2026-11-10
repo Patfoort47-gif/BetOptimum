@@ -21,3 +21,5 @@
 - [Sécurité](SECURITY_LOT15.md), [états d’erreur](ui/ERROR_STATES.md)
 
 Les [archives](archive/README.md) conservent les audits, mesures et procédures remplacées. Les données générées de `data/` et les preuves de `docs/evidence/` ne sont pas nettoyées à la main.
+
+[Aperçus factuels des matchs](MATCH_PREVIEWS.md).
