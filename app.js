@@ -1,3 +1,4 @@
+import {installImageFallbacks} from './image-fallback.js';
 import {renderCalibration} from './prediction-calibration.js';
 import {predictionProvenance} from './prediction-provenance.js';
 import {opportunityMarkup} from './opportunity.js';
@@ -89,7 +90,7 @@ const LEAGUE_GROUPS=[['europe','Coupes d’Europe et du monde'],['league','Champ
 const ICONS={user:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',check:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>',cross:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',clock:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',all:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>',chevron:'<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'};
 const safeLogo=url=>typeof url==='string'&&/^https:\/\/a\.espncdn\.com\/[\w\-./]+(?:\?(?:h=96&w=96|w=96&h=96))?$/.test(url)?url:null;
 const initials=name=>{const words=String(name).replace(/[^\p{L}\p{N} ]/gu,' ').split(' ').filter(word=>word.length>1&&!/^(FC|AC|AS|SC|CF|SS|RC|OGC|AFC|de|la|le)$/i.test(word));return(words.length>1?words.slice(0,3).map(word=>word[0]).join(''):(words[0]||String(name)).slice(0,3)).toUpperCase()};
-const logoTag=(cls,url,name)=>{const src=safeLogo(url);return `<span class="${cls}${src?'':' no-logo'}" data-initials="${initials(name)}">${src?`<img src="${src}" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('no-logo');this.remove()">`:''}</span>`};
+const logoTag=(cls,url,name)=>{const src=safeLogo(url);return `<span class="${cls}${src?'':' no-logo'}" data-initials="${initials(name)}">${src?`<img src="${src}" alt="" loading="lazy" decoding="async" data-image-fallback="logo">`:''}</span>`};
 // Listes horizontales (dates, compétitions) : flèches, molette de la souris et sélection gardée visible.
 const scrollers=[];
 function updateScrollers(){for(const el of scrollers){const wrap=el.parentElement;wrap.classList.toggle('can-prev',el.scrollLeft>4);wrap.classList.toggle('can-next',el.scrollLeft+el.clientWidth<el.scrollWidth-4);if(el.id==='date-navigator')wrap.querySelectorAll('[data-scroll]').forEach(button=>button.disabled=Number(button.dataset.scroll)<0?el.scrollLeft<=4:el.scrollLeft+el.clientWidth>=el.scrollWidth-4)}}
@@ -278,7 +279,7 @@ function showSeasonResult(){
 $('#season-close')?.addEventListener('click',()=>{const season=state.league?.result?.season;$('#season-dialog').close();if(season){state.league.result=null;accountApi?.markSeasonSeen(season)}});
 // Ligues spéciales (BET-56) : « Mes ligues », catalogue, page d'une ligue avec classement et grille de la journée.
 const specialLogo=league=>league.kind==='club'?`https://a.espncdn.com/i/teamlogos/soccer/500/${league.team_id}.png?h=96&w=96`:leagueLogoUrl(league.league_label);
-const leagueWatermark=league=>{const src=safeLogo(specialLogo(league));return src?`<span class="league-watermark" aria-hidden="true"><img src="${src}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`:''};
+const leagueWatermark=league=>{const src=safeLogo(specialLogo(league));return src?`<span class="league-watermark" aria-hidden="true"><img src="${src}" alt="" loading="lazy" data-image-fallback="remove"></span>`:''};
 const specialSubmitting=new Set();
 const MARKET_SHORT={home:'1',draw:'N',away:'2',over:'+2,5',btts:'BTTS'};
 const specialRounds=id=>(state.special?.rounds??[]).filter(round=>round.league_id===id),specialPicks=id=>(state.special?.picks??[]).filter(pick=>pick.league_id===id);
@@ -529,3 +530,5 @@ if(typeof window!=='undefined')drawerReady=import('./ticket-drawer.js').then(({i
 if(typeof window!=='undefined')addEventListener('hashchange',()=>{if(location.hash==='#conseils-du-jour'){setActiveTab('matches');renderDailyAdvice();$('#conseils-du-jour')?.scrollIntoView({block:'start'})}});
 
 $('#home-performance-detail')?.addEventListener('click',()=>{state.predictionFilters={period:'all',league:'all',market:'all',result:'all',source:'bookmaker'};setActiveTab('predictions',true);renderPredictionStats()});
+
+if(typeof document!=='undefined')installImageFallbacks(document);
