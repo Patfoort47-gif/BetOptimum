@@ -1,3 +1,4 @@
+import {planChallengeReminder,challengeReminderCurrent} from '../../../notification-challenge.js';
 import { planDailyPush, dailyPushCurrent } from '../../../notification-daily.js';
 import { validatedResultCurrent } from '../../../notification-result.js';
 import webPush from 'npm:web-push@3.6.7';
@@ -45,7 +46,7 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
 
  }
  const web=notificationConfig(env).available.web;
- if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});if(remindersOnly){const daily=planDailyPush(matches,snapshot?.preferences);if(daily&&await db('rpc/enqueue_daily_web_summary','POST',{p_user:subscriber.user_id,p_event:daily}))queued++;}for(const event of (remindersOnly?detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites):detectWebAlerts(matches,snapshot?.preferences,snapshot?.favorites)))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,web:true}}))queued++;}}
+ if(web){const subscribers=await pageAll('notification_web_preferences','enabled=eq.true&select=user_id');for(const subscriber of subscribers){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:subscriber.user_id});if(remindersOnly){const challengeSnapshot=await db('rpc/notification_challenge_snapshot','POST',{p_user:subscriber.user_id});const challenge=planChallengeReminder(challengeSnapshot,snapshot?.preferences);if(challenge&&await db('rpc/enqueue_daily_challenge_reminder','POST',{p_user:subscriber.user_id,p_event:challenge}))queued++;const daily=planDailyPush(matches,snapshot?.preferences);if(daily&&await db('rpc/enqueue_daily_web_summary','POST',{p_user:subscriber.user_id,p_event:daily}))queued++;}for(const event of (remindersOnly?detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites):detectWebAlerts(matches,snapshot?.preferences,snapshot?.favorites)))if(await db('rpc/enqueue_web_notification','POST',{p_user:subscriber.user_id,p_event:{...event,web:true}}))queued++;}}
  const deliveries=remindersOnly?[]:await db('rpc/claim_notification_deliveries','POST',{});
  if(web)deliveries.push(...await db(remindersOnly?'rpc/claim_favorite_reminders':'rpc/claim_web_notifications','POST',{}));
  let sent=0;
@@ -57,7 +58,7 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
    if(!['web','email'].includes(delivery.channel)){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    const target=await unseal(e.encrypted,env.NOTIFICATION_ENCRYPTION_KEY);
    let payload=event.payload;
-   if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});if(payload.daily_summary){const daily=dailyPushCurrent(payload,snapshot?.preferences,matches);if(!daily){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}payload=daily;}if(payload.favorite_reminder){const current=detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites).find(item=>item.match_id===payload.match_id);if(current)payload=current;}const result=payload.result_validated===true,bet=result&&/^[a-f0-9-]{36}$/.test(String(payload.bet_id))?(await db(`bets?id=eq.${payload.bet_id}&user_id=eq.${delivery.user_id}&select=status`))[0]:null;const valid=payload.daily_summary?Boolean(dailyPushCurrent(payload,snapshot?.preferences,matches)):result?validatedResultCurrent(payload,snapshot?.preferences,bet):snapshot?.preferences?.enabled&&!snapshot.preferences.essential&&(payload.favorite_reminder?favoriteReminderCurrent(payload,snapshot.preferences,snapshot.favorites,matches):webEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches));if(!web||!snapshot?.preferences?.enabled||!valid){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
+   if(delivery.channel==='web'){const snapshot=await db('rpc/notification_web_snapshot','POST',{p_user:delivery.user_id});if(payload.daily_challenge_reminder){const challengeSnapshot=await db('rpc/notification_challenge_snapshot','POST',{p_user:delivery.user_id}),current=challengeReminderCurrent(payload,challengeSnapshot,snapshot?.preferences);if(!current||!await db('rpc/daily_challenge_reminder_current','POST',{p_user:delivery.user_id,p_event:payload})){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}payload=current;}if(payload.daily_summary){const daily=dailyPushCurrent(payload,snapshot?.preferences,matches);if(!daily){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}payload=daily;}if(payload.favorite_reminder){const current=detectFavoriteReminders(matches,snapshot?.preferences,snapshot?.favorites).find(item=>item.match_id===payload.match_id);if(current)payload=current;}const result=payload.result_validated===true,bet=result&&/^[a-f0-9-]{36}$/.test(String(payload.bet_id))?(await db(`bets?id=eq.${payload.bet_id}&user_id=eq.${delivery.user_id}&select=status`))[0]:null;const valid=payload.daily_challenge_reminder?true:payload.daily_summary?Boolean(dailyPushCurrent(payload,snapshot?.preferences,matches)):result?validatedResultCurrent(payload,snapshot?.preferences,bet):snapshot?.preferences?.enabled&&!snapshot.preferences.essential&&(payload.favorite_reminder?favoriteReminderCurrent(payload,snapshot.preferences,snapshot.favorites,matches):webEventCurrent(payload,snapshot.preferences,snapshot.favorites,matches));if(!web||!snapshot?.preferences?.enabled||!valid){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}}
    if(delivery.channel==='email'&&!payload.briefing&&!payload.test_channel){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
    if(payload.briefing){
     if(delivery.channel!=='email'){await db(`notification_deliveries?id=eq.${delivery.id}`,'PATCH',{status:'cancelled'});continue;}
@@ -82,7 +83,7 @@ async function worker(matches:unknown[],generatedAt:string|null,remindersOnly=fa
   }catch(error) {reportNotificationFailure(error,crypto.randomUUID());await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`,'PATCH',{status:'unknown',error:'Résultat de livraison inconnu'});}
  }
  if(!remindersOnly)await db('notification_events?created_at=lt.'+new Date(Date.now()-30*864e5).toISOString(),'DELETE');
- return {queued,sent,claimed:deliveries.length,revision:'BET-258'};
+ return {queued,sent,claimed:deliveries.length,revision:'BET-310'};
 }
 Deno.serve(async request=>{
  if(request.method==='OPTIONS')return new Response(null,{headers:cors});
@@ -93,12 +94,12 @@ Deno.serve(async request=>{
   const raw=await request.text();if(raw.length>2000000)return json({error:'Requête trop volumineuse'},413);const body=JSON.parse(raw);
   if(body.action==='scheduled-reminders'){
    if(!await sameSecret(request.headers.get('x-scheduler-secret')??'',env.NOTIFICATION_SCHEDULER_SECRET))return json({error:'Non autorisé'},401);
-   if(body.dry_run===true)return json({revision:'BET-258',dry_run:true,available:notificationConfig(env).available});
+   if(body.dry_run===true)return json({revision:'BET-310',dry_run:true,available:notificationConfig(env).available});
    return json(await runScheduledReminders(db,worker));
   }
   if(body.action==='worker'||body.action==='health'){
    if(!await sameSecret(request.headers.get('x-worker-secret')??'',env.NOTIFICATION_WORKER_SECRET))return json({error:'Non autorisé'},401);
-   if(body.action==='health')return json({revision:'BET-258',dry_run:true,available:notificationConfig(env).available});
+   if(body.action==='health')return json({revision:'BET-310',dry_run:true,available:notificationConfig(env).available});
    if(body.format!==undefined&&body.format!==2)return json({error:'Format du worker invalide'},400);
    return json(await worker(Array.isArray(body.matches)&&Number.isFinite(Date.parse(body.generatedAt))&&Date.parse(body.generatedAt)<=Date.now()+60000&&Date.now()-Date.parse(body.generatedAt)<864e5?decodeWorkerMatches(body):[],body.generatedAt??null));
   }
