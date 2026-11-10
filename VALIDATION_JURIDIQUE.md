@@ -2,6 +2,10 @@
 
 Document à remettre à un juriste avant la mise en production des jetons et de la boutique. Il résume ce que fait le site et pose les cinq questions du ticket BET-63. Un avis écrit sur les points 1 à 4 est obligatoire avant de lancer les jetons et la boutique ; l'état du suivi figure en bas de page.
 
+## État actuel (BET-308 · 10 novembre 2026)
+
+L’économie virtuelle est retirée depuis V52 (BET-199) : jetons, boutique, achats, échanges et duels restent hors production. La réalisation du lot 16 confirme ce retrait et exige les avis écrits des points 1 à 4 avant toute proposition de réactivation, puis une nouvelle décision explicite du propriétaire. La décision BET-63 du 4 novembre est historique et ne vaut plus autorisation de réactivation. Les descriptions ci-dessous documentent les fonctions historiques à soumettre au juriste. Aucun avis écrit n’est ajouté par cette décision produit.
+
 ## Ce que fait BetOptimum
 
 - Pronostics de football **virtuels** : aucune mise réelle, aucun gain réel, aucun lot. Site réservé aux 18 ans et plus, hébergé sur GitHub Pages, comptes sur Supabase.
