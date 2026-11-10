@@ -1,8 +1,9 @@
 // PGLITE_MODULE=/tmp/bet-sql-tools/node_modules/@electric-sql/pglite/dist/index.js node scripts/check-markets-sql.mjs
-import {readFile} from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import {marketSpec} from '../markets.js';
-const {PGlite}=await import(process.env.PGLITE_MODULE),db=new PGlite();
+import { marketSpec } from '../markets.js';
+const { PGlite } = await import(process.env.PGLITE_MODULE),
+  db = new PGlite();
 await db.exec(`create role anon; create role authenticated;
 create schema auth; create function auth.uid() returns uuid language sql as $$select '00000000-0000-0000-0000-000000000001'::uuid$$;
 create table player_accounts(user_id uuid primary key,bankroll numeric,updated_at timestamptz);
@@ -10,48 +11,119 @@ create function ensure_player_account() returns void language sql as $$insert in
 create table fixtures(id text primary key,home text,away text,league text,kickoff timestamptz,completed boolean default false,voided boolean default false,odds jsonb,odds_source jsonb);
 create table bets(id uuid primary key default gen_random_uuid(),user_id uuid,client_ref uuid,bet_type text,stake numeric,odds numeric,counts_general boolean,system_formula text,system_lines jsonb,selections jsonb);
 insert into fixtures values('m','Alpha','Beta','Test',now()+interval '1 day',false,false,'{"home":2,"homeDnb":2.1,"homeOver15":1.8,"under":1.9}', '{"home":"estimated","homeDnb":"real","homeOver15":"real","under":"estimated"}');`);
-const original=await readFile('supabase/migrations/supabase-v5-schema.sql','utf8');
-const start=original.indexOf('create or replace function public.system_lines('),end=original.indexOf('create or replace function public.place_bet(',start);
-await db.exec(original.slice(start,end));
-await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql','utf8'));
-const place=(items,type='single',ref=null)=>db.query('select place_bet($1::jsonb,10,false,$2,null,$3::uuid) as bet',[JSON.stringify(items),type,ref]);
-const first=await place([{matchId:'m',key:'homeDnb',odd:2.1,label:'forged',line:10}], 'single','00000000-0000-0000-0000-000000000002');
-assert.equal(first.rows[0].bet.selections[0].label,'Alpha remboursé si nul');assert.equal(first.rows[0].bet.selections[0].key,'homeDnb');
-await place([{matchId:'m',key:'homeDnb',odd:2.1}], 'single','00000000-0000-0000-0000-000000000002');
-assert.equal(Number((await db.query('select bankroll from player_accounts')).rows[0].bankroll),990);
-await place([{matchId:'m',key:'homeOver15',odd:1.8}]);
-await assert.rejects(place([{matchId:'m',key:'under',odd:1.9}]),/MARCHE_INDISPONIBLE/);
-await assert.rejects(place([{matchId:'m',key:'homeOver25',odd:1.8}]),/MARCHE_INDISPONIBLE/);
-await assert.rejects(place([{matchId:'m',key:'homeOver10',odd:1.8}]),/SELECTIONS_INVALIDES/);
-await assert.rejects(place([{matchId:'m',key:'homeDnb',odd:3}]),/COTE_CHANGEE/);
-await assert.rejects(place([{matchId:'m',key:'homeDnb',odd:2.1},{matchId:'m',key:'homeOver15',odd:1.8}],'combined'),/MATCH_EN_DOUBLE/);
-await place([{matchId:'m',key:'home',odd:2}]);
+const original = await readFile('supabase/migrations/supabase-v5-schema.sql', 'utf8');
+const start = original.indexOf('create or replace function public.system_lines('),
+  end = original.indexOf('create or replace function public.place_bet(', start);
+await db.exec(original.slice(start, end));
+await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v36-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql', 'utf8'));
+const place = (items, type = 'single', ref = null) =>
+  db.query('select place_bet($1::jsonb,10,false,$2,null,$3::uuid) as bet', [
+    JSON.stringify(items),
+    type,
+    ref
+  ]);
+const first = await place(
+  [{ matchId: 'm', key: 'homeDnb', odd: 2.1, label: 'forged', line: 10 }],
+  'single',
+  '00000000-0000-0000-0000-000000000002'
+);
+assert.equal(first.rows[0].bet.selections[0].label, 'Alpha remboursé si nul');
+assert.equal(first.rows[0].bet.selections[0].key, 'homeDnb');
+await place(
+  [{ matchId: 'm', key: 'homeDnb', odd: 2.1 }],
+  'single',
+  '00000000-0000-0000-0000-000000000002'
+);
+assert.equal(
+  Number((await db.query('select bankroll from player_accounts')).rows[0].bankroll),
+  990
+);
+await place([{ matchId: 'm', key: 'homeOver15', odd: 1.8 }]);
+await assert.rejects(place([{ matchId: 'm', key: 'under', odd: 1.9 }]), /MARCHE_INDISPONIBLE/);
+await assert.rejects(place([{ matchId: 'm', key: 'homeOver25', odd: 1.8 }]), /MARCHE_INDISPONIBLE/);
+await assert.rejects(
+  place([{ matchId: 'm', key: 'homeOver10', odd: 1.8 }]),
+  /SELECTIONS_INVALIDES/
+);
+await assert.rejects(place([{ matchId: 'm', key: 'homeDnb', odd: 3 }]), /COTE_CHANGEE/);
+await assert.rejects(
+  place(
+    [
+      { matchId: 'm', key: 'homeDnb', odd: 2.1 },
+      { matchId: 'm', key: 'homeOver15', odd: 1.8 }
+    ],
+    'combined'
+  ),
+  /MATCH_EN_DOUBLE/
+);
+await place([{ matchId: 'm', key: 'home', odd: 2 }]);
 await db.exec("update fixtures set kickoff=now()-interval '1 minute'");
-await assert.rejects(place([{matchId:'m',key:'homeDnb',odd:2.1}]),/MATCH_COMMENCE/);
-assert.equal((await db.query('select count(*)::int as n from bets')).rows[0].n,3);
+await assert.rejects(place([{ matchId: 'm', key: 'homeDnb', odd: 2.1 }]), /MATCH_COMMENCE/);
+assert.equal((await db.query('select count(*)::int as n from bets')).rows[0].n, 3);
 
 // BET-170 : parité des identités JS/SQL, cotes serveur et expiration par sélection.
-const keys=[];
-for(let h=0;h<=15;h++)for(let a=0;a<=15;a++)keys.push(`score${h}_${a}`);
-for(const issue of ['Home','Draw','Away'])for(let n=-9;n<=9;n++)keys.push(`eh${issue}${n<0?'M':'P'}${Math.abs(n)}`);
-for(const team of ['home','away'])for(let n=1;n<=9;n++)for(const suffix of ['','Plus'])keys.push(`${team}Margin${n}${suffix}`);
-keys.push('marginDraw0','marginDrawGoals',...['over','under'].flatMap(side=>['05','45','55','65','75','85','95'].map(line=>side+line)));
-const labels=await db.query("select k,market_label(k,'Alpha','Beta') as label from unnest($1::text[]) as k",[keys]);
-for(const row of labels.rows)assert.equal(row.label,marketSpec(row.k,{home:'Alpha',away:'Beta'}).label,row.k);
-await db.exec(`update fixtures set kickoff=now()+interval '1 day', odds='{"score1_0":7,"ehDrawM1":4,"homeMargin2":5,"over45":3}', odds_source='{"score1_0":"real","ehDrawM1":"real","homeMargin2":"real","over45":"real"}', market_valid_until=jsonb_build_object('score1_0',now()+interval '1 hour','ehDrawM1',now()+interval '1 hour','homeMargin2',now()-interval '1 hour');`);
-const accepted=await place([{matchId:'m',key:'score1_0',odd:7,label:'mensonge',period:'h1'}]);
-assert.equal(accepted.rows[0].bet.selections[0].label,'Score exact 1 - 0');
-assert.equal(accepted.rows[0].bet.selections[0].period,undefined);
-await place([{matchId:'m',key:'ehDrawM1',odd:4}]);
-await assert.rejects(place([{matchId:'m',key:'homeMargin2',odd:5,marketValidUntil:'2099-01-01'}]),/MARCHE_INDISPONIBLE/);
-await assert.rejects(place([{matchId:'m',key:'over45',odd:3}]),/MARCHE_INDISPONIBLE/);
-for(const k of ['score01_0','score16_0','ehDrawM0','ehDrawP10','over40','over25','homeMargin0'])await assert.rejects(place([{matchId:'m',key:k,odd:7}]),/SELECTIONS_INVALIDES/);
-await assert.rejects(place([{matchId:'m',key:'score1_0',odd:70}]),/COTE_CHANGEE/);
-await assert.rejects(place([{matchId:'m',key:'score1_0',odd:7},{matchId:'m',key:'ehDrawM1',odd:4}],'combined'),/MATCH_EN_DOUBLE/);
+const keys = [];
+for (let h = 0; h <= 15; h++) for (let a = 0; a <= 15; a++) keys.push(`score${h}_${a}`);
+for (const issue of ['Home', 'Draw', 'Away'])
+  for (let n = -9; n <= 9; n++) keys.push(`eh${issue}${n < 0 ? 'M' : 'P'}${Math.abs(n)}`);
+for (const team of ['home', 'away'])
+  for (let n = 1; n <= 9; n++)
+    for (const suffix of ['', 'Plus']) keys.push(`${team}Margin${n}${suffix}`);
+keys.push(
+  'marginDraw0',
+  'marginDrawGoals',
+  ...['over', 'under'].flatMap((side) =>
+    ['05', '45', '55', '65', '75', '85', '95'].map((line) => side + line)
+  )
+);
+const labels = await db.query(
+  "select k,market_label(k,'Alpha','Beta') as label from unnest($1::text[]) as k",
+  [keys]
+);
+for (const row of labels.rows)
+  assert.equal(row.label, marketSpec(row.k, { home: 'Alpha', away: 'Beta' }).label, row.k);
+await db.exec(
+  `update fixtures set kickoff=now()+interval '1 day', odds='{"score1_0":7,"ehDrawM1":4,"homeMargin2":5,"over45":3}', odds_source='{"score1_0":"real","ehDrawM1":"real","homeMargin2":"real","over45":"real"}', market_valid_until=jsonb_build_object('score1_0',now()+interval '1 hour','ehDrawM1',now()+interval '1 hour','homeMargin2',now()-interval '1 hour');`
+);
+const accepted = await place([
+  { matchId: 'm', key: 'score1_0', odd: 7, label: 'mensonge', period: 'h1' }
+]);
+assert.equal(accepted.rows[0].bet.selections[0].label, 'Score exact 1 - 0');
+assert.equal(accepted.rows[0].bet.selections[0].period, undefined);
+await place([{ matchId: 'm', key: 'ehDrawM1', odd: 4 }]);
+await assert.rejects(
+  place([{ matchId: 'm', key: 'homeMargin2', odd: 5, marketValidUntil: '2099-01-01' }]),
+  /MARCHE_INDISPONIBLE/
+);
+await assert.rejects(place([{ matchId: 'm', key: 'over45', odd: 3 }]), /MARCHE_INDISPONIBLE/);
+for (const k of [
+  'score01_0',
+  'score16_0',
+  'ehDrawM0',
+  'ehDrawP10',
+  'over40',
+  'over25',
+  'homeMargin0'
+])
+  await assert.rejects(place([{ matchId: 'm', key: k, odd: 7 }]), /SELECTIONS_INVALIDES/);
+await assert.rejects(place([{ matchId: 'm', key: 'score1_0', odd: 70 }]), /COTE_CHANGEE/);
+await assert.rejects(
+  place(
+    [
+      { matchId: 'm', key: 'score1_0', odd: 7 },
+      { matchId: 'm', key: 'ehDrawM1', odd: 4 }
+    ],
+    'combined'
+  ),
+  /MATCH_EN_DOUBLE/
+);
 await db.exec("update fixtures set odds_source='{}'");
-await assert.rejects(place([{matchId:'m',key:'score1_0',odd:7}]),/MARCHE_INDISPONIBLE/);
-assert.equal((await db.query('select count(*)::int as n from bets')).rows[0].n,5);
-await db.close();console.log('BET-170 SQL : migration réexécutable, parité des labels, cotes réelles, expiration serveur, falsifications et doublons validés.');
+await assert.rejects(place([{ matchId: 'm', key: 'score1_0', odd: 7 }]), /MARCHE_INDISPONIBLE/);
+assert.equal((await db.query('select count(*)::int as n from bets')).rows[0].n, 5);
+await db.close();
+console.log(
+  'BET-170 SQL : migration réexécutable, parité des labels, cotes réelles, expiration serveur, falsifications et doublons validés.'
+);

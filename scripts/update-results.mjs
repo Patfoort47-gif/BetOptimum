@@ -1,61 +1,147 @@
-import {predictionProvenance} from '../prediction-provenance.js';
-import {enrichHalfTimeResults,RESULT_SLUGS} from './h1-results.mjs';
-import {selectionSnapshot} from '../selection-snapshot.js';
-import {regulationScore} from '../regulation-score.js';
+import { predictionProvenance } from '../prediction-provenance.js';
+import { enrichHalfTimeResults, RESULT_SLUGS } from './h1-results.mjs';
+import { selectionSnapshot } from '../selection-snapshot.js';
+import { regulationScore } from '../regulation-score.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { selectionResult } from '../model.js';
-import {writeFixtureIndex} from './fixture-files.mjs';
+import { writeFixtureIndex } from './fixture-files.mjs';
 
-const leagues = ['eng.1','fra.1','esp.1','ita.1','ger.1','uefa.champions','uefa.europa','uefa.europa.conf','uefa.super_cup','fifa.cwc','fra.2','fra.coupe_de_france','eng.fa','eng.league_cup','esp.copa_del_rey','ita.coppa_italia','ger.dfb_pokal','uefa.nations','fifa.worldq.uefa'];
+const leagues = [
+  'eng.1',
+  'fra.1',
+  'esp.1',
+  'ita.1',
+  'ger.1',
+  'uefa.champions',
+  'uefa.europa',
+  'uefa.europa.conf',
+  'uefa.super_cup',
+  'fifa.cwc',
+  'fra.2',
+  'fra.coupe_de_france',
+  'eng.fa',
+  'eng.league_cup',
+  'esp.copa_del_rey',
+  'ita.coppa_italia',
+  'ger.dfb_pokal',
+  'uefa.nations',
+  'fifa.worldq.uefa'
+];
 // Matchs annulés : les paris certifiés sont remboursés (BET-52).
 const voidStatuses = new Set(['STATUS_CANCELED', 'STATUS_ABANDONED']);
-const dateKey = date => date.toISOString().slice(0, 10).replaceAll('-', '');
-const today = new Date(); today.setUTCHours(0, 0, 0, 0);
-const days = Array.from({length:4},(_,index)=>{const date=new Date(today);date.setUTCDate(date.getUTCDate()+index-3);return dateKey(date)});
+const dateKey = (date) => date.toISOString().slice(0, 10).replaceAll('-', '');
+const today = new Date();
+today.setUTCHours(0, 0, 0, 0);
+const days = Array.from({ length: 4 }, (_, index) => {
+  const date = new Date(today);
+  date.setUTCDate(date.getUTCDate() + index - 3);
+  return dateKey(date);
+});
 const settlements = [];
 
 for (const league of leagues) {
   for (const day of days) {
-    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${day}&limit=100`, { headers:{'User-Agent':'BetOptimum-Results/1.0'} });
-    if (!response.ok) { console.warn(`${league}: HTTP ${response.status} (${day})`); continue; }
+    const response = await fetch(
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${day}&limit=100`,
+      { headers: { 'User-Agent': 'BetOptimum-Results/1.0' } }
+    );
+    if (!response.ok) {
+      console.warn(`${league}: HTTP ${response.status} (${day})`);
+      continue;
+    }
     const data = await response.json();
     for (const event of data.events ?? []) {
       const competition = event.competitions?.[0];
-      const home = competition?.competitors?.find(team => team.homeAway === 'home');
-      const away = competition?.competitors?.find(team => team.homeAway === 'away');
-      if (voidStatuses.has(event.status?.type?.name) && home && away) { settlements.push({ id:`espn-${event.id}`, league:Object.keys(RESULT_SLUGS).find(k=>RESULT_SLUGS[k]===league), date:event.date.slice(0,10), homeId:home?.id,awayId:away?.id, home:home.team?.displayName, away:away.team?.displayName, completed:false, voided:true }); continue; }
+      const home = competition?.competitors?.find((team) => team.homeAway === 'home');
+      const away = competition?.competitors?.find((team) => team.homeAway === 'away');
+      if (voidStatuses.has(event.status?.type?.name) && home && away) {
+        settlements.push({
+          id: `espn-${event.id}`,
+          league: Object.keys(RESULT_SLUGS).find((k) => RESULT_SLUGS[k] === league),
+          date: event.date.slice(0, 10),
+          homeId: home?.id,
+          awayId: away?.id,
+          home: home.team?.displayName,
+          away: away.team?.displayName,
+          completed: false,
+          voided: true
+        });
+        continue;
+      }
       if (!event.status?.type?.completed || home?.score == null || away?.score == null) continue;
-      settlements.push({ id:`espn-${event.id}`, league:Object.keys(RESULT_SLUGS).find(k=>RESULT_SLUGS[k]===league), date:event.date.slice(0,10), homeId:home?.id,awayId:away?.id, home:home.team?.displayName, away:away.team?.displayName, regulation:regulationScore(event), homeScore:Number(home.score), awayScore:Number(away.score), completed:true });
+      settlements.push({
+        id: `espn-${event.id}`,
+        league: Object.keys(RESULT_SLUGS).find((k) => RESULT_SLUGS[k] === league),
+        date: event.date.slice(0, 10),
+        homeId: home?.id,
+        awayId: away?.id,
+        home: home.team?.displayName,
+        away: away.team?.displayName,
+        regulation: regulationScore(event),
+        homeScore: Number(home.score),
+        awayScore: Number(away.score),
+        completed: true
+      });
     }
   }
 }
 
 const file = 'data/fixtures.json';
 const data = JSON.parse(await readFile(file, 'utf8'));
-if(process.env.PROPLINE_H1_ENABLED==='true')console.info('Résultats H1 :',JSON.stringify(await enrichHalfTimeResults(settlements,data.settlements??[])));
-const merged = new Map((data.settlements ?? []).map(result => [result.id, result]));
+if (process.env.PROPLINE_H1_ENABLED === 'true')
+  console.info(
+    'Résultats H1 :',
+    JSON.stringify(await enrichHalfTimeResults(settlements, data.settlements ?? []))
+  );
+const merged = new Map((data.settlements ?? []).map((result) => [result.id, result]));
 for (const result of settlements) merged.set(result.id, result);
-data.settlements = [...merged.values()].sort((a,b) => b.date.localeCompare(a.date));
+data.settlements = [...merged.values()].sort((a, b) => b.date.localeCompare(a.date));
 for (const match of data.matches ?? []) {
   const result = merged.get(match.id);
   if (!result) continue;
-  if (result.voided) { match.voided = true; match.status = 'Annulé'; continue; }
-  match.completed = true; match.status = 'Terminé'; match.homeScore = result.homeScore; match.awayScore = result.awayScore; match.regulation = result.regulation; match.periodScores=result.periodScores??null;
+  if (result.voided) {
+    match.voided = true;
+    match.status = 'Annulé';
+    continue;
+  }
+  match.completed = true;
+  match.status = 'Terminé';
+  match.homeScore = result.homeScore;
+  match.awayScore = result.awayScore;
+  match.regulation = result.regulation;
+  match.periodScores = result.periodScores ?? null;
 }
-for(const match of data.matches??[])match.suggestedPick=selectionSnapshot(match);
+for (const match of data.matches ?? []) match.suggestedPick = selectionSnapshot(match);
 data.scoresUpdatedAt = new Date().toISOString();
-data.coverage = {...data.coverage, settlements:data.settlements.length};
-await writeFixtureIndex(data,file);
-const historyFile='data/predictions-history.json';
-let predictionHistory=[];
-try{predictionHistory=JSON.parse(await readFile(historyFile,'utf8'))}catch{}
-const predictions=new Map(predictionHistory.map(item=>[item.id,item]));
-for(const match of data.matches??[]){
-  if(!match.completed||!match.suggestedPick?.key||predictions.has(match.id))continue;
-  const pick=match.suggestedPick,status=selectionResult({...pick,matchId:match.id},[match]).status;
-  if(status==='pending')continue;
-  predictions.set(match.id,{id:match.id,date:match.date,league:match.league,match:`${match.home} – ${match.away}`,label:pick.label,key:pick.key,odd:pick.odd,probability:pick.probability,...predictionProvenance(pick,match),status,score:`${match.homeScore} : ${match.awayScore}`});
+data.coverage = { ...data.coverage, settlements: data.settlements.length };
+await writeFixtureIndex(data, file);
+const historyFile = 'data/predictions-history.json';
+let predictionHistory = [];
+try {
+  predictionHistory = JSON.parse(await readFile(historyFile, 'utf8'));
+} catch {}
+const predictions = new Map(predictionHistory.map((item) => [item.id, item]));
+for (const match of data.matches ?? []) {
+  if (!match.completed || !match.suggestedPick?.key || predictions.has(match.id)) continue;
+  const pick = match.suggestedPick,
+    status = selectionResult({ ...pick, matchId: match.id }, [match]).status;
+  if (status === 'pending') continue;
+  predictions.set(match.id, {
+    id: match.id,
+    date: match.date,
+    league: match.league,
+    match: `${match.home} – ${match.away}`,
+    label: pick.label,
+    key: pick.key,
+    odd: pick.odd,
+    probability: pick.probability,
+    ...predictionProvenance(pick, match),
+    status,
+    score: `${match.homeScore} : ${match.awayScore}`
+  });
 }
-predictionHistory=[...predictions.values()].sort((a,b)=>b.date.localeCompare(a.date));
-await writeFile(historyFile,`${JSON.stringify(predictionHistory)}\n`);
-console.log(`${settlements.length} résultats contrôlés, ${data.settlements.length} disponibles pour régler les paris.`);
+predictionHistory = [...predictions.values()].sort((a, b) => b.date.localeCompare(a.date));
+await writeFile(historyFile, `${JSON.stringify(predictionHistory)}\n`);
+console.log(
+  `${settlements.length} résultats contrôlés, ${data.settlements.length} disponibles pour régler les paris.`
+);

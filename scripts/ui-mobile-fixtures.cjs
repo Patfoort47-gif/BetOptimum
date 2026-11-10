@@ -1,9 +1,96 @@
 // Données de recette uniquement, aucune requête externe ni écriture serveur.
-const fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
-const base='http://127.0.0.1:4173',root=path.resolve(__dirname,'..'),mock=fs.readFileSync(path.join(root,'scripts/check-public-ui.cjs'),'utf8').match(/const mock=`([\s\S]*?)`;/)[1];
-const now=Date.now(),date=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(now),odds={home:2.5,draw:3.8,away:2.9,over:1.9,btts:1.57};
-const match={id:'espn-1',date,time:'21:00',kickoff:new Date(now+7200000).toISOString(),league:'Premier League',home:'Association sportive du domicile au nom particulièrement long',away:'Football club extérieur au nom particulièrement long',homeGoals:1.4,awayGoals:1.3,odds,realOddsMarkets:Object.keys(odds),bookmakerOffers:Array.from({length:12},(_,i)=>({key:'book-'+i,name:'Bookmaker '+i,...odds,updatedAt:new Date(now).toISOString()}))};
-const fixtures={generatedAt:new Date(now).toISOString(),scoresUpdatedAt:new Date(now).toISOString(),oddsRefreshedAt:new Date(now).toISOString(),matches:[match,{...match,id:'espn-2',home:'Deuxième domicile',away:'Deuxième extérieur'}],settlements:[]};
-async function browser(){return chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']})}
-async function page(b,{width=390,dark=false,logged=false,data=fixtures,network=false,delay=null,storage=null,failure=null,touch=false}={}){const p=await b.newPage({viewport:{width,height:1000},hasTouch:touch,reducedMotion:'reduce'});p.__errors=[];p.on('pageerror',e=>p.__errors.push(e.message));await p.addInitScript(({dark,logged,storage,failure})=>{window.__logged=logged;window.__failure=failure;localStorage.setItem('betmaster-theme',dark?'dark':'light');if(storage)localStorage.setItem('betmaster-state-v1',JSON.stringify(storage))},{dark,logged,storage,failure});await p.route('**/*',async r=>{const u=new URL(r.request().url());if(u.origin!==base)return r.abort();if(u.pathname.endsWith('/account.js'))return r.fulfill({contentType:'text/javascript',body:mock});if(u.pathname.endsWith('/data/fixtures.json')){if(delay)await delay;if(network)return r.abort();return r.fulfill({json:data})}if(u.pathname.endsWith('/data/predictions-history.json'))return r.fulfill({json:[]});return r.continue()});await p.goto(base);return p}
-module.exports={base,root,match,fixtures,browser,page};
+const fs = require('node:fs'),
+  path = require('node:path'),
+  { chromium } = require('playwright');
+const base = 'http://127.0.0.1:4173',
+  root = path.resolve(__dirname, '..'),
+  mock = fs
+    .readFileSync(path.join(root, 'scripts/check-public-ui.cjs'), 'utf8')
+    .match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
+const now = Date.now(),
+  date = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(now),
+  odds = { home: 2.5, draw: 3.8, away: 2.9, over: 1.9, btts: 1.57 };
+const match = {
+  id: 'espn-1',
+  date,
+  time: '21:00',
+  kickoff: new Date(now + 7200000).toISOString(),
+  league: 'Premier League',
+  home: 'Association sportive du domicile au nom particulièrement long',
+  away: 'Football club extérieur au nom particulièrement long',
+  homeGoals: 1.4,
+  awayGoals: 1.3,
+  odds,
+  realOddsMarkets: Object.keys(odds),
+  bookmakerOffers: Array.from({ length: 12 }, (_, i) => ({
+    key: 'book-' + i,
+    name: 'Bookmaker ' + i,
+    ...odds,
+    updatedAt: new Date(now).toISOString()
+  }))
+};
+const fixtures = {
+  generatedAt: new Date(now).toISOString(),
+  scoresUpdatedAt: new Date(now).toISOString(),
+  oddsRefreshedAt: new Date(now).toISOString(),
+  matches: [
+    match,
+    { ...match, id: 'espn-2', home: 'Deuxième domicile', away: 'Deuxième extérieur' }
+  ],
+  settlements: []
+};
+async function browser() {
+  return chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+}
+async function page(
+  b,
+  {
+    width = 390,
+    dark = false,
+    logged = false,
+    data = fixtures,
+    network = false,
+    delay = null,
+    storage = null,
+    failure = null,
+    touch = false
+  } = {}
+) {
+  const p = await b.newPage({
+    viewport: { width, height: 1000 },
+    hasTouch: touch,
+    reducedMotion: 'reduce'
+  });
+  p.__errors = [];
+  p.on('pageerror', (e) => p.__errors.push(e.message));
+  await p.addInitScript(
+    ({ dark, logged, storage, failure }) => {
+      window.__logged = logged;
+      window.__failure = failure;
+      localStorage.setItem('betmaster-theme', dark ? 'dark' : 'light');
+      if (storage) localStorage.setItem('betmaster-state-v1', JSON.stringify(storage));
+    },
+    { dark, logged, storage, failure }
+  );
+  await p.route('**/*', async (r) => {
+    const u = new URL(r.request().url());
+    if (u.origin !== base) return r.abort();
+    if (u.pathname.endsWith('/account.js'))
+      return r.fulfill({ contentType: 'text/javascript', body: mock });
+    if (u.pathname.endsWith('/data/fixtures.json')) {
+      if (delay) await delay;
+      if (network) return r.abort();
+      return r.fulfill({ json: data });
+    }
+    if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });
+    return r.continue();
+  });
+  await p.goto(base);
+  return p;
+}
+module.exports = { base, root, match, fixtures, browser, page };

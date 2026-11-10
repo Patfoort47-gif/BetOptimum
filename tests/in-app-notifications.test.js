@@ -1,6 +1,68 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {createInbox} from '../in-app-notifications.js';
-const store=()=>{const m=new Map();return{getItem:k=>m.get(k),setItem:(k,v)=>m.set(k,v)}};
-test('aucun rejeu historique, nouveaux règlements gagnés/perdus persistants une seule fois',()=>{const storage=store();let box=createInbox(storage,'a');box.bets([{id:'old',status:'won'},{id:'next',status:'pending'}]);assert.equal(box.unread(),0);box.bets([{id:'old',status:'won'},{id:'next',status:'lost'}]);assert.equal(box.unread(),1);box=createInbox(storage,'a');box.bets([{id:'next',status:'lost'}]);assert.equal(box.unread(),1);box.read();assert.equal(box.unread(),0);assert.equal(createInbox(storage,'b').items().length,0)});
-const league=(rank,season='s',confirmed=true)=>({me:'me',season,echelon:2,groupLabel:'A',rows:[{user_id:'me',rank,confirmed}]});
-test('recul confirmé seulement, ni changement de saison ni rang provisoire',()=>{const box=createInbox(null,'a');box.league(league(2));box.league(league(3));assert.equal(box.unread(),1);box.league(league(3));box.league(league(2));box.league(league(10,'new'));box.league(league(null,'new',false));box.league(league(20,'new'));assert.equal(box.unread(),1)});
-test('défis terminés signalés une fois, historique borné et stockage indisponible toléré',()=>{const box=createInbox({getItem(){throw Error()},setItem(){throw Error()}},'a');box.rewards({results:[]});box.rewards({results:[{week_start:'2026-11-02',challenge_id:'safe-week'}]});box.rewards({results:[{week_start:'2026-11-02',challenge_id:'safe-week'}]});assert.equal(box.unread(),1);box.bets([]);for(let i=0;i<110;i++)box.bets([{id:String(i),status:'won'}]);assert.equal(box.items().length,100);box.read(box.items()[0].id);assert.equal(box.unread(),99)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createInbox } from '../in-app-notifications.js';
+const store = () => {
+  const m = new Map();
+  return { getItem: (k) => m.get(k), setItem: (k, v) => m.set(k, v) };
+};
+test('aucun rejeu historique, nouveaux règlements gagnés/perdus persistants une seule fois', () => {
+  const storage = store();
+  let box = createInbox(storage, 'a');
+  box.bets([
+    { id: 'old', status: 'won' },
+    { id: 'next', status: 'pending' }
+  ]);
+  assert.equal(box.unread(), 0);
+  box.bets([
+    { id: 'old', status: 'won' },
+    { id: 'next', status: 'lost' }
+  ]);
+  assert.equal(box.unread(), 1);
+  box = createInbox(storage, 'a');
+  box.bets([{ id: 'next', status: 'lost' }]);
+  assert.equal(box.unread(), 1);
+  box.read();
+  assert.equal(box.unread(), 0);
+  assert.equal(createInbox(storage, 'b').items().length, 0);
+});
+const league = (rank, season = 's', confirmed = true) => ({
+  me: 'me',
+  season,
+  echelon: 2,
+  groupLabel: 'A',
+  rows: [{ user_id: 'me', rank, confirmed }]
+});
+test('recul confirmé seulement, ni changement de saison ni rang provisoire', () => {
+  const box = createInbox(null, 'a');
+  box.league(league(2));
+  box.league(league(3));
+  assert.equal(box.unread(), 1);
+  box.league(league(3));
+  box.league(league(2));
+  box.league(league(10, 'new'));
+  box.league(league(null, 'new', false));
+  box.league(league(20, 'new'));
+  assert.equal(box.unread(), 1);
+});
+test('défis terminés signalés une fois, historique borné et stockage indisponible toléré', () => {
+  const box = createInbox(
+    {
+      getItem() {
+        throw Error();
+      },
+      setItem() {
+        throw Error();
+      }
+    },
+    'a'
+  );
+  box.rewards({ results: [] });
+  box.rewards({ results: [{ week_start: '2026-11-02', challenge_id: 'safe-week' }] });
+  box.rewards({ results: [{ week_start: '2026-11-02', challenge_id: 'safe-week' }] });
+  assert.equal(box.unread(), 1);
+  box.bets([]);
+  for (let i = 0; i < 110; i++) box.bets([{ id: String(i), status: 'won' }]);
+  assert.equal(box.items().length, 100);
+  box.read(box.items()[0].id);
+  assert.equal(box.unread(), 99);
+});

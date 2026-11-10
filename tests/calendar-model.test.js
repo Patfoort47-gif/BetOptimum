@@ -1,6 +1,77 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {matchesWithBookmakers,orderCalendar,byConfidence} from '../calendar-model.js';
-test('BET-122 : affiche, favoris, direct, horaires complets et terminés, sans doublons',()=>{const rows=[{id:'done',completed:true,t:1},{id:'later',t:200},{id:'fav',t:300},{id:'spot',t:500},{id:'live',t:10},{id:'early',t:100},{id:'same',t:100},{id:'void',voided:true,t:2}],options={spotlight:'spot',favorite:m=>['spot','fav'].includes(m.id),isLive:m=>m.id==='live',kickoff:m=>m.t};assert.deepEqual(orderCalendar(rows,options).map(m=>m.id),['spot','fav','live','early','same','later','done','void']);assert.equal(rows[0].id,'done');assert.deepEqual(orderCalendar(rows.filter(m=>m.id==='later'),options).map(m=>m.id),['later']);});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { matchesWithBookmakers, orderCalendar, byConfidence } from '../calendar-model.js';
+test('BET-122 : affiche, favoris, direct, horaires complets et terminés, sans doublons', () => {
+  const rows = [
+      { id: 'done', completed: true, t: 1 },
+      { id: 'later', t: 200 },
+      { id: 'fav', t: 300 },
+      { id: 'spot', t: 500 },
+      { id: 'live', t: 10 },
+      { id: 'early', t: 100 },
+      { id: 'same', t: 100 },
+      { id: 'void', voided: true, t: 2 }
+    ],
+    options = {
+      spotlight: 'spot',
+      favorite: (m) => ['spot', 'fav'].includes(m.id),
+      isLive: (m) => m.id === 'live',
+      kickoff: (m) => m.t
+    };
+  assert.deepEqual(
+    orderCalendar(rows, options).map((m) => m.id),
+    ['spot', 'fav', 'live', 'early', 'same', 'later', 'done', 'void']
+  );
+  assert.equal(rows[0].id, 'done');
+  assert.deepEqual(
+    orderCalendar(
+      rows.filter((m) => m.id === 'later'),
+      options
+    ).map((m) => m.id),
+    ['later']
+  );
+});
 
-test("BET-123 : confiance exacte, égalités stables et absences en dernier",()=>{const rows=[{id:1,probability:.54},{id:2,probability:.61},{id:3,probability:.72},{id:4},{id:5,probability:.61001},{id:6,probability:.61},{id:7,probability:null}];assert.deepEqual(byConfidence(rows).map(x=>x.id),[3,5,2,6,1,4,7]);assert.equal(rows[0].id,1)});
+test('BET-123 : confiance exacte, égalités stables et absences en dernier', () => {
+  const rows = [
+    { id: 1, probability: 0.54 },
+    { id: 2, probability: 0.61 },
+    { id: 3, probability: 0.72 },
+    { id: 4 },
+    { id: 5, probability: 0.61001 },
+    { id: 6, probability: 0.61 },
+    { id: 7, probability: null }
+  ];
+  assert.deepEqual(
+    byConfidence(rows).map((x) => x.id),
+    [3, 5, 2, 6, 1, 4, 7]
+  );
+  assert.equal(rows[0].id, 1);
+});
 
-test('BET-278 : dix bookmakers distincts pour une même sélection',()=>{const match=(id,n)=>({id,odds:{home:2},realOddsMarkets:['home'],bookmakerOffers:Array.from({length:n},(_,i)=>({key:`b${i}`,home:2}))});const rows=[match('zero',0),match('neuf',9),match('dix',10),{...match('doublons',10),bookmakerOffers:Array(10).fill({key:'identique',home:2})},{...match('repartis',10),bookmakerOffers:Array.from({length:10},(_,i)=>({key:`b${i}`,[i<5?'home':'away']:2}))}];assert.deepEqual(matchesWithBookmakers(rows).map(m=>m.id),['dix']);assert.equal(rows.length,5)});
+test('BET-278 : dix bookmakers distincts pour une même sélection', () => {
+  const match = (id, n) => ({
+    id,
+    odds: { home: 2 },
+    realOddsMarkets: ['home'],
+    bookmakerOffers: Array.from({ length: n }, (_, i) => ({ key: `b${i}`, home: 2 }))
+  });
+  const rows = [
+    match('zero', 0),
+    match('neuf', 9),
+    match('dix', 10),
+    { ...match('doublons', 10), bookmakerOffers: Array(10).fill({ key: 'identique', home: 2 }) },
+    {
+      ...match('repartis', 10),
+      bookmakerOffers: Array.from({ length: 10 }, (_, i) => ({
+        key: `b${i}`,
+        [i < 5 ? 'home' : 'away']: 2
+      }))
+    }
+  ];
+  assert.deepEqual(
+    matchesWithBookmakers(rows).map((m) => m.id),
+    ['dix']
+  );
+  assert.equal(rows.length, 5);
+});

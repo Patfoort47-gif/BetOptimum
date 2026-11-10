@@ -1,10 +1,95 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {dashboardFigures,dashboardCharts,dashboardBet} from '../personal-dashboard.js';
-import {historyCard} from '../bet-history.js';
-test('Cote totale exacte, système sans cote fictive',()=>{const bet=dashboardBet({id:'1',placed_at:'2026-11-01',stake:30,odds:3.75,status:'pending',bet_type:'combined',selections:[]});assert.match(historyCard(bet),/Cote totale/);assert.match(historyCard(bet),/3,75/);assert.match(historyCard({...bet,betType:'multiple',systemLines:[{indexes:[],stake:10,odds:2},{indexes:[],stake:20,odds:3}]}),/Cotes par sous-pari/);assert.doesNotMatch(historyCard({...bet,betType:'multiple'}),/Cote totale/)});
-test('Les gains partiels restent nets négatifs et le potentiel ne devient pas réalisé',()=>{const figures=dashboardFigures({bankroll:100,opening:0,change:100,deposits:0,staked:30,returned:15,net:-15,settled:1,wins:1,decided:1,engaged:10,potential:20});assert.match(figures.find(x=>x[0]==='Résultat net réglé')[1],/-15/);assert.doesNotMatch(figures.flat().join(' '),/apports inclus|Variation du solde/);assert.match(figures.at(-1)[0],/non acquis/)});
-test('Graphiques : état vide, chiffres exacts en texte et infobulles',()=>{const summary={total:1,won:0,lost:0,pending:1,void:0};assert.match(dashboardCharts({curve:[],bars:[],summary}),/premier résultat/);const html=dashboardCharts({openingDate:'2026-11-01',baseline:100,curve:[{day:'2026-11-02',balance:110,delta:10,deposit:20}],bars:[{period:'2026-11-01',staked:10,returned:0,net:-10}],summary});assert.match(html,/<title>/);assert.match(html,/Montants exacts/);assert.match(html,/En attente : <b>1/);assert.doesNotMatch(html,/NaN/)});
-test('La vue principale garde quatre repères et réserve les mouvements au détail',async()=>{const {dashboardEssentialFigures}=await import('../personal-dashboard.js');const s={bankroll:125,net:-15,engaged:20,wins:1,decided:2};const figures=dashboardEssentialFigures(s);assert.equal(figures.length,4);assert.deepEqual(figures.map(x=>x[0]),['Bankroll disponible','Résultat net réglé','Réussite · hors remboursements','Mises en attente · période']);assert.match(figures[2][1],/50/);assert.doesNotMatch(figures.flat().join(' '),/apports|Retours|potentiel/)});
+import { dashboardFigures, dashboardCharts, dashboardBet } from '../personal-dashboard.js';
+import { historyCard } from '../bet-history.js';
+test('Cote totale exacte, système sans cote fictive', () => {
+  const bet = dashboardBet({
+    id: '1',
+    placed_at: '2026-11-01',
+    stake: 30,
+    odds: 3.75,
+    status: 'pending',
+    bet_type: 'combined',
+    selections: []
+  });
+  assert.match(historyCard(bet), /Cote totale/);
+  assert.match(historyCard(bet), /3,75/);
+  assert.match(
+    historyCard({
+      ...bet,
+      betType: 'multiple',
+      systemLines: [
+        { indexes: [], stake: 10, odds: 2 },
+        { indexes: [], stake: 20, odds: 3 }
+      ]
+    }),
+    /Cotes par sous-pari/
+  );
+  assert.doesNotMatch(historyCard({ ...bet, betType: 'multiple' }), /Cote totale/);
+});
+test('Les gains partiels restent nets négatifs et le potentiel ne devient pas réalisé', () => {
+  const figures = dashboardFigures({
+    bankroll: 100,
+    opening: 0,
+    change: 100,
+    deposits: 0,
+    staked: 30,
+    returned: 15,
+    net: -15,
+    settled: 1,
+    wins: 1,
+    decided: 1,
+    engaged: 10,
+    potential: 20
+  });
+  assert.match(figures.find((x) => x[0] === 'Résultat net réglé')[1], /-15/);
+  assert.doesNotMatch(figures.flat().join(' '), /apports inclus|Variation du solde/);
+  assert.match(figures.at(-1)[0], /non acquis/);
+});
+test('Graphiques : état vide, chiffres exacts en texte et infobulles', () => {
+  const summary = { total: 1, won: 0, lost: 0, pending: 1, void: 0 };
+  assert.match(dashboardCharts({ curve: [], bars: [], summary }), /premier résultat/);
+  const html = dashboardCharts({
+    openingDate: '2026-11-01',
+    baseline: 100,
+    curve: [{ day: '2026-11-02', balance: 110, delta: 10, deposit: 20 }],
+    bars: [{ period: '2026-11-01', staked: 10, returned: 0, net: -10 }],
+    summary
+  });
+  assert.match(html, /<title>/);
+  assert.match(html, /Montants exacts/);
+  assert.match(html, /En attente : <b>1/);
+  assert.doesNotMatch(html, /NaN/);
+});
+test('La vue principale garde quatre repères et réserve les mouvements au détail', async () => {
+  const { dashboardEssentialFigures } = await import('../personal-dashboard.js');
+  const s = { bankroll: 125, net: -15, engaged: 20, wins: 1, decided: 2 };
+  const figures = dashboardEssentialFigures(s);
+  assert.equal(figures.length, 4);
+  assert.deepEqual(
+    figures.map((x) => x[0]),
+    [
+      'Bankroll disponible',
+      'Résultat net réglé',
+      'Réussite · hors remboursements',
+      'Mises en attente · période'
+    ]
+  );
+  assert.match(figures[2][1], /50/);
+  assert.doesNotMatch(figures.flat().join(' '), /apports|Retours|potentiel/);
+});
 
-test('Les chiffres restent en HTML à taille native, y compris les courbes plates et négatives',()=>{for(const net of [0,-25,30]){const output=dashboardCharts({openingDate:'2026-11-01',curve:[{day:'2026-11-02',balance:net,delta:net}],bars:[{period:'2026-11-01',staked:30,returned:30+net,net}],summary:{total:1,won:1,lost:0,pending:0,void:0}});assert.doesNotMatch(output,/<text|NaN|Infinity/);assert.match(output,/chart-labels/);assert.match(output,/Résultat net cumulé/);assert.match(output,/vector-effect="non-scaling-stroke"/);}});
+test('Les chiffres restent en HTML à taille native, y compris les courbes plates et négatives', () => {
+  for (const net of [0, -25, 30]) {
+    const output = dashboardCharts({
+      openingDate: '2026-11-01',
+      curve: [{ day: '2026-11-02', balance: net, delta: net }],
+      bars: [{ period: '2026-11-01', staked: 30, returned: 30 + net, net }],
+      summary: { total: 1, won: 1, lost: 0, pending: 0, void: 0 }
+    });
+    assert.doesNotMatch(output, /<text|NaN|Infinity/);
+    assert.match(output, /chart-labels/);
+    assert.match(output, /Résultat net cumulé/);
+    assert.match(output, /vector-effect="non-scaling-stroke"/);
+  }
+});

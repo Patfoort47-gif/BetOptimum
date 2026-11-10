@@ -1,7 +1,75 @@
-const {PGlite}=await import(process.env.PGLITE_MODULE??'@electric-sql/pglite');import {readFile} from 'node:fs/promises';import assert from 'node:assert/strict';
-const db=new PGlite();await db.exec(`create role anon;create role authenticated;create schema auth;create table auth.users(id uuid primary key);create table public.profiles(user_id uuid primary key,nickname text);create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;create function public.pseudo_valide(p text) returns boolean language sql immutable as $$select p ~ '^[A-Za-zÀ-ÿ0-9_. -]{3,24}$' and btrim(p)=p$$;grant usage on schema auth,public to anon,authenticated;`);
-const users=['00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002'];for(const uid of users)await db.query('insert into auth.users values($1)',[uid]);await db.query("insert into profiles values($1,'Victor'),($2,'Autre')",users);
-const v4=await readFile('supabase/migrations/supabase-v4-schema.sql','utf8'),start=v4.indexOf('create or replace function public.pseudo_libre('),end=v4.indexOf('$$;',start)+3;await db.exec(v4.slice(start,end));await db.exec('grant execute on function public.pseudo_libre(text) to anon,authenticated');
-const sql=await readFile(process.env.NICKNAME_MIGRATION??'supabase/migrations/supabase-v63-schema.sql','utf8');await db.exec(sql);await db.exec(sql);const available=async nickname=>(await db.query('select pseudo_disponible($1) free',[nickname])).rows[0].free;
-assert.match((await db.query("select pseudo_libre('Victor') name")).rows[0].name,/^Parieur[0-9]{4}$/);await db.exec('set role anon');await assert.rejects(db.query("select pseudo_libre('Victor')"),/permission denied/);await assert.rejects(available('Victor'),/permission denied/);await db.exec('reset role;set role authenticated');await assert.rejects(available('Victor'),/AUTH_REQUIRED/);await assert.rejects(db.query("select pseudo_libre('Victor')"),/permission denied/);await db.exec(`set test.uid='${users[0]}'`);assert.equal(await available('vIcToR'),true);assert.equal(await available('Autre'),false);assert.equal(await available('Libre'),true);assert.equal(await available('<invalide>'),false);for(let i=4;i<20;i++)await available('Nom'+i);await assert.rejects(available('Libre'),/TROP_VERIFICATIONS_PSEUDO/);await assert.rejects(available('Libre'),/TROP_VERIFICATIONS_PSEUDO/);await assert.rejects(db.query('select * from nickname_check_attempts'),/permission denied/);await db.exec('reset role');assert.equal((await db.query('select cardinality(attempts) n from nickname_check_attempts where user_id=$1',[users[0]])).rows[0].n,20);await db.exec(`set test.uid='${users[1]}';set role authenticated;`);assert.equal(await available('Libre'),true);await db.exec('reset role');await db.query("update nickname_check_attempts set attempts=array(select now()-interval '2 minutes' from generate_series(1,20)) where user_id=$1",[users[0]]);await db.exec(`set test.uid='${users[0]}';set role authenticated;`);assert.equal(await available('Libre'),true);await db.exec(`reset role;create role registration_service;alter table auth.users add column raw_user_meta_data jsonb default '{}';create function public.security_test_signup_profile() returns trigger language plpgsql security definer set search_path=public as $$begin insert into public.profiles values(new.id,public.pseudo_libre(new.raw_user_meta_data->>'username'));return new;end$$;create trigger security_test_signup_profile after insert on auth.users for each row execute function public.security_test_signup_profile();grant usage on schema auth to registration_service;grant insert on auth.users to registration_service;set role registration_service;insert into auth.users(id,raw_user_meta_data) values('00000000-0000-0000-0000-000000000003','{"username":"Victor"}');reset role;`);assert.match((await db.query("select nickname from profiles where user_id='00000000-0000-0000-0000-000000000003'")).rows[0].nickname,/^Parieur[0-9]{4}$/);
-await db.close();console.log('OK SQL BET-306 : migration deux fois, anon refusé, connexion requise, disponibilité/casse, vingt appels persistants, quota, expiration et isolation.');
+const { PGlite } = await import(process.env.PGLITE_MODULE ?? '@electric-sql/pglite');
+import { readFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const db = new PGlite();
+await db.exec(
+  `create role anon;create role authenticated;create schema auth;create table auth.users(id uuid primary key);create table public.profiles(user_id uuid primary key,nickname text);create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;create function public.pseudo_valide(p text) returns boolean language sql immutable as $$select p ~ '^[A-Za-zÀ-ÿ0-9_. -]{3,24}$' and btrim(p)=p$$;grant usage on schema auth,public to anon,authenticated;`
+);
+const users = ['00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000002'];
+for (const uid of users) await db.query('insert into auth.users values($1)', [uid]);
+await db.query("insert into profiles values($1,'Victor'),($2,'Autre')", users);
+const v4 = await readFile('supabase/migrations/supabase-v4-schema.sql', 'utf8'),
+  start = v4.indexOf('create or replace function public.pseudo_libre('),
+  end = v4.indexOf('$$;', start) + 3;
+await db.exec(v4.slice(start, end));
+await db.exec('grant execute on function public.pseudo_libre(text) to anon,authenticated');
+const sql = await readFile(
+  process.env.NICKNAME_MIGRATION ?? 'supabase/migrations/supabase-v63-schema.sql',
+  'utf8'
+);
+await db.exec(sql);
+await db.exec(sql);
+const available = async (nickname) =>
+  (await db.query('select pseudo_disponible($1) free', [nickname])).rows[0].free;
+assert.match(
+  (await db.query("select pseudo_libre('Victor') name")).rows[0].name,
+  /^Parieur[0-9]{4}$/
+);
+await db.exec('set role anon');
+await assert.rejects(db.query("select pseudo_libre('Victor')"), /permission denied/);
+await assert.rejects(available('Victor'), /permission denied/);
+await db.exec('reset role;set role authenticated');
+await assert.rejects(available('Victor'), /AUTH_REQUIRED/);
+await assert.rejects(db.query("select pseudo_libre('Victor')"), /permission denied/);
+await db.exec(`set test.uid='${users[0]}'`);
+assert.equal(await available('vIcToR'), true);
+assert.equal(await available('Autre'), false);
+assert.equal(await available('Libre'), true);
+assert.equal(await available('<invalide>'), false);
+for (let i = 4; i < 20; i++) await available('Nom' + i);
+await assert.rejects(available('Libre'), /TROP_VERIFICATIONS_PSEUDO/);
+await assert.rejects(available('Libre'), /TROP_VERIFICATIONS_PSEUDO/);
+await assert.rejects(db.query('select * from nickname_check_attempts'), /permission denied/);
+await db.exec('reset role');
+assert.equal(
+  (
+    await db.query('select cardinality(attempts) n from nickname_check_attempts where user_id=$1', [
+      users[0]
+    ])
+  ).rows[0].n,
+  20
+);
+await db.exec(`set test.uid='${users[1]}';set role authenticated;`);
+assert.equal(await available('Libre'), true);
+await db.exec('reset role');
+await db.query(
+  "update nickname_check_attempts set attempts=array(select now()-interval '2 minutes' from generate_series(1,20)) where user_id=$1",
+  [users[0]]
+);
+await db.exec(`set test.uid='${users[0]}';set role authenticated;`);
+assert.equal(await available('Libre'), true);
+await db.exec(
+  `reset role;create role registration_service;alter table auth.users add column raw_user_meta_data jsonb default '{}';create function public.security_test_signup_profile() returns trigger language plpgsql security definer set search_path=public as $$begin insert into public.profiles values(new.id,public.pseudo_libre(new.raw_user_meta_data->>'username'));return new;end$$;create trigger security_test_signup_profile after insert on auth.users for each row execute function public.security_test_signup_profile();grant usage on schema auth to registration_service;grant insert on auth.users to registration_service;set role registration_service;insert into auth.users(id,raw_user_meta_data) values('00000000-0000-0000-0000-000000000003','{"username":"Victor"}');reset role;`
+);
+assert.match(
+  (
+    await db.query(
+      "select nickname from profiles where user_id='00000000-0000-0000-0000-000000000003'"
+    )
+  ).rows[0].nickname,
+  /^Parieur[0-9]{4}$/
+);
+await db.close();
+console.log(
+  'OK SQL BET-306 : migration deux fois, anon refusé, connexion requise, disponibilité/casse, vingt appels persistants, quota, expiration et isolation.'
+);

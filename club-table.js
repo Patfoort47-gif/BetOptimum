@@ -1,7 +1,31 @@
-import {decimal} from './number-format.js';
+import { decimal } from './number-format.js';
 // Statistiques certifiées communes aux écrans du Club ; provisoires sans faux rang.
-export function renderClubTable(rows,{html,avatar,me,division=()=>'',rowClass=()=>'',details=()=>'',sort='points'}={}) {
- const number=value=>Number.isFinite(Number(value))?Number(value):0,v3=rows.some(row=>row.ranking_version===3),confirmed=rows.filter(row=>row.confirmed!==false),provisional=rows.filter(row=>row.confirmed===false);
- const table=(items,caption)=>`<div class="club-table-scroll"><table class="club-table">${caption?`<caption>${caption}</caption>`:''}<thead><tr>${['Rang en points','Joueur','Tickets','Gagnés','Réussite','ROI','Points'].map(label=>`<th scope="col"${label===({points:'Points',roi:'ROI',wins:'Gagnés'})[sort]?' aria-sort="descending"':''}>${label}</th>`).join('')}</tr></thead><tbody>${items.map(row=>{const picks=number(row.picks),wins=number(row.wins),points=number(row.points),roi=number(row.roi),waiting=row.confirmed===false;return `<tr class="${row.user_id===me?'me ':''}${waiting?'provisional':rowClass(row)}"><td data-label="Rang en points">${waiting?'Provisoire':number(row.rank)}</td><th scope="row"><div class="club-player">${avatar(row)}<span><button class="text-button" data-profile-nick="${html(row.nickname)}">${html(row.nickname)}</button>${waiting?`<small>${number(row.decided)}/10 résultats décidés</small>`:''}${row.echelon!=null?`<small>${html(division(row.echelon))}</small>`:''}${details(row)}</span></div></th><td data-label="Tickets">${picks}</td><td data-label="Gagnés">${wins}</td><td data-label="Réussite">${picks?decimal((wins/picks*100),1)+' %':'-'}</td><td data-label="ROI">${picks?(roi>=0?'+':'')+decimal(roi,1)+' %':'-'}</td><td data-label="Points"><strong>${decimal(points,1)}</strong></td></tr>`}).join('')}</tbody></table></div>`;
- return `${confirmed.length?table(confirmed,v3?'Classement confirmé':''):v3?'<p class="empty">Aucun joueur confirmé sur cette page pour le moment.</p>':''}${provisional.length?table(provisional,'Provisoires · avant 10 résultats décidés'):''}<p class="club-table-note">Ordre : ${{points:'points de ligue',roi:'rendement (ROI)',wins:'pronostics gagnés'}[sort]} décroissants, joueurs confirmés en premier. Le rang reste celui des points de ligue. Tickets = pronostics réglés de la période · ROI = points / (tickets hors annulations × 10) · mise de référence virtuelle : 10${v3?' · Un rang confirmé exige 10 gains ou pertes ; remboursements et paris en attente exclus.':''}</p>`;
+export function renderClubTable(
+  rows,
+  {
+    html,
+    avatar,
+    me,
+    division = () => '',
+    rowClass = () => '',
+    details = () => '',
+    sort = 'points'
+  } = {}
+) {
+  const number = (value) => (Number.isFinite(Number(value)) ? Number(value) : 0),
+    v3 = rows.some((row) => row.ranking_version === 3),
+    confirmed = rows.filter((row) => row.confirmed !== false),
+    provisional = rows.filter((row) => row.confirmed === false);
+  const table = (items, caption) =>
+    `<div class="club-table-scroll"><table class="club-table">${caption ? `<caption>${caption}</caption>` : ''}<thead><tr>${['Rang en points', 'Joueur', 'Tickets', 'Gagnés', 'Réussite', 'ROI', 'Points'].map((label) => `<th scope="col"${label === { points: 'Points', roi: 'ROI', wins: 'Gagnés' }[sort] ? ' aria-sort="descending"' : ''}>${label}</th>`).join('')}</tr></thead><tbody>${items
+      .map((row) => {
+        const picks = number(row.picks),
+          wins = number(row.wins),
+          points = number(row.points),
+          roi = number(row.roi),
+          waiting = row.confirmed === false;
+        return `<tr class="${row.user_id === me ? 'me ' : ''}${waiting ? 'provisional' : rowClass(row)}"><td data-label="Rang en points">${waiting ? 'Provisoire' : number(row.rank)}</td><th scope="row"><div class="club-player">${avatar(row)}<span><button class="text-button" data-profile-nick="${html(row.nickname)}">${html(row.nickname)}</button>${waiting ? `<small>${number(row.decided)}/10 résultats décidés</small>` : ''}${row.echelon != null ? `<small>${html(division(row.echelon))}</small>` : ''}${details(row)}</span></div></th><td data-label="Tickets">${picks}</td><td data-label="Gagnés">${wins}</td><td data-label="Réussite">${picks ? decimal((wins / picks) * 100, 1) + ' %' : '-'}</td><td data-label="ROI">${picks ? (roi >= 0 ? '+' : '') + decimal(roi, 1) + ' %' : '-'}</td><td data-label="Points"><strong>${decimal(points, 1)}</strong></td></tr>`;
+      })
+      .join('')}</tbody></table></div>`;
+  return `${confirmed.length ? table(confirmed, v3 ? 'Classement confirmé' : '') : v3 ? '<p class="empty">Aucun joueur confirmé sur cette page pour le moment.</p>' : ''}${provisional.length ? table(provisional, 'Provisoires · avant 10 résultats décidés') : ''}<p class="club-table-note">Ordre : ${{ points: 'points de ligue', roi: 'rendement (ROI)', wins: 'pronostics gagnés' }[sort]} décroissants, joueurs confirmés en premier. Le rang reste celui des points de ligue. Tickets = pronostics réglés de la période · ROI = points / (tickets hors annulations × 10) · mise de référence virtuelle : 10${v3 ? ' · Un rang confirmé exige 10 gains ou pertes ; remboursements et paris en attente exclus.' : ''}</p>`;
 }

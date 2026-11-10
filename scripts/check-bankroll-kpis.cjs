@@ -1,2 +1,56 @@
-const assert=require('node:assert/strict'),{browser,page}=require('./ui-mobile-fixtures.cjs'),{mountHistory}=require('./ui-history-fixtures.cjs');
-(async()=>{const b=await browser();try{for(const width of [375,390,430,767,768,1023,1024,1440]){const p=await page(b,{width,logged:true});await p.locator('.match-card').first().waitFor();await p.locator(width<768?'[data-mobile-target=bankroll]':'[data-tab=bankroll]').click();await mountHistory(p);await p.locator('.kpi-loading').waitFor();await p.waitForFunction(()=>document.querySelectorAll('#personal-kpis dd').length===3);const first=await p.locator('#personal-kpis').textContent();assert.match(first,/\+25 %/);assert.match(first,/\+50/);await p.locator('[data-history-more]').click();await p.waitForFunction(()=>document.querySelector('#history-body').children.length===10);assert.equal(await p.locator('#personal-kpis').textContent(),first);await p.evaluate(()=>{__h.netOverride=-20;return __dash.load({refresh:true})});assert.match(await p.locator('#personal-kpis').textContent(),/-10 %/);await p.locator('#personal-kpis [data-metric-help=roi]').focus();assert.match(await p.locator('#metric-tooltip').textContent(),/remboursements exclus/);await p.keyboard.press('Escape');await p.evaluate(()=>{__h.empty=true;return __dash.load({refresh:true})});assert.equal(await p.locator('#personal-kpis dd').nth(1).textContent(),'-');await p.evaluate(()=>{__h.fail=true;return __dash.load({refresh:true})});assert.match(await p.locator('#personal-kpis').textContent(),/Indicateurs indisponibles/);await p.evaluate(()=>{__h.empty=false});await p.locator('#personal-kpis [data-history-retry]').click();await p.waitForFunction(()=>document.querySelectorAll('#personal-kpis dd').length===3);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(p.__errors,[]);console.log('OK KPI complets, lots 5, actualisation, vide et reprise',width);await p.close()}}finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});
+const assert = require('node:assert/strict'),
+  { browser, page } = require('./ui-mobile-fixtures.cjs'),
+  { mountHistory } = require('./ui-history-fixtures.cjs');
+(async () => {
+  const b = await browser();
+  try {
+    for (const width of [375, 390, 430, 767, 768, 1023, 1024, 1440]) {
+      const p = await page(b, { width, logged: true });
+      await p.locator('.match-card').first().waitFor();
+      await p
+        .locator(width < 768 ? '[data-mobile-target=bankroll]' : '[data-tab=bankroll]')
+        .click();
+      await mountHistory(p);
+      await p.locator('.kpi-loading').waitFor();
+      await p.waitForFunction(() => document.querySelectorAll('#personal-kpis dd').length === 3);
+      const first = await p.locator('#personal-kpis').textContent();
+      assert.match(first, /\+25 %/);
+      assert.match(first, /\+50/);
+      await p.locator('[data-history-more]').click();
+      await p.waitForFunction(() => document.querySelector('#history-body').children.length === 10);
+      assert.equal(await p.locator('#personal-kpis').textContent(), first);
+      await p.evaluate(() => {
+        __h.netOverride = -20;
+        return __dash.load({ refresh: true });
+      });
+      assert.match(await p.locator('#personal-kpis').textContent(), /-10 %/);
+      await p.locator('#personal-kpis [data-metric-help=roi]').focus();
+      assert.match(await p.locator('#metric-tooltip').textContent(), /remboursements exclus/);
+      await p.keyboard.press('Escape');
+      await p.evaluate(() => {
+        __h.empty = true;
+        return __dash.load({ refresh: true });
+      });
+      assert.equal(await p.locator('#personal-kpis dd').nth(1).textContent(), '-');
+      await p.evaluate(() => {
+        __h.fail = true;
+        return __dash.load({ refresh: true });
+      });
+      assert.match(await p.locator('#personal-kpis').textContent(), /Indicateurs indisponibles/);
+      await p.evaluate(() => {
+        __h.empty = false;
+      });
+      await p.locator('#personal-kpis [data-history-retry]').click();
+      await p.waitForFunction(() => document.querySelectorAll('#personal-kpis dd').length === 3);
+      assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(p.__errors, []);
+      console.log('OK KPI complets, lots 5, actualisation, vide et reprise', width);
+      await p.close();
+    }
+  } finally {
+    await b.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

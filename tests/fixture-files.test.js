@@ -1,2 +1,29 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {splitFixtures} from '../scripts/fixture-files.mjs';
-test('BET-294 : le calendrier léger conserve les compteurs et sort les offres par jour',()=>{const offers=[{key:'a',home:2}],data={generatedAt:'now',matches:[{id:'m1',date:'2026-11-10',home:'A',bookmakerOffers:offers,oddsBookmakerCounts:{home:10},homeLogo:'https://a.espncdn.com/i/teamlogos/soccer/500/1.png'},{id:'m2',date:'2026-11-11',bookmakerOffers:[]} ]},result=splitFixtures(data);assert.equal(result.index.matches[0].bookmakerOffers,undefined);assert.equal(result.index.matches[0].oddsBookmakerCounts.home,10);assert.equal(result.index.matches[0].homeLogo,'https://a.espncdn.com/i/teamlogos/soccer/500/1.png?h=96&w=96');assert.deepEqual(result.offersByDate['2026-11-10'].m1,offers);assert.equal(result.offersByDate['2026-11-11'],undefined)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { splitFixtures } from '../scripts/fixture-files.mjs';
+test('BET-294 : le calendrier léger conserve les compteurs et sort les offres par jour', () => {
+  const offers = [{ key: 'a', home: 2 }],
+    data = {
+      generatedAt: 'now',
+      matches: [
+        {
+          id: 'm1',
+          date: '2026-11-10',
+          home: 'A',
+          bookmakerOffers: offers,
+          oddsBookmakerCounts: { home: 10 },
+          homeLogo: 'https://a.espncdn.com/i/teamlogos/soccer/500/1.png'
+        },
+        { id: 'm2', date: '2026-11-11', bookmakerOffers: [] }
+      ]
+    },
+    result = splitFixtures(data);
+  assert.equal(result.index.matches[0].bookmakerOffers, undefined);
+  assert.equal(result.index.matches[0].oddsBookmakerCounts.home, 10);
+  assert.equal(
+    result.index.matches[0].homeLogo,
+    'https://a.espncdn.com/i/teamlogos/soccer/500/1.png?h=96&w=96'
+  );
+  assert.deepEqual(result.offersByDate['2026-11-10'].m1, offers);
+  assert.equal(result.offersByDate['2026-11-11'], undefined);
+});

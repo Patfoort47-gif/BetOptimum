@@ -1,4 +1,32 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {authCallbackStatus} from '../auth-return.js';import {translateAuthError} from '../auth-model.js';
-test('le refus Google ne devient pas une erreur de confirmation email',()=>{for(const suffix of ['#error=access_denied&error_description=secret','?error=access_denied&error_description=secret']){const r=authCallbackStatus('https://example.org/'+suffix);assert.equal(r.kind,'oauth-error');assert.match(r.message,/annulée ou refusée/);assert.ok(!r.message.includes('secret'))}});
-test('confirmation expirée, inscription et récupération restent distinctes',()=>{assert.equal(authCallbackStatus('https://example.org/#error_code=otp_expired').kind,'confirmation-error');assert.equal(authCallbackStatus('https://example.org/#type=signup').kind,'signup');assert.equal(authCallbackStatus('https://example.org/#type=recovery').kind,'recovery');assert.equal(authCallbackStatus('https://example.org/#access_token=private').kind,'none');assert.equal(authCallbackStatus('https://example.org/?error=server_error').kind,'oauth-error')});
-test('le fournisseur désactivé reçoit une explication exploitable',()=>{assert.match(translateAuthError({message:'Unsupported provider: provider is not enabled'}),/connexion Google.*indisponible/);assert.match(translateAuthError({code:'access_denied'}),/annulée/) });
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { authCallbackStatus } from '../auth-return.js';
+import { translateAuthError } from '../auth-model.js';
+test('le refus Google ne devient pas une erreur de confirmation email', () => {
+  for (const suffix of [
+    '#error=access_denied&error_description=secret',
+    '?error=access_denied&error_description=secret'
+  ]) {
+    const r = authCallbackStatus('https://example.org/' + suffix);
+    assert.equal(r.kind, 'oauth-error');
+    assert.match(r.message, /annulée ou refusée/);
+    assert.ok(!r.message.includes('secret'));
+  }
+});
+test('confirmation expirée, inscription et récupération restent distinctes', () => {
+  assert.equal(
+    authCallbackStatus('https://example.org/#error_code=otp_expired').kind,
+    'confirmation-error'
+  );
+  assert.equal(authCallbackStatus('https://example.org/#type=signup').kind, 'signup');
+  assert.equal(authCallbackStatus('https://example.org/#type=recovery').kind, 'recovery');
+  assert.equal(authCallbackStatus('https://example.org/#access_token=private').kind, 'none');
+  assert.equal(authCallbackStatus('https://example.org/?error=server_error').kind, 'oauth-error');
+});
+test('le fournisseur désactivé reçoit une explication exploitable', () => {
+  assert.match(
+    translateAuthError({ message: 'Unsupported provider: provider is not enabled' }),
+    /connexion Google.*indisponible/
+  );
+  assert.match(translateAuthError({ code: 'access_denied' }), /annulée/);
+});

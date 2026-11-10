@@ -1,5 +1,114 @@
-const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('fs');
-const mock=fs.readFileSync('scripts/check-public-ui.cjs','utf8').match(/const mock=`([\s\S]*?)`;/)[1];
-fs.mkdirSync('work',{recursive:true});
-const now=Date.now(),date=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(now),match={id:'espn-1',date,time:'21:00',kickoff:new Date(now+7200000).toISOString(),league:'Premier League',home:'Newcastle United',away:'Everton',homeGoals:1.4,awayGoals:1.3,homeStats:{sample:5,form:'VDVDV',avgScored:1.3},awayStats:{sample:5,form:'DDNVN',avgScored:.8},odds:{home:2.5,draw:3.8,away:2.9,over:1.9,btts:1.57},realOddsMarkets:['home','draw','away','over','btts'],bookmakerCount:12,bookmakerOffers:[{name:'Exemple',home:2.5,draw:3.8,away:2.9,over:1.9,btts:1.57,updatedAt:new Date(now-7200000).toISOString()}]};
-(async()=>{const b=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});try{for(const width of [320,390,768,1440])for(const dark of [false,true]){const p=await b.newPage({viewport:{width,height:1100},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.addInitScript(dark=>localStorage.setItem('betmaster-theme',dark?'dark':'light'),dark);await p.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin!=='http://127.0.0.1:4173')return r.abort();if(u.pathname.endsWith('/account.js'))return r.fulfill({contentType:'text/javascript',body:mock});if(u.pathname.endsWith('/data/fixtures.json'))return r.fulfill({json:{generatedAt:new Date(now).toISOString(),matches:[match],settlements:[]}});if(u.pathname.endsWith('/data/predictions-history.json'))return r.fulfill({json:[]});return r.continue()});await p.goto('http://127.0.0.1:4173');await p.locator('.match-hero').waitFor();assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),width);assert.equal(await p.locator('.featured-markets>.market').count(),5);assert.equal(await p.locator('.match-overview .recommended').count(),1);assert.equal(await p.locator('.match-indicators').isVisible(),true);const prices=await p.locator('.market-price>strong').evaluateAll(nodes=>nodes.every(el=>el.scrollWidth<=el.clientWidth));assert.ok(prices,'Les cotes restent lisibles sur une ligne');await p.locator('.featured-markets>.market').first().click();assert.equal(await p.locator('.featured-markets>.market').first().getAttribute('aria-pressed'),'true');const extra=p.locator('.market-category').first();if(await extra.count()){await extra.locator('summary').click();assert.equal(await extra.getAttribute('open'),'');}await p.locator('[data-favorite-team]').first().click();assert.equal(await p.locator('[data-favorite-team]').first().getAttribute('aria-pressed'),'true');await p.addScriptTag({path:require.resolve('axe-core/axe.min.js')});const audit=await p.evaluate(()=>axe.run(document.querySelector('.match-card'),{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));assert.deepEqual(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[]);await p.locator('.match-card').screenshot({path:`work/card-${width}-${dark?'dark':'light'}.png`});assert.deepEqual(errors,[]);console.log('OK',width,dark?'dark':'light');await p.close()} }finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});
+const { chromium } = require('playwright'),
+  assert = require('node:assert/strict'),
+  fs = require('fs');
+const mock = fs
+  .readFileSync('scripts/check-public-ui.cjs', 'utf8')
+  .match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
+fs.mkdirSync('work', { recursive: true });
+const now = Date.now(),
+  date = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(now),
+  match = {
+    id: 'espn-1',
+    date,
+    time: '21:00',
+    kickoff: new Date(now + 7200000).toISOString(),
+    league: 'Premier League',
+    home: 'Newcastle United',
+    away: 'Everton',
+    homeGoals: 1.4,
+    awayGoals: 1.3,
+    homeStats: { sample: 5, form: 'VDVDV', avgScored: 1.3 },
+    awayStats: { sample: 5, form: 'DDNVN', avgScored: 0.8 },
+    odds: { home: 2.5, draw: 3.8, away: 2.9, over: 1.9, btts: 1.57 },
+    realOddsMarkets: ['home', 'draw', 'away', 'over', 'btts'],
+    bookmakerCount: 12,
+    bookmakerOffers: [
+      {
+        name: 'Exemple',
+        home: 2.5,
+        draw: 3.8,
+        away: 2.9,
+        over: 1.9,
+        btts: 1.57,
+        updatedAt: new Date(now - 7200000).toISOString()
+      }
+    ]
+  };
+(async () => {
+  const b = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+  try {
+    for (const width of [320, 390, 768, 1440])
+      for (const dark of [false, true]) {
+        const p = await b.newPage({ viewport: { width, height: 1100 }, reducedMotion: 'reduce' }),
+          errors = [];
+        p.on('pageerror', (e) => errors.push(e.message));
+        await p.addInitScript(
+          (dark) => localStorage.setItem('betmaster-theme', dark ? 'dark' : 'light'),
+          dark
+        );
+        await p.route('**/*', (r) => {
+          const u = new URL(r.request().url());
+          if (u.origin !== 'http://127.0.0.1:4173') return r.abort();
+          if (u.pathname.endsWith('/account.js'))
+            return r.fulfill({ contentType: 'text/javascript', body: mock });
+          if (u.pathname.endsWith('/data/fixtures.json'))
+            return r.fulfill({
+              json: { generatedAt: new Date(now).toISOString(), matches: [match], settlements: [] }
+            });
+          if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });
+          return r.continue();
+        });
+        await p.goto('http://127.0.0.1:4173');
+        await p.locator('.match-hero').waitFor();
+        assert.equal(await p.evaluate(() => document.documentElement.scrollWidth), width);
+        assert.equal(await p.locator('.featured-markets>.market').count(), 5);
+        assert.equal(await p.locator('.match-overview .recommended').count(), 1);
+        assert.equal(await p.locator('.match-indicators').isVisible(), true);
+        const prices = await p
+          .locator('.market-price>strong')
+          .evaluateAll((nodes) => nodes.every((el) => el.scrollWidth <= el.clientWidth));
+        assert.ok(prices, 'Les cotes restent lisibles sur une ligne');
+        await p.locator('.featured-markets>.market').first().click();
+        assert.equal(
+          await p.locator('.featured-markets>.market').first().getAttribute('aria-pressed'),
+          'true'
+        );
+        const extra = p.locator('.market-category').first();
+        if (await extra.count()) {
+          await extra.locator('summary').click();
+          assert.equal(await extra.getAttribute('open'), '');
+        }
+        await p.locator('[data-favorite-team]').first().click();
+        assert.equal(
+          await p.locator('[data-favorite-team]').first().getAttribute('aria-pressed'),
+          'true'
+        );
+        await p.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
+        const audit = await p.evaluate(() =>
+          axe.run(document.querySelector('.match-card'), {
+            runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] }
+          })
+        );
+        assert.deepEqual(
+          audit.violations.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target) })),
+          []
+        );
+        await p
+          .locator('.match-card')
+          .screenshot({ path: `work/card-${width}-${dark ? 'dark' : 'light'}.png` });
+        assert.deepEqual(errors, []);
+        console.log('OK', width, dark ? 'dark' : 'light');
+        await p.close();
+      }
+  } finally {
+    await b.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

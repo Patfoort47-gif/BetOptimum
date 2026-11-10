@@ -1,14 +1,204 @@
 // Recette isolée du parcours d’installation : aucun compte ni appel externe.
-const assert=require('node:assert/strict'),fs=require('node:fs'),{chromium}=require('playwright');
-const base='http://127.0.0.1:4173',dialog=fs.readFileSync('index.html','utf8').match(/<dialog id="install-guide"[\s\S]*?<\/dialog>/)[0];
-const ios='Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1',android='Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/130.0.0.0 Mobile Safari/537.36';
-(async()=>{const b=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});try{
-async function open({ua=android,width=390,standalone=false,visits='1',storageBlocked=false,dark=false}={}){const p=await b.newPage({viewport:{width,height:800},userAgent:ua,serviceWorkers:'block',hasTouch:true,reducedMotion:'reduce'});p.errors=[];p.on('pageerror',e=>p.errors.push(e.message));await p.addInitScript(({standalone,visits,storageBlocked,dark})=>{localStorage.setItem('betmaster-theme',dark?'dark':'light');localStorage.setItem('betoptimum-visits',visits);if(standalone){const native=window.matchMedia.bind(window);window.matchMedia=q=>q==='(display-mode: standalone)'?{matches:true,addEventListener(){}}:native(q)}if(storageBlocked){Object.defineProperty(window,'localStorage',{get(){throw Error('Stockage bloqué')}});Object.defineProperty(window,'sessionStorage',{get(){throw Error('Stockage bloqué')}})}},{standalone,visits,storageBlocked,dark});await p.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin!==base)return r.abort();if(u.pathname==='/pwa-harness.html')return r.fulfill({contentType:'text/html',body:`<!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Recette</title><script src="theme-bootstrap.js"></script><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="styles/components.css"></head><body><main><h1>BetOptimum</h1><button id="other">Continuer</button></main><footer><button data-install-app>Installer l’application</button></footer><nav role="menu"><button role="menuitem" data-install-app>Installer l’application</button></nav>${dialog}<script type="module">import {initPwa} from './pwa.js';initPwa();window.ready=true;</script></body></html>`});return r.continue()});await p.goto(base+'/pwa-harness.html');await p.waitForFunction(()=>window.ready);return p}
-async function prompt(p,outcome='dismissed',failure=false){await p.evaluate(({outcome,failure})=>{window.calls=0;const event=new Event('beforeinstallprompt',{cancelable:true});event.prompt=async()=>{calls++;if(failure)throw Error('Invite indisponible')};event.userChoice=Promise.resolve({outcome});window.dispatchEvent(event)},{outcome,failure})}
-for(const width of JSON.parse(process.env.BET_INSTALL_WIDTHS||'[320,390,767]'))for(const dark of [false,true]){const p=await open({ua:ios,width,dark});assert.equal(await p.locator('[data-install-banner]').count(),1);await p.locator('[data-install-banner] [data-install-app]').click();assert.equal(await p.locator('#install-guide').isVisible(),true);assert.equal(await p.locator('.install-steps li').count(),3);assert.match(await p.locator('.install-steps').innerText(),/Partager[\s\S]*Sur l’écran d’accueil[\s\S]*Ajouter/);assert.ok(await p.locator('#install-guide').evaluate(el=>el.scrollWidth<=el.clientWidth),JSON.stringify(await p.locator('#install-guide').evaluate(el=>({width:el.clientWidth,scroll:el.scrollWidth,nodes:[...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>el.getBoundingClientRect().right).map(n=>({tag:n.tagName,cls:n.className,text:n.textContent}))}))));await p.keyboard.press('Escape');assert.equal(await p.locator('#install-guide').isVisible(),false);assert.equal(await p.locator('[data-install-banner] [data-install-app]').evaluate(el=>el===document.activeElement),true);await p.locator('[data-dismiss-install]').click();await p.reload();await p.waitForFunction(()=>window.ready);assert.equal(await p.locator('[data-install-banner]').count(),0);await p.locator('footer [data-install-app]').click();assert.equal(await p.locator('#install-guide').isVisible(),true);if(width===320&&!dark)await p.locator('#install-guide').screenshot({path:'work/install-ios-320.png'});assert.deepEqual(p.errors,[]);await p.close();console.log('OK iOS guide, clavier, fermeture et session',width,dark)}
-for(const outcome of ['accepted','dismissed']){const p=await open();await prompt(p,outcome);assert.equal(await p.evaluate(()=>calls),0);await p.locator('[data-install-banner] [data-install-app]').click();assert.equal(await p.evaluate(()=>calls),1);assert.equal(await p.locator('[data-install-banner]').count(),0);if(outcome==='accepted'){await p.evaluate(()=>dispatchEvent(new Event('appinstalled')));assert.equal(await p.locator('[data-install-app]:visible').count(),0)}else{await prompt(p);assert.equal(await p.locator('[data-install-banner]').count(),0);await p.locator('footer [data-install-app]').click();assert.equal(await p.evaluate(()=>calls),1)}assert.deepEqual(p.errors,[]);await p.close();console.log('OK Android invite et choix',outcome)}
-{const p=await open();await prompt(p,'dismissed',true);await p.locator('[data-install-banner] [data-install-app]').click();assert.equal(await p.locator('#install-guide').isVisible(),true);assert.match(await p.locator('[data-install-intro]').innerText(),/indisponible/);assert.equal(await p.locator('footer [data-install-app]').isEnabled(),true);assert.deepEqual(p.errors,[]);await p.close();console.log('OK erreur native et repli')}
-for(const ua of [ios,android]){const p=await open({ua,standalone:true});await prompt(p);assert.equal(await p.locator('[data-install-app]:visible').count(),0);assert.equal(await p.locator('[data-install-banner]').count(),0);assert.deepEqual(p.errors,[]);await p.close();console.log('OK déjà installé')}
-{const p=await open({storageBlocked:true,visits:'0',ua:ios.replace('Version/18.0','CriOS/130.0')});await p.locator('footer [data-install-app]').click();assert.match(await p.locator('[data-install-intro]').innerText(),/Ouvrez cette page dans Safari/);assert.deepEqual(p.errors,[]);await p.close();console.log('OK iOS hors Safari et stockage bloqué')}
-{const p=await open({ua:'Mozilla/5.0 Desktop Chrome/130.0 Safari/537.36',width:1280,visits:'0'});await p.locator('footer [data-install-app]').click();assert.equal(await p.locator('#install-guide').isVisible(),true);assert.deepEqual(p.errors,[]);await p.close();console.log('OK aide manuelle desktop première visite')}
-}finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});
+const assert = require('node:assert/strict'),
+  fs = require('node:fs'),
+  { chromium } = require('playwright');
+const base = 'http://127.0.0.1:4173',
+  dialog = fs
+    .readFileSync('index.html', 'utf8')
+    .match(/<dialog id="install-guide"[\s\S]*?<\/dialog>/)[0];
+const ios =
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1',
+  android =
+    'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/130.0.0.0 Mobile Safari/537.36';
+(async () => {
+  const b = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+  try {
+    async function open({
+      ua = android,
+      width = 390,
+      standalone = false,
+      visits = '1',
+      storageBlocked = false,
+      dark = false
+    } = {}) {
+      const p = await b.newPage({
+        viewport: { width, height: 800 },
+        userAgent: ua,
+        serviceWorkers: 'block',
+        hasTouch: true,
+        reducedMotion: 'reduce'
+      });
+      p.errors = [];
+      p.on('pageerror', (e) => p.errors.push(e.message));
+      await p.addInitScript(
+        ({ standalone, visits, storageBlocked, dark }) => {
+          localStorage.setItem('betmaster-theme', dark ? 'dark' : 'light');
+          localStorage.setItem('betoptimum-visits', visits);
+          if (standalone) {
+            const native = window.matchMedia.bind(window);
+            window.matchMedia = (q) =>
+              q === '(display-mode: standalone)'
+                ? { matches: true, addEventListener() {} }
+                : native(q);
+          }
+          if (storageBlocked) {
+            Object.defineProperty(window, 'localStorage', {
+              get() {
+                throw Error('Stockage bloqué');
+              }
+            });
+            Object.defineProperty(window, 'sessionStorage', {
+              get() {
+                throw Error('Stockage bloqué');
+              }
+            });
+          }
+        },
+        { standalone, visits, storageBlocked, dark }
+      );
+      await p.route('**/*', (r) => {
+        const u = new URL(r.request().url());
+        if (u.origin !== base) return r.abort();
+        if (u.pathname === '/pwa-harness.html')
+          return r.fulfill({
+            contentType: 'text/html',
+            body: `<!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Recette</title><script src="theme-bootstrap.js"></script><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="styles/components.css"></head><body><main><h1>BetOptimum</h1><button id="other">Continuer</button></main><footer><button data-install-app>Installer l’application</button></footer><nav role="menu"><button role="menuitem" data-install-app>Installer l’application</button></nav>${dialog}<script type="module">import {initPwa} from './pwa.js';initPwa();window.ready=true;</script></body></html>`
+          });
+        return r.continue();
+      });
+      await p.goto(base + '/pwa-harness.html');
+      await p.waitForFunction(() => window.ready);
+      return p;
+    }
+    async function prompt(p, outcome = 'dismissed', failure = false) {
+      await p.evaluate(
+        ({ outcome, failure }) => {
+          window.calls = 0;
+          const event = new Event('beforeinstallprompt', { cancelable: true });
+          event.prompt = async () => {
+            calls++;
+            if (failure) throw Error('Invite indisponible');
+          };
+          event.userChoice = Promise.resolve({ outcome });
+          window.dispatchEvent(event);
+        },
+        { outcome, failure }
+      );
+    }
+    for (const width of JSON.parse(process.env.BET_INSTALL_WIDTHS || '[320,390,767]'))
+      for (const dark of [false, true]) {
+        const p = await open({ ua: ios, width, dark });
+        assert.equal(await p.locator('[data-install-banner]').count(), 1);
+        await p.locator('[data-install-banner] [data-install-app]').click();
+        assert.equal(await p.locator('#install-guide').isVisible(), true);
+        assert.equal(await p.locator('.install-steps li').count(), 3);
+        assert.match(
+          await p.locator('.install-steps').innerText(),
+          /Partager[\s\S]*Sur l’écran d’accueil[\s\S]*Ajouter/
+        );
+        assert.ok(
+          await p.locator('#install-guide').evaluate((el) => el.scrollWidth <= el.clientWidth),
+          JSON.stringify(
+            await p.locator('#install-guide').evaluate((el) => ({
+              width: el.clientWidth,
+              scroll: el.scrollWidth,
+              nodes: [...el.querySelectorAll('*')]
+                .filter((n) => n.getBoundingClientRect().right > el.getBoundingClientRect().right)
+                .map((n) => ({ tag: n.tagName, cls: n.className, text: n.textContent }))
+            }))
+          )
+        );
+        await p.keyboard.press('Escape');
+        assert.equal(await p.locator('#install-guide').isVisible(), false);
+        assert.equal(
+          await p
+            .locator('[data-install-banner] [data-install-app]')
+            .evaluate((el) => el === document.activeElement),
+          true
+        );
+        await p.locator('[data-dismiss-install]').click();
+        await p.reload();
+        await p.waitForFunction(() => window.ready);
+        assert.equal(await p.locator('[data-install-banner]').count(), 0);
+        await p.locator('footer [data-install-app]').click();
+        assert.equal(await p.locator('#install-guide').isVisible(), true);
+        if (width === 320 && !dark)
+          await p.locator('#install-guide').screenshot({ path: 'work/install-ios-320.png' });
+        assert.deepEqual(p.errors, []);
+        await p.close();
+        console.log('OK iOS guide, clavier, fermeture et session', width, dark);
+      }
+    for (const outcome of ['accepted', 'dismissed']) {
+      const p = await open();
+      await prompt(p, outcome);
+      assert.equal(await p.evaluate(() => calls), 0);
+      await p.locator('[data-install-banner] [data-install-app]').click();
+      assert.equal(await p.evaluate(() => calls), 1);
+      assert.equal(await p.locator('[data-install-banner]').count(), 0);
+      if (outcome === 'accepted') {
+        await p.evaluate(() => dispatchEvent(new Event('appinstalled')));
+        assert.equal(await p.locator('[data-install-app]:visible').count(), 0);
+      } else {
+        await prompt(p);
+        assert.equal(await p.locator('[data-install-banner]').count(), 0);
+        await p.locator('footer [data-install-app]').click();
+        assert.equal(await p.evaluate(() => calls), 1);
+      }
+      assert.deepEqual(p.errors, []);
+      await p.close();
+      console.log('OK Android invite et choix', outcome);
+    }
+    {
+      const p = await open();
+      await prompt(p, 'dismissed', true);
+      await p.locator('[data-install-banner] [data-install-app]').click();
+      assert.equal(await p.locator('#install-guide').isVisible(), true);
+      assert.match(await p.locator('[data-install-intro]').innerText(), /indisponible/);
+      assert.equal(await p.locator('footer [data-install-app]').isEnabled(), true);
+      assert.deepEqual(p.errors, []);
+      await p.close();
+      console.log('OK erreur native et repli');
+    }
+    for (const ua of [ios, android]) {
+      const p = await open({ ua, standalone: true });
+      await prompt(p);
+      assert.equal(await p.locator('[data-install-app]:visible').count(), 0);
+      assert.equal(await p.locator('[data-install-banner]').count(), 0);
+      assert.deepEqual(p.errors, []);
+      await p.close();
+      console.log('OK déjà installé');
+    }
+    {
+      const p = await open({
+        storageBlocked: true,
+        visits: '0',
+        ua: ios.replace('Version/18.0', 'CriOS/130.0')
+      });
+      await p.locator('footer [data-install-app]').click();
+      assert.match(
+        await p.locator('[data-install-intro]').innerText(),
+        /Ouvrez cette page dans Safari/
+      );
+      assert.deepEqual(p.errors, []);
+      await p.close();
+      console.log('OK iOS hors Safari et stockage bloqué');
+    }
+    {
+      const p = await open({
+        ua: 'Mozilla/5.0 Desktop Chrome/130.0 Safari/537.36',
+        width: 1280,
+        visits: '0'
+      });
+      await p.locator('footer [data-install-app]').click();
+      assert.equal(await p.locator('#install-guide').isVisible(), true);
+      assert.deepEqual(p.errors, []);
+      await p.close();
+      console.log('OK aide manuelle desktop première visite');
+    }
+  } finally {
+    await b.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

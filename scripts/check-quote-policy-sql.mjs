@@ -1,7 +1,8 @@
 // Recette isolée V41 : seuil serveur sur tickets, défi du jour et grilles, sans modifier l'historique.
-import {readFile} from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-const {PGlite}=await import(process.env.PGLITE_MODULE),db=new PGlite();
+const { PGlite } = await import(process.env.PGLITE_MODULE),
+  db = new PGlite();
 await db.exec(`create role anon; create role authenticated;
 create schema auth; create function auth.uid() returns uuid language sql as $$select '00000000-0000-0000-0000-000000000001'::uuid$$;
 create table player_accounts(user_id uuid primary key,bankroll numeric,updated_at timestamptz);
@@ -15,49 +16,99 @@ insert into special_leagues values('test','competition');
 create table special_picks(id serial primary key,user_id uuid,league_id text,source text,match_ids text[],key text,status text default 'pending');
 create function special_try_pick(p_user uuid,p_league text,p_selections jsonb,p_source text,p_bet uuid,p_odd numeric) returns text language plpgsql as $$begin insert into special_picks(user_id,league_id,source,match_ids,key) values(p_user,p_league,p_source,array[p_selections->0->>'matchId'],p_selections->0->>'key');return null;end$$;
 insert into fixtures values('m','Alpha','Beta','Test',now()+interval '1 day',false,false,'{"home":2,"draw":3,"score1_0":7}','{"home":"real","draw":"real","score1_0":"real"}');`);
-const base=await readFile('supabase/migrations/supabase-v5-schema.sql','utf8');
-await db.exec(base.slice(base.indexOf('create or replace function public.system_lines('),base.indexOf('create or replace function public.place_bet(')));
-await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql','utf8'));
-await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql','utf8'));
+const base = await readFile('supabase/migrations/supabase-v5-schema.sql', 'utf8');
+await db.exec(
+  base.slice(
+    base.indexOf('create or replace function public.system_lines('),
+    base.indexOf('create or replace function public.place_bet(')
+  )
+);
+await db.exec(await readFile('supabase/migrations/supabase-v40-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v41-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql', 'utf8'));
+await db.exec(await readFile('supabase/migrations/supabase-v44-schema.sql', 'utf8'));
 await db.exec(`update fixtures set odds_bookmaker_counts='{"home":9,"draw":10,"score1_0":10}',market_valid_until=jsonb_build_object('score1_0',now()+interval '1 hour');
 insert into daily_challenges values(current_date,jsonb_build_array(jsonb_build_object('matchId','m','odds',jsonb_build_object('home',2,'draw',3))));`);
-const bet=(key,odd)=>db.query("select place_bet($1::jsonb,10,false,'single',null,null) as bet",[JSON.stringify([{matchId:'m',key,odd,bookmakers:100}])]);
-await assert.rejects(bet('home',2),/MARCHE_INDISPONIBLE/);
-await bet('draw',3);await bet('score1_0',7);
-assert.equal(Number((await db.query('select bankroll from player_accounts')).rows[0].bankroll),980);
-await assert.rejects(db.query("select play_daily_pick('m','home')"),/MARCHE_INDISPONIBLE/);
+const bet = (key, odd) =>
+  db.query("select place_bet($1::jsonb,10,false,'single',null,null) as bet", [
+    JSON.stringify([{ matchId: 'm', key, odd, bookmakers: 100 }])
+  ]);
+await assert.rejects(bet('home', 2), /MARCHE_INDISPONIBLE/);
+await bet('draw', 3);
+await bet('score1_0', 7);
+assert.equal(
+  Number((await db.query('select bankroll from player_accounts')).rows[0].bankroll),
+  980
+);
+await assert.rejects(db.query("select play_daily_pick('m','home')"), /MARCHE_INDISPONIBLE/);
 await db.query("select play_daily_pick('m','draw')");
 await db.exec(`update fixtures set odds=jsonb_set(odds,'{draw}','3.5');`);
-await assert.rejects(db.query("select play_daily_pick('m','draw')"),/MARCHE_INDISPONIBLE/);
-await db.exec(`update daily_challenges set picks=jsonb_set(picks,'{0,bookmakerCounts}','{"draw":10}');`);
+await assert.rejects(db.query("select play_daily_pick('m','draw')"), /MARCHE_INDISPONIBLE/);
+await db.exec(
+  `update daily_challenges set picks=jsonb_set(picks,'{0,bookmakerCounts}','{"draw":10}');`
+);
 await db.query("select play_daily_pick('m','draw')");
-await assert.rejects(db.query("select play_special_pick('test','m','home')"),/MARCHE_INDISPONIBLE/);
+await assert.rejects(
+  db.query("select play_special_pick('test','m','home')"),
+  /MARCHE_INDISPONIBLE/
+);
 await db.query("select play_special_pick('test','m','draw')");
 await db.exec(`update fixtures set odds_bookmaker_counts='{}';`);
-await assert.rejects(bet('draw',3.5),/MARCHE_INDISPONIBLE/);
-assert.equal(Number((await db.query('select odds from bets order by odds')).rows[0].odds),3);
-assert.equal(Number((await db.query('select odd from daily_picks')).rows[0].odd),3);
+await assert.rejects(bet('draw', 3.5), /MARCHE_INDISPONIBLE/);
+assert.equal(Number((await db.query('select odds from bets order by odds')).rows[0].odds), 3);
+assert.equal(Number((await db.query('select odd from daily_picks')).rows[0].odd), 3);
 // BET-170 : labels composites et expiration contrôlés par la même RPC.
-const {marketSpec}=await import('../markets.js');
-const compositeKeys=[...['Home','Draw','Away','HomeDraw','DrawAway','HomeAway'].flatMap(side=>['BttsYes','BttsNo'].map(btts=>'combo'+side+btts)),...['Home','Draw','Away','HomeDraw','DrawAway','HomeAway','BttsYes','BttsNo'].flatMap(side=>['Over','Under'].flatMap(direction=>['05','15','25','35','45','55','65','75','85','95'].map(line=>'combo'+side+direction+line)))];
-for(const key of compositeKeys){
- const label=(await db.query('select market_label($1,$2,$3) label',[key,'Alpha','Beta'])).rows[0].label;
- assert.equal(label,marketSpec(key,{home:'Alpha',away:'Beta'}).label);
+const { marketSpec } = await import('../markets.js');
+const compositeKeys = [
+  ...['Home', 'Draw', 'Away', 'HomeDraw', 'DrawAway', 'HomeAway'].flatMap((side) =>
+    ['BttsYes', 'BttsNo'].map((btts) => 'combo' + side + btts)
+  ),
+  ...['Home', 'Draw', 'Away', 'HomeDraw', 'DrawAway', 'HomeAway', 'BttsYes', 'BttsNo'].flatMap(
+    (side) =>
+      ['Over', 'Under'].flatMap((direction) =>
+        ['05', '15', '25', '35', '45', '55', '65', '75', '85', '95'].map(
+          (line) => 'combo' + side + direction + line
+        )
+      )
+  )
+];
+for (const key of compositeKeys) {
+  const label = (await db.query('select market_label($1,$2,$3) label', [key, 'Alpha', 'Beta']))
+    .rows[0].label;
+  assert.equal(label, marketSpec(key, { home: 'Alpha', away: 'Beta' }).label);
 }
-await db.exec(`update fixtures set odds='{"comboHomeBttsYes":3.2}',odds_source='{"comboHomeBttsYes":"real"}',odds_bookmaker_counts='{"comboHomeBttsYes":10}',market_valid_until='{}'`);
-await assert.rejects(bet('comboHomeBttsYes',3.2),/MARCHE_INDISPONIBLE/);
-await db.exec(`update fixtures set market_valid_until=jsonb_build_object('comboHomeBttsYes',now()-interval '1 second')`);
-await assert.rejects(bet('comboHomeBttsYes',3.2),/MARCHE_INDISPONIBLE/);
-await db.exec(`update fixtures set market_valid_until=jsonb_build_object('comboHomeBttsYes',now()+interval '1 hour'),odds_bookmaker_counts='{"comboHomeBttsYes":9}'`);
-await assert.rejects(bet('comboHomeBttsYes',3.2),/MARCHE_INDISPONIBLE/);
+await db.exec(
+  `update fixtures set odds='{"comboHomeBttsYes":3.2}',odds_source='{"comboHomeBttsYes":"real"}',odds_bookmaker_counts='{"comboHomeBttsYes":10}',market_valid_until='{}'`
+);
+await assert.rejects(bet('comboHomeBttsYes', 3.2), /MARCHE_INDISPONIBLE/);
+await db.exec(
+  `update fixtures set market_valid_until=jsonb_build_object('comboHomeBttsYes',now()-interval '1 second')`
+);
+await assert.rejects(bet('comboHomeBttsYes', 3.2), /MARCHE_INDISPONIBLE/);
+await db.exec(
+  `update fixtures set market_valid_until=jsonb_build_object('comboHomeBttsYes',now()+interval '1 hour'),odds_bookmaker_counts='{"comboHomeBttsYes":9}'`
+);
+await assert.rejects(bet('comboHomeBttsYes', 3.2), /MARCHE_INDISPONIBLE/);
 await db.exec(`update fixtures set odds_bookmaker_counts='{"comboHomeBttsYes":10}'`);
-await assert.rejects(bet('comboHomeBttsYes',20),/COTE_CHANGEE/);
-const accepted=(await bet('comboHomeBttsYes',3.2)).rows[0].bet;
-assert.equal(accepted.selections[0].label,marketSpec('comboHomeBttsYes',{home:'Alpha',away:'Beta'}).label);
-assert.equal(Number(accepted.selections[0].odd),3.2);
-await assert.rejects(bet('comboHomeOver20',3.2),/SELECTIONS_INVALIDES/);
-await assert.rejects(db.query("select place_bet($1::jsonb,10,false,'combined',null,null)",[JSON.stringify([{matchId:'m',key:'comboHomeBttsYes',odd:3.2},{matchId:'m',key:'comboHomeBttsYes',odd:3.2}])]),/MATCH_EN_DOUBLE/);
-await db.close();console.log('V41/V44 : seuil 9/10, défis/grilles, historique, 172 labels composites, expiration, prix falsifiés et doublons vérifiés.');
+await assert.rejects(bet('comboHomeBttsYes', 20), /COTE_CHANGEE/);
+const accepted = (await bet('comboHomeBttsYes', 3.2)).rows[0].bet;
+assert.equal(
+  accepted.selections[0].label,
+  marketSpec('comboHomeBttsYes', { home: 'Alpha', away: 'Beta' }).label
+);
+assert.equal(Number(accepted.selections[0].odd), 3.2);
+await assert.rejects(bet('comboHomeOver20', 3.2), /SELECTIONS_INVALIDES/);
+await assert.rejects(
+  db.query("select place_bet($1::jsonb,10,false,'combined',null,null)", [
+    JSON.stringify([
+      { matchId: 'm', key: 'comboHomeBttsYes', odd: 3.2 },
+      { matchId: 'm', key: 'comboHomeBttsYes', odd: 3.2 }
+    ])
+  ]),
+  /MATCH_EN_DOUBLE/
+);
+await db.close();
+console.log(
+  'V41/V44 : seuil 9/10, défis/grilles, historique, 172 labels composites, expiration, prix falsifiés et doublons vérifiés.'
+);

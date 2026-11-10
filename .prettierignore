@@ -1,0 +1,6 @@
+node_modules/
+vendor/
+data/
+_site/
+work/
+examples/

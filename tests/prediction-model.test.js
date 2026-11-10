@@ -1,15 +1,147 @@
-import test from 'node:test';import assert from 'node:assert/strict';import{forecastMatch,marketReference,analysisFamilies}from'../prediction-model.js';import{analyseMatch,recommendedMarket,rankRecommendedMarkets}from'../model.js';
-const fixture={home:'A',away:'B',homeGoals:1.7,awayGoals:1.1,odds:{home:2,draw:3.5,away:4,over:1.9,btts:1.8},oddsBookmakerCounts:{home:10,draw:10,away:10,over:10,btts:10}};
-test('grille normalisée, BTTS et total correspondent aux probabilités analytiques',()=>{for(const [h,a]of[[.1,.1],[1.45,1.15],[3.5,3.5],[5,.5],[10,10]]){const p=forecastMatch({...fixture,homeGoals:h,awayGoals:a}).probs;assert.ok(Math.abs(p.home+p.draw+p.away-1)<1e-12);assert.ok(Object.values(p).every(n=>n>=0&&n<=1+1e-12));assert.ok(Math.abs(p.btts-(1-Math.exp(-h))*(1-Math.exp(-a)))<1e-10);assert.ok(Math.abs(p.over-(1-Math.exp(-h-a)*(1+h+a+(h+a)**2/2)))<1e-10)}});
-test('Dixon-Coles augmente la masse des faibles scores nuls avec rho négatif',()=>{const baseline=forecastMatch(fixture).probs,dc=forecastMatch(fixture,{rho:-.1}).probs;assert.ok(dc.draw>baseline.draw);assert.ok(Math.abs(dc.home+dc.draw+dc.away-1)<1e-12);assert.ok(Math.abs(dc.over-baseline.over)<1e-12)});
-test('les variantes ne sont jamais activées implicitement par les cotes',()=>{const real={...fixture,realOddsMarkets:['home','draw','away']};assert.deepEqual(forecastMatch(real).probs,forecastMatch(fixture).probs);assert.deepEqual(analyseMatch(real).probs,forecastMatch(fixture).probs)});
-test('consensus sans marge seulement sur un ensemble 1N2 réel complet',()=>{assert.equal(marketReference(fixture),null);assert.equal(marketReference({...fixture,realOddsMarkets:['home','draw']}),null);const real={...fixture,realOddsMarkets:['home','draw','away']},reference=marketReference(real),mixed=forecastMatch(real,{marketWeight:1});for(const key of ['home','draw','away'])assert.ok(Math.abs(reference[key]-mixed.probs[key])<1e-12);assert.ok(Math.abs(Object.values(reference).reduce((a,b)=>a+b)-1)<1e-12);assert.equal(marketReference({...real,odds:{home:1.1,draw:1.1,away:1.1}}),null)});
-test('un consensus indisponible ne change pas la référence et aucune donnée est mutée',()=>{const original=JSON.stringify(fixture);assert.deepEqual(forecastMatch(fixture,{marketWeight:.5}).probs,forecastMatch(fixture).probs);assert.equal(JSON.stringify(fixture),original);assert.throws(()=>forecastMatch(fixture,{marketWeight:2}));assert.throws(()=>forecastMatch({...fixture,homeGoals:NaN}));assert.throws(()=>forecastMatch(fixture,{rho:NaN}))});
-test('aucune value sur une cote synthétique et priorité aux marchés réels éligibles',()=>{const m={...fixture,homeGoals:1.8,awayGoals:1.5,odds:{home:2.5,draw:3.5,away:4,over:2,btts:2}};assert.ok(analyseMatch(m).markets.every(x=>x.value===null));const real={...m,realOddsMarkets:['home']};assert.equal(recommendedMarket(real).key,'home');assert.equal(recommendedMarket(real).basis,'real-odds');assert.equal(recommendedMarket(m),null);assert.equal(analyseMatch(real).markets.find(x=>x.key==='btts').value,null)});
-test('BTTS reste possible si ce marché dispose de la meilleure probabilité parmi les cotes réelles',()=>{const m={...fixture,homeGoals:2,awayGoals:2,realOddsMarkets:['home','draw','away','btts','over']};assert.equal(recommendedMarket(m).key,'over');const b={...m,homeGoals:1.45,awayGoals:1.15};assert.equal(recommendedMarket(b).key,'btts')});
-test('trois familles indépendantes, alternatives négatives non sélectionnables sans cote',()=>{const low={...fixture,homeGoals:.3,awayGoals:.3},families=analysisFamilies(analyseMatch(low).markets);assert.equal(families.length,3);assert.equal(families[1].pick.key,'under');assert.equal(families[2].pick.key,'bttsNo');assert.equal(families[2].pick.analysisOnly,true);assert.equal(families[2].pick.odd,null);for(const f of families)assert.ok(f.margin>=0&&f.margin<=1)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { forecastMatch, marketReference, analysisFamilies } from '../prediction-model.js';
+import { analyseMatch, recommendedMarket, rankRecommendedMarkets } from '../model.js';
+const fixture = {
+  home: 'A',
+  away: 'B',
+  homeGoals: 1.7,
+  awayGoals: 1.1,
+  odds: { home: 2, draw: 3.5, away: 4, over: 1.9, btts: 1.8 },
+  oddsBookmakerCounts: { home: 10, draw: 10, away: 10, over: 10, btts: 10 }
+};
+test('grille normalisée, BTTS et total correspondent aux probabilités analytiques', () => {
+  for (const [h, a] of [
+    [0.1, 0.1],
+    [1.45, 1.15],
+    [3.5, 3.5],
+    [5, 0.5],
+    [10, 10]
+  ]) {
+    const p = forecastMatch({ ...fixture, homeGoals: h, awayGoals: a }).probs;
+    assert.ok(Math.abs(p.home + p.draw + p.away - 1) < 1e-12);
+    assert.ok(Object.values(p).every((n) => n >= 0 && n <= 1 + 1e-12));
+    assert.ok(Math.abs(p.btts - (1 - Math.exp(-h)) * (1 - Math.exp(-a))) < 1e-10);
+    assert.ok(Math.abs(p.over - (1 - Math.exp(-h - a) * (1 + h + a + (h + a) ** 2 / 2))) < 1e-10);
+  }
+});
+test('Dixon-Coles augmente la masse des faibles scores nuls avec rho négatif', () => {
+  const baseline = forecastMatch(fixture).probs,
+    dc = forecastMatch(fixture, { rho: -0.1 }).probs;
+  assert.ok(dc.draw > baseline.draw);
+  assert.ok(Math.abs(dc.home + dc.draw + dc.away - 1) < 1e-12);
+  assert.ok(Math.abs(dc.over - baseline.over) < 1e-12);
+});
+test('les variantes ne sont jamais activées implicitement par les cotes', () => {
+  const real = { ...fixture, realOddsMarkets: ['home', 'draw', 'away'] };
+  assert.deepEqual(forecastMatch(real).probs, forecastMatch(fixture).probs);
+  assert.deepEqual(analyseMatch(real).probs, forecastMatch(fixture).probs);
+});
+test('consensus sans marge seulement sur un ensemble 1N2 réel complet', () => {
+  assert.equal(marketReference(fixture), null);
+  assert.equal(marketReference({ ...fixture, realOddsMarkets: ['home', 'draw'] }), null);
+  const real = { ...fixture, realOddsMarkets: ['home', 'draw', 'away'] },
+    reference = marketReference(real),
+    mixed = forecastMatch(real, { marketWeight: 1 });
+  for (const key of ['home', 'draw', 'away'])
+    assert.ok(Math.abs(reference[key] - mixed.probs[key]) < 1e-12);
+  assert.ok(Math.abs(Object.values(reference).reduce((a, b) => a + b) - 1) < 1e-12);
+  assert.equal(marketReference({ ...real, odds: { home: 1.1, draw: 1.1, away: 1.1 } }), null);
+});
+test('un consensus indisponible ne change pas la référence et aucune donnée est mutée', () => {
+  const original = JSON.stringify(fixture);
+  assert.deepEqual(
+    forecastMatch(fixture, { marketWeight: 0.5 }).probs,
+    forecastMatch(fixture).probs
+  );
+  assert.equal(JSON.stringify(fixture), original);
+  assert.throws(() => forecastMatch(fixture, { marketWeight: 2 }));
+  assert.throws(() => forecastMatch({ ...fixture, homeGoals: NaN }));
+  assert.throws(() => forecastMatch(fixture, { rho: NaN }));
+});
+test('aucune value sur une cote synthétique et priorité aux marchés réels éligibles', () => {
+  const m = {
+    ...fixture,
+    homeGoals: 1.8,
+    awayGoals: 1.5,
+    odds: { home: 2.5, draw: 3.5, away: 4, over: 2, btts: 2 }
+  };
+  assert.ok(analyseMatch(m).markets.every((x) => x.value === null));
+  const real = { ...m, realOddsMarkets: ['home'] };
+  assert.equal(recommendedMarket(real).key, 'home');
+  assert.equal(recommendedMarket(real).basis, 'real-odds');
+  assert.equal(recommendedMarket(m), null);
+  assert.equal(analyseMatch(real).markets.find((x) => x.key === 'btts').value, null);
+});
+test('BTTS reste possible si ce marché dispose de la meilleure probabilité parmi les cotes réelles', () => {
+  const m = {
+    ...fixture,
+    homeGoals: 2,
+    awayGoals: 2,
+    realOddsMarkets: ['home', 'draw', 'away', 'btts', 'over']
+  };
+  assert.equal(recommendedMarket(m).key, 'over');
+  const b = { ...m, homeGoals: 1.45, awayGoals: 1.15 };
+  assert.equal(recommendedMarket(b).key, 'btts');
+});
+test('trois familles indépendantes, alternatives négatives non sélectionnables sans cote', () => {
+  const low = { ...fixture, homeGoals: 0.3, awayGoals: 0.3 },
+    families = analysisFamilies(analyseMatch(low).markets);
+  assert.equal(families.length, 3);
+  assert.equal(families[1].pick.key, 'under');
+  assert.equal(families[2].pick.key, 'bttsNo');
+  assert.equal(families[2].pick.analysisOnly, true);
+  assert.equal(families[2].pick.odd, null);
+  for (const f of families) assert.ok(f.margin >= 0 && f.margin <= 1);
+});
 
-test('le classement utilise la confiance seule, exclut les cotes sous le seuil et ne mute rien',()=>{const items=[{key:'home',odd:1.16,probability:.7,value:-.23,real:true,available:true},{key:'over',odd:1.8,probability:.68,value:.224,real:true,available:true},{key:'away',odd:15,probability:.12,value:10,real:true,available:true},{key:'btts',odd:2,probability:.9,value:null,real:false,available:false},{key:'under',odd:1.15,probability:.99,real:true,available:true}],before=JSON.stringify(items),ranked=rankRecommendedMarkets(items);assert.deepEqual(ranked.map(x=>x.key),['home','over','away']);assert.equal(ranked[0].probability,.7);assert.equal(JSON.stringify(items),before)});
-test('cartes prioritaires et sélection rapide partagent le classement et les probabilités',()=>{const m={...fixture,realOddsMarkets:['home','draw','away','over','btts']},analysis=analyseMatch(m),ranked=rankRecommendedMarkets(analysis.markets),pick=recommendedMarket(m);assert.equal(pick.key,ranked[0].key);assert.equal(pick.probability,analysis.probs[pick.key]);assert.ok(!rankRecommendedMarkets([{key:'home',odd:NaN,probability:.8},{key:'draw',odd:2,probability:NaN},{key:'under',odd:2,probability:.8}]).length)});
+test('le classement utilise la confiance seule, exclut les cotes sous le seuil et ne mute rien', () => {
+  const items = [
+      { key: 'home', odd: 1.16, probability: 0.7, value: -0.23, real: true, available: true },
+      { key: 'over', odd: 1.8, probability: 0.68, value: 0.224, real: true, available: true },
+      { key: 'away', odd: 15, probability: 0.12, value: 10, real: true, available: true },
+      { key: 'btts', odd: 2, probability: 0.9, value: null, real: false, available: false },
+      { key: 'under', odd: 1.15, probability: 0.99, real: true, available: true }
+    ],
+    before = JSON.stringify(items),
+    ranked = rankRecommendedMarkets(items);
+  assert.deepEqual(
+    ranked.map((x) => x.key),
+    ['home', 'over', 'away']
+  );
+  assert.equal(ranked[0].probability, 0.7);
+  assert.equal(JSON.stringify(items), before);
+});
+test('cartes prioritaires et sélection rapide partagent le classement et les probabilités', () => {
+  const m = { ...fixture, realOddsMarkets: ['home', 'draw', 'away', 'over', 'btts'] },
+    analysis = analyseMatch(m),
+    ranked = rankRecommendedMarkets(analysis.markets),
+    pick = recommendedMarket(m);
+  assert.equal(pick.key, ranked[0].key);
+  assert.equal(pick.probability, analysis.probs[pick.key]);
+  assert.ok(
+    !rankRecommendedMarkets([
+      { key: 'home', odd: NaN, probability: 0.8 },
+      { key: 'draw', odd: 2, probability: NaN },
+      { key: 'under', odd: 2, probability: 0.8 }
+    ]).length
+  );
+});
 
-test('réutiliser une prévision ne partage aucun objet mutable et invalide chaque entrée du modèle',()=>{const m=structuredClone(fixture),baseline=forecastMatch(m);const saved=structuredClone(baseline);baseline.probs.home=0;baseline.parameters.home=0;assert.deepEqual(forecastMatch(m),saved);m.homeGoals=2.8;assert.notEqual(forecastMatch(m).probs.home,saved.probs.home);m.odds.under=2;assert.ok('under' in forecastMatch(m).probs);const real={...fixture,realOddsMarkets:['home','draw','away']};const reference=forecastMatch(real,{marketWeight:1});reference.reference.home=0;assert.ok(forecastMatch(real,{marketWeight:1}).reference.home>0);assert.notDeepEqual(forecastMatch(real,{rho:-.1}),forecastMatch(real));});
+test('réutiliser une prévision ne partage aucun objet mutable et invalide chaque entrée du modèle', () => {
+  const m = structuredClone(fixture),
+    baseline = forecastMatch(m);
+  const saved = structuredClone(baseline);
+  baseline.probs.home = 0;
+  baseline.parameters.home = 0;
+  assert.deepEqual(forecastMatch(m), saved);
+  m.homeGoals = 2.8;
+  assert.notEqual(forecastMatch(m).probs.home, saved.probs.home);
+  m.odds.under = 2;
+  assert.ok('under' in forecastMatch(m).probs);
+  const real = { ...fixture, realOddsMarkets: ['home', 'draw', 'away'] };
+  const reference = forecastMatch(real, { marketWeight: 1 });
+  reference.reference.home = 0;
+  assert.ok(forecastMatch(real, { marketWeight: 1 }).reference.home > 0);
+  assert.notDeepEqual(forecastMatch(real, { rho: -0.1 }), forecastMatch(real));
+});

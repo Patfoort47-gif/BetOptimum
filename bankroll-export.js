@@ -1,18 +1,106 @@
-const day=value=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value));
-const cell=value=>typeof value==='number'?`"${value.toFixed(2).replace('.',',')}"`:`"${String(value??'').replace(/^[\s]*[=+@\-]/,s=>"'"+s).replaceAll('"','""')}"`;
-const amount=value=>Number.isFinite(Number(value))?Number(value):'';
-export function bankrollCsv(data,{from='',to=''}={}){
- const bets=Array.isArray(data.bets)?data.bets:[],events=[];
- for(const bet of bets){events.push({time:bet.placed_at,delta:-Number(bet.stake),bet,payment:false});if(bet.status!=='pending'&&bet.settled_at)events.push({time:bet.settled_at,delta:Number(bet.payout),bet,payment:true})}
- for(const e of data.capital_events??[])events.push({time:e.created_at,delta:Number(e.amount)});
- events.sort((a,b)=>Date.parse(a.time)-Date.parse(b.time)||Number(a.payment)-Number(b.payment));
- let balance=Number(data.account?.bankroll)-events.reduce((n,e)=>n+e.delta,0);const balances=new Map();
- for(const e of events){balance+=e.delta;if(e.bet)balances.set(e.bet.id,balance)}
- const header=['Date','Match','Sélection','Cote','Mise (€)','Statut','Gain/Perte (€)','Bankroll après pari (€)'];
- const rows=bets.filter(b=>{const d=day(b.placed_at);return(!from||d>=from)&&(!to||d<=to)}).sort((a,b)=>Date.parse(a.placed_at)-Date.parse(b.placed_at)).map(b=>[day(b.placed_at),(b.selections??[]).map(s=>s.match??`${s.home??''} - ${s.away??''}`).join(' / '),(b.selections??[]).map(s=>s.label).join(' / '),amount(b.odds),amount(b.stake),({won:'Gagné',lost:'Perdu',void:'Remboursé',pending:'En cours'})[b.status]??b.status,b.status==='pending'?'':amount(Number(b.payout)-Number(b.stake)),Number.isFinite(balances.get(b.id))?amount(balances.get(b.id)):'']);
- return '\uFEFF'+[header,...rows].map(row=>row.map(cell).join(';')).join('\r\n')+'\r\n';
+const day = (value) =>
+  new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date(value));
+const cell = (value) =>
+  typeof value === 'number'
+    ? `"${value.toFixed(2).replace('.', ',')}"`
+    : `"${String(value ?? '')
+        .replace(/^[\s]*[=+@\-]/, (s) => "'" + s)
+        .replaceAll('"', '""')}"`;
+const amount = (value) => (Number.isFinite(Number(value)) ? Number(value) : '');
+export function bankrollCsv(data, { from = '', to = '' } = {}) {
+  const bets = Array.isArray(data.bets) ? data.bets : [],
+    events = [];
+  for (const bet of bets) {
+    events.push({ time: bet.placed_at, delta: -Number(bet.stake), bet, payment: false });
+    if (bet.status !== 'pending' && bet.settled_at)
+      events.push({ time: bet.settled_at, delta: Number(bet.payout), bet, payment: true });
+  }
+  for (const e of data.capital_events ?? [])
+    events.push({ time: e.created_at, delta: Number(e.amount) });
+  events.sort(
+    (a, b) => Date.parse(a.time) - Date.parse(b.time) || Number(a.payment) - Number(b.payment)
+  );
+  let balance = Number(data.account?.bankroll) - events.reduce((n, e) => n + e.delta, 0);
+  const balances = new Map();
+  for (const e of events) {
+    balance += e.delta;
+    if (e.bet) balances.set(e.bet.id, balance);
+  }
+  const header = [
+    'Date',
+    'Match',
+    'Sélection',
+    'Cote',
+    'Mise (€)',
+    'Statut',
+    'Gain/Perte (€)',
+    'Bankroll après pari (€)'
+  ];
+  const rows = bets
+    .filter((b) => {
+      const d = day(b.placed_at);
+      return (!from || d >= from) && (!to || d <= to);
+    })
+    .sort((a, b) => Date.parse(a.placed_at) - Date.parse(b.placed_at))
+    .map((b) => [
+      day(b.placed_at),
+      (b.selections ?? []).map((s) => s.match ?? `${s.home ?? ''} - ${s.away ?? ''}`).join(' / '),
+      (b.selections ?? []).map((s) => s.label).join(' / '),
+      amount(b.odds),
+      amount(b.stake),
+      { won: 'Gagné', lost: 'Perdu', void: 'Remboursé', pending: 'En cours' }[b.status] ?? b.status,
+      b.status === 'pending' ? '' : amount(Number(b.payout) - Number(b.stake)),
+      Number.isFinite(balances.get(b.id)) ? amount(balances.get(b.id)) : ''
+    ]);
+  return '\uFEFF' + [header, ...rows].map((row) => row.map(cell).join(';')).join('\r\n') + '\r\n';
 }
-export function mountBankrollExport(root,{api,now=()=>new Date()}){
- if(!root)return;root.innerHTML='<h3>Exporter mes paris</h3><p>Historique certifié complet, y compris les paris non chargés à l’écran.</p><label>Du <input type="date" data-export-from></label><label>Au <input type="date" data-export-to></label><button type="button" class="button secondary" data-export-period="all">Tout</button><button type="button" class="button secondary" data-export-period="year">Année en cours</button><button type="button" class="button secondary" data-export-period="month">Mois en cours</button><button type="button" class="button secondary" data-export-csv>Télécharger mes données (.csv)</button><p role="status" data-export-status></p>';
- root.addEventListener('click',async e=>{const period=e.target.closest('[data-export-period]'),from=root.querySelector('[data-export-from]'),to=root.querySelector('[data-export-to]'),status=root.querySelector('[data-export-status]');if(period){const d=day(now());from.value=period.dataset.exportPeriod==='year'?d.slice(0,4)+'-01-01':period.dataset.exportPeriod==='month'?d.slice(0,7)+'-01':'';to.value=period.dataset.exportPeriod==='all'?'':d;return}const button=e.target.closest('[data-export-csv]');if(!button||button.disabled)return;if(from.value&&to.value&&from.value>to.value){status.textContent='La date de début doit précéder la date de fin.';return}button.disabled=true;status.textContent='Préparation de l’export…';try{const data=await api.exportData(),csv=bankrollCsv(data,{from:from.value,to:to.value}),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download=`bankroll_betoptimum_${day(now())}.csv`;link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);status.textContent='Export téléchargé.'}catch{status.textContent='Export impossible. Vérifiez votre connexion et réessayez.'}finally{button.disabled=false}});
+export function mountBankrollExport(root, { api, now = () => new Date() }) {
+  if (!root) return;
+  root.innerHTML =
+    '<h3>Exporter mes paris</h3><p>Historique certifié complet, y compris les paris non chargés à l’écran.</p><label>Du <input type="date" data-export-from></label><label>Au <input type="date" data-export-to></label><button type="button" class="button secondary" data-export-period="all">Tout</button><button type="button" class="button secondary" data-export-period="year">Année en cours</button><button type="button" class="button secondary" data-export-period="month">Mois en cours</button><button type="button" class="button secondary" data-export-csv>Télécharger mes données (.csv)</button><p role="status" data-export-status></p>';
+  root.addEventListener('click', async (e) => {
+    const period = e.target.closest('[data-export-period]'),
+      from = root.querySelector('[data-export-from]'),
+      to = root.querySelector('[data-export-to]'),
+      status = root.querySelector('[data-export-status]');
+    if (period) {
+      const d = day(now());
+      from.value =
+        period.dataset.exportPeriod === 'year'
+          ? d.slice(0, 4) + '-01-01'
+          : period.dataset.exportPeriod === 'month'
+            ? d.slice(0, 7) + '-01'
+            : '';
+      to.value = period.dataset.exportPeriod === 'all' ? '' : d;
+      return;
+    }
+    const button = e.target.closest('[data-export-csv]');
+    if (!button || button.disabled) return;
+    if (from.value && to.value && from.value > to.value) {
+      status.textContent = 'La date de début doit précéder la date de fin.';
+      return;
+    }
+    button.disabled = true;
+    status.textContent = 'Préparation de l’export…';
+    try {
+      const data = await api.exportData(),
+        csv = bankrollCsv(data, { from: from.value, to: to.value }),
+        url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })),
+        link = document.createElement('a');
+      link.href = url;
+      link.download = `bankroll_betoptimum_${day(now())}.csv`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      status.textContent = 'Export téléchargé.';
+    } catch {
+      status.textContent = 'Export impossible. Vérifiez votre connexion et réessayez.';
+    } finally {
+      button.disabled = false;
+    }
+  });
 }
