@@ -1,3 +1,4 @@
+import {decimal} from './number-format.js';
 // Communauté (BET-60, BET-61) : règles pures partagées par le site et les tests, sans DOM ni réseau.
 // Ligues privées : nouveau code BM-XXXXXXXX (alphabet sans I, O, 0 ni 1), sans limite de ligues par joueur, 50 membres au plus.
 export const PRIVATE_LIMITS = { leaguesPerPlayer: Infinity, members: 50, nameMin: 3, nameMax: 30 };
@@ -28,7 +29,7 @@ import { BADGES } from './rewards.js';
 import { levelFromXp } from './model.js';
 export function activityText(kind, payload = {}, nickname = 'Un joueur') {
   const who = String(nickname);
-  if (kind === 'combo-win') return `${who} a gagné un combiné de ${payload.legs} matchs à la cote ${Number(payload.odds).toFixed(2)}`;
+  if (kind === 'combo-win') return `${who} a gagné un combiné de ${payload.legs} matchs à la cote ${decimal(Number(payload.odds),2)}`;
   if (kind === 'promotion') return `${who} est promu en ${echelonName(payload.to)}`;
   if (kind === 'title') return `${who} est champion de ${payload.league}`;
   if (kind === 'badge') return `${who} a obtenu le trophée « ${BADGES.find(item => item.id === payload.badge)?.name ?? 'surprise'} »`;

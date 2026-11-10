@@ -14,7 +14,7 @@ test('BET-170 : neuf offres refusées, dix acceptées par sélection, doublons e
 });
 test('BET-170 : aucun prix ni value rendu sous le seuil, probabilités préservées et combinés filtrés',()=>{
  const nine=match(9),ten=match(10),raw=analyseMatch(nine).markets.find(m=>m.key==='home');assert.ok(raw.probability>0);assert.equal(marketCard(nine,raw),'');assert.deepEqual(fixtureRow(nine).odds,{});assert.equal(fixtureRow(ten).odds.home,2);
- assert.match(marketCard(ten,analyseMatch(ten).markets.find(m=>m.key==='home')),/2\.00/);
+ assert.match(marketCard(ten,analyseMatch(ten).markets.find(m=>m.key==='home')),/2,00/);
  assert.deepEqual(optimizeCombo([nine,{...nine,id:'n'}]),[]);assert.equal(optimizeCombo([ten,{...ten,id:'n'}]).length,2);
 });
 test('BET-170 : défi figé avec compteurs par issue ou cote égale au consensus actuel qualifié',()=>{
