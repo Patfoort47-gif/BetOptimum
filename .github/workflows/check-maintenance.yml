@@ -19,3 +19,5 @@ jobs:
       - run: node scripts/check-migrations.mjs
       - run: npm test
       - run: node scripts/prepare-pages.mjs
+      - run: node scripts/check-module-paths.mjs
+      - run: node scripts/check-links.mjs
