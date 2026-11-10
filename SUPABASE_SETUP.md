@@ -124,3 +124,9 @@ BET-189 : appliquer `supabase/migrations/supabase-v47-schema.sql` après V46 ava
 BET-193 : appliquer `supabase/migrations/supabase-v48-schema.sql` après V47 avant publication du chargement progressif. Nouvelle RPC privée `my_bet_history` par lots de cinq et curseur date/UUID/snapshot ; la RPC du profil `my_bet_dashboard` reste inchangée. Recette : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-history-cursor-sql.cjs`. Voir `docs/HISTORY_CURSOR.md`.
 
 BET-207 : appliquer `supabase/migrations/supabase-v53-schema.sql` après V48 avant de publier le filtre Hier (journée précédente exacte en Europe/Paris).
+
+## Coupons partagés (BET-260)
+
+V61 après V60 crée le seau `ticket-previews` : PNG publics de 1,5 Mo maximum, chemins UUID aléatoires sans identifiant de joueur. Seul un utilisateur authentifié peut déposer sous son propriétaire ; aucune mise à jour publique. Déployer la fonction Edge `ticket-preview` avec `--no-verify-jwt` : POST réservé au secret du minuteur, pour purger les images expirées ou orphelines. Installer `supabase/ticket-preview-cleanup.sql` après la fonction ; le secret reste dans Vault, jamais dans cron.job. Le rôle service est seul autorisé à lister les candidats de purge.
+
+La page HTML d’aperçu est hébergée séparément avec Sites : le domaine Supabase standard transforme les réponses HTML en texte brut. Le propriétaire a autorisé explicitement l’accès public au service d’aperçu le 10 novembre 2026. Voir `docs/TICKET_SHARING.md`.

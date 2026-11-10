@@ -171,4 +171,20 @@ assert.equal((await q("select count(*)::int n from notification_deliveries where
 assert.equal((await q('select unsubscribe_notifications() ok'))[0].ok,true);
 assert.equal((await q('select my_web_notifications() s'))[0].s.preferences.enabled,false);
 assert.equal((await q('select my_notifications() s'))[0].s.preferences.enabled,false);
+// BET-260 : seules les images du propriétaire peuvent être déposées ; purge des orphelines/expirées.
+await db.exec(`create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(name text primary key,bucket_id text,owner_id text,created_at timestamptz default now());alter table storage.objects enable row level security;grant usage on schema storage,auth to authenticated;grant all on storage.objects to authenticated;`);
+for(const v of [61,61])await db.exec(await readFile(`supabase/migrations/supabase-v${v}-schema.sql`,'utf8'));
+assert.equal((await q("select public from storage.buckets where id='ticket-previews'"))[0].public,true);
+assert.equal((await q("select has_function_privilege('authenticated','ticket_preview_cleanup_candidates()','execute') ok"))[0].ok,false);
+await q(`insert into storage.objects values('11111111-1111-4111-8111-111111111111.png','ticket-previews',$1,now()),('22222222-2222-4222-8222-222222222222.png','ticket-previews',$1,now()-interval '31 days'),('33333333-3333-4333-8333-333333333333.png','ticket-previews','orphan',now())`,[uid]);
+assert.equal((await q('select * from ticket_preview_cleanup_candidates()')).length,2);
+await db.exec('set role authenticated');
+await assert.rejects(q(`insert into storage.objects values('44444444-4444-4444-8444-444444444444.png','ticket-previews','other',now())`));
+await q(`insert into storage.objects values('55555555-5555-4555-8555-555555555555.png','ticket-previews',$1,now())`,[uid]);
+assert.equal((await q('select count(*)::int n from storage.objects'))[0].n,3);
+await db.exec('reset role');
+await db.exec(await readFile('supabase/ticket-preview-cleanup.sql','utf8'));
+await q('select tick_ticket_preview_cleanup()');
+const [cleanupRequest]=await q("select * from net.requests where url like '%/ticket-preview'");
+assert.ok(cleanupRequest);assert.equal((await q("select has_function_privilege('authenticated','tick_ticket_preview_cleanup()','execute') ok"))[0].ok,false);
 await db.close();console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');
