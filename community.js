@@ -11,7 +11,7 @@ export function normalizeCode(value) {
 export const privateLink = (code, base) => `${base}#ligue-privee-${code}`;
 export function parsePrivateHash(hash) {
   const match = /^#ligue-privee-(.+)$/.exec(String(hash ?? ''));
-  return match ? normalizeCode(decodeURIComponent(match[1])) : null;
+  try{return match ? normalizeCode(decodeURIComponent(match[1])) : null}catch{return null}
 }
 export const validLeagueName = value => { const name = String(value ?? '').trim(); return name.length >= PRIVATE_LIMITS.nameMin && name.length <= PRIVATE_LIMITS.nameMax; };
 // Avant d'envoyer : une ligue de plus est-elle possible, la ligue est-elle pleine ?
