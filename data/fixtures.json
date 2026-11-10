@@ -2260,7 +2260,7 @@
         "matchId": "espn-401931275",
         "homeId": "307",
         "awayId": "21711",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 0
@@ -2288,7 +2288,7 @@
         "matchId": "espn-401931086",
         "homeId": "348",
         "awayId": "313",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 2
@@ -2316,7 +2316,7 @@
         "matchId": "espn-401931087",
         "homeId": "132144",
         "awayId": "133366",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 6,
           "away": 0
@@ -2344,7 +2344,7 @@
         "matchId": "espn-401931084",
         "homeId": "315",
         "awayId": "353",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 0
@@ -109429,7 +109429,7 @@
         "matchId": "espn-401931275",
         "homeId": "307",
         "awayId": "21711",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 0
@@ -109515,7 +109515,7 @@
         "matchId": "espn-401931086",
         "homeId": "348",
         "awayId": "313",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 2
@@ -109601,7 +109601,7 @@
         "matchId": "espn-401931087",
         "homeId": "132144",
         "awayId": "133366",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 6,
           "away": 0
@@ -109687,7 +109687,7 @@
         "matchId": "espn-401931084",
         "homeId": "315",
         "awayId": "353",
-        "verifiedAt": "2026-11-10T04:12:33.854Z",
+        "verifiedAt": "2026-11-10T11:09:48.928Z",
         "final": {
           "home": 4,
           "away": 0
@@ -255491,11 +255491,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.031108086312852445,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.604Z"
+        "capturedAt": "2026-11-10T11:09:49.662Z"
       }
     },
     {
@@ -259033,11 +259045,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.03850420779138031,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.636Z"
+        "capturedAt": "2026-11-10T11:09:49.683Z"
       }
     },
     {
@@ -262926,11 +262950,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7434281517365354,
+        "marketDelta": 0.1339953371406769,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 91,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 24,
+          "coverage": 30
+        },
         "value": 0.10555359598528757,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.659Z"
+        "capturedAt": "2026-11-10T11:09:49.708Z"
       }
     },
     {
@@ -266629,11 +266665,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7845051520797827,
+        "marketDelta": 0.09291833679742967,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 89,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 19,
+          "coverage": 30
+        },
         "value": 0.04413395176388257,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.678Z"
+        "capturedAt": "2026-11-10T11:09:49.731Z"
       }
     },
     {
@@ -270170,11 +270218,23 @@
         "available": true,
         "probability": 0.7360016443852395,
         "refundProbability": 0,
+        "marketProbability": 0.6866346091625449,
+        "marketDelta": 0.04936703522269459,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 89,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 24,
+          "coverage": 30
+        },
         "value": -0.0063977800799266404,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.697Z"
+        "capturedAt": "2026-11-10T11:09:49.752Z"
       }
     },
     {
@@ -272776,11 +272836,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7820103347695884,
+        "marketDelta": 0.09541315410762397,
+        "dataConfidence": {
+          "score": 28,
+          "volume": 0,
+          "consensus": 93,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 20,
+          "coverage": 30
+        },
         "value": 0.04413395176388257,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.722Z"
+        "capturedAt": "2026-11-10T11:09:49.770Z"
       }
     },
     {
@@ -276176,11 +276248,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.0015236003987409985,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.738Z"
+        "capturedAt": "2026-11-10T11:09:49.779Z"
       }
     },
     {
@@ -279243,11 +279327,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.0015236003987409985,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.756Z"
+        "capturedAt": "2026-11-10T11:09:49.791Z"
       }
     },
     {
@@ -282479,11 +282575,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.05329645074843592,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.772Z"
+        "capturedAt": "2026-11-10T11:09:49.806Z"
       }
     },
     {
@@ -285345,11 +285453,23 @@
         "available": true,
         "probability": 0.7360016443852395,
         "refundProbability": 0,
+        "marketProbability": 0.7493140563361977,
+        "marketDelta": -0.013312411950958225,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 91,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 17,
+          "coverage": 30
+        },
         "value": -0.08735796096230297,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.787Z"
+        "capturedAt": "2026-11-10T11:09:49.818Z"
       }
     },
     {
@@ -288560,11 +288680,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.023711964834324584,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.803Z"
+        "capturedAt": "2026-11-10T11:09:49.828Z"
       }
     },
     {
@@ -291982,11 +292114,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7806272500595481,
+        "marketDelta": 0.09679623881766419,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 91,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 16,
+          "coverage": 30
+        },
         "value": 0.05290818665265484,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.819Z"
+        "capturedAt": "2026-11-10T11:09:49.841Z"
       }
     },
     {
@@ -295289,11 +295433,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.8050180869551704,
+        "marketDelta": 0.07240540192204192,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 89,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 17,
+          "coverage": 30
+        },
         "value": 0.017811247097566207,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.835Z"
+        "capturedAt": "2026-11-10T11:09:49.853Z"
       }
     },
     {
@@ -298763,11 +298919,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7101293173813272,
+        "marketDelta": 0.1672941714958851,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 90,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 19,
+          "coverage": 30
+        },
         "value": 0.1581990053179203,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.853Z"
+        "capturedAt": "2026-11-10T11:09:49.865Z"
       }
     },
     {
@@ -302126,11 +302294,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.14204990849077015,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.875Z"
+        "capturedAt": "2026-11-10T11:09:49.879Z"
       }
     },
     {
@@ -305425,11 +305605,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.06808869370549164,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.892Z"
+        "capturedAt": "2026-11-10T11:09:49.891Z"
       }
     },
     {
@@ -308988,11 +309180,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.06069257222696378,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.908Z"
+        "capturedAt": "2026-11-10T11:09:49.905Z"
       }
     },
     {
@@ -312022,11 +312226,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.00891972187726886,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.924Z"
+        "capturedAt": "2026-11-10T11:09:49.919Z"
       }
     },
     {
@@ -315345,11 +315561,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7255501578384793,
+        "marketDelta": 0.15187333103873302,
+        "dataConfidence": {
+          "score": 26,
+          "volume": 0,
+          "consensus": 86,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 16,
+          "coverage": 30
+        },
         "value": 0.12310206576283189,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.940Z"
+        "capturedAt": "2026-11-10T11:09:49.930Z"
       }
     },
     {
@@ -318474,11 +318702,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.09767317961960309,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.957Z"
+        "capturedAt": "2026-11-10T11:09:49.943Z"
       }
     },
     {
@@ -321523,11 +321763,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.0015236003987409985,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.972Z"
+        "capturedAt": "2026-11-10T11:09:49.954Z"
       }
     },
     {
@@ -324710,11 +324962,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7704065000205934,
+        "marketDelta": 0.10701698885661892,
+        "dataConfidence": {
+          "score": 26,
+          "volume": 0,
+          "consensus": 88,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 15,
+          "coverage": 30
+        },
         "value": 0.06168242154142689,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:16.988Z"
+        "capturedAt": "2026-11-10T11:09:49.965Z"
       }
     },
     {
@@ -327846,11 +328110,23 @@
         "available": true,
         "probability": 0.7396121478527844,
         "refundProbability": 0,
+        "marketProbability": null,
+        "marketDelta": null,
+        "dataConfidence": {
+          "score": 0,
+          "volume": 0,
+          "consensus": 0,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 0,
+          "coverage": 0
+        },
         "value": -0.06808869370549164,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:17.005Z"
+        "capturedAt": "2026-11-10T11:09:49.977Z"
       }
     },
     {
@@ -331003,11 +331279,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7853558984430643,
+        "marketDelta": 0.09206759043414803,
+        "dataConfidence": {
+          "score": 27,
+          "volume": 0,
+          "consensus": 89,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 15,
+          "coverage": 30
+        },
         "value": 0.04413395176388257,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:17.021Z"
+        "capturedAt": "2026-11-10T11:09:49.989Z"
       }
     },
     {
@@ -337078,11 +337366,23 @@
         "available": true,
         "probability": 0.4398224153825091,
         "refundProbability": 0,
+        "marketProbability": 0.4337240423706434,
+        "marketDelta": 0.006098373011865721,
+        "dataConfidence": {
+          "score": 28,
+          "volume": 0,
+          "consensus": 93,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 12,
+          "coverage": 30
+        },
         "value": -0.04998358277378023,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:17.053Z"
+        "capturedAt": "2026-11-10T11:09:50.012Z"
       }
     },
     {
@@ -339820,11 +340120,23 @@
         "available": true,
         "probability": 0.8774234888772123,
         "refundProbability": 0,
+        "marketProbability": 0.7543234145924022,
+        "marketDelta": 0.12310007428481018,
+        "dataConfidence": {
+          "score": 28,
+          "volume": 0,
+          "consensus": 94,
+          "recent": 0,
+          "xgAvailable": false,
+          "competitionAvailable": false,
+          "bookmakers": 12,
+          "coverage": 30
+        },
         "value": 0.08800512620774326,
         "real": true,
         "basis": "real-odds",
         "modelVersion": "poisson-confidence-v4",
-        "capturedAt": "2026-11-10T10:14:17.067Z"
+        "capturedAt": "2026-11-10T11:09:50.021Z"
       }
     },
     {
@@ -344108,5 +344420,5 @@
       "suggestedPick": null
     }
   ],
-  "scoresUpdatedAt": "2026-11-10T10:14:17.094Z"
+  "scoresUpdatedAt": "2026-11-10T11:09:50.039Z"
 }
