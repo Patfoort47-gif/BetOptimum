@@ -3,6 +3,7 @@ import {selectionSnapshot} from '../selection-snapshot.js';
 import {regulationScore} from '../regulation-score.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { selectionResult } from '../model.js';
+import {writeFixtureIndex} from './fixture-files.mjs';
 
 const leagues = ['eng.1','fra.1','esp.1','ita.1','ger.1','uefa.champions','uefa.europa','uefa.europa.conf','uefa.super_cup','fifa.cwc','fra.2','fra.coupe_de_france','eng.fa','eng.league_cup','esp.copa_del_rey','ita.coppa_italia','ger.dfb_pokal','uefa.nations','fifa.worldq.uefa'];
 // Matchs annulés : les paris certifiés sont remboursés (BET-52).
@@ -43,7 +44,7 @@ for (const match of data.matches ?? []) {
 for(const match of data.matches??[])match.suggestedPick=selectionSnapshot(match);
 data.scoresUpdatedAt = new Date().toISOString();
 data.coverage = {...data.coverage, settlements:data.settlements.length};
-await writeFile(file, `${JSON.stringify(data, null, 2)}\n`);
+await writeFixtureIndex(data,file);
 const historyFile='data/predictions-history.json';
 let predictionHistory=[];
 try{predictionHistory=JSON.parse(await readFile(historyFile,'utf8'))}catch{}
@@ -55,5 +56,5 @@ for(const match of data.matches??[]){
   predictions.set(match.id,{id:match.id,date:match.date,league:match.league,match:`${match.home} – ${match.away}`,label:pick.label,key:pick.key,odd:pick.odd,probability:pick.probability,status,score:`${match.homeScore} : ${match.awayScore}`});
 }
 predictionHistory=[...predictions.values()].sort((a,b)=>b.date.localeCompare(a.date));
-await writeFile(historyFile,`${JSON.stringify(predictionHistory,null,2)}\n`);
+await writeFile(historyFile,`${JSON.stringify(predictionHistory)}\n`);
 console.log(`${settlements.length} résultats contrôlés, ${data.settlements.length} disponibles pour régler les paris.`);
