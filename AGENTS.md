@@ -133,4 +133,6 @@ BET-260 : les liens de coupon V2 (`ticket-url.js`) transportent choix, mode/form
 
 BET-261 : un seul bouton partage le coupon. L’envoi contient le lien et un résumé texte adapté au simple ou au combiné, sans générer, déposer ni joindre d’image. Les anciens aperçus restent soumis à la purge V61.
 
+Performance BET-292 : `data/fixtures.json` est compact et ne contient plus `bookmakerOffers`. `scripts/fixture-files.mjs` publie les offres détaillées par date dans `data/offers/YYYY-MM-DD.json`; le navigateur ne les charge qu’à l’ouverture du comparateur. Le calendrier léger est mis en cache via Cache API (`fixture-cache.js`), jamais dans `localStorage`. Les workflows doivent committer `data/fixtures.json` et `data/offers/`. Les logos ESPN utilisent les variantes 96 px sans héberger de copie. Inter et Barlow Condensed sont servis depuis `fonts/` avec `font-display: swap`, sans Google Fonts.
+
 BET-278 : calendrier, affiche du jour, aperçu HTML public et briefing email excluent les matchs sans sélection réelle admissible (au moins dix bookmakers distincts pour une même sélection, politique de cotes commune). Aucune exception pour la popularité ni repli vers un match non admissible. Les données de règlement historiques restent conservées.

@@ -1,6 +1,7 @@
 import {teamForm} from '../team-form.js';
 import {enrichHalfTimeResults} from './h1-results.mjs';
 import {selectionSnapshot} from '../selection-snapshot.js';
+import {publishFixtures} from './fixture-files.mjs';
 import {venueFromCompetition} from '../stadiums.js';
 import {regulationScore} from '../regulation-score.js';
 import {marketKeys,marketEnabled,isExtendedMarket,EXTENDED_ODDS_MAX_AGE} from '../markets.js';
@@ -32,6 +33,7 @@ const providerMap = {
 };
 const giants = ['Real Madrid','Barcelona','Manchester City','Manchester United','Liverpool','Arsenal','Chelsea','Bayern','Paris Saint-Germain','Marseille','Internazionale','Milan','Juventus','Napoli','Atlético Madrid','Borussia Dortmund'];
 const voidStatuses = new Set(['STATUS_CANCELED', 'STATUS_ABANDONED']);
+const smallLogo=url=>typeof url==='string'?url.replace('/500-dark/','/96-dark/').replace('/500/','/96/'):null;
 const dateKey = date => date.toISOString().slice(0, 10).replaceAll('-', '');
 const start = new Date(); start.setUTCHours(0, 0, 0, 0);
 const historyStart = new Date(start); historyStart.setUTCDate(historyStart.getUTCDate() - 3);
@@ -39,6 +41,7 @@ const end = new Date(start); end.setUTCDate(end.getUTCDate() + 7);
 const days = Array.from({ length: 15 }, (_, index) => { const date = new Date(start); date.setUTCDate(date.getUTCDate() + index - 7); return dateKey(date); });
 let previousData = {matches:[]};
 try { previousData = JSON.parse(await readFile('data/fixtures.json','utf8')); } catch {}
+for(const date of new Set((previousData.matches??[]).map(match=>match.date).filter(Boolean))){try{const detail=JSON.parse(await readFile(`data/offers/${date}.json`,'utf8'));for(const match of previousData.matches??[])if(match.date===date&&Array.isArray(detail.matches?.[match.id]))match.bookmakerOffers=detail.matches[match.id]}catch{}}
 
 function model(home, away, priority) {
   const homeBig = giants.some(name => home.includes(name));
@@ -117,7 +120,7 @@ const results = await Promise.allSettled(leagues.map(async ([slug, label, weight
       id: `espn-${event.id}`, date: kickoff.toISOString().slice(0, 10), kickoff: kickoff.toISOString(),
       time: kickoff.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' }),
       league: label, home: homeTeam, away: awayTeam, ...venueFromCompetition(competition),
-      leagueLogo, leagueLogoDark, homeId: homeCompetitor?.team?.id ?? null, awayId: awayCompetitor?.team?.id ?? null, homeLogo: homeCompetitor?.team?.logo ?? null, awayLogo: awayCompetitor?.team?.logo ?? null,
+      leagueLogo:smallLogo(leagueLogo), leagueLogoDark:smallLogo(leagueLogoDark), homeId: homeCompetitor?.team?.id ?? null, awayId: awayCompetitor?.team?.id ?? null, homeLogo:smallLogo(homeCompetitor?.team?.logo), awayLogo:smallLogo(awayCompetitor?.team?.logo),
       priority, featured: priority >= 75, status: event.status?.type?.description ?? 'Programmé',
       completed: event.status?.type?.completed === true, voided: voidStatuses.has(event.status?.type?.name), knockout: /round of|quarter|semi|final|knockout|play-?off/i.test(competition?.notes?.[0]?.headline ?? ''),
       regulation: regulationScore(event),
@@ -173,6 +176,6 @@ const dailyChallenge = pickDailyChallenge(enriched, parisDate(new Date()), Objec
 await mkdir('data', { recursive: true });
 const refreshedAt = new Date().toISOString(), oddsRefreshedAt=propLineResult.offersByMatch.size?refreshedAt:previousData.oddsRefreshedAt??null;
 const secondaryOddsRefreshedAt = propLineResult.offersByMatch.size ? refreshedAt : previousData.secondaryOddsRefreshedAt ?? null;
-await writeFile('data/fixtures.json', `${JSON.stringify({ generatedAt: refreshedAt, oddsRefreshedAt, oddsRefreshHours:ODDS_REFRESH_HOURS, oddsRefreshTimezone:'Europe/Paris', secondaryOddsRefreshedAt, secondaryOddsWindowHours:SECONDARY_ODDS_WINDOW_HOURS, movementThresholdPercent:5, dailyChallenge, source: 'ESPN + football-data.org + PropLine', providerStatus: providerFailures.length ? 'partial' : 'ok', failures: providerFailures, coverage:{propLineRequested:propLineResult.requested,propLineDiscoveryRequests:propLineResult.discoveryRequests??0,propLineUnavailableLeagues:propLineResult.unavailableLeagues??[],propLineSucceeded:propLineResult.succeeded,propLineMatches:propLineResult.offersByMatch.size,historicalMatches:history.length,secondaryOddsMatches:enriched.filter(match=>match.realOddsMarkets?.some(key=>key==='over'||key==='btts')).length,statsMatches:enriched.filter(x=>x.statsSource).length,oddsMatches:enriched.filter(x=>x.oddsSource).length,settlements:settlements.length}, settlements, matches: enriched }, null, 2)}\n`);
+await publishFixtures({ generatedAt: refreshedAt, oddsRefreshedAt, oddsRefreshHours:ODDS_REFRESH_HOURS, oddsRefreshTimezone:'Europe/Paris', secondaryOddsRefreshedAt, secondaryOddsWindowHours:SECONDARY_ODDS_WINDOW_HOURS, movementThresholdPercent:5, dailyChallenge, source: 'ESPN + football-data.org + PropLine', providerStatus: providerFailures.length ? 'partial' : 'ok', failures: providerFailures, coverage:{propLineRequested:propLineResult.requested,propLineDiscoveryRequests:propLineResult.discoveryRequests??0,propLineUnavailableLeagues:propLineResult.unavailableLeagues??[],propLineSucceeded:propLineResult.succeeded,propLineMatches:propLineResult.offersByMatch.size,historicalMatches:history.length,secondaryOddsMatches:enriched.filter(match=>match.realOddsMarkets?.some(key=>key==='over'||key==='btts')).length,statsMatches:enriched.filter(x=>x.statsSource).length,oddsMatches:enriched.filter(x=>x.oddsSource).length,settlements:settlements.length}, settlements, matches: enriched });
 console.log(`${enriched.length} rencontres, ${settlements.length} résultats récents, ${history.length} historiques, ${propLineResult.offersByMatch.size} rencontres cotées.`);
 if (providerFailures.length) console.warn(providerFailures.join('\n'));
