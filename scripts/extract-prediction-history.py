@@ -22,4 +22,4 @@ for c in commits:
    if kick-captured>=3600 and (m['id'] not in rows or captured>rows[m['id']]['captured']):rows[m['id']]={'match':m,'captured':captured,'kickoff':kick,'commit':c}
 data=[dict(r,**results[i]) for i,r in rows.items() if i in results];data.sort(key=lambda r:r['kickoff'])
 json.dump({'snapshots':snapshots,'rows':data},open(sys.argv[1],'w'))
-print(json.dumps({'snapshots':snapshots,'matched':len(data),'dates':[data[0]['match']['date'],data[-1]['match']['date']] if data else [],'real1N2':sum(all(k in r['match'].get('realOddsMarkets',[]) for k in ['home','draw','away']) for r in data),'storedPicks':dict(collections.Counter(r['match'].get('suggestedPick',{}).get('key') for r in data))}))
+print(json.dumps({'snapshots':snapshots,'matched':len(data),'dates':[data[0]['match']['date'],data[-1]['match']['date']] if data else [],'real1N2':sum(all(k in r['match'].get('realOddsMarkets',[]) for k in ['home','draw','away']) for r in data),'storedPicks':dict(collections.Counter((r['match'].get('suggestedPick') or {}).get('key') for r in data))}))
