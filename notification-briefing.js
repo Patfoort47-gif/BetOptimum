@@ -1,5 +1,5 @@
 // BET-98 : planification et calculs purs. Aucune destination ni clé fournisseur.
-import { recommendedMarket } from './model.js';
+import { recommendedMarket, selectSpotlight } from './model.js';
 const formatters=new Map();
 function formatter(timezone) {
   if(!formatters.has(timezone)){if(formatters.size>=100)formatters.clear();formatters.set(timezone,new Intl.DateTimeFormat('en-CA',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}));}
@@ -74,5 +74,5 @@ export function buildBriefing(matches,prefs,event,account,bets,now=Date.now(),ge
   const selected=today;
   const fresh=Number.isFinite(Date.parse(generatedAt))&&Date.parse(generatedAt)<=now&&now-Date.parse(generatedAt)<864e5;
   const recommendations=fresh?briefingRecommendations(selected,prefs,now):[],picks=recommendations.slice(0,3);
-  return {date:event.date,kinds:event.kinds,timezone:prefs.timezone,generatedAt,now:new Date(now).toISOString(),fresh,recommendations,matches:selected,favorites,hero:picks[0]?.match??selected[0]??null,picks,bankroll:account&&Number.isFinite(Number(account.bankroll))?Number(account.bankroll):null,projection:ticketProjection(bets,selected.map(m=>m.id))};
+  return {date:event.date,kinds:event.kinds,timezone:prefs.timezone,generatedAt,now:new Date(now).toISOString(),fresh,recommendations,matches:selected,favorites,hero:selectSpotlight(selected,now),picks,bankroll:account&&Number.isFinite(Number(account.bankroll))?Number(account.bankroll):null,projection:ticketProjection(bets,selected.map(m=>m.id))};
 }
