@@ -1,65 +1,289 @@
 // Boutique et usages des jetons (BET-62) : catalogue, raretés, vitrine du jour, packs, revente. Fonctions pures, sans DOM ni réseau.
 // Les jetons n'ont aucune valeur : ils ne s'achètent pas, ne s'échangent pas, ne se convertissent pas. Noms génériques (aucune marque) en attendant l'avis juridique (BET-63).
-export const RARITIES = { common: { label: 'Commun', min: 300, max: 800 }, rare: { label: 'Rare', min: 1500, max: 3000 }, epic: { label: 'Épique', min: 5000, max: 20000 }, legendary: { label: 'Légendaire', min: 25000, max: 50000 }, exclusive: { label: 'Exclusif', min: 0, max: 0 } };
-export const CATEGORIES = { kit: 'Maillots', accessory: 'Accessoires', trophy: 'Trophées', background: 'Fonds et stades', base: 'Socles', frame: 'Cadres de carte', celebration: 'Célébrations', title: 'Titres', effect: 'Effets de victoire', sound: 'Ambiance sonore', 'card-bg': 'Fonds de carte', 'card-font': 'Police du numéro', 'card-shine': 'Effet brillant' };
-export const WEEKLY_DISCOUNT = .3, PACK_DISCOUNT = .2, RESALE_SHARE = .3, SHOWCASE_SIZE = 8;
+export const RARITIES = {
+  common: { label: 'Commun', min: 300, max: 800 },
+  rare: { label: 'Rare', min: 1500, max: 3000 },
+  epic: { label: 'Épique', min: 5000, max: 20000 },
+  legendary: { label: 'Légendaire', min: 25000, max: 50000 },
+  exclusive: { label: 'Exclusif', min: 0, max: 0 }
+};
+export const CATEGORIES = {
+  kit: 'Maillots',
+  accessory: 'Accessoires',
+  trophy: 'Trophées',
+  background: 'Fonds et stades',
+  base: 'Socles',
+  frame: 'Cadres de carte',
+  celebration: 'Célébrations',
+  title: 'Titres',
+  effect: 'Effets de victoire',
+  sound: 'Ambiance sonore',
+  'card-bg': 'Fonds de carte',
+  'card-font': 'Police du numéro',
+  'card-shine': 'Effet brillant'
+};
+export const WEEKLY_DISCOUNT = 0.3,
+  PACK_DISCOUNT = 0.2,
+  RESALE_SHARE = 0.3,
+  SHOWCASE_SIZE = 8;
 // Objets équipés hors avatar 3D (equipped_items, un objet par catégorie) : titre et cadre (BET-62), effets de victoire, sons et personnalisation de la carte (BET-163).
 // Seuls les objets de la carte joueur sont publics (vue public_equipped, V39) ; effets et sons restent privés.
-export const DISPLAYABLE = ['title', 'frame', 'effect', 'sound', 'card-bg', 'card-font', 'card-shine'];
-export const CARD_SLOTS = ['card-bg', 'card-font', 'card-shine'], BET163_CATEGORIES = ['effect', 'sound', ...CARD_SLOTS];
+export const DISPLAYABLE = [
+  'title',
+  'frame',
+  'effect',
+  'sound',
+  'card-bg',
+  'card-font',
+  'card-shine'
+];
+export const CARD_SLOTS = ['card-bg', 'card-font', 'card-shine'],
+  BET163_CATEGORIES = ['effect', 'sound', ...CARD_SLOTS];
 
-const item = (id, category, name, rarity, price, extra = {}) => ({ id, category, name, rarity, price, ...extra });
-const kits = [['lime', 'Lime'], ['blue', 'Bleu'], ['red', 'Rouge'], ['white', 'Blanc'], ['black', 'Noir'], ['orange', 'Orange']].map(([key, label], index) => item(`kit-plain-${key}`, 'kit', `Maillot uni ${label}`, 'common', 400 + (index % 3) * 150));
-const stripes = [['vertical', 'rayures verticales'], ['band', 'bande'], ['hoops', 'rayures horizontales'], ['scarf', 'écharpe']].map(([key, label], index) => item(`kit-stripe-${key}`, 'kit', `Maillot ${label}`, 'common', 600 + index * 50, { collection: 'maillots-motifs' }));
-const retro = [['retro-70', 'Rétro années 70'], ['retro-90', 'Rétro années 90'], ['retro-champion', 'Rétro de légende']].map(([key, label], index) => item(`kit-${key}`, 'kit', `Maillot ${label}`, 'rare', 1800 + index * 400));
-const newKits = [['chevron', 'Maillot Élan', 1900], ['diagonal', 'Maillot Diagonale', 2100], ['mosaic', 'Maillot Mosaïque', 2400]].map(([key, name, price]) => item(`kit-${key}`, 'kit', name, 'rare', price, { collection: 'atelier' }));
-const accessories = [['captain', 'Brassard de capitaine', 300], ['cap', 'Casquette', 400], ['headband', 'Bandeau', 400], ['glasses', 'Lunettes', 600], ['headphones', 'Casque audio', 800], ['scarf', 'Écharpe de supporter', 500]].map(([key, name, price]) => item(`acc-${key}`, 'accessory', name, 'common', price, { collection: 'tribune' }));
+const item = (id, category, name, rarity, price, extra = {}) => ({
+  id,
+  category,
+  name,
+  rarity,
+  price,
+  ...extra
+});
+const kits = [
+  ['lime', 'Lime'],
+  ['blue', 'Bleu'],
+  ['red', 'Rouge'],
+  ['white', 'Blanc'],
+  ['black', 'Noir'],
+  ['orange', 'Orange']
+].map(([key, label], index) =>
+  item(`kit-plain-${key}`, 'kit', `Maillot uni ${label}`, 'common', 400 + (index % 3) * 150)
+);
+const stripes = [
+  ['vertical', 'rayures verticales'],
+  ['band', 'bande'],
+  ['hoops', 'rayures horizontales'],
+  ['scarf', 'écharpe']
+].map(([key, label], index) =>
+  item(`kit-stripe-${key}`, 'kit', `Maillot ${label}`, 'common', 600 + index * 50, {
+    collection: 'maillots-motifs'
+  })
+);
+const retro = [
+  ['retro-70', 'Rétro années 70'],
+  ['retro-90', 'Rétro années 90'],
+  ['retro-champion', 'Rétro de légende']
+].map(([key, label], index) =>
+  item(`kit-${key}`, 'kit', `Maillot ${label}`, 'rare', 1800 + index * 400)
+);
+const newKits = [
+  ['chevron', 'Maillot Élan', 1900],
+  ['diagonal', 'Maillot Diagonale', 2100],
+  ['mosaic', 'Maillot Mosaïque', 2400]
+].map(([key, name, price]) =>
+  item(`kit-${key}`, 'kit', name, 'rare', price, { collection: 'atelier' })
+);
+const accessories = [
+  ['captain', 'Brassard de capitaine', 300],
+  ['cap', 'Casquette', 400],
+  ['headband', 'Bandeau', 400],
+  ['glasses', 'Lunettes', 600],
+  ['headphones', 'Casque audio', 800],
+  ['scarf', 'Écharpe de supporter', 500]
+].map(([key, name, price]) =>
+  item(`acc-${key}`, 'accessory', name, 'common', price, { collection: 'tribune' })
+);
 // Noms des récompenses du football, choisis par Matteo le 22 octobre 2026 ; « Ballon d'or », « Soulier d'or » et « Pichichi » sont des marques ou des noms protégés : gardés sans avis juridique (décision du 4 novembre 2026, BET-63), avec mention de non-affiliation dans les Mentions légales (VALIDATION_JURIDIQUE.md, question 3).
-const trophies = [item('trophy-ball', 'trophy', 'Ballon d’or', 'legendary', 50000), item('trophy-boot', 'trophy', 'Soulier d’or', 'epic', 20000), item('trophy-glove', 'trophy', 'Gant d’or', 'legendary', 25000), item('trophy-pichichi', 'trophy', 'Pichichi', 'epic', 12000), item('trophy-cup', 'trophy', 'Coupe des champions', 'epic', 5000)];
-trophies.push(item('trophy-crystal', 'trophy', 'Étoile de cristal', 'epic', 6500), item('trophy-laurel', 'trophy', 'Lauriers du fair-play', 'rare', 2800));
-const stadiums = [['rio', 'Rio'], ['barcelona', 'Barcelone'], ['madrid', 'Madrid'], ['paris', 'Paris'], ['munich', 'Munich'], ['london', 'Londres'], ['aurora', 'l’Aurore'], ['coastal', 'la Côte']];
-const stadiumItems = stadiums.flatMap(([key, label], index) => [item(`bg-${key}-in`, 'background', `Stade de ${label}, vu de l'intérieur`, 'rare', 2200 + index * 100, { collection: `stade-${key}` }), item(`bg-${key}-out`, 'background', `Stade de ${label}, vu de l'extérieur`, 'rare', 2200 + index * 100, { collection: `stade-${key}` })]);
-const simpleBackgrounds = [item('bg-training', 'background', 'Centre d’entraînement', 'common', 800), item('bg-lockers', 'background', 'Vestiaire', 'common', 700), item('bg-tunnel', 'background', 'Tunnel des joueurs', 'rare', 1500)];
-simpleBackgrounds.push(item('bg-rooftop', 'background', 'Terrain sur les toits', 'rare', 1800), item('bg-sunset', 'background', 'Entraînement au couchant', 'common', 800));
-const bases = [item('base-grass', 'base', 'Socle gazon', 'common', 500), item('base-neon', 'base', 'Socle néon', 'rare', 2000), item('base-gold', 'base', 'Socle or', 'epic', 6000)];
-const frames = [item('frame-bronze', 'frame', 'Cadre bronze', 'common', 500, { asset: 'bronze' }), item('frame-silver', 'frame', 'Cadre argent', 'rare', 1500, { asset: 'silver' }), item('frame-neon', 'frame', 'Cadre néon', 'rare', 2200, { asset: 'neon' }), item('frame-gold', 'frame', 'Cadre or', 'epic', 6000, { asset: 'gold' })];
-const celebrations = [item('celeb-fist', 'celebration', 'Poing levé', 'common', 600), item('celeb-slide', 'celebration', 'Glissade à genoux', 'rare', 1800), item('celeb-flip', 'celebration', 'Salto', 'rare', 2200)];
-celebrations.push(item('celeb-heart', 'celebration', 'Cœur aux supporters', 'common', 800), item('celeb-archer', 'celebration', 'L’Archer', 'rare', 1900), item('celeb-dance', 'celebration', 'Pas de victoire', 'rare', 2300));
-const titles = [item('title-strategist', 'title', 'Le Stratège', 'common', 300, { asset: 'Le Stratège' }), item('title-lynx', 'title', 'Œil de lynx', 'rare', 1500, { asset: 'Œil de lynx' }), item('title-cool', 'title', 'Sang-froid', 'rare', 2000, { asset: 'Sang-froid' }), item('title-legend', 'title', 'Légende vivante', 'epic', 8000, { asset: 'Légende vivante' })];
+const trophies = [
+  item('trophy-ball', 'trophy', 'Ballon d’or', 'legendary', 50000),
+  item('trophy-boot', 'trophy', 'Soulier d’or', 'epic', 20000),
+  item('trophy-glove', 'trophy', 'Gant d’or', 'legendary', 25000),
+  item('trophy-pichichi', 'trophy', 'Pichichi', 'epic', 12000),
+  item('trophy-cup', 'trophy', 'Coupe des champions', 'epic', 5000)
+];
+trophies.push(
+  item('trophy-crystal', 'trophy', 'Étoile de cristal', 'epic', 6500),
+  item('trophy-laurel', 'trophy', 'Lauriers du fair-play', 'rare', 2800)
+);
+const stadiums = [
+  ['rio', 'Rio'],
+  ['barcelona', 'Barcelone'],
+  ['madrid', 'Madrid'],
+  ['paris', 'Paris'],
+  ['munich', 'Munich'],
+  ['london', 'Londres'],
+  ['aurora', 'l’Aurore'],
+  ['coastal', 'la Côte']
+];
+const stadiumItems = stadiums.flatMap(([key, label], index) => [
+  item(
+    `bg-${key}-in`,
+    'background',
+    `Stade de ${label}, vu de l'intérieur`,
+    'rare',
+    2200 + index * 100,
+    { collection: `stade-${key}` }
+  ),
+  item(
+    `bg-${key}-out`,
+    'background',
+    `Stade de ${label}, vu de l'extérieur`,
+    'rare',
+    2200 + index * 100,
+    { collection: `stade-${key}` }
+  )
+]);
+const simpleBackgrounds = [
+  item('bg-training', 'background', 'Centre d’entraînement', 'common', 800),
+  item('bg-lockers', 'background', 'Vestiaire', 'common', 700),
+  item('bg-tunnel', 'background', 'Tunnel des joueurs', 'rare', 1500)
+];
+simpleBackgrounds.push(
+  item('bg-rooftop', 'background', 'Terrain sur les toits', 'rare', 1800),
+  item('bg-sunset', 'background', 'Entraînement au couchant', 'common', 800)
+);
+const bases = [
+  item('base-grass', 'base', 'Socle gazon', 'common', 500),
+  item('base-neon', 'base', 'Socle néon', 'rare', 2000),
+  item('base-gold', 'base', 'Socle or', 'epic', 6000)
+];
+const frames = [
+  item('frame-bronze', 'frame', 'Cadre bronze', 'common', 500, { asset: 'bronze' }),
+  item('frame-silver', 'frame', 'Cadre argent', 'rare', 1500, { asset: 'silver' }),
+  item('frame-neon', 'frame', 'Cadre néon', 'rare', 2200, { asset: 'neon' }),
+  item('frame-gold', 'frame', 'Cadre or', 'epic', 6000, { asset: 'gold' })
+];
+const celebrations = [
+  item('celeb-fist', 'celebration', 'Poing levé', 'common', 600),
+  item('celeb-slide', 'celebration', 'Glissade à genoux', 'rare', 1800),
+  item('celeb-flip', 'celebration', 'Salto', 'rare', 2200)
+];
+celebrations.push(
+  item('celeb-heart', 'celebration', 'Cœur aux supporters', 'common', 800),
+  item('celeb-archer', 'celebration', 'L’Archer', 'rare', 1900),
+  item('celeb-dance', 'celebration', 'Pas de victoire', 'rare', 2300)
+);
+const titles = [
+  item('title-strategist', 'title', 'Le Stratège', 'common', 300, { asset: 'Le Stratège' }),
+  item('title-lynx', 'title', 'Œil de lynx', 'rare', 1500, { asset: 'Œil de lynx' }),
+  item('title-cool', 'title', 'Sang-froid', 'rare', 2000, { asset: 'Sang-froid' }),
+  item('title-legend', 'title', 'Légende vivante', 'epic', 8000, { asset: 'Légende vivante' })
+];
 // BET-163 : célébration des pronos gagnés (effets en canvas, sons synthétisés, coupés par défaut) et personnalisation de la carte joueur. L'asset désigne le rendu.
-const effects = [item('effect-confetti', 'effect', 'Pluie de confettis', 'common', 600, { asset: 'confetti' }), item('effect-smoke', 'effect', 'Fumigènes de tribune', 'rare', 1800, { asset: 'smoke' }), item('effect-fireworks', 'effect', 'Feu d’artifice', 'epic', 5500, { asset: 'fireworks' })];
-const sounds = [item('sound-siren', 'sound', 'Sirène de but', 'common', 500, { asset: 'siren' }), item('sound-drums', 'sound', 'Tambours de tribune', 'rare', 1600, { asset: 'drums' }), item('sound-horn', 'sound', 'Corne de supporters', 'rare', 2000, { asset: 'horn' })];
-const cardBackgrounds = [item('cardbg-pitch', 'card-bg', 'Fond pelouse', 'common', 400, { asset: 'pitch' }), item('cardbg-night', 'card-bg', 'Fond nuit étoilée', 'common', 700, { asset: 'night' }), item('cardbg-carbon', 'card-bg', 'Fond carbone', 'rare', 1500, { asset: 'carbon' }), item('cardbg-aurora', 'card-bg', 'Fond aurore boréale', 'rare', 2400, { asset: 'aurora' })];
-const cardFonts = [item('cardfont-classic', 'card-font', 'Numéro classique', 'common', 300, { asset: 'classic' }), item('cardfont-stencil', 'card-font', 'Numéro pochoir', 'common', 600, { asset: 'stencil' }), item('cardfont-retro', 'card-font', 'Numéro rétro', 'rare', 1500, { asset: 'retro' })];
-const cardShines = [item('cardshine-gloss', 'card-shine', 'Reflet satiné', 'rare', 1800, { asset: 'gloss' }), item('cardshine-holo', 'card-shine', 'Reflet holographique', 'epic', 5000, { asset: 'holo' })];
-const exclusives = [item('acc-crown', 'accessory', 'Couronne du Master', 'exclusive', 0, { exclusive: true }), item('kit-champion', 'kit', 'Maillot de champion', 'exclusive', 0, { exclusive: true })];
-export const CATALOG = [...kits, ...stripes, ...retro, ...newKits, ...accessories, ...trophies, ...stadiumItems, ...simpleBackgrounds, ...bases, ...frames, ...celebrations, ...titles, ...effects, ...sounds, ...cardBackgrounds, ...cardFonts, ...cardShines, ...exclusives];
+const effects = [
+  item('effect-confetti', 'effect', 'Pluie de confettis', 'common', 600, { asset: 'confetti' }),
+  item('effect-smoke', 'effect', 'Fumigènes de tribune', 'rare', 1800, { asset: 'smoke' }),
+  item('effect-fireworks', 'effect', 'Feu d’artifice', 'epic', 5500, { asset: 'fireworks' })
+];
+const sounds = [
+  item('sound-siren', 'sound', 'Sirène de but', 'common', 500, { asset: 'siren' }),
+  item('sound-drums', 'sound', 'Tambours de tribune', 'rare', 1600, { asset: 'drums' }),
+  item('sound-horn', 'sound', 'Corne de supporters', 'rare', 2000, { asset: 'horn' })
+];
+const cardBackgrounds = [
+  item('cardbg-pitch', 'card-bg', 'Fond pelouse', 'common', 400, { asset: 'pitch' }),
+  item('cardbg-night', 'card-bg', 'Fond nuit étoilée', 'common', 700, { asset: 'night' }),
+  item('cardbg-carbon', 'card-bg', 'Fond carbone', 'rare', 1500, { asset: 'carbon' }),
+  item('cardbg-aurora', 'card-bg', 'Fond aurore boréale', 'rare', 2400, { asset: 'aurora' })
+];
+const cardFonts = [
+  item('cardfont-classic', 'card-font', 'Numéro classique', 'common', 300, { asset: 'classic' }),
+  item('cardfont-stencil', 'card-font', 'Numéro pochoir', 'common', 600, { asset: 'stencil' }),
+  item('cardfont-retro', 'card-font', 'Numéro rétro', 'rare', 1500, { asset: 'retro' })
+];
+const cardShines = [
+  item('cardshine-gloss', 'card-shine', 'Reflet satiné', 'rare', 1800, { asset: 'gloss' }),
+  item('cardshine-holo', 'card-shine', 'Reflet holographique', 'epic', 5000, { asset: 'holo' })
+];
+const exclusives = [
+  item('acc-crown', 'accessory', 'Couronne du Master', 'exclusive', 0, { exclusive: true }),
+  item('kit-champion', 'kit', 'Maillot de champion', 'exclusive', 0, { exclusive: true })
+];
+export const CATALOG = [
+  ...kits,
+  ...stripes,
+  ...retro,
+  ...newKits,
+  ...accessories,
+  ...trophies,
+  ...stadiumItems,
+  ...simpleBackgrounds,
+  ...bases,
+  ...frames,
+  ...celebrations,
+  ...titles,
+  ...effects,
+  ...sounds,
+  ...cardBackgrounds,
+  ...cardFonts,
+  ...cardShines,
+  ...exclusives
+];
 // Packs stade : stade (intérieur et extérieur), maillot uni et écharpe, moins cher que les éléments séparés.
-export const PACKS = stadiums.map(([key, label]) => ({ id: `pack-${key}`, name: `Pack stade de ${label}`, components: [`bg-${key}-in`, `bg-${key}-out`, 'kit-plain-lime', 'acc-scarf'] }));
+export const PACKS = stadiums.map(([key, label]) => ({
+  id: `pack-${key}`,
+  name: `Pack stade de ${label}`,
+  components: [`bg-${key}-in`, `bg-${key}-out`, 'kit-plain-lime', 'acc-scarf']
+}));
 
-export const purchasable = catalog => catalog.filter(entry => !entry.exclusive && entry.price > 0);
-export const validPrice = entry => entry.exclusive ? entry.price === 0 : entry.price >= RARITIES[entry.rarity].min && entry.price <= RARITIES[entry.rarity].max;
-export const resalePrice = paid => Math.floor(Number(paid) * RESALE_SHARE);
-export const packPrice = (components, catalog = CATALOG) => Math.round(components.reduce((sum, id) => sum + (catalog.find(entry => entry.id === id)?.price ?? 0), 0) * (1 - PACK_DISCOUNT));
+export const purchasable = (catalog) =>
+  catalog.filter((entry) => !entry.exclusive && entry.price > 0);
+export const validPrice = (entry) =>
+  entry.exclusive
+    ? entry.price === 0
+    : entry.price >= RARITIES[entry.rarity].min && entry.price <= RARITIES[entry.rarity].max;
+export const resalePrice = (paid) => Math.floor(Number(paid) * RESALE_SHARE);
+export const packPrice = (components, catalog = CATALOG) =>
+  Math.round(
+    components.reduce(
+      (sum, id) => sum + (catalog.find((entry) => entry.id === id)?.price ?? 0),
+      0
+    ) *
+      (1 - PACK_DISCOUNT)
+  );
 // Générateur pseudo-aléatoire reproductible : la vitrine est la même pour tous les joueurs, renouvelée chaque jour à minuit (Paris).
-function seeded(text) { let h = 1779033703 ^ text.length; for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; } return () => { h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
+function seeded(text) {
+  let h = 1779033703 ^ text.length;
+  for (let i = 0; i < text.length; i++) {
+    h = Math.imul(h ^ text.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return () => {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    return ((h ^= h >>> 16) >>> 0) / 4294967296;
+  };
+}
 export function dailyShowcase(catalog, day, size = SHOWCASE_SIZE) {
-  const random = seeded(`showcase:${day}`), pool = purchasable(catalog).filter(entry => entry.rarity !== 'legendary' || random() < .35).sort((a, b) => a.id.localeCompare(b.id));
-  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
-  return pool.slice(0, size).map(entry => entry.id);
+  const random = seeded(`showcase:${day}`),
+    pool = purchasable(catalog)
+      .filter((entry) => entry.rarity !== 'legendary' || random() < 0.35)
+      .sort((a, b) => a.id.localeCompare(b.id));
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, size).map((entry) => entry.id);
 }
 // Objet de la semaine à -30 % (clé : lundi de la semaine de Paris), rare ou mieux pour que la remise compte.
 export function weeklyItem(catalog, week) {
-  const pool = purchasable(catalog).filter(entry => entry.price >= 1500).sort((a, b) => a.id.localeCompare(b.id)), random = seeded(`weekly:${week}`);
+  const pool = purchasable(catalog)
+      .filter((entry) => entry.price >= 1500)
+      .sort((a, b) => a.id.localeCompare(b.id)),
+    random = seeded(`weekly:${week}`);
   return pool[Math.floor(random() * pool.length)].id;
 }
-export const priceFor = (entry, weeklyId) => entry.id === weeklyId ? Math.round(entry.price * (1 - WEEKLY_DISCOUNT)) : entry.price;
+export const priceFor = (entry, weeklyId) =>
+  entry.id === weeklyId ? Math.round(entry.price * (1 - WEEKLY_DISCOUNT)) : entry.price;
 // Collections complètes (au moins deux objets) parmi les objets possédés : un badge s'obtient quand l'une est complète.
 export function completedCollections(catalog, owned) {
   const groups = new Map();
-  for (const entry of catalog) if (entry.collection) groups.set(entry.collection, [...(groups.get(entry.collection) ?? []), entry.id]);
+  for (const entry of catalog)
+    if (entry.collection)
+      groups.set(entry.collection, [...(groups.get(entry.collection) ?? []), entry.id]);
   const have = new Set(owned);
-  return [...groups].filter(([, ids]) => ids.length >= 2 && ids.every(id => have.has(id))).map(([name]) => name);
+  return [...groups]
+    .filter(([, ids]) => ids.length >= 2 && ids.every((id) => have.has(id)))
+    .map(([name]) => name);
 }
 // Conditions d'achat avant d'appeler le serveur (le serveur applique les mêmes règles) : renvoie null si l'achat est possible, sinon le motif.
 export function purchaseBlock(entry, { balance, owned = [], division = null, weeklyId = null }) {
@@ -69,13 +293,21 @@ export function purchaseBlock(entry, { balance, owned = [], division = null, wee
   return balance < priceFor(entry, weeklyId) ? 'SOLDE' : null;
 }
 // Autres usages des jetons : bouclier de série (une fois par saison et par ligue), recharge de bankroll (sous 50 €), mises d'un duel.
-export const SHIELD_PRICE = 800, REFILL = { price: 500, amount: 1000, below: 50 }, DUEL = { min: 50, max: 5000 };
-export const canRefill = (bankroll, balance) => Number(bankroll) < REFILL.below && balance >= REFILL.price;
-export const validDuelStake = stake => Number.isInteger(stake) && stake >= DUEL.min && stake <= DUEL.max;
+export const SHIELD_PRICE = 800,
+  REFILL = { price: 500, amount: 1000, below: 50 },
+  DUEL = { min: 50, max: 5000 };
+export const canRefill = (bankroll, balance) =>
+  Number(bankroll) < REFILL.below && balance >= REFILL.price;
+export const validDuelStake = (stake) =>
+  Number.isInteger(stake) && stake >= DUEL.min && stake <= DUEL.max;
 // Résultat d'un duel sur le défi du jour : points cumulés du jour de chaque joueur ; égalité ou aucun prono des deux côtés : mises remboursées.
 export function duelWinner(creator, opponent) {
   if (creator.picks === 0 && opponent.picks === 0) return null;
   if (creator.picks === 0) return 'opponent';
   if (opponent.picks === 0) return 'creator';
-  return creator.points > opponent.points ? 'creator' : opponent.points > creator.points ? 'opponent' : null;
+  return creator.points > opponent.points
+    ? 'creator'
+    : opponent.points > creator.points
+      ? 'opponent'
+      : null;
 }

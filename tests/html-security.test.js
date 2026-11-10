@@ -1,5 +1,25 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {escapeHtml} from '../html.js';import {teamAttrs,lineupHeading} from '../details.js';import {parsePrivateHash} from '../community.js';
-const name='Coupe <test> "élite" & club\'s';
-test('BET-305 : textes et attributs, tous les caractères spéciaux et valeurs vides',()=>{assert.equal(escapeHtml(name),'Coupe &lt;test&gt; &quot;élite&quot; &amp; club&#39;s');assert.equal(escapeHtml(null),'');assert.equal(escapeHtml(0),'0');const attributes=teamAttrs('1',name,'',name);assert.ok(attributes.includes('data-team-name="'+escapeHtml(name)+'"'));assert.doesNotMatch(attributes,/<test>/)});
-test('BET-305 : libellé de compo ESPN échappé une seule fois au rendu',()=>{const result=lineupHeading({name,label:'Compo probable ('+name+')',official:false},()=> '');assert.ok(result.includes(escapeHtml('Compo probable ('+name+')')));assert.doesNotMatch(result,/<test>|&amp;lt;/)});
-test('BET-305 : lien de ligue mal encodé sans arrêt du site',()=>{assert.equal(parsePrivateHash('#ligue-privee-%'),null)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { escapeHtml } from '../html.js';
+import { teamAttrs, lineupHeading } from '../details.js';
+import { parsePrivateHash } from '../community.js';
+const name = 'Coupe <test> "élite" & club\'s';
+test('BET-305 : textes et attributs, tous les caractères spéciaux et valeurs vides', () => {
+  assert.equal(escapeHtml(name), 'Coupe &lt;test&gt; &quot;élite&quot; &amp; club&#39;s');
+  assert.equal(escapeHtml(null), '');
+  assert.equal(escapeHtml(0), '0');
+  const attributes = teamAttrs('1', name, '', name);
+  assert.ok(attributes.includes('data-team-name="' + escapeHtml(name) + '"'));
+  assert.doesNotMatch(attributes, /<test>/);
+});
+test('BET-305 : libellé de compo ESPN échappé une seule fois au rendu', () => {
+  const result = lineupHeading(
+    { name, label: 'Compo probable (' + name + ')', official: false },
+    () => ''
+  );
+  assert.ok(result.includes(escapeHtml('Compo probable (' + name + ')')));
+  assert.doesNotMatch(result, /<test>|&amp;lt;/);
+});
+test('BET-305 : lien de ligue mal encodé sans arrêt du site', () => {
+  assert.equal(parsePrivateHash('#ligue-privee-%'), null);
+});

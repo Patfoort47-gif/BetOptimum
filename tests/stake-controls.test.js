@@ -1,6 +1,51 @@
-import test from 'node:test';import assert from 'node:assert/strict';import{stakeCents,adjustStake,validUnit,stakeIssue}from'../stake-controls.js';
-test('montants rapides : additions exactes en centimes, zéro et rafale',()=>{let value='0';for(const [action,expected] of [['5',500],['10',1500],['50',6500]]){const cents=adjustStake(value,action);assert.equal(cents,expected);value=(cents/100).toFixed(2)}assert.equal(stakeCents('0,29'),29);assert.equal(adjustStake('0.29','5'),529);for(let i=0;i<100;i++)value=(adjustStake(value,'5')/100).toFixed(2);assert.equal(stakeCents(value),56500);assert.equal(adjustStake(value,'reset'),0)});
-test('unité : remplacement exact, absence et valeurs invalides refusées',()=>{assert.equal(adjustStake('65','unit',1234),1234);for(const unit of [null,undefined,'1234',0,-1,1.2,Infinity]){assert.equal(validUnit(unit),false);assert.equal(adjustStake('65','unit',unit),null)}assert.equal(adjustStake('','5'),500)});
-test('validation : précision, minimum et total des simples face au solde',()=>{for(const value of ['1.001','NaN','Infinity','-5','1e3'])assert.equal(stakeCents(value),null);assert.equal(stakeIssue('0',1,1000),'minimum');assert.equal(stakeIssue('0.99',1,1000),'minimum');assert.equal(stakeIssue('1.001',1,1000),'precision');assert.equal(stakeIssue('500.01',2,1000),'balance');assert.equal(stakeIssue('500.00',2,1000),null);assert.equal(stakeIssue('1000.01',1,1000),'balance');assert.equal(stakeIssue('1.01',1,1000),null);assert.equal(adjustStake('not-a-price','5'),null);assert.equal(adjustStake('90071992547409.91','5'),null)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { stakeCents, adjustStake, validUnit, stakeIssue } from '../stake-controls.js';
+test('montants rapides : additions exactes en centimes, zéro et rafale', () => {
+  let value = '0';
+  for (const [action, expected] of [
+    ['5', 500],
+    ['10', 1500],
+    ['50', 6500]
+  ]) {
+    const cents = adjustStake(value, action);
+    assert.equal(cents, expected);
+    value = (cents / 100).toFixed(2);
+  }
+  assert.equal(stakeCents('0,29'), 29);
+  assert.equal(adjustStake('0.29', '5'), 529);
+  for (let i = 0; i < 100; i++) value = (adjustStake(value, '5') / 100).toFixed(2);
+  assert.equal(stakeCents(value), 56500);
+  assert.equal(adjustStake(value, 'reset'), 0);
+});
+test('unité : remplacement exact, absence et valeurs invalides refusées', () => {
+  assert.equal(adjustStake('65', 'unit', 1234), 1234);
+  for (const unit of [null, undefined, '1234', 0, -1, 1.2, Infinity]) {
+    assert.equal(validUnit(unit), false);
+    assert.equal(adjustStake('65', 'unit', unit), null);
+  }
+  assert.equal(adjustStake('', '5'), 500);
+});
+test('validation : précision, minimum et total des simples face au solde', () => {
+  for (const value of ['1.001', 'NaN', 'Infinity', '-5', '1e3'])
+    assert.equal(stakeCents(value), null);
+  assert.equal(stakeIssue('0', 1, 1000), 'minimum');
+  assert.equal(stakeIssue('0.99', 1, 1000), 'minimum');
+  assert.equal(stakeIssue('1.001', 1, 1000), 'precision');
+  assert.equal(stakeIssue('500.01', 2, 1000), 'balance');
+  assert.equal(stakeIssue('500.00', 2, 1000), null);
+  assert.equal(stakeIssue('1000.01', 1, 1000), 'balance');
+  assert.equal(stakeIssue('1.01', 1, 1000), null);
+  assert.equal(adjustStake('not-a-price', '5'), null);
+  assert.equal(adjustStake('90071992547409.91', '5'), null);
+});
 
-test('BET-206 : pourcentages de bankroll arrondis en centimes',async()=>{const {percentageStake}=await import('../stake-controls.js');assert.equal(percentageStake(500,2),1000);assert.equal(percentageStake(123.45,3),370);assert.equal(percentageStake(0,5),0);assert.equal(percentageStake(-100,2),null);assert.equal(percentageStake(NaN,2),null);assert.equal(percentageStake(100,4),null)});
+test('BET-206 : pourcentages de bankroll arrondis en centimes', async () => {
+  const { percentageStake } = await import('../stake-controls.js');
+  assert.equal(percentageStake(500, 2), 1000);
+  assert.equal(percentageStake(123.45, 3), 370);
+  assert.equal(percentageStake(0, 5), 0);
+  assert.equal(percentageStake(-100, 2), null);
+  assert.equal(percentageStake(NaN, 2), null);
+  assert.equal(percentageStake(100, 4), null);
+});

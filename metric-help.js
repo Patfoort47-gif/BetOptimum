@@ -1,13 +1,128 @@
-export const METRIC_HELP={unit:{label:'Unité',text:'Une unité est le montant de mise que vous définissez ; 1 Unité remplace la mise et ne confirme jamais le pari.'},roi:{label:'ROI',text:'Rendement en % : bénéfice net réglé ÷ mises gagnées ou perdues × 100. Apports, paris en attente et remboursements exclus.'},'league-roi':{label:'ROI du classement',text:'Rendement de classement en % : points ÷ (10 × pronostics gagnés ou perdus) × 100. Le classement applique son barème de mise fixe et de cote plafonnée.'}};
-export function metricHelp(key){const info=METRIC_HELP[key];return info?`<button type="button" class="metric-help" data-metric-help="${key}" aria-label="Comprendre ${info.label}">${info.label} <span aria-hidden="true">?</span></button>`:''}
-export function initMetricHelp(){if(typeof window==='undefined'||document.getElementById('metric-tooltip'))return;const tip=document.createElement('div');tip.id='metric-tooltip';tip.className='metric-tooltip';tip.setAttribute('role','tooltip');tip.setAttribute('popover','manual');tip.hidden=true;document.body.append(tip);let trigger=null,showTimer,hideTimer,expiryTimer,pinned=false;
- const close=()=>{clearTimeout(showTimer);clearTimeout(hideTimer);clearTimeout(expiryTimer);if(trigger){trigger.removeAttribute('aria-describedby');trigger.setAttribute('aria-expanded','false')}if(tip.hidePopover&&tip.matches(':popover-open'))tip.hidePopover();tip.hidden=true;trigger=null;pinned=false};
- const place=()=>{if(!trigger)return;if(!trigger.isConnected){close();return}const r=trigger.getBoundingClientRect(),t=tip.getBoundingClientRect(),left=Math.max(8,Math.min(r.left,innerWidth-t.width-8)),top=r.bottom+8+t.height<=innerHeight?r.bottom+8:Math.max(8,r.top-t.height-8);tip.style.left=left+'px';tip.style.top=top+'px'};
- const open=(button,pin=false)=>{clearTimeout(showTimer);clearTimeout(hideTimer);const info=METRIC_HELP[button.dataset.metricHelp];if(!info)return;if(trigger&&trigger!==button)close();trigger=button;pinned=pin;tip.textContent=info.text;tip.hidden=false;button.setAttribute('aria-describedby',tip.id);button.setAttribute('aria-expanded','true');if(tip.showPopover&&!tip.matches(':popover-open'))tip.showPopover();place();clearTimeout(expiryTimer);expiryTimer=setTimeout(close,2500)};
- const laterClose=()=>{clearTimeout(showTimer);close()};
- document.addEventListener('pointerover',event=>{if(event.pointerType==='touch')return;if(tip.contains(event.target)){clearTimeout(hideTimer);return}const button=event.target.closest('[data-metric-help]');if(button&&!button.contains(event.relatedTarget)){clearTimeout(hideTimer);showTimer=setTimeout(()=>open(button),200)}});
- document.addEventListener('pointerout',event=>{const next=event.relatedTarget;if(trigger?.contains(next)||tip.contains(next))return;if(trigger?.contains(event.target)||tip.contains(event.target))laterClose()});
- document.addEventListener('focusin',event=>{const button=event.target.closest('[data-metric-help]');if(button)open(button)});document.addEventListener('focusout',event=>{if(trigger?.contains(event.target))laterClose()});
- document.addEventListener('click',event=>{const button=event.target.closest('[data-metric-help]');if(button){event.preventDefault();if(trigger===button&&pinned)close();else open(button,true)}else close()});
- document.addEventListener('keydown',event=>{if(event.key==='Escape'&&trigger){event.preventDefault();event.stopPropagation();close()}},true);window.addEventListener('resize',place);window.addEventListener('scroll',place,true);
+export const METRIC_HELP = {
+  unit: {
+    label: 'Unité',
+    text: 'Une unité est le montant de mise que vous définissez ; 1 Unité remplace la mise et ne confirme jamais le pari.'
+  },
+  roi: {
+    label: 'ROI',
+    text: 'Rendement en % : bénéfice net réglé ÷ mises gagnées ou perdues × 100. Apports, paris en attente et remboursements exclus.'
+  },
+  'league-roi': {
+    label: 'ROI du classement',
+    text: 'Rendement de classement en % : points ÷ (10 × pronostics gagnés ou perdus) × 100. Le classement applique son barème de mise fixe et de cote plafonnée.'
+  }
+};
+export function metricHelp(key) {
+  const info = METRIC_HELP[key];
+  return info
+    ? `<button type="button" class="metric-help" data-metric-help="${key}" aria-label="Comprendre ${info.label}">${info.label} <span aria-hidden="true">?</span></button>`
+    : '';
+}
+export function initMetricHelp() {
+  if (typeof window === 'undefined' || document.getElementById('metric-tooltip')) return;
+  const tip = document.createElement('div');
+  tip.id = 'metric-tooltip';
+  tip.className = 'metric-tooltip';
+  tip.setAttribute('role', 'tooltip');
+  tip.setAttribute('popover', 'manual');
+  tip.hidden = true;
+  document.body.append(tip);
+  let trigger = null,
+    showTimer,
+    hideTimer,
+    expiryTimer,
+    pinned = false;
+  const close = () => {
+    clearTimeout(showTimer);
+    clearTimeout(hideTimer);
+    clearTimeout(expiryTimer);
+    if (trigger) {
+      trigger.removeAttribute('aria-describedby');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+    if (tip.hidePopover && tip.matches(':popover-open')) tip.hidePopover();
+    tip.hidden = true;
+    trigger = null;
+    pinned = false;
+  };
+  const place = () => {
+    if (!trigger) return;
+    if (!trigger.isConnected) {
+      close();
+      return;
+    }
+    const r = trigger.getBoundingClientRect(),
+      t = tip.getBoundingClientRect(),
+      left = Math.max(8, Math.min(r.left, innerWidth - t.width - 8)),
+      top =
+        r.bottom + 8 + t.height <= innerHeight ? r.bottom + 8 : Math.max(8, r.top - t.height - 8);
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  };
+  const open = (button, pin = false) => {
+    clearTimeout(showTimer);
+    clearTimeout(hideTimer);
+    const info = METRIC_HELP[button.dataset.metricHelp];
+    if (!info) return;
+    if (trigger && trigger !== button) close();
+    trigger = button;
+    pinned = pin;
+    tip.textContent = info.text;
+    tip.hidden = false;
+    button.setAttribute('aria-describedby', tip.id);
+    button.setAttribute('aria-expanded', 'true');
+    if (tip.showPopover && !tip.matches(':popover-open')) tip.showPopover();
+    place();
+    clearTimeout(expiryTimer);
+    expiryTimer = setTimeout(close, 2500);
+  };
+  const laterClose = () => {
+    clearTimeout(showTimer);
+    close();
+  };
+  document.addEventListener('pointerover', (event) => {
+    if (event.pointerType === 'touch') return;
+    if (tip.contains(event.target)) {
+      clearTimeout(hideTimer);
+      return;
+    }
+    const button = event.target.closest('[data-metric-help]');
+    if (button && !button.contains(event.relatedTarget)) {
+      clearTimeout(hideTimer);
+      showTimer = setTimeout(() => open(button), 200);
+    }
+  });
+  document.addEventListener('pointerout', (event) => {
+    const next = event.relatedTarget;
+    if (trigger?.contains(next) || tip.contains(next)) return;
+    if (trigger?.contains(event.target) || tip.contains(event.target)) laterClose();
+  });
+  document.addEventListener('focusin', (event) => {
+    const button = event.target.closest('[data-metric-help]');
+    if (button) open(button);
+  });
+  document.addEventListener('focusout', (event) => {
+    if (trigger?.contains(event.target)) laterClose();
+  });
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-metric-help]');
+    if (button) {
+      event.preventDefault();
+      if (trigger === button && pinned) close();
+      else open(button, true);
+    } else close();
+  });
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key === 'Escape' && trigger) {
+        event.preventDefault();
+        event.stopPropagation();
+        close();
+      }
+    },
+    true
+  );
+  window.addEventListener('resize', place);
+  window.addEventListener('scroll', place, true);
 }

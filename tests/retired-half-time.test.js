@@ -1,2 +1,14 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {quoteAvailable} from '../quote-policy.js';import {selectionResult} from '../model.js';
-test('aucune cote H1 jouable, même dans un ancien cache valide',()=>{const m={odds:{h1Home:2,home:2},realOddsMarkets:['h1Home','home'],oddsBookmakerCounts:{h1Home:12,home:12},marketValidUntil:{h1Home:new Date(Date.now()+3600000).toISOString()}};assert.equal(quoteAvailable(m,'h1Home'),false);assert.equal(quoteAvailable(m,'home'),true)});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { quoteAvailable } from '../quote-policy.js';
+import { selectionResult } from '../model.js';
+test('aucune cote H1 jouable, même dans un ancien cache valide', () => {
+  const m = {
+    odds: { h1Home: 2, home: 2 },
+    realOddsMarkets: ['h1Home', 'home'],
+    oddsBookmakerCounts: { h1Home: 12, home: 12 },
+    marketValidUntil: { h1Home: new Date(Date.now() + 3600000).toISOString() }
+  };
+  assert.equal(quoteAvailable(m, 'h1Home'), false);
+  assert.equal(quoteAvailable(m, 'home'), true);
+});

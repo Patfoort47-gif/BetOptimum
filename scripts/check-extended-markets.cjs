@@ -1,3 +1,129 @@
-const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
-const base='http://127.0.0.1:4173',mock=fs.readFileSync(__dirname+'/check-public-ui.cjs','utf8').match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
-(async()=>{const now=Date.now(),date=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris'}).format(now),odds={home:2,draw:3.4,away:4,over:1.9,btts:1.8,under:2,bttsNo:2.1,over15:1.3,under15:3,over35:3,under35:1.4,homeDraw:1.3,drawAway:1.6,homeAway:1.2,homeDnb:1.8,awayDnb:2.2,homeOver15:2,awayUnder05:2.5},match={id:'espn-1',date,time:'23:59',kickoff:new Date(now+7200000).toISOString(),league:'Serie A',home:'Fiorentina',away:'Sassuolo',homeGoals:1.5,awayGoals:1,odds,realOddsMarkets:Object.keys(odds),bookmakerOffers:[{key:'a',name:'Book A',...odds,...Object.fromEntries(Object.keys(odds).map(k=>[k+'UpdatedAt',new Date(now).toISOString()]))}]},browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});try{for(const width of [320,390,1280]){const p=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin!==base)return r.abort();if(u.pathname.endsWith('/account.js'))return r.fulfill({contentType:'text/javascript',body:mock});if(u.pathname.endsWith('/data/fixtures.json'))return r.fulfill({json:{generatedAt:new Date(now).toISOString(),matches:[match],settlements:[]}});if(u.pathname.endsWith('/data/predictions-history.json'))return r.fulfill({json:[]});return r.continue()});await p.goto(base);const card=p.locator('#match-espn-1');await card.waitFor();assert.equal(await card.locator('.market:visible').count(),5);for(const family of ['Résultat','Buts','Équipes']){const d=card.locator(`details[data-stats="espn-1-${family}"]`);await d.locator('summary').click();assert.equal(await d.evaluate(el=>el.open),true)}assert.equal(await card.locator('.market:visible').count(),Object.keys(odds).length);await card.locator('[data-market=homeDnb]').click();assert.match(await p.locator('#ticket-items').textContent(),/remboursé si nul/);assert.match(await card.locator('[data-market=homeDnb]').textContent(),/nul remboursé/);await card.locator('[data-market=homeOver15]').click();assert.equal(await p.locator('#ticket-items [data-remove]').count(),1);assert.match(await p.locator('#ticket-items').textContent(),/Fiorentina : plus de 1,5 buts/);assert.equal(await card.locator('details[data-stats="espn-1-Équipes"]').evaluate(el=>el.open),true);await card.locator('details[data-stats="espn-1"]>summary').click();await card.locator('.bookmaker-comparison>summary').click();assert.equal(await card.locator('.bookmaker-comparison th').count(),Object.keys(odds).length+1);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),width);await p.addScriptTag({path:require.resolve('axe-core/axe.min.js')});const result=await p.evaluate(()=>axe.run(document.getElementById('match-espn-1'),{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));assert.deepEqual(result.violations.map(v=>v.id),[]);assert.deepEqual(errors,[]);console.log('BET-153 UI OK',width,': familles, remboursement, ligne équipe, ticket, comparaison, débordement et accessibilité');await p.close()}}finally{await browser.close()}})().catch(e=>{console.error(e);process.exit(1)});
+const { chromium } = require('playwright'),
+  assert = require('node:assert/strict'),
+  fs = require('node:fs');
+const base = 'http://127.0.0.1:4173',
+  mock = fs
+    .readFileSync(__dirname + '/check-public-ui.cjs', 'utf8')
+    .match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
+(async () => {
+  const now = Date.now(),
+    date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris' }).format(now),
+    odds = {
+      home: 2,
+      draw: 3.4,
+      away: 4,
+      over: 1.9,
+      btts: 1.8,
+      under: 2,
+      bttsNo: 2.1,
+      over15: 1.3,
+      under15: 3,
+      over35: 3,
+      under35: 1.4,
+      homeDraw: 1.3,
+      drawAway: 1.6,
+      homeAway: 1.2,
+      homeDnb: 1.8,
+      awayDnb: 2.2,
+      homeOver15: 2,
+      awayUnder05: 2.5
+    },
+    match = {
+      id: 'espn-1',
+      date,
+      time: '23:59',
+      kickoff: new Date(now + 7200000).toISOString(),
+      league: 'Serie A',
+      home: 'Fiorentina',
+      away: 'Sassuolo',
+      homeGoals: 1.5,
+      awayGoals: 1,
+      odds,
+      realOddsMarkets: Object.keys(odds),
+      bookmakerOffers: [
+        {
+          key: 'a',
+          name: 'Book A',
+          ...odds,
+          ...Object.fromEntries(
+            Object.keys(odds).map((k) => [k + 'UpdatedAt', new Date(now).toISOString()])
+          )
+        }
+      ]
+    },
+    browser = await chromium.launch({
+      executablePath: '/usr/bin/chromium',
+      args: ['--no-sandbox']
+    });
+  try {
+    for (const width of [320, 390, 1280]) {
+      const p = await browser.newPage({
+          viewport: { width, height: 900 },
+          reducedMotion: 'reduce'
+        }),
+        errors = [];
+      p.on('pageerror', (e) => errors.push(e.message));
+      await p.route('**/*', (r) => {
+        const u = new URL(r.request().url());
+        if (u.origin !== base) return r.abort();
+        if (u.pathname.endsWith('/account.js'))
+          return r.fulfill({ contentType: 'text/javascript', body: mock });
+        if (u.pathname.endsWith('/data/fixtures.json'))
+          return r.fulfill({
+            json: { generatedAt: new Date(now).toISOString(), matches: [match], settlements: [] }
+          });
+        if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });
+        return r.continue();
+      });
+      await p.goto(base);
+      const card = p.locator('#match-espn-1');
+      await card.waitFor();
+      assert.equal(await card.locator('.market:visible').count(), 5);
+      for (const family of ['Résultat', 'Buts', 'Équipes']) {
+        const d = card.locator(`details[data-stats="espn-1-${family}"]`);
+        await d.locator('summary').click();
+        assert.equal(await d.evaluate((el) => el.open), true);
+      }
+      assert.equal(await card.locator('.market:visible').count(), Object.keys(odds).length);
+      await card.locator('[data-market=homeDnb]').click();
+      assert.match(await p.locator('#ticket-items').textContent(), /remboursé si nul/);
+      assert.match(await card.locator('[data-market=homeDnb]').textContent(), /nul remboursé/);
+      await card.locator('[data-market=homeOver15]').click();
+      assert.equal(await p.locator('#ticket-items [data-remove]').count(), 1);
+      assert.match(await p.locator('#ticket-items').textContent(), /Fiorentina : plus de 1,5 buts/);
+      assert.equal(
+        await card.locator('details[data-stats="espn-1-Équipes"]').evaluate((el) => el.open),
+        true
+      );
+      await card.locator('details[data-stats="espn-1"]>summary').click();
+      await card.locator('.bookmaker-comparison>summary').click();
+      assert.equal(
+        await card.locator('.bookmaker-comparison th').count(),
+        Object.keys(odds).length + 1
+      );
+      assert.equal(await p.evaluate(() => document.documentElement.scrollWidth), width);
+      await p.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
+      const result = await p.evaluate(() =>
+        axe.run(document.getElementById('match-espn-1'), {
+          runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] }
+        })
+      );
+      assert.deepEqual(
+        result.violations.map((v) => v.id),
+        []
+      );
+      assert.deepEqual(errors, []);
+      console.log(
+        'BET-153 UI OK',
+        width,
+        ': familles, remboursement, ligne équipe, ticket, comparaison, débordement et accessibilité'
+      );
+      await p.close();
+    }
+  } finally {
+    await browser.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

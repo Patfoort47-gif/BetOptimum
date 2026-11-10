@@ -1,8 +1,115 @@
-import {registerAppWorker} from './pwa.js';
-export async function mountWebPush(root,{api,config,html,toast}){
- let alive=true,prefs=null,busy=false;const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),installed=!!navigator.standalone||globalThis.matchMedia?.('(display-mode: standalone)').matches;const supported=(!ios||installed)&&typeof Notification!=='undefined'&&typeof PushManager!=='undefined'&&'serviceWorker'in navigator;
- const render=()=>{if(!alive)return;root.innerHTML=`<section class="settings-card"><h3>Notifications sur cet appareil</h3><p>Retrouvez le défi du jour, vos résultats et les alertes de vos équipes favorites, sans plafond quotidien. Les doublons et les messages expirés sont écartés.</p><label class="switch-line"><input type="checkbox" data-web-push ${prefs?.enabled?'checked':''} ${supported&&config.available.web&&!busy?'':'disabled'}><span>Activer les notifications push</span></label><label class="switch-line"><input type="checkbox" data-web-essential ${prefs?.essential?'checked':''} ${prefs?.enabled&&!busy?'':'disabled'}><span>Mode Éco / Essentiel<small>Uniquement les résultats de vos paris validés par le serveur. Les opportunités, rappels et résumés quotidiens sont coupés.</small></span></label><div class="daily-challenge-reminder"><h4>Votre défi du jour</h4><p>Installez BetOptimum pour retrouver le défi en un geste et recevoir son rappel sur téléphone.</p><button type="button" class="button secondary" data-install-app ${installed?'hidden':''}>Installer BetOptimum</button><label class="switch-line"><input type="checkbox" data-daily-challenge-reminder ${prefs?.daily_challenge_reminder?'checked':''} ${prefs?.enabled&&!prefs?.essential&&config.available.web&&!busy?'':'disabled'}><span>Je souhaite un rappel quotidien du défi du jour<small>À 10 h dans le fuseau ${html(prefs?.timezone??'Europe/Paris')}, de 10 h à 10 h 15, seulement s’il reste un pronostic jouable non rempli. Les heures silencieuses et le mode Essentiel sont respectés. Désactivable ici à tout moment.</small></span></label></div><label class="switch-line"><input type="checkbox" data-daily-summary ${prefs?.daily_summary?'checked':''} ${prefs?.enabled&&!prefs?.essential&&!busy?'':'disabled'}><span>Recevoir les trois conseils du jour à 9 h<small>Dans le fuseau ${html(prefs?.timezone??'Europe/Paris')}, indépendamment de vos favoris. Résumé réduit si moins de trois conseils sont disponibles, aucun envoi sans conseil. Fenêtre d’envoi : 9 h à 9 h 15.</small></span></label><label class="switch-line"><input type="checkbox" data-favorite-reminders ${prefs?.favorite_reminders?'checked':''} ${prefs?.enabled&&!prefs?.essential&&config.available.web&&!busy?'':'disabled'}><span>Me rappeler les matchs de mes équipes favorites 2 h avant<small>Un rappel par match avec le conseil, sa cote et sa confiance lorsqu’ils sont disponibles. Le délai peut varier de quelques minutes. Les heures silencieuses sont respectées (22 h à 8 h par défaut).</small></span></label><p>Les équipes favorites sont celles de votre compte. Suivre un championnat seul ne déclenche aucune alerte. Le rappel ouvre la fiche du match pour préparer votre prono virtuel.</p>${!supported?'<p>Sur iPhone/iPad, installez d’abord l’application sur l’écran d’accueil (iOS 16.4 ou version ultérieure).</p>':!config.available.web?'<p>Le service push doit être configuré avant activation.</p>':''}<p role="status" data-web-feedback></p></section>`};
- try{const data=await api.web();prefs=data.preferences;render()}catch{root.innerHTML='<p role="status">Les paramètres push sont indisponibles.</p>'}
- const change=async e=>{if(!e.target.matches('[data-web-push],[data-favorite-reminders],[data-web-essential],[data-daily-summary],[data-daily-challenge-reminder]')||busy)return;const reminder=e.target.matches('[data-favorite-reminders]');const enable=e.target.checked;busy=true;render();try{if(e.target.matches('[data-daily-challenge-reminder]')){await api.saveWeb({...prefs,daily_challenge_reminder:enable})}else if(e.target.matches('[data-daily-summary]')){await api.saveWeb({...prefs,daily_summary:enable})}else if(e.target.matches('[data-web-essential]')){await api.saveWeb({...prefs,essential:enable})}else if(reminder){await api.saveWeb({...prefs,favorite_reminders:enable})}else if(enable){const permission=await Notification.requestPermission();if(permission!=='granted')throw Error('Autorisation refusée. Vous pouvez la modifier dans les paramètres du navigateur.');if(!alive)return;const worker=await registerAppWorker();await navigator.serviceWorker.ready;if(!alive)return;const publicKey=Uint8Array.from(atob(config.vapid.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));const subscription=await worker.pushManager.getSubscription()??await worker.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:publicKey});if(!alive){await subscription.unsubscribe();return}await api.action({action:'connect',channel:'web',destination:subscription.toJSON()});await api.saveWeb({...prefs,enabled:true})}else{await api.disconnectWeb();const worker=await registerAppWorker();const subscription=await worker.pushManager.getSubscription();await subscription?.unsubscribe()}const data=await api.web();prefs=data.preferences;toast(e.target.matches('[data-daily-challenge-reminder]')?(enable?'Rappel du défi activé.':'Rappel du défi désactivé.'):e.target.matches('[data-daily-summary]')?(enable?'Résumé de 9 h activé.':'Résumé de 9 h désactivé.'):e.target.matches('[data-web-essential]')?'Préférences push enregistrées.':reminder?(enable?'Rappels des favoris activés.':'Rappels des favoris désactivés.'):(enable?'Notifications push activées.':'Notifications push désactivées.'))}catch(error){if(alive)toast(error.message)}finally{busy=false;render()}};
- root.addEventListener('change',change);return{destroy(){alive=false;root.removeEventListener('change',change)}};
+import { registerAppWorker } from './pwa.js';
+export async function mountWebPush(root, { api, config, html, toast }) {
+  let alive = true,
+    prefs = null,
+    busy = false;
+  const ios =
+      /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
+    installed =
+      !!navigator.standalone || globalThis.matchMedia?.('(display-mode: standalone)').matches;
+  const supported =
+    (!ios || installed) &&
+    typeof Notification !== 'undefined' &&
+    typeof PushManager !== 'undefined' &&
+    'serviceWorker' in navigator;
+  const render = () => {
+    if (!alive) return;
+    root.innerHTML = `<section class="settings-card"><h3>Notifications sur cet appareil</h3><p>Retrouvez le défi du jour, vos résultats et les alertes de vos équipes favorites, sans plafond quotidien. Les doublons et les messages expirés sont écartés.</p><label class="switch-line"><input type="checkbox" data-web-push ${prefs?.enabled ? 'checked' : ''} ${supported && config.available.web && !busy ? '' : 'disabled'}><span>Activer les notifications push</span></label><label class="switch-line"><input type="checkbox" data-web-essential ${prefs?.essential ? 'checked' : ''} ${prefs?.enabled && !busy ? '' : 'disabled'}><span>Mode Éco / Essentiel<small>Uniquement les résultats de vos paris validés par le serveur. Les opportunités, rappels et résumés quotidiens sont coupés.</small></span></label><div class="daily-challenge-reminder"><h4>Votre défi du jour</h4><p>Installez BetOptimum pour retrouver le défi en un geste et recevoir son rappel sur téléphone.</p><button type="button" class="button secondary" data-install-app ${installed ? 'hidden' : ''}>Installer BetOptimum</button><label class="switch-line"><input type="checkbox" data-daily-challenge-reminder ${prefs?.daily_challenge_reminder ? 'checked' : ''} ${prefs?.enabled && !prefs?.essential && config.available.web && !busy ? '' : 'disabled'}><span>Je souhaite un rappel quotidien du défi du jour<small>À 10 h dans le fuseau ${html(prefs?.timezone ?? 'Europe/Paris')}, de 10 h à 10 h 15, seulement s’il reste un pronostic jouable non rempli. Les heures silencieuses et le mode Essentiel sont respectés. Désactivable ici à tout moment.</small></span></label></div><label class="switch-line"><input type="checkbox" data-daily-summary ${prefs?.daily_summary ? 'checked' : ''} ${prefs?.enabled && !prefs?.essential && !busy ? '' : 'disabled'}><span>Recevoir les trois conseils du jour à 9 h<small>Dans le fuseau ${html(prefs?.timezone ?? 'Europe/Paris')}, indépendamment de vos favoris. Résumé réduit si moins de trois conseils sont disponibles, aucun envoi sans conseil. Fenêtre d’envoi : 9 h à 9 h 15.</small></span></label><label class="switch-line"><input type="checkbox" data-favorite-reminders ${prefs?.favorite_reminders ? 'checked' : ''} ${prefs?.enabled && !prefs?.essential && config.available.web && !busy ? '' : 'disabled'}><span>Me rappeler les matchs de mes équipes favorites 2 h avant<small>Un rappel par match avec le conseil, sa cote et sa confiance lorsqu’ils sont disponibles. Le délai peut varier de quelques minutes. Les heures silencieuses sont respectées (22 h à 8 h par défaut).</small></span></label><p>Les équipes favorites sont celles de votre compte. Suivre un championnat seul ne déclenche aucune alerte. Le rappel ouvre la fiche du match pour préparer votre prono virtuel.</p>${!supported ? '<p>Sur iPhone/iPad, installez d’abord l’application sur l’écran d’accueil (iOS 16.4 ou version ultérieure).</p>' : !config.available.web ? '<p>Le service push doit être configuré avant activation.</p>' : ''}<p role="status" data-web-feedback></p></section>`;
+  };
+  try {
+    const data = await api.web();
+    prefs = data.preferences;
+    render();
+  } catch {
+    root.innerHTML = '<p role="status">Les paramètres push sont indisponibles.</p>';
+  }
+  const change = async (e) => {
+    if (
+      !e.target.matches(
+        '[data-web-push],[data-favorite-reminders],[data-web-essential],[data-daily-summary],[data-daily-challenge-reminder]'
+      ) ||
+      busy
+    )
+      return;
+    const reminder = e.target.matches('[data-favorite-reminders]');
+    const enable = e.target.checked;
+    busy = true;
+    render();
+    try {
+      if (e.target.matches('[data-daily-challenge-reminder]')) {
+        await api.saveWeb({ ...prefs, daily_challenge_reminder: enable });
+      } else if (e.target.matches('[data-daily-summary]')) {
+        await api.saveWeb({ ...prefs, daily_summary: enable });
+      } else if (e.target.matches('[data-web-essential]')) {
+        await api.saveWeb({ ...prefs, essential: enable });
+      } else if (reminder) {
+        await api.saveWeb({ ...prefs, favorite_reminders: enable });
+      } else if (enable) {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted')
+          throw Error(
+            'Autorisation refusée. Vous pouvez la modifier dans les paramètres du navigateur.'
+          );
+        if (!alive) return;
+        const worker = await registerAppWorker();
+        await navigator.serviceWorker.ready;
+        if (!alive) return;
+        const publicKey = Uint8Array.from(
+          atob(config.vapid.replace(/-/g, '+').replace(/_/g, '/')),
+          (c) => c.charCodeAt(0)
+        );
+        const subscription =
+          (await worker.pushManager.getSubscription()) ??
+          (await worker.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: publicKey
+          }));
+        if (!alive) {
+          await subscription.unsubscribe();
+          return;
+        }
+        await api.action({ action: 'connect', channel: 'web', destination: subscription.toJSON() });
+        await api.saveWeb({ ...prefs, enabled: true });
+      } else {
+        await api.disconnectWeb();
+        const worker = await registerAppWorker();
+        const subscription = await worker.pushManager.getSubscription();
+        await subscription?.unsubscribe();
+      }
+      const data = await api.web();
+      prefs = data.preferences;
+      toast(
+        e.target.matches('[data-daily-challenge-reminder]')
+          ? enable
+            ? 'Rappel du défi activé.'
+            : 'Rappel du défi désactivé.'
+          : e.target.matches('[data-daily-summary]')
+            ? enable
+              ? 'Résumé de 9 h activé.'
+              : 'Résumé de 9 h désactivé.'
+            : e.target.matches('[data-web-essential]')
+              ? 'Préférences push enregistrées.'
+              : reminder
+                ? enable
+                  ? 'Rappels des favoris activés.'
+                  : 'Rappels des favoris désactivés.'
+                : enable
+                  ? 'Notifications push activées.'
+                  : 'Notifications push désactivées.'
+      );
+    } catch (error) {
+      if (alive) toast(error.message);
+    } finally {
+      busy = false;
+      render();
+    }
+  };
+  root.addEventListener('change', change);
+  return {
+    destroy() {
+      alive = false;
+      root.removeEventListener('change', change);
+    }
+  };
 }
