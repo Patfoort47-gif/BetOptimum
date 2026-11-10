@@ -18,6 +18,8 @@ export function passwordStrength(value) {
 // Messages d'erreur Supabase traduits : aucune erreur n'est affichée en anglais.
 export function translateAuthError(error) {
   const text = String(error?.message ?? error ?? '').toLowerCase(), code = String(error?.code ?? '').toLowerCase(), status = Number(error?.status ?? 0);
+  if(code==='auth_required'||text.includes('auth_required'))return 'Connectez-vous pour vérifier un pseudo.';
+  if(text.includes('trop_verifications_pseudo'))return 'Trop de vérifications de pseudo : patientez une minute.';
   if(code==='provider_disabled'||text.includes('provider is not enabled')||text.includes('unsupported provider'))return 'La connexion Google est temporairement indisponible. Utilisez votre email ou réessayez plus tard.';
   if(code==='access_denied')return 'Connexion Google annulée ou refusée. Vous pouvez réessayer.';
   if (code === 'invalid_credentials' || text.includes('invalid login credentials')) return 'Email ou mot de passe incorrect.';

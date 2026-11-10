@@ -134,3 +134,7 @@ La page HTML d’aperçu est hébergée séparément avec Sites : le domaine Sup
 ## V62 · invitations privées sécurisées (BET-304)
 
 Après V61, publier l’interface qui accepte les codes longs et les refus JSON, puis appliquer `supabase/migrations/supabase-v62-schema.sql`. Les anciens codes restent valides. Nouveaux codes sur pgcrypto, huit caractères ; dix codes incorrects par compte sur une heure glissante. Guide et recette isolée : `docs/SECURITY_LOT15.md`.
+
+## V63 · vérification des pseudos (BET-306)
+
+Après V62 et publication du formulaire sans recherche anonyme, appliquer `supabase/migrations/supabase-v63-schema.sql`. Appels de disponibilité réservés aux comptes connectés, vingt par minute ; générateur interne inaccessible par RPC aux rôles anon et authenticated. Déclencheur d’inscription préservé. Recettes et limites : `docs/SECURITY_LOT15.md`.

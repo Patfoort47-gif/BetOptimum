@@ -33,4 +33,5 @@ jobs:
           node scripts/check-personal-dashboard-sql.cjs
           node scripts/check-history-cursor-sql.cjs
           node scripts/check-private-security-sql.mjs
+          node scripts/check-nickname-security-sql.mjs
       - run: node scripts/prepare-pages.mjs

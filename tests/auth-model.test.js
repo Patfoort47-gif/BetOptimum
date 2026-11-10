@@ -39,3 +39,5 @@ test('les préférences d’inscription sont nettoyées : club, compétitions co
   assert.equal(A.sanitizePreferences({club:{id:'1',name:'x'.repeat(100)}}).club.name.length,40);
   assert.deepEqual(A.RISK_STYLES,{prudent:'safe',equilibre:'balanced',audacieux:'bold'});
 });
+
+test('BET-306 : messages de limitation des vérifications de pseudo',()=>{assert.match(A.translateAuthError({message:'TROP_VERIFICATIONS_PSEUDO'}),/une minute/);assert.match(A.translateAuthError({code:'AUTH_REQUIRED'}),/Connectez-vous/)});
