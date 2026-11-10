@@ -33,7 +33,7 @@ const providerMap = {
 };
 const giants = ['Real Madrid','Barcelona','Manchester City','Manchester United','Liverpool','Arsenal','Chelsea','Bayern','Paris Saint-Germain','Marseille','Internazionale','Milan','Juventus','Napoli','Atlético Madrid','Borussia Dortmund'];
 const voidStatuses = new Set(['STATUS_CANCELED', 'STATUS_ABANDONED']);
-const smallLogo=url=>typeof url==='string'?url.replace('/500-dark/','/96-dark/').replace('/500/','/96/'):null;
+const smallLogo=url=>{if(typeof url!=='string')return null;const source=url.split('?')[0].replace('/96-dark/','/500-dark/').replace('/96/','/500/');return `${source}?h=96&w=96`};
 const dateKey = date => date.toISOString().slice(0, 10).replaceAll('-', '');
 const start = new Date(); start.setUTCHours(0, 0, 0, 0);
 const historyStart = new Date(start); historyStart.setUTCDate(historyStart.getUTCDate() - 3);
