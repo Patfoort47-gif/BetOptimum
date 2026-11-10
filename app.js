@@ -1,3 +1,5 @@
+import { dailyShare } from './src/sharing/daily-share.js';
+import { shareVisualCard } from './src/sharing/visual-card.js';
 import { closingMarkup } from './src/history/closing-odds.js';
 import { matchPreviewMarkup } from './src/matches/match-preview.js';
 import { decimal } from './src/core/number-format.js';
@@ -2882,9 +2884,26 @@ function renderDaily() {
             : '';
       return `<div class="daily-row${closed ? ' closed' : ''}" aria-busy="${dailySubmitting.has(pick.matchId)}"><span class="daily-league">${logoTag('league-logo small', leagueLogoUrl(pick.league), pick.league)}${html(pick.league)} · ${time}</span><span class="daily-teams">${logoTag('crest mini', match?.homeLogo, pick.home)}<strong>${html(pick.home)}</strong><em>contre</em>${logoTag('crest mini', match?.awayLogo, pick.away)}<strong>${html(pick.away)}</strong></span><span class="daily-odds">${['home', 'draw', 'away'].map((key) => (!closed && !dailyQuoteAvailable(pick, match, key) ? `<span class="daily-odd"><span>${labels[key]}</span><small>Cote indisponible</small></span>` : `<button class="daily-odd${own?.pick === key ? ' selected' : ''}" data-daily-match="${html(pick.matchId)}" data-daily-pick="${key}" ${closed || dailySubmitting.has(pick.matchId) || (own && own.status !== 'pending') ? 'disabled' : ''} aria-label="${html(pick.home)} contre ${html(pick.away)} : ${key === 'home' ? html(pick.home) + ' gagne' : key === 'away' ? html(pick.away) + ' gagne' : 'Match nul'} · cote ${decimal(Number(pick.odds[key]), 2)}" aria-pressed="${own?.pick === key}"><span>${labels[key]}</span><strong>${decimal(Number(pick.odds[key]), 2)}</strong></button>`)).join('')}</span><small class="daily-note">Cotes proposées à partir de 10 bookmakers par sélection</small>${result || `<small class="daily-note">${dailySubmitting.has(pick.matchId) ? 'Enregistrement en cours…' : closed ? 'Fermé au coup d’envoi' : own ? 'Prono enregistré · modifiable jusqu’au coup d’envoi' : 'Choisissez votre pronostic'}</small>`}</div>`;
     })
-    .join('')}</div>`;
+    .join(
+      ''
+    )}</div>${accountAuthenticated && played ? `<div class="daily-share"><p>Partager uniquement mes carrés de résultat et ma série, sans mise ni bankroll.</p><p>${html(dailyShare(challenge, state.dailyPicks)?.lines.slice(1, 3).join(' · ') ?? '')}</p><button class="button secondary" data-share-daily>Partager mon défi en image</button><a class="text-button" href="#defi-du-jour">Lien du défi du jour</a><small>Si le partage d’image n’est pas disponible, le PNG est téléchargé pour l’ajouter à votre message.</small></div>` : ''}`;
 }
 $('#daily-challenge')?.addEventListener('click', async (e) => {
+  if (e.target.closest('[data-share-daily]')) {
+    const payload = dailyShare(state.dailyChallenge, state.dailyPicks);
+    if (!accountAuthenticated || !payload) return;
+    try {
+      const result = await shareVisualCard(
+        payload,
+        location.origin + location.pathname + '#defi-du-jour'
+      );
+      if (result === 'downloaded')
+        toast('Image téléchargée : ajoutez-la à votre message avec le lien du défi.');
+    } catch {
+      toast('Le partage a échoué. Réessayez.');
+    }
+    return;
+  }
   const button = e.target.closest('[data-daily-pick]');
   if (!button) return;
   if (!accountAuthenticated) {

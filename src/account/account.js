@@ -271,7 +271,7 @@ export async function initAccountSync({
       ),
       client
         .from('daily_picks')
-        .select('id,day,match_id,pick,odd,status,points')
+        .select('id,day,match_id,pick,odd,status,points,placed_at')
         .order('placed_at', { ascending: false })
         .limit(200)
     ]);
