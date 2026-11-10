@@ -17,14 +17,14 @@ node --test --test-name-pattern="combiné" tests/app.test.js   # un seul test
 node scripts/update-results.mjs    # met à jour uniquement les scores ESPN (sans clé)
 ```
 
-Aucun linter ni formateur n'est configuré. Lance `npm test` avant chaque commit.
+Prettier est un outil de développement uniquement, sans dépendance d’exécution ni étape de build du site. `npm run format` applique le style, `npm run format:check` le vérifie. Lance `npm test` avant chaque commit.
 
 ## Repères d'architecture
 
 - `data/fixtures.json` est le seul lien entre le pipeline (`scripts/*.mjs`, lancé par GitHub Actions) et le front. Il est régénéré et commité par un bot plusieurs fois par jour : fais `git pull --rebase` avant de pousser, et ne le modifie pas à la main.
 - `model.js` : calculs purs (Poisson, value, combinés, règlement), importés à la fois par `app.js` et par `scripts/update-fixtures.mjs`. Changer la logique de pronostic ici change le site **et** les pronostics enregistrés par le pipeline.
 - `app.js` : interface, rendu par `innerHTML` depuis un objet `state` global. `details.js` est chargé à l’ouverture d’une fiche ; `account.js` démarre avec le site pour restaurer la session. Le direct ESPN utilise un scoreboard daté, la veille puis le résumé du match en secours, avec un rafraîchissement toutes les 20 secondes.
-- `app.js` et `model.js` sont écrits en style très compact (une fonction par ligne) : garder ce style.
+- Le style commun est défini par `.prettierrc.json` (BET-312). Ne plus compacter les fonctions sur une ligne. Les données générées, les dépendances vendor et les migrations SQL historiques sont exclues.
 - `tests/app.test.js` charge `app.js` avec des stubs de `localStorage`, `location` et `document` : tout nouvel accès au DOM ou au navigateur au niveau module doit rester compatible (ou être protégé par `typeof window !== 'undefined'`).
 - La liste `leagues` de `scripts/update-fixtures.mjs`, celle de `scripts/update-results.mjs` et l'objet `LEAGUES` de `app.js` doivent garder les mêmes libellés.
 - Thèmes : couleurs en variables CSS, sombre sur `:root`, clair sur `:root.light`. `--accent` pour les aplats, `--accent-text` pour le texte et les traits.

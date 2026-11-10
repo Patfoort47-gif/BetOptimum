@@ -16,7 +16,7 @@ node scripts/update-fixtures.mjs   # régénère data/fixtures.json (requiert FO
 node scripts/update-results.mjs    # met à jour uniquement les scores ESPN (sans clé)
 ```
 
-Aucun linter ni formateur n'est configuré.
+Prettier est un outil de développement uniquement. Utiliser `npm run format`, `npm run format:check` et `npm test` avant chaque commit. Aucune dépendance d’exécution ni étape de build du site.
 
 ## Architecture
 
@@ -30,7 +30,7 @@ Trois morceaux qui communiquent par le fichier `data/fixtures.json` (et, pour le
 
 2. **Front (`app.js`, `index.html`, `styles.css`)**
    - `model.js` contient les calculs purs, sans DOM, importés à la fois par `app.js` et par `scripts/update-fixtures.mjs` (qui s'en sert pour figer `suggestedPick`) : `poisson`, `analyseMatch` (Poisson sur grille 0–8 buts → probabilités 1N2, +2,5 buts, BTTS et `value = proba × cote − 1`), `recommendedMarket`, `optimizeCombo` (recherche exhaustive sur 18 candidats max, profils `safe`/`balanced`/`bold`), `selectionResult`, `settleBet`. Changer la logique de pronostic ici change donc à la fois le site et les pronostics enregistrés par le pipeline.
-   - `app.js` est le reste de l'interface : rendu par `innerHTML` à partir d'un objet `state` global, avec `render()` qui actualise les éléments partagés et l’onglet actif. Les modifications du ticket mettent à jour les sélections sans recréer les cartes ; les cartes inchangées sont conservées. Il est écrit en style très compact (une fonction par ligne), tout comme `model.js` : garder ce style en les modifiant.
+   - `app.js` est le reste de l'interface : rendu par `innerHTML` à partir d'un objet `state` global, avec `render()` qui actualise les éléments partagés et l’onglet actif. Les modifications du ticket mettent à jour les sélections sans recréer les cartes ; les cartes inchangées sont conservées. Le style commun de `app.js`, `model.js` et des autres sources est défini par `.prettierrc.json` (BET-312) : ne plus compacter les fonctions sur une ligne.
    - Logos : `scripts/update-fixtures.mjs` enregistre pour chaque match les adresses `homeLogo`, `awayLogo` `leagueLogo` et `leagueLogoDark` renvoyées par l'API ESPN. Le site les charge en direct depuis `a.espncdn.com`, après un contrôle par `safeLogo()`. Pour les compétitions, il prend la version sombre en thème sombre et se rabat sur l'identifiant de `LEAGUES`. Les blasons des clubs n'ont pas de version sombre. Si une image manque ou ne charge pas, il affiche les initiales.
    - Compétitions : la barre horizontale ne montre que celles qui ont des matchs sur la période affichée, triées par importance (`rankedLeagues()`). Le bouton « Compétitions » ouvre la liste complète.
    - Animations : l’ancien écran d’accueil a été supprimé ; les actions et les cartes sont immédiatement visibles. Les animations respectent la préférence système de réduction des mouvements.

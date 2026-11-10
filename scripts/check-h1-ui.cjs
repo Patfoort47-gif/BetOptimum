@@ -1,7 +1,7 @@
 // Recette locale uniquement, prix simulés pour éprouver l'interface. Les preuves de couverture sont séparées.
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
 const base=process.env.BET_BASE_URL||'http://127.0.0.1:4173';assert(['localhost','127.0.0.1'].includes(new URL(base).hostname));
-const mock=fs.readFileSync(__dirname+'/check-public-ui.cjs','utf8').match(/const mock=`([\s\S]*?)`;/)[1];
+const mock=fs.readFileSync(__dirname+'/check-public-ui.cjs','utf8').match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
 const now=Date.now(),date=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(now),stamp=new Date(now).toISOString(),until=new Date(now+20*3600000).toISOString();
 function match(id,count){const odds={home:2,draw:3,away:4,over:2,btts:2,h1Home:2.1,h1Over05:1.5},keys=Object.keys(odds);return{id,date,time:'23:59',kickoff:new Date(now+7200000).toISOString(),league:'Ligue 1',home:id==='espn-1'?'Alpha':'Gamma',away:'Beta',homeGoals:1.5,awayGoals:1.1,odds,realOddsMarkets:keys,marketValidUntil:{h1Home:until,h1Over05:until},bookmakerOffers:Array.from({length:10},(_,i)=>({key:'book'+i,name:'Book '+i,...Object.fromEntries(keys.filter(k=>!k.startsWith('h1')||i<count).flatMap(k=>[[k,odds[k]],[k+'UpdatedAt',stamp]]))}))};}
 const fixtures={generatedAt:stamp,oddsRefreshedAt:stamp,matches:[match('espn-1',10),match('espn-2',9)],settlements:[]};

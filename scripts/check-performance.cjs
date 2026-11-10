@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const base=process.env.BET_BASE_URL||'http://127.0.0.1:4173';
 assert.ok(['localhost','127.0.0.1'].includes(new URL(base).hostname));
 const source=fs.readFileSync(__dirname+'/check-public-ui.cjs','utf8');
-const mock=source.match(/const mock=`([\s\S]*?)`;/)[1];
+const mock=source.match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
 const now=Date.now();
 const date=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
 const odds={home:2,draw:3,away:4,over:2,btts:2};
