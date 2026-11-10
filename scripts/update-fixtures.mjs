@@ -1,3 +1,4 @@
+import { trackClosingOdds } from '../src/history/closing-odds.js';
 import { buildMatchPreview } from '../src/matches/match-preview.js';
 import { teamForm } from '../src/matches/team-form.js';
 import { enrichHalfTimeResults } from './h1-results.mjs';
@@ -382,6 +383,7 @@ const enriched = unique.map((match) => {
     );
   match.suggestedPick = selectionSnapshot(match, previous);
   match.preview = buildMatchPreview(match);
+  match.quoteTracking = trackClosingOdds(match, previous);
   return match;
 });
 // Diagnostic de couverture à chaque collecte, sans nouvel appel fournisseur.

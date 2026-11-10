@@ -1,3 +1,4 @@
+import { closingMarkup } from './src/history/closing-odds.js';
 import { matchPreviewMarkup } from './src/matches/match-preview.js';
 import { decimal } from './src/core/number-format.js';
 import { escapeHtml as html } from './src/core/html.js';
@@ -1587,6 +1588,7 @@ function renderPredictionStats() {
   $('#prediction-sample').textContent =
     `${items.length} réglés · ${report.pending} en attente · ${report.voided} remboursés · ${report.invalid} sans cote exploitable. ${items.length < 30 ? 'Échantillon limité : prudence dans l’interprétation.' : ''}`;
   $('#prediction-calibration').innerHTML = renderCalibration(items);
+  $('#prediction-closing').innerHTML = closingMarkup(items);
   $('#prediction-showcase').innerHTML = renderPredictionShowcase(report, {
     html,
     money,
