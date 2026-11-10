@@ -11965,3 +11965,21 @@ section.club-ranking {
 .ev-neutral {
   color: var(--muted);
 }
+
+.match-explanation {
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.match-explanation small {
+  color: var(--accent-text);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.match-explanation p {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
