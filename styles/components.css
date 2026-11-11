@@ -11029,7 +11029,7 @@ section.club-ranking {
 }
 .install-guide {
   width: min(520px, calc(100% - 24px));
-  height: auto;
+  height: fit-content;
   max-height: calc(100dvh - 24px);
   margin: auto;
   padding: 20px;
@@ -12013,4 +12013,69 @@ section.club-ranking {
   width: 100%;
   color: var(--muted);
   overflow-wrap: anywhere;
+}
+
+/* Choix du thème dans le menu du profil. */
+#theme-dialog {
+  width: min(420px, calc(100% - 24px));
+  height: fit-content;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 24px 0 18px;
+  border: 0;
+}
+#theme-dialog .theme-option {
+  position: relative;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 15px;
+}
+#theme-dialog .theme-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.theme-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 88px;
+  border: 2px solid var(--line-strong);
+  border-radius: 16px;
+  background: var(--surface-2);
+}
+.theme-option:hover .theme-card {
+  border-color: var(--muted);
+}
+.theme-option input:checked + .theme-card {
+  border-color: var(--accent-text);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.theme-option input:focus-visible + .theme-card {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 4px;
+}
+.theme-hint {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.theme-options legend {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
 }

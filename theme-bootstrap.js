@@ -17,7 +17,7 @@
     const meta = document.querySelector('meta[name=theme-color]');
     if (meta) meta.content = dark ? '#0A0C0B' : '#F2F4F0';
     document.querySelectorAll?.('[data-theme-choice]').forEach((input) => {
-      input.checked = input.value === (preference ?? 'system');
+      input.checked = input.value === current();
     });
   };
   const change = () => {
