@@ -11742,78 +11742,158 @@ section.club-ranking {
   .match-card .match-hero .kickoff strong {
     font-size: 18px;
   }
+  /* BET-322 : les cotes et le conseil restent visibles sur téléphone. */
   .match-card .match-overview {
-    display: none;
-  }
-  .match-card .market-grid-wrap .market-categories,
-  .match-card .match-resources,
-  .match-card .match-disclaimer {
-    display: none;
-  }
-  .match-card .market-grid-wrap .predictions-heading {
-    display: none;
-  }
-  .match-card .market-grid-wrap .featured-markets {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 5px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
   }
-  .match-card .market-grid-wrap .featured-markets > .market {
-    position: relative;
-    display: none;
-    min-height: 52px;
-    height: auto;
-    padding: 5px;
-    grid-row: auto;
-    gap: 2px;
-    justify-content: center;
-    overflow: visible;
+  .match-card .recommended {
+    padding: 16px;
+    border-radius: 16px;
   }
-  .match-card .market-grid-wrap .featured-markets > .market[data-market='home'],
-  .match-card .market-grid-wrap .featured-markets > .market[data-market='draw'],
-  .match-card .market-grid-wrap .featured-markets > .market[data-market='away'] {
-    display: flex;
+  .match-card .match-selection {
+    grid-template-columns: minmax(0, 1fr) 82px;
+    gap: 10px 12px;
+    border-color: var(--accent-text);
+    background: linear-gradient(135deg, var(--surface), var(--accent-soft));
   }
-  .match-card .market-grid-wrap .market-label {
-    font-size: 9px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+  .match-card .match-selection .selection-title {
+    font-size: 20px;
+    line-height: 1.25;
   }
-  .match-card .market-grid-wrap .market-price > strong {
-    font-size: 17px;
-  }
-  .match-card .market-grid-wrap .market-numbers {
-    display: block;
-  }
-  .match-card .market-grid-wrap .market-price {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 4px;
-  }
-  .match-card .market-grid-wrap .market-price small {
-    font-size: 8px;
-  }
-  .match-card .market-grid-wrap .market > :not(.market-label):not(.market-numbers) {
-    display: none;
-  }
-  .match-card .market-grid-wrap .market-confidence {
-    display: none;
-  }
-  .match-card .market-grid-wrap .highest-confidence:after {
-    content: 'PRONO';
-    position: absolute;
-    top: -6px;
-    right: 3px;
-    padding: 2px 4px;
-    border-radius: 5px;
+  .match-card .match-selection .selection-price {
+    padding: 14px 8px;
     background: var(--accent);
     color: var(--on-accent);
-    font-size: 7px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+  }
+  .match-card .match-selection .selection-price small {
+    color: var(--on-accent);
+    font-size: 9px;
+  }
+  .match-card .selection-price b {
+    font-size: 30px;
+    white-space: nowrap;
+    letter-spacing: -0.04em;
+  }
+  .match-card .match-selection .selection-price {
+    min-width: 82px;
+    white-space: nowrap;
+    justify-self: end;
+  }
+  .match-card .match-outcome {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  .match-card .match-outcome h3 {
+    font-size: 14px;
+  }
+  .match-card .match-outcome .prob-legend {
+    font-size: 10px;
+  }
+  .match-card .match-outcome .prob-legend b {
+    font-size: 20px;
+  }
+  .match-card .match-outcome .prob-track {
+    height: 6px;
+  }
+  .match-card .selection-action {
+    padding-top: 10px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .match-card .match-resources {
+    display: grid;
+  }
+  .match-card .match-disclaimer {
+    display: block;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .match-card .market-grid-wrap .predictions-heading {
+    display: block;
+    margin: 10px 2px;
+  }
+  .match-card .market-grid-wrap .predictions-heading h3 {
+    font-size: 16px;
+  }
+  .match-card .market-grid-wrap .featured-markets,
+  .match-card .market-category > .markets {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .match-card .market-grid-wrap .featured-markets > .market {
+    display: flex;
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .match-card .market-grid-wrap .market {
+    min-width: 0;
+    min-height: 132px;
+    padding: 12px 10px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+  .match-card .market-grid-wrap .market-label {
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .match-card .market-grid-wrap .market .market-numbers {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    width: 100%;
+  }
+  .match-card .market-grid-wrap .market .market-price > strong {
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+  }
+  .match-card .market-grid-wrap .market .market-price small,
+  .match-card .market-grid-wrap .market .market-confidence small {
+    font-size: 9px;
+  }
+  .match-card .market-grid-wrap .market .market-meta {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .match-card .market-grid-wrap .market-categories {
+    display: grid;
+    margin-top: 10px;
+  }
+  .match-card .market-grid-wrap .market > .market-label {
+    font-size: 12px;
+    margin: 0;
+    min-height: 34px;
+  }
+  .match-card .market-grid-wrap .market > .confidence-ribbon {
+    display: none;
+  }
+  .match-card .market-grid-wrap .market .market-numbers {
+    margin: 0;
+    align-items: end;
+  }
+  .match-card .market-grid-wrap .market .market-price {
+    display: grid;
+    gap: 2px;
+  }
+  .match-card .market-grid-wrap .market .market-confidence {
+    display: grid;
+    gap: 2px;
+    text-align: right;
+  }
+  .match-card .market-grid-wrap .market .market-confidence > b {
+    font-size: 18px;
+  }
+  .match-card .market-grid-wrap .market .confidence-track {
+    height: 4px;
+  }
+  .match-card .market-grid-wrap .market .market-badges {
+    font-size: 10px;
+  }
+  .match-card .market-grid-wrap .market .market-badges .value {
+    font-size: 10px;
   }
 }
 

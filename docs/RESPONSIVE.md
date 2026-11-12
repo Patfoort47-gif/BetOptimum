@@ -17,3 +17,9 @@ npm test
 La recette utilise Chromium (`/usr/bin/chromium`, ou `BET_CHROMIUM`) et un serveur local (`BET_BASE_URL`, défaut `http://127.0.0.1:4173`). Les données et le compte sont simulés, les appels externes bloqués. Aucun compte ni pari n’est créé.
 
 Elle parcourt les cinq destinations principales à 17 largeurs de 320 à 2 560 px, dans les deux thèmes. Elle contrôle les débordements, les libellés visibles, les chevauchements avec les actions du compte et la hauteur réservée sous l’en-tête, puis ouvre et ferme le ticket mobile. Rapports et captures : `/tmp/bet-ui-report` (`BET_UI_REPORT` pour changer la destination).
+
+## Cotes et conseil sur téléphone (BET-322)
+
+Les cartes de match conservent la sélection conseillée, sa cote, tous les marchés mis en avant et les familles secondaires sur téléphone. Les prix restent soumis au seuil de dix bookmakers par sélection ; une couverture insuffisante affiche une explication visible. La grille mobile présente deux marchés par ligne, avec la source des cotes et leur date.
+
+`NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-mobile-cards.cjs` vérifie de 320 à 1 440 px, dans les deux thèmes : visibilité du conseil, des prix et des sources, absence de débordement, ajout unique au ticket et états de chargement, vide, erreur et couverture insuffisante. Les données et confirmations de paris sont simulées ; aucun pari réel n’est envoyé. La recette ferme le ticket avant de revenir aux matchs et suit l’action actuelle du calendrier vide.
