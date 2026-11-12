@@ -84,14 +84,28 @@ const assert = require('node:assert/strict'),
         matches: [{ ...match, bookmakerOffers: match.bookmakerOffers.slice(0, 9) }]
       }
     });
-    await missing.locator('.match-card').waitFor();
+    await missing.locator('[data-empty-challenges]').waitFor();
     assert.equal(await missing.locator('.match-card [data-market]').count(), 0);
-    assert.ok(await missing.locator('.match-overview').isVisible(), 'indisponibilité visible');
-    assert.match(
-      await missing.locator('.match-overview').textContent(),
-      /Aucune sélection admissible/
-    );
+    assert.match(await missing.locator('#match-list').textContent(), /Aucun match pertinent/);
     await missing.close();
+    const partial = await page(b, {
+      data: {
+        ...fixtures,
+        matches: [
+          {
+            ...match,
+            bookmakerOffers: match.bookmakerOffers.map((offer, i) =>
+              i < 9 ? offer : { ...offer, home: undefined }
+            )
+          }
+        ]
+      }
+    });
+    await partial.locator('.match-card').waitFor();
+    assert.equal(await partial.locator('.match-card [data-market="home"]').count(), 0);
+    assert.ok(await partial.locator('.match-selection').isVisible());
+    assert.ok((await partial.locator('.featured-markets > .market:visible').count()) > 0);
+    await partial.close();
     console.log('OK chargement, vide, erreur/réessayer et cote indisponible');
   } finally {
     await b.close();
