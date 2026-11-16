@@ -10036,6 +10036,12 @@ section.club-ranking {
   }
 }
 @media (max-width: 767px) {
+  .match-card .market-grid-wrap .featured-markets > .market:nth-child(n + 5) {
+    display: none;
+  }
+  .match-card .market-grid-wrap .market .market-meta {
+    display: none;
+  }
   #matches {
     padding-inline: 0;
   }
@@ -11639,10 +11645,13 @@ section.club-ranking {
     display: none;
   }
   #matches > #match-list {
-    order: 6;
+    order: 8;
   }
   #matches > #conseils-du-jour,
-  #matches > #daily-selection,
+  #matches > #daily-selection {
+    order: 6;
+    margin-top: 12px;
+  }
   #matches > #daily-challenge {
     order: 7;
     margin-top: 12px;
@@ -11827,6 +11836,9 @@ section.club-ranking {
     grid-column: auto;
     grid-row: auto;
   }
+  .match-card .market-grid-wrap .featured-markets > .market:nth-child(n + 5) {
+    display: none;
+  }
   .match-card .market-grid-wrap .market {
     min-width: 0;
     min-height: 132px;
@@ -11855,8 +11867,7 @@ section.club-ranking {
     font-size: 9px;
   }
   .match-card .market-grid-wrap .market .market-meta {
-    flex-wrap: wrap;
-    gap: 4px;
+    display: none;
   }
   .match-card .market-grid-wrap .market-categories {
     display: grid;

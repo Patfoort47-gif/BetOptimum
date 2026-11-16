@@ -118,6 +118,18 @@ test('conseils limités à trois matchs distincts, seuils conservés, cotes dat�
   }
   assert.equal(briefingPicks([match('past', '2026-10-30T06:00:00Z')], prefs, now).length, 0);
 });
+test('les horodatages par marché du flux alimentent les conseils du mailing', () => {
+  const m = match();
+  m.bookmakerOffers.forEach((offer) => {
+    delete offer.updatedAt;
+    offer.homeUpdatedAt = new Date(now - 60000).toISOString();
+    offer.drawUpdatedAt = new Date(now - 60000).toISOString();
+    offer.awayUpdatedAt = new Date(now - 60000).toISOString();
+    offer.overUpdatedAt = new Date(now - 60000).toISOString();
+    offer.bttsUpdatedAt = new Date(now - 60000).toISOString();
+  });
+  assert.ok(briefingPicks([m], prefs, now).length > 0);
+});
 test('les combinés sont comptés une fois, les multi-affiches et systèmes sont isolés', () => {
   const bets = [
     bet('a'),
