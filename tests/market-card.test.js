@@ -25,6 +25,7 @@ test('une offre ancienne reste signalée dans la vue courte et datée dans le d�
   assert.match(card, /Offre ancienne/);
   assert.match(card, /MOYENNE · 10/);
   assert.match(card, /EV estimée \+17,8 %/);
+  assert.match(card, /Potentiel \+55 %/);
   assert.match(card, /76/);
   assert.ok(!card.includes('(Paris)'));
   assert.match(sources, /Paris/);

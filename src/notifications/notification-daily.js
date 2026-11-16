@@ -5,7 +5,7 @@ export function planDailyPush(matches, prefs, now = Date.now()) {
     return null;
   const minute = localMinute(now, prefs.timezone);
   if (minute < 540 || minute >= 555) return null;
-  const picks = dailyPicks(matches, prefs.timezone, now);
+  const picks = dailyPicks(matches, prefs.timezone, now).slice(0, 1);
   if (!picks.length) return null;
   const expiry =
     now +

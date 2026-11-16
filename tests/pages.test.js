@@ -24,7 +24,6 @@ test('la publication contient les modules différés, styles et données, sans t
     for (const name of [
       'data/fixtures.json',
       'data/predictions-history.json',
-      'data/offers/2026-11-12.json',
       'styles/details.css',
       'styles/components.css',
       'fonts/inter-latin-400-normal.woff2',
@@ -34,6 +33,10 @@ test('la publication contient les modules différés, styles et données, sans t
       '.nojekyll'
     ])
       await access(new URL(name, out));
+    assert.ok(
+      (await readdir(new URL('data/offers/', out))).some((name) => name.endsWith('.json')),
+      'au moins un fichier d’offres publié'
+    );
     assert.ok(
       !names.some(
         (name) =>

@@ -29,11 +29,16 @@ const assert = require('node:assert/strict'),
         assert.ok((await markets.count()) > 3, 'plusieurs familles de marchés');
         assert.equal(
           await card.locator('.featured-markets > .market:visible').count(),
-          await markets.count()
+          width <= 767 ? 4 : await markets.count()
         );
-        for (const market of await markets.all()) {
+        for (const market of await card.locator('.featured-markets > .market:visible').all()) {
           assert.ok(await market.locator('.market-price strong').isVisible());
-          assert.ok(await market.locator('.market-meta').isVisible(), 'source de la cote visible');
+          assert.ok(await market.locator('.market-potential').isVisible(), 'potentiel visible');
+          assert.equal(
+            await market.locator('.market-meta').isVisible(),
+            width > 767,
+            'métadonnées adaptées au téléphone'
+          );
         }
         assert.ok(await card.locator('.match-disclaimer').isVisible());
         const selection = card.locator('.match-selection'),

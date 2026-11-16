@@ -29,10 +29,12 @@ test('résumé à 9 h dans le fuseau du compte, été comme hiver, sans filtrage
     const now = Date.parse(date),
       rows = matches(now);
     const e = planDailyPush(rows, prefs, now);
-    assert.equal(e.picks.length, 3);
+    assert.equal(e.picks.length, 1);
     assert.deepEqual(
       e.picks.map((p) => p.match_id),
-      dailyPicks(rows, prefs.timezone, now).map((x) => x.match.id)
+      dailyPicks(rows, prefs.timezone, now)
+        .slice(0, 1)
+        .map((x) => x.match.id)
     );
     assert.equal(e.date, date.slice(0, 10));
     assert.equal(planDailyPush(rows, prefs, now - 1), null);
@@ -58,7 +60,7 @@ test('consentement séparé, mode essentiel, silence et relecture des conseils a
   const updated = rows.map((m) => ({ ...m, odds: { home: 2.2 } }));
   assert.equal(dailyPushCurrent(e, prefs, updated, now).picks[0].odd, 2.2);
 });
-test('push quotidien : trois sélections avec cotes, lien de sélection et regroupement journalier', async () => {
+test('push quotidien : un conseil avec cote, lien de sélection et regroupement journalier', async () => {
   const now = Date.parse('2026-11-09T08:00:00Z'),
     e = planDailyPush(matches(now), prefs, now);
   let payload;
@@ -78,7 +80,7 @@ test('push quotidien : trois sélections avec cotes, lien de sélection et regro
     async (_, data) => (payload = JSON.parse(data))
   );
   assert.equal(result.status, 'sent');
-  assert.equal(payload.title, '3 conseils du jour');
+  assert.equal(payload.title, '1 conseil du jour');
   assert.match(payload.body, /Club 0 - Paris/);
   assert.match(payload.body, /cote 2.00/);
   assert.equal(payload.url, 'https://example.org/app/?conseils_tz=Europe%2FParis#conseils-du-jour');

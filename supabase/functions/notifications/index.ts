@@ -18,10 +18,6 @@ import {
   detectFavoriteReminders,
   favoriteReminderCurrent
 } from '../../../src/notifications/notification-reminder.js';
-import {
-  detectWebAlerts,
-  webEventCurrent
-} from '../../../src/notifications/notification-opportunity.js';
 import { decodeWorkerMatches } from '../../../src/notifications/notification-worker-codec.js';
 import {
   deliver,
@@ -192,7 +188,7 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
       }
       for (const event of remindersOnly
         ? detectFavoriteReminders(matches, snapshot?.preferences, snapshot?.favorites)
-        : detectWebAlerts(matches, snapshot?.preferences, snapshot?.favorites))
+        : [])
         if (
           await db('rpc/enqueue_web_notification', 'POST', {
             p_user: subscriber.user_id,
@@ -297,7 +293,7 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
                       snapshot.favorites,
                       matches
                     )
-                  : webEventCurrent(payload, snapshot.preferences, snapshot.favorites, matches));
+                  : false);
         if (!web || !snapshot?.preferences?.enabled || !valid) {
           await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
             status: 'cancelled'

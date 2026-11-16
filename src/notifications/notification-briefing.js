@@ -114,12 +114,22 @@ export function briefingRecommendations(matches, prefs, now = Date.now()) {
       continue;
     const fresh = {
       ...m,
-      bookmakerOffers: (m.bookmakerOffers ?? []).filter(
-        (o) =>
-          Number.isFinite(Date.parse(o.updatedAt)) &&
-          Date.parse(o.updatedAt) <= now &&
-          now - Date.parse(o.updatedAt) < 20 * 3600000
-      )
+      bookmakerOffers: (m.bookmakerOffers ?? [])
+        .map((offer) => {
+          const copy = { ...offer };
+          for (const key of Object.keys(m.odds ?? {})) {
+            const updatedAt = offer[`${key}UpdatedAt`] ?? offer.updatedAt,
+              updated = Date.parse(updatedAt);
+            if (!Number.isFinite(updated) || updated > now || now - updated >= 20 * 3600000)
+              delete copy[key];
+          }
+          return copy;
+        })
+        .filter((offer) =>
+          Object.keys(m.odds ?? {}).some(
+            (key) => Number.isFinite(Number(offer[key])) && Number(offer[key]) > 1
+          )
+        )
     };
     const pick = recommendedMarket(fresh);
     if (

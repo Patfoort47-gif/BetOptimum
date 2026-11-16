@@ -22,13 +22,13 @@ Aperçus fictifs : `node scripts/preview-notification-emails.mjs`, fichiers dans
 
 ## Smartphone
 
-Voir `docs/PWA_PUSH.md` pour installation, permission, minuteur et recette. Aucun plafond quotidien depuis BET-255 ; consentement, déduplication, silence nocturne et expiration restent actifs. Les équipes favorites seules déclenchent rappels et opportunités, jamais un championnat suivi seul.
+Voir `docs/PWA_PUSH.md` pour installation, permission, minuteur et recette. Consentement, déduplication, silence nocturne et expiration restent actifs. Les équipes favorites seules déclenchent les rappels à H-2, jamais un championnat suivi seul. Les alertes d’opportunité supplémentaires ne sont plus planifiées.
 
-Le résumé éditorial de 9 h dispose d’un choix séparé, désactivé par défaut et indépendant des favoris. Fuseau du compte (Europe/Paris par défaut), changements d’heure compris. Résumé de 1 à 3 conseils disponibles, aucun envoi sans conseil. Fenêtre de livraison 9 h à 9 h 15 ; pas de rattrapage tardif. Le mode Essentiel limite les push aux résultats certifiés et suspend les autres catégories.
+Le conseil principal de 9 h dispose d’un choix séparé, désactivé par défaut et indépendant des favoris. Fuseau du compte (Europe/Paris par défaut), changements d’heure compris. Un seul conseil, le plus recommandé par l’application, et aucun envoi sans conseil. Fenêtre de livraison 9 h à 9 h 15 ; pas de rattrapage tardif. Le mode Essentiel limite les push aux résultats certifiés et suspend les autres catégories.
 
 ## Traitements et déduplication
 
-Le workflow `notifications.yml` traite les emails et opportunités à sa cadence existante, avec le dernier fichier publié, sans consulter le fournisseur de cotes. Le minuteur Supabase à la minute traite rappels et résumés de 9 h depuis le calendrier serveur récent. Bail et heartbeat privés empêchent deux traitements simultanés du minuteur.
+Le workflow `notifications.yml` traite les emails avec le dernier fichier publié, sans consulter le fournisseur de cotes. Le minuteur Supabase à la minute traite rappels et conseil de 9 h depuis le calendrier serveur récent. Bail et heartbeat privés empêchent deux traitements simultanés du minuteur.
 
 La file privée réserve chaque événement avant l’envoi. Une réponse perdue ou un résultat incertain ne provoque aucun rejeu automatique. Les réponses 429 sont temporisées ; destinations expirées retirées, états incertains conservés pour diagnostic. Resend reçoit une clé d’idempotence par livraison. Les journaux et événements sont purgés après 30 jours.
 

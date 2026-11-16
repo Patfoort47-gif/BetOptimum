@@ -8,19 +8,19 @@ Le canal navigateur est indépendant du briefing email. Il exige un accord dans 
 
 La fonction Edge utilise `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `NOTIFICATION_ENCRYPTION_KEY` ; voir `NOTIFICATIONS_SETUP.md`. Les subscriptions sont privées, chiffrées et contrôlées par le serveur. Une nouvelle association exige un nouvel accord. Un désabonnement arrête les envois et annule les livraisons en attente.
 
-Depuis V58 (BET-255), aucun plafond quotidien de push. La déduplication, les heures silencieuses (22 h à 8 h par défaut), la relecture du consentement et l’expiration restent actifs. Le mode Essentiel (V56) n’affiche que les résultats des paris certifiés, sans montant, et suspend opportunités, rappels et résumés.
+La déduplication, les heures silencieuses (22 h à 8 h par défaut), la relecture du consentement et l’expiration restent actifs. Le mode Essentiel (V56) n’affiche que les résultats des paris certifiés, sans montant, et suspend rappels et conseil quotidien.
 
 ## Équipes favorites
 
-Seules les équipes favorites du compte déclenchent les rappels et opportunités. Un championnat favori seul ne déclenche plus de notification. Un match correspondant aux deux n’est traité qu’une fois.
+Seules les équipes favorites du compte déclenchent les rappels. Un championnat favori seul ne déclenche plus de notification. Un match correspondant aux deux n’est traité qu’une fois.
 
 Les rappels sont dus environ deux heures avant le match, pendant une fenêtre de 15 minutes. Ils indiquent match, sélection recommandée, cote et confiance quand un conseil valide est disponible, sinon son absence. Le toucher ouvre le match ; aucun pari n’est placé automatiquement. Le minuteur lit `fixtures.notification_pick`, alimenté par `scripts/sync-supabase.mjs` avec le modèle commun. Au moins dix bookmakers par sélection, prix et calendrier actuels, conseil relu avant livraison.
 
-Les opportunités utilisent `notification-opportunity.js` : équipes favorites, EV >= 10 %, confiance >= 65 %, dix bookmakers distincts et offres datées de moins de 20 h. Une opportunité par match et jour ; aucun rejeu après tentative incertaine.
+Les alertes d’opportunité supplémentaires ne sont plus réservées ni envoyées. Un pronostic reçoit au plus le conseil principal de 9 h ou son rappel à H-2 selon les préférences actives.
 
 ## Résumé quotidien de 9 h
 
-V59 (BET-257) ajoute `daily_summary`, désactivé par défaut. Le résumé est indépendant des favoris. À 9 h dans le fuseau du compte, Europe/Paris par défaut, le minuteur réserve un seul résumé compte/date avec les trois conseils du jour disponibles. S’il n’y en a qu’un ou deux, envoie ce nombre ; aucun envoi sans conseil. Fenêtre 9 h à 9 h 15, sans rattrapage après ; changements d’heure respectés.
+V59 (BET-257) ajoute `daily_summary`, désactivé par défaut. Le conseil est indépendant des favoris. À 9 h dans le fuseau du compte, Europe/Paris par défaut, le minuteur réserve un seul conseil compte/date avec le pronostic le plus recommandé disponible. Aucun envoi sans conseil. Fenêtre 9 h à 9 h 15, sans rattrapage après ; changements d’heure respectés.
 
 `daily-picks.js` est partagé avec la vue `#conseils-du-jour`. Le lien conserve le fuseau ; la vue montre les conseils et cotes actuels. Préférences, expiration et conseils sont relus avant envoi. Le mode Essentiel suspend ce résumé.
 
