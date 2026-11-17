@@ -20053,5 +20053,2137 @@
     ],
     "bytes": 53386,
     "checked": "2026-11-02"
+  },
+  {
+    "venue": {
+      "id": "6717",
+      "guid": "73193ef6-884d-302d-becf-7577b8aa722b",
+      "fullName": "Stadiumi Fadil Vokrri",
+      "shortName": "Stadiumi Fadil Vokrri",
+      "address": {
+        "city": "Prishtina",
+        "country": "Kosovo"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861163",
+    "eventId": "401861163",
+    "commonsPageId": 71665779,
+    "metadata": {
+      "DateTime": {
+        "value": "2018-08-16 12:47:18",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Fadil-Vokrri-Stadion (2018)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Fadil Vokrri Stadium|Association football in Kosovo|Self-published work|2018 in Pristina",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Der Eingang des Fadil-Vokrri-Stadions in Pristina, Kosovo",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2018-08-16",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:ElmedinRKS&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:ElmedinRKS (page does not exist)\">ElmedinRKS</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Fadil-Vokrri-Stadion_%282018%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6717.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 42234,
+    "checked": "2026-11-17",
+    "author": "ElmedinRKS",
+    "url": "https://commons.wikimedia.org/wiki/File:Fadil-Vokrri-Stadion_(2018).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "4795",
+      "guid": "413eebda-2f92-34d9-beb5-74d2bf872ebb",
+      "fullName": "Mikheil Meskhi Stadioni",
+      "shortName": "Mikheil Meskhi Stadioni",
+      "address": {
+        "city": "Tbilisi",
+        "country": "Georgia"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861164",
+    "eventId": "401861164",
+    "commonsPageId": 149753329,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-06-27 09:02:30",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Mikhain Meskhi Stadium 2024",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Mikheil Meskhi Stadium|Self-published work|Night in Tbilisi|Files with coordinates missing SDC location of creation|2024 in Tbilisi|June 2024 photographs|Georgia (country) photographs taken on 2024-06-26|Stadiums at night|Public screenings at UEFA Euro 2024 matches",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "41.709053",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "44.746567",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Трансляция матча Грузия-Португалия на стадионе Михаила Месхи в Тбилиси, 26 июня 2024 года",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "Taken on 26 June 2024, 21:55:14",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:%D0%9F%D1%80%D0%B8%D0%BA%D0%BB%D0%B8&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Прикли (page does not exist)\">Прикли</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/34/Mikhain_Meskhi_Stadium_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4795.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97110,
+    "checked": "2026-11-17",
+    "author": "Прикли",
+    "url": "https://commons.wikimedia.org/wiki/File:Mikhain_Meskhi_Stadium_2024.jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "venue": {
+      "id": "1392",
+      "guid": "8b98ad94-a5e1-3b18-a7c0-1d528fc0237e",
+      "fullName": "Ullevaal Stadion",
+      "address": {
+        "city": "Oslo",
+        "country": "Norway"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861165",
+    "eventId": "401861165",
+    "commonsPageId": 156917370,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-12-20 05:12:11",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Ullevaal Stadion, the Norway national football team home stadium in Oslo",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Ullevaal Stadion|Self-published work|Images with extracted images|Files with coordinates missing SDC location of creation|Aerial photographs of association football venues|Photographs by Quintin Soloviev",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "59.950569",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "10.735189",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Ullevaal Stadion, the Norway national football team home stadium in Oslo",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2023-09-21 11:20:38",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Quintinsoloviev\" class=\"mw-redirect\" title=\"User:Quintinsoloviev\">Quintin Soloviev</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Ullevaal_Stadion%2C_the_Norway_national_football_team_home_stadium_in_Oslo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1392.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 94924,
+    "checked": "2026-11-17",
+    "author": "Quintin Soloviev",
+    "url": "https://commons.wikimedia.org/wiki/File:Ullevaal_Stadion,_the_Norway_national_football_team_home_stadium_in_Oslo.jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "venue": {
+      "id": "1277",
+      "guid": "b0b1aa69-e9e1-3cdb-aee9-f8e04f670165",
+      "fullName": "Windsor Park",
+      "shortName": "Windsor Park",
+      "address": {
+        "city": "Belfast",
+        "country": "Northern Ireland"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861169",
+    "eventId": "401861169",
+    "commonsPageId": 50404010,
+    "metadata": {
+      "DateTime": {
+        "value": "2016-07-30 16:07:44",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Windsor Park redevelopment ",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Windsor Park Stadium|Self-published work|United Kingdom photographs taken on 2016-07-18|July 2016 in Belfast",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "An internal view of the Windsor park stadium redevelopment as it nears completion.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2016-07-18",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Citizen69&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Citizen69 (page does not exist)\">Citizen69</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Windsor_Park_redevelopment_.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1277.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 57072,
+    "checked": "2026-11-17",
+    "author": "Citizen69",
+    "url": "https://commons.wikimedia.org/wiki/File:Windsor_Park_redevelopment_.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "3439",
+      "guid": "4fe9c4bb-dc27-31fe-adbf-01bf4edf644c",
+      "fullName": "Estádio Municipal de Braga",
+      "shortName": "Estádio Municipal de Braga",
+      "address": {
+        "city": "Braga",
+        "country": "Portugal"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861167",
+    "eventId": "401861167",
+    "commonsPageId": 180385,
+    "metadata": {
+      "DateTime": {
+        "value": "2012-06-27 15:45:14",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Braga",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|User-created GFDL images|Estádio Municipal de Braga|License migration completed|Self-published work|Files with coordinates missing SDC location of creation",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "41.564012",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-8.430282",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Stadium in Braga, Portugal",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2004-04-06",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"https://pt.wikipedia.org/wiki/Usu%C3%A1rio:Manuel_Anast%C3%A1cio\" class=\"extiw\" title=\"pt:Usuário:Manuel Anastácio\">Manuel Anastácio</a> uploaded 2004-08-17",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "©Manuel Anastácio - para a wikipédia. Copyright GFDL. É dada permissão para copiar, distribuir e/ou modificar este documento sob os termos da Licença de Documentação Livre GNU, Versão 1.2 ou qualquer versão posterior publicada pela Free Software Foundation. Uma cópia da licença está inclusa na seção intitulada \"Licença de Documentação Livre GNU\"",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Manuel_Anast%C3%A1cio\" title=\"User:Manuel Anastácio\">Manuel Anastácio</a>",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Estadio_Braga.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-3439.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 76100,
+    "checked": "2026-11-17",
+    "author": "Manuel Anastácio uploaded 2004-08-17",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Braga.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "venue": {
+      "id": "4657",
+      "guid": "dd39cc3a-04cf-30ff-b600-30ba644b89c2",
+      "fullName": "National Arena",
+      "shortName": "National Arena",
+      "address": {
+        "city": "Bucuresti",
+        "country": "Romania"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861168",
+    "eventId": "401861168",
+    "commonsPageId": 122641575,
+    "metadata": {
+      "DateTime": {
+        "value": "2022-09-04 13:49:53",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Bucharest National Arena",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "CC-Zero|National Arena|Images from Pixabay|October 2016 in Bucharest",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Arena Națională is a retractable roof football stadium in Bucharest, Romania. It opened in 2011 on the site of the original National Stadium, which was demolished between 2007 and 2008.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2016-10-20",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://pixabay.com/photos/stadium-national-arena-bucuresti-1750100/\">https://pixabay.com/photos/stadium-national-arena-bucuresti-1750100/</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Marius Mandache",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/39/Bucharest_National_Arena.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4657.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 92982,
+    "checked": "2026-11-17",
+    "author": "Marius Mandache",
+    "url": "https://commons.wikimedia.org/wiki/File:Bucharest_National_Arena.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "10339",
+      "fullName": "Friends Arena",
+      "shortName": "Friends Arena",
+      "address": {
+        "city": "Stockholm",
+        "country": "Sweden"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861166",
+    "eventId": "401861166",
+    "commonsPageId": 25238497,
+    "metadata": {
+      "DateTime": {
+        "value": "2013-07-19 11:12:14",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Friends Arena from inside",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Self-published work|Taken with Samsung GT-I9100|Strawberry Arena",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Friends Arena (in Solna, Sweden) from inside.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2013-03-22 19:08:20",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Lighten-up&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Lighten-up (page does not exist)\">Lighten-up</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Friends_Arena_from_inside.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10339.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 94994,
+    "checked": "2026-11-17",
+    "author": "Lighten-up",
+    "url": "https://commons.wikimedia.org/wiki/File:Friends_Arena_from_inside.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "9639",
+      "fullName": "Alphamega Stadium",
+      "shortName": "Alphamega Stadium",
+      "address": {
+        "city": "Kolossi",
+        "country": "Cyprus"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861172",
+    "eventId": "401861172",
+    "commonsPageId": 189629904,
+    "metadata": {
+      "DateTime": {
+        "value": "2026-04-18 18:21:22",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Alphamega Stadium Limassol Westfront",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Limassol District|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Alphamega Stadium/New Stadium/Limassol Arena, West Stand",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2026-04-18 13:27:13",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Walmaul\" title=\"User:Walmaul\">Walmaul</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Alphamega_Stadium_Limassol_Westfront.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-9639.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 96772,
+    "checked": "2026-11-17",
+    "author": "Walmaul",
+    "url": "https://commons.wikimedia.org/wiki/File:Alphamega_Stadium_Limassol_Westfront.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "11141",
+      "fullName": "Illovszky Rudolf Stadion",
+      "shortName": "Illovszky Rudolf Stadion",
+      "address": {
+        "city": "Budapest",
+        "country": "Hungary"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861173",
+    "eventId": "401861173",
+    "commonsPageId": 80388308,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-07-14 05:51:09",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Illovszky Rudolf Stadion (2019)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Self-published work|Illovszky Rudolf Stadion",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "The photo shows the newly-built stadium of the Hungarian association football club Vasas SC.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-06-22",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:RuthStevens&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:RuthStevens (page does not exist)\">RuthStevens</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Illovszky_Rudolf_Stadion_%282019%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-11141.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 56484,
+    "checked": "2026-11-17",
+    "author": "RuthStevens",
+    "url": "https://commons.wikimedia.org/wiki/File:Illovszky_Rudolf_Stadion_(2019).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "4579",
+      "guid": "6c518504-af65-3fef-82f1-3ce45257c005",
+      "fullName": "Bolt Arena",
+      "shortName": "Bolt Arena",
+      "address": {
+        "city": "Helsinki",
+        "country": "Finland"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861174",
+    "eventId": "401861174",
+    "commonsPageId": 45262164,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-11-26 20:30:05",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Sonera Stadium 22.7.2014b",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Panasonic Lumix DMC-LX5|Self-published work|Finland photographs taken on 2014-07-22|Bolt Arena",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Sonera Stadium 22.7.2014",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-07-22 09:18:45",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Juhm&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Juhm (page does not exist)\">Juhm</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Sonera_Stadium_22.7.2014b.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4579.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 78182,
+    "checked": "2026-11-17",
+    "author": "Juhm",
+    "url": "https://commons.wikimedia.org/wiki/File:Sonera_Stadium_22.7.2014b.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "1153",
+      "guid": "e26ab260-b1ed-348d-9887-5cfa7b2ac87a",
+      "fullName": "King Baudouin Stadium",
+      "address": {
+        "city": "Brussels",
+        "country": "Belgium"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861176",
+    "eventId": "401861176",
+    "commonsPageId": 31693909,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-11-13 20:59:49",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stade Roi Baudouin",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "King Baudouin Stadium|Self-published work|Images with extracted images",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Vue du Stade Roi Baudouin de l'intérieur",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2013-06-02 12:49:38",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Joni-Fuego&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Joni-Fuego (page does not exist)\">Joni-Fuego</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Stade_Roi_Baudouin.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1153.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 67992,
+    "checked": "2026-11-17",
+    "author": "Joni-Fuego",
+    "url": "https://commons.wikimedia.org/wiki/File:Stade_Roi_Baudouin.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "9632",
+      "guid": "789b1382-da15-32f0-ae79-454c17486385",
+      "fullName": "Opus Arena",
+      "shortName": "Opus Arena",
+      "address": {
+        "city": "Osijek",
+        "country": "Croatia"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861178",
+    "eventId": "401861178",
+    "commonsPageId": 133854377,
+    "metadata": {
+      "DateTime": {
+        "value": "2023-07-02 09:04:07",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stadion NK Osijeka na Pampasu",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Stadion Pampas|Self-published work|2023 in Osijek",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "New stadium of NK Osijek",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2023-07-01 16:48:36",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Rp031&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Rp031 (page does not exist)\">Roko Poljak</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Stadion_NK_Osijeka_na_Pampasu.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-9632.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 96600,
+    "checked": "2026-11-17",
+    "author": "Roko Poljak",
+    "url": "https://commons.wikimedia.org/wiki/File:Stadion_NK_Osijeka_na_Pampasu.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "6245",
+      "guid": "20b54a98-c449-3368-bf53-f77b0810a707",
+      "fullName": "Stade Atlantique",
+      "shortName": "Stade Atlantique",
+      "address": {
+        "city": "Bordeaux",
+        "country": "France"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861177",
+    "eventId": "401861177",
+    "commonsPageId": 43445770,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-09-20 18:41:27",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Grand stade Bordeaux virage sud",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "FC Girondins de Bordeaux|Taken with Samsung Galaxy A3 (2015)|Grand stade Bordeaux|Uploaded with Mobile/Android|Photographs taken on 2015-09-20",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Virage sud du nouveau stade de Bordeaux durant le match contre Toulouse, le 20 septembre 2015.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "20 September 2015 (according to <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Exif\" class=\"extiw\" title=\"en:Exif\">Exif</a></span> data)",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Prom%C3%A9th%C3%A9e\" title=\"User:Prométhée\">Prométhée </a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "CC BY-SA 3.0, A. Delesse (Prométhée)",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Grand_stade_Bordeaux_virage_sud.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6245.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97692,
+    "checked": "2026-11-17",
+    "author": "Prométhée",
+    "url": "https://commons.wikimedia.org/wiki/File:Grand_stade_Bordeaux_virage_sud.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "10741",
+      "fullName": "Tórsvollur",
+      "shortName": "Tórsvollur",
+      "address": {
+        "city": "Tórshavn",
+        "country": "Faroe Islands"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861180",
+    "eventId": "401861180",
+    "commonsPageId": 16375983,
+    "metadata": {
+      "DateTime": {
+        "value": "2011-09-07 17:54:07",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Torsvollur Football Venue in Torshavn Faroe Islands",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|License migration redundant|Self-published work|Faroe Islands photographs taken on 2011-09-02|Faroe Islands - Italy, 2 September 2011|Photographs by Eileen Sandá",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Tórsvøllur is one of two association football (soccer) venues of the national team of the <a href=\"//commons.wikimedia.org/wiki/Faroe_Islands\" class=\"mw-redirect\" title=\"Faroe Islands\">Faroe Islands</a>, located in <a href=\"//commons.wikimedia.org/wiki/T%C3%B3rshavn\" title=\"Tórshavn\">Tórshavn</a>, the capital. This photo was taken on 2 September 2011 just before the match between the Faroe Islands and <a href=\"//commons.wikimedia.org/wiki/Italy\" class=\"mw-redirect\" title=\"Italy\">Italy</a> started. The result was 0-1. This was the first time that the new lights, which are placed in the four corners, were used at a football match. There is one other football venue which is also used for the matches of the national team, it is called Svangaskarð and is located in Toftir in Eysturoy.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "Taken on 2 September 2011, 18:40:29",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:EileenSanda\" title=\"User:EileenSanda\">Eileen Sandá</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Torsvollur_Football_Venue_in_Torshavn_Faroe_Islands.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10741.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 53386,
+    "checked": "2026-11-17",
+    "author": "Eileen Sandá",
+    "url": "https://commons.wikimedia.org/wiki/File:Torsvollur_Football_Venue_in_Torshavn_Faroe_Islands.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "4629",
+      "guid": "d87f607b-8dd5-3e6d-ae2c-a69b5c90925c",
+      "fullName": "Astana Arena",
+      "shortName": "Astana Arena",
+      "address": {
+        "city": "Astana",
+        "country": "Kazakhstan"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861181",
+    "eventId": "401861181",
+    "commonsPageId": 31633398,
+    "metadata": {
+      "DateTime": {
+        "value": "2014-03-16 07:47:26",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Astana Arena (inside interior)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Canon EOS 600D|Astana Arena|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Astana Arena inside interior.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-03-15 19:04:56",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:ChelseaFunNumberOne\" title=\"User:ChelseaFunNumberOne\">ChelseaFunNumberOne</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Astana_Arena_%28inside_interior%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4629.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 98040,
+    "checked": "2026-11-17",
+    "author": "ChelseaFunNumberOne",
+    "url": "https://commons.wikimedia.org/wiki/File:Astana_Arena_(inside_interior).JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "1647",
+      "guid": "d4c65e16-6e06-354a-81f4-d46b1cfcb0be",
+      "fullName": "A. Le Coq Arena",
+      "address": {
+        "city": "Tallinn",
+        "country": "Estonia"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861183",
+    "eventId": "401861183",
+    "commonsPageId": 103684044,
+    "metadata": {
+      "DateTime": {
+        "value": "2021-04-15 10:26:14",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "A. Le Coq Arena 2019",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "A. Le Coq Arena|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "A. Le Coq Arena during UEFA Euro 2020 qualifiers match Estonia - Germany (2019).",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-10-13",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:5anco5s&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:5anco5s (page does not exist)\">5anco5s</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/A._Le_Coq_Arena_2019.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1647.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 86380,
+    "checked": "2026-11-17",
+    "author": "5anco5s",
+    "url": "https://commons.wikimedia.org/wiki/File:A._Le_Coq_Arena_2019.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "5091",
+      "guid": "0afa35b1-42a6-37e9-b23c-4b3acb712f93",
+      "fullName": "Laugardalsvöllur",
+      "shortName": "Laugardalsvöllur",
+      "address": {
+        "city": "Reykjavik",
+        "country": "Iceland"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861182",
+    "eventId": "401861182",
+    "commonsPageId": 154683412,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-10-31 00:22:30",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Laugardalsvöllur, Iceland's national football stadium",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Laugardalsvöllur|Self-published work|Iceland photographs taken on 2022-07-10|Aerial photographs of athletics venues|Files with coordinates missing SDC location of creation|Sports venues photographed in 2022|2022 in Reykjavík|Taken with Hasselblad L2D-20c|Aerial photographs of association football venues|Aerial photographs of Reykjavík|Photographs by Quintin Soloviev",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "64.142037",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-21.878390",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Laugardalsvöllur, Iceland's national football stadium",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "Taken on 10 July 2022, 17:09:55",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Quintinsoloviev\" class=\"mw-redirect\" title=\"User:Quintinsoloviev\">Quintin Soloviev</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/54/Laugardalsv%C3%B6llur%2C_Iceland%27s_national_football_stadium.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5091.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 99414,
+    "checked": "2026-11-17",
+    "author": "Quintin Soloviev",
+    "url": "https://commons.wikimedia.org/wiki/File:Laugardalsv%C3%B6llur,_Iceland%27s_national_football_stadium.jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "venue": {
+      "id": "4793",
+      "guid": "f2ebc074-3795-3674-a5d9-e828f0c6ece8",
+      "fullName": "S. Darius and S. Gireno Stadium",
+      "shortName": "S. Darius and S. Gireno Stadium",
+      "address": {
+        "city": "Kaunas",
+        "country": "Lithuania"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861184",
+    "eventId": "401861184",
+    "commonsPageId": 34655986,
+    "metadata": {
+      "DateTime": {
+        "value": "2014-08-10 18:38:08",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Darius Girenas Stadium by Augustas Didzgalvis",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "S. Darius and S. Girėnas Stadium|Self-published work|2014 Lithuanian Championships in Athletics|Photographs by Augustas Didzgalvis",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Darius Girenas Stadium in Kaunas (Lithuania)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-07",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:BigHead\" title=\"User:BigHead\">Augustas Didžgalvis</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/87/Darius_Girenas_Stadium_by_Augustas_Didzgalvis.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4793.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 90426,
+    "checked": "2026-11-17",
+    "author": "Augustas Didžgalvis",
+    "url": "https://commons.wikimedia.org/wiki/File:Darius_Girenas_Stadium_by_Augustas_Didzgalvis.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "10658",
+      "fullName": "Olympic Stadium Berlin",
+      "shortName": "Olympic Stadium Berlin",
+      "address": {
+        "city": "Berlin",
+        "country": "Germany"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861185",
+    "eventId": "401861185",
+    "commonsPageId": 8315738,
+    "metadata": {
+      "DateTime": {
+        "value": "2009-11-07 10:23:36",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Berliner Olympiastadion night",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Germany photographs taken on 2009-08-19|2009 World Championships in Athletics|GFDL|License migration redundant|Featured pictures of building interiors in Germany|Self-published work|Featured pictures on Wikipedia, English|Commons featured widescreen desktop backgrounds|Featured pictures of Berlin|Images with extracted images|Files with derivative versions|Featured pictures on Wikipedia, Persian|Featured pictures on Wikipedia, Turkish|Featured pictures of athletics|Files with coordinates missing SDC location of creation|Panoramics of stadiums|Panoramic views of Berlin in 2009|Assessment tagged pages marked as POTY candidates",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "quality|featured|potd|poty",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "52.515389",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "13.240639",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Panoramic view of the olympic stadium of Berlin during the 12th IAAF World Championships in Athletics",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2009-08-19 20:44:49",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Tobi_87\" title=\"User:Tobi 87\">Tobi 87</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Berliner_Olympiastadion_night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10658.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 95732,
+    "checked": "2026-11-17",
+    "author": "Tobi 87",
+    "url": "https://commons.wikimedia.org/wiki/File:Berliner_Olympiastadion_night.jpg",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "venue": {
+      "id": "9254",
+      "guid": "066535c1-a02f-3b0a-960d-2b708d2dd022",
+      "fullName": "Košická futbalová aréna (KFA)",
+      "shortName": "Košická futbalová aréna (KFA)",
+      "address": {
+        "city": "Kosice",
+        "country": "Slovakia"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861190",
+    "eventId": "401861190",
+    "commonsPageId": 148526900,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-05-19 19:53:18",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "KFA Kosicka Futbalova Arena",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "CC-Zero|Košická futbalová aréna|Self-published work|UEFA European Under-21 Championship 2025, Slovakia",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Kosicka futbalova arena",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2024-05-03",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:GeroyDS&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:GeroyDS (page does not exist)\">GeroyDS</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c2/KFA_Kosicka_Futbalova_Arena.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-9254.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 61732,
+    "checked": "2026-11-17",
+    "author": "GeroyDS",
+    "url": "https://commons.wikimedia.org/wiki/File:KFA_Kosicka_Futbalova_Arena.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
   }
 ]

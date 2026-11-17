@@ -251,6 +251,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
   },
+  1153: {
+    venueId: '1153',
+    name: 'King Baudouin Stadium',
+    image: 'stadiums/venue-1153.webp',
+    author: 'Joni-Fuego',
+    source: 'https://commons.wikimedia.org/wiki/File:Stade_Roi_Baudouin.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   1222: {
     venueId: '1222',
     name: 'Rajko Mitic Stadium',
@@ -270,6 +279,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
   },
+  1277: {
+    venueId: '1277',
+    name: 'Windsor Park',
+    image: 'stadiums/venue-1277.webp',
+    author: 'Citizen69',
+    source: 'https://commons.wikimedia.org/wiki/File:Windsor_Park_redevelopment_.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   1303: {
     venueId: '1303',
     name: 'Arasen Stadion',
@@ -278,6 +296,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:%C3%85r%C3%A5sen.jpg',
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
+  1392: {
+    venueId: '1392',
+    name: 'Ullevaal Stadion',
+    image: 'stadiums/venue-1392.webp',
+    author: 'Quintin Soloviev',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Ullevaal_Stadion,_the_Norway_national_football_team_home_stadium_in_Oslo.jpg',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
   },
   1445: {
     venueId: '1445',
@@ -342,6 +370,15 @@ export const STADIUM_PHOTOS = Object.freeze({
       'https://commons.wikimedia.org/wiki/File:2014._Camp_Nou._M%C3%A9s_que_un_club._Barcelona_B40.jpg',
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
+  1647: {
+    venueId: '1647',
+    name: 'A. Le Coq Arena',
+    image: 'stadiums/venue-1647.webp',
+    author: '5anco5s',
+    source: 'https://commons.wikimedia.org/wiki/File:A._Le_Coq_Arena_2019.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
   1680: {
     venueId: '1680',
@@ -636,6 +673,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  3439: {
+    venueId: '3439',
+    name: 'Estádio Municipal de Braga',
+    image: 'stadiums/venue-3439.webp',
+    author: 'Manuel Anastácio uploaded 2004-08-17',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Braga.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
   3468: {
     venueId: '3468',
     name: 'Estadio Martínez Valero',
@@ -820,6 +866,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  4579: {
+    venueId: '4579',
+    name: 'Bolt Arena',
+    image: 'stadiums/venue-4579.webp',
+    author: 'Juhm',
+    source: 'https://commons.wikimedia.org/wiki/File:Sonera_Stadium_22.7.2014b.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   4600: {
     venueId: '4600',
     name: 'Allianz Stadium',
@@ -858,6 +913,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
   },
+  4629: {
+    venueId: '4629',
+    name: 'Astana Arena',
+    image: 'stadiums/venue-4629.webp',
+    author: 'ChelseaFunNumberOne',
+    source: 'https://commons.wikimedia.org/wiki/File:Astana_Arena_(inside_interior).JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   4645: {
     venueId: '4645',
     name: 'Estadio de Vallecas',
@@ -866,6 +930,34 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Panoramica_estadio_de_vallecas.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  4657: {
+    venueId: '4657',
+    name: 'National Arena',
+    image: 'stadiums/venue-4657.webp',
+    author: 'Marius Mandache',
+    source: 'https://commons.wikimedia.org/wiki/File:Bucharest_National_Arena.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
+  4793: {
+    venueId: '4793',
+    name: 'S. Darius and S. Gireno Stadium',
+    image: 'stadiums/venue-4793.webp',
+    author: 'Augustas Didžgalvis',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Darius_Girenas_Stadium_by_Augustas_Didzgalvis.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  4795: {
+    venueId: '4795',
+    name: 'Mikheil Meskhi Stadioni',
+    image: 'stadiums/venue-4795.webp',
+    author: 'Прикли',
+    source: 'https://commons.wikimedia.org/wiki/File:Mikhain_Meskhi_Stadium_2024.jpg',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
   },
   4812: {
     venueId: '4812',
@@ -939,6 +1031,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
   },
+  5091: {
+    venueId: '5091',
+    name: 'Laugardalsvöllur',
+    image: 'stadiums/venue-5091.webp',
+    author: 'Quintin Soloviev',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Laugardalsv%C3%B6llur,_Iceland%27s_national_football_stadium.jpg',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
+  },
   5275: {
     venueId: '5275',
     name: 'Mapei Stadium',
@@ -994,6 +1096,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:DeanCourtPanorama.jpg',
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
+  6245: {
+    venueId: '6245',
+    name: 'Stade Atlantique',
+    image: 'stadiums/venue-6245.webp',
+    author: 'Prométhée',
+    source: 'https://commons.wikimedia.org/wiki/File:Grand_stade_Bordeaux_virage_sud.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
   6258: {
     venueId: '6258',
@@ -1056,6 +1167,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     image: 'stadiums/venue-6499.webp',
     author: 'Noixdecoco99',
     source: 'https://commons.wikimedia.org/wiki/File:Parc_OL.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  6717: {
+    venueId: '6717',
+    name: 'Stadiumi Fadil Vokrri',
+    image: 'stadiums/venue-6717.webp',
+    author: 'ElmedinRKS',
+    source: 'https://commons.wikimedia.org/wiki/File:Fadil-Vokrri-Stadion_(2018).jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -1171,6 +1291,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  9254: {
+    venueId: '9254',
+    name: 'Košická futbalová aréna (KFA)',
+    image: 'stadiums/venue-9254.webp',
+    author: 'GeroyDS',
+    source: 'https://commons.wikimedia.org/wiki/File:KFA_Kosicka_Futbalova_Arena.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
   9608: {
     venueId: '9608',
     name: 'WWK Arena',
@@ -1179,6 +1308,24 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Impuls_Arena_Augsburg_2011.jpg',
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
+  9632: {
+    venueId: '9632',
+    name: 'Opus Arena',
+    image: 'stadiums/venue-9632.webp',
+    author: 'Roko Poljak',
+    source: 'https://commons.wikimedia.org/wiki/File:Stadion_NK_Osijeka_na_Pampasu.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  9639: {
+    venueId: '9639',
+    name: 'Alphamega Stadium',
+    image: 'stadiums/venue-9639.webp',
+    author: 'Walmaul',
+    source: 'https://commons.wikimedia.org/wiki/File:Alphamega_Stadium_Limassol_Westfront.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
   9656: {
     venueId: '9656',
@@ -1263,6 +1410,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Raiffeisen-Arena_Linz_02.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  10339: {
+    venueId: '10339',
+    name: 'Friends Arena',
+    image: 'stadiums/venue-10339.webp',
+    author: 'Lighten-up',
+    source: 'https://commons.wikimedia.org/wiki/File:Friends_Arena_from_inside.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
   10342: {
     venueId: '10342',
@@ -1447,6 +1603,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  10658: {
+    venueId: '10658',
+    name: 'Olympic Stadium Berlin',
+    image: 'stadiums/venue-10658.webp',
+    author: 'Tobi 87',
+    source: 'https://commons.wikimedia.org/wiki/File:Berliner_Olympiastadion_night.jpg',
+    license: 'CC BY 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
+  },
   10662: {
     venueId: '10662',
     name: 'Volksparkstadion',
@@ -1586,6 +1751,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  10741: {
+    venueId: '10741',
+    name: 'Tórsvollur',
+    image: 'stadiums/venue-10741.webp',
+    author: 'Eileen Sandá',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Torsvollur_Football_Venue_in_Torshavn_Faroe_Islands.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   10750: {
     venueId: '10750',
     name: 'The Completely-Suzuki Stadium',
@@ -1630,6 +1805,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     image: 'stadiums/venue-10944.webp',
     author: 'Interhofer',
     source: 'https://commons.wikimedia.org/wiki/File:Stadion_Sparty_na_Letn%C3%A9_(srpen_2020).jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  11141: {
+    venueId: '11141',
+    name: 'Illovszky Rudolf Stadion',
+    image: 'stadiums/venue-11141.webp',
+    author: 'RuthStevens',
+    source: 'https://commons.wikimedia.org/wiki/File:Illovszky_Rudolf_Stadion_(2019).jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },

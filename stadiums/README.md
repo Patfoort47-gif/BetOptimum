@@ -15,3 +15,9 @@ La publication doit inclure le dossier `stadiums/` et les crédits. Vérifier le
 Le catalogue contient 182 photographies de stades et couvre 196 des 211 rencontres du calendrier au moment de la publication. Les 15 lieux restants utilisent l’illustration d’ambiance locale. Le contrôle de couverture est relancé après chaque collecte du calendrier.
 
 `sources.json` conserve les pages sources, auteurs, licences, métadonnées Wikimedia et références ESPN vérifiées. Chaque fichier WebP est une adaptation redimensionnée de la photo indiquée, sous sa licence libre d’origine. Les crédits et liens de licence figurent aussi dans le catalogue et sur chaque carte. Les photos ne sont pas couvertes par une éventuelle licence du code.
+
+## Extension internationale du 17 novembre 2026 (BET-324)
+
+Ajout de 20 photographies locales pour les lieux des matchs internationaux du calendrier, dont le Stade Atlantique (France), le stade Roi Baudouin (Belgique), le stade olympique de Berlin (Allemagne), Ullevaal (Norvège), Friends Arena (Suède) et la National Arena de Bucarest (Roumanie). Chaque association a été revérifiée dans le résumé ESPN avec l’identifiant de la rencontre et ses deux équipes. Les pages Wikimedia, auteurs et licences libres sont conservés dans `sources.json`.
+
+Les nouvelles images sont recadrées à 960 × 540 pixels et pèsent chacune moins de 100 Ko. Le catalogue atteint 202 photos. Sur le calendrier contrôlé pour ce ticket, la couverture passe de 72 à 92 matchs sur 191 ; 20 rencontres internationales supplémentaires disposent donc de la photo de leur lieu réel. Cette mesure dépend du calendrier collecté, et ne garantit pas une couverture complète des rencontres à venir. Relancer `node scripts/check-stadium-coverage.mjs --report` après chaque collecte pour repérer les lieux encore absents.
