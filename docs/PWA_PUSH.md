@@ -49,3 +49,5 @@ Message générique « Ton défi du jour t’attend », sans cote, choix ni mont
 Déployer V65, puis la fonction Edge notifications (révision BET-310, vérification JWT de passerelle désactivée, identités toujours contrôlées dans chaque route), puis le front. Ne pas envoyer de notification de test à un utilisateur sans son accord ; les recettes automatisées utilisent un transport fictif. La vérification de production `health` ne livre rien.
 
 Recettes : `npm test`, `PGLITE_MODULE=… node scripts/check-notification-sql.mjs`, navigateur mobile avec Android et iOS installés simulés. Vérifier séparément la réception sur un véritable Android Chrome et un iPhone/iPad installé : les simulations ne prouvent ni l’installation native ni la livraison APNs/FCM réelle.
+
+BET-331 présente en premier les résultats et le conseil du jour. Les autres rappels, le mode Essentiel et le briefing email restent accessibles dans des sections dépliables, avec leurs accords inchangés et sans activation automatique.
