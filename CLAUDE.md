@@ -34,6 +34,6 @@ Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre 
 - Les migrations horodatées publiées sont immuables. Ajouter une migration avec la CLI Supabase ; vérifier une base vierge et les recettes SQL avant application. Ne jamais réinitialiser la production.
 - Notifications : aucun envoi ni nouvelle association sans consentement explicite. Options facultatives inactives par défaut ; relire accord, silence, expiration et état métier avant transport. Conserver déduplication et absence de rejeu après résultat incertain.
 - Ne pas ouvrir un nouvel accès public sans accord du propriétaire. Mettre à jour Confidentialité et Mentions légales pour toute nouvelle donnée ou tout nouveau fournisseur.
-- Avatar, cadre et badges restent actifs ; les archives de l’économie ne sont pas des fonctions à réactiver.
+- Avatar et badges restent actifs ; les cadres de profil sont retirés (BET-328) ; les archives de l’économie ne sont pas des fonctions à réactiver.
 
 Codex et Claude Code appliquent ces mêmes règles. Toute règle commune doit être mise à jour dans AGENTS.md et CLAUDE.md.

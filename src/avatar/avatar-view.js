@@ -1,4 +1,3 @@
-import { profileFrame } from '../account/profile-appearance.js';
 // Affichage de l'avatar sans 3D (BET-49) : image enregistrée dans Supabase Storage (buste ou en pied) ou, à défaut, l'ancien avatar en CSS.
 // Les classements, le fil, les menus et la carte joueur passent par ici : aucun d'eux ne charge Three.js.
 import { SUPABASE_URL } from '../account/supabase-config.js';
@@ -53,7 +52,7 @@ export function avatarMarkup(
   source,
   { userId, cls = 'mini-avatar', kind = 'bust', label = '' } = {}
 ) {
-  const framedClass = `${cls} profile-frame-${profileFrame(source?.profile_frame)}`;
+  const framedClass = cls;
   const legacy = legacyOf(source),
     fallback = `${framedClass} ${legacy.avatar} face-${legacy.face} accessory-${legacy.accessory}`,
     url = avatarUrl(source, userId, kind);

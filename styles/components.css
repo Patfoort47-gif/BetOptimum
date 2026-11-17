@@ -10495,46 +10495,6 @@ section.club-ranking {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.profile-frame-preview {
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-  padding: 22px;
-  margin-bottom: 18px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  text-align: center;
-}
-.profile-frame-preview h4 {
-  margin: 0;
-}
-.profile-frame-preview [data-frame-preview] {
-  padding: 8px;
-}
-.profile-frame-preview .avatar-3d {
-  width: 112px;
-  height: 112px;
-  margin: 0;
-}
-.profile-frame-preview small {
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.profile-frame-lime {
-  outline: 3px solid #c8f03c;
-  outline-offset: 3px;
-}
-.profile-frame-blue {
-  outline: 3px solid #68a9ff;
-  outline-offset: 3px;
-}
-.profile-frame-gold {
-  outline: 3px solid #d4a017;
-  outline-offset: 3px;
-}
-
 /* BET-201 : forme sous les noms, accessible sans ouvrir les statistiques. */
 .team-group {
   display: flex;

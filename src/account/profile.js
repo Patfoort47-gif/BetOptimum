@@ -1,7 +1,6 @@
 import { modelComparison, comparisonCard } from '../history/model-comparison.js';
 import { shareVisualCard } from '../sharing/visual-card.js';
 import { decimal } from '../core/number-format.js';
-import { PROFILE_FRAMES } from './profile-appearance.js';
 // Page profil (BET-50) : en-tête, onglets, carte joueur partageable, radar, saisons, trophées, compte et confidentialité. Chargée à la demande par app.js.
 // Les chiffres de la carte viennent de formules pures de model.js (cardAttributes, cardOverall) ; les données de la vue serveur public_player_card.
 import { avatarMarkup } from '../avatar/avatar-view.js';
@@ -233,7 +232,7 @@ export function initProfilePage(deps) {
       overall = cardOverall(attributes),
       provisional = cardProvisional(info.raw),
       level = levelInfo(info.xp);
-    return `<div class="player-card${info.equipped?.frame ? ` frame-${html(info.equipped.frame.asset)}` : ''}${cardLook(info.equipped)}" style="--card:${color(info.echelon)}" id="player-card"><div class="card-top"><b class="card-overall">${overall}</b><span>${info.echelon == null ? 'Placement' : html(echelonName(info.echelon))}<em>${info.echelon == null ? '' : chevrons(info.echelon)}</em></span></div><strong class="card-name">${html(info.profile.nickname)}</strong><small>Niv. ${level.level} · ${level.title}${provisional ? ' · provisoire' : ''}</small><div class="card-attrs">${CARD_ATTRIBUTES.map((name) => `<span><b>${attributes[name]}</b>${name}</span>`).join('')}</div></div>`;
+    return `<div class="player-card${cardLook(info.equipped)}" style="--card:${color(info.echelon)}" id="player-card"><div class="card-top"><b class="card-overall">${overall}</b><span>${info.echelon == null ? 'Placement' : html(echelonName(info.echelon))}<em>${info.echelon == null ? '' : chevrons(info.echelon)}</em></span></div><strong class="card-name">${html(info.profile.nickname)}</strong><small>Niv. ${level.level} · ${level.title}${provisional ? ' · provisoire' : ''}</small><div class="card-attrs">${CARD_ATTRIBUTES.map((name) => `<span><b>${attributes[name]}</b>${name}</span>`).join('')}</div></div>`;
   }
   // Partage de la carte en image : canvas vers PNG, partage natif sur téléphone, sinon téléchargement.
   async function shareCard(info) {
@@ -414,8 +413,8 @@ export function initProfilePage(deps) {
 </section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
 </section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
   }
-  function avatarTab(info) {
-    return `<section class="settings-card"><h3>Cadre de profil</h3><form data-profile-frame><div class="profile-frame-preview"><h4>Aperçu</h4><div data-frame-preview role="status" aria-live="polite">${avatarMarkup(info.profile, { cls: 'avatar-3d', label: 'Aperçu du cadre de profil' })}</div><small>Le même cadre dans les classements et le Hall of Fame.</small></div><label>Cadre<select name="frame">${PROFILE_FRAMES.map(([id, label]) => `<option value="${id}"${info.profile.profile_frame === id ? ' selected' : ''}>${label}</option>`).join('')}</select></label><button class="button secondary">Enregistrer le cadre</button></form><p>Vos badges gagnés sont affichés dans l’onglet Trophées.</p></section><div class="avatar-studio-slot" data-studio></div>`;
+  function avatarTab() {
+    return '<div class="avatar-studio-slot" data-studio></div>';
   }
 
   // Avatar 3D : scène de l'en-tête de l'aperçu (Three.js chargé à la demande) et studio de l'onglet Avatar ; une seule scène à la fois, libérée au changement d'onglet.
@@ -677,31 +676,6 @@ export function initProfilePage(deps) {
     if (mine === token) render();
   }
 
-  root.addEventListener('change', (event) => {
-    if (!event.target.matches('[data-profile-frame] select[name="frame"]')) return;
-    const preview = root.querySelector('[data-frame-preview]');
-    if (preview)
-      preview.innerHTML = avatarMarkup(
-        { ...data.profile, profile_frame: event.target.value },
-        { cls: 'avatar-3d', label: 'Aperçu du cadre de profil' }
-      );
-  });
-  root.addEventListener('submit', async (event) => {
-    if (!event.target.matches('[data-profile-frame]')) return;
-    event.preventDefault();
-    const button = event.target.querySelector('button');
-    button.disabled = true;
-    try {
-      const frame = new FormData(event.target).get('frame');
-      await accountApi.setProfileFrame(frame);
-      data.profile.profile_frame = frame;
-      render();
-      toast('Cadre enregistré');
-    } catch (error) {
-      toast(error.message);
-      button.disabled = false;
-    }
-  });
   root.addEventListener('click', async (event) => {
     const connectionButton = event.target.closest('[data-connections]');
     if (connectionButton) {
