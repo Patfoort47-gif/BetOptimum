@@ -35,11 +35,8 @@ export function dailyPushCurrent(event, prefs, matches, now = Date.now()) {
   return event.daily_summary && current && event.date === current.date ? current : null;
 }
 export function dailyPushText(event) {
-  return (
-    event.picks
-      .map(
-        (p, i) => `${i + 1}. ${p.home} - ${p.away}\n${p.label} · cote ${Number(p.odd).toFixed(2)}`
-      )
-      .join('\n\n') + '\nParis virtuels · 18+ · Aucune garantie.'
-  );
+  return event.picks
+    .slice(0, 1)
+    .map((p) => `${p.home} - ${p.away} : ${p.label} @ ${Number(p.odd).toFixed(2)}`)
+    .join('');
 }
