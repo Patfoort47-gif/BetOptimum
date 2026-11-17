@@ -2294,14 +2294,6 @@ async function openProfile(target) {
           button.disabled = false;
         }
       },
-      openAvatar: () => setActiveTab('profile', true, { self: true, tab: 'avatar' }),
-      onAvatarSaved: (saved) => {
-        state.profile = { ...state.profile, avatar2: saved };
-        persist();
-        renderAccountMenu();
-        renderCommunity();
-        accountApi.reloadCommunity();
-      },
       openJoin,
       navigate: (tab) => setActiveTab(tab, true),
       onNickname: () => {
@@ -2364,7 +2356,7 @@ async function openJoin(mode = 'login') {
       auth: accountApi.auth,
       getTeams: joinTeams,
       getLeagues: () => Object.keys(LEAGUES),
-      avatarStudio: true,
+      avatarStudio: false,
       toast,
       onDone: async (event) => {
         if (accountAuthenticated) {
@@ -2451,7 +2443,7 @@ function menuAction(action) {
       50
     );
   } else if (action === 'avatar') {
-    setActiveTab('profile', true, { self: true, tab: 'avatar' });
+    setActiveTab('profile', true, { self: true });
   } else if (action === 'account') {
     setActiveTab('profile', true, { self: true });
     setTimeout(() => $('#ptab-account')?.click(), 400);
@@ -2636,7 +2628,7 @@ let lastFixturesSource = '';
 function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = 'replace') {
   if (tab === 'shop') {
     tab = 'profile';
-    profileTarget = { self: true, tab: 'avatar' };
+    profileTarget = { self: true };
   }
   const changedTab = activeTab !== tab;
   activeTab = tab;

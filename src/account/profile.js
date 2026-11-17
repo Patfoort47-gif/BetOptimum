@@ -4,21 +4,13 @@ import { decimal } from '../core/number-format.js';
 // Page profil (BET-50) : en-tête, onglets, carte joueur partageable, radar, saisons, trophées, compte et confidentialité. Chargée à la demande par app.js.
 // Les chiffres de la carte viennent de formules pures de model.js (cardAttributes, cardOverall) ; les données de la vue serveur public_player_card.
 import { avatarMarkup } from '../avatar/avatar-view.js';
-import { sanitizeAvatar } from '../avatar/avatar-config.js';
 import { profileHistory } from './profile-history.js';
 import { seasonLabel } from '../club/league.js';
-import {
-  CELEBRATION_PENDING_KEY,
-  celebrationColors,
-  equippedOf,
-  soundEnabled
-} from '../club/celebration-model.js';
 const NS = 'http://www.w3.org/2000/svg';
 const TABS = [
   ['overview', 'Aperçu'],
   ['badges', 'Trophées'],
   ['bets', 'Mes paris'],
-  ['avatar', 'Apparence', true],
   ['notifications', 'Mes alertes', true],
   ['account', 'Compte et confidentialité', true]
 ];
@@ -135,7 +127,6 @@ export function initProfilePage(deps) {
     money,
     divisionBadge,
     levelInfo,
-    avatarConfig,
     safeLogo,
     BADGES,
     echelonName,
@@ -145,7 +136,6 @@ export function initProfilePage(deps) {
     accountApi,
     getState,
     toast,
-    openAvatar,
     openJoin,
     navigate,
     onLoggedOut
@@ -162,8 +152,6 @@ export function initProfilePage(deps) {
     token = 0,
     loadedAt = 0,
     owner = null,
-    hero = null,
-    studio = null,
     notifications = null,
     mountToken = 0;
 
@@ -362,7 +350,7 @@ export function initProfilePage(deps) {
       .map((item) => BADGES.find((badge) => badge.id === item.badge))
       .filter(Boolean);
     const trophies = `<section class="overview-trophies settings-card"><div class="settings-row"><h3>Trophées récents</h3><button class="button secondary" data-tab="badges">Tout voir</button></div><div class="badge-grid">${recent.length ? recent.map((badge) => `<div class="badge earned"><b>${html(badge.name)}</b><small>${html(badge.hint)}</small></div>`).join('') : '<p class="empty">Aucun trophée pour le moment.</p>'}</div></section>`;
-    return `<div class="overview-grid has-hero"><div class="avatar-hero" data-hero data-hero-id="${html(info.profile.user_id)}"><span class="hero-fallback">${avatarMarkup(info.profile, { cls: 'avatar-3d', kind: 'full', userId: info.profile.user_id, label: `Avatar de ${info.profile.nickname}` })}</span><div class="hero-actions"><button class="button secondary" data-hero-celebrate>Célébrer</button>${info.self ? '<button class="button secondary" data-tab="avatar">Personnaliser</button>' : ''}</div></div><div class="overview-card">${cardHtml(info)}<div class="card-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button>' : getState().profile ? '<button class="button secondary" data-compare>' + (compare ? 'Masquer la comparaison' : 'Comparer avec moi') + '</button>' : ''}</div></div><div class="overview-side">${trophies}<div class="key-numbers">${key('Rang du groupe', standing?.confirmed === false ? 'Provisoire' : standing ? `${standing.rank}e` : '-')}${key('Points de ligue', standing ? decimal(Number(standing.points), 1) : '-')}${key('Paris réglés (saison)', Number(stats.bets) || 0)}${key('ROI (saison)', `${Number(stats.roi) >= 0 ? '+' : ''}${decimal(Number(stats.roi || 0), 1)} %`)}</div><div class="form-line"><small>Forme sur les ${info.self ? 10 : 5} derniers pronos</small><span>${
+    return `<div class="overview-grid"><div class="overview-card">${cardHtml(info)}<div class="card-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button>' : getState().profile ? '<button class="button secondary" data-compare>' + (compare ? 'Masquer la comparaison' : 'Comparer avec moi') + '</button>' : ''}</div></div><div class="overview-side">${trophies}<div class="key-numbers">${key('Rang du groupe', standing?.confirmed === false ? 'Provisoire' : standing ? `${standing.rank}e` : '-')}${key('Points de ligue', standing ? decimal(Number(standing.points), 1) : '-')}${key('Paris réglés (saison)', Number(stats.bets) || 0)}${key('ROI (saison)', `${Number(stats.roi) >= 0 ? '+' : ''}${decimal(Number(stats.roi || 0), 1)} %`)}</div><div class="form-line"><small>Forme sur les ${info.self ? 10 : 5} derniers pronos</small><span>${
       form
         ? form
             .split('')
@@ -413,97 +401,10 @@ export function initProfilePage(deps) {
 </section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris, ligues et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
 </section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
   }
-  function avatarTab() {
-    return '<div class="avatar-studio-slot" data-studio></div>';
-  }
-
-  // Avatar 3D : scène de l'en-tête de l'aperçu (Three.js chargé à la demande) et studio de l'onglet Avatar ; une seule scène à la fois, libérée au changement d'onglet.
   function cleanup() {
     mountToken++;
-    hero?.dispose();
-    hero = null;
-    studio?.destroy();
-    studio = null;
     notifications?.destroy();
     notifications = null;
-  }
-  async function mountHero(info) {
-    const host = root.querySelector('[data-hero]'),
-      mine = mountToken;
-    if (!host) return;
-    try {
-      const { webglSupported, createStage } = await import('../avatar/avatar.js');
-      if (!webglSupported() || mine !== mountToken) return;
-      const stage = await createStage(host, {
-        look: info.profile.avatar_config,
-        view: 'full',
-        label: `Avatar 3D de ${info.profile.nickname}`
-      });
-      if (mine !== mountToken || !host.isConnected) {
-        stage.dispose();
-        return;
-      }
-      hero = stage;
-      host.querySelector('.hero-fallback')?.remove();
-      host.classList.add('live');
-      if (info.self) {
-        const key = `${CELEBRATION_PENDING_KEY}:${info.profile.user_id}`;
-        let pending = false;
-        try {
-          pending = localStorage.getItem(key) === '1';
-          localStorage.removeItem(key);
-        } catch {
-          /* stockage indisponible */
-        }
-        if (pending && !matchMedia('(prefers-reduced-motion: reduce)').matches) celebrateHero(info);
-      }
-    } catch (error) {
-      console.warn('Avatar 3D indisponible', error?.message);
-    }
-  }
-  // Célébration 3D équipée, avec l'effet de victoire et, si le joueur l'a activé, le son équipé (objets privés : seulement sur son propre profil).
-  async function celebrateHero(info) {
-    hero?.celebrate();
-  }
-
-  async function mountStudioTab(info) {
-    const host = root.querySelector('[data-studio]'),
-      mine = mountToken;
-    if (!host) return;
-    const { mountStudio } = await import('../avatar/avatar-studio.js');
-    if (mine !== mountToken) return;
-    const state = getState(),
-      initial = sanitizeAvatar(
-        info.profile.avatar_config ?? state.profile?.avatar2 ?? state.profile
-      );
-    const handle = await mountStudio(host, {
-      html,
-      toast,
-      initial,
-      authenticated: Boolean(info.self),
-      userId: info.profile.user_id,
-      freeOnly: true,
-      tabs: ['face', 'hair', 'kit'],
-      loadContext: async () => ({ inventory: [], unlocks: [] }),
-      openJoin,
-      save: async (config, blobs) => {
-        const saved = await accountApi.saveAvatar(config, blobs);
-        data.profile.avatar_config = saved;
-        const slot = root.querySelector('.profile-id')?.firstElementChild;
-        if (slot)
-          slot.outerHTML = avatarMarkup(data.profile, {
-            cls: 'avatar-3d',
-            userId: data.profile.user_id
-          });
-        deps.onAvatarSaved?.(saved);
-        return saved;
-      }
-    });
-    if (mine !== mountToken) {
-      handle.destroy();
-      return;
-    }
-    studio = handle;
   }
 
   function connectionPanel() {
@@ -563,7 +464,6 @@ export function initProfilePage(deps) {
       seasons,
       badges,
       bets,
-      avatar: avatarTab,
       notifications: () => '<div data-notifications></div>',
       account
     }[tab](info);
@@ -605,8 +505,6 @@ export function initProfilePage(deps) {
               'La newsletter est momentanément indisponible.';
         });
     }
-    if (tab === 'overview') mountHero(info);
-    else if (tab === 'avatar' && info.self) mountStudioTab(info);
   }
 
   async function show(next, force = false) {
@@ -732,15 +630,6 @@ export function initProfilePage(deps) {
       compare = compare ? null : data.own?.raw ? { raw: data.own.raw } : null;
       if (!compare && !data.own) toast('Connectez-vous pour comparer');
       render();
-      return;
-    }
-    if (event.target.closest('[data-open-avatar]')) {
-      openAvatar();
-      return;
-    }
-    if (event.target.closest('[data-hero-celebrate]')) {
-      if (hero) celebrateHero(data);
-      else toast('Le rendu 3D n’est pas disponible sur cet appareil');
       return;
     }
     if (event.target.closest('[data-open-bets]')) {

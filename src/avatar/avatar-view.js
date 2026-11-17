@@ -30,35 +30,15 @@ export const avatarRev = (source = {}) => {
 };
 export const avatarUrl = (source, userId, kind = 'bust') =>
   avatarImageUrl(SUPABASE_URL, userId ?? source?.user_id, avatarRev(source), kind);
-let listening = false;
-// Une image absente (jamais enregistrée, supprimée) rend la main à l'avatar CSS sans rien casser.
-function listen() {
-  if (listening || typeof document?.addEventListener !== 'function') return;
-  listening = true;
-  document.addEventListener(
-    'error',
-    (event) => {
-      const image = event.target;
-      if (image?.tagName === 'IMG' && image.dataset?.fb && image.parentNode) {
-        image.parentNode.className = image.dataset.fb;
-        image.remove();
-      }
-    },
-    true
-  );
-}
-// Marque HTML de l'avatar : image différée si elle existe, sinon pastille CSS. `cls` : mini-avatar (listes), avatar-3d (grande), profile-photo (en-tête).
-export function avatarMarkup(
-  source,
-  { userId, cls = 'mini-avatar', kind = 'bust', label = '' } = {}
-) {
-  const framedClass = cls;
-  const legacy = legacyOf(source),
-    fallback = `${framedClass} ${legacy.avatar} face-${legacy.face} accessory-${legacy.accessory}`,
-    url = avatarUrl(source, userId, kind);
-  const inner = cls === 'avatar-3d' ? '<i></i><span></span><b></b><em></em>' : '';
-  if (!url)
-    return `<span class="${fallback}" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}>${inner}</span>`;
-  listen();
-  return `<span class="${framedClass} avatar-photo" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}><img src="${escape(url)}" alt="" width="${kind === 'full' ? 192 : 96}" height="${kind === 'full' ? 256 : 96}" loading="lazy" decoding="async" data-fb="${escape(fallback)}">${inner}</span>`;
+// Identité neutre : aucune image ni configuration personnalisée n’est affichée.
+export function avatarMarkup(source, { cls = 'mini-avatar', label = '' } = {}) {
+  const initials =
+    String(source?.nickname ?? '')
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => [...part][0] ?? '')
+      .join('')
+      .toLocaleUpperCase('fr-FR') || '●';
+  return `<span class="${escape(cls)} neutral-avatar" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}>${escape(initials)}</span>`;
 }
