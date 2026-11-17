@@ -2396,7 +2396,7 @@ function renderAccountMenu() {
   const config = avatarConfig(state.profile),
     xp = state.progress?.xp ?? 0,
     info = levelInfo(xp);
-  head.innerHTML = `${avatarMarkup(state.profile, { userId: accountUserId })}<div><strong>${html(state.profile.nickname || 'Parieur')}</strong><small>${state.progress ? `Niv. ${info.level} · ${info.title}` : 'Niveau en cours de calcul'}</small><span class="menu-division">${divisionBadge(state.league?.echelon ?? null)}</span><span class="level-bar"><i style="width:${Math.round(info.progress * 100)}%"></i></span></div>`;
+  head.innerHTML = `${avatarMarkup(state.profile, { userId: accountUserId })}<div><strong>${html(state.profile.nickname || 'Parieur')}</strong><small>${state.progress ? `Niv. ${info.level} · ${info.title}` : 'Niveau en cours de calcul'}</small><span class="level-bar"><i style="width:${Math.round(info.progress * 100)}%"></i></span></div>`;
 }
 const accountMenu = () => $('#account-menu');
 function toggleAccountMenu(force) {
@@ -2610,6 +2610,7 @@ async function loadLiveFixtures() {
 }
 let lastFixturesSource = '';
 function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = 'replace') {
+  if (['community', 'standings'].includes(tab)) tab = 'matches';
   if (tab === 'shop') {
     tab = 'profile';
     profileTarget = { self: true };
@@ -2962,14 +2963,7 @@ function renderLeague() {
 }
 // Écran de fin de saison : affiché une seule fois (PROMU, MAINTENU ou RELEGUE) avec les emblèmes avant et après et les déblocages.
 function showSeasonResult() {
-  const result = state.league?.result,
-    dialog = $('#season-dialog');
-  if (!result || !dialog?.showModal || dialog.open) return;
-  const label = outcomeLabel({ outcome: result.outcome }),
-    unlocked = result.unlocks ?? [];
-  $('#season-content').innerHTML =
-    `<p class="eyebrow">SAISON ${html(result.season)} TERMINÉE</p><h2 id="season-title" class="season-outcome ${html(result.outcome)}">${label}</h2><div class="season-badges">${divisionBadge(result.from_echelon)}<span aria-hidden="true">→</span>${divisionBadge(result.to_echelon)}</div><p>${result.group_rank ? `${result.group_rank}e sur ${result.group_size} · ` : ''}${decimal(Number(result.points), 1)} points</p>${unlocked.length ? `<p class="season-unlock">Débloqué : ${unlocked.map(html).join(', ')}</p>` : ''}<small>Paris virtuels · aucune valeur · une nouvelle saison commence aujourd’hui.</small>`;
-  dialog.showModal();
+  // BET-338 : les annonces de classement sont retirées.
 }
 $('#season-close')?.addEventListener('click', () => {
   const season = state.league?.result?.season;
@@ -3250,6 +3244,7 @@ function celebrateWins(progress) {
 // Hub communauté (BET-60) : onglets, classement général paginé côté serveur, podium, suivis, fil d'activité, hall of fame.
 const COMMUNITY_TABS = ['league', 'general', 'follows', 'private', 'challenges', 'fame'];
 function setCommunityTab(tab) {
+  return; // BET-338 : classements et communauté retirés.
   if (tab === 'general' || tab === 'private') tab = 'league';
   if (tab === 'fame') tab = 'challenges';
   if (!COMMUNITY_TABS.includes(tab)) tab = 'league';
@@ -3289,11 +3284,7 @@ function setCommunityTab(tab) {
   }
 }
 function selectClubLeague() {
-  ++clubRankingRequest;
-  $('#club-general').hidden = false;
-  $('#my-league').hidden = true;
-  $('#club-competition').hidden = true;
-  loadGeneral();
+  // BET-338 : ne plus charger les classements retirés.
 }
 let clubRankingRequest = 0,
   clubRankingChosen = false;
@@ -4683,7 +4674,6 @@ if (typeof window !== 'undefined') {
         },
         onServerData: applyServerData,
         onLeagueData: (data) => {
-          inbox?.league(data);
           state.league = data;
           defaultClubRanking();
           renderLeague();

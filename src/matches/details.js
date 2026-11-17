@@ -214,7 +214,6 @@ function tabsFor() {
   if (view.type === 'team')
     return [
       ['squad', 'Effectif'],
-      ['tables', 'Classements'],
       ['scorers', 'Buteurs et passeurs'],
       ['games', 'Matchs']
     ];
@@ -222,7 +221,6 @@ function tabsFor() {
     base = [
       ['insights', 'Forme et H2H'],
       ['lineup', 'Compo'],
-      ['table', 'Classement'],
       ['scorers', 'Buteurs et passeurs'],
       ['info', 'Infos']
     ],
@@ -297,7 +295,7 @@ function renderHeadContent() {
       record = /^(\d+)-(\d+)-(\d+)$/.exec(info?.recordSummary ?? ''),
       color = /^[0-9a-f]{6}$/i.test(info?.color ?? '') ? `#${info.color}` : null;
     if (color) head.style.setProperty('--team', color);
-    head.innerHTML = `<div class="sheet-team-head">${ctx.logoTag('crest big', logo, view.name)}<div class="sheet-team-id"><p class="eyebrow">FICHE ÉQUIPE</p><h2 id="detail-title">${esc(view.name)}</h2><div class="team-facts">${info?.standingSummary ? `<span><b>${esc(rankText(info.standingSummary))}</b></span>` : ''}${record ? `<span><b>${record[1]}</b> V · <b>${record[2]}</b> N · <b>${record[3]}</b> D</span>` : ''}</div><div class="sheet-leagues">${leagues.map((name) => `<span>${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(name), name)}${esc(name)}</span>`).join('')}</div></div></div>${closeButton}`;
+    head.innerHTML = `<div class="sheet-team-head">${ctx.logoTag('crest big', logo, view.name)}<div class="sheet-team-id"><p class="eyebrow">FICHE ÉQUIPE</p><h2 id="detail-title">${esc(view.name)}</h2><div class="team-facts">${record ? `<span><b>${record[1]}</b> V · <b>${record[2]}</b> N · <b>${record[3]}</b> D</span>` : ''}</div><div class="sheet-leagues">${leagues.map((name) => `<span>${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(name), name)}${esc(name)}</span>`).join('')}</div></div></div>${closeButton}`;
     return;
   }
   const m = view.match,
@@ -976,6 +974,7 @@ const tableLeagues = () =>
       return (count(b) > 0) - (count(a) > 0) || ctx.LEAGUES[b][1] - ctx.LEAGUES[a][1];
     });
 export async function showStandings() {
+  return; // BET-338 : rubrique retirée.
   const leagues = tableLeagues();
   standingsView.league ??= leagues[0];
   document.querySelector('#standings-leagues').innerHTML = leagues
