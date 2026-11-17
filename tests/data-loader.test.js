@@ -12,7 +12,9 @@ test('les appels simultanés partagent une revalidation et les appels suivants r
     second = load('data/fixtures.json');
   assert.equal(first, second);
   await Promise.resolve();
-  assert.deepEqual(calls, [{ url: 'data/fixtures.json', options: { cache: 'no-cache' } }]);
+  assert.equal(calls[0].url, 'data/fixtures.json');
+  assert.equal(calls[0].options.cache, 'no-cache');
+  assert.equal(calls[0].options.signal.aborted, false);
   release({ ok: true, json: async () => ({ matches: [{ id: 'a' }] }) });
   assert.deepEqual(await first, { matches: [{ id: 'a' }] });
   const third = load('data/fixtures.json');
@@ -46,4 +48,29 @@ test('une archive lente ne bloque pas le calendrier', async () => {
   );
   load('archive');
   assert.deepEqual(await load('fixtures'), { ready: true });
+});
+
+test('BET-342 : transport et décodage bloqués expirent, annulent et permettent de réessayer', async () => {
+  for (const body of [false, true]) {
+    let count = 0,
+      signal;
+    const load = createJsonLoader(
+      async (_, options) => {
+        signal = options.signal;
+        if (++count > 1) return { ok: true, json: async () => ['reprise'] };
+        return body ? { ok: true, json: () => new Promise(() => {}) } : new Promise(() => {});
+      },
+      { timeoutMs: 10 }
+    );
+    const keepAlive = setTimeout(() => {}, 1000);
+    try {
+      const first = load('bloqué');
+      assert.equal(first, load('bloqué'));
+      await assert.rejects(first, /Délai/);
+      assert.equal(signal.aborted, true);
+      assert.deepEqual(await load('bloqué'), ['reprise']);
+    } finally {
+      clearTimeout(keepAlive);
+    }
+  }
 });
