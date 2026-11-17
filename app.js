@@ -2649,7 +2649,7 @@ async function loadLiveFixtures() {
 }
 let lastFixturesSource = '';
 function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = 'replace') {
-  if (['community', 'standings'].includes(tab)) tab = 'matches';
+  if (tab === 'community') tab = 'matches';
   if (tab === 'shop') {
     tab = 'profile';
     profileTarget = { self: true };
@@ -2666,12 +2666,12 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     .querySelectorAll('[data-view]')
     .forEach((view) => view.classList.toggle('tab-hidden', view.dataset.view !== tab));
   document.querySelectorAll('[data-tab]').forEach((button) => {
-    const active = button.dataset.tab === (tab === 'standings' ? 'matches' : tab);
+    const active = button.dataset.tab === tab;
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('[data-mobile-target]').forEach((button) => {
-    const active = button.dataset.mobileTarget === (tab === 'standings' ? 'matches' : tab);
+    const active = button.dataset.mobileTarget === tab;
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
