@@ -12526,3 +12526,163 @@ body .filters::-webkit-scrollbar {
     display: grid;
   }
 }
+
+/* BET-358 : bandeau photo compact, commun aux thèmes clair et sombre. */
+body .match-card .match-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 130px;
+  min-height: 130px;
+  padding: 8px 12px 20px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111c16;
+  color: #fff;
+}
+body .match-card .match-hero::before {
+  display: block;
+  background: linear-gradient(180deg, rgba(17, 28, 22, 0.45) 0%, rgba(17, 28, 22, 0.92) 100%);
+}
+body .match-card .match-stadium-photo,
+body .match-card .stadium-placeholder {
+  display: block;
+}
+body .match-card .match-hero .match-head {
+  flex-wrap: nowrap;
+  gap: 4px;
+  min-height: 20px;
+  margin: 0;
+}
+body .match-card .match-hero .match-league {
+  flex: 1;
+  min-width: 0;
+  gap: 4px;
+}
+body .match-card .match-hero .match-league b {
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body .match-card .match-hero .match-date,
+body .match-card .match-hero .match-favorites,
+body .match-card .match-hero .team-form {
+  display: none;
+}
+body .match-card .match-hero .match-head > .big-match,
+body .match-card .match-hero .match-head > .status-pill,
+body .match-card .match-hero .value-bet-badge {
+  font-size: 9px;
+  line-height: 12px;
+  padding: 3px 5px;
+  max-width: 36%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+body .match-card .match-hero .match-teams {
+  grid-template-columns: minmax(0, 1fr) 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  min-height: 0;
+  margin: 0;
+  flex: 1;
+}
+body .match-card .match-hero .team {
+  padding: 0;
+  gap: 3px;
+  min-width: 0;
+}
+body .match-card .match-hero .team,
+body .match-card .match-hero .team strong,
+body .match-card .match-hero .match-league b,
+body .match-card .match-hero .kickoff strong,
+body .match-card .match-hero .kickoff small {
+  color: #fff;
+  text-shadow: 0 1px 3px #000;
+}
+body .match-card .match-hero .team strong {
+  font-size: 12px;
+  line-height: 14px;
+  white-space: normal !important;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+body .match-card .match-hero .crest {
+  width: 30px;
+  height: 30px;
+}
+body .match-card .match-hero .kickoff {
+  padding: 3px;
+  border-radius: 8px;
+}
+body .match-card .match-hero .kickoff strong {
+  font-size: 18px;
+}
+body .match-card .match-hero .kickoff small {
+  font-size: 9px;
+}
+body .match-card .match-hero .match-center-stats {
+  min-height: 24px;
+  padding: 2px;
+  margin-top: 2px;
+  font-size: 9px;
+}
+body .match-card .match-hero .stadium-name,
+body .match-card .match-hero .stadium-placeholder-name {
+  display: block;
+  position: absolute;
+  inset: auto 6px 3px auto;
+  max-width: calc(100% - 12px);
+  width: auto;
+  padding: 1px 4px;
+  font-size: 8px;
+  line-height: 12px;
+  color: #fff;
+  background: #111c16e6;
+  text-decoration: none;
+}
+body .match-card .match-hero:not(.stadium-ready) .stadium-name {
+  display: none;
+}
+@media (max-width: 767px) {
+  body .match-card .match-hero {
+    height: 115px;
+    min-height: 115px;
+    padding: 6px 8px 18px;
+  }
+  body .match-card .match-hero .match-teams {
+    grid-template-columns: minmax(0, 1fr) 62px minmax(0, 1fr);
+  }
+  body .match-card .match-hero .team strong {
+    font-size: 11px;
+    line-height: 13px;
+  }
+}
+body .match-card .match-hero .stadium-name,
+body .match-card .match-hero .stadium-placeholder-name {
+  top: auto;
+  left: auto;
+  right: 6px;
+  bottom: 2px;
+  display: block;
+  min-height: 0;
+  height: auto;
+  padding: 1px 4px;
+  font-size: 8px;
+  line-height: 10px;
+  max-width: calc(100% - 12px);
+}
+body .match-card .match-hero:not(.stadium-ready) .stadium-name {
+  display: none;
+}
+body .match-card .match-hero .value-bet-badge {
+  max-width: 45%;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

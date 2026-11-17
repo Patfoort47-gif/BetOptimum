@@ -18,13 +18,13 @@ for (const m of fixtures.matches) {
     totalBytes += (await stat(photo.image)).size;
   }
 }
-await stat('stadiums/default-stadium.svg');
+await stat('stadiums/default-stadium.webp');
 console.log(
   `Photos : ${fixtures.matches.length - missing.length}/${fixtures.matches.length} matchs, ${confirmed} lieux confirmés, ${images.size} fichiers, ${(totalBytes / 1024 / 1024).toFixed(2)} Mo au total (chargement différé)`
 );
 if (missing.length) {
   console.log(
-    `Illustration d’ambiance : ${missing.length} matchs (${new Set(missing.map((m) => m.venue?.id ?? m.home)).size} stades).`
+    `Photo d’ambiance : ${missing.length} matchs (${new Set(missing.map((m) => m.venue?.id ?? m.home)).size} stades).`
   );
   if (process.argv.includes('--report')) console.log(JSON.stringify(missing, null, 2));
   if (process.argv.includes('--require-photos')) process.exitCode = 1;

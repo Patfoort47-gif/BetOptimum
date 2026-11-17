@@ -41,3 +41,9 @@ Les huit rencontres du 17 novembre disposent toutes d’une photo. Les terrains 
 Pour le stade Abdoulaye-Wade (Sénégal), aucune photo libre de la bonne enceinte n’a été trouvée parmi les sources examinées. Il reste explicitement présent dans l’inventaire et signalé par le contrôle des sélections. La Dakar Arena, salle de basket de Diamniadio, n’est pas utilisée comme remplacement.
 
 Ce lot ajoute 43 photographies et porte le catalogue à 245 stades. Les 114 clubs vérifiés des six championnats sont couverts. Les lieux répertoriés sont entièrement illustrés pour 18 des 19 sélections ; seul Abdoulaye-Wade reste sans photo. Sur le calendrier contrôlé, la couverture passe de 92 à 104 matchs sur 191, dont 8 sur 8 le 17 novembre.
+
+## Bandeau compact et photo d’ambiance (BET-358)
+
+Les en-têtes mesurent 115 px sous 768 px et 130 px au-delà. Leur photo reste en `object-fit: cover`, sous un dégradé sombre ; les noms des équipes sont blancs dans les deux thèmes. Les photos spécifiques continuent d’être choisies par identifiant ESPN, sans accepter d’URL arbitraire de l’API.
+
+En l’absence de photo vérifiée ou en cas d’échec de chargement, `default-stadium.webp` sert de photo d’ambiance, sans prétendre représenter le lieu réel. Elle dérive de `venue-26.webp` : San Siro, Fra Casa, [source Wikimedia](https://commons.wikimedia.org/wiki/File:Inter-Como_Serie_A_2024-2025.jpg), [CC0](https://creativecommons.org/publicdomain/zero/1.0), recadrée à 800 × 300 et compressée à moins de 40 000 octets. Son crédit est accessible dans chaque bandeau. Toutes les photos gardent `loading="lazy"` et `decoding="async"`, y compris les cartes hors écran.

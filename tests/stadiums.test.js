@@ -54,13 +54,22 @@ test('pipeline conserve l’identifiant du stade et le terrain neutre', () => {
   assert.deepEqual(venueFromCompetition({}), { neutralSite: false, venue: null });
 });
 
-test('stade sans photo : illustration locale clairement indiquée avec le lieu réel', () => {
+test('stade sans photo : photo d’ambiance locale clairement indiquée', () => {
   const markup = stadiumMarkup(
     { homeId: 'inconnu', venue: { id: 'inconnu', name: 'Stade <inconnu>' } },
     {}
   );
-  assert.match(markup, /default-stadium\.svg/);
-  assert.match(markup, /Illustration · photo à venir/);
-  assert.match(markup, /Stade &lt;inconnu&gt;/);
+  assert.match(markup, /default-stadium\.webp/);
+  assert.match(markup, /Photo d’ambiance/);
+  assert.match(markup, /ne représente pas nécessairement le lieu du match/);
   assert.doesNotMatch(markup, /class="match-stadium-photo"/);
+});
+
+test('BET-358 : photo d’ambiance WebP locale inférieure à 40 Ko', async () => {
+  const { stat, readFile } = await import('node:fs/promises');
+  const path = new URL('../stadiums/default-stadium.webp', import.meta.url);
+  assert.ok((await stat(path)).size < 40000);
+  const bytes = await readFile(path);
+  assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
 });
