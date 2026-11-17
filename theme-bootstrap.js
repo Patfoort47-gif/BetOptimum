@@ -2,7 +2,7 @@
 (function () {
   if (typeof document === 'undefined') return;
   const key = 'betmaster-theme',
-    valid = (value) => (value === 'light' || value === 'dark' ? value : null),
+    valid = (value) => (value === 'light' || value === 'dark' || value === 'system' ? value : null),
     media = typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null;
   let preference = null,
     notify = () => {},
@@ -10,12 +10,13 @@
   try {
     preference = valid(localStorage.getItem(key));
   } catch {}
-  const current = () => preference ?? (media?.matches ? 'dark' : 'light');
+  const current = () =>
+    preference === 'system' ? (media?.matches ? 'dark' : 'light') : (preference ?? 'dark');
   const apply = () => {
     const dark = current() === 'dark';
     document.documentElement.classList.toggle('light', !dark);
     const meta = document.querySelector('meta[name=theme-color]');
-    if (meta) meta.content = dark ? '#0A0C0B' : '#F2F4F0';
+    if (meta) meta.content = dark ? '#111c16' : '#F2F4F0';
     document.querySelectorAll?.('[data-theme-choice]').forEach((input) => {
       input.checked = input.value === current();
     });
@@ -35,7 +36,7 @@
     change();
   };
   const systemChange = () => {
-    if (preference === null) change();
+    if (preference === 'system') change();
   };
   if (media?.addEventListener) media.addEventListener('change', systemChange);
   else media?.addListener?.(systemChange);
@@ -46,7 +47,7 @@
   });
   globalThis.betOptimumTheme = Object.freeze({
     current,
-    preference: () => preference ?? 'system',
+    preference: () => preference ?? 'dark',
     choose,
     bind(onChange) {
       notify = onChange ?? (() => {});

@@ -61,10 +61,10 @@ function boot({ stored = null, dark = false, blocked = false } = {}) {
 test('le thème est appliqué avant le rendu, suit l’OS et donne priorité au choix explicite', () => {
   for (const dark of [true, false]) {
     const s = boot({ dark });
-    assert.equal(s.ctx.light, !dark);
+    assert.equal(s.ctx.light, false);
     s.media.matches = !dark;
     s.handlers.system();
-    assert.equal(s.ctx.light, dark);
+    assert.equal(s.ctx.light, false);
     s.ctx.betOptimumTheme.bind();
     s.ctx.betOptimumTheme.choose(s.ctx.light ? 'dark' : 'light');
     const chosen = s.ctx.light;
@@ -79,17 +79,17 @@ test('préférence valide, invalide, stockage bloqué et suppression inter-ongle
   assert.equal(boot({ stored: 'invalid', dark: true }).ctx.light, false);
   const s = boot({ blocked: true });
   s.ctx.betOptimumTheme.bind();
-  s.ctx.betOptimumTheme.choose(s.ctx.light ? 'dark' : 'light');
-  assert.equal(s.ctx.light, false);
-  s.handlers.storage({ key: 'betmaster-theme', newValue: null });
+  s.ctx.betOptimumTheme.choose('light');
   assert.equal(s.ctx.light, true);
+  s.handlers.storage({ key: 'betmaster-theme', newValue: null });
+  assert.equal(s.ctx.light, false);
 });
 
 test('retour au système après choix manuel et validation des valeurs', () => {
   const s = boot({ stored: 'light', dark: true });
   s.ctx.betOptimumTheme.choose('system');
   assert.equal(s.ctx.light, false);
-  assert.equal(s.stored, null);
+  assert.equal(s.stored, 'system');
   assert.equal(s.ctx.betOptimumTheme.preference(), 'system');
   s.ctx.betOptimumTheme.choose('invalid');
   assert.equal(s.ctx.betOptimumTheme.preference(), 'system');
