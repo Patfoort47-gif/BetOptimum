@@ -1,5 +1,3 @@
-import { modelComparison, comparisonCard } from '../history/model-comparison.js';
-import { shareVisualCard } from '../sharing/visual-card.js';
 import { decimal } from '../core/number-format.js';
 // Page profil (BET-50) : en-tête, onglets, carte joueur partageable, radar, saisons, trophées, compte et confidentialité. Chargée à la demande par app.js.
 // Les chiffres de la carte viennent de formules pures de model.js (cardAttributes, cardOverall) ; les données de la vue serveur public_player_card.
@@ -318,13 +316,6 @@ export function initProfilePage(deps) {
         row ? `${html(echelonName(row.to_echelon))} · ${decimal(Number(row.points), 1)} pts` : '-';
     return `<h3>Bilan saison par saison</h3><div class="compare-table"><div class="compare-row compare-head"><span>Saison</span><b>${html(info.profile.nickname)}</b><b>Vous</b></div>${months.map((month) => `<div class="compare-row"><span>${seasonLabel(month)}</span><b>${cell(info.seasons.find((row) => row.season === month))}</b><b>${cell(info.own.seasons.find((row) => row.season === month))}</b></div>`).join('') || '<p class="empty">Aucune saison terminée.</p>'}</div>`;
   }
-  function comparisonMarkup(info) {
-    if (!info.self) return '';
-    const state = getState(),
-      r = modelComparison(state.history, state.predictionHistory),
-      card = comparisonCard(r);
-    return `<section class="settings-card model-comparison"><h3>Toi contre le modèle</h3><p>${card ? card.lines.slice(0, 3).map(html).join(' · ') : 'Pas encore de paire comparable.'}</p><p>Comparaison privée, semaine en cours : une unité par même match de chaque côté, dernier pari simple certifié. Combinés, anciens paris, annulations et pronostics sans cote réelle exclus. Les montants réellement misés ne servent pas à ce calcul.</p>${card ? '<button class="button secondary" data-share-model>Partager ces pourcentages en image</button><small>Uniquement les pourcentages et le nombre de matchs ; aucune identité, mise ni bankroll. Sans partage natif, le PNG est téléchargé.</small>' : ''}</section>`;
-  }
   function overview(info) {
     const standing = info.standing,
       state = getState();
@@ -360,7 +351,7 @@ export function initProfilePage(deps) {
             )
             .join('')
         : '<em>Pas encore de pronos réglés</em>'
-    }</span></div>${info.self && deps.race?.() ? `<p class="league-race">${deps.race()}</p>` : ''}<div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}${comparisonMarkup(info)}${compare && info.own?.seasons ? seasonsCompare(info) : ''}`;
+    }</span></div>${info.self && deps.race?.() ? `<p class="league-race">${deps.race()}</p>` : ''}<div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}${compare && info.own?.seasons ? seasonsCompare(info) : ''}`;
   }
   function seasons(info) {
     const rows = info.seasons.slice().reverse();
@@ -455,7 +446,9 @@ export function initProfilePage(deps) {
     const info = data,
       level = levelInfo(info.xp),
       crest = clubCrest(info.profile),
-      visibleTabs = TABS.filter(([, , own]) => !own || info.self);
+      visibleTabs = TABS.filter(
+        ([id, , own]) => (!own || info.self) && (id !== 'bets' || !info.self)
+      );
     if (!visibleTabs.some(([id]) => id === tab)) tab = 'overview';
     const body = {
       overview,
@@ -605,19 +598,6 @@ export function initProfilePage(deps) {
       tab = tabButton.dataset.tab;
       render();
       root.querySelector(`#ptab-${tab}`)?.focus();
-      return;
-    }
-    if (event.target.closest('[data-share-model]')) {
-      if (!data?.self) return;
-      const state = getState(),
-        payload = comparisonCard(modelComparison(state.history, state.predictionHistory));
-      if (!payload) return;
-      try {
-        const result = await shareVisualCard(payload, location.origin + location.pathname);
-        if (result === 'downloaded') toast('Image téléchargée pour votre message.');
-      } catch {
-        toast('Le partage a échoué. Réessayez.');
-      }
       return;
     }
     if (event.target.closest('[data-share-card]')) {

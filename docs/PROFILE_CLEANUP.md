@@ -9,3 +9,5 @@ La collecte n'alimente plus la boutique ; les clôtures et défis ne distribuent
 BET-328 retire les sélecteurs et le rendu des cadres dans les profils et classements. Les valeurs historiques restent conservées sans effet visuel.
 
 BET-329 retire l’éditeur d’avatar et la scène 3D des parcours profil et inscription. Les profils et classements affichent des initiales neutres, sans chargement d’image ni personnalisation. Les données historiques restent conservées.
+
+BET-337 : Mon profil ne présente plus d’onglet Mes paris ni de bloc Toi contre le modèle. L’historique personnel reste accessible depuis la navigation principale Mes paris. Les profils tiers conservent Ses paris lorsque leur propriétaire l’autorise.
