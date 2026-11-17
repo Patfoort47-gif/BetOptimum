@@ -12130,3 +12130,20 @@ section.club-ranking {
   font-weight: 600;
   color: var(--muted);
 }
+
+.neutral-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.neutral-avatar::before,
+.neutral-avatar::after {
+  content: none;
+}
