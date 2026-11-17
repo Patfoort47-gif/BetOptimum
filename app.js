@@ -1,3 +1,5 @@
+import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
+import { teamLogoMarkup } from './src/matches/team-logos.js';
 import {
   INVITATION_KEY,
   invitationPreview,
@@ -680,29 +682,6 @@ const ICONS = {
   all: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>',
   chevron:
     '<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'
-};
-const safeLogo = (url) =>
-  typeof url === 'string' &&
-  /^https:\/\/a\.espncdn\.com\/[\w\-./]+(?:\?(?:h=96&w=96|w=96&h=96))?$/.test(url)
-    ? url
-    : null;
-const initials = (name) => {
-  const words = String(name)
-    .replace(/[^\p{L}\p{N} ]/gu, ' ')
-    .split(' ')
-    .filter((word) => word.length > 1 && !/^(FC|AC|AS|SC|CF|SS|RC|OGC|AFC|de|la|le)$/i.test(word));
-  return (
-    words.length > 1
-      ? words
-          .slice(0, 3)
-          .map((word) => word[0])
-          .join('')
-      : (words[0] || String(name)).slice(0, 3)
-  ).toUpperCase();
-};
-const logoTag = (cls, url, name) => {
-  const src = safeLogo(url);
-  return `<span class="${cls}${src ? '' : ' no-logo'}" data-initials="${html(initials(name))}">${src ? `<img src="${html(src)}" alt="" loading="lazy" decoding="async" data-image-fallback="logo">` : ''}</span>`;
 };
 // Listes horizontales (dates, compétitions) : flèches, molette de la souris et sélection gardée visible.
 const scrollers = [];
@@ -1459,7 +1438,7 @@ function renderMatches() {
                 : m.featured
                   ? '<span class="big-match">Grande affiche</span>'
                   : '';
-        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span>${tag}${valueBetMarkup(a)}</div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${logoTag('crest', m.homeLogo, m.home)}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}<button type="button" class="match-center-stats" data-details="${html(m.id)}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span>Voir les stats</span></button></div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${logoTag('crest', m.awayLogo, m.away)}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
+        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span>${tag}${valueBetMarkup(a)}</div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home')}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}<button type="button" class="match-center-stats" data-details="${html(m.id)}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span>Voir les stats</span></button></div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away')}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
       })
       .join('') || matchListEmpty()
   );
