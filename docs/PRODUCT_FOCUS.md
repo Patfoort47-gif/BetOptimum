@@ -13,3 +13,5 @@ BET-309 retire l’ajout libre de capital, y compris pour les anciens clients. A
 BET-333 : le classement général remplace les parcours de ligues dans l’interface. La création, l’adhésion et les liens d’invitation sont retirés. Les historiques et calculs certifiés du serveur restent conservés.
 
 BET-338 : l’application ne présente plus de rubrique classement (joueurs ou équipes), de rang dans le profil ni d’annonce de changement de rang. Les anciens liens reviennent aux matchs. Les données historiques sont conservées.
+
+BET-340 retire aussi le défi du jour, son partage et son rappel. Les anciens pronostics sont conservés.

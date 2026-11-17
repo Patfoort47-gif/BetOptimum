@@ -58,6 +58,8 @@ export async function unseal(value, secret) {
 }
 /** @param {null | ((target: object, payload: string) => Promise<unknown>)} webSender */
 export async function deliver(channel, target, event, id, env, fetcher = fetch, webSender = null) {
+  if (event?.daily_challenge_reminder === true)
+    return { status: 'cancelled', error: 'Défi du jour retiré' };
   if (!validateDestination(channel, target))
     return { status: 'failed', error: 'Destination invalide' };
   const site = new URL(env.SITE_URL);

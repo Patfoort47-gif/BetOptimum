@@ -7,7 +7,6 @@ import {
   saveInvitation,
   readInvitation
 } from './src/club/private-invitation.js';
-import { dailyShare } from './src/sharing/daily-share.js';
 import { shareVisualCard } from './src/sharing/visual-card.js';
 import { closingMarkup } from './src/history/closing-odds.js';
 import { matchPreviewMarkup } from './src/matches/match-preview.js';
@@ -2681,7 +2680,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
             ? '#communaute'
             : tab === 'predictions'
               ? '#bilan-pronos'
-              : tab === 'matches' && ['#conseils-du-jour', '#defi-du-jour'].includes(location.hash)
+              : tab === 'matches' && location.hash === '#conseils-du-jour'
                 ? location.hash
                 : '';
   if (!/^#(?:access_token=|error=|error_code=)/.test(location.hash)) {
@@ -2834,100 +2833,6 @@ async function pollLive() {
   );
   renderLiveUpdates({ changed, finished });
 }
-// Défi du jour (BET-54) : 4 matchs imposés, cotes figées, pronostic 1N2 gratuit (aucune mise), fermé au coup d'envoi de chaque match.
-const dailySubmitting = new Set();
-function renderDaily() {
-  if (
-    typeof window !== 'undefined' &&
-    challengeScrollPending &&
-    state.dailyChallenge?.picks?.length
-  ) {
-    challengeScrollPending = false;
-    requestAnimationFrame(openDailyChallenge);
-  }
-  if (activeTab !== 'matches') return;
-  const box = $('#daily-challenge'),
-    challenge = state.dailyChallenge,
-    today = challenge?.date === parisDate(Date.now()),
-    picks = today ? (challenge.picks ?? []) : [];
-  if (!box) return;
-  box.hidden = !today || !picks.length;
-  if (!today || !picks.length) {
-    box.innerHTML = '';
-    return;
-  }
-  const mine = (id) => state.dailyPicks.find((pick) => pick.match_id === id),
-    played = picks.filter((pick) => mine(pick.matchId)).length,
-    labels = { home: '1', draw: 'N', away: '2' };
-  box.innerHTML = `<div class="daily-head"><div><p class="eyebrow">DÉFI DU JOUR</p><h3>${picks.length} match${picks.length > 1 ? 's' : ''} pour tous les joueurs</h3><small>Gratuit · aucune mise · mêmes cotes pour tous · gagné (cote plafonnée à ${LEAGUE_ODDS_CAP} - 1) × 10 points, perdu -1, annulé 0</small></div><strong class="daily-count">${played} sur ${picks.length} joué${played > 1 ? 's' : ''}</strong></div><div class="daily-list">${picks
-    .map((pick) => {
-      const match = allMatches().find((item) => item.id === pick.matchId),
-        closed = Date.now() >= new Date(pick.kickoff) || Boolean(match?.completed || match?.voided),
-        own = mine(pick.matchId),
-        time = new Date(pick.kickoff).toLocaleTimeString('fr-FR', {
-          timeZone: 'Europe/Paris',
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
-        result =
-          own && own.status !== 'pending'
-            ? `<b class="daily-result ${own.status}">${own.status === 'won' ? 'Bon prono' : own.status === 'lost' ? 'Raté' : 'Annulé'} · ${Number(own.points) > 0 ? '+' : ''}${decimal(Number(own.points), 1)} pts</b>`
-            : '';
-      return `<div class="daily-row${closed ? ' closed' : ''}" aria-busy="${dailySubmitting.has(pick.matchId)}"><span class="daily-league">${logoTag('league-logo small', leagueLogoUrl(pick.league), pick.league)}${html(pick.league)} · ${time}</span><span class="daily-teams">${logoTag('crest mini', match?.homeLogo, pick.home)}<strong>${html(pick.home)}</strong><em>contre</em>${logoTag('crest mini', match?.awayLogo, pick.away)}<strong>${html(pick.away)}</strong></span><span class="daily-odds">${['home', 'draw', 'away'].map((key) => (!closed && !dailyQuoteAvailable(pick, match, key) ? `<span class="daily-odd"><span>${labels[key]}</span><small>Cote indisponible</small></span>` : `<button class="daily-odd${own?.pick === key ? ' selected' : ''}" data-daily-match="${html(pick.matchId)}" data-daily-pick="${key}" ${closed || dailySubmitting.has(pick.matchId) || (own && own.status !== 'pending') ? 'disabled' : ''} aria-label="${html(pick.home)} contre ${html(pick.away)} : ${key === 'home' ? html(pick.home) + ' gagne' : key === 'away' ? html(pick.away) + ' gagne' : 'Match nul'} · cote ${decimal(Number(pick.odds[key]), 2)}" aria-pressed="${own?.pick === key}"><span>${labels[key]}</span><strong>${decimal(Number(pick.odds[key]), 2)}</strong></button>`)).join('')}</span><small class="daily-note">Cotes proposées à partir de 10 bookmakers par sélection</small>${result || `<small class="daily-note">${dailySubmitting.has(pick.matchId) ? 'Enregistrement en cours…' : closed ? 'Fermé au coup d’envoi' : own ? 'Prono enregistré · modifiable jusqu’au coup d’envoi' : 'Choisissez votre pronostic'}</small>`}</div>`;
-    })
-    .join(
-      ''
-    )}</div>${accountAuthenticated && played ? `<div class="daily-share"><p>Partager uniquement mes carrés de résultat et ma série, sans mise ni bankroll.</p><p>${html(dailyShare(challenge, state.dailyPicks)?.lines.slice(1, 3).join(' · ') ?? '')}</p><button class="button secondary" data-share-daily>Partager mon défi en image</button><a class="text-button" href="#defi-du-jour">Lien du défi du jour</a><small>Si le partage d’image n’est pas disponible, le PNG est téléchargé pour l’ajouter à votre message.</small></div>` : ''}`;
-}
-$('#daily-challenge')?.addEventListener('click', async (e) => {
-  if (e.target.closest('[data-share-daily]')) {
-    const payload = dailyShare(state.dailyChallenge, state.dailyPicks);
-    if (!accountAuthenticated || !payload) return;
-    try {
-      const result = await shareVisualCard(
-        payload,
-        location.origin + location.pathname + '#defi-du-jour'
-      );
-      if (result === 'downloaded')
-        toast('Image téléchargée : ajoutez-la à votre message avec le lien du défi.');
-    } catch {
-      toast('Le partage a échoué. Réessayez.');
-    }
-    return;
-  }
-  const button = e.target.closest('[data-daily-pick]');
-  if (!button) return;
-  if (!accountAuthenticated) {
-    openJoin('login');
-    toast('Connectez-vous pour jouer le défi du jour');
-    return;
-  }
-  if (!state.serverReady) {
-    toast('Le serveur de jeu est indisponible pour le moment');
-    return;
-  }
-  const matchId = button.dataset.dailyMatch,
-    challengePick = state.dailyChallenge?.picks?.find((p) => p.matchId === matchId),
-    challengeMatch = allMatches().find((m) => m.id === matchId);
-  if (
-    !challengePick ||
-    !dailyQuoteAvailable(challengePick, challengeMatch, button.dataset.dailyPick)
-  )
-    return;
-  if (dailySubmitting.has(matchId)) return;
-  dailySubmitting.add(matchId);
-  renderDaily();
-  try {
-    await accountApi.playDailyPick(matchId, button.dataset.dailyPick);
-    toast('Prono du défi enregistré');
-  } catch (error) {
-    toast(error.message);
-    if (['MATCH_COMMENCE', 'DEFI_INCONNU'].includes(error.code)) loadLiveFixtures();
-  } finally {
-    dailySubmitting.delete(matchId);
-    renderDaily();
-  }
-});
 function clubTable(rows, options = {}) {
   return renderClubTable(rows, {
     html,
@@ -3818,7 +3723,6 @@ $('#private-dialog')?.addEventListener('change', (e) => {
 });
 function renderActiveTab() {
   if (activeTab === 'matches') {
-    renderDaily();
     renderDateNavigator();
     renderFilters();
     renderMatches();
@@ -4416,20 +4320,11 @@ $('#challenge-list').addEventListener('click', async (e) => {
   button.disabled = false;
 });
 if (typeof window !== 'undefined') globalThis.betOptimumTheme?.bind(render);
-let challengeScrollPending = location.hash === '#defi-du-jour';
+// Les anciens liens du défi reviennent au calendrier.
 function openDailyChallenge() {
-  if (location.hash !== '#defi-du-jour') return;
-  setActiveTab('matches', false);
-  if (state.dailyChallenge?.picks?.length) {
-    challengeScrollPending = false;
-    $('#daily-challenge')?.scrollIntoView?.({ behavior: motionBehavior(), block: 'start' });
-  }
+  if (location.hash === '#defi-du-jour') setActiveTab('matches', false);
 }
-if (typeof window !== 'undefined')
-  addEventListener('hashchange', () => {
-    challengeScrollPending = location.hash === '#defi-du-jour';
-    if (challengeScrollPending) openDailyChallenge();
-  });
+if (typeof window !== 'undefined') addEventListener('hashchange', openDailyChallenge);
 $('#hero-confidence').addEventListener('click', () => showConfidence());
 $('#open-help').addEventListener('click', () => $('#help-dialog').showModal());
 document
@@ -4570,7 +4465,6 @@ if (typeof window !== 'undefined') {
     true
   );
   setInterval(tickCountdowns, 1000);
-  setInterval(renderDaily, 30000);
   setInterval(renderLeague, 60000);
   setInterval(pollLive, 20000);
   document.addEventListener('visibilitychange', () => {

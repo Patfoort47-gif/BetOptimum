@@ -38,22 +38,14 @@ Tester une équipe favorite, un championnat seul et un match correspondant aux d
 
 TTL de transport et expiration côté service worker : 120 secondes. Les résultats certifiés utilisent une notification regroupée, sans montant. Les messages expirés sont ignorés. Aucun délai de réception ne peut être garanti par iOS, Android ou le navigateur.
 
-## Rappel du défi du jour (BET-310)
+## Défi du jour retiré (BET-340)
 
-V65 après V64 ajoute `daily_challenge_reminder` et son consentement horodaté, désactivés pour tous les comptes existants. Dans Mon profil > Mes alertes, installer le site puis activer le canal push et cocher l’accord spécifique. iOS/iPadOS 16.4+ exige une ouverture depuis l’écran d’accueil ; Android Chrome propose l’installation. Le profil permet d’arrêter ce seul rappel. Désactiver le canal, le déconnecter ou se désabonner de tout efface également cet accord. Le mode Essentiel le suspend.
-
-Le minuteur existant vérifie à 10 h dans le fuseau du compte, pendant quinze minutes. Le jour du défi reste celui de Paris. Aucun rappel si le défi est absent, tous les choix remplis, les matchs fermés/annulés ou sans marché admissible. Les heures silencieuses s’appliquent ; aucun rattrapage au-delà de la fenêtre. Une seule réservation par compte et jour du défi, même après changement de fuseau ou nouvelle association. Le consentement, la participation et le calendrier sont relus au retrait de la file puis juste avant le transport.
-
-Message générique « Ton défi du jour t’attend », sans cote, choix ni montant. Le lien `#defi-du-jour` ouvre les matchs et fait défiler jusqu’au défi après chargement ; aucune validation automatique. Expiration transport à 120 secondes.
-
-Déployer V65, puis la fonction Edge notifications (révision BET-310, vérification JWT de passerelle désactivée, identités toujours contrôlées dans chaque route), puis le front. Ne pas envoyer de notification de test à un utilisateur sans son accord ; les recettes automatisées utilisent un transport fictif. La vérification de production `health` ne livre rien.
-
-Recettes : `npm test`, `PGLITE_MODULE=… node scripts/check-notification-sql.mjs`, navigateur mobile avec Android et iOS installés simulés. Vérifier séparément la réception sur un véritable Android Chrome et un iPhone/iPad installé : les simulations ne prouvent ni l’installation native ni la livraison APNs/FCM réelle.
+L’option de rappel, la planification et le transport des événements du défi sont retirés. Les anciens rappels en file sont annulés sans envoi. Les pronostics historiques sont conservés. Le conseil du jour reste disponible.
 
 BET-331 présente en premier les résultats et le conseil du jour. Les autres rappels, le mode Essentiel et le briefing email restent accessibles dans des sections dépliables, avec leurs accords inchangés et sans activation automatique.
 
 ## Réglage standard à l’activation (BET-339)
 
-Après accord explicite et permission système, une nouvelle activation des notifications sur l’appareil inclut le conseil du jour de 9 h. Le mode Essentiel, les rappels de favoris et du défi sont désactivés lors de cette activation standard ; ils restent réglables ensuite. Le conseil peut être coupé séparément. Aucun réglage n’est modifié au chargement de la page ni pour les abonnés actuels.
+Après accord explicite et permission système, une nouvelle activation des notifications sur l’appareil inclut le conseil du jour de 9 h. Le mode Essentiel, les rappels de favoris sont désactivés lors de cette activation standard ; ils restent réglables ensuite. Le conseil peut être coupé séparément. Aucun réglage n’est modifié au chargement de la page ni pour les abonnés actuels.
 
 Le conseil par email est présenté directement dans Mes alertes ; lors d’une activation, le formulaire propose 9 h dans le fuseau du compte. L’adresse doit être associée et l’accord coché puis enregistré. Un abonné actif conserve son horaire. Aucun compte désabonné n’est réinscrit automatiquement.
