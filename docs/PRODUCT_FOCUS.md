@@ -9,3 +9,5 @@ Le gel porte notamment sur les extensions de divisions et ligues spéciales, les
 Les jetons et la boutique restent retirés de la production par V52 (BET-199). Toute réactivation exige des avis écrits sur les points 1 à 4 de VALIDATION_JURIDIQUE.md puis une décision explicite du propriétaire. La décision du 4 novembre 2026 n’autorise plus une réactivation future.
 
 BET-309 retire l’ajout libre de capital, y compris pour les anciens clients. Aucune recharge payée en jetons n’est réactivée. BET-310 ajoute un accord distinct, désactivé par défaut, pour rappeler le défi du jour. Aucun utilisateur existant ne doit être abonné automatiquement.
+
+BET-333 : le classement général remplace les parcours de ligues dans l’interface. La création, l’adhésion et les liens d’invitation sont retirés. Les historiques et calculs certifiés du serveur restent conservés.

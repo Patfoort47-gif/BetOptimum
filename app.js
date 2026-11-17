@@ -2092,15 +2092,7 @@ function leagueDecision() {
 }
 function renderLeagueToggle() {
   const box = $('#league-toggle');
-  if (!box) return;
-  const show = accountAuthenticated && state.serverReady && state.ticket.length > 0;
-  box.hidden = !show;
-  if (!show) return;
-  const decision = leagueDecision(),
-    input = $('#counts-league');
-  input.disabled = !decision.ok;
-  input.checked = decision.ok && state.countsLeague;
-  $('#league-note').textContent = decision.note;
+  if (box) box.hidden = true;
 }
 function addSelection(matchId, key, from) {
   const origin = from?.getBoundingClientRect();
@@ -2436,12 +2428,6 @@ function menuAction(action) {
   } else if (action === 'league') {
     setActiveTab('community', true);
     setCommunityTab('league');
-    $('#club-league-select').value = 'group';
-    selectClubLeague();
-    setTimeout(
-      () => $('#my-league')?.scrollIntoView({ behavior: motionBehavior(), block: 'start' }),
-      50
-    );
   } else if (action === 'avatar') {
     setActiveTab('profile', true, { self: true });
   } else if (action === 'account') {
@@ -2976,34 +2962,8 @@ function seasonCountdown(season) {
   return days ? `${days} j ${hours} h` : `${hours} h ${Math.floor((diff % 36e5) / 6e4)} min`;
 }
 function renderLeague() {
-  if (activeTab !== 'community') return;
-  const box = $('#my-league'),
-    league = state.league;
-  if (!box) return;
-  box.hidden = !league || ($('#club-league-select')?.value || 'general') !== 'group';
-  if (!league) return;
-  const mine = league.rows.find((row) => row.user_id === league.me),
-    size = league.rows.length,
-    zone = Math.max(1, Math.round(size * 0.2)),
-    placement = league.echelon == null,
-    name = placement ? 'Journée de placement' : echelonName(league.echelon),
-    sub = placement
-      ? 'Votre classement vous placera dans la ligue à la fin de la journée hebdomadaire.'
-      : `${divisionOf(league.echelon)}${league.groupLabel ? ` · Groupe ${html(league.groupLabel)}` : ''}`;
-  const trend = (row) =>
-    row.prev_rank == null || row.prev_rank === row.rank
-      ? '<span class="trend">=</span>'
-      : row.prev_rank > row.rank
-        ? `<span class="trend up">▲ ${row.prev_rank - row.rank}</span>`
-        : `<span class="trend down">▼ ${row.rank - row.prev_rank}</span>`;
-  const gap =
-      mine && mine.confirmed !== false && !placement && mine.rank > zone
-        ? league.rows[zone - 1]
-        : null,
-    race = gap
-      ? `<p class="league-race">Course à la montée : ${decimal(Math.max(0, Number(gap.points) - Number(mine.points)), 1)} points pour entrer dans la zone de montée.</p>`
-      : '';
-  box.innerHTML = `<div class="league-head"><div>${divisionBadge(league.echelon)}<h3>${html(name)}</h3><small>${sub}</small></div><div class="league-clock"><small>${league.season ? `${html(seasonLabel(league.season))} · ${html(seasonDates(league.season).start)} au ${html(seasonDates(league.season).end)}` : 'Saison en préparation'}</small><small>${html(roundLabel(Date.now()))}</small><small>FIN DE JOURNÉE DANS</small><strong>${league.season ? roundCountdown() : '-'}</strong></div></div>${league.inactive ? '<p class="league-note">Vous êtes inactif : placez un pronostic pour revenir dans un groupe à la prochaine journée.</p>' : ''}${race}${size ? `${clubTable(league.rows, { rowClass: (row) => (placement || row.confirmed === false ? '' : row.rank <= zone ? 'up' : row.rank > size - zone ? 'down' : '') })}<p class="league-legend"><i class="up"></i>Zone de montée <i class="down"></i>Zone de descente · promotion : 10 pronos réglés hors annulations et 50 % des pronos du défi proposés cette semaine depuis votre arrivée</p>` : '<p class="empty">Le classement de votre groupe apparaîtra après les premiers pronos réglés.</p>'}`;
+  const box = $('#my-league');
+  if (box) box.hidden = true;
 }
 // Écran de fin de saison : affiché une seule fois (PROMU, MAINTENU ou RELEGUE) avec les emblèmes avant et après et les déblocages.
 function showSeasonResult() {
@@ -3077,34 +3037,7 @@ function renderSpecial() {
     .join('')}</div>`;
 }
 async function openSpecialLeague(id) {
-  const league = state.special?.leagues.find((item) => item.id === id),
-    dialog = $('#special-dialog');
-  if (!league || !dialog?.showModal) return;
-  const round = currentRound(id),
-    picks = specialPicks(id).filter((pick) => pick.round_id === round?.id),
-    free = picks.filter((pick) => pick.kind === 'free').length;
-  const matches = round
-    ? round.match_ids
-        .map((matchId) => allMatches().find((match) => match.id === matchId))
-        .filter(Boolean)
-    : [];
-  const pickKeys = (matchId) =>
-    picks.filter((pick) => pick.match_ids.includes(matchId) && pick.key).map((pick) => pick.key);
-  const grid = round
-    ? `<div class="special-grid"><p class="special-round"><strong>${html(round.label)}</strong> · ${league.kind === 'club' ? '1N2 imposé + 1 autre marché' : `match phare imposé en 1N2 + ${round.free_slots} prono${round.free_slots > 1 ? 's' : ''} libre${round.free_slots > 1 ? 's' : ''}${round.knockout ? ' (élimination directe)' : ''}`} · <b>${Math.max(0, round.free_slots - free)} libre${round.free_slots - free > 1 ? 's' : ''} sur ${round.free_slots}</b></p>${matches
-        .map((match) => {
-          const closed = Date.now() >= kickoffAt(match) || match.completed || match.voided,
-            anchor = match.id === round.anchor;
-          return `<div class="special-match${anchor ? ' anchor' : ''}${closed ? ' closed' : ''}" aria-busy="${specialSubmitting.has(id + ':' + match.id)}"><span>${anchor ? '<b class="big-match">Match phare</b> ' : ''}${html(match.home)} - ${html(match.away)} <small>${html(match.time)}</small></span><span class="special-markets">${['home', 'draw', 'away', 'over', 'btts'].map((key) => (!closed && !quoteAvailable(match, key) ? `<span class="daily-odd"><span>${MARKET_SHORT[key]}</span><small>Cote indisponible</small></span>` : `<button class="daily-odd${pickKeys(match.id).includes(key) ? ' selected' : ''}" data-special-league="${html(id)}" data-special-match="${html(match.id)}" data-special-key="${key}" ${closed || specialSubmitting.has(id + ':' + match.id) ? 'disabled' : ''} aria-pressed="${pickKeys(match.id).includes(key)}" aria-label="${html(match.home)} contre ${html(match.away)} : ${key === 'home' ? html(match.home) + ' gagne' : key === 'away' ? html(match.away) + ' gagne' : key === 'draw' ? 'Match nul' : key === 'over' ? 'Plus de 2,5 buts' : 'Les deux équipes marquent'} · cote ${decimal(Number(match.odds[key]), 2)}"><span>${MARKET_SHORT[key]}</span><strong>${decimal(Number(match.odds[key]), 2)}</strong></button>`)).join('')}</span><small class="special-pick-status" role="status">${specialSubmitting.has(id + ':' + match.id) ? 'Enregistrement en cours…' : pickKeys(match.id).length ? 'Pronostic enregistré' + (closed ? '' : ' · recliquez sur votre choix pour le retirer') : closed ? 'Match fermé au coup d’envoi' : 'Choisissez une cote pour enregistrer votre pronostic'}</small></div>`;
-        })
-        .join('')}</div>`
-    : '<p class="empty">Aucune journée à venir pour le moment.</p>';
-  $('#special-content').innerHTML =
-    `<div class="special-head">${logoTag('league-logo competition-badge', specialLogo(league), league.name)}<div><p class="eyebrow">LIGUE ${league.kind === 'club' ? 'CLUB' : 'SPÉCIALE'}</p><h2 id="special-title">${html(league.name)}</h2></div></div><section class="grid-guide" aria-labelledby="special-grid-title"><p class="eyebrow">GRATUIT · SANS MISE</p><h3 id="special-grid-title">Ma grille du jour</h3><ol><li>Repérez le match phare et choisissez 1 (domicile), N (nul) ou 2 (extérieur).</li><li>Complétez les pronostics libres selon les places disponibles ci-dessous.</li><li>Chaque clic enregistre votre choix immédiatement. Vous pouvez le modifier avant le coup d’envoi.</li></ol></section>${grid}<section class="league-ranking-surface">${leagueWatermark(league)}<h3>Classement de la compétition</h3><div class="period-switch" id="special-scope"><button class="active" data-scope="season">Saison</button><button data-scope="${monthKey(Date.now())}">Ce mois</button></div><div id="special-standings" class="special-standings"><p class="empty">Chargement du classement…</p></div></section>`;
-  dialog.dataset.league = id;
-  dialog.__invitePreview = invitationPreview(league);
-  if (!dialog.open) dialog.showModal();
-  loadSpecialStandings(id, 'season');
+  // BET-333 : parcours retiré ; conserver les historiques côté serveur.
 }
 let specialRankingRequest = 0;
 async function loadSpecialStandings(id, scope) {
@@ -3218,30 +3151,7 @@ $('#special-dialog')?.addEventListener('click', (e) => {
 // Sur le ticket : liste des ligues dans lesquelles le pari compte (ligue générale et ligues spéciales du joueur).
 function renderLeagueList() {
   const box = $('#league-list');
-  if (!box) return;
-  const data = state.special,
-    show =
-      accountAuthenticated &&
-      state.serverReady &&
-      state.ticket.length > 0 &&
-      state.betMode !== 'multiple';
-  box.hidden = !show;
-  if (!show) return;
-  const selections = state.ticket.map((item) => ({ matchId: item.matchId, key: item.key })),
-    lines = [];
-  if (state.betMode !== 'single' || state.ticket.length === 1) {
-    const general = leagueDecision();
-    lines.push(
-      `<li class="${general.ok && state.countsLeague ? 'on' : 'off'}"><b>Ligue générale</b><small>${general.ok && state.countsLeague ? 'compte' : 'ne compte pas'}</small></li>`
-    );
-    for (const league of (data?.leagues ?? []).filter((item) => data.mine.includes(item.id))) {
-      const fit = ticketFit(league, specialRounds(league.id), specialPicks(league.id), selections);
-      lines.push(
-        `<li class="${fit.counts ? 'on' : 'off'}"><b>${html(league.name)}</b><small>${fit.counts ? (fit.kind === 'anchor' ? 'compte (match phare)' : 'compte (prono libre)') : 'ne compte pas'}</small></li>`
-      );
-    }
-  }
-  box.innerHTML = lines.length ? `<p>Ce pari compte pour</p><ul>${lines.join('')}</ul>` : '';
+  if (box) box.hidden = true;
 }
 // Niveau, titre et XP (BET-57) : prestige seul, aucun avantage. Notification « +15 XP · prono gagné » pour les événements nouveaux.
 const XP_LABELS = {
@@ -3345,7 +3255,7 @@ function celebrateWins(progress) {
 // Hub communauté (BET-60) : onglets, classement général paginé côté serveur, podium, suivis, fil d'activité, hall of fame.
 const COMMUNITY_TABS = ['league', 'general', 'follows', 'private', 'challenges', 'fame'];
 function setCommunityTab(tab) {
-  if (tab === 'general') tab = 'league';
+  if (tab === 'general' || tab === 'private') tab = 'league';
   if (tab === 'fame') tab = 'challenges';
   if (!COMMUNITY_TABS.includes(tab)) tab = 'league';
   state.community.tab = tab;
@@ -3385,34 +3295,16 @@ function setCommunityTab(tab) {
 }
 function selectClubLeague() {
   ++clubRankingRequest;
-  const id = $('#club-league-select')?.value || 'general';
-  $('#club-general').hidden = id !== 'general';
-  $('#my-league').hidden = id !== 'group' || !state.league;
-  const box = $('#club-competition');
-  box.hidden = ['general', 'group'].includes(id);
-  if (id === 'general') {
-    loadGeneral();
-    return;
-  }
-  if (id === 'group') {
-    renderLeague();
-    if (!state.league) {
-      box.hidden = false;
-      box.innerHTML =
-        '<p class="empty">Connectez-vous puis placez un pronostic pour retrouver votre groupe de division.</p>';
-    }
-    return;
-  }
-  const league = state.special?.leagues.find((item) => item.id === id);
-  if (!league) return;
-  box.innerHTML = `<div class="special-head">${logoTag('league-logo competition-badge', specialLogo(league), league.name)}<div><p class="eyebrow">COMPÉTITION</p><h3>${html(league.name)}</h3></div><div class="grid-entry"><button class="button" data-open-league="${html(id)}">Remplir ma grille du jour</button><small>Gratuit · sans mise · choix enregistrés au clic</small></div>${league.access === 'premium' ? `<button class="text-button" data-club-leave="${html(id)}">Quitter la ligue premium</button>` : ''}</div><div class="period-switch" id="club-special-scope"><button class="active" data-club-scope="season">Saison</button><button data-club-scope="${monthKey(Date.now())}">Ce mois</button></div><div class="league-ranking-surface">${leagueWatermark(league)}<div id="club-special-ranking" aria-live="polite"></div></div>`;
-  loadClubStandings(id, 'season');
+  $('#club-general').hidden = false;
+  $('#my-league').hidden = true;
+  $('#club-competition').hidden = true;
+  loadGeneral();
 }
 let clubRankingRequest = 0,
   clubRankingChosen = false;
 function defaultClubRanking() {
   const selector = $('#club-league-select');
-  if (selector && !clubRankingChosen) selector.value = state.league ? 'group' : 'general';
+  if (selector) selector.value = 'general';
 }
 async function loadClubStandings(id, scope) {
   const request = ++clubRankingRequest,
@@ -3544,7 +3436,7 @@ function renderGeneral() {
   if (criteria)
     criteria.textContent = [
       c.scope === 'alltime' ? 'Depuis le début' : 'Saison en cours',
-      `Tri : ${{ points: 'points de ligue', roi: 'rendement (ROI)', wins: 'pronostics gagnés' }[c.sort]} décroissants`,
+      `Tri : ${{ points: 'points', roi: 'rendement (ROI)', wins: 'pronostics gagnés' }[c.sort]} décroissants`,
       $('#general-division')?.selectedOptions?.[0]?.textContent ?? 'Toutes les divisions',
       $('#general-club')?.selectedOptions?.[0]?.textContent ?? 'Tous les clubs',
       c.search ? `Pseudo : ${c.search}` : ''
@@ -3760,17 +3652,7 @@ if (parseInvitation(location.href)) {
 let pendingPrivateCode = pendingInvitation?.code ?? null;
 let inviteJoining = false;
 function showPrivateInvitation(message = '') {
-  if (message && pendingInvitation) pendingInvitation.message = message;
-  if (!pendingPrivateCode || !accountApi) return;
-  message = message || pendingInvitation?.message || '';
-  const dialog = $('#private-dialog'),
-    p = pendingInvitation?.preview;
-  if (!dialog?.showModal) return;
-  $('#private-content').innerHTML =
-    `<h2 id="private-title">${html(p?.name ?? 'Invitation à une ligue privée')}</h2><p>${html(pendingPrivateCode)}</p>${p ? `<p>${p.members}/50 membres · podium anonyme : ${p.ranking.map((n, i) => `${i + 1}. ${decimal(n, 1)} pts`).join(' · ') || 'à venir'}</p><small>Aperçu fourni par l’invitation, non vérifié et susceptible d’être ancien. Aucun membre identifié ; classement confirmé après adhésion.</small>` : ''}<p>En rejoignant cette ligue, votre pseudo et vos points seront visibles de ses membres. 50 membres au maximum.</p><p role="status">${html(message)}</p>${accountAuthenticated ? '<button class="button primary" data-accept-invitation>Rejoindre cette ligue</button>' : `<form data-invitation-email><label>Adresse email<input name="email" type="email" autocomplete="email" required maxlength="254"></label><label><input name="adult" type="checkbox" required> J’ai 18 ans ou plus et j’accepte le règlement du club.</label><button class="button primary" type="submit">Recevoir mon lien email et rejoindre</button><small>Compte existant ou nouveau : connexion sans mot de passe. Aucun abonnement à une newsletter.</small></form>`}<button class="text-button" data-cancel-invitation>Annuler l’invitation</button>`;
-  delete dialog.dataset.league;
-  delete dialog.__invitePreview;
-  if (!dialog.open) dialog.showModal();
+  // BET-333 : parcours retiré ; conserver les historiques côté serveur.
 }
 function clearPrivateInvitation() {
   pendingPrivateCode = null;
@@ -3821,37 +3703,11 @@ $('#private-dialog')?.addEventListener('click', (e) => {
   }
 });
 function renderPrivate() {
-  if (activeTab !== 'community') return;
-  const box = $('#private-leagues'),
-    data = state.private;
-  if (!box) return;
-  box.hidden = !data;
-  if (!data) return;
-  const joined = data.leagues.length,
-    can = canCreateOrJoin(joined);
-  box.innerHTML = `<div class="league-catalog-head"><strong>Ligues privées entre amis</strong><small>${joined} ligue${joined > 1 ? 's' : ''} rejointe${joined > 1 ? 's' : ''} · adhésions illimitées · ${PRIVATE_LIMITS.members} membres au plus · mêmes points que la ligue générale, aucun prono en plus</small></div><div class="private-list">${data.leagues.map((league) => `<button class="league-card" data-private-open="${html(league.id)}"><span class="private-emblem" aria-hidden="true">${emblemOf(league.emblem)}</span><div><strong>${html(league.name)}</strong><small>${league.members} membre${league.members > 1 ? 's' : ''}${league.owner ? ' · vous êtes propriétaire' : ''}</small></div></button>`).join('') || '<p class="empty">Vous n’êtes dans aucune ligue privée.</p>'}</div><div class="private-actions"><form data-private-form="create" class="private-form"><strong>Créer une ligue</strong><input name="name" placeholder="Nom de la ligue" minlength="3" maxlength="30" required aria-label="Nom de la ligue" ${can ? '' : 'disabled'}><select name="emblem" aria-label="Emblème">${PRIVATE_EMBLEMS.map(([key, icon]) => `<option value="${key}">${icon} ${key}</option>`).join('')}</select><button class="button secondary" ${can ? '' : 'disabled'}>Créer</button></form><form data-private-form="join" class="private-form"><strong>Rejoindre avec un code</strong><input name="code" placeholder="BM-XXXXXXXX" maxlength="11" required autocomplete="off" aria-label="Code d’invitation" ${can ? '' : 'disabled'}><button class="button secondary" ${can ? '' : 'disabled'}>Rejoindre</button></form></div>`;
+  const box = $('#private-leagues');
+  if (box) box.hidden = true;
 }
 async function openPrivateLeague(id, season = null) {
-  const league = state.private?.leagues.find((item) => item.id === id),
-    dialog = $('#private-dialog');
-  if (!league || !dialog?.showModal) return;
-  $('#private-content').innerHTML =
-    `<div class="special-head"><span class="private-emblem big" aria-hidden="true">${emblemOf(league.emblem)}</span><div><p class="eyebrow">LIGUE PRIVÉE</p><h2 id="private-title">${html(league.name)}</h2></div></div><div class="private-invite"><b>${html(league.code)}</b><button class="button secondary" data-copy-code="${html(league.code)}">Copier le code</button><button class="button secondary" data-copy-link="${html(league.code)}">Copier le lien</button><button class="button secondary" data-share-invitation>Partager l’invitation en image</button><small>Partager expose le nom de la ligue, son effectif et le podium anonyme, sans identité de membre. Toute personne disposant du code peut demander à rejoindre.</small></div><div id="private-ranking" class="special-standings"><p class="empty">Chargement du classement…</p></div><div class="private-admin">${league.owner ? `<button class="text-button" data-private-regen="${html(league.id)}">Nouveau code</button><button class="text-button danger-text" data-private-delete="${html(league.id)}">Supprimer la ligue</button>` : ''}<button class="text-button" data-private-leave="${html(league.id)}">Quitter la ligue</button></div>`;
-  dialog.dataset.league = id;
-  if (!dialog.open) dialog.showModal();
-  try {
-    const [rows, seasons] = await Promise.all([
-        accountApi.privateLeagues.ranking(id, season),
-        accountApi.privateLeagues.seasons(id)
-      ]),
-      current = season ?? seasonKey(Date.now()),
-      options = [...new Set([seasonKey(Date.now()), ...seasons])];
-    dialog.__invitePreview = invitationPreview(league, rows);
-    $('#private-ranking').innerHTML =
-      `<label class="private-season">Saison <select data-private-season>${options.map((item) => `<option value="${html(item)}" ${item === current ? 'selected' : ''}>${html(item)}</option>`).join('')}</select></label>${clubTable(rows, { details: (row) => `${league.owner && row.user_id !== state.private.me ? ` <button class="text-button danger-text" data-private-kick="${html(row.user_id)}" aria-label="Exclure ${html(row.nickname)}">Exclure</button>` : ''}${row.user_id === league.owner_id ? ' <small>propriétaire</small>' : ''}` })}`;
-  } catch (error) {
-    $('#private-ranking').innerHTML = `<p class="empty">${html(error.message)}</p>`;
-  }
+  // BET-333 : parcours retiré ; conserver les historiques côté serveur.
 }
 async function privateAction(action, done) {
   if (!accountAuthenticated) {
@@ -3866,38 +3722,7 @@ async function privateAction(action, done) {
   }
 }
 async function offerPrivateJoin() {
-  const code = pendingPrivateCode;
-  if (!code || !accountApi || inviteJoining) return;
-  if (!accountAuthenticated || !state.serverReady || !state.private) {
-    showPrivateInvitation();
-    return;
-  }
-  if (state.private.leagues.some((item) => item.code === code)) {
-    clearPrivateInvitation();
-    $('#private-dialog')?.close();
-    return;
-  }
-  if (!pendingInvitation?.autoJoin) {
-    showPrivateInvitation();
-    return;
-  }
-  inviteJoining = true;
-  try {
-    await accountApi.privateLeagues.join(code);
-    clearPrivateInvitation();
-    $('#private-dialog')?.close();
-    toast('Ligue rejointe');
-    setActiveTab('community');
-    setCommunityTab('private');
-  } catch (error) {
-    if (pendingInvitation) {
-      pendingInvitation.autoJoin = false;
-      saveInvitation(invitationStorage, pendingInvitation, false);
-      showPrivateInvitation(error.message);
-    }
-  } finally {
-    inviteJoining = false;
-  }
+  // BET-333 : parcours retiré ; conserver les historiques côté serveur.
 }
 $('#private-leagues')?.addEventListener('submit', (e) => {
   e.preventDefault();
