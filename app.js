@@ -1245,6 +1245,25 @@ function matchListEmpty() {
     )
   );
 }
+function resultSelections(match, analysis) {
+  if (match.completed || match.voided || isLive(match) || kickoffAt(match) <= Date.now()) return '';
+  const buttons = [
+    ['home', '1'],
+    ['draw', 'N'],
+    ['away', '2']
+  ]
+    .map(([key, label]) => {
+      const market = analysis.markets.find((item) => item.key === key);
+      const available = market && Number.isFinite(market.probability) && quoteAvailable(match, key);
+      const probability =
+        market && Number.isFinite(market.probability)
+          ? `${Math.round(market.probability * 100)} %`
+          : 'Probabilité indisponible';
+      return `<button type="button" class="result-pick" data-result-pick data-match="${html(match.id)}" data-market="${key}" aria-pressed="false"${available ? '' : ' disabled'}><span>${label}</span><strong>${available ? decimal(market.odd, 2) : 'Indisponible'}</strong><small>${probability}</small></button>`;
+    })
+    .join('');
+  return `<div class="match-result-picks" role="group" aria-label="Résultat du match : cote réelle et probabilité estimée">${buttons}</div>`;
+}
 function quickSelection(match, best) {
   if (!best?.key)
     return '<div class="recommended"><span class="selection-eyebrow">LA SÉLECTION DU MATCH</span><strong>Aucune sélection admissible</strong><small>Il faut une cote supérieure à 1,15 et au moins 10 bookmakers par sélection.</small></div>';
@@ -1440,7 +1459,7 @@ function renderMatches() {
                 : m.featured
                   ? '<span class="big-match">Grande affiche</span>'
                   : '';
-        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span>${tag}</div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${logoTag('crest', m.homeLogo, m.home)}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}<button type="button" class="match-center-stats" data-details="${html(m.id)}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span>Voir les stats</span></button></div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${logoTag('crest', m.awayLogo, m.away)}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${betting}<p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
+        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span>${tag}${best?.real && best?.value > 0.03 ? '<span class="value-bet-badge">Value Bet</span>' : ''}</div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${logoTag('crest', m.homeLogo, m.home)}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}<button type="button" class="match-center-stats" data-details="${html(m.id)}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span>Voir les stats</span></button></div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${logoTag('crest', m.awayLogo, m.away)}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-other-markets"><summary>Autres marchés et conseil</summary><div class="mobile-advice">${!m.completed && !live && !m.voided && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}</div>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
       })
       .join('') || matchListEmpty()
   );
@@ -2141,6 +2160,14 @@ function addSelection(matchId, key, from) {
   const origin = from?.getBoundingClientRect();
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) {
     toast('Vérifiez d’abord le pari en attente.');
+    return;
+  }
+  if (
+    from?.hasAttribute?.('data-result-pick') &&
+    state.ticket.some((item) => item.matchId === matchId && item.key === key)
+  ) {
+    state.ticket = state.ticket.filter((item) => item.matchId !== matchId || item.key !== key);
+    renderTicket();
     return;
   }
   const match = allMatches().find((x) => x.id === matchId);
