@@ -10,7 +10,7 @@ const assert = require('node:assert/strict'),
         const toggle = p.locator('#match-resources-toggle-espn-1'),
           panel = p.locator('#match-resources-espn-1');
         assert.equal(await panel.isVisible(), false);
-        assert.equal(await p.locator('.match-disclaimer').first().isVisible(), true);
+        assert.equal(await p.locator('.match-disclaimer').count(), 0);
         assert.equal(await p.locator('.match-selection').first().isVisible(), true);
         await toggle.focus();
         await p.keyboard.press('Space');

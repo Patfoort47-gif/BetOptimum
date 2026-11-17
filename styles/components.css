@@ -8937,13 +8937,6 @@ section.club-ranking {
   height: 38px;
   flex: none;
 }
-.match-disclaimer {
-  margin: 0;
-  text-align: right;
-  color: var(--muted);
-  font-size: 11px;
-  font-style: italic;
-}
 @container (max-width:570px) {
   .market-grid-wrap .featured-markets {
     grid-template-columns: 1fr 1fr;
@@ -11772,11 +11765,6 @@ section.club-ranking {
   }
   .match-card .match-resources {
     display: grid;
-  }
-  .match-card .match-disclaimer {
-    display: block;
-    font-size: 10px;
-    line-height: 1.5;
   }
   .match-card .market-grid-wrap .predictions-heading {
     display: block;
