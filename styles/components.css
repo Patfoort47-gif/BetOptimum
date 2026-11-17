@@ -12421,3 +12421,42 @@ body {
     gap: 6px;
   }
 }
+/* BET-354 : résumé du ticket toujours accessible au-dessus des onglets. */
+@media (max-width: 767px) {
+  body .mobile-coupon:not([hidden]) {
+    left: 12px;
+    right: 12px;
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    min-height: 56px;
+    min-width: 0;
+    border-radius: 14px;
+    padding: 10px 12px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+  }
+  body .mobile-coupon .coupon-count {
+    position: static;
+    display: block;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 12px;
+  }
+  body .mobile-coupon .coupon-label {
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  body .mobile-coupon:active {
+    transform: scale(0.99);
+  }
+}

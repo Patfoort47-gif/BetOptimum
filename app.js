@@ -1918,10 +1918,11 @@ function renderMobileCoupon() {
     visible = state.ticket.length > 0;
   bar.hidden = !visible;
   document.body?.classList.toggle('has-mobile-coupon', visible);
-  $('#coupon-count').textContent = state.ticket.length;
+  $('#coupon-count').textContent =
+    `${state.ticket.length} sélection${state.ticket.length > 1 ? 's' : ''}`;
   const odds = state.ticket.reduce((total, item) => total * item.odd, 1),
     count = state.ticket.length;
-  $('#coupon-odds').textContent = decimal(odds, 2);
+  $('#coupon-odds').textContent = `Cote ${decimal(odds, 2)}`;
   bar.setAttribute?.(
     'aria-label',
     `Ouvrir mon coupon : ${count} sélection${count > 1 ? 's' : ''}, cote cumulée ${decimal(odds, 2)}`
@@ -4178,7 +4179,6 @@ $('#place-bet').addEventListener('click', async () => {
       rememberTicket();
       $('#bet-feedback').textContent = 'Pari invité enregistré. Retrouvez-le dans Mes paris.';
       setBuilderDrawer(false);
-      setActiveTab('bankroll', true);
       render();
       toast('Pari virtuel enregistré en mode invité.');
     } catch (error) {
