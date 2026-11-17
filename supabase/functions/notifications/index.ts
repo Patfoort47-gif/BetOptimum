@@ -7,6 +7,7 @@ import {
   NotificationFailure,
   reportNotificationFailure
 } from '../../../src/notifications/notification-diagnostics.js';
+import { emailSenderStatus } from '../../../src/notifications/email-sender.js';
 import { notificationConfig } from '../../../src/notifications/notification-config.js';
 import { briefingDataStatus } from '../../../src/notifications/briefing-data.js';
 import { planBriefing } from '../../../src/notifications/notification-briefing.js';
@@ -404,7 +405,7 @@ async function worker(
       'notification_events?created_at=lt.' + new Date(Date.now() - 30 * 864e5).toISOString(),
       'DELETE'
     );
-  return { queued, sent, claimed: deliveries.length, revision: 'BET-349' };
+  return { queued, sent, claimed: deliveries.length, revision: 'BET-350' };
 }
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
@@ -426,13 +427,13 @@ Deno.serve(async (request) => {
         return json({ error: 'Non autorisé' }, 401);
       if (body.dry_run === true)
         return json({
-          revision: 'BET-349',
+          revision: 'BET-350',
           dry_run: true,
           available: notificationConfig(env).available
         });
       return json(await runScheduledReminders(db, worker));
     }
-    if (body.action === 'worker' || body.action === 'health') {
+    if (['worker', 'health', 'sender_status'].includes(body.action)) {
       if (
         !(await sameSecret(
           request.headers.get('x-worker-secret') ?? '',
@@ -440,9 +441,10 @@ Deno.serve(async (request) => {
         ))
       )
         return json({ error: 'Non autorisé' }, 401);
+      if (body.action === 'sender_status') return json(await emailSenderStatus(env));
       if (body.action === 'health')
         return json({
-          revision: 'BET-349',
+          revision: 'BET-350',
           dry_run: true,
           available: notificationConfig(env).available
         });

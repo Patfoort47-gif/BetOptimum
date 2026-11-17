@@ -48,3 +48,11 @@ Le test email reste identifié comme démonstration, sans conseil réel et avec 
 Le transport dépend du fournisseur, du système du téléphone et du réseau. Aucun résultat ni délai de livraison n’est garanti. Paris virtuels · 18+ · Aucune garantie de gain.
 
 BET-310 : le rappel du défi du jour demande un accord push distinct, inactif par défaut. Appliquer V65 avant la fonction Edge révision BET-310, puis publier le front. Voir `docs/PWA_PUSH.md`. Le minuteur existant traite ce rappel sans nouvel horaire cron ni nouveau fournisseur.
+
+## Expéditeur personnalisé (BET-350)
+
+Le domaine doit appartenir au propriétaire. Dans Resend, ajouter le domaine d’envoi (de préférence un sous-domaine dédié), recopier exactement les enregistrements DNS SPF/DKIM fournis chez son hébergeur, puis attendre leur validation. Ne jamais inventer de valeurs DNS ni publier les clés API. Choisir ensuite une adresse dédiée sur ce domaine et modifier le secret Edge `EMAIL_FROM` (par exemple `BetOptimum <notifications@domaine-verifie>`). Ne pas remplacer une politique SPF existante à l’aveugle ; utiliser le sous-domaine de retour demandé par Resend.
+
+Le workflow de contrôle de production accepte `sender_diagnostics=true` : diagnostic privé, sans livraison, du domaine effectivement configuré et des statuts SPF/DKIM Resend. Il ne retourne ni clé, ni adresse personnelle, ni liste des autres domaines. Un jeton Resend limité aux envois peut refuser la lecture des domaines : dans ce cas, contrôler manuellement l’interface Resend. Le diagnostic ne prouve pas la réception.
+
+La recette finale exige une adresse Gmail désignée par le propriétaire, un unique envoi de test consenti, puis la lecture de « Afficher l’original » : SPF=PASS et DKIM=PASS, expéditeur attendu. Vérifier aussi clair/sombre sur le client réel. Aucun envoi de test ni changement d’abonnement sans destinataire et consentement explicites. La capture Chromium ne remplace pas cette réception Gmail.
