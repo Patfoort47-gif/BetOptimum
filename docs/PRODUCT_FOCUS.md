@@ -11,3 +11,5 @@ Les jetons et la boutique restent retirés de la production par V52 (BET-199). T
 BET-309 retire l’ajout libre de capital, y compris pour les anciens clients. Aucune recharge payée en jetons n’est réactivée. BET-310 ajoute un accord distinct, désactivé par défaut, pour rappeler le défi du jour. Aucun utilisateur existant ne doit être abonné automatiquement.
 
 BET-333 : le classement général remplace les parcours de ligues dans l’interface. La création, l’adhésion et les liens d’invitation sont retirés. Les historiques et calculs certifiés du serveur restent conservés.
+
+BET-338 : l’application ne présente plus de rubrique classement (joueurs ou équipes), de rang dans le profil ni d’annonce de changement de rang. Les anciens liens reviennent aux matchs. Les données historiques sont conservées.

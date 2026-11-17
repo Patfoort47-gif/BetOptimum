@@ -4,7 +4,10 @@ export function createInbox(storage, key) {
   try {
     const saved = JSON.parse(storage?.getItem(key) || 'null');
     if (saved && Array.isArray(saved.items) && saved.groups && typeof saved.groups === 'object')
-      state = saved;
+      state = {
+        ...saved,
+        items: saved.items.filter((item) => !String(item.id).startsWith('rank:'))
+      };
   } catch {}
   const save = () => {
     try {

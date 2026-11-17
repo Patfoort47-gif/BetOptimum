@@ -218,7 +218,7 @@ export function initProfilePage(deps) {
       overall = cardOverall(attributes),
       provisional = cardProvisional(info.raw),
       level = levelInfo(info.xp);
-    return `<div class="player-card${cardLook(info.equipped)}" style="--card:${color(info.echelon)}" id="player-card"><div class="card-top"><b class="card-overall">${overall}</b><span>${info.echelon == null ? 'Placement' : html(echelonName(info.echelon))}<em>${info.echelon == null ? '' : chevrons(info.echelon)}</em></span></div><strong class="card-name">${html(info.profile.nickname)}</strong><small>Niv. ${level.level} · ${level.title}${provisional ? ' · provisoire' : ''}</small><div class="card-attrs">${CARD_ATTRIBUTES.map((name) => `<span><b>${attributes[name]}</b>${name}</span>`).join('')}</div></div>`;
+    return `<div class="player-card${cardLook(info.equipped)}" style="--card:${color(info.echelon)}" id="player-card"><div class="card-top"><b class="card-overall">${overall}</b><span>Profil de pronostiqueur</span></div><strong class="card-name">${html(info.profile.nickname)}</strong><small>Niv. ${level.level} · ${level.title}${provisional ? ' · provisoire' : ''}</small><div class="card-attrs">${CARD_ATTRIBUTES.map((name) => `<span><b>${attributes[name]}</b>${name}</span>`).join('')}</div></div>`;
   }
   // Partage de la carte en image : canvas vers PNG, partage natif sur téléphone, sinon téléchargement.
   async function shareCard(info) {
@@ -253,13 +253,7 @@ export function initProfilePage(deps) {
     ctx.fillText(String(overall), 300, 220);
     ctx.font = '700 28px Inter, sans-serif';
     ctx.fillStyle = accent;
-    ctx.fillText(
-      info.echelon == null
-        ? 'Saison de placement'
-        : `${echelonName(info.echelon)} ${chevrons(info.echelon)}`,
-      300,
-      270
-    );
+    ctx.fillText('Profil de pronostiqueur', 300, 270);
     ctx.fillStyle = '#F4F7F2';
     ctx.font = '800 54px "Barlow Condensed", Impact, sans-serif';
     ctx.fillText(info.profile.nickname.toUpperCase(), 300, 345, 440);
@@ -333,7 +327,7 @@ export function initProfilePage(deps) {
     }
     const form = personal ? personal.form : (standing?.form ?? '');
     const historySummary = personal
-      ? `<section class="settings-card"><h3>Tout votre historique</h3><p class="muted">Paris certifiés et ${personal.legacy} ancien${personal.legacy > 1 ? 's' : ''} pari${personal.legacy > 1 ? 's' : ''}. Ce bilan personnel reste privé ; la carte publique et le classement utilisent les résultats certifiés.</p><div class="key-numbers">${key('Paris réglés', personal.settled)}${key('Paris gagnés', personal.wins)}${key('Réussite', personal.winrate == null ? '-' : decimal(personal.winrate, 1) + ' %')}${key('ROI historique', personal.roi == null ? '-' : decimal(personal.roi, 1) + ' %')}</div><p class="muted">${personal.pending} en attente · ${personal.void} remboursé${personal.void > 1 ? 's' : ''} (exclus du ROI et du taux de réussite)</p></section>`
+      ? `<section class="settings-card"><h3>Tout votre historique</h3><p class="muted">Paris certifiés et ${personal.legacy} ancien${personal.legacy > 1 ? 's' : ''} pari${personal.legacy > 1 ? 's' : ''}. Ce bilan personnel reste privé ; la carte publique utilise les résultats certifiés.</p><div class="key-numbers">${key('Paris réglés', personal.settled)}${key('Paris gagnés', personal.wins)}${key('Réussite', personal.winrate == null ? '-' : decimal(personal.winrate, 1) + ' %')}${key('ROI historique', personal.roi == null ? '-' : decimal(personal.roi, 1) + ' %')}</div><p class="muted">${personal.pending} en attente · ${personal.void} remboursé${personal.void > 1 ? 's' : ''} (exclus du ROI et du taux de réussite)</p></section>`
       : '';
     const stats = info.profile.period_stats?.season ?? { bets: 0, wins: 0, roi: 0 };
     const recent = info.badges
@@ -341,7 +335,7 @@ export function initProfilePage(deps) {
       .map((item) => BADGES.find((badge) => badge.id === item.badge))
       .filter(Boolean);
     const trophies = `<section class="overview-trophies settings-card"><div class="settings-row"><h3>Trophées récents</h3><button class="button secondary" data-tab="badges">Tout voir</button></div><div class="badge-grid">${recent.length ? recent.map((badge) => `<div class="badge earned"><b>${html(badge.name)}</b><small>${html(badge.hint)}</small></div>`).join('') : '<p class="empty">Aucun trophée pour le moment.</p>'}</div></section>`;
-    return `<div class="overview-grid"><div class="overview-card">${cardHtml(info)}<div class="card-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button>' : getState().profile ? '<button class="button secondary" data-compare>' + (compare ? 'Masquer la comparaison' : 'Comparer avec moi') + '</button>' : ''}</div></div><div class="overview-side">${trophies}<div class="key-numbers">${key('Rang', standing?.confirmed === false ? 'Provisoire' : standing ? `${standing.rank}e` : '-')}${key('Points', standing ? decimal(Number(standing.points), 1) : '-')}${key('Paris réglés (saison)', Number(stats.bets) || 0)}${key('ROI (saison)', `${Number(stats.roi) >= 0 ? '+' : ''}${decimal(Number(stats.roi || 0), 1)} %`)}</div><div class="form-line"><small>Forme sur les ${info.self ? 10 : 5} derniers pronos</small><span>${
+    return `<div class="overview-grid"><div class="overview-card">${cardHtml(info)}<div class="card-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button>' : getState().profile ? '<button class="button secondary" data-compare>' + (compare ? 'Masquer la comparaison' : 'Comparer avec moi') + '</button>' : ''}</div></div><div class="overview-side">${trophies}<div class="key-numbers">${key('Paris réglés (saison)', Number(stats.bets) || 0)}${key('ROI (saison)', `${Number(stats.roi) >= 0 ? '+' : ''}${decimal(Number(stats.roi || 0), 1)} %`)}</div><div class="form-line"><small>Forme sur les ${info.self ? 10 : 5} derniers pronos</small><span>${
       form
         ? form
             .split('')
@@ -351,7 +345,7 @@ export function initProfilePage(deps) {
             )
             .join('')
         : '<em>Pas encore de pronos réglés</em>'
-    }</span></div>${info.self && deps.race?.() ? `<p class="league-race">${deps.race()}</p>` : ''}<div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}${compare && info.own?.seasons ? seasonsCompare(info) : ''}`;
+    }</span></div><div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}${compare && info.own?.seasons ? seasonsCompare(info) : ''}`;
   }
   function seasons(info) {
     const rows = info.seasons.slice().reverse();
@@ -388,9 +382,9 @@ export function initProfilePage(deps) {
     return `<div class="account-settings"><header class="account-intro"><span class="account-eyebrow">ESPACE PERSONNEL</span><h3>Votre compte.<br>Vos règles du jeu.</h3><p>Une identité qui vous ressemble, une visibilité que vous maîtrisez.</p><div class="account-status"><span>✓ Mises et bankroll toujours privées</span><span>✓ Données exportables à tout moment</span></div></header><section class="account-group" aria-labelledby="account-identity"><div class="account-group-title"><span>01</span><div><h3 id="account-identity">Identité et sécurité</h3><p>Les clés de votre espace BetOptimum.</p></div></div><form data-form="nickname" class="settings-card"><h3>Pseudo</h3><p class="muted">Modifiable une fois par mois. Votre pseudo est unique.</p><div class="settings-row"><input name="nickname" value="${html(profile.nickname)}" minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_. -]{3,24}" required aria-label="Pseudo"><button class="button secondary">Changer</button></div></form>
 <form data-form="email" class="settings-card"><h3>Adresse email</h3><p class="muted">Un lien de confirmation est envoyé à la nouvelle adresse.</p><div class="settings-row"><input name="email" type="email" placeholder="nouvelle@adresse.fr" required autocomplete="email" aria-label="Nouvelle adresse email"><button class="button secondary">Modifier</button></div></form>
 <form data-form="password" class="settings-card"><h3>Mot de passe</h3><div class="settings-row"><input name="password" type="password" minlength="8" placeholder="Nouveau mot de passe (8 caractères)" required autocomplete="new-password" aria-label="Nouveau mot de passe"><button class="button secondary">Modifier</button></div></form>
-</section><section class="account-group" aria-labelledby="account-visibility"><div class="account-group-title"><span>02</span><div><h3 id="account-visibility">Votre visibilité au Club</h3><p>Choisissez ce que les autres joueurs peuvent découvrir.</p></div></div><div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats restent visibles dans les classements.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
+</section><section class="account-group" aria-labelledby="account-visibility"><div class="account-group-title"><span>02</span><div><h3 id="account-visibility">Votre visibilité au Club</h3><p>Choisissez ce que les autres joueurs peuvent découvrir.</p></div></div><div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats sont visibles sur votre profil public.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
 </section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
-</section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris, vos classements, votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
+</section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris et votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
   }
   function cleanup() {
     mountToken++;
@@ -440,7 +434,7 @@ export function initProfilePage(deps) {
       return;
     }
     if (data.private) {
-      root.innerHTML = `<div class="profile-private"><h2>${html(data.profile.nickname)}</h2><p class="empty">Ce profil est privé.</p><button class="button secondary" data-back-home>Retour à la communauté</button></div>`;
+      root.innerHTML = `<div class="profile-private"><h2>${html(data.profile.nickname)}</h2><p class="empty">Ce profil est privé.</p><button class="button secondary" data-back-home>Retour aux matchs</button></div>`;
       return;
     }
     const info = data,
@@ -458,7 +452,7 @@ export function initProfilePage(deps) {
       notifications: () => '<div data-notifications></div>',
       account
     }[tab](info);
-    root.innerHTML = `<header class="profile-header" style="--banner:${color(info.echelon)}"><div class="profile-banner"></div><div class="profile-id">${avatarMarkup(info.profile, { cls: 'avatar-3d', userId: info.profile.user_id })}<div class="profile-title"><h2>${html(info.profile.nickname)}</h2>${info.equipped?.title ? `<small class="profile-subtitle">${html(info.equipped.title.asset ?? info.equipped.title.name)}</small>` : ''}<div class="profile-badges">${divisionBadge(info.echelon)}<span class="level-chip">${level.level}</span><b>${level.title}</b>${crest ? `<img class="profile-crest" src="${crest}" alt="${html(info.profile.heart_club_name ?? 'Club de cœur')}" width="26" height="26">` : ''}</div><small>Membre depuis le ${dateLabel(info.profile.joined_at)}</small><div class="profile-connections">${['followers', 'following'].map((kind) => `<button class="button secondary" data-connections="${kind}"><b>${info.connections?.[kind] ?? '?'}</b> ${kind === 'followers' ? 'Abonné' : 'Abonnement'}${info.connections?.[kind] === 1 ? '' : 's'}</button>`).join('')}</div></div><div class="profile-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button><button class="button secondary" data-tab="account">Modifier le profil</button>' : (deps.extraActions?.(info) ?? '')}</div></div></header><div class="profile-tabs" role="tablist">${visibleTabs.map(([id, label]) => `<button role="tab" id="ptab-${id}" aria-selected="${tab === id}" data-tab="${id}">${id === 'bets' && !info.self ? 'Ses paris' : label}</button>`).join('')}</div>${connectionPanel()}<div class="profile-body" role="tabpanel">${body}</div>`;
+    root.innerHTML = `<header class="profile-header" style="--banner:${color(info.echelon)}"><div class="profile-banner"></div><div class="profile-id">${avatarMarkup(info.profile, { cls: 'avatar-3d', userId: info.profile.user_id })}<div class="profile-title"><h2>${html(info.profile.nickname)}</h2>${info.equipped?.title ? `<small class="profile-subtitle">${html(info.equipped.title.asset ?? info.equipped.title.name)}</small>` : ''}<div class="profile-badges"><span class="level-chip">${level.level}</span><b>${level.title}</b>${crest ? `<img class="profile-crest" src="${crest}" alt="${html(info.profile.heart_club_name ?? 'Club de cœur')}" width="26" height="26">` : ''}</div><small>Membre depuis le ${dateLabel(info.profile.joined_at)}</small><div class="profile-connections">${['followers', 'following'].map((kind) => `<button class="button secondary" data-connections="${kind}"><b>${info.connections?.[kind] ?? '?'}</b> ${kind === 'followers' ? 'Abonné' : 'Abonnement'}${info.connections?.[kind] === 1 ? '' : 's'}</button>`).join('')}</div></div><div class="profile-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button><button class="button secondary" data-tab="account">Modifier le profil</button>' : (deps.extraActions?.(info) ?? '')}</div></div></header><div class="profile-tabs" role="tablist">${visibleTabs.map(([id, label]) => `<button role="tab" id="ptab-${id}" aria-selected="${tab === id}" data-tab="${id}">${id === 'bets' && !info.self ? 'Ses paris' : label}</button>`).join('')}</div>${connectionPanel()}<div class="profile-body" role="tabpanel">${body}</div>`;
     if (tab === 'notifications' && info.self) {
       const mine = mountToken;
       import('../notifications/notification-page.js?v=bet310')
@@ -615,7 +609,7 @@ export function initProfilePage(deps) {
       return;
     }
     if (event.target.closest('[data-back-home]')) {
-      navigate('community');
+      navigate('matches');
       return;
     }
     if (event.target.closest('[data-export]')) {

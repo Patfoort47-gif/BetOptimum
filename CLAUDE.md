@@ -4,7 +4,7 @@ BetOptimum est un site statique en français (HTML et modules JavaScript natifs)
 
 ## Priorité produit
 
-Les nouvelles mécaniques sont gelées hors défi du jour (BET-308). BET-333 retire les ligues de l’interface et les parcours de création/adhésion ; conserver les historiques et le calcul serveur du classement général. Corrections, sécurité, accessibilité et maintenance restent possibles. L’économie virtuelle, les achats, échanges et duels restent retirés (V52). Aucune réactivation sans avis écrits sur les points 1 à 4 de VALIDATION_JURIDIQUE.md et nouvelle décision explicite du propriétaire. Aucun ajout libre de capital (V64). Conserver les historiques.
+Les nouvelles mécaniques sont gelées hors défi du jour (BET-308). BET-333 retire les ligues de l’interface et les parcours de création/adhésion ; BET-338 retire aussi les classements et leurs accès dans toute l’interface ; conserver les données historiques côté serveur. Corrections, sécurité, accessibilité et maintenance restent possibles. L’économie virtuelle, les achats, échanges et duels restent retirés (V52). Aucune réactivation sans avis écrits sur les points 1 à 4 de VALIDATION_JURIDIQUE.md et nouvelle décision explicite du propriétaire. Aucun ajout libre de capital (V64). Conserver les historiques.
 
 Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre BET-316 à BET-321 : recherche du modèle sous validation préalable, mesure de clôture, partages du défi/comparaison, aperçus et invitations privées. Cette exception ne réactive pas l’économie et ne dispense jamais du consentement ni de la confidentialité.
 
