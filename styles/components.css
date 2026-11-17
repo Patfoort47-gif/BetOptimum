@@ -12482,3 +12482,27 @@ body .filters::-webkit-scrollbar {
     display: none;
   }
 }
+
+/* BET-356 : les explications restent contenues à toute largeur. */
+.fair-odds,
+.match-indicators {
+  min-width: 0;
+  max-width: 100%;
+}
+.fair-odds table {
+  table-layout: fixed;
+}
+.fair-odds caption,
+.value-bet-badge,
+.data-basis {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.value-bet-badge {
+  min-width: 0;
+  max-width: 100%;
+}
+.match-explanation .fair-odds table {
+  min-width: 0;
+  width: 100%;
+}
