@@ -2219,6 +2219,12 @@ let profilePage = null,
   profilePending = null;
 async function openProfile(target) {
   profilePending = target;
+  if (!profilePage) {
+    const host = $('#profile-page');
+    if (host)
+      host.innerHTML =
+        '<div class="profile-loading" role="status" aria-live="polite"><div class="skeleton" style="height:96px"></div><p>Chargement du profil…</p></div>';
+  }
   if (!accountApi) {
     return;
   }
