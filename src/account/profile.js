@@ -161,6 +161,8 @@ export function initProfilePage(deps) {
     compare = null,
     target = null,
     token = 0,
+    loadedAt = 0,
+    owner = null,
     hero = null,
     studio = null,
     notifications = null,
@@ -608,7 +610,22 @@ export function initProfilePage(deps) {
     else if (tab === 'avatar' && info.self) mountStudioTab(info);
   }
 
-  async function show(next) {
+  async function show(next, force = false) {
+    const currentOwner = getState().profile;
+    if (
+      !force &&
+      data?.profile &&
+      target?.self === next.self &&
+      target?.nickname === next.nickname &&
+      owner === currentOwner &&
+      Date.now() - loadedAt < 30000
+    ) {
+      target = next;
+      tab = next.tab ?? 'overview';
+      render();
+      return;
+    }
+    owner = currentOwner;
     connections = null;
     connectionsRequest++;
     target = next;
@@ -623,6 +640,8 @@ export function initProfilePage(deps) {
       );
       if (mine !== token) return;
       data = result ?? { missing: true };
+      loadedAt = Date.now();
+      render();
       const loaded = data;
       if (data.profile && !data.private && !data.missing && !data.self && getState().profile) {
         try {
@@ -843,5 +862,5 @@ export function initProfilePage(deps) {
     button.disabled = false;
     form.removeAttribute('aria-busy');
   });
-  return { show, refresh: () => target && show(target), stop: cleanup };
+  return { show, refresh: () => target && show(target, true), stop: cleanup };
 }
