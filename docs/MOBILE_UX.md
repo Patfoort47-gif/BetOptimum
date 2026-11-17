@@ -19,3 +19,5 @@ node scripts/check-mobile-ux-state.cjs
 ```
 
 Les recettes interceptent les services externes : aucun vrai pari, aucun envoi et aucune modification de données serveur. Elles couvrent les petits écrans et le bureau, les mises en pourcentage, les fermetures du tiroir, le partage en image, la confirmation serveur, les onglets, les puces, les états vides, les pastilles et la sparkline. `npm test` couvre les calculs et les modèles purs ; `node scripts/prepare-pages.mjs` vérifie l’inclusion des nouveaux modules.
+
+BET-354 : le résumé du ticket devient une barre sur toute la largeur utile au-dessus des quatre onglets. Il affiche le nombre de sélections, la cote cumulée et « Voir le ticket ». Le tiroir existant conserve son caractère modal, la fermeture par Échap/fond/poignée, le focus et le scroll du calendrier. Générateur auto, mises 1/2/3/5 % et validation restent dans le même tiroir.
