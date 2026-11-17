@@ -16,11 +16,15 @@ test('la publication contient les modules différés, styles et données, sans t
       'src/matches/details.js',
       'src/account/account.js',
       'src/account/profile.js',
-      'src/avatar/avatar.js',
       'notification-sw.js',
       'src/account/supabase-config.js'
     ])
       assert.ok(modules.includes(name), name);
+    assert.ok(!modules.includes('src/avatar/avatar.js'), 'le profil ne charge plus la scène 3D');
+    assert.ok(
+      !modules.includes('src/avatar/avatar-studio.js'),
+      'l’éditeur retiré n’est plus publié'
+    );
     for (const name of [
       'data/fixtures.json',
       'data/predictions-history.json',

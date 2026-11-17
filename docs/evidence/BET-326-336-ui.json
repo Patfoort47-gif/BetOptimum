@@ -1,0 +1,17 @@
+[
+  {
+    "profile": "loading <300 ms; requested tab; 30s reuse; Mes/Ses paris; neutral appearance",
+    "loadingMs": 1.3000000002793968
+  },
+  {
+    "notifications": "two visible choices; advanced collapsed; daily preference saved without transport"
+  },
+  {
+    "pwa": "desktop install prompt invoked",
+    "layout": "1280 and 360 px without horizontal overflow",
+    "home": "suggestions before calendar; removed private tab/avatar menu"
+  },
+  {
+    "pageErrors": []
+  }
+]

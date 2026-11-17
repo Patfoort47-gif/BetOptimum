@@ -21,12 +21,11 @@ const STYLE_COPY = {
   bold: ['Audacieux', 'Des cotes plus hautes, plus de risque']
 };
 
-export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toast, onDone }) {
+export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
   const root = document.querySelector('#rejoindre'),
     content = root.querySelector('#join-content');
   let returnUrl = null;
-  let studio = null,
-    mode = 'login',
+  let mode = 'login',
     draft = {
       nickname: '',
       email: '',
@@ -35,15 +34,14 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       newsletter: false,
       club: null,
       leagues: [],
-      style: 'balanced',
-      avatar: null
+      style: 'balanced'
     },
     stepIndex = 0,
     busy = false,
     lastFocus = null,
     resendAt = 0,
     teamQuery = '';
-  const steps = signupSteps(avatarStudio);
+  const steps = signupSteps();
 
   const field = (id, label, input, hint = '', error = '') =>
     `<div class="join-field"><label for="${id}">${label}</label>${input}${hint ? `<small id="${id}-hint">${hint}</small>` : ''}<small class="join-error" id="${id}-error" role="alert">${escape(error)}</small></div>`;
@@ -76,8 +74,6 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
           '3 à 24 caractères. Si ce pseudo est déjà pris, un pseudo disponible vous sera attribué à l’inscription. Vous pourrez le modifier depuis votre profil.';
       return `${tabs()}${progress}<form id="join-form" novalidate><h2 id="join-title">Créez votre identité</h2>${banner(error)}${field('join-nickname', 'Pseudo', `<input id="join-nickname" name="nickname" autocomplete="nickname" required maxlength="24" value="${escape(draft.nickname)}" aria-describedby="join-nickname-hint join-nickname-error">`, `<span id="join-nick-status">${nick}</span>`, errors.nickname)}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}">`, '', errors.email)}${field('join-password', 'Mot de passe (8 caractères minimum)', passwordInput('join-password', 'new-password'), '', errors.password)}<div class="join-meter" id="join-meter" aria-live="polite"><i class="s${strength.score}"></i><span>${draft.password ? strength.label : ''}</span></div><label class="join-check-line"><input type="checkbox" name="adult" ${draft.adult ? 'checked' : ''}><span>J’ai 18 ans ou plus · paris virtuels sans argent réel</span></label><small class="join-error" role="alert">${escape(errors.adult ?? '')}</small><button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>Continuer</button><p class="join-sep"><span>ou</span></p>${google}</form>`;
     }
-    if (step === 'avatar')
-      return `${tabs()}${progress}<form id="join-form" novalidate><button type="button" class="text-button" data-back>← Retour</button><h2 id="join-title">Créez votre joueur</h2><p class="muted">Visage, coiffure et maillot : vous pourrez tout changer, et débloquer bien plus, depuis votre profil.</p><div class="join-studio" data-join-studio></div><button class="button primary full">Continuer</button></form>`;
     const teams = getTeams()
         .filter((team) => !teamQuery || team.name.toLowerCase().includes(teamQuery))
         .slice(0, 12),
@@ -93,41 +89,8 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
         ''
       )}</div></fieldset><label class="join-check-line"><input type="checkbox" name="newsletter" ${draft.newsletter ? 'checked' : ''}><span>Je souhaite recevoir la newsletter BetOptimum par email (facultatif). Désabonnement à tout moment dans mon profil.</span></label><button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Création…' : 'Créer mon compte'}</button></form>`;
   }
-  const stopStudio = () => {
-    if (studio) {
-      draft.avatar = studio.getConfig();
-      studio.destroy();
-      studio = null;
-    }
-  };
-  async function mountAvatarStep() {
-    const host = content.querySelector('[data-join-studio]');
-    if (!host) return;
-    const [{ mountStudio }, config] = await Promise.all([
-      import('../avatar/avatar-studio.js'),
-      import('../avatar/avatar-config.js')
-    ]);
-    if (!host.isConnected) return;
-    const handle = await mountStudio(host, {
-      html: escape,
-      toast,
-      initial: draft.avatar ?? config.defaultAvatar(),
-      tabs: ['face', 'hair', 'kit'],
-      freeOnly: true,
-      stacked: true,
-      hideActions: true,
-      authenticated: false
-    });
-    if (!host.isConnected) {
-      handle.destroy();
-      return;
-    }
-    studio = handle;
-  }
   function render(state) {
-    stopStudio();
     content.innerHTML = view(state);
-    if (mode === 'signup' && steps[stepIndex] === 'avatar') mountAvatarStep();
     const first = content.querySelector(
       'input:not([type=checkbox]):not([type=radio]):not([type=search])'
     );
@@ -322,10 +285,6 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       busy = false;
       stepIndex++;
       render({});
-    } else if (steps[stepIndex] === 'avatar') {
-      stopStudio();
-      stepIndex++;
-      render({});
     } else {
       busy = true;
       render({ keepFocus: true });
@@ -339,8 +298,7 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
           password: draft.password,
           username: draft.nickname,
           newsletter: draft.newsletter,
-          prefs,
-          avatar: draft.avatar
+          prefs
         });
         draft.password = '';
         draft.newsletter = false;
@@ -423,7 +381,6 @@ export function initJoin({ auth, getTeams, getLeagues, avatarStudio = false, toa
       history.pushState({ join: true }, '', '#rejoindre');
   }
   function close() {
-    stopStudio();
     releaseBackground();
     if (root.hidden) return;
     root.hidden = true;

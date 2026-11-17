@@ -2344,7 +2344,6 @@ async function openJoin(mode = 'login') {
       auth: accountApi.auth,
       getTeams: joinTeams,
       getLeagues: () => Object.keys(LEAGUES),
-      avatarStudio: false,
       toast,
       onDone: async (event) => {
         if (accountAuthenticated) {
