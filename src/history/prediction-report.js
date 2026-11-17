@@ -1,4 +1,9 @@
 import { predictionOddsSource } from './prediction-provenance.js';
+export const PUBLIC_RESULTS_START = '2026-11-01';
+export const publicPredictionHistory = (history) =>
+  (history ?? []).filter(
+    (item) => typeof item.date === 'string' && item.date >= PUBLIC_RESULTS_START
+  );
 const dateInParis = (time) =>
   new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Paris',
@@ -13,10 +18,12 @@ export function predictionReport(history, filters = {}, now = Date.now()) {
   if (Number.isFinite(days) && days > 0) dayStart.setUTCDate(dayStart.getUTCDate() - days + 1);
   if (filters.period === 'yesterday') dayStart.setUTCDate(dayStart.getUTCDate() - 1);
   const first =
-      days > 0 || filters.period === 'yesterday' ? dayStart.toISOString().slice(0, 10) : null,
+      days > 0 || filters.period === 'yesterday'
+        ? [PUBLIC_RESULTS_START, dayStart.toISOString().slice(0, 10)].sort().at(-1)
+        : PUBLIC_RESULTS_START,
     last = filters.period === 'yesterday' ? first : today;
   const source = filters.source || 'bookmaker',
-    sourceItems = (history ?? []).filter(
+    sourceItems = publicPredictionHistory(history).filter(
       (item) => source === 'all' || predictionOddsSource(item) === source
     );
   const filtered = sourceItems.filter(
