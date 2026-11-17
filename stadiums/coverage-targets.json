@@ -1,0 +1,1939 @@
+{
+  "checked": "2026-11-17",
+  "season": 2026,
+  "method": "Clubs : deux derniers domiciles en championnat. Sélections : jusqu’à trois derniers domiciles dans leur pays par compétition (qualifications, Ligue des nations et amicaux), avec qualification 2023-2025 pour l’Uruguay. Lieux confirmés par le résumé ESPN et les deux équipes. Les terrains d’entraînement et les domiciles organisés à l’étranger sont exclus.",
+  "groups": [
+    {
+      "name": "Ligue 1",
+      "league": "fra.1",
+      "teams": [
+        {
+          "id": "172",
+          "name": "AJ Auxerre",
+          "venues": [
+            {
+              "id": "4617",
+              "name": "Stade de l'Abbé-Deschamps",
+              "eventId": "401876429",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876429"
+            }
+          ]
+        },
+        {
+          "id": "174",
+          "name": "AS Monaco",
+          "venues": [
+            {
+              "id": "339",
+              "name": "Stade Louis II",
+              "eventId": "401876444",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876444"
+            }
+          ]
+        },
+        {
+          "id": "7868",
+          "name": "Angers",
+          "venues": [
+            {
+              "id": "3369",
+              "name": "Stade Raymond Kopa",
+              "eventId": "401876430",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876430"
+            }
+          ]
+        },
+        {
+          "id": "6997",
+          "name": "Brest",
+          "venues": [
+            {
+              "id": "4618",
+              "name": "Stade Francis-Le Blé",
+              "eventId": "401876428",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876428"
+            }
+          ]
+        },
+        {
+          "id": "3236",
+          "name": "Le Havre AC",
+          "venues": [
+            {
+              "id": "4844",
+              "name": "Stade Océane",
+              "eventId": "401876421",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876421"
+            }
+          ]
+        },
+        {
+          "id": "2697",
+          "name": "Le Mans",
+          "venues": [
+            {
+              "id": "4364",
+              "name": "Stade Marie-Marvingt",
+              "eventId": "401876437",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876437"
+            }
+          ]
+        },
+        {
+          "id": "175",
+          "name": "Lens",
+          "venues": [
+            {
+              "id": "10342",
+              "name": "Stade Bollaert-Delelis",
+              "eventId": "401876427",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876427"
+            }
+          ]
+        },
+        {
+          "id": "166",
+          "name": "Lille",
+          "venues": [
+            {
+              "id": "4947",
+              "name": "Decathlon Arena - Stade Pierre-Mauroy",
+              "eventId": "401876436",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876436"
+            }
+          ]
+        },
+        {
+          "id": "273",
+          "name": "Lorient",
+          "venues": [
+            {
+              "id": "2332",
+              "name": "Stade du Moustoir - Yves Allainmat",
+              "eventId": "401876435",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876435"
+            }
+          ]
+        },
+        {
+          "id": "167",
+          "name": "Lyon",
+          "venues": [
+            {
+              "id": "6499",
+              "name": "Groupama Stadium",
+              "eventId": "401876434",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876434"
+            }
+          ]
+        },
+        {
+          "id": "176",
+          "name": "Marseille",
+          "venues": [
+            {
+              "id": "3113",
+              "name": "Stade Vélodrome",
+              "eventId": "401876426",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876426"
+            }
+          ]
+        },
+        {
+          "id": "2502",
+          "name": "Nice",
+          "venues": [
+            {
+              "id": "5324",
+              "name": "Allianz Riviera",
+              "eventId": "401876443",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876443"
+            }
+          ]
+        },
+        {
+          "id": "6851",
+          "name": "Paris FC",
+          "venues": [
+            {
+              "id": "6856",
+              "name": "Stade Jean Bouin",
+              "eventId": "401876433",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876433"
+            }
+          ]
+        },
+        {
+          "id": "160",
+          "name": "Paris Saint-Germain",
+          "venues": [
+            {
+              "id": "2271",
+              "name": "Parc des Princes",
+              "eventId": "401876422",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876422"
+            }
+          ]
+        },
+        {
+          "id": "169",
+          "name": "Stade Rennais",
+          "venues": [
+            {
+              "id": "2323",
+              "name": "Roazhon Park",
+              "eventId": "401876424",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876424"
+            }
+          ]
+        },
+        {
+          "id": "180",
+          "name": "Strasbourg",
+          "venues": [
+            {
+              "id": "2980",
+              "name": "Stade de la Meinau",
+              "eventId": "401876432",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876432"
+            }
+          ]
+        },
+        {
+          "id": "179",
+          "name": "Toulouse",
+          "venues": [
+            {
+              "id": "10379",
+              "name": "Stadium Municipal de Toulouse",
+              "eventId": "401876423",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876423"
+            }
+          ]
+        },
+        {
+          "id": "170",
+          "name": "Troyes",
+          "venues": [
+            {
+              "id": "10681",
+              "name": "Stade de l'Aube",
+              "eventId": "401876431",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/summary?event=401876431"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Premier League",
+      "league": "eng.1",
+      "teams": [
+        {
+          "id": "349",
+          "name": "AFC Bournemouth",
+          "venues": [
+            {
+              "id": "6020",
+              "name": "Vitality Stadium",
+              "eventId": "401879263",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879263"
+            }
+          ]
+        },
+        {
+          "id": "359",
+          "name": "Arsenal",
+          "venues": [
+            {
+              "id": "2267",
+              "name": "Emirates Stadium",
+              "eventId": "401878768",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878768"
+            }
+          ]
+        },
+        {
+          "id": "362",
+          "name": "Aston Villa",
+          "venues": [
+            {
+              "id": "307",
+              "name": "Villa Park",
+              "eventId": "401879256",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879256"
+            }
+          ]
+        },
+        {
+          "id": "337",
+          "name": "Brentford",
+          "venues": [
+            {
+              "id": "9658",
+              "name": "Gtech Community Stadium",
+              "eventId": "401879262",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879262"
+            }
+          ]
+        },
+        {
+          "id": "331",
+          "name": "Brighton & Hove Albion",
+          "venues": [
+            {
+              "id": "10378",
+              "name": "American Express Stadium",
+              "eventId": "401879261",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879261"
+            }
+          ]
+        },
+        {
+          "id": "363",
+          "name": "Chelsea",
+          "venues": [
+            {
+              "id": "249",
+              "name": "Stamford Bridge",
+              "eventId": "401878767",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878767"
+            }
+          ]
+        },
+        {
+          "id": "388",
+          "name": "Coventry City",
+          "venues": [
+            {
+              "id": "1680",
+              "name": "Coventry Building Society Arena",
+              "eventId": "401879255",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879255"
+            }
+          ]
+        },
+        {
+          "id": "384",
+          "name": "Crystal Palace",
+          "venues": [
+            {
+              "id": "135",
+              "name": "Selhurst Park",
+              "eventId": "401879254",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879254"
+            }
+          ]
+        },
+        {
+          "id": "368",
+          "name": "Everton",
+          "venues": [
+            {
+              "id": "10318",
+              "name": "Hill Dickinson Stadium",
+              "eventId": "401878771",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878771"
+            }
+          ]
+        },
+        {
+          "id": "370",
+          "name": "Fulham",
+          "venues": [
+            {
+              "id": "279",
+              "name": "Craven Cottage",
+              "eventId": "401878770",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878770"
+            }
+          ]
+        },
+        {
+          "id": "306",
+          "name": "Hull City",
+          "venues": [
+            {
+              "id": "3670",
+              "name": "The MKM Stadium",
+              "eventId": "401878766",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878766"
+            }
+          ]
+        },
+        {
+          "id": "373",
+          "name": "Ipswich Town",
+          "venues": [
+            {
+              "id": "257",
+              "name": "Portman Road",
+              "eventId": "401879253",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879253"
+            }
+          ]
+        },
+        {
+          "id": "357",
+          "name": "Leeds United",
+          "venues": [
+            {
+              "id": "190",
+              "name": "Elland Road",
+              "eventId": "401879260",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879260"
+            }
+          ]
+        },
+        {
+          "id": "364",
+          "name": "Liverpool",
+          "venues": [
+            {
+              "id": "192",
+              "name": "Anfield",
+              "eventId": "401878765",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878765"
+            }
+          ]
+        },
+        {
+          "id": "382",
+          "name": "Manchester City",
+          "venues": [
+            {
+              "id": "4036",
+              "name": "Etihad Stadium",
+              "eventId": "401879259",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879259"
+            }
+          ]
+        },
+        {
+          "id": "360",
+          "name": "Manchester United",
+          "venues": [
+            {
+              "id": "250",
+              "name": "Old Trafford",
+              "eventId": "401879252",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879252"
+            }
+          ]
+        },
+        {
+          "id": "361",
+          "name": "Newcastle United",
+          "venues": [
+            {
+              "id": "152",
+              "name": "St. James' Park",
+              "eventId": "401879258",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879258"
+            }
+          ]
+        },
+        {
+          "id": "393",
+          "name": "Nottingham Forest",
+          "venues": [
+            {
+              "id": "131",
+              "name": "The City Ground",
+              "eventId": "401878769",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878769"
+            }
+          ]
+        },
+        {
+          "id": "366",
+          "name": "Sunderland",
+          "venues": [
+            {
+              "id": "194",
+              "name": "Stadium of Light",
+              "eventId": "401878764",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401878764"
+            }
+          ]
+        },
+        {
+          "id": "367",
+          "name": "Tottenham Hotspur",
+          "venues": [
+            {
+              "id": "7827",
+              "name": "Tottenham Hotspur Stadium",
+              "eventId": "401879257",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=401879257"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Liga",
+      "league": "esp.1",
+      "teams": [
+        {
+          "id": "96",
+          "name": "Alavés",
+          "venues": [
+            {
+              "id": "10022",
+              "name": "Mendizorrotza",
+              "eventId": "401882856",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882856"
+            }
+          ]
+        },
+        {
+          "id": "93",
+          "name": "Athletic Club",
+          "venues": [
+            {
+              "id": "10634",
+              "name": "San Mamés",
+              "eventId": "401882835",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882835"
+            }
+          ]
+        },
+        {
+          "id": "1068",
+          "name": "Atlético Madrid",
+          "venues": [
+            {
+              "id": "10633",
+              "name": "Riyadh Air Metropolitano",
+              "eventId": "401882834",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882834"
+            }
+          ]
+        },
+        {
+          "id": "83",
+          "name": "Barcelona",
+          "venues": [
+            {
+              "id": "1625",
+              "name": "Spotify Camp Nou",
+              "eventId": "401882832",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882832"
+            }
+          ]
+        },
+        {
+          "id": "85",
+          "name": "Celta Vigo",
+          "venues": [
+            {
+              "id": "10627",
+              "name": "Balaidos",
+              "eventId": "401882833",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882833"
+            }
+          ]
+        },
+        {
+          "id": "90",
+          "name": "Deportivo",
+          "venues": [
+            {
+              "id": "10626",
+              "name": "Riazor",
+              "eventId": "401882844",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882844"
+            }
+          ]
+        },
+        {
+          "id": "3751",
+          "name": "Elche",
+          "venues": [
+            {
+              "id": "3468",
+              "name": "Estadio Martínez Valero",
+              "eventId": "401882823",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882823"
+            }
+          ]
+        },
+        {
+          "id": "88",
+          "name": "Espanyol",
+          "venues": [
+            {
+              "id": "4159",
+              "name": "RCDE Stadium",
+              "eventId": "401882843",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882843"
+            }
+          ]
+        },
+        {
+          "id": "2922",
+          "name": "Getafe",
+          "venues": [
+            {
+              "id": "4154",
+              "name": "Estadio Coliseum",
+              "eventId": "401882842",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882842"
+            }
+          ]
+        },
+        {
+          "id": "1538",
+          "name": "Levante",
+          "venues": [
+            {
+              "id": "10018",
+              "name": "Estadi Ciutat de València",
+              "eventId": "401882870",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882870"
+            }
+          ]
+        },
+        {
+          "id": "99",
+          "name": "Málaga",
+          "venues": [
+            {
+              "id": "10638",
+              "name": "La Rosaleda",
+              "eventId": "401882841",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882841"
+            }
+          ]
+        },
+        {
+          "id": "97",
+          "name": "Osasuna",
+          "venues": [
+            {
+              "id": "10629",
+              "name": "El Sadar",
+              "eventId": "401882840",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882840"
+            }
+          ]
+        },
+        {
+          "id": "87",
+          "name": "Racing Santander",
+          "venues": [
+            {
+              "id": "10643",
+              "name": "El Sardineros",
+              "eventId": "401882831",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882831"
+            }
+          ]
+        },
+        {
+          "id": "101",
+          "name": "Rayo Vallecano",
+          "venues": [
+            {
+              "id": "4645",
+              "name": "Estadio de Vallecas",
+              "eventId": "401882830",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882830"
+            }
+          ]
+        },
+        {
+          "id": "244",
+          "name": "Real Betis",
+          "venues": [
+            {
+              "id": "2781",
+              "name": "Estadio La Cartuja",
+              "eventId": "401882846",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882846"
+            }
+          ]
+        },
+        {
+          "id": "86",
+          "name": "Real Madrid",
+          "venues": [
+            {
+              "id": "10630",
+              "name": "Santiago Bernabéu",
+              "eventId": "401882848",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882848"
+            }
+          ]
+        },
+        {
+          "id": "89",
+          "name": "Real Sociedad",
+          "venues": [
+            {
+              "id": "10631",
+              "name": "Reale Arena",
+              "eventId": "401882829",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882829"
+            }
+          ]
+        },
+        {
+          "id": "243",
+          "name": "Sevilla",
+          "venues": [
+            {
+              "id": "10628",
+              "name": "Ramón Sánchez Pizjuán Stadium",
+              "eventId": "401882828",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882828"
+            }
+          ]
+        },
+        {
+          "id": "94",
+          "name": "Valencia",
+          "venues": [
+            {
+              "id": "9659",
+              "name": "Mestalla Stadium",
+              "eventId": "401882827",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882827"
+            }
+          ]
+        },
+        {
+          "id": "102",
+          "name": "Villarreal",
+          "venues": [
+            {
+              "id": "55",
+              "name": "Estadio de la Cerámica",
+              "eventId": "401882817",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882817"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Serie A",
+      "league": "ita.1",
+      "teams": [
+        {
+          "id": "103",
+          "name": "AC Milan",
+          "venues": [
+            {
+              "id": "26",
+              "name": "San Siro",
+              "eventId": "401874993",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874993"
+            }
+          ]
+        },
+        {
+          "id": "104",
+          "name": "AS Roma",
+          "venues": [
+            {
+              "id": "10409",
+              "name": "Olimpico",
+              "eventId": "401874780",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874780"
+            }
+          ]
+        },
+        {
+          "id": "105",
+          "name": "Atalanta",
+          "venues": [
+            {
+              "id": "4253",
+              "name": "New Balance Arena",
+              "eventId": "401874972",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874972"
+            }
+          ]
+        },
+        {
+          "id": "107",
+          "name": "Bologna",
+          "venues": [
+            {
+              "id": "10719",
+              "name": "Renato Dall'Ara",
+              "eventId": "401874953",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874953"
+            }
+          ]
+        },
+        {
+          "id": "2925",
+          "name": "Cagliari",
+          "venues": [
+            {
+              "id": "7400",
+              "name": "Unipol Domus",
+              "eventId": "401874958",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874958"
+            }
+          ]
+        },
+        {
+          "id": "2572",
+          "name": "Como",
+          "venues": [
+            {
+              "id": "5934",
+              "name": "Giuseppe Sinigaglia",
+              "eventId": "401874961",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874961"
+            }
+          ]
+        },
+        {
+          "id": "109",
+          "name": "Fiorentina",
+          "venues": [
+            {
+              "id": "10720",
+              "name": "Stadio Artemio Franchi",
+              "eventId": "401874969",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874969"
+            }
+          ]
+        },
+        {
+          "id": "4057",
+          "name": "Frosinone",
+          "venues": [
+            {
+              "id": "10439",
+              "name": "Stadio Benito Stirpe",
+              "eventId": "401874976",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874976"
+            }
+          ]
+        },
+        {
+          "id": "3263",
+          "name": "Genoa",
+          "venues": [
+            {
+              "id": "10689",
+              "name": "Stadio Luigi Ferraris",
+              "eventId": "401874988",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874988"
+            }
+          ]
+        },
+        {
+          "id": "110",
+          "name": "Internazionale",
+          "venues": [
+            {
+              "id": "26",
+              "name": "San Siro",
+              "eventId": "401875036",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401875036"
+            }
+          ]
+        },
+        {
+          "id": "111",
+          "name": "Juventus",
+          "venues": [
+            {
+              "id": "4600",
+              "name": "Allianz Stadium",
+              "eventId": "401874765",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874765"
+            }
+          ]
+        },
+        {
+          "id": "112",
+          "name": "Lazio",
+          "venues": [
+            {
+              "id": "10409",
+              "name": "Olimpico",
+              "eventId": "401874955",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874955"
+            }
+          ]
+        },
+        {
+          "id": "113",
+          "name": "Lecce",
+          "venues": [
+            {
+              "id": "10721",
+              "name": "Via Del Mare",
+              "eventId": "401874772",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874772"
+            }
+          ]
+        },
+        {
+          "id": "4007",
+          "name": "Monza",
+          "venues": [
+            {
+              "id": "2470",
+              "name": "U-Power Stadium",
+              "eventId": "401874799",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874799"
+            }
+          ]
+        },
+        {
+          "id": "114",
+          "name": "Napoli",
+          "venues": [
+            {
+              "id": "10717",
+              "name": "Stadio Diego Armando Maradona",
+              "eventId": "401874948",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874948"
+            }
+          ]
+        },
+        {
+          "id": "115",
+          "name": "Parma",
+          "venues": [
+            {
+              "id": "10548",
+              "name": "Ennio Tardini",
+              "eventId": "401874965",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874965"
+            }
+          ]
+        },
+        {
+          "id": "3997",
+          "name": "Sassuolo",
+          "venues": [
+            {
+              "id": "5275",
+              "name": "Mapei Stadium",
+              "eventId": "401874980",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874980"
+            }
+          ]
+        },
+        {
+          "id": "239",
+          "name": "Torino",
+          "venues": [
+            {
+              "id": "10716",
+              "name": "Stadio Olimpico Grande Torino",
+              "eventId": "401874786",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874786"
+            }
+          ]
+        },
+        {
+          "id": "118",
+          "name": "Udinese",
+          "venues": [
+            {
+              "id": "7411",
+              "name": "Stadio Friuli",
+              "eventId": "401874779",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874779"
+            }
+          ]
+        },
+        {
+          "id": "17530",
+          "name": "Venezia",
+          "venues": [
+            {
+              "id": "10688",
+              "name": "Stadio Pier Luigi Penzo",
+              "eventId": "401874773",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/summary?event=401874773"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bundesliga",
+      "league": "ger.1",
+      "teams": [
+        {
+          "id": "598",
+          "name": "1. FC Union Berlin",
+          "venues": [
+            {
+              "id": "4305",
+              "name": "Stadion An der Alten Försterei",
+              "eventId": "401884769",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884769"
+            }
+          ]
+        },
+        {
+          "id": "131",
+          "name": "Bayer Leverkusen",
+          "venues": [
+            {
+              "id": "112",
+              "name": "BayArena",
+              "eventId": "401884771",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884771"
+            }
+          ]
+        },
+        {
+          "id": "132",
+          "name": "Bayern Munich",
+          "venues": [
+            {
+              "id": "1935",
+              "name": "Allianz Arena",
+              "eventId": "401884772",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884772"
+            }
+          ]
+        },
+        {
+          "id": "124",
+          "name": "Borussia Dortmund",
+          "venues": [
+            {
+              "id": "10344",
+              "name": "Signal Iduna Park",
+              "eventId": "401884763",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884763"
+            }
+          ]
+        },
+        {
+          "id": "268",
+          "name": "Borussia Mönchengladbach",
+          "venues": [
+            {
+              "id": "1541",
+              "name": "BORUSSIA-PARK",
+              "eventId": "401884768",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884768"
+            }
+          ]
+        },
+        {
+          "id": "125",
+          "name": "Eintracht Frankfurt",
+          "venues": [
+            {
+              "id": "2318",
+              "name": "Deutsche Bank Park",
+              "eventId": "401884770",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884770"
+            }
+          ]
+        },
+        {
+          "id": "3841",
+          "name": "FC Augsburg",
+          "venues": [
+            {
+              "id": "9608",
+              "name": "WWK Arena",
+              "eventId": "401884758",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884758"
+            }
+          ]
+        },
+        {
+          "id": "122",
+          "name": "FC Cologne",
+          "venues": [
+            {
+              "id": "3857",
+              "name": "RheinEnergieStadion",
+              "eventId": "401884756",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884756"
+            }
+          ]
+        },
+        {
+          "id": "127",
+          "name": "Hamburg SV",
+          "venues": [
+            {
+              "id": "10662",
+              "name": "Volksparkstadion",
+              "eventId": "401884767",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884767"
+            }
+          ]
+        },
+        {
+          "id": "2950",
+          "name": "Mainz",
+          "venues": [
+            {
+              "id": "4450",
+              "name": "MEWA ARENA",
+              "eventId": "401884757",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884757"
+            }
+          ]
+        },
+        {
+          "id": "11420",
+          "name": "RB Leipzig",
+          "venues": [
+            {
+              "id": "4237",
+              "name": "Red Bull Arena",
+              "eventId": "401884762",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884762"
+            }
+          ]
+        },
+        {
+          "id": "126",
+          "name": "SC Freiburg",
+          "venues": [
+            {
+              "id": "8842",
+              "name": "Europa-Park Stadion",
+              "eventId": "401884759",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884759"
+            }
+          ]
+        },
+        {
+          "id": "3307",
+          "name": "SC Paderborn 07",
+          "venues": [
+            {
+              "id": "3845",
+              "name": "Home Deluxe Arena",
+              "eventId": "401884755",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884755"
+            }
+          ]
+        },
+        {
+          "id": "10388",
+          "name": "SV Elversberg",
+          "venues": [
+            {
+              "id": "3826",
+              "name": "URSAPHARM-Arena an der Kaiserlinde",
+              "eventId": "401884764",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884764"
+            }
+          ]
+        },
+        {
+          "id": "133",
+          "name": "Schalke 04",
+          "venues": [
+            {
+              "id": "2357",
+              "name": "Veltins Arena",
+              "eventId": "401884765",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884765"
+            }
+          ]
+        },
+        {
+          "id": "7911",
+          "name": "TSG Hoffenheim",
+          "venues": [
+            {
+              "id": "3697",
+              "name": "PreZero Arena",
+              "eventId": "401884760",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884760"
+            }
+          ]
+        },
+        {
+          "id": "134",
+          "name": "VfB Stuttgart",
+          "venues": [
+            {
+              "id": "9656",
+              "name": "MHPArena",
+              "eventId": "401884761",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884761"
+            }
+          ]
+        },
+        {
+          "id": "137",
+          "name": "Werder Bremen",
+          "venues": [
+            {
+              "id": "10021",
+              "name": "Weserstadion",
+              "eventId": "401884766",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/summary?event=401884766"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ligue 2",
+      "league": "fra.2",
+      "teams": [
+        {
+          "id": "3267",
+          "name": "AS Nancy Lorraine",
+          "venues": [
+            {
+              "id": "2334",
+              "name": "Stade Marcel-Picot",
+              "eventId": "401876713",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876713"
+            }
+          ]
+        },
+        {
+          "id": "18066",
+          "name": "Annecy",
+          "venues": [
+            {
+              "id": "10664",
+              "name": "Parc des Sports",
+              "eventId": "401876727",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876727"
+            }
+          ]
+        },
+        {
+          "id": "7869",
+          "name": "Boulogne",
+          "venues": [
+            {
+              "id": "10691",
+              "name": "Stade de la Libération",
+              "eventId": "401876718",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876718"
+            }
+          ]
+        },
+        {
+          "id": "3171",
+          "name": "Clermont Foot",
+          "venues": [
+            {
+              "id": "3366",
+              "name": "Stade Gabriel-Montpied",
+              "eventId": "401876717",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876717"
+            }
+          ]
+        },
+        {
+          "id": "3170",
+          "name": "Dijon FCO",
+          "venues": [
+            {
+              "id": "3376",
+              "name": "Stade Gaston-Gérard",
+              "eventId": "401876716",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876716"
+            }
+          ]
+        },
+        {
+          "id": "7732",
+          "name": "Dunkerque",
+          "venues": [
+            {
+              "id": "7545",
+              "name": "Stade Marcel-Tribut",
+              "eventId": "401876715",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876715"
+            }
+          ]
+        },
+        {
+          "id": "6994",
+          "name": "Grenoble",
+          "venues": [
+            {
+              "id": "3429",
+              "name": "Stade des Alpes",
+              "eventId": "401876708",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876708"
+            }
+          ]
+        },
+        {
+          "id": "171",
+          "name": "Guingamp",
+          "venues": [
+            {
+              "id": "3368",
+              "name": "Stade Municipal de Roudourou",
+              "eventId": "401876725",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876725"
+            }
+          ]
+        },
+        {
+          "id": "177",
+          "name": "Metz",
+          "venues": [
+            {
+              "id": "2981",
+              "name": "Stade Saint-Symphorien",
+              "eventId": "401876723",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876723"
+            }
+          ]
+        },
+        {
+          "id": "274",
+          "name": "Montpellier",
+          "venues": [
+            {
+              "id": "3370",
+              "name": "Stade de la Mosson",
+              "eventId": "401876714",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876714"
+            }
+          ]
+        },
+        {
+          "id": "165",
+          "name": "Nantes",
+          "venues": [
+            {
+              "id": "10556",
+              "name": "Stade de la Beaujoire",
+              "eventId": "401876722",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876722"
+            }
+          ]
+        },
+        {
+          "id": "10678",
+          "name": "Pau",
+          "venues": [
+            {
+              "id": "8378",
+              "name": "Nouste Camp",
+              "eventId": "401876712",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876712"
+            }
+          ]
+        },
+        {
+          "id": "11884",
+          "name": "Red Star FC 93",
+          "venues": [
+            {
+              "id": "7974",
+              "name": "Stade Bauer",
+              "eventId": "401876721",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876721"
+            }
+          ]
+        },
+        {
+          "id": "7719",
+          "name": "Rodez Aveyron",
+          "venues": [
+            {
+              "id": "10665",
+              "name": "Stade Paul-Lignon",
+              "eventId": "401876719",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876719"
+            }
+          ]
+        },
+        {
+          "id": "178",
+          "name": "Saint-Étienne",
+          "venues": [
+            {
+              "id": "10552",
+              "name": "Stade Geoffroy Guichard",
+              "eventId": "401876711",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876711"
+            }
+          ]
+        },
+        {
+          "id": "272",
+          "name": "Sochaux",
+          "venues": [
+            {
+              "id": "2326",
+              "name": "Stade Bonal",
+              "eventId": "401876728",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876728"
+            }
+          ]
+        },
+        {
+          "id": "3266",
+          "name": "Stade Laval",
+          "venues": [
+            {
+              "id": "10666",
+              "name": "Stade Francis Le Basser",
+              "eventId": "401876724",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876724"
+            }
+          ]
+        },
+        {
+          "id": "3243",
+          "name": "Stade de Reims",
+          "venues": [
+            {
+              "id": "2835",
+              "name": "Stade Auguste Delaune",
+              "eventId": "401876720",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876720"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Grandes sélections",
+      "league": "national",
+      "teams": [
+        {
+          "id": "202",
+          "name": "Argentina",
+          "venues": [
+            {
+              "id": "5348",
+              "name": "Alberto José Armando (La Bombonera)",
+              "eventId": "401930876",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401930876"
+            },
+            {
+              "id": "10786",
+              "name": "Estadio Más Monumental",
+              "eventId": "401921544",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401921544"
+            }
+          ]
+        },
+        {
+          "id": "459",
+          "name": "Belgium",
+          "venues": [
+            {
+              "id": "3938",
+              "name": "Stade Maurice Dufrasne",
+              "eventId": "401861109",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861109"
+            },
+            {
+              "id": "10325",
+              "name": "Ghelamco Arena",
+              "eventId": "724838",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724838"
+            },
+            {
+              "id": "1811",
+              "name": "Lotto Park",
+              "eventId": "724998",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724998"
+            },
+            {
+              "id": "1153",
+              "name": "King Baudouin Stadium",
+              "eventId": "401856622",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401856622"
+            }
+          ]
+        },
+        {
+          "id": "205",
+          "name": "Brazil",
+          "venues": [
+            {
+              "id": "5120",
+              "name": "Estadio do Maracana",
+              "eventId": "401864003",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401864003"
+            }
+          ]
+        },
+        {
+          "id": "477",
+          "name": "Croatia",
+          "venues": [
+            {
+              "id": "7333",
+              "name": "Stadion HNK Rijeka",
+              "eventId": "401856361",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401856361"
+            },
+            {
+              "id": "6275",
+              "name": "Stadion Andjelko Herjavec",
+              "eventId": "401856623",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401856623"
+            },
+            {
+              "id": "10743",
+              "name": "Maksimir Stadium",
+              "eventId": "725010",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=725010"
+            },
+            {
+              "id": "9632",
+              "name": "Opus Arena",
+              "eventId": "401861178",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861178"
+            },
+            {
+              "id": "5890",
+              "name": "Stadion Poljud",
+              "eventId": "401861137",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861137"
+            }
+          ]
+        },
+        {
+          "id": "479",
+          "name": "Denmark",
+          "venues": [
+            {
+              "id": "10366",
+              "name": "Parken Stadium",
+              "eventId": "401861070",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861070"
+            },
+            {
+              "id": "4572",
+              "name": "Nature Energy Park",
+              "eventId": "401871170",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401871170"
+            }
+          ]
+        },
+        {
+          "id": "448",
+          "name": "England",
+          "venues": [
+            {
+              "id": "2023",
+              "name": "Wembley Stadium",
+              "eventId": "762553",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762553"
+            },
+            {
+              "id": "307",
+              "name": "Villa Park",
+              "eventId": "724991",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724991"
+            }
+          ]
+        },
+        {
+          "id": "478",
+          "name": "France",
+          "venues": [
+            {
+              "id": "2271",
+              "name": "Parc des Princes",
+              "eventId": "725018",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=725018"
+            },
+            {
+              "id": "6245",
+              "name": "Stade Atlantique",
+              "eventId": "401861177",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861177"
+            },
+            {
+              "id": "1547",
+              "name": "Stade de France",
+              "eventId": "401861103",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861103"
+            },
+            {
+              "id": "4947",
+              "name": "Decathlon Arena - Stade Pierre-Mauroy",
+              "eventId": "401869804",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401869804"
+            },
+            {
+              "id": "10556",
+              "name": "Stade de la Beaujoire",
+              "eventId": "401864934",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401864934"
+            }
+          ]
+        },
+        {
+          "id": "481",
+          "name": "Germany",
+          "venues": [
+            {
+              "id": "4237",
+              "name": "Red Bull Arena",
+              "eventId": "724911",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724911"
+            },
+            {
+              "id": "3697",
+              "name": "PreZero Arena",
+              "eventId": "724839",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724839"
+            },
+            {
+              "id": "3857",
+              "name": "RheinEnergieStadion",
+              "eventId": "725001",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=725001"
+            },
+            {
+              "id": "10658",
+              "name": "Olympic Stadium Berlin",
+              "eventId": "401861185",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861185"
+            },
+            {
+              "id": "1935",
+              "name": "Allianz Arena",
+              "eventId": "401861097",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861097"
+            },
+            {
+              "id": "9608",
+              "name": "WWK Arena",
+              "eventId": "401861074",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861074"
+            },
+            {
+              "id": "4450",
+              "name": "MEWA ARENA",
+              "eventId": "758381",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=758381"
+            },
+            {
+              "id": "9656",
+              "name": "MHPArena",
+              "eventId": "762773",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762773"
+            }
+          ]
+        },
+        {
+          "id": "162",
+          "name": "Italy",
+          "venues": [
+            {
+              "id": "4253",
+              "name": "New Balance Arena",
+              "eventId": "761380",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=761380"
+            },
+            {
+              "id": "26",
+              "name": "San Siro",
+              "eventId": "401861151",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861151"
+            },
+            {
+              "id": "7411",
+              "name": "Stadio Friuli",
+              "eventId": "724868",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724868"
+            },
+            {
+              "id": "10719",
+              "name": "Renato Dall'Ara",
+              "eventId": "401861131",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861131"
+            },
+            {
+              "id": "10409",
+              "name": "Olimpico",
+              "eventId": "401861052",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861052"
+            }
+          ]
+        },
+        {
+          "id": "627",
+          "name": "Japan",
+          "venues": [
+            {
+              "id": "9891",
+              "name": "Edion Peace Wing Hiroshima",
+              "eventId": "401902642",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401902642"
+            },
+            {
+              "id": "1272",
+              "name": "Miyagi Stadium",
+              "eventId": "401905330",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905330"
+            },
+            {
+              "id": "10488",
+              "name": "Japan National Stadium",
+              "eventId": "401867618",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401867618"
+            }
+          ]
+        },
+        {
+          "id": "203",
+          "name": "Mexico",
+          "venues": [
+            {
+              "id": "4910",
+              "name": "Estadio Nemesio Díez Riega",
+              "eventId": "401861776",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401861776"
+            },
+            {
+              "id": "1264",
+              "name": "Estadio Cuauhtémoc",
+              "eventId": "401861774",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401861774"
+            },
+            {
+              "id": "1672",
+              "name": "Estadio Banorte",
+              "eventId": "762263",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762263"
+            }
+          ]
+        },
+        {
+          "id": "2869",
+          "name": "Morocco",
+          "venues": [
+            {
+              "id": "10608",
+              "name": "Ibn Batouta Stadium",
+              "eventId": "401922273",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401922273"
+            },
+            {
+              "id": "7378",
+              "name": "Stade Prince Moulay Abdallah",
+              "eventId": "401872680",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401872680"
+            }
+          ]
+        },
+        {
+          "id": "449",
+          "name": "Netherlands",
+          "venues": [
+            {
+              "id": "10356",
+              "name": "Johan Cruijff Arena",
+              "eventId": "762549",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762549"
+            },
+            {
+              "id": "10050",
+              "name": "De Kuip",
+              "eventId": "401863500",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401863500"
+            },
+            {
+              "id": "5",
+              "name": "Philips Stadion",
+              "eventId": "762551",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762551"
+            }
+          ]
+        },
+        {
+          "id": "482",
+          "name": "Portugal",
+          "venues": [
+            {
+              "id": "1467",
+              "name": "Estádio do Dragão",
+              "eventId": "401861126",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861126"
+            },
+            {
+              "id": "2352",
+              "name": "Estádio José Alvalade",
+              "eventId": "401861044",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861044"
+            },
+            {
+              "id": "3439",
+              "name": "Estádio Municipal de Braga",
+              "eventId": "401861167",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861167"
+            },
+            {
+              "id": "4812",
+              "name": "Estádio Dr. Magalhaes Pessoa",
+              "eventId": "401867372",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401867372"
+            },
+            {
+              "id": "7869",
+              "name": "Estádio do Jamor",
+              "eventId": "401862883",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401862883"
+            }
+          ]
+        },
+        {
+          "id": "654",
+          "name": "Senegal",
+          "venues": [
+            {
+              "id": "9055",
+              "name": "Stade Me Abdoulaye Wade",
+              "eventId": "401862000",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401862000"
+            }
+          ]
+        },
+        {
+          "id": "164",
+          "name": "Spain",
+          "venues": [
+            {
+              "id": "2781",
+              "name": "Estadio La Cartuja",
+              "eventId": "724917",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724917"
+            },
+            {
+              "id": "10641",
+              "name": "Estadio José Zorrilla",
+              "eventId": "724869",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724869"
+            },
+            {
+              "id": "3468",
+              "name": "Estadio Martínez Valero",
+              "eventId": "724850",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724850"
+            },
+            {
+              "id": "10633",
+              "name": "Riyadh Air Metropolitano",
+              "eventId": "401861175",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861175"
+            },
+            {
+              "id": "10632",
+              "name": "Estadio Carlos Tartiere",
+              "eventId": "401861118",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861118"
+            },
+            {
+              "id": "10628",
+              "name": "Ramón Sánchez Pizjuán Stadium",
+              "eventId": "401861084",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861084"
+            },
+            {
+              "id": "10626",
+              "name": "Riazor",
+              "eventId": "401871471",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401871471"
+            },
+            {
+              "id": "4159",
+              "name": "RCDE Stadium",
+              "eventId": "401851847",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401851847"
+            },
+            {
+              "id": "55",
+              "name": "Estadio de la Cerámica",
+              "eventId": "401865041",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401865041"
+            }
+          ]
+        },
+        {
+          "id": "475",
+          "name": "Switzerland",
+          "venues": [
+            {
+              "id": "10747",
+              "name": "Stade de Genève",
+              "eventId": "724897",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724897"
+            },
+            {
+              "id": "10742",
+              "name": "St. Jakob Park",
+              "eventId": "762550",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762550"
+            },
+            {
+              "id": "6860",
+              "name": "Kybunpark",
+              "eventId": "401862319",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401862319"
+            },
+            {
+              "id": "5764",
+              "name": "Swissporarena",
+              "eventId": "401861117",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861117"
+            }
+          ]
+        },
+        {
+          "id": "660",
+          "name": "United States",
+          "venues": [
+            {
+              "id": "6538",
+              "name": "Allianz Field",
+              "eventId": "401905188",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905188"
+            },
+            {
+              "id": "2710",
+              "name": "State Farm Stadium",
+              "eventId": "401905202",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905202"
+            },
+            {
+              "id": "10421",
+              "name": "Energizer Park",
+              "eventId": "401905189",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905189"
+            }
+          ]
+        },
+        {
+          "id": "212",
+          "name": "Uruguay",
+          "venues": [
+            {
+              "id": "4148",
+              "name": "Estadio Centenario",
+              "eventId": "684642",
+              "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.conmebol/summary?event=684642"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

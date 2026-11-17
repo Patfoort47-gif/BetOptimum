@@ -21,3 +21,4 @@ jobs:
       - run: node scripts/prepare-pages.mjs
       - run: node scripts/check-module-paths.mjs
       - run: node scripts/check-links.mjs
+      - run: node scripts/check-stadium-targets.mjs --clubs-only --require-photos

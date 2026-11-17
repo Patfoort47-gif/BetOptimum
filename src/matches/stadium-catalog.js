@@ -279,6 +279,24 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
   },
+  1264: {
+    venueId: '1264',
+    name: 'Estadio Cuauhtémoc',
+    image: 'stadiums/venue-1264.webp',
+    author: 'Israel Espinosa López : Zeisseon',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Cuauht%C3%A9moc,_Puebla.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
+  1272: {
+    venueId: '1272',
+    name: 'Miyagi Stadium',
+    image: 'stadiums/venue-1272.webp',
+    author: 'MiyagiStadium2007-4-29.jpg: Kernel\nderivative work: 0607crp (talk)',
+    source: 'https://commons.wikimedia.org/wiki/File:MiyagiStadium2007-4-29_cropped.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
   1277: {
     venueId: '1277',
     name: 'Windsor Park',
@@ -361,6 +379,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
   },
+  1547: {
+    venueId: '1547',
+    name: 'Stade de France',
+    image: 'stadiums/venue-1547.webp',
+    author: 'Darthvadrouw',
+    source: 'https://commons.wikimedia.org/wiki/File:StadeFranceNationsLeague2018.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   1625: {
     venueId: '1625',
     name: 'Spotify Camp Nou',
@@ -377,6 +404,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     image: 'stadiums/venue-1647.webp',
     author: '5anco5s',
     source: 'https://commons.wikimedia.org/wiki/File:A._Le_Coq_Arena_2019.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  1672: {
+    venueId: '1672',
+    name: 'Estadio Banorte',
+    image: 'stadiums/venue-1672.webp',
+    author: 'Carlos Valenzuela Montuy',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Azteca1706p2.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -435,6 +471,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 2.5',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.5'
   },
+  2023: {
+    venueId: '2023',
+    name: 'Wembley Stadium',
+    image: 'stadiums/venue-2023.webp',
+    author: 'Hullian111',
+    source:
+      'https://commons.wikimedia.org/wiki/File:2023_Challenge_Cup_Final_Wembley_Stadium_from_Olympic_Way_01.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   2267: {
     venueId: '2267',
     name: 'Emirates Stadium',
@@ -471,6 +517,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
   },
+  2326: {
+    venueId: '2326',
+    name: 'Stade Bonal',
+    image: 'stadiums/venue-2326.webp',
+    author: 'Info Stades',
+    source: 'https://commons.wikimedia.org/wiki/File:Stade_Bonal,_vue_a%C3%A9rienne.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   2332: {
     venueId: '2332',
     name: 'Stade du Moustoir - Yves Allainmat',
@@ -488,6 +543,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Stade_Marcel-Picot_panorama_interieur.jpg',
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
+  2352: {
+    venueId: '2352',
+    name: 'Estádio José Alvalade',
+    image: 'stadiums/venue-2352.webp',
+    author: 'Mister No',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Alvalade_XXI_-_panoramio_(3).jpg',
+    license: 'CC BY 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
   },
   2354: {
     venueId: '2354',
@@ -524,6 +588,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     author: 'Lewis Clarke ',
     source:
       'https://commons.wikimedia.org/wiki/File:Salisbury_,_Raymond_McEnhill_Stadium_-_geograph.org.uk_-_5387282.jpg',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
+  },
+  2710: {
+    venueId: '2710',
+    name: 'State Farm Stadium',
+    image: 'stadiums/venue-2710.webp',
+    author: 'Taken by en:Flickr user MCSixth',
+    source: 'https://commons.wikimedia.org/wiki/File:Cardinals_stadium_crop.jpg',
     license: 'CC BY-SA 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
   },
@@ -756,6 +829,24 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  3893: {
+    venueId: '3893',
+    name: 'Cardiff City Stadium',
+    image: 'stadiums/venue-3893.webp',
+    author: 'Jon Candy from Cardiff, Wales',
+    source: 'https://commons.wikimedia.org/wiki/File:Cardiff_City_Stadium_Pitch.jpg',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
+  },
+  3938: {
+    venueId: '3938',
+    name: 'Stade Maurice Dufrasne',
+    image: 'stadiums/venue-3938.webp',
+    author: 'Zergori',
+    source: 'https://commons.wikimedia.org/wiki/File:Stade_de_Sclessin_before_a_match.png',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   4036: {
     venueId: '4036',
     name: 'Etihad Stadium',
@@ -764,6 +855,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:City_of_Manchester_Stadium_2023_cropped.jpg',
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
+  },
+  4148: {
+    venueId: '4148',
+    name: 'Estadio Centenario',
+    image: 'stadiums/venue-4148.webp',
+    author: 'Marcelo Campi from Costa de Oro, Uruguay',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Centenario_(vista_a%C3%A9rea).jpg',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
   },
   4154: {
     venueId: '4154',
@@ -782,6 +882,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:EstadioRCDE_Pano.jpg',
     license: 'CC BY 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
+  },
+  4228: {
+    venueId: '4228',
+    name: 'Aviva Stadium',
+    image: 'stadiums/venue-4228.webp',
+    author: 'Metro Centric',
+    source: 'https://commons.wikimedia.org/wiki/File:Aviva_Stadium_skyline).jpg',
+    license: 'CC BY 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
   },
   4237: {
     venueId: '4237',
@@ -866,6 +975,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  4572: {
+    venueId: '4572',
+    name: 'Nature Energy Park',
+    image: 'stadiums/venue-4572.webp',
+    author: 'Kåre Thor Olsen',
+    source: 'https://commons.wikimedia.org/wiki/File:Odense_Stadion_-_Carlsberg-tribunen.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   4579: {
     venueId: '4579',
     name: 'Bolt Arena',
@@ -940,6 +1058,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC0',
     licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
   },
+  4710: {
+    venueId: '4710',
+    name: 'Municipal Stadium Wroclaw',
+    image: 'stadiums/venue-4710.webp',
+    author: 'mmychu',
+    source: 'https://commons.wikimedia.org/wiki/File:Stadion_Wroclaw_-_trybuna_poludniowa.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   4793: {
     venueId: '4793',
     name: 'S. Darius and S. Gireno Stadium',
@@ -985,6 +1112,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Newport_County_(30195573610).jpg',
     license: 'CC BY 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
+  },
+  4910: {
+    venueId: '4910',
+    name: 'Estadio Nemesio Díez Riega',
+    image: 'stadiums/venue-4910.webp',
+    author: 'Morogris',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Estadio_Nemesio_Diez_-_Clausura_2025_final_(5).jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
   4933: {
     venueId: '4933',
@@ -1041,6 +1178,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
   },
+  5120: {
+    venueId: '5120',
+    name: 'Estadio do Maracana',
+    image: 'stadiums/venue-5120.webp',
+    author: 'Rob / BBM Explorer',
+    source: 'https://commons.wikimedia.org/wiki/File:Maracana_Stadium_2013.jpg',
+    license: 'CC BY 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
+  },
   5275: {
     venueId: '5275',
     name: 'Mapei Stadium',
@@ -1059,6 +1205,24 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  5348: {
+    venueId: '5348',
+    name: 'Alberto José Armando (La Bombonera)',
+    image: 'stadiums/venue-5348.webp',
+    author: 'Diego Delso',
+    source: 'https://commons.wikimedia.org/wiki/File:La_Bombonera_-_Buenos_Aires_-_Argentina.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
+  5764: {
+    venueId: '5764',
+    name: 'Swissporarena',
+    image: 'stadiums/venue-5764.webp',
+    author: 'Swissporarena_luftaufnahme.jpg: Bebu\nderivative work: Hic et nunc (talk)',
+    source: 'https://commons.wikimedia.org/wiki/File:Swissporarena_luftaufnahme_cropped.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
   5866: {
     venueId: '5866',
     name: 'Silverlake Stadium',
@@ -1069,6 +1233,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
   },
+  5890: {
+    venueId: '5890',
+    name: 'Stadion Poljud',
+    image: 'stadiums/venue-5890.webp',
+    author: 'Ballota',
+    source: 'https://commons.wikimedia.org/wiki/File:Poljud_panorama_2.jpg',
+    license: 'CC BY 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
+  },
   5934: {
     venueId: '5934',
     name: 'Giuseppe Sinigaglia',
@@ -1077,6 +1250,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Stadio_Sinigaglia_Distinti_2025.jpg',
     license: 'CC0',
     licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
+  5943: {
+    venueId: '5943',
+    name: 'Nagyerdei Stadium',
+    image: 'stadiums/venue-5943.webp',
+    author: 'CivertanS at Hungarian Wikipedia',
+    source: 'https://commons.wikimedia.org/wiki/File:Nagyerdei_stadion_l%C3%A9gi_fot%C3%B3k.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
   6017: {
     venueId: '6017',
@@ -1133,6 +1315,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
   },
+  6275: {
+    venueId: '6275',
+    name: 'Stadion Andjelko Herjavec',
+    image: 'stadiums/venue-6275.webp',
+    author: 'Silverije',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Gradski_stadion_Varteks_-_kvalifikacijska_utakmica_Konferenc.lige_Vara%C5%BEdin_-_Jablonec_23.7.2026.2.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
   6296: {
     venueId: '6296',
     name: 'JobServe Community Stadium',
@@ -1161,6 +1353,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  6489: {
+    venueId: '6489',
+    name: 'Bilino Polje Stadium',
+    image: 'stadiums/venue-6489.webp',
+    author: 'BiHVolim',
+    source: 'https://commons.wikimedia.org/wiki/File:Bilino_Polje_Stadium_(wide_angle).jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   6499: {
     venueId: '6499',
     name: 'Groupama Stadium',
@@ -1169,6 +1370,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Parc_OL.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  6538: {
+    venueId: '6538',
+    name: 'Allianz Field',
+    image: 'stadiums/venue-6538.webp',
+    author: 'Andy Witchger',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Allianz_Field_-_MNUFC_Minnesota_United_st._Paul_Minnesota_MLS_(40636734693).jpg',
+    license: 'CC BY 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
   },
   6717: {
     venueId: '6717',
@@ -1189,12 +1400,40 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  6860: {
+    venueId: '6860',
+    name: 'Kybunpark',
+    image: 'stadiums/venue-6860.webp',
+    author: 'Martin Kobelt',
+    source:
+      'https://commons.wikimedia.org/wiki/File:AFG_ARENA_St._Gallen_-_Erstes_Spiel_CH_-_LIE_03.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   7010: {
     venueId: '7010',
     name: 'Papara Park',
     image: 'stadiums/venue-7010.webp',
     author: 'Tqac',
     source: 'https://commons.wikimedia.org/wiki/File:Akyaz%C4%B1.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  7333: {
+    venueId: '7333',
+    name: 'Stadion HNK Rijeka',
+    image: 'stadiums/venue-7333.webp',
+    author: 'Драган Јањушевић',
+    source: 'https://commons.wikimedia.org/wiki/File:Rujevica_stadium,_Rijeka,_Croatia.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  7378: {
+    venueId: '7378',
+    name: 'Stade Prince Moulay Abdallah',
+    image: 'stadiums/venue-7378.webp',
+    author: 'Reda benkhadra',
+    source: 'https://commons.wikimedia.org/wiki/File:Moulay_Abdellah_Stadium_-_interior.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -1244,6 +1483,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  7869: {
+    venueId: '7869',
+    name: 'Estádio do Jamor',
+    image: 'stadiums/venue-7869.webp',
+    author: 'Koshelyev',
+    source: 'https://commons.wikimedia.org/wiki/File:StadionJamor.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
   7974: {
     venueId: '7974',
     name: 'Stade Bauer',
@@ -1253,12 +1501,30 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  8121: {
+    venueId: '8121',
+    name: 'Puskás Aréna',
+    image: 'stadiums/venue-8121.webp',
+    author: 'Elekes Andor',
+    source: 'https://commons.wikimedia.org/wiki/File:Pusk%C3%A1s_Ar%C3%A9na_(2).jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
   8378: {
     venueId: '8378',
     name: 'Nouste Camp',
     image: 'stadiums/venue-8378.webp',
     author: 'Pofk',
     source: 'https://commons.wikimedia.org/wiki/File:Nouste_Camp_180921.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  8451: {
+    venueId: '8451',
+    name: 'Národny Futbalovy Stadión',
+    image: 'stadiums/venue-8451.webp',
+    author: 'Svk fan',
+    source: 'https://commons.wikimedia.org/wiki/File:Tehelne_pole.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -1355,6 +1621,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
   },
+  9891: {
+    venueId: '9891',
+    name: 'Edion Peace Wing Hiroshima',
+    image: 'stadiums/venue-9891.webp',
+    author: 'Bsx',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Edion-PeaceWing-Hiroshima-from-Sorazaya-Bridge.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
   10018: {
     venueId: '10018',
     name: 'Estadi Ciutat de València',
@@ -1373,6 +1649,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Weserstadion_panorama.JPG',
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
+  },
+  10022: {
+    venueId: '10022',
+    name: 'Mendizorrotza',
+    image: 'stadiums/venue-10022.webp',
+    author: 'MarcosMarinM',
+    source: 'https://commons.wikimedia.org/wiki/File:Mendizorrotza_diciembre_2021.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
   10050: {
     venueId: '10050',
@@ -1411,6 +1696,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  10325: {
+    venueId: '10325',
+    name: 'Ghelamco Arena',
+    image: 'stadiums/venue-10325.webp',
+    author: 'Paul Hermans',
+    source: 'https://commons.wikimedia.org/wiki/File:Gent_Ghelamco_Arena_panorama.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   10339: {
     venueId: '10339',
     name: 'Friends Arena',
@@ -1437,6 +1731,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Signal_iduna_park_stadium_dortmund_6.jpg',
     license: 'CC BY-SA 3.0 de',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
+  },
+  10356: {
+    venueId: '10356',
+    name: 'Johan Cruijff Arena',
+    image: 'stadiums/venue-10356.webp',
+    author: 'Alf van Beem',
+    source: 'https://commons.wikimedia.org/wiki/File:Arena,_Ajax_stadion,_Amsterdam.JPG',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
   },
   10366: {
     venueId: '10366',
@@ -1474,6 +1777,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
+  10421: {
+    venueId: '10421',
+    name: 'Energizer Park',
+    image: 'stadiums/venue-10421.webp',
+    author: 'Chris Yunker',
+    source: 'https://commons.wikimedia.org/wiki/File:Centene_Stadium_(52449556638).jpg',
+    license: 'CC BY 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
+  },
   10439: {
     venueId: '10439',
     name: 'Stadio Benito Stirpe',
@@ -1482,6 +1794,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Benito_Stirpe_panoramica_Frosinone_Foggia.JPG',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  10488: {
+    venueId: '10488',
+    name: 'Japan National Stadium',
+    image: 'stadiums/venue-10488.webp',
+    author: 'Arne Müseler',
+    source: 'https://commons.wikimedia.org/wiki/File:New_national_stadium_tokyo_1.jpg',
+    license: 'CC BY-SA 3.0 de',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en'
   },
   10548: {
     venueId: '10548',
@@ -1509,6 +1830,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     author: 'Sylvain258',
     source:
       'https://commons.wikimedia.org/wiki/File:Stade_de_la_Beaujoire,_vue_de_la_tribune_pr%C3%A9sidentielle.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  10608: {
+    venueId: '10608',
+    name: 'Ibn Batouta Stadium',
+    image: 'stadiums/venue-10608.webp',
+    author: 'KSKB1935',
+    source: 'https://commons.wikimedia.org/wiki/File:Stade_Ibn_Batuta,_Tanger.jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -1558,6 +1888,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by/3.0'
   },
+  10630: {
+    venueId: '10630',
+    name: 'Santiago Bernabéu',
+    image: 'stadiums/venue-10630.webp',
+    author: 'لا روسا',
+    source: 'https://commons.wikimedia.org/wiki/File:Santiagobernabeupanoramav45.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
+  },
   10631: {
     venueId: '10631',
     name: 'Reale Arena',
@@ -1566,6 +1905,15 @@ export const STADIUM_PHOTOS = Object.freeze({
     source: 'https://commons.wikimedia.org/wiki/File:Reale_Arena_Interior.png',
     license: 'CC0',
     licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en'
+  },
+  10632: {
+    venueId: '10632',
+    name: 'Estadio Carlos Tartiere',
+    image: 'stadiums/venue-10632.webp',
+    author: 'rsg',
+    source: 'https://commons.wikimedia.org/wiki/File:Estadio_Carlos_Tartiere_01.jpg',
+    license: 'CC BY-SA 2.5 es',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.5/es/deed.en'
   },
   10633: {
     venueId: '10633',
@@ -1591,6 +1939,16 @@ export const STADIUM_PHOTOS = Object.freeze({
     image: 'stadiums/venue-10638.webp',
     author: 'Meloptido',
     source: 'https://commons.wikimedia.org/wiki/File:IMG-20220228-WA0055.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  10641: {
+    venueId: '10641',
+    name: 'Estadio José Zorrilla',
+    image: 'stadiums/venue-10641.webp',
+    author: 'Rastrojo',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Estadio_Jos%C3%A9_Zorrilla_de_Valladolid_(noviembre_de_2019).jpg',
     license: 'CC BY-SA 4.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
@@ -1761,6 +2119,35 @@ export const STADIUM_PHOTOS = Object.freeze({
     license: 'CC BY-SA 3.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0'
   },
+  10742: {
+    venueId: '10742',
+    name: 'St. Jakob Park',
+    image: 'stadiums/venue-10742.webp',
+    author: 'Chris Wachtler',
+    source:
+      'https://commons.wikimedia.org/wiki/File:St._Jakob_Park_Panorama_Switzerland_vs_Slovenia.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+  },
+  10743: {
+    venueId: '10743',
+    name: 'Maksimir Stadium',
+    image: 'stadiums/venue-10743.webp',
+    author: 'Suradnik13',
+    source: 'https://commons.wikimedia.org/wiki/File:Stadion_Maksimir_areal.jpg',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/'
+  },
+  10747: {
+    venueId: '10747',
+    name: 'Stade de Genève',
+    image: 'stadiums/venue-10747.webp',
+    author: 'Vincenzo.togni',
+    source:
+      'https://commons.wikimedia.org/wiki/File:The_Stade_de_Gen%C3%A8ve_during_a_UEFA_Europa_Conference_League_match_between_Servette_and_Viktoria_Pilsen._(2023).jpg',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0'
+  },
   10750: {
     venueId: '10750',
     name: 'The Completely-Suzuki Stadium',
@@ -1770,6 +2157,16 @@ export const STADIUM_PHOTOS = Object.freeze({
       'https://commons.wikimedia.org/wiki/File:The_Liberty_Mutual_Insurance_Stand_at_the_Jonny-Rocks_Stadium_-_geograph.org.uk_-_6045818.jpg',
     license: 'CC BY-SA 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0'
+  },
+  10786: {
+    venueId: '10786',
+    name: 'Estadio Más Monumental',
+    image: 'stadiums/venue-10786.webp',
+    author: 'Stefano Vigorelli',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Estadio_Monumental_(River_Plate),_Buenos_Aires_ARG.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
   },
   10815: {
     venueId: '10815',
