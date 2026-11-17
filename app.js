@@ -2445,8 +2445,11 @@ function menuAction(action) {
   } else if (action === 'avatar') {
     setActiveTab('profile', true, { self: true });
   } else if (action === 'account') {
-    setActiveTab('profile', true, { self: true });
-    setTimeout(() => $('#ptab-account')?.click(), 400);
+    setActiveTab('profile', true, { self: true, tab: 'account' });
+  } else if (action === 'notifications') {
+    setActiveTab('profile', true, { self: true, tab: 'notifications' });
+  } else if (action === 'bets') {
+    setActiveTab('bankroll', true);
   } else if (action === 'logout')
     accountApi?.auth
       .signOut()
@@ -4957,10 +4960,15 @@ if (typeof window !== 'undefined') {
       openJoin('login');
       return;
     }
-    setActiveTab('profile', true, {
-      self: true,
-      ...(button.dataset.personal === 'avatar' ? { tab: 'avatar' } : {})
-    });
+    const destination = button.dataset.personal;
+    if (destination === 'bets') setActiveTab('bankroll', true);
+    else
+      setActiveTab('profile', true, {
+        self: true,
+        tab: ['account', 'notifications', 'overview', 'badges'].includes(destination)
+          ? destination
+          : 'overview'
+      });
   });
 }
 
