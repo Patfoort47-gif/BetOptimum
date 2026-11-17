@@ -2716,7 +2716,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('[data-mobile-target]').forEach((button) => {
-    const active = button.dataset.mobileTarget === (tab === 'standings' ? 'matches' : tab);
+    const active = button.dataset.mobileTarget === tab;
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
