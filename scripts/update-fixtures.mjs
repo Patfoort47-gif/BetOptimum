@@ -1,5 +1,6 @@
 import { trackClosingOdds } from '../src/history/closing-odds.js';
 import { buildMatchPreview } from '../src/matches/match-preview.js';
+import { collectMissingTeamForms, teamHistoryKey } from './espn-team-history.mjs';
 import { teamForm } from '../src/matches/team-form.js';
 import { enrichHalfTimeResults } from './h1-results.mjs';
 import { selectionSnapshot } from '../src/model/selection-snapshot.js';
@@ -319,6 +320,20 @@ try {
 } catch (error) {
   providerFailures.push(error.message);
 }
+const espnForms = await collectMissingTeamForms(
+  unique,
+  history,
+  Object.fromEntries(leagues.map(([slug, label]) => [label, slug]))
+);
+providerFailures.push(...espnForms.failures);
+console.info(
+  'Historique ESPN :',
+  JSON.stringify({
+    requests: espnForms.requests,
+    teams: espnForms.forms.size,
+    failures: espnForms.failures.length
+  })
+);
 const reservations = JSON.parse(
     await readFile('data/odds-sync-attempts.json', 'utf8').catch((error) => {
       if (error.code === 'ENOENT') return '[]';
@@ -338,8 +353,14 @@ const propLineResult = quotaReserved
   : { offersByMatch: new Map(), requested: 0, succeeded: 0, failures: [] };
 providerFailures.push(...propLineResult.failures);
 const enriched = unique.map((match) => {
-  const homeStats = teamForm(match.home, history),
-    awayStats = teamForm(match.away, history);
+  const observed = (side) => {
+    const primary = teamForm(match[side], history);
+    return primary.sample >= 2
+      ? { ...primary, source: 'football-data.org' }
+      : (espnForms.forms.get(teamHistoryKey(match.league, match[side + 'Id'])) ?? primary);
+  };
+  const homeStats = observed('home'),
+    awayStats = observed('away');
   if (homeStats.sample >= 2 && awayStats.sample >= 2) {
     match.homeGoals = Number(
       clamp(((homeStats.avgScored + awayStats.avgConceded) / 2) * 1.08).toFixed(2)
@@ -347,7 +368,7 @@ const enriched = unique.map((match) => {
     match.awayGoals = Number(
       clamp(((awayStats.avgScored + homeStats.avgConceded) / 2) * 0.92).toFixed(2)
     );
-    match.statsSource = 'football-data.org';
+    match.statsSource = [...new Set([homeStats.source, awayStats.source])].join(' + ');
     match.homeStats = homeStats;
     match.awayStats = awayStats;
   }
@@ -438,6 +459,8 @@ await publishFixtures({
     propLineSucceeded: propLineResult.succeeded,
     propLineMatches: propLineResult.offersByMatch.size,
     historicalMatches: history.length,
+    espnHistoryTeams: espnForms.forms.size,
+    espnHistoryRequests: espnForms.requests,
     secondaryOddsMatches: enriched.filter((match) =>
       match.realOddsMarkets?.some((key) => key === 'over' || key === 'btts')
     ).length,
