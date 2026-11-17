@@ -119,7 +119,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
           title: challenge
             ? 'Ton défi du jour t’attend'
             : daily
-              ? `${event.picks.length} conseil${event.picks.length > 1 ? 's' : ''} du jour`
+              ? 'Conseil du jour'
               : result
                 ? 'Résultat validé'
                 : testing
