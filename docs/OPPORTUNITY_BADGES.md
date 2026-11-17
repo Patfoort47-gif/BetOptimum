@@ -5,3 +5,5 @@ Table validée explicitement par le propriétaire dans la conversation : EV rée
 Le libellé et la couleur sont affichés ensemble, avec EV numérique (deux décimales maximum). Les aides rappellent la table et l’absence de garantie. Les dates, cache et avertissements restent visibles. Les catégories ne rendent jamais une cote inadmissible sélectionnable.
 
 Recette : `NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-opportunity-badges.cjs`, huit largeurs 375 à 1440 en clair/sombre, seuils, numérique, absence expliquée, changement de thème, sélection conservée et audit de contraste des badges. Deux tests Node couvrent les bornes exactes et les données manquantes/non réelles/non admissibles. 387 tests Node réussis.
+
+BET-344 : tout badge EV positive affiche aussi « Value +X % », sans modifier les seuils de couleur ni le calcul. Les cotes réelles, la probabilité estimée et sa jauge sont déjà présentes côte à côte dans chaque marché.

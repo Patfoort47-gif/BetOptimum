@@ -11,5 +11,5 @@ export function classifyOpportunity(value, { real = true, available = true } = {
 export function opportunityMarkup(info) {
   const number = (value) =>
     new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value);
-  return `${info.level ? `<span class="opportunity-badge ${info.level}">${info.label}</span>` : ''}${info.value == null ? `<small class="opportunity-note">${info.label}</small>` : `<span class="value market-value">EV estimée ${info.value > 0 ? '+' : ''}${number(info.value * 100)} %</span>${info.level ? '' : `<small class="opportunity-note">${info.label}</small>`}`}`;
+  return `${info.level ? `<span class="opportunity-badge ${info.level}">Value +${number(info.value * 100)} % · ${info.label}</span>` : ''}${info.value == null ? `<small class="opportunity-note">${info.label}</small>` : `<span class="value market-value">EV estimée ${info.value > 0 ? '+' : ''}${number(info.value * 100)} %</span>${info.level ? '' : `<small class="opportunity-note">${info.label}</small>`}`}`;
 }
