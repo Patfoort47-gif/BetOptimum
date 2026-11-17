@@ -145,3 +145,12 @@ test('réutiliser une prévision ne partage aucun objet mutable et invalide chaq
   assert.ok(forecastMatch(real, { marketWeight: 1 }).reference.home > 0);
   assert.notDeepEqual(forecastMatch(real, { rho: -0.1 }), forecastMatch(real));
 });
+
+test('BET-341 : les paramètres génériques et données invalides ne produisent aucun pronostic', () => {
+  const real = { ...fixture, realOddsMarkets: ['home'], analysisStatus: 'unavailable' };
+  assert.deepEqual(analyseMatch(real).probs, {});
+  assert.deepEqual(analyseMatch(real).markets, []);
+  assert.equal(recommendedMarket(real), null);
+  assert.equal(analyseMatch({ ...fixture, homeGoals: null }).available, false);
+  assert.equal(analyseMatch({ ...fixture, analysisStatus: 'ready' }).available, true);
+});
