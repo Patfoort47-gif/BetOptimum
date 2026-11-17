@@ -21,14 +21,8 @@ const steps = [
 export function initOnboarding(root, { initialSeen = false, onSeen = () => {} } = {}) {
   if (!root) return;
   const key = 'betoptimum-onboarding-seen';
-  try {
-    root.hidden =
-      initialSeen ||
-      localStorage.getItem(key) === '1' ||
-      localStorage.getItem('betoptimum-discovery-dismissed') === '1';
-  } catch {
-    root.hidden = initialSeen;
-  }
+  // La présentation est disponible sur demande dans Aide, sans repousser les matchs.
+  root.hidden = true;
   const dialog = document.createElement('dialog');
   dialog.className = 'tutorial-dialog';
   dialog.setAttribute('aria-labelledby', 'tutorial-title');
@@ -63,6 +57,7 @@ export function initOnboarding(root, { initialSeen = false, onSeen = () => {} } 
     const launch = event.target.closest('[data-tutorial-launch]');
     if (launch) {
       opener = launch;
+      launch.closest('dialog')?.close();
       index = 0;
       render();
       dialog.showModal();
