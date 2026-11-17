@@ -8,6 +8,8 @@ Les nouvelles mécaniques sont gelées (BET-308). Le défi du jour et son rappel
 
 Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre BET-316 à BET-321 : recherche du modèle sous validation préalable, mesure de clôture, partages du défi/comparaison, aperçus et invitations privées. Cette exception ne réactive pas l’économie et ne dispense jamais du consentement ni de la confidentialité.
 
+BET-346, demandé explicitement par le propriétaire le 17 novembre 2026, rétablit uniquement un onglet de classements sportifs des équipes (ESPN), sans rétablir le classement des joueurs ni les ligues privées.
+
 ## Travail et vérification
 
 - Une branche par ticket, créée depuis main : `BET-<n>-description`. Numéro du ticket dans chaque commit et titre de PR. Fermer le ticket après fusion de sa PR.

@@ -15,3 +15,5 @@ BET-333 : le classement général remplace les parcours de ligues dans l’inter
 BET-338 : l’application ne présente plus de rubrique classement (joueurs ou équipes), de rang dans le profil ni d’annonce de changement de rang. Les anciens liens reviennent aux matchs. Les données historiques sont conservées.
 
 BET-340 retire aussi le défi du jour, son partage et son rappel. Les anciens pronostics sont conservés.
+
+BET-346, demande du 17 novembre 2026 : rétablissement limité aux classements sportifs des équipes, sur la source ESPN existante. Aucun rétablissement des ligues ni du classement des joueurs.

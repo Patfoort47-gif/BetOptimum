@@ -971,7 +971,6 @@ const tableLeagues = () =>
       return (count(b) > 0) - (count(a) > 0) || ctx.LEAGUES[b][1] - ctx.LEAGUES[a][1];
     });
 export async function showStandings() {
-  return; // BET-338 : rubrique retirée.
   const leagues = tableLeagues();
   standingsView.league ??= leagues[0];
   document.querySelector('#standings-leagues').innerHTML = leagues
