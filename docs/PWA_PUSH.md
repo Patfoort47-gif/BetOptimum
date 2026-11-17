@@ -51,3 +51,9 @@ Déployer V65, puis la fonction Edge notifications (révision BET-310, vérifica
 Recettes : `npm test`, `PGLITE_MODULE=… node scripts/check-notification-sql.mjs`, navigateur mobile avec Android et iOS installés simulés. Vérifier séparément la réception sur un véritable Android Chrome et un iPhone/iPad installé : les simulations ne prouvent ni l’installation native ni la livraison APNs/FCM réelle.
 
 BET-331 présente en premier les résultats et le conseil du jour. Les autres rappels, le mode Essentiel et le briefing email restent accessibles dans des sections dépliables, avec leurs accords inchangés et sans activation automatique.
+
+## Réglage standard à l’activation (BET-339)
+
+Après accord explicite et permission système, une nouvelle activation des notifications sur l’appareil inclut le conseil du jour de 9 h. Le mode Essentiel, les rappels de favoris et du défi sont désactivés lors de cette activation standard ; ils restent réglables ensuite. Le conseil peut être coupé séparément. Aucun réglage n’est modifié au chargement de la page ni pour les abonnés actuels.
+
+Le conseil par email est présenté directement dans Mes alertes ; lors d’une activation, le formulaire propose 9 h dans le fuseau du compte. L’adresse doit être associée et l’accord coché puis enregistré. Un abonné actif conserve son horaire. Aucun compte désabonné n’est réinscrit automatiquement.

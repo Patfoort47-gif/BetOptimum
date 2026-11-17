@@ -32,7 +32,7 @@ Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre 
 
 - Le navigateur ne modifie ni solde, statut, statistique, points ni XP : RPC serveur avec RLS. Aucun secret dans Git, les fichiers publiés ou les commentaires de tickets.
 - Les migrations horodatées publiées sont immuables. Ajouter une migration avec la CLI Supabase ; vérifier une base vierge et les recettes SQL avant application. Ne jamais réinitialiser la production.
-- Notifications : aucun envoi ni nouvelle association sans consentement explicite. Options facultatives inactives par défaut ; relire accord, silence, expiration et état métier avant transport. Conserver déduplication et absence de rejeu après résultat incertain.
+- Notifications : aucun envoi ni nouvelle association sans consentement explicite. Les canaux restent inactifs sans accord. À l’activation volontaire, le réglage standard est le conseil du jour à 9 h par téléphone ou email (BET-339), sans modifier les abonnements existants ; relire accord, silence, expiration et état métier avant transport. Conserver déduplication et absence de rejeu après résultat incertain.
 - Ne pas ouvrir un nouvel accès public sans accord du propriétaire. Mettre à jour Confidentialité et Mentions légales pour toute nouvelle donnée ou tout nouveau fournisseur.
 - Les avatars personnalisés et les cadres sont retirés (BET-328, BET-329) ; afficher une identité neutre et conserver les badges ; les archives de l’économie ne sont pas des fonctions à réactiver.
 
