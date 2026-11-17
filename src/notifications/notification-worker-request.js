@@ -10,6 +10,8 @@ const fields = [
   'kickoff',
   'completed',
   'voided',
+  'analysisStatus',
+  'statsSource',
   'homeGoals',
   'awayGoals',
   'odds',
@@ -19,12 +21,7 @@ const fields = [
 ];
 export function workerPayload(data) {
   const matches = (data.matches ?? [])
-    .filter(
-      (match) =>
-        !match.completed &&
-        !match.voided &&
-        !(Date.parse(match.kickoff) <= Date.parse(data.generatedAt))
-    )
+    .filter((match) => !match.voided && Number.isFinite(Date.parse(match.kickoff)))
     .map((match) => {
       const row = Object.fromEntries(
         fields.filter((key) => match[key] !== undefined).map((key) => [key, match[key]])
@@ -32,7 +29,14 @@ export function workerPayload(data) {
       const keys = marketKeys(match.odds);
       row.bookmakerOffers = (match.bookmakerOffers ?? []).map((offer) =>
         Object.fromEntries(
-          ['key', 'name', 'updatedAt', ...keys, ...keys.map((key) => `${key}Cached`)]
+          [
+            'key',
+            'name',
+            'updatedAt',
+            ...keys,
+            ...keys.map((key) => `${key}Cached`),
+            ...keys.map((key) => `${key}UpdatedAt`)
+          ]
             .filter((key) => offer[key] !== undefined)
             .map((key) => [key, offer[key]])
         )
@@ -49,7 +53,8 @@ export function workerPayload(data) {
     format: 2,
     offerFields,
     matches: matches.map((match) => encodeWorkerMatch(match, offerFields)),
-    generatedAt: data.generatedAt
+    generatedAt: data.generatedAt,
+    briefingReady: data.briefingReady === true
   });
   const bytes = new TextEncoder().encode(body).byteLength;
   if (bytes > WORKER_MAX_BYTES)

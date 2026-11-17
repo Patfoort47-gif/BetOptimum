@@ -28,7 +28,7 @@ Le conseil principal de 9 h dispose d’un choix séparé, désactivé par défa
 
 ## Traitements et déduplication
 
-Le workflow `notifications.yml` traite les emails avec le dernier fichier publié, sans consulter le fournisseur de cotes. Le minuteur Supabase à la minute traite rappels et conseil de 9 h depuis le calendrier serveur récent. Bail et heartbeat privés empêchent deux traitements simultanés du minuteur.
+BET-348 : le briefing quotidien est envoyé uniquement par la dernière étape des workflows d’actualisation des matchs ou des scores, après publication et synchronisation réussies. Le traitement de maintenance toutes les cinq minutes conserve les tests et alertes existants mais diffère les briefings sans consommer de tentative fournisseur. Le script recharge les offres séparées du calendrier compact et conserve leurs dates par marché. Un calendrier non généré à la date de Paris ou des analyses toutes indisponibles bloquent le briefing et produisent une erreur explicite ; aucun faux email de journée vide. La liste des rencontres du jour est indépendante des cotes disponibles. Aucun appel au fournisseur de cotes pendant l’envoi. Le minuteur Supabase à la minute traite rappels et conseil de 9 h depuis le calendrier serveur récent. Bail et heartbeat privés empêchent deux traitements simultanés du minuteur.
 
 La file privée réserve chaque événement avant l’envoi. Une réponse perdue ou un résultat incertain ne provoque aucun rejeu automatique. Les réponses 429 sont temporisées ; destinations expirées retirées, états incertains conservés pour diagnostic. Resend reçoit une clé d’idempotence par livraison. Les journaux et événements sont purgés après 30 jours.
 

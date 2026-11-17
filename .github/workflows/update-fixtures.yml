@@ -124,3 +124,10 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: node scripts/sync-supabase.mjs
+      - name: Envoyer les briefings consentis après actualisation réussie
+        if: steps.schedule.outputs.run == 'true'
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          NOTIFICATION_WORKER_SECRET: ${{ secrets.NOTIFICATION_WORKER_SECRET }}
+          BRIEFING_AFTER_UPDATE: 'true'
+        run: node scripts/run-notifications.mjs

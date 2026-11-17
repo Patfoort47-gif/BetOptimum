@@ -8,6 +8,7 @@ import {
   reportNotificationFailure
 } from '../../../src/notifications/notification-diagnostics.js';
 import { notificationConfig } from '../../../src/notifications/notification-config.js';
+import { briefingDataStatus } from '../../../src/notifications/briefing-data.js';
 import { planBriefing } from '../../../src/notifications/notification-briefing.js';
 import { prepareBriefing } from '../../../src/notifications/notification-briefing-service.js';
 import {
@@ -127,7 +128,15 @@ async function pageAll(table: string, query: string) {
     if (rows.length < 1000) return result;
   }
 }
-async function worker(matches: unknown[], generatedAt: string | null, remindersOnly = false) {
+async function worker(
+  matches: any[],
+  generatedAt: string | null,
+  remindersOnly = false,
+  briefingReady = false
+) {
+  const briefingStatus = briefingDataStatus(matches, generatedAt);
+  const allowBriefing = briefingReady && briefingStatus.ok;
+  if (briefingReady && !briefingStatus.ok) console.error(briefingStatus.code);
   const prefs = remindersOnly
       ? []
       : await pageAll('notification_preferences', 'enabled=eq.true&select=*'),
@@ -139,7 +148,7 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
       (l: any) => l.id === (entitlements.find((e: any) => e.user_id === p.user_id)?.plan ?? 'free')
     );
     if (!plan) continue;
-    const briefing = planBriefing(matches, p);
+    const briefing = allowBriefing ? planBriefing(matches, p) : null;
     if (
       briefing &&
       (await db('rpc/enqueue_notification_briefing', 'POST', {
@@ -212,6 +221,15 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
       }
       const target = await unseal(e.encrypted, env.NOTIFICATION_ENCRYPTION_KEY);
       let payload = event.payload;
+      if (delivery.channel === 'email' && payload.briefing && !allowBriefing) {
+        // Aucune tentative fournisseur : rendre le bail sans consommer de tentative.
+        await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`, 'PATCH', {
+          status: 'pending',
+          attempts: Math.max(0, delivery.attempts - 1),
+          due_at: new Date(Date.now() + 300000).toISOString()
+        });
+        continue;
+      }
       if (delivery.channel === 'web') {
         const snapshot = await db('rpc/notification_web_snapshot', 'POST', {
           p_user: delivery.user_id
@@ -383,7 +401,7 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
       'notification_events?created_at=lt.' + new Date(Date.now() - 30 * 864e5).toISOString(),
       'DELETE'
     );
-  return { queued, sent, claimed: deliveries.length, revision: 'BET-310' };
+  return { queued, sent, claimed: deliveries.length, revision: 'BET-348' };
 }
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
@@ -405,7 +423,7 @@ Deno.serve(async (request) => {
         return json({ error: 'Non autorisé' }, 401);
       if (body.dry_run === true)
         return json({
-          revision: 'BET-310',
+          revision: 'BET-348',
           dry_run: true,
           available: notificationConfig(env).available
         });
@@ -421,7 +439,7 @@ Deno.serve(async (request) => {
         return json({ error: 'Non autorisé' }, 401);
       if (body.action === 'health')
         return json({
-          revision: 'BET-310',
+          revision: 'BET-348',
           dry_run: true,
           available: notificationConfig(env).available
         });
@@ -429,13 +447,10 @@ Deno.serve(async (request) => {
         return json({ error: 'Format du worker invalide' }, 400);
       return json(
         await worker(
-          Array.isArray(body.matches) &&
-            Number.isFinite(Date.parse(body.generatedAt)) &&
-            Date.parse(body.generatedAt) <= Date.now() + 60000 &&
-            Date.now() - Date.parse(body.generatedAt) < 864e5
-            ? decodeWorkerMatches(body)
-            : [],
-          body.generatedAt ?? null
+          decodeWorkerMatches(body),
+          body.generatedAt ?? null,
+          false,
+          body.briefingReady === true
         )
       );
     }

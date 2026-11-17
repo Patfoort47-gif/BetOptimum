@@ -56,6 +56,10 @@ export function briefingEmail(b, siteUrl) {
   const hrefMatch = (m) => href(`#match-${encodeURIComponent(m.id)}`);
   const advice = (m) => (b.recommendations ?? b.picks).find((p) => p.match.id === m.id);
   const analysis = (m) => {
+    if (m.completed || Date.parse(m.kickoff) <= Date.parse(b.now))
+      return m.completed
+        ? 'Match terminé. Retrouvez le résultat sur la fiche du match.'
+        : 'Match commencé : aucun nouveau conseil de pari.';
     if (!b.fresh)
       return 'Le rendez-vous à suivre : retrouvez les dernières informations et les compositions sur la fiche du match.';
     if (![m.homeGoals, m.awayGoals].every((n) => Number.isFinite(n) && n > 0 && n <= 10))

@@ -68,7 +68,7 @@ test('fallback value positive et confiance avant historique', () => {
   assert.equal(selectSpotlight([history, value], now).id, 'value');
 });
 
-test('BET-278 : aucune affiche ni contenu email sous dix bookmakers', () => {
+test('BET-348 : calendrier email visible sans cote, aucun conseil sous dix bookmakers', () => {
   const rows = [
     match('zero', { bookmakerOffers: [], priority: 100 }),
     match('neuf', {
@@ -86,8 +86,9 @@ test('BET-278 : aucune affiche ni contenu email sous dix bookmakers', () => {
     now,
     new Date(now).toISOString()
   );
-  assert.equal(briefing.hero, null);
-  assert.deepEqual(briefing.matches, []);
+  assert.ok(briefing.hero);
+  assert.equal(briefing.matches.length, 2);
+  assert.deepEqual(briefing.picks, []);
   assert.deepEqual(briefing.favorites, []);
   assert.equal(selectSpotlight([...rows, match('dix')], now).id, 'dix');
 });
