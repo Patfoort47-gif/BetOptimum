@@ -17,3 +17,5 @@ BET-338 : l’application ne présente plus de rubrique classement (joueurs ou �
 BET-340 retire aussi le défi du jour, son partage et son rappel. Les anciens pronostics sont conservés.
 
 BET-346, demande du 17 novembre 2026 : rétablissement limité aux classements sportifs des équipes, sur la source ESPN existante. Aucun rétablissement des ligues ni du classement des joueurs.
+
+BET-347, demande du 17 novembre 2026 : simulation invitée locale à 1 000 € et sauvegarde privée facultative dans un compte. Aucun transfert de capital local vers la bankroll certifiée, aucune économie, boutique, recharge, ligue ou classement des joueurs réactivé.

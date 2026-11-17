@@ -58,6 +58,13 @@ const motionBehavior = () =>
   typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
     ? 'auto'
     : 'smooth';
+import {
+  readGuestWallet,
+  saveGuestWallet,
+  guestWalletFrom,
+  placeGuestTicket,
+  settleGuestWallet
+} from './src/ticket/guest-wallet.js';
 import { createSubmission } from './src/ticket/bet-submission.js';
 import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
 import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
@@ -339,9 +346,15 @@ let saved = null;
 try {
   saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
 } catch {}
+let guestStorage = null;
+try {
+  guestStorage = globalThis.localStorage;
+} catch {}
+let guestWallet = readGuestWallet(guestStorage),
+  guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
 const state = {
-  bankroll: saved?.bankroll ?? 1000,
-  initial: saved?.initial ?? 1000,
+  bankroll: guestWallet.bankroll,
+  initial: 1000,
   history: [],
   legacy: (saved?.history ?? []).map((bet) => Object.assign(bet, { legacy: true })),
   serverBets: [],
@@ -554,6 +567,7 @@ function userStatePayload() {
   return {
     bankroll: state.bankroll,
     initial: state.initial,
+    guestSimulation: guestWallet,
     history: state.legacy,
     capitalEvents: state.capitalEvents,
     favoriteTeams: state.favoriteTeams,
@@ -572,6 +586,10 @@ function persist() {
 }
 function applySyncedState(data) {
   if (!data || typeof data !== 'object') return;
+  if (data.guestSimulation) {
+    guestWallet = guestWalletFrom(data.guestSimulation);
+    guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
+  }
   state.bankroll = Number.isFinite(Number(data.bankroll))
     ? Math.max(0, Number(data.bankroll))
     : 1000;
@@ -604,7 +622,7 @@ function resetSyncedState() {
   if (success) success.hidden = true;
   betConfirmed = false;
   betAttempt = null;
-  state.bankroll = 1000;
+  state.bankroll = guestWallet.bankroll;
   state.initial = 1000;
   state.legacy = [];
   state.serverBets = [];
@@ -1927,12 +1945,16 @@ function renderTicket() {
     button.disabled = locked || cents == null || cents < 100;
   });
   if (!locked)
-    state.ticket = state.ticket.filter((item) =>
-      quoteAvailable(
-        allMatches().find((m) => m.id === item.matchId),
-        item.key
-      )
-    );
+    state.ticket = state.ticket.filter((item) => {
+      const match = allMatches().find((m) => m.id === item.matchId);
+      return (
+        match &&
+        quoteAvailable(match, item.key) &&
+        analyseMatch(match).markets.some(
+          (m) => m.key === item.key && Number.isFinite(m.probability)
+        )
+      );
+    });
   document
     .querySelectorAll(
       '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#quick-combo,#ticket-items button,#stake-controls button'
@@ -2043,7 +2065,7 @@ function renderTicket() {
         : multiple
           ? `Placer le système (${lines.length} lignes)`
           : 'Placer le pari virtuel'
-    : 'Se connecter pour placer le pari';
+    : 'Placer le pari en mode invité';
   if (betAttempt?.uncertain) {
     placeButton.disabled = Boolean(placeButton.dataset.busy);
     placeButton.textContent = 'Vérifier le pari en attente';
@@ -2151,10 +2173,21 @@ function renderHistory() {
     if (el) el.hidden = !accountAuthenticated;
   }
   const guest = $('#bankroll-guest');
-  if (guest) guest.hidden = accountAuthenticated;
+  if (guest) {
+    guest.hidden = accountAuthenticated && !guestWallet.history.length;
+    const history = guestWallet.history
+      .map((bet) =>
+        historyCard(
+          { ...bet, id: null },
+          { results: state.results, live: state.live, fixtures: state.liveMatches }
+        )
+      )
+      .join('');
+    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil. Créez un compte pour sauvegarder cette simulation entre vos appareils.</p><button class="button secondary" data-open-join>Créer un compte</button>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}<div class="personal-tickets">${history || '<p>Aucun pari invité pour le moment. Choisissez un match pour commencer.</p>'}</div>`;
+  }
   if (!accountAuthenticated) {
     personalDashboard?.clear();
-    $('#history-count').textContent = 'Connectez-vous pour consulter vos paris certifiés.';
+    $('#history-count').textContent = `${guestWallet.history.length} pari(s) en mode invité.`;
     return;
   }
   if (!accountApi?.personalHistory) return;
@@ -2504,7 +2537,15 @@ function applyServerData(data) {
   if (voided) toast(`${voided} ancien pari en attente annulé : mise restituée`);
 }
 function settlePendingBets(results) {
-  let settled = 0;
+  const result = settleGuestWallet(guestWallet, results);
+  if (result.settled) {
+    guestWallet = result.wallet;
+    guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
+    if (!accountAuthenticated) state.bankroll = guestWallet.bankroll;
+    else cloudSave(userStatePayload());
+  }
+  if (!accountAuthenticated) return result.settled;
+  let settled = result.settled;
   for (const bet of state.history) {
     if (bet.status !== 'pending' || bet.certified) continue;
     const system = bet.betType === 'multiple' ? settleSystemBet(bet, results) : null,
@@ -2530,12 +2571,16 @@ function applyFixtureData(data, cached = false) {
     analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
   }));
   if (!betAttempt?.busy && !betAttempt?.uncertain)
-    state.ticket = state.ticket.filter((item) =>
-      quoteAvailable(
-        data.matches.find((m) => m.id === item.matchId),
-        item.key
-      )
-    );
+    state.ticket = state.ticket.filter((item) => {
+      const match = allMatches().find((m) => m.id === item.matchId);
+      return (
+        match &&
+        quoteAvailable(match, item.key) &&
+        analyseMatch(match).markets.some(
+          (m) => m.key === item.key && Number.isFinite(m.probability)
+        )
+      );
+    });
   state.dailyChallenge = data.dailyChallenge ?? null;
   state.results = [...(data.settlements ?? []), ...data.matches.filter((match) => match.completed)];
   for (const match of data.matches.filter((item) => item.completed)) {
@@ -4086,8 +4131,35 @@ $('#share-confirmed-ticket')?.addEventListener('click', () => {
 });
 $('#place-bet').addEventListener('click', async () => {
   if (!accountAuthenticated) {
-    openJoin('login');
-    toast('Connectez-vous ou créez un compte pour enregistrer ce pari');
+    const button = $('#place-bet');
+    if (button.disabled || button.dataset.busy || !state.ticket.length) return;
+    button.dataset.busy = '1';
+    try {
+      guestWallet = placeGuestTicket(
+        guestWallet,
+        {
+          items: state.ticket,
+          stake: $('#stake').value,
+          mode: state.betMode,
+          formula: $('#system-formula').value
+        },
+        allMatches()
+      );
+      guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
+      state.bankroll = guestWallet.bankroll;
+      state.ticket = [];
+      rememberTicket();
+      $('#bet-feedback').textContent = 'Pari invité enregistré. Retrouvez-le dans Mes paris.';
+      setBuilderDrawer(false);
+      setActiveTab('bankroll', true);
+      render();
+      toast('Pari virtuel enregistré en mode invité.');
+    } catch (error) {
+      toast(error.message);
+    } finally {
+      delete button.dataset.busy;
+      renderTicket();
+    }
     return;
   }
   if (!state.serverReady && !betAttempt?.uncertain) {
@@ -4240,6 +4312,11 @@ $('#place-bet').addEventListener('click', async () => {
   renderTicket();
 });
 $('#bankroll-guest')?.addEventListener('click', (event) => {
+  if (event.target.closest('[data-save-guest]')) {
+    cloudSave(userStatePayload());
+    toast('Sauvegarde de la simulation demandée.');
+    return;
+  }
   if (event.target.closest('[data-open-join]')) openJoin('signup');
 });
 $('#community-profile-button')?.addEventListener('click', () => {
@@ -4557,6 +4634,8 @@ if (typeof window !== 'undefined') {
             : null;
           renderAttention();
           if (!authenticated) {
+            state.bankroll = guestWallet.bankroll;
+            updateStats();
             lastSharedTicket = null;
             const success = $('#bet-success');
             if (success) success.hidden = true;
