@@ -12163,3 +12163,20 @@ section.club-ranking {
   text-align: left;
   margin-bottom: 8px;
 }
+
+/* BET-351 : identité sportive et chiffres stables. */
+body {
+  font-variant-numeric: tabular-nums;
+}
+.card,
+.match-card,
+.builder-card {
+  border-radius: 14px;
+}
+.button,
+.icon-button,
+.market,
+.match-selection,
+.stake-controls button {
+  border-radius: 10px;
+}
