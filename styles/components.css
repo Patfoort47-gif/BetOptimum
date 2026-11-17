@@ -12506,3 +12506,23 @@ body .filters::-webkit-scrollbar {
   min-width: 0;
   width: 100%;
 }
+
+/* BET-357 : sélection principale visible, marchés secondaires repliés. */
+.match-other-markets > summary {
+  gap: 8px;
+}
+.match-other-markets[open] > summary > span {
+  transform: rotate(180deg);
+}
+@media (max-width: 767px) {
+  body .match-card .match-overview {
+    display: grid;
+  }
+  body .match-card .match-overview > .prob-bar,
+  body .match-card .match-overview > .opportunity {
+    display: none;
+  }
+  body .match-card .match-overview > .recommended {
+    display: grid;
+  }
+}
