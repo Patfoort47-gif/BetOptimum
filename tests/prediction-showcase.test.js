@@ -5,11 +5,11 @@ import { predictionReport } from '../src/history/prediction-report.js';
 const html = (value) =>
     String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;'),
   money = (value) => value.toFixed(2) + ' €',
-  now = Date.parse('2026-11-01T12:00:00Z');
+  now = Date.parse('2026-11-03T12:00:00Z');
 const rows = [
-  { id: 'a', date: '2026-10-30', odd: 2.5, oddsSource: 'bookmaker', status: 'won', match: 'A < B' },
-  { id: 'b', date: '2026-10-30', odd: 2, oddsSource: 'bookmaker', status: 'lost', match: 'C - D' },
-  { id: 'c', date: '2026-10-31', odd: 1.8, oddsSource: 'bookmaker', status: 'won', match: 'E - F' }
+  { id: 'a', date: '2026-11-01', odd: 2.5, oddsSource: 'bookmaker', status: 'won', match: 'A < B' },
+  { id: 'b', date: '2026-11-01', odd: 2, oddsSource: 'bookmaker', status: 'lost', match: 'C - D' },
+  { id: 'c', date: '2026-11-02', odd: 1.8, oddsSource: 'bookmaker', status: 'won', match: 'E - F' }
 ];
 test('BET-135 : courbe chronologique, agrégation quotidienne et bilan concordant', () => {
   const report = predictionReport(rows, {}, now),
@@ -17,8 +17,8 @@ test('BET-135 : courbe chronologique, agrégation quotidienne et bilan concordan
   assert.deepEqual(
     curve.map((day) => [day.date, day.total, day.wins, day.profit, day.cumulative]),
     [
-      ['2026-10-30', 2, 1, 5, 5],
-      ['2026-10-31', 1, 1, 8, 13]
+      ['2026-11-01', 2, 1, 5, 5],
+      ['2026-11-02', 1, 1, 8, 13]
     ]
   );
   assert.equal(curve.at(-1).cumulative, report.profit);
@@ -52,7 +52,7 @@ test('BET-135 : bilan perdant et bilan vide ne suggèrent aucun bénéfice', () 
 });
 test('BET-135 : vue gagnés seuls signalée et remboursements exclus de la courbe', () => {
   const report = predictionReport(
-    [...rows, { id: 'v', date: '2026-10-31', odd: 2, oddsSource: 'bookmaker', status: 'void' }],
+    [...rows, { id: 'v', date: '2026-11-02', odd: 2, oddsSource: 'bookmaker', status: 'void' }],
     { result: 'won' },
     now
   );

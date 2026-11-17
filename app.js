@@ -60,7 +60,7 @@ const motionBehavior = () =>
     : 'smooth';
 import { createSubmission } from './src/ticket/bet-submission.js';
 import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
-import { predictionReport } from './src/history/prediction-report.js';
+import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
 import { freshness, sourceFreshness } from './src/core/data-freshness.js';
 import { initAnalytics } from './src/history/analytics.js';
 import {
@@ -742,7 +742,7 @@ function setupScroller(el) {
 }
 // Indice global : 75 % de forme récente du site et 25 % de confiance moyenne des pronostics du jour.
 function confidenceMetrics() {
-  return confidenceKpi(state.predictionHistory, allMatches(), isoDate(0));
+  return confidenceKpi(publicPredictionHistory(state.predictionHistory), allMatches(), isoDate(0));
 }
 function renderHomePerformance() {
   const box = $('#home-performance-kpis');
@@ -1576,7 +1576,9 @@ const analytics = initAnalytics($('#prediction-analytics'), {
 function renderPredictionStats() {
   if (activeTab !== 'predictions') return;
   analytics.render(state);
-  const allItems = state.predictionHistory.filter((item) => ['won', 'lost'].includes(item.status)),
+  const allItems = publicPredictionHistory(state.predictionHistory).filter((item) =>
+      ['won', 'lost'].includes(item.status)
+    ),
     leagues = [...new Set(allItems.map((item) => item.league).filter(Boolean))].sort((a, b) =>
       a.localeCompare(b, 'fr')
     ),
