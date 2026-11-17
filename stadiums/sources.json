@@ -22185,5 +22185,4684 @@
     "url": "https://commons.wikimedia.org/wiki/File:KFA_Kosicka_Futbalova_Arena.jpg",
     "license": "CC0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "6489",
+      "guid": "f754d454-60f6-3bbb-b3c0-0602f8b676be",
+      "fullName": "Bilino Polje Stadium",
+      "shortName": "Bilino Polje Stadium",
+      "address": {
+        "city": "Zenica",
+        "country": "Bosnia and Herzegovina"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861196",
+    "eventId": "401861196",
+    "commonsPageId": 57414374,
+    "metadata": {
+      "DateTime": {
+        "value": "2017-03-26 10:39:57",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Bilino Polje Stadium (wide angle)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Bilino Polje Stadium|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Bilino Polje Stadium (wide angle panorama view) in 2017",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2017-03-27 08:17:27",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:BiHVolim\" title=\"User:BiHVolim\">BiHVolim</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Bilino_Polje_Stadium_%28wide_angle%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6489.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 62538,
+    "checked": "2026-11-17",
+    "author": "BiHVolim",
+    "url": "https://commons.wikimedia.org/wiki/File:Bilino_Polje_Stadium_(wide_angle).jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "8121",
+      "guid": "5015f670-fcc6-3ebc-902c-14d89ed4fce2",
+      "fullName": "Puskás Aréna",
+      "shortName": "Puskás Aréna",
+      "address": {
+        "city": "Budapest",
+        "country": "Hungary"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861191",
+    "eventId": "401861191",
+    "commonsPageId": 84042317,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-11-16 21:25:31",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Puskás Aréna (2)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Puskás Aréna|Self-published work|November 2019 in Budapest|Hungary photographs taken on 2019-11-15|Photos by Elekes Andor",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Puskás Aréna. Budapest, Central Europe. On the day of the opening.  Hungary-Uruguay 1-2.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "Taken on 15 November 2019, 21:25:38",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Elekes_Andor\" title=\"User:Elekes Andor\">Elekes Andor</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Pusk%C3%A1s_Ar%C3%A9na_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-8121.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 89318,
+    "checked": "2026-11-17",
+    "author": "Elekes Andor",
+    "url": "https://commons.wikimedia.org/wiki/File:Pusk%C3%A1s_Ar%C3%A9na_(2).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "5943",
+      "guid": "3b2d9584-5979-3c54-9458-cae0fc7a4d0a",
+      "fullName": "Nagyerdei Stadium",
+      "shortName": "Nagyerdei Stadium",
+      "address": {
+        "city": "Debrecen",
+        "country": "Hungary"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861193",
+    "eventId": "401861193",
+    "commonsPageId": 45489043,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-12-07 20:03:12",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Nagyerdei stadion légi fotók",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|Nagyerdei stadion|License migration redundant|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Debreceni Nagyerdei stadion",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-06-07",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<bdi lang=\"en\" dir=\"ltr\">Transferred from <span class=\"plainlinks\"><a class=\"external text\" data-mw-original-href=\"//hu.wikipedia.org\" href=\"https://hu.wikipedia.org\">hu.wikipedia</a></span> to Commons.</bdi>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"https://en.wikipedia.org/wiki/hu:User:CivertanS\" class=\"extiw\" title=\"w:hu:User:CivertanS\">CivertanS</a> at <a href=\"https://en.wikipedia.org/wiki/hu:\" class=\"extiw\" title=\"w:hu:\">Hungarian Wikipedia</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "<a href=\"https://en.wikipedia.org/wiki/hu:User:CivertanS\" class=\"extiw\" title=\"w:hu:User:CivertanS\">CivertanS</a> at <a href=\"https://en.wikipedia.org/wiki/hu:\" class=\"extiw\" title=\"w:hu:\">Hungarian Wikipedia</a>",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/08/Nagyerdei_stadion_l%C3%A9gi_fot%C3%B3k.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5943.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 86742,
+    "checked": "2026-11-17",
+    "author": "CivertanS at Hungarian Wikipedia",
+    "url": "https://commons.wikimedia.org/wiki/File:Nagyerdei_stadion_l%C3%A9gi_fot%C3%B3k.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "4710",
+      "guid": "6b8a7b2d-29bb-3f41-818f-f7720bd320f2",
+      "fullName": "Municipal Stadium Wroclaw",
+      "shortName": "Municipal Stadium Wroclaw",
+      "address": {
+        "city": "Wroclaw",
+        "country": "Poland"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861195",
+    "eventId": "401861195",
+    "commonsPageId": 16490190,
+    "metadata": {
+      "DateTime": {
+        "value": "2011-09-15 05:59:44",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stadion Wroclaw - trybuna poludniowa",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Sony DSLR-A550|Wrocław Municipal Stadium|Items with VRTS permission confirmed",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Trybuna południowa (trybuna B) wrocławskiego stadionu. Widok z trybuny wschodniej (trybuny C)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2011-08-12",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "udostępnione przez autora via e-mail",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "mmychu",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "<p><span class=\"layouttemplateargs\" style=\"display:none;speak:none;\" title=\"template=PermissionTicket 1%3Dhttps%3A%2F%2Fticket.wikimedia.org%2Fotrs%2Findex.pl%3FAction%3DAgentTicketZoom%26TicketNumber%3D2011091510003781 2%3D2011091510003781\"> </span>\n</p>\n<style data-mw-deduplicate=\"TemplateStyles:r1254222110\">.mw-parser-output .messagebox{margin:4px 0;width:auto;border-collapse:collapse;border:2px solid var(--border-color-progressive,#6485d1);background-color:var(--background-color-neutral-subtle,#fbfcff);color:var(--color-base,#202122);box-sizing:border-box;border-inline-start-width:8px}.mw-parser-output .messagebox.mbox-small{font-size:88%;line-height:1.25em}.mw-parser-output .mbox-warning,.mw-parser-output .mbox-speedy{border:2px solid var(--border-color-error,#b22222);background:var(--background-color-error-subtle,#ffdbdb);border-inline-start-width:8px}.mw-parser-output .mbox-serious,.mw-parser-output .mbox-delete,.mw-parser-output .mbox-stop{border:2px solid var(--border-color-error,#b22222);border-inline-start-width:8px}.mw-parser-output .mbox-issue,.mw-parser-output .mbox-content{border:2px solid #f28500;background:var(--background-color-warning-subtle,#ffe);border-inline-start-width:8px}.mw-parser-output .mbox-query,.mw-parser-output .mbox-style{border:2px solid #f4c430;background:var(--background-color-warning-subtle,#ffe);border-inline-start-width:8px}.mw-parser-output .mbox-shit{border:2px solid #960;border-inline-start-width:8px}.mw-parser-output .mbox-license{border:2px solid #88a;border-inline-start-width:initial}.mw-parser-output .mbox-legal{border:2px solid var(--border-color-notice,#666);background:var(--background-color-base,#fff);border-inline-start-width:8px}.mw-parser-output .mbox-honor{border:2px solid #ca3;background:var(--background-color-warning-subtle,#fcf4db);border-inline-start-width:8px}.mw-parser-output .mbox-growth{border:2px solid #8d4;background:var(--background-color-success-subtle,#d5fdf4);border-inline-start-width:8px}.mw-parser-output .mbox-move{border:2px solid #93c;border-inline-start-width:8px}.mw-parser-output .mbox-protection,.mw-parser-output .mbox-message{border:2px solid var(--border-color-base,#aaa);border-inline-start-width:8px}.mw-parser-output .messagebox .mbox-text{border:none;padding:0.25em 0.9em;width:100%}.mw-parser-output .messagebox .mbox-image{border:none;padding-top:2px;padding-bottom:2px;padding-inline-start:0.9em;padding-inline-end:0;text-align:center}.mw-parser-output .messagebox .mbox-imageright{border:none;padding-top:2px;padding-bottom:2px;padding-inline-start:0;padding-inline-end:0.9em;text-align:center}.mw-parser-output .messagebox .mbox-empty-cell{border:none;padding:0;width:1px}.mw-parser-output .messagebox .mbox-invalid-type{text-align:center}@media(min-width:720px){.mw-parser-output .messagebox{margin:4px 10%}.mw-parser-output .messagebox.mbox-small{clear:right;float:right;margin:4px 0 4px 1em;width:238px}}body.skin--responsive .mw-parser-output table.messagebox img{max-width:none!important}</style><table class=\"plainlinks messagebox mbox-notice layouttemplate\" role=\"presentation\" style=\"margin:0.3em 0;width:100%;\"><tbody><tr><td class=\"mbox-image\"><span typeof=\"mw:File\"><span title=\"VRT Wikimedia\"><img alt=\"VRT Wikimedia\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Permission_logo_2021.svg/120px-Permission_logo_2021.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"75\" height=\"48\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Permission_logo_2021.svg/250px-Permission_logo_2021.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"935\" data-file-height=\"600\"></span></span></td><td class=\"mbox-text\">This work is <a href=\"https://freedomdefined.org/Definition\" class=\"extiw\" title=\"freedomdefined:Definition\">free</a> and may be used by anyone for any purpose. If you wish to <b><a href=\"//commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia\" title=\"Commons:Reusing content outside Wikimedia\">use this content</a></b>, you do not need to request permission as long as you follow any licensing requirements mentioned on this page.\n<p>The Wikimedia Foundation has received an e-mail confirming that the copyright holder has approved publication under the terms mentioned on this page. This correspondence has been <strong style=\"color: var(--color-content-added, darkgreen);\">reviewed</strong> by a <a href=\"//commons.wikimedia.org/wiki/Template:PermissionTicket/Users\" title=\"Template:PermissionTicket/Users\">Volunteer Response Team (VRT) member</a> and stored in our <a href=\"//commons.wikimedia.org/wiki/Commons:Volunteer_Response_Team\" title=\"Commons:Volunteer Response Team\">permission archive</a>. The correspondence is available to trusted volunteers as <b><a href=\"https://ticket.wikimedia.org/otrs/index.pl?Action=AgentTicketZoom&amp;TicketNumber=2011091510003781\" class=\"extiw\" title=\"ticket:2011091510003781\">ticket #2011091510003781</a></b>.\n</p><p><small>If you have questions about the archived correspondence, please use the <a href=\"//commons.wikimedia.org/wiki/Commons:Volunteer_Response_Team/Noticeboard\" title=\"Commons:Volunteer Response Team/Noticeboard\">VRT noticeboard</a>.</small>\n<small>Ticket link: <a class=\"external free\" href=\"https://ticket.wikimedia.org/otrs/index.pl?Action=AgentTicketZoom&amp;TicketNumber=2011091510003781\">https://ticket.wikimedia.org/otrs/index.pl?Action=AgentTicketZoom&amp;TicketNumber=2011091510003781</a></small>\n<br><small>Find other files from the same ticket:</small> <span typeof=\"mw:File\"><a href=\"https://wcqs-beta.wmflabs.org/#%23defaultView%3AImageGrid%09%0ASELECT%20%3Fimage%20%20%20%7B%0A%20%20%3Ffile%20wdt%3AP6305%20%222011091510003781%22%20.%0A%20%20%3Ffile%20schema%3Aurl%20%3Fimage.%0A%7D%20%0A\" title=\"SDC query (SPARQL)\" rel=\"nofollow\"><img alt=\"SDC query (SPARQL)\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Wikimedia_Commons_Query_Service_Logo.svg/20px-Wikimedia_Commons_Query_Service_Logo.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"15\" height=\"20\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Wikimedia_Commons_Query_Service_Logo.svg/40px-Wikimedia_Commons_Query_Service_Logo.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"512\" data-file-height=\"688\"></a></span>\n</p>\n<span id=\"field-otrs\" title=\"https://ticket.wikimedia.org/otrs/index.pl?Action=AgentTicketZoom&amp;TicketNumber=2011091510003781\"></span></td></tr></tbody></table>",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/00/Stadion_Wroclaw_-_trybuna_poludniowa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4710.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 91870,
+    "checked": "2026-11-17",
+    "author": "mmychu",
+    "url": "https://commons.wikimedia.org/wiki/File:Stadion_Wroclaw_-_trybuna_poludniowa.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "4228",
+      "guid": "1b1f24b9-bad3-317f-a76a-88b51df9e37c",
+      "fullName": "Aviva Stadium",
+      "shortName": "Aviva Stadium",
+      "address": {
+        "city": "Dublin"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861192",
+    "eventId": "401861192",
+    "commonsPageId": 85071861,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-12-20 13:53:35",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Aviva Stadium skyline)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Aviva Stadium|Uploads by ww2censor|2019 in Dublin|Flickr images reviewed by FlickreviewR 2",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "part Aviva Stadium skyline, Dublin",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-06-08 17:23",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/16782093@N03/48139687727/\">Dublin</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/16782093@N03\">Metro Centric</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Aviva_Stadium_skyline%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4228.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 58450,
+    "checked": "2026-11-17",
+    "author": "Metro Centric",
+    "url": "https://commons.wikimedia.org/wiki/File:Aviva_Stadium_skyline).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "venue": {
+      "id": "3893",
+      "guid": "aaf8199f-1f02-32eb-802b-404e1a7e2266",
+      "fullName": "Cardiff City Stadium",
+      "shortName": "Cardiff City Stadium",
+      "address": {
+        "city": "Cardiff",
+        "country": "Wales"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861189",
+    "eventId": "401861189",
+    "commonsPageId": 12750791,
+    "metadata": {
+      "DateTime": {
+        "value": "2011-01-19 20:43:19",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Cardiff City Stadium Pitch",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Sony DSC-H50|Cardiff City Stadium|Images with extracted images|Flickr images reviewed by FlickreviewR|2010 events in Cardiff|Wales photographs taken on 2010-01-09|Files with coordinates missing SDC location of creation (51° N, 4° W)|Files from Jon Candy Flickr stream|Matches of Cardiff City FC in 2010",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "51.473264",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-3.203512",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "09/01/10 Cardiff V Blackpool, Cardiff City Stadium, Cardiff, Wales",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2010-01-09 16:44",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/joncandy/4260260204/\">Cardiff City Stadium Pitch</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/37195744@N03\">Jon Candy</a> from Cardiff, Wales",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Cardiff_City_Stadium_Pitch.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-3893.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 63158,
+    "checked": "2026-11-17",
+    "author": "Jon Candy from Cardiff, Wales",
+    "url": "https://commons.wikimedia.org/wiki/File:Cardiff_City_Stadium_Pitch.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "venue": {
+      "id": "10630",
+      "fullName": "Santiago Bernabéu",
+      "shortName": "Santiago Bernabéu",
+      "address": {
+        "city": "Madrid",
+        "country": "Spain"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882798",
+    "eventId": "401882798",
+    "commonsPageId": 28736091,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-02-23 12:39:42",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Santiagobernabeupanoramav45",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Nikon D3100|Interior of Santiago Bernabéu Stadium|Self-published work|Featured pictures on Wikipedia, Arabic|Featured pictures on ar wiki by ولاء",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "quality",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Interior of Santiago Bernabéu Stadium.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2013-09-28 14:04:55",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:%D9%84%D8%A7_%D8%B1%D9%88%D8%B3%D8%A7&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:لا روسا (page does not exist)\">لا روسا</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Santiagobernabeupanoramav45.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10630.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 98856,
+    "checked": "2026-11-17",
+    "author": "لا روسا",
+    "url": "https://commons.wikimedia.org/wiki/File:Santiagobernabeupanoramav45.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "10022",
+      "fullName": "Mendizorrotza",
+      "shortName": "Mendizorrotza",
+      "address": {
+        "city": "Vitoria-Gasteiz",
+        "country": "Spain"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882806",
+    "eventId": "401882806",
+    "commonsPageId": 113576509,
+    "metadata": {
+      "DateTime": {
+        "value": "2021-12-22 23:19:20",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Mendizorrotza diciembre 2021",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Mendizorroza stadium|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Estadio de Mendizorrotza el 19 de diciembre de 2021, antes del partido de la Primera División Femenina entre el Deportivo Alavés y el Levante Unión Deportiva.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2021-12-19 15:44:30",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:MarcosMarinM&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:MarcosMarinM (page does not exist)\">MarcosMarinM</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Mendizorrotza_diciembre_2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10022.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 83730,
+    "checked": "2026-11-17",
+    "author": "MarcosMarinM",
+    "url": "https://commons.wikimedia.org/wiki/File:Mendizorrotza_diciembre_2021.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "2326",
+      "guid": "af9f218c-68b1-3ea8-b388-fa65bb8a9331",
+      "fullName": "Stade Bonal",
+      "address": {
+        "city": "Montbéliard",
+        "country": "France"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.2/summary?event=401876683",
+    "eventId": "401876683",
+    "commonsPageId": 83160127,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-10-17 17:18:00",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stade Bonal, vue aérienne",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Stade Auguste-Bonal",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Vue aérienne du stade Auguste Bonal, à Montbéliard. Le stade est voué au football puisque le club résidant est le FC Sochaux-Montbéliard mais a toutefois accueilli à quelques reprises des concerts (Johnny Hallyday en 2012)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2011-11-29 14:39:15",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external free\" href=\"http://www.info-stades.fr/uploads/stades/sochaux-stade-bonal-aerienne-68838.jpg\">http://www.info-stades.fr/uploads/stades/sochaux-stade-bonal-aerienne-68838.jpg</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Info Stades",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Stade_Bonal%2C_vue_a%C3%A9rienne.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-2326.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 70058,
+    "checked": "2026-11-17",
+    "author": "Info Stades",
+    "url": "https://commons.wikimedia.org/wiki/File:Stade_Bonal,_vue_a%C3%A9rienne.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "8451",
+      "guid": "b20107da-6ced-3872-a5fb-a3b7f39c0642",
+      "fullName": "Národny Futbalovy Stadión",
+      "shortName": "Národny Futbalovy Stadión",
+      "address": {
+        "city": "Bratislava",
+        "country": "Slovakia"
+      },
+      "images": []
+    },
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/summary?event=401915297",
+    "eventId": "401915297",
+    "commonsPageId": 78747356,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-05-06 14:08:21",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Tehelne pole",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Tehelné pole (football stadium)|Self-published work|UEFA European Under-21 Championship 2025, Slovakia",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Slovak national stadium Tehelne Pole",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-03-03 16:33:35",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Svk_fan&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Svk fan (page does not exist)\">Svk fan</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/Tehelne_pole.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-8451.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 94990,
+    "checked": "2026-11-17",
+    "author": "Svk fan",
+    "url": "https://commons.wikimedia.org/wiki/File:Tehelne_pole.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "5348",
+      "guid": "ed269f24-9292-3e49-bc62-302cd9af9630",
+      "fullName": "Alberto José Armando (La Bombonera)",
+      "shortName": "Alberto José Armando (La Bombone",
+      "address": {
+        "city": "Buenos Aires",
+        "country": "Argentina"
+      },
+      "images": []
+    },
+    "eventId": "401930876",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401930876",
+    "homeId": "202",
+    "awayId": "212",
+    "commonsPageId": 17688423,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-06-19 17:04:28",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "La Bombonera - Buenos Aires - Argentina",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Images by User:Poco a poco|FoP-Argentina|Images of Argentina by User:Poco a poco|Images by User:Poco a poco taken in 2008|Exterior of La Bombonera in 2008",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "quality",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "La Bombonera, Buenos Aires, Argentina",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2008-11-01",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<bdi><a href=\"https://www.wikidata.org/wiki/Q28147777\" class=\"extiw\" title=\"d:Q28147777\"><span title=\"Spanish photographer\">Diego Delso</span></a></bdi>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "Diego Delso",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fd/La_Bombonera_-_Buenos_Aires_-_Argentina.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5348.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 66714,
+    "checked": "2026-11-17",
+    "author": "Diego Delso",
+    "url": "https://commons.wikimedia.org/wiki/File:La_Bombonera_-_Buenos_Aires_-_Argentina.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "10786",
+      "fullName": "Estadio Más Monumental",
+      "shortName": "Estadio Más Monumental",
+      "address": {
+        "city": "Buenos Aires",
+        "country": "Argentina"
+      },
+      "images": []
+    },
+    "eventId": "401921544",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401921544",
+    "homeId": "202",
+    "awayId": "2845",
+    "commonsPageId": 136876533,
+    "metadata": {
+      "DateTime": {
+        "value": "2023-09-03 08:53:28",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Monumental (River Plate), Buenos Aires ARG",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Interior of Estadio Monumental (Buenos Aires)|Self-published work|Association football in Argentina in 2008",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Stands of the Monumental",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2008-08-21 22:09:45",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Stefano_Vigorelli&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Stefano Vigorelli (page does not exist)\">Stefano Vigorelli</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/00/Estadio_Monumental_%28River_Plate%29%2C_Buenos_Aires_ARG.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10786.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 96008,
+    "checked": "2026-11-17",
+    "author": "Stefano Vigorelli",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Monumental_(River_Plate),_Buenos_Aires_ARG.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "3938",
+      "guid": "496a73bd-d40a-376d-9981-27f46c6546aa",
+      "fullName": "Stade Maurice Dufrasne",
+      "shortName": "Stade Maurice Dufrasne",
+      "address": {
+        "city": "Liege",
+        "country": "Belgium"
+      },
+      "images": []
+    },
+    "eventId": "401861109",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861109",
+    "homeId": "459",
+    "awayId": "465",
+    "commonsPageId": 40960823,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-06-14 14:19:14",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stade de Sclessin before a match",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Royal Standard de Liège|Stade Maurice Dufrasne|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Stade de Sclessin before a match",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2015-06-14",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Zergori&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Zergori (page does not exist)\">Zergori</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/86/Stade_de_Sclessin_before_a_match.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-3938.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 58696,
+    "checked": "2026-11-17",
+    "author": "Zergori",
+    "url": "https://commons.wikimedia.org/wiki/File:Stade_de_Sclessin_before_a_match.png",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "10325",
+      "fullName": "Ghelamco Arena",
+      "shortName": "Ghelamco Arena",
+      "address": {
+        "city": "Ghent",
+        "country": "Belgium"
+      },
+      "images": []
+    },
+    "eventId": "724838",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724838",
+    "homeId": "459",
+    "awayId": "463",
+    "commonsPageId": 27506857,
+    "metadata": {
+      "DateTime": {
+        "value": "2013-07-31 13:56:10",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Gent Ghelamco Arena panorama",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|Taken with Nikon D90|Ghelamco-Arena|CC-BY-SA-3.0,2.5,2.0,1.0|License migration redundant|Self-published work|Glass facades in Belgium|Files by User:Paul Hermans",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "De Ghelamco-Arena, te Gent, België, stadion van KAA Gent",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2013-07-30",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Paul_Hermans\" title=\"User:Paul Hermans\">Paul Hermans</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/73/Gent_Ghelamco_Arena_panorama.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10325.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 49642,
+    "checked": "2026-11-17",
+    "author": "Paul Hermans",
+    "url": "https://commons.wikimedia.org/wiki/File:Gent_Ghelamco_Arena_panorama.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "5120",
+      "guid": "510bb63a-a8c2-321e-8f34-f4dd1cfe6459",
+      "fullName": "Estadio do Maracana",
+      "shortName": "Estadio do Maracana",
+      "address": {
+        "city": "Rio de Janeiro",
+        "country": "Brazil"
+      },
+      "images": []
+    },
+    "eventId": "401864003",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401864003",
+    "homeId": "205",
+    "awayId": "2659",
+    "commonsPageId": 26662188,
+    "metadata": {
+      "DateTime": {
+        "value": "2013-06-14 16:30:44",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Maracana Stadium 2013",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Maracanãzinho|Taken with Nikon D80|Flickr images uploaded by Flickr upload bot|June 2013 in Brazil|Photographs by Rob Atherton|Aerial views of Estádio do Maracanã",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "<p>The iconic Maracana Stadium. \n</p>\nYou are free to use this image under a Creative Commons licence on condition you include a credit link to <a rel=\"nofollow\" class=\"external autonumber\" href=\"http://www.bbmexplorer.com\">[1]</a>",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2013-06-01 19:35:05",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/Flickr\" class=\"mw-redirect\" title=\"Flickr\">Flickr</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/86368962@N00/9037469022\">Maracana Stadium</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//www.flickr.com/people/86368962@N00\" class=\"extiw\" title=\"flickruser:86368962@N00\">Rob</a> / <a rel=\"nofollow\" class=\"external text\" href=\"http://www.bbmexplorer.com\">BBM Explorer</a>",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "<table id=\"FlickrReview\" style=\"width:100%; margin:0.3em auto; text-align:start; background-color:var(--background-color-success-subtle,#d5fdf4); padding: 3px; border:1px solid var(--border-color-base,#a2a9b1); color:inherit;\" dir=\"ltr\" lang=\"en\">\n\n<tbody><tr>\n<td><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/60px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"48\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/120px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"160\" data-file-height=\"153\"></span></span>\n</td>\n<td>This image, which was originally posted to <b><a href=\"https://en.wikipedia.org/wiki/Flickr\" class=\"extiw\" title=\"en:Flickr\">Flickr</a></b>, was uploaded to Commons using <b><a href=\"//commons.wikimedia.org/wiki/User:Flickr_upload_bot\" title=\"User:Flickr upload bot\">Flickr upload bot</a></b> on 14 June 2013, 16:30 by <span id=\"flickr_upload_bot_reviewer\"><b><a href=\"//commons.wikimedia.org/wiki/User:Dudek1337\" title=\"User:Dudek1337\">Dudek1337</a></b></span>. On that date, it was confirmed to be licensed under the terms of the license indicated.\n</td>\n<td><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Flickr_dots.svg/60px-Flickr_dots.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"50\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Flickr_dots.svg/120px-Flickr_dots.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"512\" data-file-height=\"512\"></span></span>\n</td></tr></tbody></table>\n<div class=\"responsive-license-cc layouttemplate licensetpl\" dir=\"ltr\" lang=\"en\"><div class=\"rlicense-icons\"><span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"w:en:Creative Commons\"><img alt=\"w:en:Creative Commons\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/120px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"90\" height=\"36\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/250px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"744\" data-file-height=\"300\"></span></span><br>\n<span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"attribution\"><img alt=\"attribution\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/40px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/60px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span></div><div class=\"rlicense-text\"><div class=\"rlicense-declaration\">This file is licensed under the <a href=\"https://en.wikipedia.org/wiki/en:Creative_Commons\" class=\"extiw\" title=\"w:en:Creative Commons\">Creative Commons</a> <a href=\"//creativecommons.org/licenses/by/2.0/deed.en\" class=\"extiw\" title=\"creativecommons:by/2.0/deed.en\">Attribution 2.0 Generic</a> license.</div><div class=\"rlicense-desc\" style=\"text-align:start;\" dir=\"ltr\" lang=\"en\">\n<dl><dd>You are free:\n<ul><li><b>to share</b> – to copy, distribute and transmit the work</li>\n<li><b>to remix</b> – to adapt the work</li></ul></dd>\n<dd>Under the following conditions:\n<ul><li><b>attribution</b> – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li></ul></dd></dl>\n</div><span class=\"licensetpl_link\" style=\"display:none;\">https://creativecommons.org/licenses/by/2.0</span><span class=\"licensetpl_short\" style=\"display:none;\">CC BY 2.0 </span><span class=\"licensetpl_long\" style=\"display:none;\">Creative Commons Attribution 2.0 </span><span class=\"licensetpl_link_req\" style=\"display:none;\">true</span><span class=\"licensetpl_attr_req\" style=\"display:none;\">true</span></div></div>",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Maracana_Stadium_2013.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5120.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 45542,
+    "checked": "2026-11-17",
+    "author": "Rob / BBM Explorer",
+    "url": "https://commons.wikimedia.org/wiki/File:Maracana_Stadium_2013.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "venue": {
+      "id": "10743",
+      "fullName": "Maksimir Stadium",
+      "shortName": "Maksimir Stadium",
+      "address": {
+        "city": "Zagreb",
+        "country": "Croatia"
+      },
+      "images": []
+    },
+    "eventId": "725010",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=725010",
+    "homeId": "477",
+    "awayId": "6775",
+    "commonsPageId": 4958598,
+    "metadata": {
+      "DateTime": {
+        "value": "2008-10-09 20:32:51",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stadion Maksimir areal",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "CC-BY-SA-2.5,2.0,1.0|Maksimir Stadium|Self-published work|Aerial photographs of Zagreb|Aerial photographs of sports venues",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Maksimirski stadion, Zagreb, iz zraka",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2008",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Suradnik13\" title=\"User:Suradnik13\">Suradnik13</a>",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "Own work, copyleft: Multi-license with Creative Commons CC-BY-SA-2.5 and older versions (2.0 and 1.0)",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Stadion_Maksimir_areal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10743.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 69588,
+    "checked": "2026-11-17",
+    "author": "Suradnik13",
+    "url": "https://commons.wikimedia.org/wiki/File:Stadion_Maksimir_areal.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "venue": {
+      "id": "7333",
+      "guid": "2d60158f-7ecd-38f3-a08b-b14200c77fcd",
+      "fullName": "Stadion HNK Rijeka",
+      "shortName": "Stadion HNK Rijeka",
+      "address": {
+        "city": "Rijeka",
+        "country": "Croatia"
+      },
+      "images": []
+    },
+    "eventId": "401856361",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401856361",
+    "homeId": "477",
+    "awayId": "459",
+    "commonsPageId": 63378031,
+    "metadata": {
+      "DateTime": {
+        "value": "2017-10-15 00:18:39",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Rujevica stadium, Rijeka, Croatia",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|Stadion Rujevica|License migration redundant|Self-published work|Uploaded with sr.wp upload wizard",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Rujevica stadium, Rijeka, Croatia",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "12.8.2017.",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "Dronom uslikano tokom letovanja",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:%D0%94%D1%80%D0%B0%D0%B3%D0%B0%D0%BD_%D0%88%D0%B0%D1%9A%D1%83%D1%88%D0%B5%D0%B2%D0%B8%D1%9B&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Драган Јањушевић (page does not exist)\">Драган Јањушевић</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Rujevica_stadium%2C_Rijeka%2C_Croatia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-7333.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 96518,
+    "checked": "2026-11-17",
+    "author": "Драган Јањушевић",
+    "url": "https://commons.wikimedia.org/wiki/File:Rujevica_stadium,_Rijeka,_Croatia.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "6275",
+      "guid": "ff168a72-8791-3130-9e47-6d3c005dcfd2",
+      "fullName": "Stadion Andjelko Herjavec",
+      "shortName": "Stadion Andjelko Herjavec",
+      "address": {
+        "city": "Varazdin",
+        "country": "Croatia"
+      },
+      "images": []
+    },
+    "eventId": "401856623",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401856623",
+    "homeId": "477",
+    "awayId": "472",
+    "commonsPageId": 200015811,
+    "metadata": {
+      "DateTime": {
+        "value": "2026-09-22 19:54:17",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Gradski stadion Varteks - kvalifikacijska utakmica Konferenc.lige Varaždin - Jablonec 23.7.2026.2",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "NK Varaždin|FK Jablonec|CC-Zero|Stadion Varteks|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Varteks Stadium in Varaždin, Varaždin County, Croatia - UEFA Conference League qualification football match between NK Varaždin and FK Jablonec from Czechia, on 23rd July 2026.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2026-09-22",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Silverije\" title=\"User:Silverije\">Silverije</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Gradski_stadion_Varteks_-_kvalifikacijska_utakmica_Konferenc.lige_Vara%C5%BEdin_-_Jablonec_23.7.2026.2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6275.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 81320,
+    "checked": "2026-11-17",
+    "author": "Silverije",
+    "url": "https://commons.wikimedia.org/wiki/File:Gradski_stadion_Varteks_-_kvalifikacijska_utakmica_Konferenc.lige_Vara%C5%BEdin_-_Jablonec_23.7.2026.2.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "5890",
+      "guid": "e2161bdb-c8dc-3d0b-9ce3-c33d27fc1cd9",
+      "fullName": "Stadion Poljud",
+      "shortName": "Stadion Poljud",
+      "address": {
+        "city": "Split",
+        "country": "Croatia"
+      },
+      "images": []
+    },
+    "eventId": "401861137",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861137",
+    "homeId": "477",
+    "awayId": "164",
+    "commonsPageId": 10333234,
+    "metadata": {
+      "DateTime": {
+        "value": "2010-05-14 16:17:35",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Poljud panorama 2",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Gradski stadion u Poljudu|Self-published work|Unknown date|FoP-Croatia",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Poljud panorama",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "Unknown date",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ballota\" title=\"User:Ballota\">Ballota</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Poljud_panorama_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5890.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 99976,
+    "checked": "2026-11-17",
+    "author": "Ballota",
+    "url": "https://commons.wikimedia.org/wiki/File:Poljud_panorama_2.jpg",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "venue": {
+      "id": "4572",
+      "guid": "02bad2fe-9e06-3749-82b1-9f7ea94bf317",
+      "fullName": "Nature Energy Park",
+      "shortName": "Nature Energy Park",
+      "address": {
+        "city": "Odense",
+        "country": "Denmark"
+      },
+      "images": []
+    },
+    "eventId": "401871170",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401871170",
+    "homeId": "479",
+    "awayId": "457",
+    "commonsPageId": 31784852,
+    "metadata": {
+      "DateTime": {
+        "value": "2014-03-24 20:47:35",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Odense Stadion - Carlsberg-tribunen",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Odense Stadion|Images with annotations|Self-published work|Files with coordinates missing SDC location of creation",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "55.396590",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "10.349480",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "The Carlsberg stand at Odense Stadium, Odense, Denmark, seen from the Højstrupvej road.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-03-23 16:01:00",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Kaare\" title=\"User:Kaare\">Kåre Thor Olsen</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Odense_Stadion_-_Carlsberg-tribunen.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4572.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97586,
+    "checked": "2026-11-17",
+    "author": "Kåre Thor Olsen",
+    "url": "https://commons.wikimedia.org/wiki/File:Odense_Stadion_-_Carlsberg-tribunen.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "2023",
+      "guid": "e813e94b-a167-3787-bf1c-e3c0546be0ad",
+      "fullName": "Wembley Stadium",
+      "address": {
+        "city": "London",
+        "country": "England"
+      },
+      "images": []
+    },
+    "eventId": "762553",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762553",
+    "homeId": "448",
+    "awayId": "212",
+    "commonsPageId": 135882806,
+    "metadata": {
+      "DateTime": {
+        "value": "2023-08-13 12:42:18",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "2023 Challenge Cup Final Wembley Stadium from Olympic Way 01",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Wembley Stadium|2023 Challenge Cup Final|Self-published work|Photographs by Hullian111",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Wembley Stadium from the Olympic Way on the day of the 2023 Challenge Cup Final.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2023-08-12 12:02:36",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Hullian111\" title=\"User:Hullian111\">Hullian111</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/2023_Challenge_Cup_Final_Wembley_Stadium_from_Olympic_Way_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-2023.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 80554,
+    "checked": "2026-11-17",
+    "author": "Hullian111",
+    "url": "https://commons.wikimedia.org/wiki/File:2023_Challenge_Cup_Final_Wembley_Stadium_from_Olympic_Way_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "1547",
+      "guid": "ea2e4743-e92d-30bc-bd57-bb20437e02eb",
+      "fullName": "Stade de France",
+      "address": {
+        "city": "Saint-Denis",
+        "country": "France"
+      },
+      "images": []
+    },
+    "eventId": "401861103",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861103",
+    "homeId": "478",
+    "awayId": "162",
+    "commonsPageId": 74523996,
+    "metadata": {
+      "DateTime": {
+        "value": "2018-11-19 20:41:09",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "StadeFranceNationsLeague2018",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|Taken with iPhone 8|Interior of Stade de France|Association football in France in 2018|License migration redundant|Self-published work|Uploaded with en.wp upload wizard|Île-de-France photographs taken on 2018-09-09|Files with coordinates missing SDC location of creation (48° N, 2° E)|September 2018 in Saint-Denis (Seine-Saint-Denis)|Association football matches at Stade de France",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "48.924014",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "2.360844",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "France vs Netherlands, Stade de France Nations League",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2018-09-09",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "Stade de france from spectator point of view",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Darthvadrouw&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Darthvadrouw (page does not exist)\">Darthvadrouw</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/53/StadeFranceNationsLeague2018.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1547.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97040,
+    "checked": "2026-11-17",
+    "author": "Darthvadrouw",
+    "url": "https://commons.wikimedia.org/wiki/File:StadeFranceNationsLeague2018.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "9891",
+      "fullName": "Edion Peace Wing Hiroshima",
+      "shortName": "Edion Peace Wing Hiroshima",
+      "address": {
+        "city": "Hiroshima",
+        "country": "Japan"
+      },
+      "images": []
+    },
+    "eventId": "401902642",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401902642",
+    "homeId": "627",
+    "awayId": "213",
+    "commonsPageId": 145252083,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-02-12 09:09:59",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Edion-PeaceWing-Hiroshima-from-Sorazaya-Bridge",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "CC-Zero|Self-published work|Files with coordinates missing SDC location of creation|Buildings in Japan photographed in 2024|Japan photographs taken on 2024-02-12|February 2024 in Hiroshima|Edion Peace Wing Hiroshima",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "34.400666",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "132.451535",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "空鞘橋（南西方向）から撮影したエディオンピースウイング広島",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2024-02-12 14:09:33",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Bsx&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Bsx (page does not exist)\">Bsx</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/53/Edion-PeaceWing-Hiroshima-from-Sorazaya-Bridge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-9891.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 73472,
+    "checked": "2026-11-17",
+    "author": "Bsx",
+    "url": "https://commons.wikimedia.org/wiki/File:Edion-PeaceWing-Hiroshima-from-Sorazaya-Bridge.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "1272",
+      "guid": "b591cee9-e6d2-37c8-a754-685c4c769eee",
+      "fullName": "Miyagi Stadium",
+      "address": {
+        "city": "Rifu",
+        "country": "Japan"
+      },
+      "images": []
+    },
+    "eventId": "401905330",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905330",
+    "homeId": "627",
+    "awayId": "212",
+    "commonsPageId": 10618070,
+    "metadata": {
+      "DateTime": {
+        "value": "2010-06-12 16:29:27",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "MiyagiStadium2007-4-29 cropped",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Miyagi Stadium|GFDL|Taken with Canon Digital IXUS 55|Retouched pictures|License migration redundant|Self-published work|FoP-Japan|Uploaded with derivativeFX",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "<a href=\"https://en.wikipedia.org/wiki/Miyagi_Stadium\" class=\"extiw\" title=\"en:Miyagi Stadium\">Miyagi Stadium</a> (<a href=\"https://ja.wikipedia.org/wiki/%E5%AE%AE%E5%9F%8E%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%A2%E3%83%A0\" class=\"extiw\" title=\"ja:宮城スタジアム\">宮城スタジアム</a>)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2010-06-12 16:28",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<ul><li><a href=\"//commons.wikimedia.org/wiki/File:MiyagiStadium2007-4-29.jpg\" title=\"File:MiyagiStadium2007-4-29.jpg\">MiyagiStadium2007-4-29.jpg</a></li></ul>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<ul><li><a href=\"//commons.wikimedia.org/wiki/File:MiyagiStadium2007-4-29.jpg\" title=\"File:MiyagiStadium2007-4-29.jpg\">MiyagiStadium2007-4-29.jpg</a>: Kernel</li>\n<li>derivative work: <a href=\"//commons.wikimedia.org/wiki/User:0607crp\" title=\"User:0607crp\">0607crp</a> (<a href=\"//commons.wikimedia.org/wiki/User_talk:0607crp\" title=\"User talk:0607crp\"><span class=\"signature-talk\">talk</span></a>)</li></ul>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4b/MiyagiStadium2007-4-29_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1272.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 73632,
+    "checked": "2026-11-17",
+    "author": "MiyagiStadium2007-4-29.jpg: Kernel\nderivative work: 0607crp (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:MiyagiStadium2007-4-29_cropped.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "venue": {
+      "id": "10488",
+      "fullName": "Japan National Stadium",
+      "shortName": "Japan National Stadium",
+      "address": {
+        "city": "Tokyo",
+        "country": "Japan"
+      },
+      "images": []
+    },
+    "eventId": "401867618",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401867618",
+    "homeId": "627",
+    "awayId": "470",
+    "commonsPageId": 85907689,
+    "metadata": {
+      "DateTime": {
+        "value": "2020-01-14 23:27:59",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "New national stadium tokyo 1",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Self-published work|Images with extracted images|FoP-Japan|Japan National Stadium in 2020|Japan - Photographs by Arne Müseler|Aerial photographs of the Japan National Stadium",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "valued",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "35.677884",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "139.714530",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Aerial view of Japan National Stadium, Tokyo",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<bdi><a href=\"https://www.wikidata.org/wiki/Q78209280\" class=\"extiw\" title=\"d:Q78209280\"><span title=\"Photographer\">Arne Müseler</span></a></bdi>",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Arne_M%C3%BCseler\" title=\"User:Arne Müseler\">Arne Müseler</a> / www.arne-mueseler.com, the copyright holder of this work, hereby publishes it under the following license:",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0 de",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0 de",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Arne_M%C3%BCseler\" title=\"User:Arne Müseler\">Arne Müseler</a> / www.arne-mueseler.com",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0-de",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9d/New_national_stadium_tokyo_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10488.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 98222,
+    "checked": "2026-11-17",
+    "author": "Arne Müseler",
+    "url": "https://commons.wikimedia.org/wiki/File:New_national_stadium_tokyo_1.jpg",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
+  },
+  {
+    "venue": {
+      "id": "4910",
+      "guid": "2bfe1419-ac26-325f-9771-d92d45698b8d",
+      "fullName": "Estadio Nemesio Díez Riega",
+      "shortName": "Estadio Nemesio Díez Riega",
+      "address": {
+        "city": "Toluca",
+        "country": "Mexico"
+      },
+      "images": []
+    },
+    "eventId": "401861776",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401861776",
+    "homeId": "203",
+    "awayId": "6757",
+    "commonsPageId": 195362487,
+    "metadata": {
+      "DateTime": {
+        "value": "2026-07-08 22:30:22",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Nemesio Diez - Clausura 2025 final (5)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Estadio Nemesio Diez|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Estadio Nemesio Diez during the Clausura 2025 final between Toluca FC and Club América. Toluca won the game 2–0 and were declared the league champions.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2025-05-25",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Morogris\" title=\"User:Morogris\">Morogris</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/Estadio_Nemesio_Diez_-_Clausura_2025_final_%285%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4910.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97068,
+    "checked": "2026-11-17",
+    "author": "Morogris",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Nemesio_Diez_-_Clausura_2025_final_(5).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "1264",
+      "guid": "7ff046b8-19d3-3e24-8933-b913ee53fb1b",
+      "fullName": "Estadio Cuauhtémoc",
+      "address": {
+        "city": "Puebla",
+        "country": "Mexico"
+      },
+      "images": []
+    },
+    "eventId": "401861774",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401861774",
+    "homeId": "203",
+    "awayId": "4469",
+    "commonsPageId": 3621919,
+    "metadata": {
+      "DateTime": {
+        "value": "2008-02-27 03:12:58",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Cuauhtémoc, Puebla",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|FAL|Estadio Cuauhtémoc|License migration redundant|Self-published work|January 2008 in Mexico|Taken with Nokia N73",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Stadium of Puebla.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2008-01-12",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Israel Espinosa López : <a href=\"//commons.wikimedia.org/w/index.php?title=User:Zeisseon&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Zeisseon (page does not exist)\">Zeisseon</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Estadio_Cuauht%C3%A9moc%2C_Puebla.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1264.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 94306,
+    "checked": "2026-11-17",
+    "author": "Israel Espinosa López : Zeisseon",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Cuauht%C3%A9moc,_Puebla.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "venue": {
+      "id": "1672",
+      "guid": "bc4b4883-4262-3924-8d8c-de2ef91ba8ae",
+      "fullName": "Estadio Banorte",
+      "shortName": "Estadio Banorte",
+      "address": {
+        "city": "Mexico City",
+        "country": "Mexico"
+      },
+      "images": []
+    },
+    "eventId": "762263",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762263",
+    "homeId": "203",
+    "awayId": "482",
+    "commonsPageId": 60064548,
+    "metadata": {
+      "DateTime": {
+        "value": "2017-06-25 04:35:17",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Azteca1706p2",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Nikon D7200|Estadio Azteca|Self-published work|June 2017 in Mexico City|Mexico photographs taken on 2017-06-17|Images by Cvmontuy in 2017|Christian events in Mexico|Taken with Samyang 14mm T3.1 VDSLR ED AS IF UMC",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "quality|valued",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "19.302667",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-99.148122",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Azteca Stadium, Mexico City, with the banners of the One Million for Jesus Event",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2017-06-17 14:41:40",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Cvmontuy\" title=\"User:Cvmontuy\">Carlos Valenzuela Montuy</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Estadio_Azteca1706p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-1672.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 74768,
+    "checked": "2026-11-17",
+    "author": "Carlos Valenzuela Montuy",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Azteca1706p2.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "10608",
+      "fullName": "Ibn Batouta Stadium",
+      "shortName": "Ibn Batouta Stadium",
+      "address": {
+        "city": "Tanger",
+        "country": "Morocco"
+      },
+      "images": []
+    },
+    "eventId": "401922273",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401922273",
+    "homeId": "2869",
+    "awayId": "2849",
+    "commonsPageId": 73727297,
+    "metadata": {
+      "DateTime": {
+        "value": "2018-10-19 17:51:39",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Stade Ibn Batuta, Tanger",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Grand Stade de Tanger|Self-published work|Files with coordinates missing SDC location of creation",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "35.740281",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-5.857683",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Stade Ibn Batuta, Tanger: Supercopa España: Sevilla - FC Barcelona (1-2) 8/12/2018",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2018-08-12 19:37:39",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:KSKB1935&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:KSKB1935 (page does not exist)\">KSKB1935</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/93/Stade_Ibn_Batuta%2C_Tanger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10608.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 55646,
+    "checked": "2026-11-17",
+    "author": "KSKB1935",
+    "url": "https://commons.wikimedia.org/wiki/File:Stade_Ibn_Batuta,_Tanger.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "7378",
+      "fullName": "Stade Prince Moulay Abdallah",
+      "shortName": "Stade Prince Moulay Abdallah",
+      "address": {
+        "city": "Rabat",
+        "country": "Morocco"
+      },
+      "images": []
+    },
+    "eventId": "401872680",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401872680",
+    "homeId": "2869",
+    "awayId": "5533",
+    "commonsPageId": 174530835,
+    "metadata": {
+      "DateTime": {
+        "value": "2025-09-06 18:10:29",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Moulay Abdellah Stadium - interior",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Qualification for the 2026 FIFA World Cup|Supported by Wikimedia Morocco|Prince Moulay Abdellah Stadium|Coverage of FIFA World Cup 2026 CAF Qualifiers (Morocco v Niger)|Morocco v Niger, 5 September 2025",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Morocco vs Niger match in the 2026 FIFA World Cup qualifiers at the Moulay Abdellah Stadium in Rabat, September 5, 2025.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2025-09-05",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Reda_benkhadra\" title=\"User:Reda benkhadra\">Reda benkhadra</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "Reda Benkhadra",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/77/Moulay_Abdellah_Stadium_-_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-7378.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 91658,
+    "checked": "2026-11-17",
+    "author": "Reda benkhadra",
+    "url": "https://commons.wikimedia.org/wiki/File:Moulay_Abdellah_Stadium_-_interior.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "10356",
+      "fullName": "Johan Cruijff Arena",
+      "shortName": "Johan Cruijff Arena",
+      "address": {
+        "city": "Amsterdam",
+        "country": "Netherlands"
+      },
+      "images": []
+    },
+    "eventId": "762549",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762549",
+    "homeId": "449",
+    "awayId": "464",
+    "commonsPageId": 33391291,
+    "metadata": {
+      "DateTime": {
+        "value": "2014-06-14 16:52:36",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Arena, Ajax stadion, Amsterdam",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Olympus E-M5|CC-Zero|Johan Cruijff ArenA|Netherlands photographs taken on 2014-06-07|June 2014 in Amsterdam",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Photographed in Amsterdam, The Netherlands.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2014-06-07 19:18:35",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Alf van Beem",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Arena%2C_Ajax_stadion%2C_Amsterdam.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10356.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 94136,
+    "checked": "2026-11-17",
+    "author": "Alf van Beem",
+    "url": "https://commons.wikimedia.org/wiki/File:Arena,_Ajax_stadion,_Amsterdam.JPG",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "2352",
+      "guid": "37024724-343c-32c7-9dbb-13f2a2fc2c65",
+      "fullName": "Estádio José Alvalade",
+      "shortName": "Estádio José Alvalade",
+      "address": {
+        "city": "Lisbon",
+        "country": "Portugal"
+      },
+      "images": []
+    },
+    "eventId": "401861044",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861044",
+    "homeId": "482",
+    "awayId": "578",
+    "commonsPageId": 59150308,
+    "metadata": {
+      "DateTime": {
+        "value": "2017-05-21 17:13:05",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Alvalade XXI - panoramio (3)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Estádio Alvalade XXI|Panoramio files uploaded by Panoramio upload bot|Panoramio images reviewed by trusted users|Photos from Panoramio|Files with coordinates missing SDC location of creation|Photos from Panoramio ID 5152111",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "38.761144",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-9.160028",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Estadio Alvalade XXI",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "8 February 2015 (original upload date)",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://web.archive.org/web/20161031201939/http://www.panoramio.com/photo/116624367\">https://web.archive.org/web/20161031201939/http://www.panoramio.com/photo/116624367</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/20161031201916/http://www.panoramio.com/user/5152111?with_photo_id=116624367\">Mister No</a>",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "<div class=\"responsive-license-cc layouttemplate licensetpl\" dir=\"ltr\" lang=\"en\"><div class=\"rlicense-icons\"><span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"w:en:Creative Commons\"><img alt=\"w:en:Creative Commons\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/120px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"90\" height=\"36\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/250px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"744\" data-file-height=\"300\"></span></span><br>\n<span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"attribution\"><img alt=\"attribution\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/40px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/60px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span></div><div class=\"rlicense-text\"><div class=\"rlicense-declaration\">This file is licensed under the <a href=\"https://en.wikipedia.org/wiki/en:Creative_Commons\" class=\"extiw\" title=\"w:en:Creative Commons\">Creative Commons</a> <a href=\"//creativecommons.org/licenses/by/3.0/deed.en\" class=\"extiw\" title=\"creativecommons:by/3.0/deed.en\">Attribution 3.0 Unported</a> license.</div><div class=\"rlicense-attr\" style=\"font-weight: bold;\">Attribution: <div style=\"display:inline;font-size:larger;\" class=\"licensetpl_attr\">Mister No</div></div><div class=\"rlicense-desc\" style=\"text-align:start;\" dir=\"ltr\" lang=\"en\">\n<dl><dd>You are free:\n<ul><li><b>to share</b> – to copy, distribute and transmit the work</li>\n<li><b>to remix</b> – to adapt the work</li></ul></dd>\n<dd>Under the following conditions:\n<ul><li><b>attribution</b> – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li></ul></dd></dl>\n</div><span class=\"licensetpl_link\" style=\"display:none;\">https://creativecommons.org/licenses/by/3.0</span><span class=\"licensetpl_short\" style=\"display:none;\">CC BY 3.0 </span><span class=\"licensetpl_long\" style=\"display:none;\">Creative Commons Attribution 3.0 </span><span class=\"licensetpl_link_req\" style=\"display:none;\">true</span><span class=\"licensetpl_attr_req\" style=\"display:none;\">true</span></div></div>\n<style data-mw-deduplicate=\"TemplateStyles:r901585720\">.mw-parser-output .panoramioreview{width:100%;margin:0.5em 0;background-color:var(--background-color-warning-subtle,#fffff0);padding:5px;border:1px solid var(--border-color-warning,#aa8);color:inherit}.mw-parser-output .panoramioreview-failed{background-color:var(--background-color-error-subtle,#fcc);color:inherit}.mw-parser-output .panoramioreview-passed{background-color:var(--background-color-success-subtle,#efe);color:inherit}</style>\n<table class=\"panoramioreview panoramioreview-passed\" lang=\"en\" dir=\"ltr\">\n\n<tbody><tr>\n<td><span typeof=\"mw:File\"><span><img alt=\"\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/60px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"48\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/120px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"160\" data-file-height=\"153\"></span></span>\n</td>\n<td>This image, which was originally posted to <b><span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Panoramio\" class=\"extiw\" title=\"en:Panoramio\">Panoramio</a></span></b>, was automatically reviewed on 21 May 2017 by <b><a href=\"//commons.wikimedia.org/wiki/User:Panoramio_upload_bot\" title=\"User:Panoramio upload bot\">Panoramio upload bot</a></b>, who confirmed that it was available on Panoramio under the above license on that date.\n</td>\n<td><span typeof=\"mw:File\"><a href=\"//commons.wikimedia.org/wiki/File:Star_and_ring.svg\" class=\"mw-file-description\"><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/60px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"50\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/120px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"75\" data-file-height=\"75\"></a></span>\n</td></tr></tbody></table>",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Attribution": {
+        "value": "Mister No",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/70/Estadio_Alvalade_XXI_-_panoramio_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-2352.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 88040,
+    "checked": "2026-11-17",
+    "author": "Mister No",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Alvalade_XXI_-_panoramio_(3).jpg",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "venue": {
+      "id": "7869",
+      "guid": "df94a88e-ba3e-336d-8e82-f93b3591c6a0",
+      "fullName": "Estádio do Jamor",
+      "shortName": "Estádio do Jamor",
+      "address": {
+        "city": "Oeiras",
+        "country": "Portugal"
+      },
+      "images": []
+    },
+    "eventId": "401862883",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401862883",
+    "homeId": "482",
+    "awayId": "207",
+    "commonsPageId": 5036325,
+    "metadata": {
+      "DateTime": {
+        "value": "2008-10-21 08:56:04",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "StadionJamor",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|FAL|Estádio Nacional do Jamor|License migration redundant|Self-published work|Photographs taken on 2006-07-09",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Jamor Stadium",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "9 July 2006, 12:45:46 (according to <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Exif\" class=\"extiw\" title=\"en:Exif\">Exif</a></span> data)",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Koshelyev&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Koshelyev (page does not exist)\">Koshelyev</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/72/StadionJamor.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-7869.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 97868,
+    "checked": "2026-11-17",
+    "author": "Koshelyev",
+    "url": "https://commons.wikimedia.org/wiki/File:StadionJamor.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "venue": {
+      "id": "10641",
+      "fullName": "Estadio José Zorrilla",
+      "shortName": "Estadio José Zorrilla",
+      "address": {
+        "city": "Valladolid",
+        "country": "Spain"
+      },
+      "images": []
+    },
+    "eventId": "724869",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724869",
+    "homeId": "164",
+    "awayId": "462",
+    "commonsPageId": 89711494,
+    "metadata": {
+      "DateTime": {
+        "value": "2020-05-02 09:49:24",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio José Zorrilla de Valladolid (noviembre de 2019)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Estadio José Zorrilla|Self-published work|Files by User:Rastrojo|Files with coordinates missing SDC location of creation|Taken with UMIDIGI F1",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "41.645054",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-4.760797",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "José Zorrilla Stadium in Valladolid, 2019. 14th fixture of La Liga 2019-20. Real Valladolid - Sevilla FC",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-11-24 20:19:15",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Rastrojo\" title=\"User:Rastrojo\">Rastrojo</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Estadio_Jos%C3%A9_Zorrilla_de_Valladolid_%28noviembre_de_2019%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10641.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 78978,
+    "checked": "2026-11-17",
+    "author": "Rastrojo",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Jos%C3%A9_Zorrilla_de_Valladolid_(noviembre_de_2019).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "10632",
+      "fullName": "Estadio Carlos Tartiere",
+      "shortName": "Estadio Carlos Tartiere",
+      "address": {
+        "city": "Oviedo",
+        "country": "Spain"
+      },
+      "images": []
+    },
+    "eventId": "401861118",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861118",
+    "homeId": "164",
+    "awayId": "450",
+    "commonsPageId": 1888145,
+    "metadata": {
+      "DateTime": {
+        "value": "2007-04-03 18:54:02",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Carlos Tartiere 01",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Estadio Carlos Tartiere|Photographs taken on 2007-04-03",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "<a href=\"https://es.wikipedia.org/wiki/Estadio_Carlos_Tartiere\" class=\"extiw\" title=\"es:Estadio Carlos Tartiere\">Estadio Carlos Tartiere</a> en <a href=\"//commons.wikimedia.org/wiki/Oviedo\" title=\"Oviedo\">Oviedo</a>, <a href=\"//commons.wikimedia.org/wiki/Asturias\" title=\"Asturias\">Asturias</a>.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "3 April 2007, 17:34:46 (according to <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Exif\" class=\"extiw\" title=\"en:Exif\">Exif</a></span> data)",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "Tomada por <a href=\"//commons.wikimedia.org/wiki/User:Rsg\" class=\"mw-redirect\" title=\"User:Rsg\">rsg</a> usando una Sony Cybershot.",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Rsg\" class=\"mw-redirect\" title=\"User:Rsg\">rsg</a>",
+        "source": "commons-desc-page"
+      },
+      "Permission": {
+        "value": "cc-by-sa-2.5-es",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 2.5 es",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 2.5 es",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/2.5/es/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-2.5-es",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Estadio_Carlos_Tartiere_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10632.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 67234,
+    "checked": "2026-11-17",
+    "author": "rsg",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Carlos_Tartiere_01.jpg",
+    "license": "CC BY-SA 2.5 es",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/es/deed.en"
+  },
+  {
+    "venue": {
+      "id": "10747",
+      "fullName": "Stade de Genève",
+      "shortName": "Stade de Genève",
+      "address": {
+        "city": "Geneva",
+        "country": "Switzerland"
+      },
+      "images": []
+    },
+    "eventId": "724897",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.uefa/summary?event=724897",
+    "homeId": "475",
+    "awayId": "466",
+    "commonsPageId": 146271451,
+    "metadata": {
+      "DateTime": {
+        "value": "2024-03-11 10:35:39",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "The Stade de Genève during a UEFA Europa Conference League match between Servette and Viktoria Pilsen. (2023)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Servette FC|Stade de Genève|La Praille|Self-published work|Files with coordinates missing SDC location of creation|UEFA Conference League",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "46.177617",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "6.127567",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "The Stade de Genève during the UEFA Europa Conference League round of 16 first leg between Servette and Viktoria Pilsen. (2023)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2024-03-07 21:17:37",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Vincenzo.togni&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Vincenzo.togni (page does not exist)\">Vincenzo.togni</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4f/The_Stade_de_Gen%C3%A8ve_during_a_UEFA_Europa_Conference_League_match_between_Servette_and_Viktoria_Pilsen._%282023%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10747.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 95154,
+    "checked": "2026-11-17",
+    "author": "Vincenzo.togni",
+    "url": "https://commons.wikimedia.org/wiki/File:The_Stade_de_Gen%C3%A8ve_during_a_UEFA_Europa_Conference_League_match_between_Servette_and_Viktoria_Pilsen._(2023).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "venue": {
+      "id": "10742",
+      "fullName": "St. Jakob Park",
+      "shortName": "St. Jakob Park",
+      "address": {
+        "city": "Basel",
+        "country": "Switzerland"
+      },
+      "images": []
+    },
+    "eventId": "762550",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=762550",
+    "homeId": "475",
+    "awayId": "481",
+    "commonsPageId": 43397826,
+    "metadata": {
+      "DateTime": {
+        "value": "2015-09-19 12:27:07",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "St. Jakob Park Panorama Switzerland vs Slovenia",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "St. Jakob-Park|Self-published work",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Panorama taken pre-game.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2015-09-05 20:35:50",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Chrisixx&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Chrisixx (page does not exist)\">Chris Wachtler</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/St._Jakob_Park_Panorama_Switzerland_vs_Slovenia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10742.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 68620,
+    "checked": "2026-11-17",
+    "author": "Chris Wachtler",
+    "url": "https://commons.wikimedia.org/wiki/File:St._Jakob_Park_Panorama_Switzerland_vs_Slovenia.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "venue": {
+      "id": "6860",
+      "guid": "359b372f-0c11-34a5-bfcc-26d6089542f5",
+      "fullName": "Kybunpark",
+      "shortName": "Kybunpark",
+      "address": {
+        "city": "St. Gallen",
+        "country": "Switzerland"
+      },
+      "images": []
+    },
+    "eventId": "401862319",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401862319",
+    "homeId": "475",
+    "awayId": "2917",
+    "commonsPageId": 4213368,
+    "metadata": {
+      "DateTime": {
+        "value": "2008-06-13 19:48:33",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "AFG ARENA St. Gallen - Erstes Spiel CH - LIE 03",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Kybunpark|Events in St. Gallen|Self-published work|Switzerland photographs taken on 2008-05-30|2008 in St. Gallen",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "AFG Arena St. Gallen - Erstes Spiel SCHWEIZ : LIECHTENSTEIN - Vorbereitung EURO 2008",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2008-05-30",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Martin_Kobelt&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Martin Kobelt (page does not exist)\">Martin Kobelt</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/AFG_ARENA_St._Gallen_-_Erstes_Spiel_CH_-_LIE_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6860.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 88006,
+    "checked": "2026-11-17",
+    "author": "Martin Kobelt",
+    "url": "https://commons.wikimedia.org/wiki/File:AFG_ARENA_St._Gallen_-_Erstes_Spiel_CH_-_LIE_03.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "venue": {
+      "id": "5764",
+      "fullName": "Swissporarena",
+      "shortName": "Swissporarena",
+      "address": {
+        "city": "Luzern",
+        "country": "Switzerland"
+      },
+      "images": []
+    },
+    "eventId": "401861117",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/summary?event=401861117",
+    "homeId": "475",
+    "awayId": "472",
+    "commonsPageId": 16218007,
+    "metadata": {
+      "DateTime": {
+        "value": "2011-08-25 08:11:46",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Swissporarena luftaufnahme cropped",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Nikon D700|CC-Zero|Retouched pictures|Swissporarena|Self-published work|Files with derivative versions|Uploaded with derivativeFX|Aerial photographs of Lucerne",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Luftaufnahme der swissporarena in Luzern.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2011-08-21",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<ul><li><a href=\"//commons.wikimedia.org/wiki/File:Swissporarena_luftaufnahme.jpg\" title=\"File:Swissporarena luftaufnahme.jpg\">Swissporarena_luftaufnahme.jpg</a></li></ul>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<ul><li><a href=\"//commons.wikimedia.org/wiki/File:Swissporarena_luftaufnahme.jpg\" title=\"File:Swissporarena luftaufnahme.jpg\">Swissporarena_luftaufnahme.jpg</a>: <a href=\"//commons.wikimedia.org/w/index.php?title=User:Bebu&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Bebu (page does not exist)\">Bebu</a></li>\n<li>derivative work: <a href=\"//commons.wikimedia.org/wiki/User:Hic_et_nunc\" title=\"User:Hic et nunc\">Hic et nunc</a> (<a href=\"//commons.wikimedia.org/wiki/User_talk:Hic_et_nunc\" title=\"User talk:Hic et nunc\"><span class=\"signature-talk\">talk</span></a>)</li></ul>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/96/Swissporarena_luftaufnahme_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-5764.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 99254,
+    "checked": "2026-11-17",
+    "author": "Swissporarena_luftaufnahme.jpg: Bebu\nderivative work: Hic et nunc (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Swissporarena_luftaufnahme_cropped.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "venue": {
+      "id": "6538",
+      "guid": "117d7fe9-4418-35fa-a1d2-3f5d53494e60",
+      "fullName": "Allianz Field",
+      "shortName": "Allianz Field",
+      "address": {
+        "city": "Saint Paul, Minnesota",
+        "country": "USA"
+      },
+      "images": []
+    },
+    "eventId": "401905188",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905188",
+    "homeId": "660",
+    "awayId": "206",
+    "commonsPageId": 80583571,
+    "metadata": {
+      "DateTime": {
+        "value": "2019-09-01 23:20:50",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Allianz Field - MNUFC Minnesota United st. Paul Minnesota MLS (40636734693)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Allianz Field|Flickr images reviewed by FlickreviewR 2|Photographs by Andy Witchger",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Allianz Field - MNUFC Minnesota United st. Paul Minnesota MLS",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2019-04-13 17:18",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/42878734@N06/40636734693/\">Allianz Field - MNUFC Minnesota United st. Paul Minnesota MLS</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/42878734@N06\">Andy Witchger</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Allianz_Field_-_MNUFC_Minnesota_United_st._Paul_Minnesota_MLS_%2840636734693%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-6538.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 95946,
+    "checked": "2026-11-17",
+    "author": "Andy Witchger",
+    "url": "https://commons.wikimedia.org/wiki/File:Allianz_Field_-_MNUFC_Minnesota_United_st._Paul_Minnesota_MLS_(40636734693).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "venue": {
+      "id": "2710",
+      "guid": "465105d2-f980-3c4b-af44-fa98846ee136",
+      "fullName": "State Farm Stadium",
+      "shortName": "State Farm Stadium",
+      "address": {
+        "city": "Glendale, Arizona",
+        "country": "USA"
+      },
+      "images": []
+    },
+    "eventId": "401905202",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905202",
+    "homeId": "660",
+    "awayId": "203",
+    "commonsPageId": 1513842,
+    "metadata": {
+      "DateTime": {
+        "value": "2007-01-01 16:27:54",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Cardinals stadium crop",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Flickr images reviewed by trusted users|Exterior of State Farm Stadium",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Cardinals Stadium, a <a href=\"https://en.wikipedia.org/wiki/American_football\" class=\"extiw\" title=\"en:American football\">football</a> <a href=\"https://en.wikipedia.org/wiki/stadium\" class=\"extiw\" title=\"en:stadium\">stadium</a> in <a href=\"https://en.wikipedia.org/wiki/Glendale,_Arizona\" class=\"extiw\" title=\"en:Glendale, Arizona\">Glendale</a>; the home of the <a href=\"https://en.wikipedia.org/wiki/National_Football_League\" class=\"extiw\" title=\"en:National Football League\">NFL</a>'s <a href=\"https://en.wikipedia.org/wiki/Arizona_Cardinals\" class=\"extiw\" title=\"en:Arizona Cardinals\">Arizona Cardinals</a>.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2006-08-17",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<p><a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/mcsixth/217796482/\">https://www.flickr.com/photos/mcsixth/217796482/</a>\n</p>\nOriginally from <a class=\"external text\" data-mw-original-href=\"http://en.wikipedia.org\" href=\"https://en.wikipedia.org\">en.wikipedia</a>; description page is/was <a class=\"external text\" data-mw-original-href=\"http://en.wikipedia.org/w/index.php?title=Image%3AJulian_stadium_crop.jpg\" href=\"https://en.wikipedia.org/w/index.php?title=Image%3AJulian_stadium_crop.jpg\">here</a>.",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Taken by <a href=\"https://en.wikipedia.org/wiki/Flickr\" class=\"extiw\" title=\"en:Flickr\">en:Flickr</a> user MCSixth",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/42/Cardinals_stadium_crop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-2710.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 23394,
+    "checked": "2026-11-17",
+    "author": "Taken by en:Flickr user MCSixth",
+    "url": "https://commons.wikimedia.org/wiki/File:Cardinals_stadium_crop.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "venue": {
+      "id": "10421",
+      "fullName": "Energizer Park",
+      "shortName": "Energizer Park",
+      "address": {
+        "city": "St. Louis, Missouri",
+        "country": "USA"
+      },
+      "images": []
+    },
+    "eventId": "401905189",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.friendly/summary?event=401905189",
+    "homeId": "660",
+    "awayId": "207",
+    "commonsPageId": 130721385,
+    "metadata": {
+      "DateTime": {
+        "value": "2023-04-14 14:16:54",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Centene Stadium (52449556638)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "CityPark|Files with coordinates missing SDC location of creation|Flickr images reviewed by FlickreviewR 2",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "38.630333",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-90.209611",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Centene Stadium - St. Louis, Missouri.",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2022-10-23 14:23:49",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/chris-yunker/52449556638/\">https://www.flickr.com/photos/chris-yunker/52449556638/</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "Chris Yunker",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Centene_Stadium_%2852449556638%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-10421.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 84148,
+    "checked": "2026-11-17",
+    "author": "Chris Yunker",
+    "url": "https://commons.wikimedia.org/wiki/File:Centene_Stadium_(52449556638).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "venue": {
+      "id": "4148",
+      "fullName": "Estadio Centenario",
+      "shortName": "Estadio Centenario",
+      "address": {
+        "city": "Montevideo",
+        "country": "Uruguay"
+      },
+      "images": []
+    },
+    "eventId": "684642",
+    "espnSource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.worldq.conmebol/summary?event=684642",
+    "homeId": "212",
+    "awayId": "202",
+    "commonsPageId": 60663329,
+    "metadata": {
+      "DateTime": {
+        "value": "2017-07-04 22:45:57",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Estadio Centenario (vista aérea)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Estadio Centenario|Flickr images reviewed by FlickreviewR|Files with coordinates missing SDC location of creation (35° S, 57° W)|Panoramics of Estadio Centenario|Aerial photographs of association football venues|Aerial photographs of Montevideo",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "-34.894977",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "-56.153440",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Mítico monumento histórico del fútbol mundial y cuna de la gloria de \"la celeste\".",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2017-06-30 19:43",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/marcelocampi/35469693732/\">Estadio Centenario</a>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/41575721@N03\">Marcelo Campi</a> from Costa de Oro, Uruguay",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Estadio_Centenario_%28vista_a%C3%A9rea%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "image": "stadiums/venue-4148.webp",
+    "dimensions": [
+      960,
+      540
+    ],
+    "bytes": 99266,
+    "checked": "2026-11-17",
+    "author": "Marcelo Campi from Costa de Oro, Uruguay",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Centenario_(vista_a%C3%A9rea).jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   }
 ]

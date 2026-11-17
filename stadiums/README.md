@@ -21,3 +21,23 @@ Le catalogue contient 182 photographies de stades et couvre 196 des 211 rencontr
 Ajout de 20 photographies locales pour les lieux des matchs internationaux du calendrier, dont le Stade Atlantique (France), le stade Roi Baudouin (Belgique), le stade olympique de Berlin (Allemagne), Ullevaal (Norvège), Friends Arena (Suède) et la National Arena de Bucarest (Roumanie). Chaque association a été revérifiée dans le résumé ESPN avec l’identifiant de la rencontre et ses deux équipes. Les pages Wikimedia, auteurs et licences libres sont conservés dans `sources.json`.
 
 Les nouvelles images sont recadrées à 960 × 540 pixels et pèsent chacune moins de 100 Ko. Le catalogue atteint 202 photos. Sur le calendrier contrôlé pour ce ticket, la couverture passe de 72 à 92 matchs sur 191 ; 20 rencontres internationales supplémentaires disposent donc de la photo de leur lieu réel. Cette mesure dépend du calendrier collecté, et ne garantit pas une couverture complète des rencontres à venir. Relancer `node scripts/check-stadium-coverage.mjs --report` après chaque collecte pour repérer les lieux encore absents.
+
+## Couverture des championnats et sélections (BET-325)
+
+Le périmètre de `coverage-targets.json` est vérifié auprès d’ESPN le 17 novembre 2026 : les 96 clubs de Ligue 1, Premier League, Liga, Serie A et Bundesliga, ainsi que les 18 clubs de Ligue 2. Les lieux des deux derniers matchs à domicile de chaque club ont été contrôlés dans les résumés ESPN avec les deux équipes. Tous ces clubs disposent d’une photo locale pour les lieux répertoriés, y compris Bernabéu, Mendizorrotza et Bonal, ajoutés dans ce lot.
+
+L’inventaire couvre aussi les enceintes utilisées à domicile par 19 sélections : Argentine, Belgique, Brésil, Croatie, Danemark, Angleterre, France, Allemagne, Italie, Japon, Mexique, Maroc, Pays-Bas, Portugal, Sénégal, Espagne, Suisse, États-Unis et Uruguay. Une sélection peut utiliser plusieurs stades. Les domiciles organisés à l’étranger et les terrains d’entraînement sont exclus de ce périmètre national ; ils ne donnent jamais lieu à une substitution par un stade national dans les cartes. Chaque carte conserve le lieu réel vérifié de la rencontre.
+
+Commandes de contrôle :
+
+- `node scripts/check-stadium-targets.mjs --clubs-only --require-photos` vérifie tous les clubs du périmètre. Ce contrôle est également exécuté par la CI pour éviter une régression du catalogue.
+- `node scripts/check-stadium-targets.mjs` détaille aussi la couverture des sélections et les photos encore manquantes.
+- `node scripts/check-stadium-coverage.mjs --report` contrôle le calendrier courant.
+
+Cet inventaire est une photographie de la saison vérifiée, pas une garantie pour les changements de stade, les terrains temporaires ou les équipes promues des prochaines saisons. Pour l’actualiser, vérifier les effectifs des championnats et les résumés ESPN, puis actualiser les lieux et leurs références dans `coverage-targets.json`. Ajouter les images et crédits vérifiés dans `sources.json`, compiler avec `node scripts/build-stadium-catalog.mjs`, puis appliquer Prettier au catalogue généré.
+
+Les huit rencontres du 17 novembre disposent toutes d’une photo. Les terrains de La Florida (Portugalete) et Santa Ana (Utebo) restent en attente : les résultats examinés ne montrent pas de photographie libre vérifiée de ces enceintes. Une photo d’un parc, d’une église ou d’un autre stade n’est pas utilisée à leur place.
+
+Pour le stade Abdoulaye-Wade (Sénégal), aucune photo libre de la bonne enceinte n’a été trouvée parmi les sources examinées. Il reste explicitement présent dans l’inventaire et signalé par le contrôle des sélections. La Dakar Arena, salle de basket de Diamniadio, n’est pas utilisée comme remplacement.
+
+Ce lot ajoute 43 photographies et porte le catalogue à 245 stades. Les 114 clubs vérifiés des six championnats sont couverts. Les lieux répertoriés sont entièrement illustrés pour 18 des 19 sélections ; seul Abdoulaye-Wade reste sans photo. Sur le calendrier contrôlé, la couverture passe de 92 à 104 matchs sur 191, dont 8 sur 8 le 17 novembre.
