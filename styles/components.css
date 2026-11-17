@@ -9880,7 +9880,7 @@ section.club-ranking {
   font-variant-numeric: tabular-nums;
 }
 
-/* BET-346 : quatre destinations mobiles, au-dessus de la zone système. */
+/* BET-346 : trois destinations principales, classement dans Matchs. */
 @media (max-width: 767px) {
   .topbar > .tabs {
     display: none;
@@ -9888,7 +9888,7 @@ section.club-ranking {
   .mobile-nav {
     position: fixed;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     left: 0;
     right: 0;
     bottom: 0;
@@ -11513,7 +11513,8 @@ section.club-ranking {
   main > #match-navigation {
     order: 2;
   }
-  main > .workspace {
+  main > .workspace,
+  main > #standings {
     order: 3;
   }
   main > #discovery {
@@ -11560,8 +11561,8 @@ section.club-ranking {
     padding: 0 12px;
     font-size: 11px;
   }
-  #match-navigation {
-    display: none;
+  #match-navigation:not([hidden]) {
+    display: flex;
   }
   .workspace {
     display: block;
