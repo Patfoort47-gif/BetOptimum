@@ -351,6 +351,7 @@ const enriched = unique.map((match) => {
     match.homeStats = homeStats;
     match.awayStats = awayStats;
   }
+  match.analysisStatus = match.statsSource ? 'ready' : 'unavailable';
   const previous = previousData.matches?.find((item) => item.id === match.id);
   const realOdds = consensus(propLineResult.offersByMatch.get(match.id), previous?.bookmakerOffers);
   if (realOdds) {

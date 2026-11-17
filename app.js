@@ -1390,7 +1390,9 @@ function renderMatches() {
               : `<div class="kickoff"><small>${dayLabel}</small><strong>${html(m.time)}</strong>${state.liveErrors[m.id] ? '<small class="live-error">Direct ESPN momentanément indisponible</small>' : ''}</div>`,
           probs = m.completed
             ? ''
-            : `<div class="prob-bar match-outcome" role="img" aria-label="Probabilités du modèle : 1 ${pct(a.probs.home)} %, nul ${pct(a.probs.draw)} %, 2 ${pct(a.probs.away)} %"><h3>${isSpot && !best ? 'Le choc du jour : les probabilités du modèle' : 'Issue du match'}</h3><div class="prob-track"><i class="p-home" style="--w:${pct(a.probs.home)}%"></i><i class="p-draw" style="--w:${pct(a.probs.draw)}%"></i><i class="p-away" style="--w:${pct(a.probs.away)}%"></i></div><div class="prob-legend"><span>${html(m.home)}<b>${pct(a.probs.home)} %</b></span><span>Nul<b>${pct(a.probs.draw)} %</b></span><span>${html(m.away)}<b>${pct(a.probs.away)} %</b></span></div></div>`,
+            : a.available === false
+              ? '<p class="analysis-note" role="status">Probabilités indisponibles : données du modèle insuffisantes.</p>'
+              : `<div class="prob-bar match-outcome" role="img" aria-label="Probabilités du modèle : 1 ${pct(a.probs.home)} %, nul ${pct(a.probs.draw)} %, 2 ${pct(a.probs.away)} %"><h3>${isSpot && !best ? 'Le choc du jour : les probabilités du modèle' : 'Issue du match'}</h3><div class="prob-track"><i class="p-home" style="--w:${pct(a.probs.home)}%"></i><i class="p-draw" style="--w:${pct(a.probs.draw)}%"></i><i class="p-away" style="--w:${pct(a.probs.away)}%"></i></div><div class="prob-legend"><span>${html(m.home)}<b>${pct(a.probs.home)} %</b></span><span>Nul<b>${pct(a.probs.draw)} %</b></span><span>${html(m.away)}<b>${pct(a.probs.away)} %</b></span></div></div>`,
           betting = m.voided
             ? '<div class="live-note"><span>Match annulé</span><strong>Paris remboursés</strong></div>'
             : m.completed && !best
@@ -2101,7 +2103,7 @@ function addSelection(matchId, key, from) {
     return;
   }
   const m = analyseMatch(match).markets.find((x) => x.key === key);
-  if (!m || !quoteAvailable(match, key)) return;
+  if (!m || !Number.isFinite(m.probability) || !quoteAvailable(match, key)) return;
   const selection = {
     ...m,
     matchId,
@@ -2499,7 +2501,10 @@ function applyFixtureData(data, cached = false) {
   if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
   fixtureDataLoaded = true;
   fixturesStatus = 'ready';
-  state.liveMatches = data.matches;
+  state.liveMatches = data.matches.map((match) => ({
+    ...match,
+    analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
+  }));
   if (!betAttempt?.busy && !betAttempt?.uncertain)
     state.ticket = state.ticket.filter((item) =>
       quoteAvailable(
@@ -2585,7 +2590,12 @@ async function loadLiveFixtures() {
     fixturesStatus = 'ready';
     if (text !== lastFixturesText) {
       writeFixtureCache(data);
-      await prepareAnalyses(data.matches);
+      await prepareAnalyses(
+        data.matches.map((match) => ({
+          ...match,
+          analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
+        }))
+      );
       applyFixtureData(data);
       restoreSharedTicket();
       lastFixturesText = text;

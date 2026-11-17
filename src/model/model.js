@@ -15,6 +15,18 @@ export function poisson(k, lambda) {
   return (Math.exp(-lambda) * lambda ** k) / f;
 }
 function computeAnalysis(match) {
+  if (
+    match.analysisStatus === 'unavailable' ||
+    ![match.homeGoals, match.awayGoals].every((n) => Number.isFinite(n) && n > 0 && n <= 10)
+  )
+    return {
+      available: false,
+      probs: {},
+      markets: [],
+      reference: null,
+      families: [],
+      confidence: null
+    };
   const { probs, reference } = forecastMatch(match, { includeExtended: true });
   const markets = marketKeys(match.odds)
     .filter((key) => extendedPriceAvailable(match, key))
@@ -46,6 +58,7 @@ function computeAnalysis(match) {
       };
     });
   return {
+    available: true,
     probs,
     markets,
     reference,
