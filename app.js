@@ -1249,17 +1249,11 @@ function renderDailySelection() {
   renderDailyAdvice();
   const box = $('#daily-selection');
   if (!box) return;
-  const choice = selectDailySelection(
-    allMatches(),
-    parisDate(Date.now()),
-    Date.now(),
-    new Set(
-      allMatches()
-        .filter(isLive)
-        .map((m) => m.id)
-    )
+  const picks = dailyPicks(
+    allMatches().filter((match) => !isLive(match)),
+    'Europe/Paris'
   );
-  box.innerHTML = `<div class="safe-picks-head"><div><p class="eyebrow">SÉLECTION DU JOUR</p><h3>La confiance estimée la plus élevée</h3></div></div><p class="analysis-note">Tous les marchés disponibles du jour · cote strictement supérieure à 1,15 · au moins 10 bookmakers par sélection. Probabilité de gain du modèle, sans garantie.</p>${choice ? `<button class="safe-pick" data-match="${html(choice.match.id)}" data-market="${html(choice.pick.key)}"><span><strong>${html(choice.pick.label)}</strong><small>${html(choice.match.home)} - ${html(choice.match.away)}</small></span><span class="suggestion-values"><b>Cote ${decimal(choice.pick.odd, 2)}</b><small>Confiance estimée ${Math.round(choice.pick.probability * 100)} %</small><em>Ajouter au ticket</em></span></button>` : '<p class="empty">Aucune sélection admissible aujourd’hui. Les matchs commencés et les cotes de 1,15 ou moins sont exclus.</p>'}`;
+  box.innerHTML = `<div class="safe-picks-head"><div><p class="eyebrow">SUGGESTIONS</p><h3>Suggestions du jour</h3></div></div><p class="analysis-note">Les meilleurs pronostics disponibles aujourd’hui selon la confiance du modèle, puis la value. Cotes supérieures à 1,15, au moins 10 bookmakers par sélection. Paris virtuels · 18+ · Aucune garantie.</p>${picks.map(({ match, pick }) => `<button class="safe-pick" data-match="${html(match.id)}" data-market="${html(pick.key)}"><span><strong>${html(match.home)} - ${html(match.away)}</strong><small>${new Date(match.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} · ${html(pick.label)}</small></span><span class="suggestion-values"><b>Cote ${decimal(pick.odd, 2)}</b><small>Confiance ${Math.round(pick.probability * 100)} %</small><em>+ Ajouter au ticket</em></span></button>`).join('') || '<p class="empty">Aucun pronostic admissible aujourd’hui.</p>'}`;
 }
 function renderDailyAdvice() {
   const box = $('#conseils-du-jour');

@@ -29,6 +29,7 @@ export function dailyPicks(matches, timezone = 'Europe/Paris', now = Date.now())
     const pick = match.notificationPick ?? recommendedMarket(match);
     if (
       !pick ||
+      !(Number(pick.odd) > 1.15) ||
       !quoteAvailable(match, pick.key) ||
       Number(pick.odd) !== Number(match.odds?.[pick.key]) ||
       !Number.isFinite(pick.probability)
@@ -41,6 +42,7 @@ export function dailyPicks(matches, timezone = 'Europe/Paris', now = Date.now())
     .sort(
       (a, b) =>
         b.pick.probability - a.pick.probability ||
+        b.pick.probability * Number(b.pick.odd) - a.pick.probability * Number(a.pick.odd) ||
         Date.parse(a.match.kickoff) - Date.parse(b.match.kickoff) ||
         String(a.match.id).localeCompare(String(b.match.id)) ||
         a.pick.key.localeCompare(b.pick.key)
