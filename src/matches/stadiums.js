@@ -34,7 +34,7 @@ export function stadiumFor(match, catalog = STADIUMS) {
 }
 export function stadiumMarkup(match, catalog = STADIUMS) {
   const photo = stadiumFor(match, catalog),
-    fallback = `<div class="stadium-placeholder"><img src="stadiums/default-stadium.svg" width="960" height="540" alt="" loading="lazy" decoding="async"></div><span class="stadium-placeholder-name">${escape(match.venue?.name || 'Ambiance de stade')}<small>Illustration · photo à venir</small></span>`;
+    fallback = `<div class="stadium-placeholder"><img src="stadiums/default-stadium.webp" width="800" height="300" alt="" loading="lazy" decoding="async"></div><a class="stadium-placeholder-name" href="https://commons.wikimedia.org/wiki/File:Inter-Como_Serie_A_2024-2025.jpg" target="_blank" rel="noopener noreferrer" title="Photo d’ambiance : San Siro · Fra Casa · CC0 · image recadrée et compressée" aria-label="Crédit photo d’ambiance : San Siro, Fra Casa, CC0. Ce visuel ne représente pas nécessairement le lieu du match.">Photo d’ambiance</a>`;
   if (!photo) return fallback;
   const place = photo.confirmed ? photo.name : `${photo.name} · lieu du match non confirmé`,
     credit = `${place} · ${photo.author} · ${photo.license} · image redimensionnée et recadrée`;
