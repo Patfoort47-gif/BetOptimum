@@ -9887,7 +9887,7 @@ section.club-ranking {
   font-variant-numeric: tabular-nums;
 }
 
-/* BET-183 : quatre destinations mobiles, au-dessus de la zone système. */
+/* BET-338 : trois destinations mobiles, au-dessus de la zone système. */
 @media (max-width: 767px) {
   .topbar > .tabs {
     display: none;
@@ -9895,7 +9895,7 @@ section.club-ranking {
   .mobile-nav {
     position: fixed;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     left: 0;
     right: 0;
     bottom: 0;
