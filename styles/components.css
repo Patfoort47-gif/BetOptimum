@@ -12135,3 +12135,30 @@ section.club-ranking {
 .neutral-avatar::after {
   content: none;
 }
+
+/* BET-345 : explication accessible et comparaison sur petit écran. */
+.match-explanation {
+  min-width: 0;
+}
+.match-explanation > summary {
+  min-height: 44px;
+  cursor: pointer;
+  padding: 12px;
+}
+.fair-odds table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.fair-odds th,
+.fair-odds td {
+  padding: 8px 4px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.fair-odds caption {
+  color: var(--muted);
+  text-align: left;
+  margin-bottom: 8px;
+}
