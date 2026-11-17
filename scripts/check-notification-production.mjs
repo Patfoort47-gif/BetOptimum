@@ -11,7 +11,7 @@ const response = await fetch(url + '/functions/v1/notifications', {
 });
 if (!response.ok) throw Error('Contrôle du worker : HTTP ' + response.status);
 const result = await response.json();
-if (result.revision !== 'BET-348' || result.dry_run !== true)
+if (result.revision !== 'BET-349' || result.dry_run !== true)
   throw Error('Version du worker inattendue');
 console.log(
   JSON.stringify({ revision: result.revision, available: result.available, dry_run: true })

@@ -116,7 +116,7 @@ export function recommendedMarket(match) {
       }
     : null;
 }
-export function confidenceKpi(predictions, matches, today) {
+export function confidenceKpi(predictions, matches, today, now = Date.now()) {
   const start = new Date(`${today}T12:00:00Z`);
   start.setUTCDate(start.getUTCDate() - 10);
   const startDate = start.toISOString().slice(0, 10),
@@ -130,7 +130,7 @@ export function confidenceKpi(predictions, matches, today) {
       .map(
         (match) =>
           (match.completed ||
-          Date.parse(match.kickoff ?? `${match.date}T${match.time || '12:00'}:00`) <= Date.now()
+          Date.parse(match.kickoff ?? `${match.date}T${match.time || '12:00'}:00`) <= now
             ? match.suggestedPick
             : recommendedMarket(match)
           )?.probability

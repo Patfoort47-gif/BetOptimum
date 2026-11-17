@@ -1,4 +1,5 @@
 // BET-98 : données privées lues uniquement côté serveur, juste avant livraison.
+import { previousParisDay } from './briefing-summary.js';
 import { buildBriefing, localDate } from './notification-briefing.js';
 export async function prepareBriefing(
   db,
@@ -7,7 +8,8 @@ export async function prepareBriefing(
   prefs,
   matches,
   generatedAt,
-  now = Date.now()
+  now = Date.now(),
+  history = []
 ) {
   if (
     !event.briefing ||
@@ -30,6 +32,16 @@ export async function prepareBriefing(
   const current = favorites
     ? { ...prefs, teams: favorites.teams ?? [], leagues: favorites.leagues ?? [] }
     : prefs;
+  const previous = previousParisDay(now),
+    settledBets = [];
+  for (let offset = 0; ; offset += 1000) {
+    const rows = await db(
+      `bets?user_id=eq.${encodeURIComponent(userId)}&settled_at=gte.${previous.start}&settled_at=lt.${previous.end}&status=in.(won,lost,void)&select=id,status,stake,payout,settled_at&order=id&limit=1000&offset=${offset}`
+    );
+    if (!Array.isArray(rows)) throw Error('BRIEFING_YESTERDAY_INVALID');
+    settledBets.push(...rows);
+    if (rows.length < 1000) break;
+  }
   return buildBriefing(
     matches,
     current,
@@ -37,6 +49,7 @@ export async function prepareBriefing(
     snapshot.account,
     snapshot.bets,
     now,
-    generatedAt
+    generatedAt,
+    { history, settledBets }
   );
 }

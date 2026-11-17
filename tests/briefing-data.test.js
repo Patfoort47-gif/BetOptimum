@@ -53,6 +53,7 @@ test('BET-348 : calendrier compact hydraté et dates par marché conservées jus
     homeUpdatedAt: stamp
   }));
   const files = {
+    'data/predictions-history.json': [],
     'data/fixtures.json': {
       generatedAt: stamp,
       matches: [m, { ...m, id: 'later', date: '2026-11-24', kickoff: '2026-11-24T20:00:00Z' }]

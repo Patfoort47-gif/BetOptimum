@@ -19,6 +19,8 @@ const fixtures = [
   ['madrid-barcelona', 'Madrid', 'Barcelone', 'Liga', '20:00']
 ].map(([id, home, away, league, time], i) => ({
   id,
+  date: '2027-04-10',
+  analysisStatus: 'ready',
   home,
   away,
   league,
@@ -61,6 +63,7 @@ const bets = [
 ];
 for (const [name, selection, chosen] of [
   ['quotidien', fixtures, prefs],
+  ['favoris', fixtures.slice(0, 2), prefs],
   ['sans-favoris', fixtures.slice(2), { ...prefs, teams: [], leagues: [] }],
   ['sans-conseil', fixtures, { ...prefs, min_confidence: 1 }]
 ]) {
@@ -72,7 +75,17 @@ for (const [name, selection, chosen] of [
     { bankroll: 1245.5 },
     bets,
     now,
-    '2027-04-10T05:55:00Z'
+    '2027-04-10T05:55:00Z',
+    {
+      history: [
+        { id: 'demo-public-won', date: '2027-04-09', status: 'won', odd: 2.4 },
+        { id: 'demo-public-lost', date: '2027-04-09', status: 'lost', odd: 1.8 }
+      ],
+      settledBets: [
+        { id: 'demo-private-won', status: 'won', stake: 10, payout: 24 },
+        { id: 'demo-private-lost', status: 'lost', stake: 15, payout: 0 }
+      ]
+    }
   );
   const email = briefingEmail(
     { ...data, demo: true },
@@ -81,4 +94,4 @@ for (const [name, selection, chosen] of [
   await writeFile(resolve(output, `${name}.html`), email.html);
   await writeFile(resolve(output, `${name}.txt`), email.text);
 }
-console.log(`Trois maquettes fictives HTML et texte : ${output}`);
+console.log(`Quatre maquettes fictives HTML et texte : ${output}`);

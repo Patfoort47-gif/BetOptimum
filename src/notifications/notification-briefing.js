@@ -1,4 +1,5 @@
 // BET-98 : planification et calculs purs. Aucune destination ni clé fournisseur.
+import { briefingSummary } from './briefing-summary.js';
 import { recommendedMarket, selectSpotlight } from '../model/model.js';
 const formatters = new Map();
 function formatter(timezone) {
@@ -212,7 +213,8 @@ export function buildBriefing(
   account,
   bets,
   now = Date.now(),
-  generatedAt = null
+  generatedAt = null,
+  context = {}
 ) {
   const today = dayMatches(matches, prefs, now),
     favorites = today.filter((m) => favorite(m, prefs));
@@ -224,12 +226,13 @@ export function buildBriefing(
   const recommendations = fresh ? briefingRecommendations(selected, prefs, now) : [],
     picks = recommendations.slice(0, 3);
   return {
-    date: event.date,
+    date: localDate(now, 'Europe/Paris'),
     kinds: event.kinds,
-    timezone: prefs.timezone,
+    timezone: 'Europe/Paris',
     generatedAt,
     now: new Date(now).toISOString(),
     fresh,
+    summary: briefingSummary(matches, context.history ?? [], context.settledBets ?? [], now, fresh),
     recommendations,
     matches: selected,
     favorites,

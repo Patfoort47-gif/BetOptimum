@@ -132,7 +132,8 @@ async function worker(
   matches: any[],
   generatedAt: string | null,
   remindersOnly = false,
-  briefingReady = false
+  briefingReady = false,
+  modelHistory: any[] = []
 ) {
   const briefingStatus = briefingDataStatus(matches, generatedAt);
   const allowBriefing = briefingReady && briefingStatus.ok;
@@ -328,7 +329,9 @@ async function worker(
           payload,
           p,
           matches,
-          generatedAt
+          generatedAt,
+          Date.now(),
+          modelHistory
         );
         if (!content) {
           await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
@@ -401,7 +404,7 @@ async function worker(
       'notification_events?created_at=lt.' + new Date(Date.now() - 30 * 864e5).toISOString(),
       'DELETE'
     );
-  return { queued, sent, claimed: deliveries.length, revision: 'BET-348' };
+  return { queued, sent, claimed: deliveries.length, revision: 'BET-349' };
 }
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
@@ -423,7 +426,7 @@ Deno.serve(async (request) => {
         return json({ error: 'Non autorisé' }, 401);
       if (body.dry_run === true)
         return json({
-          revision: 'BET-348',
+          revision: 'BET-349',
           dry_run: true,
           available: notificationConfig(env).available
         });
@@ -439,7 +442,7 @@ Deno.serve(async (request) => {
         return json({ error: 'Non autorisé' }, 401);
       if (body.action === 'health')
         return json({
-          revision: 'BET-348',
+          revision: 'BET-349',
           dry_run: true,
           available: notificationConfig(env).available
         });
@@ -450,7 +453,8 @@ Deno.serve(async (request) => {
           decodeWorkerMatches(body),
           body.generatedAt ?? null,
           false,
-          body.briefingReady === true
+          body.briefingReady === true,
+          Array.isArray(body.modelHistory) ? body.modelHistory : []
         )
       );
     }
