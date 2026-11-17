@@ -12460,3 +12460,25 @@ body {
     transform: scale(0.99);
   }
 }
+
+/* BET-355 : défilement tactile sans barre ni rognage du premier filtre. */
+body .date-navigator,
+body .filters {
+  scrollbar-width: none;
+}
+body .date-navigator::-webkit-scrollbar,
+body .filters::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 767px) {
+  body .scroller > .filters {
+    justify-content: flex-start;
+    margin-inline: 0;
+    padding-inline: 4px;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  body .scroller > .scroll-btn {
+    display: none;
+  }
+}
