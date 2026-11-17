@@ -1,3 +1,4 @@
+import { escapeHtml } from '../core/html.js';
 // BET-271 : qualité des données, distincte de la probabilité de succès.
 const clamp = (n) => Math.max(0, Math.min(1, n));
 const cv = (values) => {
@@ -125,8 +126,23 @@ export function evTone(value) {
 export function opportunityMarkup(analysis, pick) {
   const market = analysis.markets.find((m) => m.key === pick?.key),
     quality = dataConfidenceFrom(analysis, pick);
-  return `<div class="opportunity"><span class="ev-${evTone(market?.value)}">EV nette : ${Number.isFinite(market?.value) ? `${market.value >= 0 ? '+' : ''}${(market.value * 100).toFixed(1)} %` : 'indisponible'}</span><span>Écart au marché sans marge : ${Number.isFinite(market?.marketDelta) ? `${market.marketDelta >= 0 ? '+' : ''}${(market.marketDelta * 100).toFixed(1)} points` : 'indisponible'}</span><label>Qualité des données : ${quality?.score ?? 0}/100 <meter min="0" max="100" value="${quality?.score ?? 0}">${quality?.score ?? 0}/100</meter></label><small>Qualité des données, pas une probabilité de gain. xG observés indisponibles.</small></div>`;
+  return `<div class="opportunity"><span class="ev-${evTone(market?.value)}">EV nette : ${Number.isFinite(market?.value) ? `${market.value >= 0 ? '+' : ''}${(market.value * 100).toFixed(1)} %` : 'indisponible'}</span><span>Écart au marché sans marge : ${Number.isFinite(market?.marketDelta) ? `${market.marketDelta >= 0 ? '+' : ''}${(market.marketDelta * 100).toFixed(1)} points` : 'indisponible'}</span><span class="data-basis">${dataBasisMarkup(quality)}</span></div>`;
 }
 function dataConfidenceFrom(analysis, pick) {
   return analysis.markets.find((m) => m.key === pick?.key)?.dataConfidence;
+}
+
+// Le marché EV+ est explicite, même si la sélection la plus sûre est différente.
+export function valueBetMarkup(analysis) {
+  const market = analysis.markets
+    .filter((m) => m.real && m.available && Number.isFinite(m.value) && m.value > 0)
+    .sort((a, b) => b.value - a.value)[0];
+  return market
+    ? `<span class="value-bet-badge">Value Bet · ${escapeHtml(market.label)}</span>`
+    : '';
+}
+export function dataBasisMarkup(quality) {
+  return quality?.xgAvailable
+    ? `Qualité des données : ${quality.score ?? 0}/100`
+    : 'Modèle basé sur la forme et les buts réels disponibles. xG observés indisponibles ; données limitées, estimation à interpréter avec prudence.';
 }
