@@ -214,14 +214,12 @@ function tabsFor() {
   if (view.type === 'team')
     return [
       ['squad', 'Effectif'],
-      ['scorers', 'Buteurs et passeurs'],
       ['games', 'Matchs']
     ];
   const m = view.match,
     base = [
       ['insights', 'Forme et H2H'],
       ['lineup', 'Compo'],
-      ['scorers', 'Buteurs et passeurs'],
       ['info', 'Infos']
     ],
     started = Date.now() >= ctx.kickoffAt(m);
