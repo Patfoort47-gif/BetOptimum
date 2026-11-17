@@ -1,6 +1,11 @@
 name: Vérifier les notifications en production sans envoi
 on:
   workflow_dispatch:
+    inputs:
+      sender_diagnostics:
+        description: Vérifier le domaine Resend sans envoyer d’email
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -14,6 +19,7 @@ jobs:
           node-version: 20
       - name: Vérifier version et disponibilité du push sans envoi
         env:
+          CHECK_EMAIL_SENDER: ${{ inputs.sender_diagnostics == true }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           NOTIFICATION_WORKER_SECRET: ${{ secrets.NOTIFICATION_WORKER_SECRET }}
         run: node scripts/check-notification-production.mjs

@@ -11,9 +11,22 @@ const response = await fetch(url + '/functions/v1/notifications', {
 });
 if (!response.ok) throw Error('Contrôle du worker : HTTP ' + response.status);
 const result = await response.json();
-if (result.revision !== 'BET-349' || result.dry_run !== true)
+if (result.revision !== 'BET-350' || result.dry_run !== true)
   throw Error('Version du worker inattendue');
 console.log(
   JSON.stringify({ revision: result.revision, available: result.available, dry_run: true })
 );
 if (result.available?.web !== true) throw Error('Le canal push n’est pas prêt côté serveur');
+
+if (process.env.CHECK_EMAIL_SENDER === 'true') {
+  const sender = await fetch(url + '/functions/v1/notifications', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-worker-secret': secret },
+    body: JSON.stringify({ action: 'sender_status' }),
+    signal: AbortSignal.timeout(30000)
+  });
+  if (!sender.ok) throw Error('Diagnostic expéditeur : HTTP ' + sender.status);
+  const status = await sender.json();
+  // Le serveur ne renvoie que le domaine configuré, des statuts DNS et un compte, jamais les clés ni les autres domaines.
+  console.log(JSON.stringify({ email_sender: status, dry_run: true }));
+}

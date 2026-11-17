@@ -21,7 +21,7 @@ if (data.briefingReady) {
 const started = Date.now(),
   result = await callNotificationWorker(url, secret, data);
 console.log(
-  `${Number(result.queued) || 0} alertes mises en file, ${Number(result.sent) || 0} livraisons confirmées · ${Date.now() - started} ms · worker ${/^BET-(195|200|242|243|348|349)$/.test(result.revision) ? result.revision : 'version antérieure'}.`
+  `${Number(result.queued) || 0} alertes mises en file, ${Number(result.sent) || 0} livraisons confirmées · ${Date.now() - started} ms · worker ${/^BET-(195|200|242|243|348|349|350)$/.test(result.revision) ? result.revision : 'version antérieure'}.`
 );
 if (result.claimed === 0 && Number(result.queued) === 0)
   console.log('Aucune alerte éligible à traiter.');
