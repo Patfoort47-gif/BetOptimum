@@ -12715,3 +12715,99 @@ body .match-card .match-hero .crest.no-logo::after {
   font-size: 12px;
   text-shadow: 0 1px 3px #000;
 }
+
+/* BET-360 : accès direct aux statistiques depuis la barre du bandeau. */
+body .match-card .match-hero {
+  height: 125px;
+  min-height: 125px;
+  padding-block: 2px 8px;
+  gap: 2px;
+}
+body .match-card .match-hero .crest {
+  background: rgba(255, 255, 255, 0.15);
+}
+body .match-card .match-hero .match-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) auto;
+  height: 44px;
+  min-height: 44px;
+  gap: 5px;
+  margin: 0;
+}
+body .match-card .match-hero .match-head-badges {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  min-width: 0;
+}
+body .match-card .match-hero .match-head-badges > * {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 8px;
+  line-height: 10px;
+  padding: 3px 4px;
+}
+body .match-card .match-hero .match-head-badges > .value-bet-badge {
+  flex: 1;
+}
+body .match-card .match-hero .match-head-badges > .big-match {
+  max-width: 42%;
+}
+.match-header-stats {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 4px 8px;
+  border: 1px solid #ffffffb3;
+  border-radius: 999px;
+  background: #111c16e6;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.match-header-stats svg {
+  width: 14px;
+  height: 14px;
+}
+.match-header-stats:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.match-header-stats:hover {
+  background: #111c16;
+}
+.match-header-stats .stats-short {
+  display: none;
+}
+.match-explanation {
+  scroll-margin-top: calc(var(--header-offset, 64px) + 12px);
+}
+@media (max-width: 767px) {
+  .match-header-stats .stats-long {
+    display: none;
+  }
+  .match-header-stats .stats-short {
+    display: inline;
+  }
+}
+body .match-card .match-hero .stadium-name,
+body .match-card .match-hero .stadium-placeholder-name {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  max-width: 88px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 767px) {
+  body .match-card .match-hero .stadium-name,
+  body .match-card .match-hero .stadium-placeholder-name {
+    max-width: 62px;
+  }
+}
