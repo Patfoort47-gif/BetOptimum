@@ -1,3 +1,4 @@
+import { createJsonLoader } from '../core/data-loader.js';
 import { escapeHtml as esc } from '../core/html.js';
 import { matchInsights } from './match-insights.js';
 import { liveEntryFromPayload } from './live.js';
@@ -8,13 +9,11 @@ const motionBehavior = () =>
 // Fiches détaillées (équipe, match, direct) et section Classements, alimentées à la demande par l'API publique d'ESPN.
 const API = 'https://site.api.espn.com/apis';
 const cache = new Map();
+const loadJson = createJsonLoader();
 function espn(path, ttl = 300000) {
   const hit = cache.get(path);
   if (hit && Date.now() - hit.at < ttl) return hit.promise;
-  const promise = fetch(`${API}/${path}`).then((response) => {
-    if (!response.ok) throw new Error(`ESPN ${response.status}`);
-    return response.json();
-  });
+  const promise = loadJson(`${API}/${path}`);
   cache.set(path, { at: Date.now(), promise });
   promise.catch(() => cache.delete(path));
   return promise;

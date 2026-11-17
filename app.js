@@ -464,6 +464,7 @@ function updateRewardAttention(data) {
 const loadJson = createJsonLoader();
 let lastFixturesText = null,
   archiveLoadedAt = 0,
+  archiveStatus = 'loading',
   archivePromise = null;
 let cloudSave = () => {},
   accountAuthenticated = false,
@@ -751,9 +752,13 @@ function renderHomePerformance() {
     ? `<div><dt>ROI global</dt><dd>${r.roi == null ? 'Indisponible' : decimal(r.roi, 1) + ' %'}</dd></div><div><dt>Profit simulé</dt><dd>${r.items.length ? money(r.profit) : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${r.items.length}</dd></div>`
     : '';
   $('#home-performance-status').textContent = archiveLoadedAt
-    ? r.items.length < 30
-      ? 'Échantillon limité : prudence dans l’interprétation.'
-      : 'Bilan synchronisé avec les résultats publics.'
+    ? archiveStatus === 'error'
+      ? 'Actualisation impossible : derniers résultats conservés. Archive lue le ' +
+        new Date(archiveLoadedAt).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }) +
+        ' (Paris).'
+      : r.items.length < 30
+        ? 'Échantillon limité : prudence dans l’interprétation.'
+        : 'Bilan synchronisé avec les résultats publics.'
     : 'Résultats du modèle indisponibles pour le moment.';
 }
 function renderConfidenceKpi() {
@@ -985,7 +990,12 @@ const leagueLogoUrl = (league) => {
     : null;
 };
 const inPeriod = (m) =>
-  (state.dateFilter === 'week' && m.date >= isoDate(0) && m.date <= isoDate(6)) ||
+  (state.dateFilter === 'week' &&
+    m.date >= isoDate(0) &&
+    m.date <= isoDate(6) &&
+    !m.completed &&
+    !m.voided &&
+    kickoffAt(m) > Date.now()) ||
   m.date === state.dateFilter;
 // Compétitions classées par importance : celles qui ont des matchs sur la période affichée d'abord.
 const calendarMatches = () => matchesWithBookmakers(allMatches());
@@ -1562,6 +1572,9 @@ function renderPerformance() {
   $('#chart-max').textContent = money(max);
   $('#chart-min').textContent = money(min);
 }
+$('#retry-predictions')?.addEventListener('click', () => {
+  loadPredictionArchive(true);
+});
 const analytics = initAnalytics($('#prediction-analytics'), {
   onPeriod: () => {
     state.predictionPage = 1;
@@ -1570,6 +1583,16 @@ const analytics = initAnalytics($('#prediction-analytics'), {
 });
 function renderPredictionStats() {
   if (activeTab !== 'predictions') return;
+  const status = $('#prediction-load-status');
+  if (status)
+    status.textContent =
+      archiveStatus === 'error'
+        ? archiveLoadedAt
+          ? 'Actualisation impossible : derniers résultats conservés.'
+          : 'Bilan indisponible : réessayez le chargement.'
+        : archiveLoadedAt
+          ? 'Bilan synchronisé.'
+          : 'Chargement des résultats du modèle…';
   analytics.render(state);
   const allItems = publicPredictionHistory(state.predictionHistory).filter((item) =>
       ['won', 'lost'].includes(item.status)
@@ -2555,8 +2578,8 @@ function applyFixtureData(data, cached = false) {
       `${settled} pari${settled > 1 ? 's' : ''} réglé${settled > 1 ? 's' : ''} automatiquement`
     );
 }
-async function loadPredictionArchive() {
-  if (archiveLoadedAt && Date.now() - archiveLoadedAt < 5 * 60 * 1000) return;
+async function loadPredictionArchive(force = false) {
+  if (!force && archiveLoadedAt && Date.now() - archiveLoadedAt < 5 * 60 * 1000) return;
   if (archivePromise) return archivePromise;
   archivePromise = (async () => {
     try {
@@ -2568,12 +2591,16 @@ async function loadPredictionArchive() {
         ...archive
       ];
       archiveLoadedAt = Date.now();
+      archiveStatus = 'ready';
       if (activeTab === 'profile') profilePage?.refresh?.();
       renderHomePerformance();
       renderPredictionStats();
       if (activeTab === 'matches') renderConfidenceKpi();
     } catch (error) {
+      archiveStatus = 'error';
       renderHomePerformance();
+      renderPredictionStats();
+      if (activeTab === 'matches') renderConfidenceKpi();
       console.warn('Historique conservé : archive indisponible', error);
     } finally {
       archivePromise = null;
@@ -2607,9 +2634,11 @@ async function loadLiveFixtures() {
     lastFixturesSource = source.innerHTML;
   } catch (error) {
     fixturesStatus = 'error';
+    updateFreshness();
+    renderConfidenceKpi();
+    loadPredictionArchive();
     if (fixtureDataLoaded) {
-      source.textContent =
-        'Actualisation impossible : dernier calendrier conservé. Le chargement reprendra automatiquement ; vérifiez la date des cotes.';
+      source.textContent = `Actualisation impossible : dernier calendrier conservé (${sourceFreshness(state.feedDates?.calendar, 'calendar').label}). Vérifiez la date des cotes.`;
     } else {
       source.textContent =
         'Calendrier indisponible : utilisez Réessayer pour relancer le chargement.';
@@ -2798,15 +2827,7 @@ async function pollLive() {
   const requests = new Map(),
     json = (path) => {
       if (!requests.has(path))
-        requests.set(
-          path,
-          fetch(`https://site.api.espn.com/apis/${path}`, { cache: 'no-store' }).then(
-            (response) => {
-              if (!response.ok) throw new Error(`ESPN ${response.status}`);
-              return response.json();
-            }
-          )
-        );
+        requests.set(path, loadJson(`https://site.api.espn.com/apis/${path}`));
       return requests.get(path);
     },
     read = async (match) => {
@@ -4506,7 +4527,13 @@ if (typeof window !== 'undefined') {
     },
     5 * 60 * 1000
   );
-  setInterval(updateFreshness, 60000);
+  setInterval(() => {
+    updateFreshness();
+    if (state.dateFilter === 'week' && activeTab === 'matches') {
+      renderFilters();
+      renderMatches();
+    }
+  }, 60000);
   import('./src/account/account.js?v=accounts-bet309')
     .then(({ initAccountSync }) =>
       initAccountSync({
