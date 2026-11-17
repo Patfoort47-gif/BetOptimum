@@ -27,8 +27,20 @@ export async function notificationData({
       offers.set(date, {});
     }
   }
+  const history = JSON.parse(await reader('data/predictions-history.json', 'utf8'));
+  if (!Array.isArray(history)) throw Error('Historique public invalide');
+  const historyStart = new Date(now - 12 * 86400000).toISOString().slice(0, 10);
   return {
     ...data,
+    modelHistory: history
+      .filter((p) => p.date >= historyStart && ['won', 'lost', 'void'].includes(p.status))
+      .map((p) =>
+        Object.fromEntries(
+          ['id', 'date', 'kickoff', 'status', 'odd', 'oddsSource']
+            .filter((key) => p[key] !== undefined)
+            .map((key) => [key, p[key]])
+        )
+      ),
     matches: matches.map((m) => ({
       ...m,
       analysisStatus: m.analysisStatus ?? (m.statsSource ? 'ready' : 'unavailable'),

@@ -4,6 +4,7 @@ import { encodeWorkerMatch } from './notification-worker-codec.js';
 export const WORKER_MAX_BYTES = 2_000_000;
 const fields = [
   'id',
+  'date',
   'home',
   'away',
   'league',
@@ -12,6 +13,7 @@ const fields = [
   'voided',
   'analysisStatus',
   'statsSource',
+  'suggestedPick',
   'homeGoals',
   'awayGoals',
   'odds',
@@ -54,7 +56,8 @@ export function workerPayload(data) {
     offerFields,
     matches: matches.map((match) => encodeWorkerMatch(match, offerFields)),
     generatedAt: data.generatedAt,
-    briefingReady: data.briefingReady === true
+    briefingReady: data.briefingReady === true,
+    modelHistory: data.modelHistory ?? []
   });
   const bytes = new TextEncoder().encode(body).byteLength;
   if (bytes > WORKER_MAX_BYTES)

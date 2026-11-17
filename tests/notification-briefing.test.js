@@ -173,7 +173,7 @@ test('relecture privée par propriétaire juste avant envoi et retrait immédiat
     calls = [];
   const db = async (...args) => {
     calls.push(args);
-    return { account: { bankroll: 150 }, bets: [bet('a')] };
+    return args[0].startsWith('bets?') ? [] : { account: { bankroll: 150 }, bets: [bet('a')] };
   };
   const content = await prepareBriefing(
     db,
@@ -184,7 +184,8 @@ test('relecture privée par propriétaire juste avant envoi et retrait immédiat
     new Date(now).toISOString(),
     now
   );
-  assert.deepEqual(calls, [['rpc/notification_briefing_snapshot', 'POST', { p_user: 'owner' }]]);
+  assert.deepEqual(calls[0], ['rpc/notification_briefing_snapshot', 'POST', { p_user: 'owner' }]);
+  assert.match(calls[1][0], /user_id=eq.owner&settled_at=gte/);
   assert.equal(content.bankroll, 150);
   assert.equal(
     await prepareBriefing(
@@ -202,7 +203,7 @@ test('relecture privée par propriétaire juste avant envoi et retrait immédiat
     await prepareBriefing(db, 'owner', e, prefs, [match()], null, Date.parse('2026-10-31T08:00Z')),
     null
   );
-  assert.equal(calls.length, 1);
+  assert.equal(calls.length, 2);
 });
 test('données périmées : pas de conseil ; absence de compte distincte d’une bankroll nulle', () => {
   const e = planBriefing([match()], prefs, now);
@@ -252,7 +253,7 @@ test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429
     env,
     async (url, init) => {
       const body = JSON.parse(init.body);
-      assert.match(body.html, /Mes équipes favorites/);
+      assert.match(body.html, /Les meilleurs pronostics du jour/);
       assert.match(body.text, /bankroll virtuelle actuelle/);
       assert.match(body.subject, /Ligue 1.*Lille - Paris/);
       assert.equal(init.headers['Idempotency-Key'], 'bet-notification-98');
@@ -274,7 +275,7 @@ test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429
     'pending'
   );
 });
-test('BET-143 : trois conseils, favoris avant conseils, héros identifié sans répétition', () => {
+test('BET-349 : trois pronostics maximum, favoris signalés et aucune répétition', () => {
   const m = match(),
     b = buildBriefing(
       [m],
@@ -287,18 +288,16 @@ test('BET-143 : trois conseils, favoris avant conseils, héros identifié sans r
     );
   b.picks = Array.from({ length: 3 }, () => b.picks[0]);
   const mail = briefingEmail(b, 'https://example.com/');
-  assert.ok(
-    mail.text.indexOf('Mes équipes favorites') < mail.text.indexOf('Les 3 conseils du jour')
-  );
-  assert.match(mail.text, /★ Le match du jour/);
-  assert.match(mail.text, /3 · Lille/);
+  assert.match(mail.text, /Les meilleurs pronostics du jour/);
+  assert.match(mail.text, /1 · ★ Lille/);
+  assert.doesNotMatch(mail.text, /2 ·|3 ·/);
   assert.match(mail.text, /bankroll virtuelle actuelle/);
   const limited = briefingEmail(
     { ...b, favorites: [], picks: b.picks.slice(0, 1) },
     'https://example.com/'
   );
   assert.ok(!limited.text.includes('Mes équipes favorites'));
-  assert.match(limited.text, /Les 3 conseils du jour/);
+  assert.match(limited.text, /Les meilleurs pronostics du jour/);
   const stale = briefingEmail({ ...b, fresh: false }, 'https://example.com/');
   assert.doesNotMatch(stale.text, /indisponible|conseil\(s\)|Probabilités du modèle/i);
 });
@@ -332,9 +331,9 @@ test('BET-125 : nouvelle heure future, aucun rattrapage et révision portée au 
     )
   );
   let reads = 0;
-  const db = async () => {
+  const db = async (path) => {
     reads++;
-    return { account: null, bets: [] };
+    return path.startsWith('bets?') ? [] : { account: null, bets: [] };
   };
   assert.equal(
     await prepareBriefing(
@@ -350,7 +349,7 @@ test('BET-125 : nouvelle heure future, aucun rattrapage et révision portée au 
   );
   assert.equal(reads, 0);
   assert.ok(await prepareBriefing(db, 'u', event, p, [], null, Date.parse('2026-10-30T17:00:00Z')));
-  assert.equal(reads, 1);
+  assert.equal(reads, 2);
   assert.equal(
     await prepareBriefing(
       db,
@@ -382,7 +381,10 @@ test('BET-143 : favoris relus sur le compte au moment de la préparation', async
   const m = match(),
     event = planBriefing([m], prefs, now);
   const b = await prepareBriefing(
-    async () => ({ account: null, bets: [], favorites: { teams: [], leagues: [] } }),
+    async (path) =>
+      path.startsWith('bets?')
+        ? []
+        : { account: null, bets: [], favorites: { teams: [], leagues: [] } },
     'u',
     event,
     prefs,
