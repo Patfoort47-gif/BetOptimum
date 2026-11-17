@@ -14,7 +14,7 @@ const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
         await p.locator('#match-espn-1.stadium-ready, #match-espn-1 .stadium-ready').waitFor();
         for (const card of ['#match-espn-1', '#match-espn-2']) {
           const hero = p.locator(`${card} .match-hero`);
-          assert.equal(Math.round((await hero.boundingBox()).height), 120);
+          assert.equal(Math.round((await hero.boundingBox()).height), 125);
           const result = await hero.evaluate((e) => {
             const box = e.getBoundingClientRect();
             const text = [...e.querySelectorAll('.team strong, .kickoff, .match-head')];

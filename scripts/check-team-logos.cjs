@@ -59,7 +59,7 @@ const flag = 'https://a.espncdn.com/i/teamlogos/countries/500/fra.png';
         assert.ok(await p.locator('#match-espn-1 .team.away .crest').getAttribute('data-initials'));
         assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         for (const hero of await p.locator('.match-hero').all())
-          assert.equal(Math.round((await hero.boundingBox()).height), 120);
+          assert.equal(Math.round((await hero.boundingBox()).height), 125);
         assert.deepEqual(p.__errors, []);
         if (width === 390 && !dark)
           await p

@@ -1330,7 +1330,10 @@ function reconcileMatchCards(markup) {
       html = node.outerHTML
         .replace(/aria-expanded="(?:true|false)"/g, 'aria-expanded="false"')
         .replace(/(<div id="match-resources-[^"]*"[^>]*?) hidden(?:="")?/g, '$1')
-        .replace(/(<details class="match-secondary[^"]*" data-stats="[^"]*") open(?:="")?/g, '$1')
+        .replace(
+          /(<details(?: id="[^"]*")? class="match-secondary[^"]*" data-stats="[^"]*") open(?:="")?/g,
+          '$1'
+        )
         .replace(/(<strong data-countdown="[^"]*">)[^<]*(<\/strong>)/g, '$1$2')
         .replace(
           /(<small class="live-updated" data-live-updated="[^"]*">)[^<]*(<\/small>)/g,
@@ -1438,7 +1441,7 @@ function renderMatches() {
                 : m.featured
                   ? '<span class="big-match">Grande affiche</span>'
                   : '';
-        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span>${tag}${valueBetMarkup(a)}</div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home')}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}<button type="button" class="match-center-stats" data-details="${html(m.id)}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span>Voir les stats</span></button></div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away')}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
+        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span><span class="match-head-badges">${tag}${valueBetMarkup(a)}</span><button type="button" class="match-header-stats" data-match-stats="${html(m.id)}" aria-controls="match-stats-${html(m.id)}" aria-expanded="${expandedMatchStats.has(m.id + '-resources')}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span class="stats-long">Voir les stats</span><span class="stats-short">Stats</span></button></div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home')}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}</div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away')}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details id="match-stats-${html(m.id)}" class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Comprendre le pronostic</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
       })
       .join('') || matchListEmpty()
   );
@@ -1446,6 +1449,11 @@ function renderMatches() {
     if (watchedStats.has(section)) return;
     watchedStats.add(section);
     section.addEventListener('toggle', () => {
+      if (section.classList.contains('match-explanation'))
+        section
+          .closest('.match-card')
+          ?.querySelector('[data-match-stats]')
+          ?.setAttribute('aria-expanded', String(section.open));
       if (section.open) {
         expandedMatchStats.add(section.dataset.stats);
         const target = section.querySelector('.markets'),
@@ -3917,6 +3925,21 @@ $('#match-list').addEventListener('click', (e) => {
         ? `${name} ajouté aux favoris`
         : `${name} retiré des favoris`
     );
+    return;
+  }
+  const statsShortcut = e.target.closest('[data-match-stats]');
+  if (statsShortcut) {
+    const panel = statsShortcut.closest('.match-card')?.querySelector('.match-explanation');
+    if (panel) {
+      expandedMatchStats.add(statsShortcut.dataset.matchStats + '-resources');
+      panel.open = true;
+      statsShortcut.setAttribute('aria-expanded', 'true');
+      panel.querySelector('summary')?.focus({ preventScroll: true });
+      panel.scrollIntoView({
+        block: 'start',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      });
+    }
     return;
   }
   const more = e.target.closest('[data-details]');
