@@ -1,7 +1,3 @@
-import {
-  planChallengeReminder,
-  challengeReminderCurrent
-} from '../../../src/notifications/notification-challenge.js';
 import { planDailyPush, dailyPushCurrent } from '../../../src/notifications/notification-daily.js';
 import { validatedResultCurrent } from '../../../src/notifications/notification-result.js';
 import webPush from 'npm:web-push@3.6.7';
@@ -164,18 +160,6 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
         p_user: subscriber.user_id
       });
       if (remindersOnly) {
-        const challengeSnapshot = await db('rpc/notification_challenge_snapshot', 'POST', {
-          p_user: subscriber.user_id
-        });
-        const challenge = planChallengeReminder(challengeSnapshot, snapshot?.preferences);
-        if (
-          challenge &&
-          (await db('rpc/enqueue_daily_challenge_reminder', 'POST', {
-            p_user: subscriber.user_id,
-            p_event: challenge
-          }))
-        )
-          queued++;
         const daily = planDailyPush(matches, snapshot?.preferences);
         if (
           daily &&
@@ -233,23 +217,10 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
           p_user: delivery.user_id
         });
         if (payload.daily_challenge_reminder) {
-          const challengeSnapshot = await db('rpc/notification_challenge_snapshot', 'POST', {
-              p_user: delivery.user_id
-            }),
-            current = challengeReminderCurrent(payload, challengeSnapshot, snapshot?.preferences);
-          if (
-            !current ||
-            !(await db('rpc/daily_challenge_reminder_current', 'POST', {
-              p_user: delivery.user_id,
-              p_event: payload
-            }))
-          ) {
-            await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
-              status: 'cancelled'
-            });
-            continue;
-          }
-          payload = current;
+          await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
+            status: 'cancelled'
+          });
+          continue;
         }
         if (payload.daily_summary) {
           const daily = dailyPushCurrent(payload, snapshot?.preferences, matches);
@@ -279,7 +250,7 @@ async function worker(matches: unknown[], generatedAt: string | null, remindersO
                 )[0]
               : null;
         const valid = payload.daily_challenge_reminder
-          ? true
+          ? false
           : payload.daily_summary
             ? Boolean(dailyPushCurrent(payload, snapshot?.preferences, matches))
             : result
