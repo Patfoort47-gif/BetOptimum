@@ -63,7 +63,7 @@ export function initPwa() {
     if (
       installed() ||
       dismissed ||
-      visits < 2 ||
+      (ios && visits < 2) ||
       document.querySelector('[data-install-banner]') ||
       (!ios && !installPrompt)
     )
@@ -72,7 +72,7 @@ export function initPwa() {
     banner.dataset.installBanner = '';
     banner.className = 'install-banner';
     banner.setAttribute('aria-label', 'Installer BetOptimum');
-    banner.innerHTML = `<img src="icons/icon-192x192.png" width="48" height="48" alt=""><div class="install-banner-copy"><strong>BetOptimum sur votre écran d’accueil</strong><p>Retrouvez vos matchs en un geste, comme une application.</p></div><button type="button" class="button secondary" data-install-app>${ios ? 'Voir comment faire' : 'Installer l’application'}</button><button type="button" class="icon-button" data-dismiss-install aria-label="Fermer la proposition d’installation">×</button>`;
+    banner.innerHTML = `<img src="icons/icon-192x192.png" width="48" height="48" alt=""><div class="install-banner-copy"><strong>BetOptimum sur votre appareil</strong><p>Retrouvez vos matchs en un geste, comme une application.</p></div><button type="button" class="button secondary" data-install-app>${ios ? 'Voir comment faire' : 'Installer l’application'}</button><button type="button" class="icon-button" data-dismiss-install aria-label="Fermer la proposition d’installation">×</button>`;
     document.querySelector('main')?.prepend(banner);
   };
   const shareIcon =

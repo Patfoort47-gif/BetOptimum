@@ -27,5 +27,14 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/desktop-preview.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Calendrier et pronostics BetOptimum sur ordinateur"
+    }
   ]
 }
