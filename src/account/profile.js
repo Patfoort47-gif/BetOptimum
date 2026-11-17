@@ -302,14 +302,6 @@ export function initProfilePage(deps) {
   }
 
   // Comparaison : bilan saison par saison des deux joueurs côte à côte.
-  function seasonsCompare(info) {
-    const months = [...new Set([...info.seasons, ...info.own.seasons].map((row) => row.season))]
-        .sort()
-        .reverse(),
-      cell = (row) =>
-        row ? `${html(echelonName(row.to_echelon))} · ${decimal(Number(row.points), 1)} pts` : '-';
-    return `<h3>Bilan saison par saison</h3><div class="compare-table"><div class="compare-row compare-head"><span>Saison</span><b>${html(info.profile.nickname)}</b><b>Vous</b></div>${months.map((month) => `<div class="compare-row"><span>${seasonLabel(month)}</span><b>${cell(info.seasons.find((row) => row.season === month))}</b><b>${cell(info.own.seasons.find((row) => row.season === month))}</b></div>`).join('') || '<p class="empty">Aucune saison terminée.</p>'}</div>`;
-  }
   function overview(info) {
     const standing = info.standing,
       state = getState();
@@ -345,23 +337,7 @@ export function initProfilePage(deps) {
             )
             .join('')
         : '<em>Pas encore de pronos réglés</em>'
-    }</span></div><div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}${compare && info.own?.seasons ? seasonsCompare(info) : ''}`;
-  }
-  function seasons(info) {
-    const rows = info.seasons.slice().reverse();
-    return rows.length
-      ? `<ol class="season-line">${rows
-          .map((row) => {
-            const move =
-              row.to_echelon > (row.from_echelon ?? -1) && row.outcome === 'PROMU'
-                ? 'up'
-                : row.outcome === 'RELEGUE'
-                  ? 'down'
-                  : 'same';
-            return `<li class="${move}"><small>${seasonLabel(row.season)}</small><span>${divisionBadge(row.from_echelon)}<i aria-hidden="true">→</i>${divisionBadge(row.to_echelon)}</span><em>${row.group_rank ? `${row.group_rank}e sur ${row.group_size} · ` : ''}${decimal(Number(row.points), 1)} pts · ${{ PROMU: 'Promu', RELEGUE: 'Relégué', MAINTENU: 'Maintenu', PLACE: 'Placé', INACTIF: 'Inactif' }[row.outcome] ?? ''}</em></li>`;
-          })
-          .join('')}</ol>`
-      : '<p class="empty">Aucune saison terminée pour le moment : la première clôture a lieu à la fin de la saison de football.</p>';
+    }</span></div><div class="radar-box">${radar(info.raw, info.profile.nickname)}</div></div></div>${historySummary}`;
   }
   function badges(info) {
     const earned = new Map(info.badges.map((item) => [item.badge, item.earned_at]));
@@ -446,7 +422,6 @@ export function initProfilePage(deps) {
     if (!visibleTabs.some(([id]) => id === tab)) tab = 'overview';
     const body = {
       overview,
-      seasons,
       badges,
       bets,
       notifications: () => '<div data-notifications></div>',
