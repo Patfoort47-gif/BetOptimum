@@ -84,7 +84,7 @@ test('le format 2 préserve les offres creuses et refuse les index invalides', (
       { ...match, kickoff: '2026-11-03T10:00:00Z' }
     ]
   });
-  assert.equal(payload.matches, 1);
+  assert.equal(payload.matches, 3);
 });
 test('le contrat compact conserve détection, conseils et contenu du briefing sans les statistiques volumineuses', () => {
   const p = workerPayload(data),

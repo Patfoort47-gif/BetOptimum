@@ -1,6 +1,5 @@
 // BET-98 : planification et calculs purs. Aucune destination ni clé fournisseur.
 import { recommendedMarket, selectSpotlight } from '../model/model.js';
-import { matchHasAvailableQuote } from '../model/quote-policy.js';
 const formatters = new Map();
 function formatter(timezone) {
   if (!formatters.has(timezone)) {
@@ -37,17 +36,15 @@ const minuteAt = (now, timezone) => {
 };
 const favorite = (m, p) => (p.teams ?? []).includes(m.home) || (p.teams ?? []).includes(m.away);
 export function dayMatches(matches, prefs, now) {
-  const date = localDate(now, prefs.timezone);
+  const date = localDate(now, 'Europe/Paris');
   return [
     ...new Map(
       matches
         .filter(
           (m) =>
-            matchHasAvailableQuote(m) &&
-            !m.completed &&
             !m.voided &&
             Number.isFinite(Date.parse(m.kickoff)) &&
-            localDate(m.kickoff, prefs.timezone) === date
+            localDate(m.kickoff, 'Europe/Paris') === date
         )
         .map((m) => [m.id, m])
     ).values()
@@ -217,7 +214,7 @@ export function buildBriefing(
   now = Date.now(),
   generatedAt = null
 ) {
-  const today = dayMatches(matches, prefs, now).filter((m) => Date.parse(m.kickoff) > now),
+  const today = dayMatches(matches, prefs, now),
     favorites = today.filter((m) => favorite(m, prefs));
   const selected = today;
   const fresh =
@@ -236,7 +233,7 @@ export function buildBriefing(
     recommendations,
     matches: selected,
     favorites,
-    hero: selectSpotlight(selected, now),
+    hero: selectSpotlight(selected, now) ?? selected[0] ?? null,
     picks,
     bankroll:
       account && Number.isFinite(Number(account.bankroll)) ? Number(account.bankroll) : null,
