@@ -8,7 +8,7 @@ Les nouvelles mécaniques sont gelées (BET-308). Le défi du jour et son rappel
 
 Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre BET-316 à BET-321 : recherche du modèle sous validation préalable, mesure de clôture, partages du défi/comparaison, aperçus et invitations privées. Cette exception ne réactive pas l’économie et ne dispense jamais du consentement ni de la confidentialité.
 
-BET-346, demandé explicitement par le propriétaire le 17 novembre 2026, rétablit uniquement un onglet de classements sportifs des équipes (ESPN), sans rétablir le classement des joueurs ni les ligues privées.
+BET-346, demandé explicitement par le propriétaire le 17 novembre 2026, rétablit uniquement les classements sportifs des équipes (ESPN), dans un sous-onglet « Classement » de Matchs, à côté de « Calendrier », sans rétablir le classement des joueurs ni les ligues privées.
 
 BET-347, demandé explicitement par le propriétaire le 17 novembre 2026, autorise une simulation invitée avec bankroll initiale de 1 000 € et paris sauvegardés localement. Sa sauvegarde privée dans user_states ne confère aucun statut certifié ; aucune conversion de son solde en capital serveur, aucun point, XP ou rang. Les règles serveur des paris certifiés restent autoritaires.
 

@@ -48,7 +48,7 @@
       <span class="brand-name">Bet<span>Optimum</span></span>
     </a>
     <nav aria-label="Navigation principale" class="tabs">
-      <button class="tab-button active" data-tab="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button><button class="tab-button" data-tab="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button><button class="tab-button" data-tab="standings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 20V10h4v10m4 0V4h4v16"/></svg>Classement</button><button class="tab-button" data-tab="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
+      <button class="tab-button active" data-tab="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button><button class="tab-button" data-tab="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button><button class="tab-button" data-tab="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
     </nav>
     <div class="topbar-actions">
       <div class="topbar-bankroll"><small>BANKROLL DISPONIBLE</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="topbar-bankroll">1 000,00 €</strong></span></div>
@@ -83,6 +83,7 @@
     <section class="card home-performance tab-hidden" data-view="predictions" aria-labelledby="home-performance-title"><h2 id="home-performance-title">Résultats du modèle</h2><p id="home-performance-status" role="status">Chargement des résultats du modèle…</p><dl id="home-performance-kpis"></dl><button class="button ghost" id="home-performance-detail">Voir le détail en toute transparence</button><p class="muted">Mise fixe de 10 € fictifs par pronostic · Depuis le 1er novembre 2026 · Les résultats passés ne garantissent pas les résultats futurs.</p></section>
     <nav class="section-navigation" id="match-navigation" aria-label="Dans Matchs">
       <button class="active" data-open-tab="matches" aria-current="page">Calendrier</button>
+      <button data-open-tab="standings">Classement</button>
 
       <button data-open-ticket aria-controls="builder" aria-expanded="false">Mon ticket <span id="match-ticket-count" hidden></span></button>
     </nav>
@@ -341,7 +342,7 @@
   <button id="mobile-coupon" class="mobile-coupon" data-open-ticket aria-controls="builder" aria-expanded="false" hidden><span id="coupon-count" class="coupon-count"></span><strong id="coupon-odds"></strong><span class="coupon-label" aria-hidden="true">Cote totale</span></button>
   <nav class="mobile-nav" aria-label="Navigation mobile">
     <button class="active" aria-current="page" data-mobile-target="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button>
-    <button data-mobile-target="standings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 20V10h4v10m4 0V4h4v16"/></svg>Classement</button><button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
+    <button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
 
     <button data-mobile-target="predictions" aria-label="Résultats du modèle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button>
   </nav>

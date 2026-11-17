@@ -2711,12 +2711,12 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     .querySelectorAll('[data-view]')
     .forEach((view) => view.classList.toggle('tab-hidden', view.dataset.view !== tab));
   document.querySelectorAll('[data-tab]').forEach((button) => {
-    const active = button.dataset.tab === tab;
+    const active = button.dataset.tab === (tab === 'standings' ? 'matches' : tab);
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('[data-mobile-target]').forEach((button) => {
-    const active = button.dataset.mobileTarget === tab;
+    const active = button.dataset.mobileTarget === (tab === 'standings' ? 'matches' : tab);
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
@@ -4489,7 +4489,7 @@ document.querySelector('.tabs').addEventListener('click', (e) => {
 document
   .querySelectorAll('[data-open-tab]')
   .forEach((button) =>
-    button.addEventListener('click', () => setActiveTab(button.dataset.openTab, true))
+    button.addEventListener('click', () => setActiveTab(button.dataset.openTab, true, null, 'push'))
   );
 document.querySelector('.mobile-nav').addEventListener('click', (e) => {
   const button = e.target.closest('[data-mobile-target]');
