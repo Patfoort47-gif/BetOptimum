@@ -12255,3 +12255,169 @@ body {
     display: none;
   }
 }
+
+/* BET-353 : les trois issues restent à portée du pouce. */
+.match-result-picks {
+  display: none;
+}
+.match-other-markets {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+.match-other-markets > summary {
+  cursor: pointer;
+  color: var(--muted);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.match-other-markets > .recommended {
+  margin-bottom: 12px;
+}
+@media (max-width: 767px) {
+  body .match-card {
+    padding: 12px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+  body .match-card .match-hero {
+    background: var(--surface);
+    padding: 0;
+    color: var(--text);
+  }
+  body .match-card .match-hero::before,
+  body .match-card .match-stadium-photo,
+  body .match-card .stadium-placeholder,
+  body .match-card .stadium-name {
+    display: none;
+  }
+  body .match-card .match-hero .team,
+  body .match-card .match-hero .team strong {
+    color: var(--text);
+    text-shadow: none;
+  }
+  body .match-card .match-overview > .recommended,
+  body .match-card .match-overview > .prob-bar,
+  body .match-card .match-preview {
+    display: none;
+  }
+  body .match-card .match-teams {
+    grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  }
+  body .match-card .match-league b {
+    font-size: 11px;
+  }
+  .match-result-picks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .result-pick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 64px;
+    padding: 8px 4px;
+    gap: 4px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    background: var(--surface-2);
+    cursor: pointer;
+  }
+  .result-pick strong {
+    font-size: 17px;
+  }
+  .result-pick small {
+    font-size: 11px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+  .result-pick:disabled strong {
+    font-size: 11px;
+  }
+  .result-pick.selected {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
+  .result-pick.selected small {
+    color: var(--on-accent);
+  }
+  body .date-navigator,
+  body .filters {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  body .date-navigator > *,
+  body .filters > * {
+    flex: 0 0 auto;
+  }
+  body .filter-wrap {
+    flex-wrap: nowrap;
+  }
+  body .filter,
+  body .date-navigator button {
+    white-space: nowrap;
+    border-radius: 999px;
+  }
+  body .match-other-markets .match-selection {
+    display: grid;
+  }
+}
+@media (max-width: 767px) {
+  /* Les suggestions détaillées suivent le calendrier, pour voir les matchs au premier écran. */
+  body #matches {
+    display: flex;
+    flex-direction: column;
+  }
+  body #matches > #match-list {
+    order: 6;
+  }
+  body #matches > #daily-selection {
+    order: 8;
+  }
+  body .match-card .team strong {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  body .match-card .match-overview:has(> :only-child:not(.recommended)) {
+    gap: 0;
+  }
+}
+.value-bet-badge {
+  padding: 4px 7px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mobile-advice {
+  display: none;
+}
+@media (max-width: 767px) {
+  body .match-card .match-overview {
+    display: none;
+  }
+  body .match-card .match-hero .team strong {
+    text-overflow: clip;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    overflow: hidden;
+  }
+  .mobile-advice {
+    display: block;
+  }
+  body .match-card .match-head {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

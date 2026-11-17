@@ -1,10 +1,17 @@
 const assert = require('node:assert/strict');
-const { browser, page } = require('./ui-mobile-fixtures.cjs');
+const { browser, page, fixtures, match } = require('./ui-mobile-fixtures.cjs');
 (async () => {
   const b = await browser();
   try {
     for (const width of [320, 390, 767, 768, 1440]) {
-      const p = await page(b, { width, dark: true });
+      const p = await page(b, {
+        width,
+        dark: true,
+        data: {
+          ...fixtures,
+          matches: fixtures.matches.map((m) => ({ ...m, analysisStatus: 'ready' }))
+        }
+      });
       await p.locator('#match-espn-1').waitFor();
       assert.ok(
         await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
@@ -24,10 +31,44 @@ const { browser, page } = require('./ui-mobile-fixtures.cjs');
           );
         }
       }
+      if (width < 768) {
+        const card = p.locator('#match-espn-1');
+        const home = card.locator('.result-pick[data-market=home]');
+        const draw = card.locator('.result-pick[data-market=draw]');
+        assert.equal(await card.locator('.result-pick:visible').count(), 3);
+        assert.ok((await home.boundingBox()).height >= 44);
+        await home.click();
+        assert.equal(await home.getAttribute('aria-pressed'), 'true');
+        assert.equal(await p.locator('#ticket-items [data-remove]').count(), 1);
+        await draw.click();
+        assert.equal(await home.getAttribute('aria-pressed'), 'false');
+        assert.equal(await draw.getAttribute('aria-pressed'), 'true');
+        assert.equal(await p.locator('#ticket-items [data-remove]').count(), 1);
+        await draw.click();
+        assert.equal(await p.locator('#ticket-items [data-remove]').count(), 0);
+      }
       assert.deepEqual(p.__errors, []);
       await p.close();
       console.log('OK navigation', width);
     }
+    const partial = await page(b, {
+      data: {
+        ...fixtures,
+        matches: [
+          {
+            ...match,
+            analysisStatus: 'ready',
+            bookmakerOffers: match.bookmakerOffers.map((offer, i) =>
+              i < 9 ? offer : { ...offer, home: undefined }
+            )
+          }
+        ]
+      }
+    });
+    await partial.locator('.result-pick').first().waitFor();
+    assert.equal(await partial.locator('.result-pick[data-market=home]').isDisabled(), true);
+    assert.equal(await partial.locator('.result-pick[data-market=draw]').isEnabled(), true);
+    await partial.close();
   } finally {
     await b.close();
   }
