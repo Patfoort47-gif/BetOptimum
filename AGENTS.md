@@ -10,6 +10,8 @@ Le lot 18, demandé explicitement par le propriétaire, autorise le périmètre 
 
 BET-346, demandé explicitement par le propriétaire le 17 novembre 2026, rétablit uniquement un onglet de classements sportifs des équipes (ESPN), sans rétablir le classement des joueurs ni les ligues privées.
 
+BET-347, demandé explicitement par le propriétaire le 17 novembre 2026, autorise une simulation invitée avec bankroll initiale de 1 000 € et paris sauvegardés localement. Sa sauvegarde privée dans user_states ne confère aucun statut certifié ; aucune conversion de son solde en capital serveur, aucun point, XP ou rang. Les règles serveur des paris certifiés restent autoritaires.
+
 ## Travail et vérification
 
 - Une branche par ticket, créée depuis main : `BET-<n>-description`. Numéro du ticket dans chaque commit et titre de PR. Fermer le ticket après fusion de sa PR.
@@ -32,7 +34,7 @@ BET-346, demandé explicitement par le propriétaire le 17 novembre 2026, rétab
 
 ## Serveur et données privées
 
-- Le navigateur ne modifie ni solde, statut, statistique, points ni XP : RPC serveur avec RLS. Aucun secret dans Git, les fichiers publiés ou les commentaires de tickets.
+- Pour les comptes certifiés, le navigateur ne modifie ni solde, statut, statistique, points ni XP : RPC serveur avec RLS. Aucun secret dans Git, les fichiers publiés ou les commentaires de tickets.
 - Les migrations horodatées publiées sont immuables. Ajouter une migration avec la CLI Supabase ; vérifier une base vierge et les recettes SQL avant application. Ne jamais réinitialiser la production.
 - Notifications : aucun envoi ni nouvelle association sans consentement explicite. Les canaux restent inactifs sans accord. À l’activation volontaire, le réglage standard est le conseil du jour à 9 h par téléphone ou email (BET-339), sans modifier les abonnements existants ; relire accord, silence, expiration et état métier avant transport. Conserver déduplication et absence de rejeu après résultat incertain.
 - Ne pas ouvrir un nouvel accès public sans accord du propriétaire. Mettre à jour Confidentialité et Mentions légales pour toute nouvelle donnée ou tout nouveau fournisseur.
