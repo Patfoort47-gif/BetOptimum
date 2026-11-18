@@ -2,13 +2,13 @@
 import { collectPropLine } from './propline-odds.mjs';
 export const PROPLINE_SPORTS = {
   'Premier League': 'soccer_epl',
-  'Ligue 1': 'soccer_france_ligue_one',
-  'La Liga': 'soccer_spain_la_liga',
-  'Serie A': 'soccer_italy_serie_a',
-  Bundesliga: 'soccer_germany_bundesliga',
-  'Ligue des champions': 'soccer_uefa_champs_league',
+  'Ligue 1': 'soccer_ligue_1',
+  'La Liga': 'soccer_la_liga',
+  'Serie A': 'soccer_serie_a',
+  Bundesliga: 'soccer_bundesliga',
+  'Ligue des champions': 'soccer_uefa_champions_league',
   'Europa League': 'soccer_uefa_europa_league',
-  'Conference League': 'soccer_uefa_europa_conference_league',
+  'Conference League': 'soccer_uefa_conference_league',
   'DFB-Pokal': 'soccer_germany_dfb_pokal',
   'Ligue des nations': 'soccer_uefa_nations_league'
 };
@@ -88,7 +88,7 @@ export async function collectCalendarOdds(
   let discoveryRequests = 0;
   const failures = [],
     catalogSports = [];
-  if (key && maxRequests > 0 && leagues.some((league) => !sports[league])) {
+  if (key && maxRequests > 0 && leagues.length > 0) {
     discoveryRequests++;
     try {
       const response = await fetchImpl('https://api.prop-line.com/v1/sports', {

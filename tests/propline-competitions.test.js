@@ -143,3 +143,36 @@ test('BET-251 : arrêt après refus et repli des compétitions connues sur panne
   assert.equal(result.succeeded, 1);
   assert.equal(JSON.stringify(result).includes('secret'), false);
 });
+
+test('BET-361 : catalogue vérifié même pour un championnat connu, clé canonique et budget conservés', async () => {
+  const calls = [];
+  const result = await collectCalendarOdds([match('Ligue 1')], {
+    key: 'test',
+    now,
+    maxRequests: 2,
+    fetchImpl: async (url) => {
+      calls.push(url);
+      return {
+        ok: true,
+        json: async () =>
+          url.endsWith('/sports') ? [{ key: 'soccer_ligue_1', title: 'Ligue 1', active: true }] : []
+      };
+    }
+  });
+  assert.equal(calls.length, 2);
+  assert.ok(calls[0].endsWith('/sports'));
+  assert.match(calls[1], /soccer_ligue_1\/odds/);
+  assert.equal(result.requested, 2);
+  assert.equal(result.succeeded, 1);
+  const limited = [];
+  await collectCalendarOdds([match('Ligue 1')], {
+    key: 'test',
+    now,
+    maxRequests: 1,
+    fetchImpl: async (url) => {
+      limited.push(url);
+      return { ok: true, json: async () => [] };
+    }
+  });
+  assert.equal(limited.length, 1);
+});
