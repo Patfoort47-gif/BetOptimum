@@ -48,13 +48,13 @@ const leagues = [
 ];
 const providerMap = {
   'Premier League': ['PL', 'soccer_epl'],
-  'Ligue 1': ['FL1', 'soccer_france_ligue_one'],
-  'La Liga': ['PD', 'soccer_spain_la_liga'],
-  'Serie A': ['SA', 'soccer_italy_serie_a'],
-  Bundesliga: ['BL1', 'soccer_germany_bundesliga'],
-  'Ligue des champions': ['CL', 'soccer_uefa_champs_league'],
+  'Ligue 1': ['FL1', 'soccer_ligue_1'],
+  'La Liga': ['PD', 'soccer_la_liga'],
+  'Serie A': ['SA', 'soccer_serie_a'],
+  Bundesliga: ['BL1', 'soccer_bundesliga'],
+  'Ligue des champions': ['CL', 'soccer_uefa_champions_league'],
   'Europa League': [null, 'soccer_uefa_europa_league'],
-  'Conference League': [null, 'soccer_uefa_europa_conference_league']
+  'Conference League': [null, 'soccer_uefa_conference_league']
 };
 const giants = [
   'Real Madrid',

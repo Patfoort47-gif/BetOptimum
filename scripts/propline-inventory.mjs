@@ -8,13 +8,13 @@ export const API = 'https://api.prop-line.com/v1';
 // Compétitions suivies par le collecteur (même table que scripts/check-propline.mjs).
 export const SPORTS = {
   'Premier League': 'soccer_epl',
-  'Ligue 1': 'soccer_france_ligue_one',
-  'La Liga': 'soccer_spain_la_liga',
-  'Serie A': 'soccer_italy_serie_a',
-  Bundesliga: 'soccer_germany_bundesliga',
-  'Ligue des champions': 'soccer_uefa_champs_league',
+  'Ligue 1': 'soccer_ligue_1',
+  'La Liga': 'soccer_la_liga',
+  'Serie A': 'soccer_serie_a',
+  Bundesliga: 'soccer_bundesliga',
+  'Ligue des champions': 'soccer_uefa_champions_league',
   'Europa League': 'soccer_uefa_europa_league',
-  'Conference League': 'soccer_uefa_europa_conference_league'
+  'Conference League': 'soccer_uefa_conference_league'
 };
 export const PERIODS = ['full', 'h1', 'h2'];
 // Marchés déjà demandés par le collecteur (scripts/propline-odds.mjs, étape 2).
