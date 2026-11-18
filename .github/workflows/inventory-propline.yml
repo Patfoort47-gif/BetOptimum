@@ -6,7 +6,7 @@ on:
       mode:
         description: 'Catalogue ou prix BET-170 : lots, périodes demandées H1/H2'
         type: choice
-        options: [catalogue, prices, composites, remaining, h1, h2, h1-release]
+        options: [catalogue, competitions, prices, composites, remaining, h1, h2, h1-release]
         default: catalogue
       budget:
         description: 'Nombre maximal de requêtes PropLine (60 au plus)'
@@ -29,7 +29,9 @@ jobs:
           PROPLINE_INVENTORY_BUDGET: ${{ inputs.budget }}
           PROPLINE_INVENTORY_MODE: ${{ inputs.mode }}
         run: |
-          if [ "$PROPLINE_INVENTORY_MODE" = "prices" ]; then
+          if [ "$PROPLINE_INVENTORY_MODE" = "competitions" ]; then
+            node scripts/check-odds-catalog.mjs
+          elif [ "$PROPLINE_INVENTORY_MODE" = "prices" ]; then
             node scripts/propline-prices.mjs
             node scripts/check-markets-lot-one.mjs
           elif [ "$PROPLINE_INVENTORY_MODE" = "composites" ]; then
