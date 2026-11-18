@@ -1,3 +1,4 @@
+import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
 import { teamLogoMarkup } from './src/matches/team-logos.js';
 import {
@@ -1233,15 +1234,16 @@ function resultSelections(match, analysis) {
   ]
     .map(([key, label]) => {
       const market = analysis.markets.find((item) => item.key === key);
-      const available = market && Number.isFinite(market.probability) && quoteAvailable(match, key);
+      const realQuote = quoteAvailable(match, key);
+      const available = realQuote && market && Number.isFinite(market.probability);
       const probability =
         market && Number.isFinite(market.probability)
           ? `${Math.round(market.probability * 100)} %`
           : 'Probabilité indisponible';
-      return `<button type="button" class="result-pick" data-result-pick data-match="${html(match.id)}" data-market="${key}" aria-pressed="false"${available ? '' : ' disabled'}><span>${label}</span><strong>${available ? decimal(market.odd, 2) : 'Indisponible'}</strong><small>${probability}</small></button>`;
+      return `<button type="button" class="result-pick" data-result-pick data-match="${html(match.id)}" data-market="${key}" aria-pressed="false"${available ? '' : ' disabled'}><span>${label}</span><strong>${realQuote ? decimal(match.odds[key], 2) : 'Indisponible'}</strong><small>${probability}</small></button>`;
     })
     .join('');
-  return `<div class="match-result-picks" role="group" aria-label="Résultat du match : cote réelle et probabilité estimée">${buttons}</div>`;
+  return `<div class="match-result-picks${analysis.available === false && ['home', 'draw', 'away'].some((key) => quoteAvailable(match, key)) ? ' quotes-only' : ''}" role="group" aria-label="Résultat du match : cote réelle et probabilité estimée">${buttons}</div>`;
 }
 function quickSelection(match, best) {
   if (!best?.key)
@@ -2628,7 +2630,7 @@ function applyFixtureData(data, cached = false) {
     coverage = data.coverage ?? {};
   if (!cached) persist();
   $('#data-source').innerHTML =
-    `<span class="source-dot ${cached ? 'loading' : 'live'}"></span> ${cached ? 'Cache local instantané' : 'Données réelles'} · ${coverage.statsMatches ?? 0} matchs analysés · ${coverage.oddsMatches ?? 0} avec cotes · calendrier ${html(updated.label)}${updated.status === 'stale' ? ' · ancien' : ''} · scores ${html(scoresUpdated.label)}${scoresUpdated.status === 'stale' ? ' · anciens' : ''}`;
+    `<span class="source-dot ${cached ? 'loading' : 'live'}"></span> ${cached ? 'Cache local instantané' : 'Données réelles'} · ${coverage.statsMatches ?? 0} matchs analysés · ${data.oddsHealth ? html(oddsHealthLabel(data.oddsHealth)) : `${coverage.oddsMatches ?? 0} avec cotes`} · calendrier ${html(updated.label)}${updated.status === 'stale' ? ' · ancien' : ''} · scores ${html(scoresUpdated.label)}${scoresUpdated.status === 'stale' ? ' · anciens' : ''}`;
   updateFreshness();
   render();
   openAlertMatch();

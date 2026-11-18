@@ -7,10 +7,16 @@ on:
         description: 'Forcer une collecte de cotes maintenant (exception au délai de 12 h)'
         type: boolean
         default: false
+      notify_after_update:
+        description: 'Envoyer aussi les briefings consentis après une collecte manuelle'
+        type: boolean
+        default: false
   schedule:
     # 6 h et 18 h à Paris, avec les deux décalages UTC été/hiver.
     - cron: '0 4,16 * * *'
     - cron: '0 5,17 * * *'
+    # Rattrape un déclenchement GitHub retardé ou manqué, sans contourner le quota.
+    - cron: '27 * * * *'
 
 permissions:
   contents: write
@@ -28,31 +34,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Vérifier le créneau horaire de Paris
-        id: schedule
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          # Le cron peut démarrer en retard : sélectionner la saison, pas l'heure réelle de démarrage.
-          offset=$(TZ=Europe/Paris date +%z)
-          schedule='${{ github.event.schedule }}'
-          if { [ "$offset" = '+0200' ] && [ "$schedule" = '0 4,16 * * *' ]; } ||
-             { [ "$offset" = '+0100' ] && [ "$schedule" = '0 5,17 * * *' ]; }; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
       - uses: actions/checkout@v4
-        if: steps.schedule.outputs.run == 'true'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Vérifier les créneaux de Paris et le rattrapage
+        id: schedule
+        env:
+          MANUAL_CALENDAR_SYNC: ${{ github.event_name == 'workflow_dispatch' }}
+        run: node scripts/calendar-schedule.mjs >> "$GITHUB_OUTPUT"
       - name: Synchroniser les dernières données
         if: steps.schedule.outputs.run == 'true'
         run: git pull --rebase origin main
-      - uses: actions/setup-node@v4
-        if: steps.schedule.outputs.run == 'true'
-        with:
-          node-version: 20
       - name: Vérifier la migration des nouveaux marchés
         if: steps.schedule.outputs.run == 'true'
         env:
@@ -85,6 +78,10 @@ jobs:
           PROPLINE_H1_ENABLED: 'false'
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
         run: node scripts/update-fixtures.mjs
+      - name: Résumer la santé des cotes
+        if: steps.schedule.outputs.run == 'true'
+        run: |
+          node -e 'const f=require("./data/fixtures.json"); console.log("## Santé des cotes\n\n"+JSON.stringify({lastOdds:f.oddsRefreshedAt,health:f.oddsHealth,coverage:f.coverage,failures:f.failures},null,2))' >> "$GITHUB_STEP_SUMMARY"
       - name: Compléter les lieux des rencontres
         if: steps.schedule.outputs.run == 'true'
         run: |
@@ -125,7 +122,7 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: node scripts/sync-supabase.mjs
       - name: Envoyer les briefings consentis après actualisation réussie
-        if: steps.schedule.outputs.run == 'true'
+        if: steps.schedule.outputs.run == 'true' && ((github.event_name == 'schedule' && github.event.schedule != '27 * * * *') || inputs.notify_after_update == true)
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           NOTIFICATION_WORKER_SECRET: ${{ secrets.NOTIFICATION_WORKER_SECRET }}
