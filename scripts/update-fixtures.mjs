@@ -1,3 +1,4 @@
+import { oddsHealth } from '../src/core/odds-health.js';
 import { trackClosingOdds } from '../src/history/closing-odds.js';
 import { buildMatchPreview } from '../src/matches/match-preview.js';
 import { collectMissingTeamForms, teamHistoryKey } from './espn-team-history.mjs';
@@ -440,7 +441,15 @@ const refreshedAt = new Date().toISOString(),
 const secondaryOddsRefreshedAt = propLineResult.offersByMatch.size
   ? refreshedAt
   : (previousData.secondaryOddsRefreshedAt ?? null);
+const health = oddsHealth(enriched, {
+  requested: propLineResult.requested,
+  failures: propLineResult.failures,
+  reserved: quotaReserved,
+  refreshedAt: oddsRefreshedAt
+});
+console.info('Santé des cotes :', JSON.stringify(health));
 await publishFixtures({
+  oddsHealth: health,
   generatedAt: refreshedAt,
   oddsRefreshedAt,
   oddsRefreshHours: ODDS_REFRESH_HOURS,
@@ -450,7 +459,10 @@ await publishFixtures({
   movementThresholdPercent: 5,
   dailyChallenge,
   source: 'ESPN + football-data.org + PropLine',
-  providerStatus: providerFailures.length ? 'partial' : 'ok',
+  providerStatus:
+    providerFailures.length || ['unavailable', 'delayed', 'partial'].includes(health.status)
+      ? 'partial'
+      : 'ok',
   failures: providerFailures,
   coverage: {
     propLineRequested: propLineResult.requested,

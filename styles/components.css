@@ -12811,3 +12811,20 @@ body .match-card .match-hero .stadium-placeholder-name {
     max-width: 62px;
   }
 }
+/* BET-361 : afficher les prix observés même lorsque le modèle est indisponible. */
+.match-result-picks.quotes-only {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.match-result-picks.quotes-only .result-pick {
+  min-width: 0;
+  padding: 8px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
