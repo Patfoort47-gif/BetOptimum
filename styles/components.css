@@ -1462,7 +1462,7 @@ dialog[open] {
     width: 100%;
     max-width: none;
     margin: auto 0 0;
-    max-height: var(--ticket-viewport-height, 85dvh);
+    max-height: 85dvh;
     border-radius: 28px 28px 0 0;
     border-bottom: 0;
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
@@ -11307,7 +11307,7 @@ section.club-ranking {
   }
   body > .builder {
     display: flex !important;
-    max-height: 85dvh;
+    max-height: var(--ticket-viewport-height, 85dvh);
     box-sizing: border-box;
     overscroll-behavior: contain;
   }
