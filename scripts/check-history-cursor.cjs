@@ -5,7 +5,11 @@ const assert = require('node:assert/strict'),
   const b = await browser();
   try {
     for (const width of [375, 390, 430, 767, 768, 1023, 1024, 1440]) {
-      const p = await page(b, { width, logged: true });
+      const p = await page(b, {
+        width,
+        logged: true,
+        init: () => localStorage.setItem('sb-test-auth-token', '{}')
+      });
       await p.locator('.match-card').first().waitFor();
       await p
         .locator(width < 768 ? '[data-mobile-target=bankroll]' : '[data-tab=bankroll]')
@@ -13,9 +17,10 @@ const assert = require('node:assert/strict'),
       await mountHistory(p);
       await p.waitForFunction(() => document.querySelector('#history-body').children.length === 5);
       const kpis = await p.locator('#personal-kpis').textContent();
-      await p.evaluate(
-        () => (window.__first = document.querySelector('#history-body').firstElementChild)
-      );
+      await p.evaluate(() => {
+        window.__first = document.querySelector('#history-body').firstElementChild;
+        window.__chart = document.querySelector('#personal-charts').firstElementChild;
+      });
       await p.locator('[data-history-more]').evaluate((el) => {
         for (let i = 0; i < 10; i++) el.click();
       });
@@ -28,6 +33,12 @@ const assert = require('node:assert/strict'),
         true
       );
       assert.equal(await p.locator('#personal-kpis').textContent(), kpis);
+      assert.equal(
+        await p.evaluate(
+          () => __chart === document.querySelector('#personal-charts').firstElementChild
+        ),
+        true
+      );
       await p.evaluate(() => (__h.fail = true));
       await p.locator('[data-history-more]').click();
       await p.waitForFunction(
