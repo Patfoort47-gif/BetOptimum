@@ -12798,3 +12798,25 @@ body .match-card .match-hero .stadium-placeholder-name {
   overflow-x: auto;
   overscroll-behavior-inline: contain;
 }
+
+.match-card .match-follow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.match-card .match-follow-actions .team-favorite {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  width: auto;
+  height: auto;
+  padding-inline: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  text-align: start;
+}
+.match-card .match-follow-actions .team-favorite.active {
+  color: var(--accent-text);
+}
