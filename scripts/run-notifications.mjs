@@ -23,5 +23,12 @@ const started = Date.now(),
 console.log(
   `${Number(result.queued) || 0} alertes mises en file, ${Number(result.sent) || 0} messages acceptés par le transport · ${Date.now() - started} ms · worker ${/^BET-(195|200|242|243|348|349|350)$/.test(result.revision) ? result.revision : 'version antérieure'}.`
 );
+if (result.metrics)
+  console.log(
+    JSON.stringify({
+      categories: result.metrics,
+      multiChannelAccepted: result.multiChannelAccepted
+    })
+  );
 if (result.claimed === 0 && Number(result.queued) === 0)
   console.log('Aucune alerte éligible à traiter.');
