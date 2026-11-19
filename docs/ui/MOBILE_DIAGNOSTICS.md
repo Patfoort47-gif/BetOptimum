@@ -9,7 +9,8 @@ Le paramètre explicite `?diagnostic-mobile` active les marques User Timing `bet
 | `reseau-requete`, `reseau-corps-recu`, `reseau-json-parse` | Début du fetch, corps intégralement lu et décodage JSON terminé. La recette lit le texte puis appelle JSON.parse pour distinguer ces étapes. |
 | `reseau-analyse-debut/fin` et `cache-analyse-debut/fin` | Préparation des analyses, avec worker ou repli selon la taille et le navigateur. |
 | `cache-lu` | Un calendrier local a été accepté comme candidat avant l’application des données réseau. |
-| `calendrier-utilisable` et `calendrier-match` ou `calendrier-vide` | Première liste interactive ou état vide final. Le squelette et l’erreur initiale sont exclus. Émis une seule fois par navigation dans le document. |
+| `calendrier-utilisable` et `calendrier-match`, `calendrier-apercu` ou `calendrier-vide` | Premier calendrier consultable avec la sélection de dates, y compris l’aperçu. Le squelette et l’erreur initiale sont exclus. Émis une seule fois par navigation dans le document. |
+| `calendrier-enrichi` | Premier affichage à partir des données complètes. |
 | `ouverture-analyse`, `ajout-favori`, `consultation-resultats`, `intention-synchronisation` | Action d’ouverture des stats d’un match, ajout d’une équipe ou compétition, ouverture volontaire de Mes paris ou du bilan, clic du mode invité vers la création d’un compte. |
 
 ## Comparer deux versions

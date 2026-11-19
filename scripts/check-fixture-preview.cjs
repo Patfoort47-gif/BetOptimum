@@ -1,0 +1,92 @@
+const assert = require('node:assert/strict');
+const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
+
+async function run() {
+  const b = await browser();
+  try {
+    const tomorrow = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Europe/Paris',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(Date.now() + 86400000);
+    const matches = Array.from({ length: 101 }, (_, i) => ({
+      ...fixtures.matches[i % 2],
+      analysisStatus: 'ready',
+      id: 'espn-' + (i + 1),
+      ...(i === 100
+        ? { date: tomorrow, home: 'Équipe de demain' }
+        : i > 0
+          ? { date: '2099-01-01' }
+          : {})
+    }));
+    const p = await page(b, {
+      width: 390,
+      touch: true,
+      data: { ...fixtures, matches },
+      init: () => {
+        window.Worker = class {
+          postMessage() {
+            window.resumeAnalysis = () => this.onerror();
+          }
+          terminate() {}
+        };
+      }
+    });
+    await p.waitForFunction(() => typeof window.resumeAnalysis === 'function');
+    const during = await p.evaluate((day) => {
+      const hasMarkets = Boolean(document.querySelector('#match-list [data-market]'));
+      document.querySelector(`[data-date="${day}"]`).click();
+      return { hasMarkets, selected: document.querySelector('.match-preview-card')?.textContent };
+    }, tomorrow);
+    assert.equal(during.hasMarkets, false);
+    assert.match(during.selected ?? '', /Équipe de demain/);
+    await p.evaluate(() => window.resumeAnalysis());
+    await p.locator('#match-list .match-card').first().waitFor();
+    assert.equal(await p.locator('.match-preview-card').count(), 0);
+    assert.equal(await p.locator('#match-list .match-card').count(), 1);
+    assert.match(await p.locator('#match-list .match-card').innerText(), /Équipe de demain/);
+    assert.deepEqual(p.__errors, []);
+    await p.close();
+
+    const dense = await page(b, {
+      width: 390,
+      touch: true,
+      data: {
+        ...fixtures,
+        matches: Array.from({ length: 18 }, (_, i) => ({
+          ...fixtures.matches[i % 2],
+          id: 'espn-' + (i + 1),
+          date: tomorrow,
+          kickoff: new Date(Date.now() + 26 * 3600000).toISOString(),
+          analysisStatus: 'ready'
+        }))
+      }
+    });
+    await dense.waitForFunction(() =>
+      document.querySelector('#data-source')?.textContent.includes('Données réelles')
+    );
+    await dense.locator('#next-match-day').waitFor();
+    await dense.locator('[data-date=week]').evaluate((button) => button.click());
+    const cards = dense.locator('#match-list .match-card');
+    await cards.first().waitFor();
+    assert.equal(await cards.count(), 8);
+    const more = dense.locator('#match-list-more');
+    assert.match(await more.innerText(), /10/);
+    await more.click();
+    assert.equal(await cards.count(), 16);
+    assert.equal(await cards.nth(8).evaluate((card) => document.activeElement === card), true);
+    await more.click();
+    assert.equal(await cards.count(), 18);
+    assert.equal(await more.isVisible(), false);
+    assert.deepEqual(dense.__errors, []);
+    await dense.close();
+    console.log('OK aperçu sans marché, changement de date, repli du worker et affichage par lots');
+  } finally {
+    await b.close();
+  }
+}
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
