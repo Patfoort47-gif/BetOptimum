@@ -22,7 +22,8 @@ const date = (offset) =>
         const next = p.locator('#next-match-day');
         await next.waitFor();
         assert.match(await next.innerText(), /Voir les matchs du/);
-        assert.ok((await next.boundingBox()).y < 600);
+        const nextBox = await next.boundingBox();
+        assert.ok(nextBox.y + nextBox.height < 600);
         assert.equal(await p.locator('#reset-match-filters').isVisible(), false);
         assert.equal(await p.locator('#daily-selection').isVisible(), false);
         await next.click();
@@ -30,8 +31,8 @@ const date = (offset) =>
         assert.ok(await p.locator(`[data-date="${date(1)}"].active`).count());
         await p.locator('[data-filter=Favoris]').click();
         assert.ok(await p.locator('#reset-match-filters').isVisible());
-        assert.match(await p.locator('#match-list').innerText(), /Aucun résultat/);
-        await p.locator('[data-reset-matches]').click();
+        assert.match(await p.locator('#match-list').innerText(), /Aucun match favori/);
+        await p.locator('[data-leave-favorites]').click();
         assert.ok(await p.locator(`[data-date="${date(1)}"].active`).count());
         assert.equal(await p.locator('#reset-match-filters').isVisible(), false);
         await p.locator(`[data-date="${date(-1)}"]`).click();
@@ -50,6 +51,10 @@ const date = (offset) =>
     const noUpcoming = await page(b, { data: { ...fixtures, matches: [] } });
     await noUpcoming.locator('#today-empty').waitFor();
     assert.equal(await noUpcoming.locator('#next-match-day').isVisible(), false);
+    const report = noUpcoming.locator('#today-empty-report');
+    await report.waitFor();
+    await report.click();
+    await noUpcoming.locator('#predictions').waitFor();
     await noUpcoming.close();
     let release;
     const gate = new Promise((resolve) => {

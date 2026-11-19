@@ -45,3 +45,17 @@ Depuis le calendrier, ouvrir l’inscription, la connexion et la récupération 
 de passe. Vérifier le passage entre champs, la visibilité du champ actif et de
 l’action avec le clavier ouvert, les erreurs de formulaire et le retour au calendrier.
 Utiliser un compte de test pour vérifier les liens de confirmation et de récupération.
+
+### Accueil les jours sans match (BET-371)
+
+La recette Chromium `scripts/check-matches-empty.cjs` vérifie l’accès en un
+appui au prochain créneau daté et au bilan en l’absence de prochain match.
+Contrôler le résultat en clair et sombre à 320, 360, 390 et 430 px, puis un
+jour avec des matchs et un filtre volontaire. L’état de chargement ou
+d’erreur se vérifie séparément.
+
+Montrer ensuite l’accueil pendant trois secondes à cinq personnes sur
+téléphone. Demander ce que permet le site et où elles appuieraient aujourd’hui.
+Noter le premier geste et la compréhension des analyses, des cotes et des
+tickets virtuels. Cette observation requiert des participants et ne découle
+pas de la recette automatisée.

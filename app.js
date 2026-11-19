@@ -1617,6 +1617,7 @@ function renderMatches() {
       .map((match) => match.date)
       .sort()[0];
     nextButton.hidden = !nextDate;
+    $('#today-empty-report').hidden = Boolean(nextDate);
     if (nextDate) {
       nextButton.dataset.nextDate = nextDate;
       nextButton.textContent = `Voir les matchs du ${longDay(nextDate)}`;
