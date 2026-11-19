@@ -14,13 +14,13 @@ export function createMobileDiagnostics() {
       first.add(phase);
       performance.mark('bet-mobile:' + phase);
     },
-    mark(phase, calendarReady = false) {
+    mark(phase, calendarReady = false, detail) {
       if (calendarReady) {
         if (first.has('calendrier-utilisable')) return;
         first.add('calendrier-utilisable');
         performance.mark('bet-mobile:calendrier-utilisable');
       }
-      performance.mark('bet-mobile:' + phase);
+      performance.mark('bet-mobile:' + phase, detail === undefined ? undefined : { detail });
     }
   };
 }

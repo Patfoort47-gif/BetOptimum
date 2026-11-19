@@ -32,3 +32,28 @@ Le 19 novembre 2026, sur le calendrier du dépôt (135 matchs, journée vide à 
 | --- | ---: | ---: | ---: | ---: |
 | Froide | 6 853 ms | 1 392 ms | 0,261 | 1 600 ms |
 | Chaude | 1 714 ms | 244 ms | 0,261 | 2 008 ms |
+
+## BET-382 · Taille des documents synchronisés
+
+Le 19 novembre 2026, une requête agrégée en lecture seule a mesuré trois
+documents de production. Taille JSON minimale 74 494 octets, médiane
+81 358 octets, maximale 191 234 octets. Les copies exactes des pronostics de
+l’archive publique représentaient 329 684 des 347 086 octets (95 %). Parmi les
+1 039 entrées, aucun identifiant n’était absent de l’archive du dépôt. La
+comparaison d’égalité porte sur la ligne JSON entière, ce qui protège une
+variante même si l’identifiant est également public.
+
+Les statistiques SQL recensent 611 appels d’écriture cumulés, sans rattachement
+à une session. Un document avait été mis à jour au cours des dernières 24 h.
+Le mode `?diagnostic-mobile` ajoute une marque `bet-mobile:ecriture-compte` par
+tentative, avec les octets du document avant transport dans `detail.bytes`.
+Pour une session, compter ces marques et relever les tailles. Elles restent en
+mémoire, sans identifiant ni envoi.
+
+Le client reconstruit le bilan avec l’archive et garde sa copie locale. Les
+documents historiques sont allégés lorsqu’un client mis à jour réconcilie un
+document avec l’archive chargée. Si l’archive échoue, les entrées reçues restent
+conservées. Il n’y a aucune réécriture en masse du stockage de production. Les
+écritures inchangées d’un même navigateur sont évitées et le dernier document en
+attente peut être renvoyé depuis le menu Compte. Les écritures concurrentes de
+deux appareils suivent toujours l’ordre de réception du serveur.

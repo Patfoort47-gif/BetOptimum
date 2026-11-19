@@ -18,6 +18,7 @@ export async function initAccountSync({
   applyState,
   resetState,
   registerCloudSave,
+  onSyncWrite = () => {},
   onAuthChange = () => {},
   onCommunityData = () => {},
   onCommunityStatus = () => {},
@@ -32,17 +33,31 @@ export async function initAccountSync({
 }) {
   const button = $('#account-button'),
     label = $('#account-label'),
-    status = $('#sync-status');
+    status = $('#sync-status'),
+    retry = $('#retry-sync');
   let client = null,
     currentUser = null,
     loadedUserId = null,
-    saveTimer = null;
+    saveTimer = null,
+    readyToSaveUserId = null,
+    queuedSave = null,
+    saveInFlight = false,
+    lastSaved = null;
   const configured =
     /^https:\/\/.+\.supabase\.co\/?$/.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length > 20;
   const showMessage = (value, error = false) => {
     if (error) toast(value);
   };
   const setView = (user) => {
+    if (currentUser?.id !== user?.id) {
+      readyToSaveUserId = null;
+      queuedSave = null;
+      lastSaved = null;
+      clearTimeout(saveTimer);
+      if (retry) retry.hidden = true;
+      status.textContent = 'Synchronisation à jour';
+      status.className = 'sync-status';
+    }
     currentUser = user ?? null;
     const nickname = getState().profile?.nickname || user?.user_metadata?.username;
     label.textContent = user
@@ -1041,31 +1056,54 @@ export async function initAccountSync({
     if (error) throw betError(error);
     await refreshServer();
   };
-  const saveNow = async (payload) => {
-    if (!currentUser) return;
+  const saveNow = async () => {
+    if (!queuedSave || saveInFlight) return;
+    const job = queuedSave;
+    queuedSave = null;
+    if (job.userId !== readyToSaveUserId || job.key === lastSaved) return;
+    saveInFlight = true;
+    if (retry) retry.hidden = true;
     status.textContent = 'Synchronisation en cours…';
     status.className = 'sync-status syncing';
-    const { error } = await client
-      .from('user_states')
-      .upsert(
-        { user_id: currentUser.id, state: payload, updated_at: new Date().toISOString() },
-        { onConflict: 'user_id' }
-      );
-    if (error) {
-      status.textContent = 'Échec de synchronisation · nouvel essai au prochain changement';
-      status.className = 'sync-status error';
-      console.error(error);
-      return;
+    let failed = false;
+    try {
+      onSyncWrite(new TextEncoder().encode(job.key).length);
+      const { error } = await client
+        .from('user_states')
+        .upsert(
+          { user_id: job.userId, state: JSON.parse(job.key), updated_at: new Date().toISOString() },
+          { onConflict: 'user_id' }
+        );
+      if (error) throw error;
+      if (job.userId === readyToSaveUserId) {
+        lastSaved = job.key;
+        status.textContent = `Synchronisé à ${new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date())}`;
+        status.className = 'sync-status';
+        publishCommunity(JSON.parse(job.key));
+      }
+    } catch {
+      failed = true;
+      if (job.userId === readyToSaveUserId) {
+        queuedSave ??= job;
+        status.textContent = 'Échec de synchronisation. Ouvrez le menu Compte pour réessayer.';
+        status.className = 'sync-status error';
+        if (retry) retry.hidden = false;
+        toast(status.textContent);
+      }
+    } finally {
+      saveInFlight = false;
+      if (queuedSave && (!failed || queuedSave !== job)) saveNow();
     }
-    status.textContent = `Synchronisé à ${new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date())}`;
-    status.className = 'sync-status';
-    publishCommunity(payload);
   };
-  registerCloudSave((payload) => {
-    if (!currentUser) return;
+  const queueSave = (payload) => {
+    if (!readyToSaveUserId) return;
+    queuedSave = { userId: readyToSaveUserId, key: JSON.stringify(payload) };
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => saveNow(payload), 600);
-  });
+    saveTimer = setTimeout(saveNow, 600);
+  };
+  retry?.addEventListener('click', saveNow);
+  globalThis.addEventListener?.('online', saveNow);
+  registerCloudSave(queueSave);
 
   const loadUser = async (user) => {
     setView(user);
@@ -1077,6 +1115,7 @@ export async function initAccountSync({
       .select('state')
       .eq('user_id', user.id)
       .maybeSingle();
+    if (currentUser?.id !== user.id) return;
     if (error) {
       loadedUserId = null;
       status.textContent = 'Impossible de récupérer vos données';
@@ -1121,13 +1160,25 @@ export async function initAccountSync({
           ? { heartClub: { id: own.heart_club_id, name: own.heart_club_name } }
           : {})
       };
+    if (currentUser?.id !== user.id) return;
     applyState(payload);
-    if (!data?.state) await saveNow(payload);
+    readyToSaveUserId = user.id;
+    const compact = getState();
+    if (
+      !data?.state ||
+      JSON.stringify(data.state.predictionHistory ?? []) !==
+        JSON.stringify(compact.predictionHistory ?? [])
+    )
+      queueSave(compact);
+    else lastSaved = JSON.stringify(compact);
     await publishCommunity(payload);
     await refreshServer();
+    if (currentUser?.id !== user.id) return;
     setView(user);
-    status.textContent = 'Synchronisation à jour';
-    status.className = 'sync-status';
+    if (!queuedSave && status.className !== 'sync-status error') {
+      status.textContent = 'Synchronisation à jour';
+      status.className = 'sync-status';
+    }
   };
 
   // API de connexion utilisée par join.js : les erreurs sont traduites en français (auth-model.js), le pseudo est vérifié par la RPC pseudo_disponible.
@@ -1209,7 +1260,6 @@ export async function initAccountSync({
     signOut: async () => {
       const { error } = await client.auth.signOut();
       if (error) throw authError(error);
-      currentUser = null;
       loadedUserId = null;
       clearTimeout(saveTimer);
       setView(null);
@@ -1221,7 +1271,6 @@ export async function initAccountSync({
   client.auth.onAuthStateChange((event, session) => {
     onAuthEvent(event, session?.user ?? null);
     if (event === 'SIGNED_OUT') {
-      currentUser = null;
       loadedUserId = null;
       setView(null);
       onServerData(null);
