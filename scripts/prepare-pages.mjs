@@ -50,11 +50,35 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
     await copyFile(new URL('vendor/' + name, root), new URL('vendor/' + name, out));
   const fixtureSource = await readFile(new URL('data/fixtures.json', root), 'utf8'),
     fixtures = JSON.parse(fixtureSource);
+  // Les fichiers journaliers restent disponibles pour les anciens clients.
+  const offersDir = new URL('data/match-offers/v1/', out);
+  await mkdir(offersDir, { recursive: true });
+  for (const date of new Set(fixtures.matches.map((match) => match.date))) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    const daily = await readFile(new URL(`data/offers/${date}.json`, root), 'utf8').catch(
+      (error) => {
+        if (error.code !== 'ENOENT') throw error;
+        return '{"matches":{}}';
+      }
+    );
+    const offers = JSON.parse(daily).matches;
+    await Promise.all(
+      fixtures.matches
+        .filter((match) => match.date === date)
+        .map(async (match) => {
+          if (!/^[a-zA-Z0-9_-]+$/.test(match.id) || !Array.isArray(offers[match.id])) return;
+          const payload = JSON.stringify(offers[match.id]);
+          match.offerVersion = createHash('sha256').update(payload).digest('hex');
+          await writeFile(new URL(`${match.id}-${match.offerVersion}.json`, offersDir), payload);
+        })
+    );
+  }
   await writeFile(
     new URL('data/fixtures.json', out),
     JSON.stringify({
       ...fixtures,
-      fixtureVersion: createHash('sha256').update(fixtureSource).digest('hex')
+      matchOffersSchema: 1,
+      fixtureVersion: createHash('sha256').update(JSON.stringify(fixtures)).digest('hex')
     })
   );
   const preview = matchesWithBookmakers(fixtures.matches).map(

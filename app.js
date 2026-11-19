@@ -1196,31 +1196,82 @@ function renderMarketFamilies(match, markets) {
     .join('')}</div>`;
 }
 const expandedBookmakers = new Set();
+const bookmakerCache = new Map();
+const unavailableBookmakers = new Set();
 function bookmakerComparison(match) {
   const count = match.bookmakerOffers?.length ?? match.bookmakerCount ?? 0;
   if (!count)
     return '<p class="bookmaker-unavailable">Cotes indisponibles : au moins 10 bookmakers par sélection.</p>';
   if (!expandedBookmakers.has(match.id))
     return `<details class="bookmaker-comparison" data-bookmakers="${html(match.id)}"><summary>Comparaison des bookmakers · ${count}</summary></details>`;
-  if (!match.bookmakerOffers?.length)
-    return `<details class="bookmaker-comparison" data-bookmakers="${html(match.id)}" open><summary>Comparaison des bookmakers · ${count}</summary><p class="bookmaker-loading" role="status">Chargement des offres…</p></details>`;
-  const markets = analyseMatch(match).markets.filter((m) => quoteAvailable(match, m.key));
+  const key = bookmakerKey(match),
+    offers = match.bookmakerOffers ?? bookmakerCache.get(key),
+    status = unavailableBookmakers.has(key)
+      ? '<p class="bookmaker-unavailable" role="status">Offres détaillées indisponibles.</p><button type="button" class="button secondary" data-retry-bookmakers>Réessayer</button>'
+      : '<p class="bookmaker-loading" role="status">Chargement des offres…</p>',
+    markets = offers?.length
+      ? analyseMatch(match).markets.filter((market) => quoteAvailable(match, market.key))
+      : [];
   if (!markets.length)
-    return '<p class="bookmaker-unavailable">Aucune cote avec au moins 10 bookmakers.</p>';
+    return `<details class="bookmaker-comparison" data-bookmakers="${html(match.id)}" open><summary>Comparaison des bookmakers · ${count}</summary>${offers ? '<p class="bookmaker-unavailable">Aucune offre détaillée admissible pour ce match.</p>' : status}</details>`;
   const price = (offer, key) =>
     Number(offer[key]) > 1
       ? `${decimal(Number(offer[key]), 2)}${offer[`${key}Cached`] ? ' · cache' : ''}`
       : '-';
-  return `<details class="bookmaker-comparison" data-bookmakers="${html(match.id)}" open><summary>Comparaison des bookmakers · ${match.bookmakerOffers.length}</summary><div class="bookmaker-table" tabindex="0" role="region" aria-label="Comparaison des cotes par marché et ligne"><table><thead><tr><th>Bookmaker</th>${markets.map((m) => `<th>${html(m.label)}</th>`).join('')}</tr></thead><tbody>${match.bookmakerOffers.map((offer) => `<tr><td>${html(offer.name)}</td>${markets.map((m) => `<td>${price(offer, m.key)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><small>PropLine : moyenne par sélection et par ligne disponible. Exchanges et marchés prédictifs exclus. « - » indique une cote absente de la collecte. « cache » signale une offre conservée, potentiellement ancienne.</small></details>`;
+  return `<details class="bookmaker-comparison" data-bookmakers="${html(match.id)}" open><summary>Comparaison des bookmakers · ${offers.length}</summary><div class="bookmaker-table" tabindex="0" role="region" aria-label="Comparaison des cotes par marché et ligne"><table><thead><tr><th>Bookmaker</th>${markets.map((m) => `<th>${html(m.label)}</th>`).join('')}</tr></thead><tbody>${offers.map((offer) => `<tr><td>${html(offer.name)}</td>${markets.map((m) => `<td>${price(offer, m.key)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><small>PropLine : moyenne par sélection et par ligne disponible. Exchanges et marchés prédictifs exclus. « - » indique une cote absente de la collecte. « cache » signale une offre conservée, potentiellement ancienne.</small></details>`;
 }
+let bookmakerSchema = null,
+  bookmakerFixtureVersion = null;
+const bookmakerKey = (match) =>
+  match.offerVersion ? `${match.id}:${match.offerVersion}` : match.id;
 async function loadBookmakerOffers(match) {
-  if (match.bookmakerOffers?.length) return match.bookmakerOffers;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(match.date)) throw new Error('Date invalide');
-  const data = await loadJson(`data/offers/${match.date}.json`),
-    offers = data?.matches?.[match.id];
+  const key = bookmakerKey(match);
+  if (match.bookmakerOffers) return match.bookmakerOffers;
+  if (bookmakerCache.has(key)) return bookmakerCache.get(key);
+  const version = bookmakerFixtureVersion;
+  let offers = [];
+  if (bookmakerSchema === 1) {
+    if (match.offerVersion)
+      offers = await loadJson(
+        `data/match-offers/v1/${encodeURIComponent(match.id)}-${match.offerVersion}.json`
+      );
+  } else {
+    // Compatibilité avec un calendrier mis en cache avant la publication par match.
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(match.date)) throw new Error('Date invalide');
+    const daily = await loadJson(`data/offers/${match.date}.json`);
+    offers = daily?.matches?.[match.id] ?? [];
+  }
   if (!Array.isArray(offers)) throw new Error('Offres indisponibles');
-  match.bookmakerOffers = offers;
+  if (bookmakerFixtureVersion === version) bookmakerCache.set(key, offers);
   return offers;
+}
+function refreshBookmakerSection(section) {
+  const match = allMatches().find((item) => item.id === section.dataset.bookmakers);
+  if (!match || section.dataset.loading) return;
+  const key = bookmakerKey(match);
+  function renderSection() {
+    if (!section.open || !section.isConnected) return;
+    const template = document.createElement('template');
+    template.innerHTML = bookmakerComparison(match);
+    const current = template.content.firstElementChild;
+    section.replaceChildren(...current.childNodes);
+  }
+  if (match.bookmakerOffers || bookmakerCache.has(key) || unavailableBookmakers.has(key)) {
+    if (!section.querySelector('.bookmaker-loading') && section.children.length > 1) return;
+    renderSection();
+    return;
+  }
+  section.dataset.loading = 'true';
+  renderSection();
+  const version = bookmakerFixtureVersion;
+  loadBookmakerOffers(match)
+    .catch(() => {
+      if (bookmakerFixtureVersion === version) unavailableBookmakers.add(key);
+    })
+    .finally(() => {
+      delete section.dataset.loading;
+      if (bookmakerFixtureVersion === version) renderSection();
+    });
 }
 const hasMatchFilters = () => state.filter === 'Favoris' || state.selectedLeagues.length > 0;
 function renderFilters() {
@@ -2784,6 +2835,13 @@ function settlePendingBets(results) {
 }
 function applyFixtureData(data, cached = false) {
   if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
+  const version = fixtureVersion(data);
+  if (version !== bookmakerFixtureVersion) {
+    bookmakerFixtureVersion = version;
+    bookmakerSchema = data.matchOffersSchema;
+    bookmakerCache.clear();
+    unavailableBookmakers.clear();
+  }
   fixturePreview = null;
   fixtureDataLoaded = true;
   if (!cached || fixturesStatus !== 'error') fixturesStatus = 'ready';
@@ -4970,30 +5028,21 @@ if (typeof window !== 'undefined') {
         expandedBookmakers.delete(id);
         return;
       }
-      if (section.querySelector('table')) {
-        expandedBookmakers.add(id);
-        return;
-      }
-      const match = allMatches().find((m) => m.id === id);
-      if (!match) return;
       expandedBookmakers.add(id);
-      section.innerHTML =
-        '<summary>Comparaison des bookmakers<\/summary><p class="bookmaker-loading" role="status">Chargement des offres…<\/p>';
-      loadBookmakerOffers(match)
-        .then(() => {
-          if (!section.open) return;
-          const template = document.createElement('template');
-          template.innerHTML = bookmakerComparison(match);
-          section.innerHTML = template.content.firstElementChild.innerHTML;
-        })
-        .catch(() => {
-          if (section.open)
-            section.innerHTML =
-              '<summary>Comparaison des bookmakers</summary><p class="bookmaker-unavailable" role="status">Offres détaillées indisponibles. Réessayez en rouvrant le comparateur.</p>';
-        });
+      refreshBookmakerSection(section);
     },
     true
   );
+  $('#match-list').addEventListener('click', (event) => {
+    const retry = event.target.closest('[data-retry-bookmakers]');
+    if (!retry) return;
+    const section = retry.closest('[data-bookmakers]');
+    const match = allMatches().find((item) => item.id === section.dataset.bookmakers);
+    if (!match) return;
+    unavailableBookmakers.delete(bookmakerKey(match));
+    section.querySelector('summary')?.focus();
+    refreshBookmakerSection(section);
+  });
   setInterval(tickCountdowns, 1000);
   setInterval(renderLeague, 60000);
   setInterval(pollLive, 20000);
