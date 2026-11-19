@@ -1,0 +1,29 @@
+name: Publier le site Pages après confirmation de l’artefact
+description: Vérifie l’artefact exact dans le service utilisé par deploy-pages avant publication.
+inputs:
+  path:
+    description: Dossier du site public préparé
+    default: _site
+    required: false
+outputs:
+  page_url:
+    description: URL du site publié
+    value: ${{ steps.deploy.outputs.page_url }}
+runs:
+  using: composite
+  steps:
+    - name: Téléverser le site préparé
+      id: upload
+      uses: actions/upload-pages-artifact@v3
+      with:
+        name: github-pages
+        path: ${{ inputs.path }}
+    - name: Attendre l’artefact exact de ce workflow
+      uses: ./.github/actions/wait-pages-artifact
+      with:
+        artifact-id: ${{ steps.upload.outputs.artifact_id }}
+    - name: Déployer l’artefact confirmé
+      id: deploy
+      uses: actions/deploy-pages@v4
+      with:
+        artifact_name: github-pages

@@ -34,9 +34,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Préparer les fichiers publics
         run: node scripts/prepare-pages.mjs
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: ./.github/actions/publish-pages
+        timeout-minutes: 15
