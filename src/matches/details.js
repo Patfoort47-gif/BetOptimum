@@ -51,6 +51,7 @@ let ctx,
   renderToken = 0,
   standingsToken = 0,
   liveTimer = null,
+  restoreCalendarPosition = null,
   standingsView = { league: null, mode: 'teams' };
 
 export function initDetails(context) {
@@ -86,6 +87,8 @@ export function initDetails(context) {
     stack = [];
     depth = 0;
     if (steps) history.go(-steps);
+    restoreCalendarPosition?.();
+    restoreCalendarPosition = null;
   });
   addEventListener('popstate', () => {
     if (!dialog.open) return;
@@ -109,6 +112,7 @@ const sameView = (a, b) =>
 function open(next) {
   if (dialog.open && sameView(view, next)) return;
   if (!dialog.open) {
+    restoreCalendarPosition = ctx.captureCalendarPosition?.(next.match?.id ?? next.matchId);
     stack = [next];
     depth = 0;
     document.querySelector('#detail-head').innerHTML = '<h2 id="detail-title">Détail du match</h2>';
@@ -939,6 +943,7 @@ export async function openTeam(team) {
   }
   open({
     type: 'team',
+    matchId: team.matchId,
     id: String(id),
     name: team.name,
     logo: team.logo,

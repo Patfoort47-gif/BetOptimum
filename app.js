@@ -357,6 +357,40 @@ try {
 } catch {}
 let guestWallet = readGuestWallet(guestStorage),
   guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
+const calendarContextKey = 'betoptimum-calendar-context';
+let calendarContext;
+try {
+  calendarContext = JSON.parse(localStorage.getItem(calendarContextKey));
+} catch {}
+const requestedCalendarDate = new URLSearchParams(location.search).get('date');
+const explicitCalendarDate =
+  requestedCalendarDate === 'week' ||
+  (requestedCalendarDate >= isoDate(-3) &&
+    requestedCalendarDate <= isoDate(6) &&
+    /^\d{4}-\d{2}-\d{2}$/.test(requestedCalendarDate))
+    ? requestedCalendarDate
+    : null;
+const linkedCalendarMatch = /^#match-(espn-[0-9]+)$/.test(location.hash);
+const rememberedDate = calendarContext?.date;
+let findNextCalendarDate =
+  !explicitCalendarDate &&
+  !linkedCalendarMatch &&
+  /^\d{4}-\d{2}-\d{2}$/.test(rememberedDate) &&
+  rememberedDate < isoDate(0);
+
+function rememberCalendarContext() {
+  findNextCalendarDate = false;
+  try {
+    localStorage.setItem(
+      calendarContextKey,
+      JSON.stringify({
+        date: state.dateFilter,
+        leagues: state.selectedLeagues,
+        favorites: state.filter === 'Favoris'
+      })
+    );
+  } catch {}
+}
 const state = {
   bankroll: guestWallet.bankroll,
   initial: 1000,
@@ -415,9 +449,20 @@ const state = {
   results: [],
   ticket: [],
   betMode: 'combined',
-  filter: 'Tous',
-  selectedLeagues: [],
-  dateFilter: isoDate(0),
+  filter: !linkedCalendarMatch && calendarContext?.favorites ? 'Favoris' : 'Tous',
+  selectedLeagues:
+    !linkedCalendarMatch && Array.isArray(calendarContext?.leagues)
+      ? calendarContext.leagues.filter((league) => typeof league === 'string')
+      : [],
+  dateFilter:
+    explicitCalendarDate ??
+    (!linkedCalendarMatch &&
+    (rememberedDate === 'week' ||
+      (/^\d{4}-\d{2}-\d{2}$/.test(rememberedDate) &&
+        rememberedDate >= isoDate(0) &&
+        rememberedDate <= isoDate(6)))
+      ? rememberedDate
+      : isoDate(0)),
   live: {},
   liveErrors: {},
   revealed: new Set(),
@@ -506,6 +551,21 @@ const profileHash = /^#joueur-(.+)$/.exec(location.hash);
 const joinOnLoad = location.hash === '#rejoindre',
   challengesOnLoad = location.hash === '#challenges';
 let pendingAlertMatch = /^#match-(espn-[0-9]+)$/.exec(location.hash)?.[1] ?? null;
+function captureCalendarPosition(matchId) {
+  if (activeTab !== 'matches') return null;
+  const card = document.getElementById(`match-${matchId}`),
+    offset = card?.getBoundingClientRect().top,
+    top = window.scrollY;
+  return () =>
+    requestAnimationFrame(() => {
+      if (activeTab !== 'matches') return;
+      const current = card && document.getElementById(card.id);
+      window.scrollTo({
+        top: current ? window.scrollY + current.getBoundingClientRect().top - offset : top,
+        behavior: 'instant'
+      });
+    });
+}
 function ensureDetails() {
   if (!detailsPromise)
     detailsPromise = import('./src/matches/details.js?v=fiches-8')
@@ -521,6 +581,7 @@ function ensureDetails() {
             state,
             toast,
             updateScrollers,
+            captureCalendarPosition,
             onLiveEntry: (match, entry) =>
               renderLiveUpdates(
                 recordLiveEntry(allMatches().find((m) => m.id === match.id) ?? match, entry)
@@ -549,7 +610,14 @@ function openAlertMatch() {
   useDetails((api) => {
     if (pendingAlertMatch !== id) return;
     pendingAlertMatch = null;
+    state.dateFilter = match.date;
+    state.selectedLeagues = [];
+    state.filter = 'Tous';
     setActiveTab('matches', false);
+    renderDateNavigator();
+    renderFilters();
+    renderMatches();
+    document.getElementById(`match-${id}`)?.scrollIntoView({ block: 'start' });
     api.openMatch(match);
   });
 }
@@ -1225,15 +1293,32 @@ function renderDateNavigator() {
       })
       .join('')}`;
 }
+const followsMatch = (match) =>
+  state.favoriteLeagues.includes(match.league) ||
+  state.favoriteTeams.includes(match.home) ||
+  state.favoriteTeams.includes(match.away);
+const selectedCompetition = (match, selected = state.selectedLeagues) =>
+  !selected.length || selected.includes(match.league);
 function matchesCurrentFilters(match, selected = state.selectedLeagues) {
   return (
     inPeriod(match) &&
-    (!selected.length || selected.includes(match.league)) &&
-    (state.filter !== 'Favoris' ||
-      state.favoriteLeagues.includes(match.league) ||
-      state.favoriteTeams.includes(match.home) ||
-      state.favoriteTeams.includes(match.away))
+    selectedCompetition(match, selected) &&
+    (state.filter !== 'Favoris' || followsMatch(match))
   );
+}
+function nextVisibleMatch(today, favorites = state.filter === 'Favoris') {
+  return calendarMatches()
+    .filter(
+      (match) =>
+        match.date >= today &&
+        match.date <= isoDate(6) &&
+        !match.completed &&
+        !match.voided &&
+        kickoffAt(match) > Date.now() &&
+        selectedCompetition(match) &&
+        (!favorites || followsMatch(match))
+    )
+    .sort((a, b) => kickoffAt(a) - kickoffAt(b))[0];
 }
 function visibleMatches() {
   const matches = calendarMatches().filter((match) => matchesCurrentFilters(match));
@@ -1253,6 +1338,8 @@ function matchListEmpty() {
     return '<div class="match-loading" role="status"><p>Chargement des matchs…</p><div class="match-skeleton" aria-hidden="true"></div><div class="match-skeleton" aria-hidden="true"></div></div>';
   if (!fixtureDataLoaded && fixturesStatus === 'error')
     return '<div class="empty match-list-error" role="status"><p>Le calendrier est indisponible. Vérifiez votre connexion puis réessayez.</p><button class="button secondary" data-retry-matches>Réessayer</button></div>';
+  if (state.filter === 'Favoris')
+    return '<div class="empty"><p>Aucun match favori sur cette période.</p><button class="button secondary" data-leave-favorites>Revenir au calendrier</button></div>';
   return emptyState('matches', hasMatchFilters());
 }
 function resultSelections(match, analysis) {
@@ -1439,6 +1526,14 @@ function renderMatches() {
     notice.querySelector('p').textContent = nextDate
       ? 'Aucun match aujourd’hui.'
       : 'Aucun match aujourd’hui ni dans les prochains jours du calendrier.';
+  }
+  const nextFavorite = $('#next-favorite-match');
+  if (nextFavorite) {
+    const next = state.filter === 'Favoris' && nextVisibleMatch(today, true);
+    nextFavorite.hidden = !next;
+    nextFavorite.innerHTML = next
+      ? `<button class="text-button" type="button" data-next-favorite="${html(next.id)}">Prochain favori · ${html(next.home)} - ${html(next.away)} · ${longDay(next.date)} à ${html(next.time)}</button>`
+      : '';
   }
   $('#match-period-title').textContent =
     state.filter === 'Favoris'
@@ -2682,6 +2777,11 @@ function applyFixtureData(data, cached = false) {
     ...match,
     analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
   }));
+  if (findNextCalendarDate) {
+    const next = nextVisibleMatch(isoDate(0));
+    state.dateFilter = next?.date ?? isoDate(0);
+    rememberCalendarContext();
+  }
   if (!betAttempt?.busy && !betAttempt?.uncertain)
     state.ticket = state.ticket.filter((item) => {
       const match = allMatches().find((m) => m.id === item.matchId);
@@ -3010,6 +3110,7 @@ $('#reset-match-filters')?.addEventListener('click', () => {
   state.revealed.clear();
   state.selectedLeagues = [];
   state.filter = 'Tous';
+  rememberCalendarContext();
   renderDateNavigator();
   renderFilters();
   renderMatches();
@@ -4031,12 +4132,21 @@ $('#date-navigator').addEventListener('click', (e) => {
   if (!b) return;
   if (state.dateFilter !== b.dataset.date) visibleWeekLimit = WEEK_MATCH_BATCH;
   state.dateFilter = b.dataset.date;
+  rememberCalendarContext();
   state.revealed.clear();
   renderDateNavigator();
   renderFilters();
   renderMatches();
   revealActive($('#date-navigator'));
   updateScrollers();
+});
+$('#next-favorite-match')?.addEventListener('click', (event) => {
+  const match = calendarMatches().find((item) => item.id === event.target.dataset.nextFavorite);
+  if (!match) return;
+  document.querySelector(`[data-date="${match.date}"]`)?.click();
+  const card = document.getElementById(`match-${match.id}`);
+  card?.scrollIntoView({ block: 'start', behavior: motionBehavior() });
+  card?.querySelector('[data-match-stats]')?.focus({ preventScroll: true });
 });
 $('#match-list-more')?.addEventListener('click', () => {
   const previous = visibleWeekLimit;
@@ -4055,6 +4165,7 @@ function selectLeague(filter) {
       ? state.selectedLeagues.filter((name) => name !== filter)
       : [...state.selectedLeagues, filter];
   state.revealed.clear();
+  rememberCalendarContext();
   renderFilters();
   renderMatches();
 }
@@ -4104,6 +4215,7 @@ $('#competition-options').addEventListener('click', (e) => {
 $('#apply-competitions')?.addEventListener('click', () => {
   if (!leagueDraft) return;
   state.selectedLeagues = leagueDraft;
+  rememberCalendarContext();
   leagueDraft = null;
   visibleWeekLimit = WEEK_MATCH_BATCH;
   state.revealed.clear();
@@ -4121,6 +4233,11 @@ $('#matches')?.addEventListener('click', (event) => {
 $('#match-list').addEventListener('click', (e) => {
   if (e.target.closest('[data-match-model-report]')) {
     setActiveTab('predictions', true, null, 'push');
+    return;
+  }
+  if (e.target.closest('[data-leave-favorites]')) {
+    $('#reset-match-filters').click();
+    $('#date-navigator').querySelector('.active')?.focus();
     return;
   }
   const form = e.target.closest('[data-team-form]');
@@ -4820,9 +4937,6 @@ render();
 if (typeof window !== 'undefined') {
   setTimeout(openDailyChallenge, 0);
   $('#footer-year').textContent = new Date().getFullYear();
-  history.scrollRestoration = 'manual';
-  if (!['#bankroll', '#communaute', '#challenges', '#bilan-pronos'].includes(location.hash))
-    scrollTo({ top: 0, behavior: 'instant' });
   $('#match-list').classList.add('reveal');
   $('#match-list').addEventListener(
     'toggle',
