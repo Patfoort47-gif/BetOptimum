@@ -1,11 +1,13 @@
-import { analyseMatch, primeAnalysis } from './model.js';
+import { analyseMatch, hasAnalysis, primeAnalysis } from './model.js';
 async function cooperative(matches) {
   for (let i = 0; i < matches.length; i++) {
     analyseMatch(matches[i]);
     if (i % 10 === 9) await new Promise((resolve) => setTimeout(resolve, 0));
   }
 }
-export async function prepareAnalyses(matches, { WorkerClass = globalThis.Worker } = {}) {
+export async function prepareAnalyses(input, { WorkerClass = globalThis.Worker } = {}) {
+  const matches = input.filter((match) => !hasAnalysis(match));
+  if (!matches.length) return;
   if (matches.length <= 100 || !WorkerClass) return cooperative(matches);
   let worker;
   try {

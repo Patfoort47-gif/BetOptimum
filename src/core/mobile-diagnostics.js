@@ -9,6 +9,11 @@ export function createMobileDiagnostics() {
 
   const first = new Set();
   return {
+    markOnce(phase) {
+      if (first.has(phase)) return;
+      first.add(phase);
+      performance.mark('bet-mobile:' + phase);
+    },
     mark(phase, calendarReady = false) {
       if (calendarReady) {
         if (first.has('calendrier-utilisable')) return;
