@@ -11886,6 +11886,7 @@ section.club-ranking {
   padding: 8px;
 }
 .inbox-list .unread {
+  background: var(--accent-soft);
   border-left: 3px solid var(--accent);
 }
 .inbox-list button {
@@ -11897,6 +11898,7 @@ section.club-ranking {
   gap: 6px;
   width: 100%;
 }
+.inbox-list .inbox-empty,
 .inbox-list time {
   font-size: 12px;
   color: var(--muted);
