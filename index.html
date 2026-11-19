@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://mvbpmirhjfmppdrmuksa.supabase.co wss://mvbpmirhjfmppdrmuksa.supabase.co https://site.api.espn.com; img-src 'self' data: blob: https://a.espncdn.com https://a1.espncdn.com https://a2.espncdn.com https://secure.espncdn.com https://mvbpmirhjfmppdrmuksa.supabase.co; font-src 'self'; media-src 'self' blob: data:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#F2F4F0">
+  <meta name="theme-color" content="#090A0F">
   <meta name="description" content="Avec BetOptimum, analysez les matchs de football, repérez les Value Bets et entraînez-vous avec 1 000 € virtuels. Paris virtuels, 18+, aucune garantie.">
   <title>BetOptimum | Pronostics Foot Data, Value Bets & Bankroll Virtuelle</title>
   <meta name="application-name" content="BetOptimum">
@@ -27,10 +27,11 @@
   <meta name="twitter:image:alt" content="Tableau de bord BetOptimum : analyses football et paris virtuels">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "BetOptimum", "url": "https://patfoort47-gif.github.io/BetOptimum/", "description": "Avec BetOptimum, analysez les matchs de football, repérez les Value Bets et entraînez-vous avec 1 000 € virtuels. Paris virtuels, 18+, aucune garantie.", "image": "https://patfoort47-gif.github.io/BetOptimum/icons/betoptimum-social.png", "applicationCategory": "SportsApplication", "operatingSystem": "Web", "inLanguage": "fr", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "featureList": ["Analyse statistique des matchs de football", "Value Bets et probabilités estimées", "Bankroll et paris virtuels"]}</script>
   <link rel="icon" type="image/svg+xml" href="./icons/favicon.svg">
-  <script src="theme-bootstrap.js?v=bet291"></script>
+  <script src="theme-bootstrap.js?v=obsidienne1"></script>
   <link rel="stylesheet" href="styles.css?v=bet126">
   <link rel="stylesheet" href="styles/details.css?v=bet126">
   <link rel="stylesheet" href="styles/components.css?v=bet261">
+  <link rel="stylesheet" href="style.css?v=obsidienne1">
 <link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png"></head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
   <svg id="emblems" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -51,6 +52,7 @@
       <button class="tab-button active" data-tab="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button><button class="tab-button" data-tab="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button><button class="tab-button" data-tab="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
     </nav>
     <div class="topbar-actions">
+      <span class="algorithm-status">Algorithme actif</span>
       <div class="topbar-bankroll"><small>BANKROLL DISPONIBLE</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="topbar-bankroll">1 000,00 €</strong></span></div>
       <button class="icon-button inbox-button" id="open-inbox" hidden aria-label="Notifications" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5zM10 20h4"/></svg><b></b></button>
 <button class="icon-button" id="open-help" aria-label="Aide et lexique" title="Aide et lexique"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5v.01"/></svg></button>
@@ -62,15 +64,15 @@
     <section class="hero" data-view="matches">
       <div class="hero-main card">
         <svg class="hero-pitch" viewBox="0 0 400 300" aria-hidden="true"><rect x="10" y="10" width="380" height="280" rx="6"/><path d="M200 10V290"/><circle cx="200" cy="150" r="52"/><circle cx="200" cy="150" r="3"/><path d="M390 80H330V220H390M390 115H362V185H390"/><path d="M10 80H70V220H10M10 115H38V185H10"/></svg>
-        <p class="eyebrow"><span class="live-dot"></span>ANALYSE DU JOUR</p>
+        <p class="eyebrow">ANALYSES FOOTBALL</p>
         <h1>Vos matchs du jour</h1>
         <button class="button primary hero-cta" data-open-ticket>Composer mon ticket</button>
-        <p class="hero-copy">Analysez les rencontres et testez vos choix avec des paris virtuels. Sans argent réel, sans garantie de gain. 18+.</p>
-        <p class="section-subtitle">Matchs, pronostics et résultats du modèle en accès libre.</p><div class="hero-actions"><button class="button ghost" data-tutorial-launch>Guide d’utilisation</button><button class="button ghost" data-open-tab="predictions">Résultats du modèle</button><button class="button ghost" id="quick-combo" data-copy="quickCompose">Générer un combiné</button></div>
+        <p class="hero-copy">Paris virtuels · 18+ · Aucune garantie de gain.</p>
+        <div class="hero-actions"><button class="button ghost" data-tutorial-launch>Guide d’utilisation</button><button class="button ghost" data-open-tab="predictions">Résultats du modèle</button><button class="button ghost" id="quick-combo" data-copy="quickCompose">Générer un combiné</button></div>
       </div>
       <button class="hero-score" id="hero-confidence" aria-label="Comprendre l’indice global du jour">
         <small>INDICE GLOBAL DU JOUR</small>
-        <svg class="gauge" viewBox="0 0 200 110" aria-hidden="true"><path class="gauge-track" d="M20 100A80 80 0 0 1 180 100"/><path class="gauge-fill" d="M20 100A80 80 0 0 1 180 100" stroke-dasharray="0 400"/></svg>
+        <svg class="gauge" viewBox="0 0 200 110" aria-hidden="true"><defs><linearGradient id="confidence-gradient"><stop offset="0%" stop-color="var(--info)"/><stop offset="100%" stop-color="var(--accent-text)"/></linearGradient></defs><path class="gauge-track" d="M20 100A80 80 0 0 1 180 100"/><path class="gauge-fill" d="M20 100A80 80 0 0 1 180 100" stroke-dasharray="0 400"/></svg>
         <span class="score"><span id="hero-confidence-score">-</span><small>/100</small></span>
         <span class="hero-score-parts"><span><b id="hero-confidence-form">-</b><small>FORME · 75 %</small><em id="hero-confidence-form-detail">Chargement</em></span><span><b id="hero-confidence-today">-</b><small>CONFIANCE DU JOUR · 25 %</small><em id="hero-confidence-today-detail">Chargement</em></span></span>
         <u>Comment est-il calculé ?</u>
@@ -104,8 +106,8 @@
         <div class="match-filter-context"><p id="match-filter-summary" role="status"></p><button class="text-button" id="reset-match-filters">Réinitialiser les filtres</button></div>
         <nav id="match-strip" class="match-strip" aria-label="Fil des matchs"></nav>
         <section id="conseils-du-jour" class="card daily-selection" aria-label="Les conseils du jour" tabindex="-1" hidden></section>
-        <section id="daily-selection" class="card daily-selection" aria-label="Suggestions du jour" hidden></section>
         <div id="match-list" class="match-list" aria-live="polite"></div>
+        <section id="daily-selection" class="card daily-selection" aria-label="Suggestions du jour" hidden></section>
       </section>
 
       <aside id="builder" class="builder" data-view="matches" aria-label="Ticket et générateur">
@@ -345,6 +347,7 @@
     <button data-mobile-target="predictions" aria-label="Résultats du modèle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Modèle</button>
     <button data-mobile-target="standings" aria-label="Classement des équipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M5 20v-7h4v7m1 0V5h4v15m1 0V9h4v11"/></svg>Classement</button>
     <button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
+    <button class="mobile-ticket-action" data-open-ticket aria-controls="builder" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4zM13 6v2m0 3v2m0 3v2"/></svg>Ticket</button>
   </nav>
   <dialog id="private-dialog" class="special-dialog" aria-labelledby="private-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><p><button class="button secondary" data-open-dialog="rules-dialog" data-section="points">Consulter les règles</button></p><div id="private-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>
   <dialog id="special-dialog" class="special-dialog" aria-labelledby="special-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><p><button class="button secondary" data-open-dialog="rules-dialog" data-section="points">Consulter les règles</button></p><div id="special-content"></div><button class="button secondary full" data-close-dialog>Fermer</button></dialog>

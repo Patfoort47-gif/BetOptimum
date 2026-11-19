@@ -1,4 +1,4 @@
-const CACHE = 'betoptimum-shell-bet314-v1';
+const CACHE = 'betoptimum-shell-obsidienne-v1';
 self.addEventListener('install', (event) =>
   event.waitUntil(
     (async () => {
@@ -30,7 +30,7 @@ self.addEventListener('fetch', (event) => {
     url.origin !== self.location.origin ||
     !url.pathname.startsWith(new URL(self.registration.scope).pathname) ||
     url.pathname.includes('/data/') ||
-    !(/\.(js|css|png|svg|webmanifest)$/.test(url.pathname) || request.mode === 'navigate')
+    !(/\.(js|css|png|svg|webmanifest|woff2)$/.test(url.pathname) || request.mode === 'navigate')
   )
     return;
   event.respondWith(
