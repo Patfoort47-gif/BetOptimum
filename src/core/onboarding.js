@@ -56,8 +56,9 @@ export function initOnboarding(root, { initialSeen = false, onSeen = () => {} } 
   document.addEventListener('click', (event) => {
     const launch = event.target.closest('[data-tutorial-launch]');
     if (launch) {
-      opener = launch;
-      launch.closest('dialog')?.close();
+      const parent = launch.closest('dialog');
+      parent?.close();
+      opener = parent ? document.activeElement : launch;
       index = 0;
       render();
       dialog.showModal();
