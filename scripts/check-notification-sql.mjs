@@ -584,5 +584,57 @@ console.log(
   'SQL BET-310 : opt-in distinct, droits, fenêtre, silence, participation, unicité, désabonnement vérifiés.'
 );
 
+// BET-398 : les retraits d’accord n’annulent que les livraisons du canal concerné.
+await db.exec(
+  await readFile('supabase/migrations/20261119160500_bet398_preserve_web_deliveries.sql', 'utf8')
+);
+await q(
+  `insert into notification_endpoints(user_id,channel,encrypted) values($1,'email','demo') on conflict do nothing`,
+  [uid]
+);
+const channelDeliveries = async () =>
+  q(`select d.channel, d.status from notification_deliveries d
+     join notification_events e on e.id=d.event_id
+     where e.event_key='bet398:canaux' order by d.channel`);
+await q('select save_notification_preferences($1)', [
+  JSON.stringify({ ...p, briefing_minute: 565 })
+]);
+await q(
+  `insert into notification_events(user_id,event_key,payload)
+     values($1,'bet398:canaux','{}'::jsonb)`,
+  [uid]
+);
+await q(
+  `insert into notification_deliveries(event_id,user_id,channel,due_at)
+     select id,user_id,channel,now() from notification_events
+     cross join (values ('email'), ('web')) channels(channel)
+     where event_key='bet398:canaux'`
+);
+for (let attempt = 0; attempt < 2; attempt++) {
+  await q('select save_notification_preferences($1)', [
+    JSON.stringify({ ...p, enabled: false, briefing_minute: 565 })
+  ]);
+  assert.deepEqual(await channelDeliveries(), [
+    { channel: 'email', status: 'cancelled' },
+    { channel: 'web', status: 'pending' }
+  ]);
+}
+assert.equal(
+  (await q('select briefing_minute from notification_preferences where user_id=$1', [uid]))[0]
+    .briefing_minute,
+  565
+);
+await q(
+  `update notification_deliveries set status='pending' where channel='email'
+     and event_id in (select id from notification_events where event_key='bet398:canaux')`
+);
+for (let attempt = 0; attempt < 2; attempt++) {
+  await q('select disconnect_web_notifications()');
+  assert.deepEqual(await channelDeliveries(), [
+    { channel: 'email', status: 'pending' },
+    { channel: 'web', status: 'cancelled' }
+  ]);
+}
+
 await db.close();
 console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');
