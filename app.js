@@ -1,3 +1,4 @@
+import { syncStudy } from './src/core/sync-study.js';
 import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
@@ -362,6 +363,30 @@ try {
 } catch {}
 let guestWallet = readGuestWallet(guestStorage),
   guestStorageReady = saveGuestWallet(guestWallet, guestStorage);
+const syncOfferKey = 'betoptimum-sync-offer';
+let syncPromptChoice = null,
+  syncPromptDate = null,
+  syncReturnActive = false,
+  syncTrial = null;
+try {
+  const savedOffer = JSON.parse(localStorage.getItem(syncOfferKey));
+  syncPromptChoice = savedOffer?.choice;
+  syncPromptDate = savedOffer?.date;
+  if (syncPromptChoice === 'intent' && syncPromptDate < isoDate(-7)) {
+    syncPromptChoice = null;
+    localStorage.removeItem(syncOfferKey);
+  }
+  syncTrial = syncStudy(localStorage, new URLSearchParams(location.search).get('etude-sync'), () =>
+    isoDate(0)
+  );
+} catch {}
+function saveSyncPromptChoice(choice) {
+  syncPromptChoice = choice;
+  syncPromptDate = isoDate(0);
+  try {
+    localStorage.setItem(syncOfferKey, JSON.stringify({ choice, date: syncPromptDate }));
+  } catch {}
+}
 const calendarContextKey = 'betoptimum-calendar-context';
 let calendarContext;
 try {
@@ -2480,6 +2505,13 @@ function addSelection(matchId, key, from) {
 }
 const personalFilters = { period: 'all', status: 'all', search: '' };
 let personalDashboard = null;
+function guestSyncOffer() {
+  const eligible = !accountAuthenticated && guestStorageReady && guestWallet.history.length;
+  if (eligible) syncTrial?.eligible();
+  if (!eligible || syncTrial?.control || syncPromptChoice) return '';
+  syncTrial?.exposed();
+  return '<section class="card" aria-labelledby="guest-sync-title"><h4 id="guest-sync-title">Retrouver votre simulation sur un autre appareil</h4><p>Un compte peut sauvegarder votre historique de simulation dans un espace privé. Il reste distinct des paris certifiés.</p><button type="button" class="button secondary" data-guest-sync-start>Synchroniser ma simulation</button> <button type="button" class="text-button" data-guest-sync-dismiss>Continuer en invité</button></section>';
+}
 function renderHistory() {
   if (activeTab !== 'bankroll') return;
   for (const id of ['#bankroll-member', '#bankroll-capital']) {
@@ -2489,15 +2521,16 @@ function renderHistory() {
   const guest = $('#bankroll-guest');
   if (guest) {
     guest.hidden = accountAuthenticated && !guestWallet.history.length;
-    const history = guestWallet.history
-      .map((bet) =>
-        historyCard(
-          { ...bet, id: null },
-          { results: state.results, live: state.live, fixtures: state.liveMatches }
+    const offer = guestSyncOffer(),
+      history = guestWallet.history
+        .map((bet) =>
+          historyCard(
+            { ...bet, id: null },
+            { results: state.results, live: state.live, fixtures: state.liveMatches }
+          )
         )
-      )
-      .join('');
-    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil. Créez un compte pour sauvegarder cette simulation entre vos appareils.</p><button class="button secondary" data-open-join>Créer un compte</button>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}<div class="personal-tickets">${history || '<p>Aucun pari invité pour le moment. Choisissez un match pour commencer.</p>'}</div>`;
+        .join('');
+    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil.</p>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}${accountAuthenticated ? '' : offer || '<button class="button secondary" data-open-join>Créer un compte</button>'}<div class="personal-tickets">${history || '<p>Aucun pari invité pour le moment. Choisissez un match pour commencer.</p>'}</div>`;
   }
   if (!accountAuthenticated) {
     personalDashboard?.clear();
@@ -2719,6 +2752,7 @@ async function openJoin(mode = 'login') {
       getLeagues: () => Object.keys(LEAGUES),
       toast,
       onDone: async (event) => {
+        if (event === 'signup') syncTrial?.created();
         if (accountAuthenticated) {
           try {
             await accountApi.refreshServer();
@@ -2909,6 +2943,12 @@ function applyFixtureData(data, cached = false) {
         )
       );
     });
+  if (!cached && syncTrial)
+    syncTrial.calendar(
+      matchesWithBookmakers(data.matches).some(
+        (match) => match.date === isoDate(0) && !match.voided
+      )
+    );
   state.dailyChallenge = data.dailyChallenge ?? null;
   state.results = [...(data.settlements ?? []), ...data.matches.filter((match) => match.completed)];
   for (const match of data.matches.filter((item) => item.completed)) {
@@ -3095,8 +3135,10 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     profileTarget = { self: true };
   }
   const changedTab = activeTab !== tab;
-  if (changedTab && scroll && (tab === 'bankroll' || tab === 'predictions'))
+  if (changedTab && scroll && (tab === 'bankroll' || tab === 'predictions')) {
     mobileDiagnostics?.mark('consultation-resultats');
+    syncTrial?.useful('resultats');
+  }
   activeTab = tab;
   if (tab === 'bankroll') attention?.clear('bets');
   if (tab === 'community' && state.community.tab === 'challenges') attention?.clear('rewards');
@@ -4410,7 +4452,10 @@ $('#match-list').addEventListener('click', (e) => {
   if (statsShortcut) {
     const panel = statsShortcut.closest('.match-card')?.querySelector('.match-explanation');
     if (panel) {
-      if (!panel.open) mobileDiagnostics?.mark('ouverture-analyse');
+      if (!panel.open) {
+        mobileDiagnostics?.mark('ouverture-analyse');
+        syncTrial?.useful('analyse');
+      }
       expandedMatchStats.add(statsShortcut.dataset.matchStats + '-resources');
       panel.open = true;
       statsShortcut.setAttribute('aria-expanded', 'true');
@@ -4835,6 +4880,18 @@ $('#place-bet').addEventListener('click', async () => {
   renderTicket();
 });
 $('#bankroll-guest')?.addEventListener('click', (event) => {
+  if (event.target.closest('[data-guest-sync-dismiss]')) {
+    saveSyncPromptChoice('dismissed');
+    renderHistory();
+    $('#bankroll-guest [data-open-join]')?.focus();
+    return;
+  }
+  if (event.target.closest('[data-guest-sync-start]')) {
+    syncTrial?.intent();
+    saveSyncPromptChoice('intent');
+    openJoin('signup');
+    return;
+  }
   if (event.target.closest('[data-save-guest]')) {
     cloudSave(userStatePayload());
     toast('Sauvegarde de la simulation demandée.');
@@ -4842,6 +4899,7 @@ $('#bankroll-guest')?.addEventListener('click', (event) => {
   }
   if (event.target.closest('[data-open-join]')) {
     mobileDiagnostics?.mark('intention-synchronisation');
+    if (guestWallet.history.length) syncTrial?.intent();
     openJoin('signup');
   }
 });
@@ -5165,6 +5223,11 @@ function ensureAccount() {
         onAuthChange: (authenticated, user) => {
           accountAuthenticated = authenticated;
           accountUserId = user?.id ?? null;
+          if (authenticated && syncPromptChoice === 'intent' && syncPromptDate >= isoDate(-7)) {
+            syncReturnActive = true;
+            saveSyncPromptChoice('completed');
+            setActiveTab('bankroll');
+          }
           inbox?.account(accountUserId);
           let store = null;
           try {
@@ -5206,8 +5269,9 @@ function ensureAccount() {
             }
           }
           if (event === 'EMAIL_CONFIRMED') {
+            syncTrial?.created();
             toast('Adresse confirmée. Bienvenue au Club !');
-            setActiveTab('community', true);
+            if (!syncReturnActive) setActiveTab('community', true);
           } else if (event === 'OAUTH_FAILED')
             setTimeout(() => openJoin('login').then(() => join?.oauthError()), 0);
           else if (event === 'CONFIRMATION_FAILED')
