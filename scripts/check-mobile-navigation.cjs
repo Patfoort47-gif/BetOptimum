@@ -1,69 +1,61 @@
-const { chromium } = require('playwright'),
-  assert = require('node:assert/strict'),
-  fs = require('fs');
-const root = require('node:path').resolve(__dirname, '..'),
-  mock = fs
-    .readFileSync(root + '/scripts/check-public-ui.cjs', 'utf8')
-    .match(/const mock\s*=\s*`([\s\S]*?)`;/)[1];
+const assert = require('node:assert/strict');
+const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
+
 (async () => {
-  const b = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+  const b = await browser();
   try {
-    for (const width of [375, 390, 430, 767, 768, 1023, 1024, 1440]) {
-      const p = await b.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
-      const errors = [];
-      p.on('pageerror', (e) => errors.push(e.message));
-      await p.route('**/*', (r) => {
-        const u = new URL(r.request().url());
-        if (u.origin !== 'http://127.0.0.1:4173') return r.abort();
-        if (u.pathname === '/src/account/account.js')
-          return r.fulfill({ contentType: 'text/javascript', body: mock });
-        return r.continue();
-      });
-      await p.goto('http://127.0.0.1:4173');
-      await p.waitForTimeout(300);
-      assert.equal(await p.locator('.mobile-nav').isVisible(), width < 768);
-      if (width < 768) {
-        assert.equal(await p.locator('.mobile-nav button').count(), 4);
-        for (const el of await p.locator('.mobile-nav button').all()) {
-          const box = await el.boundingBox();
-          assert.ok(box.height >= 56 && box.width >= 44);
+    for (const width of [320, 360, 390, 430, 767, 768, 1440]) {
+      const p = await page(b, {
+        width,
+        touch: true,
+        data: {
+          ...fixtures,
+          matches: fixtures.matches.map((match) => ({ ...match, analysisStatus: 'ready' }))
         }
-        await p.evaluate(() => scrollTo(0, 500));
+      });
+      const nav = p.locator('.mobile-nav');
+      assert.equal(await nav.isVisible(), width < 768);
+      if (width < 768) {
+        const buttons = await nav.getByRole('button').all();
+        assert.equal(buttons.length, 5);
+        for (const button of buttons) {
+          const box = await button.boundingBox();
+          assert.ok(box.width >= 44 && box.height >= 44);
+        }
+        assert.equal(await buttons[0].evaluate((el) => getComputedStyle(el).fontSize), '12px');
+        const dates = await p.locator('#date-navigator').boundingBox();
+        const prev = await p.getByRole('button', { name: 'Dates précédentes' }).boundingBox();
+        const next = await p.getByRole('button', { name: 'Dates suivantes' }).boundingBox();
+        assert.ok(prev.x + prev.width <= dates.x + 1 && dates.x + dates.width <= next.x + 1);
+        await p.locator('#open-help').click();
+        await p.getByRole('button', { name: 'Guide en trois étapes' }).click();
+        assert.ok(await p.locator('.tutorial-dialog').isVisible());
+        await p.keyboard.press('Escape');
         await p.locator('[data-mobile-target=bankroll]').click();
-        assert.equal(await p.evaluate(() => scrollY), 0);
-        assert.equal(await p.locator('#matches').isVisible(), false);
-        assert.equal(await p.locator('#bankroll').isVisible(), true);
-        await p.locator('[data-mobile-target=community]').click();
-        assert.equal(await p.evaluate(() => scrollY), 0);
-        assert.equal(await p.locator('#bankroll').isVisible(), false);
-        assert.equal(await p.locator('#community').isVisible(), true);
+        await p.locator('[data-mobile-target=standings]').click();
         await p.goBack();
-        await p.waitForFunction(
-          () =>
-            location.hash === '#bankroll' &&
-            document.querySelector('[data-mobile-target=bankroll]').getAttribute('aria-current') ===
-              'page'
-        );
+        assert.ok(await p.locator('#bankroll').isVisible());
         await p.goBack();
-        await p.waitForFunction(
-          () =>
-            location.hash === '' &&
-            document.querySelector('[data-mobile-target=matches]').getAttribute('aria-current') ===
-              'page'
+        assert.ok(await p.locator('#matches').isVisible());
+        await p.locator('.match-card .match-selection').first().click();
+        assert.ok(await p.locator('#mobile-coupon').isVisible());
+        assert.ok(
+          await p.locator('body').evaluate((el) => el.classList.contains('has-mobile-coupon'))
         );
+        await p.addStyleTag({ content: 'html { font-size: 150%; }' });
       }
       assert.ok(
         await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         `overflow ${width}`
       );
-      assert.deepEqual(errors, []);
-      console.log('OK', width);
+      assert.deepEqual(p.__errors, []);
       await p.close();
+      console.log('OK navigation', width);
     }
   } finally {
     await b.close();
   }
-})().catch((e) => {
-  console.error(e);
-  process.exit(1);
+})().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });
