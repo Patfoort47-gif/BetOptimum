@@ -52,7 +52,7 @@ export async function mountNotifications(root, { api, html, toast }) {
         feedback =
           result?.queued === false
             ? 'Un test a déjà été demandé pendant cette heure.'
-            : 'Email de test demandé. Il arrivera après le prochain passage du service.';
+            : 'Demande de test mise en file. Vérifiez votre boîte de réception après le prochain passage du service.';
         render();
         toast(feedback);
       } else if (button.matches('[data-unsubscribe]')) {
