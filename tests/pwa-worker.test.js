@@ -26,6 +26,10 @@ test('push : destination limitée au site et clic sur le match', async () => {
     data: { json: () => ({ title: 'EV+', url: 'https://evil.test/' }) },
     waitUntil: (p) => (pending = p)
   });
+  listeners.push({
+    data: { json: () => ({ title: 'EV+', url: 'https://example.test/AutreApp/' }) },
+    waitUntil: (p) => (pending = p)
+  });
   assert.equal(shown.length, 0);
   listeners.push({
     data: {

@@ -44,7 +44,7 @@ function safeSite(siteUrl) {
 export function briefingEmail(b, siteUrl) {
   const site = safeSite(siteUrl),
     href = (hash) => new URL(hash, site).href,
-    profile = href('#profil'),
+    profile = href('#mes-alertes'),
     clock = (iso) =>
       new Date(iso).toLocaleTimeString('fr-FR', {
         timeZone: 'Europe/Paris',
@@ -171,7 +171,7 @@ export function alertEmail({ title, message, url, siteUrl, testing = false }) {
     testing ? 'TEST DE VOS ALERTES' : 'VOTRE ALERTE FOOT',
     [{ title: testing ? 'Votre message de test' : 'Une piste à découvrir', body: message }],
     { label: testing ? 'Gérer mes alertes' : 'Voir l’analyse', url: target.href },
-    testing ? null : new URL('#profil', site).href,
+    testing ? null : new URL('#mes-alertes', site).href,
     null,
     new URL('icons/icon-192x192.png?v=bet387', site).href
   );

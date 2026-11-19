@@ -677,10 +677,17 @@ function useDetails(action) {
       toast('Fiche indisponible : réessayez dans un instant.');
     });
 }
-function openAlertMatch() {
+function openAlertMatch(final = false) {
   if (!pendingAlertMatch) return;
   const match = allMatches().find((item) => item.id === pendingAlertMatch);
-  if (!match) return;
+  if (!match) {
+    if (final) {
+      pendingAlertMatch = null;
+      setActiveTab('matches', true);
+      toast('Ce match n’est plus disponible. Retrouvez les rencontres dans le calendrier.');
+    }
+    return;
+  }
   const id = pendingAlertMatch;
   useDetails((api) => {
     if (pendingAlertMatch !== id) return;
@@ -694,7 +701,10 @@ function openAlertMatch() {
     renderFilters();
     renderMatches();
     document.getElementById(`match-${id}`)?.scrollIntoView({ block: 'start' });
-    api.openMatch(match);
+    api.openMatch(
+      match,
+      new URLSearchParams(location.search).get('vue') === 'stats' ? 'stats' : undefined
+    );
   });
 }
 // Paris certifiés : enregistrés et réglés par le serveur (state.serverBets). Les anciens paris du navigateur (state.legacy) restent consultables « avant saison 1 ».
@@ -3035,7 +3045,7 @@ function applyFixtureData(data, cached = false) {
   updateFreshness();
   render();
   if (calendarDateChanged && activeTab === 'matches') revealActive($('#date-navigator'), false);
-  openAlertMatch();
+  openAlertMatch(!cached);
   if (location.hash === '#conseils-du-jour')
     requestAnimationFrame(() => $('#conseils-du-jour')?.scrollIntoView({ block: 'start' }));
   if (settled)
@@ -3252,7 +3262,9 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     tab === 'profile'
       ? profileTarget && !profileTarget.self
         ? `#joueur-${encodeURIComponent(profileTarget.nickname)}`
-        : '#profil'
+        : profileTarget?.tab === 'notifications'
+          ? '#mes-alertes'
+          : '#profil'
       : tab === 'bankroll'
         ? '#bankroll'
         : tab === 'standings'
@@ -5202,7 +5214,7 @@ readFixtureCache()
 setActiveTab(
   location.hash === '#boutique'
     ? 'shop'
-    : location.hash === '#profil' || location.hash.startsWith('#joueur-')
+    : ['#profil', '#mes-alertes'].includes(location.hash) || location.hash.startsWith('#joueur-')
       ? 'profile'
       : location.hash === '#bankroll'
         ? 'bankroll'
@@ -5215,7 +5227,11 @@ setActiveTab(
               ? 'predictions'
               : 'matches',
   false,
-  profileHash ? { nickname: decodeURIComponent(profileHash[1]), self: false } : null
+  profileHash
+    ? { nickname: decodeURIComponent(profileHash[1]), self: false }
+    : location.hash === '#mes-alertes'
+      ? { self: true, tab: 'notifications' }
+      : null
 );
 render();
 if (typeof window !== 'undefined') {
@@ -5528,10 +5544,18 @@ document.querySelectorAll('[data-open-ticket]').forEach((button) =>
 );
 // Les anciens liens de rubrique fonctionnent aussi sans recharger la page.
 globalThis.addEventListener?.('hashchange', () => {
+  if (location.hash === '#mes-alertes') {
+    setActiveTab('profile', true, { self: true, tab: 'notifications' });
+    return;
+  }
+  if (location.hash === '#profil') {
+    setActiveTab('profile', true);
+    return;
+  }
   const sharedMatch = /^#match-(espn-[0-9]+)$/.exec(location.hash);
   if (sharedMatch) {
     pendingAlertMatch = sharedMatch[1];
-    openAlertMatch();
+    openAlertMatch(fixturesStatus === 'ready' && !fixtureRefresh);
     return;
   }
   const routes = {
