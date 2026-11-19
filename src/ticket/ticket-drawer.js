@@ -51,6 +51,23 @@ export function initTicketDrawer(builder, close) {
     if (media.matches) document.body.append(builder);
     else anchor.after(builder);
   }
+  const viewport = window.visualViewport;
+  function fitViewport() {
+    if (!viewport || !media.matches) {
+      builder.style.removeProperty('--ticket-viewport-height');
+      builder.style.removeProperty('--ticket-viewport-bottom');
+      return;
+    }
+    builder.style.setProperty('--ticket-viewport-height', `${viewport.height * 0.88}px`);
+    builder.style.setProperty(
+      '--ticket-viewport-bottom',
+      `${Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)}px`
+    );
+  }
+  viewport?.addEventListener('resize', fitViewport);
+  viewport?.addEventListener('scroll', fitViewport);
+  media.addEventListener('change', fitViewport);
+  fitViewport();
   media.addEventListener('change', layout);
   layout();
 }

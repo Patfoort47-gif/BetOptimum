@@ -40,7 +40,12 @@ import { copyBetSelections } from './src/ticket/copy-bet.js';
 import { UI_COPY, applyUiCopy } from './src/core/ui-copy.js';
 import { initMetricHelp } from './src/matches/metric-help.js?v=bet194';
 import { initHeaderOffset } from './src/core/layout-offset.js';
-import { adjustStake, stakeIssue, percentageStake } from './src/ticket/stake-controls.js';
+import {
+  adjustStake,
+  stakeCents,
+  stakeIssue,
+  percentageStake
+} from './src/ticket/stake-controls.js';
 import {
   quoteAvailable,
   dailyQuoteAvailable,
@@ -1975,13 +1980,15 @@ function renderStakeControls(locked) {
     feedback = $('#stake-feedback');
   if (feedback)
     feedback.textContent =
-      issue === 'precision'
-        ? 'Indiquez une mise valide, avec deux décimales au maximum.'
-        : issue === 'minimum'
-          ? 'La mise minimale est de 1 €. Ajoutez un montant avant de confirmer.'
-          : issue === 'balance'
-            ? 'Le total engagé dépasse votre bankroll disponible. Réduisez la mise.'
-            : '';
+      issue === 'precision' && !$('#stake').value?.trim()
+        ? 'Indiquez une mise avant de confirmer.'
+        : issue === 'precision'
+          ? 'Indiquez une mise valide, avec deux décimales au maximum.'
+          : issue === 'minimum'
+            ? 'La mise minimale est de 1 €. Ajoutez un montant avant de confirmer.'
+            : issue === 'balance'
+              ? 'Le total engagé dépasse votre bankroll disponible. Réduisez la mise.'
+              : '';
   $('#stake').setAttribute?.('aria-invalid', String(Boolean(issue)));
   return issue;
 }
@@ -2060,6 +2067,13 @@ function renderTicket() {
     multiple = state.betMode === 'multiple',
     single = state.betMode === 'single',
     independent = single;
+  const empty = $('#ticket-empty'),
+    controls = $('#ticket-controls');
+  const showEmpty = !state.ticket.length && !locked;
+  const restoreFocus = showEmpty && controls?.contains?.(document.activeElement);
+  if (empty) empty.hidden = !showEmpty;
+  if (controls) controls.hidden = showEmpty;
+  if (restoreFocus) $('#ticket-calendar')?.focus();
   box.innerHTML = state.ticket.length
     ? state.ticket
         .map(
@@ -2070,7 +2084,7 @@ function renderTicket() {
     : emptyState('ticket');
   const combinedOdds = state.ticket.reduce((p, x) => p * x.odd, 1),
     target = Number($('#target-odds').value),
-    stake = Math.max(0, Number($('#stake').value) || 0),
+    stake = Math.max(0, (stakeCents($('#stake').value) ?? 0) / 100 || 0),
     formula = $('#system-formula')?.value ?? 'auto',
     lines = multiple ? systemLines(state.ticket, formula) : [],
     validSystem = multiple && lines.length > 0,
@@ -2975,8 +2989,8 @@ function setBuilderDrawer(open) {
     if (!wasOpen) drawerReturnFocus = document.activeElement;
     builder.setAttribute('role', 'dialog');
     builder.setAttribute('aria-modal', 'true');
-    builder.setAttribute('aria-labelledby', 'ticket-title');
-    $('#close-builder').focus({ preventScroll: true });
+    builder.setAttribute('aria-labelledby', 'ticket-tab');
+    if (!wasOpen) $('#close-builder').focus({ preventScroll: true });
   } else {
     builder.removeAttribute?.('role');
     builder.removeAttribute?.('aria-modal');
@@ -4379,6 +4393,13 @@ $('#clear-ticket').addEventListener('click', () => {
   renderTicket();
   toast('Ticket vidé');
 });
+$('#ticket-calendar')?.addEventListener('click', () => {
+  setBuilderDrawer(false);
+  setActiveTab('matches');
+  const calendar = $('#date-navigator');
+  calendar?.scrollIntoView({ behavior: motionBehavior(), block: 'start' });
+  calendar?.querySelector('[aria-current="date"], button')?.focus({ preventScroll: true });
+});
 $('#close-builder').addEventListener('click', () => setBuilderDrawer(false));
 function shareTicket(bet) {
   return import('./src/ticket/ticket-share.js?v=bet261')
@@ -4388,7 +4409,7 @@ function shareTicket(bet) {
 function currentShareTicket() {
   return {
     items: state.ticket.map((item) => ({ ...item })),
-    stake: Number($('#stake').value),
+    stake: (stakeCents($('#stake').value) ?? 0) / 100,
     betType: state.betMode,
     formula: $('#system-formula').value,
     systemLines:
@@ -4396,7 +4417,8 @@ function currentShareTicket() {
         ? systemLines(state.ticket, $('#system-formula').value).map((line) => ({
             ...line,
             stake:
-              Number($('#stake').value) /
+              (stakeCents($('#stake').value) ?? 0) /
+              100 /
               systemLines(state.ticket, $('#system-formula').value).length
           }))
         : []
@@ -4445,7 +4467,7 @@ $('#place-bet').addEventListener('click', async () => {
     return;
   }
   const button = $('#place-bet'),
-    stake = Number($('#stake').value),
+    stake = (stakeCents($('#stake').value) ?? 0) / 100,
     single = state.betMode === 'single',
     multiple = state.betMode === 'multiple',
     totalStake = stake * (single ? state.ticket.length : 1);

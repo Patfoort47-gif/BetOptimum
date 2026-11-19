@@ -1887,7 +1887,8 @@ dialog[open] {
     bottom: 0;
     z-index: 50;
     display: flex !important;
-    max-height: 88dvh;
+    max-height: var(--ticket-viewport-height, 88dvh);
+    bottom: var(--ticket-viewport-bottom, 0px);
     padding: 56px 12px calc(12px + env(safe-area-inset-bottom));
     overflow-y: auto;
     border: 1px solid var(--line-strong);
