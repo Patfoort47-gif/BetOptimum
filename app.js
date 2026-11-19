@@ -484,6 +484,8 @@ const loadJson = createJsonLoader(),
   mobileDiagnostics = createMobileDiagnostics(),
   markFixtureNetwork = mobileDiagnostics && ((phase) => mobileDiagnostics.mark('reseau-' + phase));
 let lastFixturesText = null,
+  fixtureRefresh = null,
+  lastFixtureRequestAt = -Infinity,
   archiveLoadedAt = 0,
   archiveStatus = 'loading',
   archivePromise = null;
@@ -1401,6 +1403,7 @@ function renderMatches() {
       Date.now(),
       new Set(matches.filter(isLive).map((match) => match.id))
     )?.id;
+  renderFixtureNotice();
   const today = isoDate(0),
     showTodayEmpty =
       fixtureDataLoaded && state.dateFilter === today && !matches.length && !hasMatchFilters(),
@@ -1455,7 +1458,7 @@ function renderMatches() {
           center = m.completed
             ? `<div class="final-score"><strong>${html(m.homeScore)} : ${html(m.awayScore)}</strong><small>Score officiel</small></div>`
             : live
-              ? `<div class="live-score"><span class="live-badge"><i></i>En direct · ${html(live.clock)}</span><strong>${html(live.home)} : ${html(live.away)}</strong><small class="live-updated" data-live-updated="${html(m.id)}">Mis à jour ${liveAge(live.updatedAt)}</small></div>`
+              ? `<div class="live-score"><span class="live-badge"><i></i>${state.liveErrors[m.id] ? 'Direct momentanément indisponible' : `En direct · ${html(live.clock)}`}</span><strong>${html(live.home)} : ${html(live.away)}</strong><small class="live-updated" data-live-updated="${html(m.id)}">Mis à jour ${liveAge(live.updatedAt)}</small></div>`
               : `<div class="kickoff"><small>${dayLabel}</small><strong>${html(m.time)}</strong>${state.liveErrors[m.id] ? '<small class="live-error">Direct ESPN momentanément indisponible</small>' : ''}</div>`,
           probs = m.completed
             ? ''
@@ -2630,7 +2633,7 @@ function settlePendingBets(results) {
 function applyFixtureData(data, cached = false) {
   if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
   fixtureDataLoaded = true;
-  fixturesStatus = 'ready';
+  if (!cached || fixturesStatus !== 'error') fixturesStatus = 'ready';
   state.liveMatches = data.matches.map((match) => ({
     ...match,
     analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
@@ -2719,9 +2722,44 @@ async function loadPredictionArchive(force = false) {
   })();
   return archivePromise;
 }
-async function loadLiveFixtures() {
+function loadLiveFixtures() {
+  if (fixtureRefresh) return fixtureRefresh;
+  lastFixtureRequestAt = Date.now();
+  fixtureRefresh = refreshFixtures().finally(() => {
+    fixtureRefresh = null;
+  });
+  return fixtureRefresh;
+}
+function renderFixtureNotice() {
+  const notice = $('#fixture-network-notice');
+  if (!notice) return;
+  notice.hidden = fixturesStatus !== 'error' || !fixtureDataLoaded;
+  if (notice.hidden) return;
+  const dates = {
+    calendar: state.feedDates?.calendar,
+    scores: state.feedDates?.scores,
+    odds: state.oddsUpdatedAt
+  };
+  const parts = [
+    'Actualisation impossible. Dernières données disponibles',
+    `calendrier ${sourceFreshness(dates?.calendar, 'calendar').label}`,
+    `scores ${sourceFreshness(dates?.scores, 'scores').label}`,
+    `cotes ${sourceFreshness(dates?.odds, 'odds').label}`
+  ];
+  const text = parts.join(' · ') + '.';
+  const status = notice.querySelector('p');
+  if (status.textContent !== text) status.textContent = text;
+}
+function resumeFixtures() {
+  if (!document.hidden && Date.now() - lastFixtureRequestAt >= 60000) loadLiveFixtures();
+}
+async function refreshFixtures() {
   const source = $('#data-source');
   try {
+    if (!fixtureDataLoaded && fixturesStatus === 'error') {
+      fixturesStatus = 'loading';
+      renderMatches();
+    }
     const data = await loadJson('data/fixtures.json', markFixtureNetwork ?? undefined),
       text = JSON.stringify(data);
     if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
@@ -2742,6 +2780,7 @@ async function loadLiveFixtures() {
     } else {
       updateFreshness();
       source.innerHTML = lastFixturesSource;
+      renderFixtureNotice();
     }
     loadPredictionArchive();
     lastFixturesSource = source.innerHTML;
@@ -2757,6 +2796,7 @@ async function loadLiveFixtures() {
         'Calendrier indisponible : utilisez Réessayer pour relancer le chargement.';
       render();
     }
+    renderFixtureNotice();
   }
 }
 let lastFixturesSource = '';
@@ -2935,10 +2975,23 @@ function renderLiveUpdates({ changed, finished }) {
   } else tickCountdowns();
   details?.refreshLive?.();
 }
-async function pollLive() {
-  if (document.hidden) return;
-  const candidates = liveCandidates();
-  if (!candidates.length) return;
+const liveBackoff = new Map();
+let livePoll,
+  lastLivePollAt = -Infinity;
+function pollLive() {
+  if (document.hidden || globalThis.navigator?.onLine === false || livePoll) return;
+  const now = Date.now();
+  if (now - lastLivePollAt < 20000) return;
+  const active = liveCandidates(),
+    ids = new Set(active.map((match) => match.id));
+  for (const id of liveBackoff.keys()) if (!ids.has(id)) liveBackoff.delete(id);
+  const due = active.filter((match) => (liveBackoff.get(match.id)?.retryAt ?? 0) <= now);
+  if (due.length) {
+    lastLivePollAt = now;
+    livePoll = fetchLiveScores(due).finally(() => (livePoll = null));
+  }
+}
+async function fetchLiveScores(candidates) {
   const requests = new Map(),
     json = (path) => {
       if (!requests.has(path))
@@ -2967,11 +3020,17 @@ async function pollLive() {
       try {
         const entry = await read(match);
         if (!entry) throw new Error('Match ESPN absent');
+        liveBackoff.delete(match.id);
         const update = recordLiveEntry(match, entry);
         changed = changed || update.changed;
         finished += update.finished;
       } catch (error) {
         if (!state.liveErrors[match.id]) changed = true;
+        const failures = (liveBackoff.get(match.id)?.failures ?? 0) + 1;
+        liveBackoff.set(match.id, {
+          failures,
+          retryAt: Date.now() + 20000 * 2 ** Math.min(failures, 3)
+        });
         state.liveErrors[match.id] = Date.now();
         console.warn(`Direct indisponible pour ${match.id}`, error);
       }
@@ -3952,6 +4011,9 @@ $('#competition-options').addEventListener('click', (e) => {
   );
   active?.focus();
 });
+$('#matches')?.addEventListener('click', (event) => {
+  if (event.target.closest('[data-retry-matches]')) loadLiveFixtures();
+});
 $('#match-list').addEventListener('click', (e) => {
   const form = e.target.closest('[data-team-form]');
   if (form) {
@@ -3959,10 +4021,6 @@ $('#match-list').addEventListener('click', (e) => {
       (e.target.closest('[data-form-info]') ?? form.querySelector('[data-form-info]:last-child'))
         .dataset.formInfo
     );
-    return;
-  }
-  if (e.target.closest('[data-retry-matches]')) {
-    loadLiveFixtures();
     return;
   }
   if (e.target.closest('[data-reset-matches]')) {
@@ -4699,11 +4757,16 @@ if (typeof window !== 'undefined') {
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
       pollLive();
-      loadLiveFixtures();
+      resumeFixtures();
     }
   });
   addEventListener('pageshow', pollLive);
-  addEventListener('online', pollLive);
+  addEventListener('online', () => {
+    liveBackoff.clear();
+    lastLivePollAt = -Infinity;
+    pollLive();
+    if (!document.hidden) loadLiveFixtures();
+  });
   setupScroller($('#date-navigator'));
   setupScroller($('#filters'));
   setupScroller($('#standings-leagues'));
@@ -4717,7 +4780,7 @@ if (typeof window !== 'undefined') {
   setInterval(
     () => {
       if (document.hidden) return;
-      loadLiveFixtures();
+      resumeFixtures();
       if (accountAuthenticated && state.serverReady) {
         accountApi?.refreshServer();
         refreshFeedDot();

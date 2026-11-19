@@ -441,6 +441,21 @@ body #matches .match-strip {
   padding-block: 4px;
 }
 
+body .fixture-network-notice {
+  margin-block: 8px;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+}
+
+body .fixture-network-notice p {
+  margin: 0 0 8px;
+}
+
+body .fixture-network-notice button {
+  min-height: 44px;
+}
+
 body .match-card,
 body .match-card.spotlight {
   padding: clamp(10px, 1.5vw, 16px);

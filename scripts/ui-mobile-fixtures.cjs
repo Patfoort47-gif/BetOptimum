@@ -2,7 +2,7 @@
 const fs = require('node:fs'),
   path = require('node:path'),
   { chromium } = require('playwright');
-const base = 'http://127.0.0.1:4173',
+const base = process.env.BET_TEST_ORIGIN || 'http://127.0.0.1:4173',
   root = path.resolve(__dirname, '..'),
   mock = fs
     .readFileSync(path.join(root, 'scripts/check-public-ui.cjs'), 'utf8')
@@ -58,7 +58,8 @@ async function page(
     delay = null,
     storage = null,
     failure = null,
-    touch = false
+    touch = false,
+    init = null
   } = {}
 ) {
   const p = await b.newPage({
@@ -77,6 +78,7 @@ async function page(
     },
     { dark, logged, storage, failure }
   );
+  if (init) await p.addInitScript(init);
   await p.route('**/*', async (r) => {
     const u = new URL(r.request().url());
     if (u.origin !== base) return r.abort();
