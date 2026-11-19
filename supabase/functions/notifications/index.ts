@@ -35,7 +35,8 @@ const env = Object.fromEntries(
     'VAPID_PRIVATE_KEY',
     'VAPID_SUBJECT',
     'RESEND_API_KEY',
-    'EMAIL_FROM'
+    'EMAIL_FROM',
+    'EMAIL_REPLY_TO'
   ].map((k) => [k, Deno.env.get(k) ?? ''])
 );
 let site: URL | null = null;
