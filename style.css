@@ -1782,3 +1782,57 @@ body :is(.model-curve, .analytics-svg, .calibration-plot) text:not(.viz-peak tex
   fill: #64748b;
   stroke: none;
 }
+
+body .match-card .match-header-stats {
+  font-size: 0.875rem;
+}
+
+body .match-card .selection-summary {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+body .selection-summary .selection-title {
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+body .selection-summary dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+}
+
+body .selection-summary dt {
+  color: var(--muted);
+}
+
+body .selection-summary dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+body .match-card .selection-summary .match-selection {
+  display: inline-flex;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: var(--on-accent);
+  background: var(--accent);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+body .match-card .selection-summary .match-selection.selected {
+  color: var(--text);
+  background: var(--surface-2);
+}
