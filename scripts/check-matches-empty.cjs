@@ -44,8 +44,8 @@ const date = (offset) =>
         assert.ok(await q.locator('#daily-selection').isVisible());
         await q.locator('[data-filter=Favoris]').click();
         assert.equal(await q.locator('#daily-selection').isVisible(), false);
-        assert.equal(await q.locator('#match-list .guided-empty').innerHTML(), common);
-        await q.locator('[data-empty-upcoming-matches]').click();
+        assert.match(await q.locator('#match-list .guided-empty').innerText(), /Aucun résultat/);
+        await q.locator('[data-reset-matches]').click();
         assert.ok(await q.locator('#daily-selection').isVisible());
         assert.equal(await q.locator('.match-card').count(), 2);
         assert.deepEqual(q.__errors, []);
@@ -70,7 +70,7 @@ const date = (offset) =>
     await loading.locator('.match-card').first().waitFor();
     await loading.close();
     const failed = await page(b, { network: true });
-    await failed.locator('[data-retry-matches]').waitFor();
+    await failed.locator('#match-list [data-retry-matches]').waitFor();
     assert.equal(await failed.locator('#match-list .guided-empty').count(), 0);
     assert.equal(await failed.locator('#daily-selection').isVisible(), false);
     await failed.close();

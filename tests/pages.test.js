@@ -41,8 +41,9 @@ test('la publication contient les modules différés, styles et données, sans t
     const preview = JSON.parse(index.match(/id="calendar-preview">([^<]+)<\/script>/)[1]);
     const fixtures = JSON.parse(await readFile(new URL('data/fixtures.json', out), 'utf8'));
     assert.match(fixtures.fixtureVersion, /^[a-f0-9]{64}$/);
-    assert.ok(preview.length > 0);
-    assert.ok(preview.every((match) => match.id && match.date && !('odds' in match)));
+    assert.equal(preview.generatedAt, fixtures.generatedAt);
+    assert.ok(preview.matches.length > 0);
+    assert.ok(preview.matches.every((match) => match.id && match.date && !('odds' in match)));
     assert.ok(
       (await readdir(new URL('data/offers/', out))).some((name) => name.endsWith('.json')),
       'au moins un fichier d’offres publié'

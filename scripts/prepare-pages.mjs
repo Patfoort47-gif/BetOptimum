@@ -78,7 +78,7 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
     index.replace(
       '</body>',
       () =>
-        `<script type="application/json" id="calendar-preview">${JSON.stringify(preview).replaceAll('<', '\\u003c')}</script>\n</body>`
+        `<script type="application/json" id="calendar-preview">${JSON.stringify({ matches: preview, generatedAt: fixtures.generatedAt, scoresUpdatedAt: fixtures.scoresUpdatedAt, oddsRefreshedAt: fixtures.oddsRefreshedAt }).replaceAll('<', '\\u003c')}</script>\n</body>`
     )
   );
   await (
