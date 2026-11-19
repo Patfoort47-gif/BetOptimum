@@ -10,13 +10,13 @@ async function run() {
       month: '2-digit',
       day: '2-digit'
     }).format(Date.now() + 86400000);
-    const matches = Array.from({ length: 101 }, (_, i) => ({
+    const matches = Array.from({ length: 105 }, (_, i) => ({
       ...fixtures.matches[i % 2],
       analysisStatus: 'ready',
       id: 'espn-' + (i + 1),
-      ...(i === 100
+      ...(i === 103
         ? { date: tomorrow, home: 'Équipe de demain' }
-        : i > 0
+        : i === 104
           ? { date: '2099-01-01' }
           : {})
     }));
@@ -26,7 +26,8 @@ async function run() {
       data: { ...fixtures, matches },
       init: () => {
         window.Worker = class {
-          postMessage() {
+          postMessage(matches) {
+            window.sentDates = [...new Set(matches.map((match) => match.date))];
             window.resumeAnalysis = () => this.onerror();
           }
           terminate() {}
@@ -34,6 +35,7 @@ async function run() {
       }
     });
     await p.waitForFunction(() => typeof window.resumeAnalysis === 'function');
+    assert.deepEqual(await p.evaluate(() => window.sentDates), [fixtures.matches[0].date]);
     const during = await p.evaluate((day) => {
       const hasMarkets = Boolean(document.querySelector('#match-list [data-market]'));
       document.querySelector(`[data-date="${day}"]`).click();

@@ -52,6 +52,7 @@ import { marketCard } from './src/matches/market-card.js?v=bet191';
 import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet194';
 import { historyReport, historyCard } from './src/history/bet-history.js';
 import { createJsonLoader } from './src/core/data-loader.js';
+import { createMobileDiagnostics } from './src/core/mobile-diagnostics.js';
 import {
   readFixtureCache,
   writeFixtureCache,
@@ -479,7 +480,9 @@ function updateRewardAttention(data) {
   );
   renderAttention();
 }
-const loadJson = createJsonLoader();
+const loadJson = createJsonLoader(),
+  mobileDiagnostics = createMobileDiagnostics(),
+  markFixtureNetwork = mobileDiagnostics && ((phase) => mobileDiagnostics.mark('reseau-' + phase));
 let lastFixtureVersion = null,
   fixtureRefresh = null,
   fixturePreview = null,
@@ -1207,16 +1210,15 @@ function renderDateNavigator() {
       })
       .join('')}`;
 }
+const matchesCurrentFilters = (match) =>
+  inPeriod(match) &&
+  (!state.selectedLeagues.length || state.selectedLeagues.includes(match.league)) &&
+  (state.filter !== 'Favoris' ||
+    state.favoriteLeagues.includes(match.league) ||
+    state.favoriteTeams.includes(match.home) ||
+    state.favoriteTeams.includes(match.away));
 function visibleMatches() {
-  const matches = calendarMatches().filter(
-    (m) =>
-      inPeriod(m) &&
-      (!state.selectedLeagues.length || state.selectedLeagues.includes(m.league)) &&
-      (state.filter !== 'Favoris' ||
-        state.favoriteLeagues.includes(m.league) ||
-        state.favoriteTeams.includes(m.home) ||
-        state.favoriteTeams.includes(m.away))
-  );
+  const matches = calendarMatches().filter(matchesCurrentFilters);
   const spotlight = fixturePreview
       ? null
       : selectSpotlight(matches, Date.now(), new Set(matches.filter(isLive).map((m) => m.id)))?.id,
@@ -1415,6 +1417,7 @@ function renderMatches() {
         })
         .join('') || matchListEmpty()
     );
+    mobileDiagnostics?.mark(matches.length ? 'calendrier-apercu' : 'calendrier-vide', true);
     return;
   }
   const spotlight = selectSpotlight(
@@ -1480,6 +1483,10 @@ function renderMatches() {
       })
       .join('') || matchListEmpty()
   );
+  if (mobileDiagnostics && fixtureDataLoaded) {
+    mobileDiagnostics.mark(matches.length ? 'calendrier-match' : 'calendrier-vide', true);
+    mobileDiagnostics.markOnce('calendrier-enrichi');
+  }
   document.querySelectorAll('#match-list .match-secondary').forEach((section) => {
     if (watchedStats.has(section)) return;
     watchedStats.add(section);
@@ -2618,15 +2625,16 @@ function settlePendingBets(results) {
   if (settled) persist();
   return settled;
 }
+const withAnalysisStatus = (match) => ({
+  ...match,
+  analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
+});
 function applyFixtureData(data, cached = false) {
   if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
   fixturePreview = null;
   fixtureDataLoaded = true;
   fixturesStatus = 'ready';
-  state.liveMatches = data.matches.map((match) => ({
-    ...match,
-    analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
-  }));
+  state.liveMatches = data.matches.map(withAnalysisStatus);
   if (!betAttempt?.busy && !betAttempt?.uncertain)
     state.ticket = state.ticket.filter((item) => {
       const match = allMatches().find((m) => m.id === item.matchId);
@@ -2737,10 +2745,10 @@ async function showFixturePreview(matches) {
 const fixtureVersion = (data) => data.fixtureVersion ?? JSON.stringify(data);
 function prepareFixtureAnalyses(data, version) {
   if (!fixtureAnalyses.has(version)) {
-    const matches = data.matches.map((match) => ({
-      ...match,
-      analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
-    }));
+    const matches =
+      activeTab === 'matches'
+        ? matchesWithBookmakers(data.matches).filter(matchesCurrentFilters).map(withAnalysisStatus)
+        : [];
     fixtureAnalyses.set(
       version,
       prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(version))
@@ -2751,14 +2759,16 @@ function prepareFixtureAnalyses(data, version) {
 async function refreshFixtures() {
   const source = $('#data-source');
   try {
-    const data = await loadJson('data/fixtures.json');
+    const data = await loadJson('data/fixtures.json', markFixtureNetwork ?? undefined);
     if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
     const version = fixtureVersion(data);
     fixturesStatus = 'ready';
     if (version !== lastFixtureVersion) {
       writeFixtureCache(data);
       if (!fixturePreview) await showFixturePreview(matchesWithBookmakers(data.matches));
+      markFixtureNetwork?.('analyse-debut');
       await prepareFixtureAnalyses(data, version);
+      markFixtureNetwork?.('analyse-fin');
       applyFixtureData(data);
       restoreSharedTicket();
       lastFixtureVersion = version;
@@ -2791,6 +2801,8 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     profileTarget = { self: true };
   }
   const changedTab = activeTab !== tab;
+  if (changedTab && scroll && (tab === 'bankroll' || tab === 'predictions'))
+    mobileDiagnostics?.mark('consultation-resultats');
   activeTab = tab;
   if (tab === 'bankroll') attention?.clear('bets');
   if (tab === 'community' && state.community.tab === 'challenges') attention?.clear('rewards');
@@ -3946,6 +3958,7 @@ $('#filters').addEventListener('click', (e) => {
     state.favoriteLeagues = state.favoriteLeagues.includes(name)
       ? state.favoriteLeagues.filter((item) => item !== name)
       : [...state.favoriteLeagues, name];
+    if (state.favoriteLeagues.includes(name)) mobileDiagnostics?.mark('ajout-favori');
     persist();
     renderFilters();
     renderMatches();
@@ -3993,6 +4006,7 @@ $('#match-list').addEventListener('click', (e) => {
     state.favoriteTeams = state.favoriteTeams.includes(name)
       ? state.favoriteTeams.filter((item) => item !== name)
       : [...state.favoriteTeams, name];
+    if (state.favoriteTeams.includes(name)) mobileDiagnostics?.mark('ajout-favori');
     persist();
     renderFilters();
     renderMatches();
@@ -4026,6 +4040,7 @@ $('#match-list').addEventListener('click', (e) => {
   if (statsShortcut) {
     const panel = statsShortcut.closest('.match-card')?.querySelector('.match-explanation');
     if (panel) {
+      if (!panel.open) mobileDiagnostics?.mark('ouverture-analyse');
       expandedMatchStats.add(statsShortcut.dataset.matchStats + '-resources');
       panel.open = true;
       statsShortcut.setAttribute('aria-expanded', 'true');
@@ -4039,9 +4054,11 @@ $('#match-list').addEventListener('click', (e) => {
   }
   const more = e.target.closest('[data-details]');
   if (more) {
-    useDetails((api) =>
-      api.openMatch(allMatches().find((match) => match.id === more.dataset.details))
-    );
+    useDetails((api) => {
+      const match = allMatches().find((item) => item.id === more.dataset.details);
+      if (match) mobileDiagnostics?.mark('ouverture-analyse');
+      return api.openMatch(match);
+    });
     return;
   }
   const team = e.target.closest('[data-team-id]');
@@ -4441,7 +4458,10 @@ $('#bankroll-guest')?.addEventListener('click', (event) => {
     toast('Sauvegarde de la simulation demandée.');
     return;
   }
-  if (event.target.closest('[data-open-join]')) openJoin('signup');
+  if (event.target.closest('[data-open-join]')) {
+    mobileDiagnostics?.mark('intention-synchronisation');
+    openJoin('signup');
+  }
 });
 $('#community-profile-button')?.addEventListener('click', () => {
   if (!accountAuthenticated) {
@@ -4635,8 +4655,11 @@ clearLegacyFixtureCache();
 readFixtureCache()
   .then(async (cached) => {
     if (!Array.isArray(cached?.matches) || fixtureDataLoaded) return;
+    mobileDiagnostics?.mark('cache-lu');
     await showFixturePreview(matchesWithBookmakers(cached.matches));
-    if (cached.matches.length > 100) await prepareFixtureAnalyses(cached, fixtureVersion(cached));
+    mobileDiagnostics?.mark('cache-analyse-debut');
+    await prepareFixtureAnalyses(cached, fixtureVersion(cached));
+    mobileDiagnostics?.mark('cache-analyse-fin');
     if (!fixtureDataLoaded) applyFixtureData(cached, true);
   })
   .catch(() => {});

@@ -1,7 +1,7 @@
 // Revalidation mutualisée, bornée même si le transport ignore l'annulation.
 export function createJsonLoader(fetcher = (...args) => fetch(...args), { timeoutMs = 8000 } = {}) {
   const pending = new Map();
-  return function load(url) {
+  return function load(url, mark) {
     if (pending.has(url)) return pending.get(url);
     const controller = new AbortController();
     let timer;
@@ -13,10 +13,19 @@ export function createJsonLoader(fetcher = (...args) => fetch(...args), { timeou
       timer.unref?.();
     });
     const transport = Promise.resolve()
-      .then(() => fetcher(url, { cache: 'no-cache', signal: controller.signal }))
+      .then(() => {
+        mark?.('requete');
+        return fetcher(url, { cache: 'no-cache', signal: controller.signal });
+      })
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
+        if (!mark) return response.json();
+        return response.text().then((body) => {
+          mark('corps-recu');
+          const data = JSON.parse(body);
+          mark('json-parse');
+          return data;
+        });
       });
     const request = Promise.race([transport, timeout]).finally(() => {
       clearTimeout(timer);

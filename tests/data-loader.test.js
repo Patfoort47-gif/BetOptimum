@@ -74,3 +74,15 @@ test('BET-342 : transport et décodage bloqués expirent, annulent et permettent
     }
   }
 });
+
+test('BET-370 : une requête partagée marque une seule fois la réception et le parsing', async () => {
+  const marks = [];
+  const load = createJsonLoader(async () => ({ ok: true, text: async () => '{"matches":[]}' }));
+  const first = load('calendrier', (phase) => marks.push(phase));
+  assert.equal(
+    first,
+    load('calendrier', (phase) => marks.push(phase))
+  );
+  assert.deepEqual(await first, { matches: [] });
+  assert.deepEqual(marks, ['requete', 'corps-recu', 'json-parse']);
+});
