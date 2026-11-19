@@ -69,7 +69,7 @@ test('BET-349 : bilan exact, doublons exclus et données manquantes explicites',
   const email = briefingEmail(b, 'https://example.com/');
   for (const body of [email.html, email.text]) {
     assert.match(body, /Indice Global du jour : \d+\/100/);
-    assert.match(body, /Value \+/);
+    assert.match(body, /Avantage estimé \+/);
     assert.match(body, /Probabilités du modèle/);
     assert.match(body, /321,55/);
     assert.match(body, /Bilan de la veille/);
