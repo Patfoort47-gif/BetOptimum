@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="styles.css?v=bet126">
   <link rel="stylesheet" href="styles/details.css?v=bet126">
   <link rel="stylesheet" href="styles/components.css?v=bet261">
-  <link rel="stylesheet" href="style.css?v=nuit1">
+  <link rel="stylesheet" href="style.css?v=dataviz1">
 <link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png"></head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
   <svg id="emblems" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -71,9 +71,17 @@
         <div class="hero-actions"><button class="button ghost" data-tutorial-launch>Guide d’utilisation</button><button class="button ghost" data-open-tab="predictions">Résultats du modèle</button><button class="button ghost" id="quick-combo" data-copy="quickCompose">Générer un combiné</button></div>
       </div>
       <button class="hero-score" id="hero-confidence" aria-label="Comprendre l’indice global du jour">
-        <small>INDICE GLOBAL DU JOUR</small>
-        <svg class="gauge" viewBox="0 0 200 110" aria-hidden="true"><defs><linearGradient id="confidence-gradient"><stop offset="0%" stop-color="var(--live)"/><stop offset="50%" stop-color="var(--info)"/><stop offset="100%" stop-color="var(--accent-text)"/></linearGradient></defs><path class="gauge-track" d="M20 100A80 80 0 0 1 180 100"/><path class="gauge-fill" d="M20 100A80 80 0 0 1 180 100" stroke-dasharray="0 400"/></svg>
-        <span class="score"><span id="hero-confidence-score">-</span><small>/100</small></span>
+        <span class="gauge-face">
+          <svg class="gauge" viewBox="0 0 200 110" aria-hidden="true">
+            <defs>
+              <linearGradient id="confidence-gradient"><stop stop-color="#38BDF8"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+              <linearGradient id="confidence-gradient-low"><stop stop-color="#F43F5E"/><stop offset="100%" stop-color="#F59E0B"/></linearGradient>
+            </defs>
+            <path class="gauge-track" d="M16 101A84 84 0 0 1 184 101" stroke-linecap="round"/>
+            <path class="gauge-fill" d="M16 101A84 84 0 0 1 184 101" pathLength="100" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="100"/>
+          </svg>
+          <span class="gauge-reading"><small>INDICE GLOBAL DU JOUR</small><span class="score"><span id="hero-confidence-score">-</span><small>/100</small></span><span class="gauge-caption">Forme et confiance du jour</span></span>
+        </span>
         <span class="hero-score-parts"><span><b id="hero-confidence-form">-</b><small>FORME · 75 %</small><em id="hero-confidence-form-detail">Chargement</em></span><span><b id="hero-confidence-today">-</b><small>CONFIANCE DU JOUR · 25 %</small><em id="hero-confidence-today-detail">Chargement</em></span></span>
         <u>Comment est-il calculé ?</u>
       </button>
@@ -139,7 +147,7 @@
               <button type="button" data-stake-action="reset">Réinitialiser</button><button type="button" id="manual-stake">Saisie manuelle</button>
             </div>
             <p id="stake-feedback" class="stake-feedback" role="status" aria-live="polite"></p>
-            <small id="stake-advice">Mise conseillée : -</small>
+            <div id="stake-advice"><span id="stake-advice-note">Mise conseillée :</span> <strong id="stake-advice-value">-</strong> <small id="stake-advice-context" hidden></small></div>
           </div>
           <span id="league-toggle" hidden><input type="checkbox" id="counts-league" checked hidden><span id="league-note"></span></span>
           <div class="league-list" id="league-list" hidden></div>
@@ -360,6 +368,6 @@
   <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
   <p id="pipeline-health" role="status" class="section-subtitle" hidden></p>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=nuit1"></script>
+  <script type="module" src="app.js?v=dataviz1"></script>
 </body>
 </html>

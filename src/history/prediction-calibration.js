@@ -1,3 +1,4 @@
+import { smoothChartPath } from '../core/chart-path.js';
 import { decimal } from '../core/number-format.js';
 import { predictionOddsSource } from './prediction-provenance.js';
 const eligible = (row) =>
@@ -130,15 +131,28 @@ export function evaluateCalibration(history) {
 export function renderCalibration(history) {
   const report = calibrationReport(history),
     pct = (n) => `${decimal(n * 100, 1)} %`,
-    bins = report.bins.filter((bin) => bin.count);
+    bins = report.bins.filter((bin) => bin.count),
+    xOf = (bin) => 45 + bin.announced * 320,
+    yOf = (bin) => 230 - bin.observed * 210,
+    segments = [];
+  for (const [index, bin] of bins.entries()) {
+    if (index === 0 || bin.lower - bins[index - 1].upper > 0.001) segments.push([]);
+    segments.at(-1).push([xOf(bin), yOf(bin)]);
+  }
+  const peak = bins.reduce(
+    (highest, bin) => (!highest || bin.observed > highest.observed ? bin : highest),
+    null
+  );
+  const badgeX = peak ? Math.max(78, Math.min(330, xOf(peak))) : 78;
+  const badgeY = peak ? Math.max(2, yOf(peak) - 28) : 2;
   return `<h3>Calibration des probabilités</h3><p>La probabilité annoncée est comparée à la fréquence de réussite observée, par tranches de 10 points, sur les résultats filtrés. Une bonne calibration rapproche les points de la diagonale. Les intervalles à 95 % et les effectifs rendent l’incertitude visible.</p>${
     !report.count
       ? '<p>Aucune probabilité exploitable pour ces filtres.</p>'
-      : `<p>${report.count} pronostics · Brier binaire : ${decimal(report.brier, 4)} (0 est idéal) · annoncé ${pct(report.announced)} · observé ${pct(report.observed)}. ${report.excluded} probabilité(s) invalide(s) exclue(s).</p><svg viewBox="0 0 400 280" role="img" aria-labelledby="calibration-title calibration-desc" style="display:block;width:100%;height:auto;max-width:600px;stroke:none;font-size:14px"><title id="calibration-title">Probabilité annoncée contre réussite observée</title><desc id="calibration-desc">Axe horizontal : annoncé, de 0 à 100 %. Axe vertical : observé, de 0 à 100 %. Le tableau suivant donne toutes les valeurs et les intervalles à 95 %.</desc><path d="M45 20V230H365" fill="none" stroke="currentColor"/><path d="M45 230L365 20" fill="none" stroke="currentColor" stroke-dasharray="5 5"/><text x="45" y="250" fill="currentColor">0 %</text><text x="320" y="250" fill="currentColor">100 %</text><text x="8" y="25" fill="currentColor">100</text><text x="8" y="230" fill="currentColor">0</text><text x="150" y="275" fill="currentColor">Annoncé (%)</text>${bins
+      : `<p>${report.count} pronostics · Brier binaire : ${decimal(report.brier, 4)} (0 est idéal) · annoncé ${pct(report.announced)} · observé ${pct(report.observed)}. ${report.excluded} probabilité(s) invalide(s) exclue(s).</p><svg class="calibration-plot" viewBox="0 0 400 280" role="img" aria-labelledby="calibration-title calibration-desc"><title id="calibration-title">Probabilité annoncée contre réussite observée</title><desc id="calibration-desc">Axe horizontal : annoncé, de 0 à 100 %. Axe vertical : observé, de 0 à 100 %. Le tableau suivant donne toutes les valeurs et les intervalles à 95 %.</desc><defs><linearGradient id="calibration-line"><stop stop-color="#38BDF8"/><stop offset="1" stop-color="#10B981"/></linearGradient></defs>${[20, 72.5, 125, 177.5, 230].map((y) => `<line x1="45" x2="365" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}<path d="M45 230L365 20" fill="none" stroke="var(--muted)" stroke-opacity=".45" stroke-dasharray="5 5"/>${segments.map((segment) => `<path d="${smoothChartPath(segment, 0.45)}" class="viz-line" fill="none" stroke="url(#calibration-line)"/>`).join('')}${peak ? `<g class="viz-peak" aria-hidden="true"><path d="M${xOf(peak)},${yOf(peak)} V230"/><rect x="${badgeX - 34}" y="${badgeY}" width="68" height="21" rx="6"/><text x="${badgeX}" y="${badgeY + 14}" text-anchor="middle">${pct(peak.observed)}</text></g>` : ''}<text x="45" y="250" fill="currentColor">0 %</text><text x="320" y="250" fill="currentColor">100 %</text><text x="8" y="25" fill="currentColor">100</text><text x="8" y="230" fill="currentColor">0</text><text x="150" y="275" fill="currentColor">Annoncé (%)</text>${bins
           .map((bin) => {
-            const x = 45 + bin.announced * 320,
-              y = 230 - bin.observed * 210;
-            return `<path d="M${x} ${230 - bin.interval[0] * 210}V${230 - bin.interval[1] * 210}" stroke="currentColor"/><circle cx="${x}" cy="${y}" r="5" fill="var(--accent-text)"><title>${pct(bin.announced)} annoncés, ${pct(bin.observed)} observés, ${bin.count} résultats</title></circle>`;
+            const x = xOf(bin),
+              y = yOf(bin);
+            return `<path d="M${x} ${230 - bin.interval[0] * 210}V${230 - bin.interval[1] * 210}" stroke="currentColor"/><circle cx="${x}" cy="${y}" r="6" fill="var(--accent-text)" data-viz-value="${pct(bin.announced)} annoncés, ${pct(bin.observed)} observés, ${bin.count} résultats"/>`;
           })
           .join(
             ''

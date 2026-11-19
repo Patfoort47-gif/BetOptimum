@@ -27,6 +27,7 @@ export function initMetricHelp() {
   tip.setAttribute('popover', 'manual');
   tip.hidden = true;
   document.body.append(tip);
+  const selector = '[data-metric-help],[data-viz-value]';
   let trigger = null,
     showTimer,
     hideTimer,
@@ -38,7 +39,7 @@ export function initMetricHelp() {
     clearTimeout(expiryTimer);
     if (trigger) {
       trigger.removeAttribute('aria-describedby');
-      trigger.setAttribute('aria-expanded', 'false');
+      if (trigger.hasAttribute('data-metric-help')) trigger.setAttribute('aria-expanded', 'false');
     }
     if (tip.hidePopover && tip.matches(':popover-open')) tip.hidePopover();
     tip.hidden = true;
@@ -62,15 +63,15 @@ export function initMetricHelp() {
   const open = (button, pin = false) => {
     clearTimeout(showTimer);
     clearTimeout(hideTimer);
-    const info = METRIC_HELP[button.dataset.metricHelp];
-    if (!info) return;
+    const text = button.dataset.vizValue ?? METRIC_HELP[button.dataset.metricHelp]?.text;
+    if (!text) return;
     if (trigger && trigger !== button) close();
     trigger = button;
     pinned = pin;
-    tip.textContent = info.text;
+    tip.textContent = text;
     tip.hidden = false;
     button.setAttribute('aria-describedby', tip.id);
-    button.setAttribute('aria-expanded', 'true');
+    if (button.hasAttribute('data-metric-help')) button.setAttribute('aria-expanded', 'true');
     if (tip.showPopover && !tip.matches(':popover-open')) tip.showPopover();
     place();
     clearTimeout(expiryTimer);
@@ -86,7 +87,7 @@ export function initMetricHelp() {
       clearTimeout(hideTimer);
       return;
     }
-    const button = event.target.closest('[data-metric-help]');
+    const button = event.target.closest(selector);
     if (button && !button.contains(event.relatedTarget)) {
       clearTimeout(hideTimer);
       showTimer = setTimeout(() => open(button), 200);
@@ -98,14 +99,14 @@ export function initMetricHelp() {
     if (trigger?.contains(event.target) || tip.contains(event.target)) laterClose();
   });
   document.addEventListener('focusin', (event) => {
-    const button = event.target.closest('[data-metric-help]');
+    const button = event.target.closest(selector);
     if (button) open(button);
   });
   document.addEventListener('focusout', (event) => {
     if (trigger?.contains(event.target)) laterClose();
   });
   document.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-metric-help]');
+    const button = event.target.closest(selector);
     if (button) {
       event.preventDefault();
       if (trigger === button && pinned) close();
