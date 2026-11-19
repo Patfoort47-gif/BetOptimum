@@ -54,6 +54,16 @@ self.addEventListener('fetch', (event) => {
     })()
   );
 });
+function notificationTarget(value) {
+  const scope = new URL(self.registration.scope);
+  try {
+    const url = new URL(value ?? scope.href, scope);
+    if (url.origin === scope.origin && url.pathname.startsWith(scope.pathname)) return url;
+  } catch {
+    // Un ancien message peut contenir une destination devenue invalide.
+  }
+  return null;
+}
 self.addEventListener('push', (event) => {
   let payload;
   try {
@@ -62,8 +72,8 @@ self.addEventListener('push', (event) => {
     return;
   }
   if (!payload?.title || (payload.expiresAt && Date.parse(payload.expiresAt) <= Date.now())) return;
-  const url = new URL(payload.url ?? self.registration.scope, self.registration.scope);
-  if (url.origin !== self.location.origin) return;
+  const url = notificationTarget(payload.url);
+  if (!url) return;
   event.waitUntil(
     self.registration.showNotification(String(payload.title).slice(0, 120), {
       body: String(payload.body ?? '').slice(0, 1000),
@@ -77,17 +87,24 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(
     (async () => {
-      const url = new URL(
-        event.notification.data?.url ?? self.registration.scope,
-        self.registration.scope
-      );
-      if (url.origin !== self.location.origin) return;
-      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-      const client = clients.find((c) => c.url.startsWith(self.registration.scope));
+      const url =
+        notificationTarget(event.notification.data?.url) ?? new URL(self.registration.scope);
+      const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      const client =
+        windows.find((item) => item.url === url.href) ??
+        windows.find((item) => notificationTarget(item.url));
       if (client) {
-        await client.navigate(url.href);
-        await client.focus();
-      } else await self.clients.openWindow(url.href);
+        try {
+          const target = client.url === url.href ? client : await client.navigate(url.href);
+          if (target) {
+            await target.focus();
+            return;
+          }
+        } catch {
+          // Si la fenêtre a été fermée entre-temps, ouvrir la destination.
+        }
+      }
+      await self.clients.openWindow(url.href);
     })()
   );
 });

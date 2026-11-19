@@ -73,7 +73,7 @@ test('les échecs de fournisseurs sont isolés, temporisés ou marqués incertai
     env,
     async (url, init) => {
       assert.equal(init.headers['Idempotency-Key'], 'bet-notification-2');
-      assert.ok(JSON.parse(init.body).text.includes('#profil'));
+      assert.ok(JSON.parse(init.body).text.includes('#mes-alertes'));
       return new Response('{}');
     }
   );
@@ -94,7 +94,7 @@ test('le test email utilise Resend, une destination confirmée et un lien vers l
       assert.deepEqual(body.to, ['confirmed@example.com']);
       assert.match(body.subject, /test.*email/);
       assert.match(body.text, /aucun pronostic réel/);
-      assert.ok(body.text.includes('https://example.com/bet/#profil'));
+      assert.ok(body.text.includes('https://example.com/bet/#mes-alertes'));
       assert.ok(!body.text.includes('#match-test'));
       return Response.json({ id: 'message-id' });
     }

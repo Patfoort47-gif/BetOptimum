@@ -91,7 +91,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
           : result
             ? '#bankroll'
             : testing
-              ? '#profil'
+              ? '#mes-alertes'
               : `#match-${encodeURIComponent(event.match_id)}`,
       site
     ).href,
