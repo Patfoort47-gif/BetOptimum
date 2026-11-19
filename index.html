@@ -54,7 +54,7 @@
       <button class="tab-button active" data-tab="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button><button class="tab-button" data-tab="predictions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Résultats du modèle</button><button class="tab-button" data-tab="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
     </nav>
     <div class="topbar-actions">
-      <span class="algorithm-status" title="Algorithme d’optimisation • Temps réel"><span class="algorithm-status-full">Algorithme d’optimisation • Temps réel</span><span class="algorithm-status-compact">Temps réel</span></span>
+      <span class="algorithm-status" title="Scores en direct selon disponibilité. Calendrier et cotes actualisés séparément."><span class="algorithm-status-full">Scores en direct</span><span class="algorithm-status-compact">Scores</span></span>
       <div class="topbar-bankroll"><small>BANKROLL DISPONIBLE</small><span class="bankroll-amount"><span class="bankroll-currency" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14"/><path d="M22 9a8 8 0 1 0 0 14M7 13h13M7 18h11"/></svg></span><strong id="topbar-bankroll">1 000,00 €</strong></span></div>
       <button class="icon-button inbox-button" id="open-inbox" hidden aria-label="Notifications" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5zM10 20h4"/></svg><b></b></button>
 <button class="icon-button" id="open-help" aria-label="Aide et lexique" title="Aide et lexique"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5v.01"/></svg></button>
@@ -107,6 +107,10 @@
             <div class="section-meta"><span class="section-subtitle" id="match-count" role="status" aria-live="polite"></span><button class="help-inline" data-help="value" aria-label="Comprendre les cotes et la value">?</button><span class="freshness-badge" id="odds-freshness">Cotes : synchronisation en cours…</span></div>
             <details class="data-details"><summary>Détails des données</summary><p class="data-source" role="status" aria-live="polite" id="data-source"><span class="source-dot loading"></span> Chargement du calendrier officiel…</p><p id="odds-data-detail" class="data-source"></p></details>
           </div>
+        </div>
+        <div id="fixture-network-notice" class="fixture-network-notice" hidden>
+          <p role="status"></p>
+          <button type="button" class="button secondary" data-retry-matches>Réessayer</button>
         </div>
         <div class="scroller date-scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Dates précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="date-navigator" id="date-navigator" role="group" aria-label="Choisir une période"></div><button class="scroll-btn next" data-scroll="1" aria-label="Dates suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
         <div class="scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Compétitions précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="filters" id="filters" role="group" aria-label="Filtrer les compétitions"></div><button class="scroll-btn next" data-scroll="1" aria-label="Compétitions suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>

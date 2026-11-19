@@ -69,7 +69,7 @@ const date = (offset) =>
     await loading.locator('.match-card').first().waitFor();
     await loading.close();
     const failed = await page(b, { network: true });
-    await failed.locator('[data-retry-matches]').waitFor();
+    await failed.locator('#match-list [data-retry-matches]').waitFor();
     assert.equal(await failed.locator('#match-list .guided-empty').count(), 0);
     assert.equal(await failed.locator('#daily-selection').isVisible(), false);
     await failed.close();
