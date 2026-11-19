@@ -7,16 +7,16 @@ export const reducedMotion = () =>
 const accent = () => {
   try {
     return (
-      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#C8F03C'
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#10b981'
     );
   } catch {
-    return '#C8F03C';
+    return '#10b981';
   }
 };
 const palette = (colors) => [
   ...(Array.isArray(colors) ? colors.filter(Boolean) : []),
   accent(),
-  '#F4F7F2'
+  '#f8fafc'
 ];
 const random = (min, max) => min + Math.random() * (max - min);
 const pick = (list) => list[Math.floor(Math.random() * list.length)];
@@ -120,7 +120,7 @@ const EFFECTS = {
               vy: Math.sin(angle) * speed,
               life: 0,
               max: random(0.8, 1.3),
-              c: Math.random() < 0.2 ? '#F4F7F2' : r.c
+              c: Math.random() < 0.2 ? '#f8fafc' : r.c
             });
           }
         }

@@ -1,4 +1,4 @@
-import { smoothChartPath } from './src/core/chart-path.js';
+import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
 import { teamLogoMarkup } from './src/matches/team-logos.js';
@@ -749,7 +749,15 @@ function renderHomePerformance() {
   if (!box) return;
   const r = predictionReport(state.predictionHistory, { period: 'all' });
   box.innerHTML = archiveLoadedAt
-    ? `<div><dt>ROI global</dt><dd>${r.roi == null ? 'Indisponible' : decimal(r.roi, 1) + ' %'}</dd></div><div><dt>Profit simulé</dt><dd>${r.items.length ? money(r.profit) : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${r.items.length}</dd></div>`
+    ? kpiCard('ROI global', r.roi == null ? 'Indisponible' : decimal(r.roi, 1) + ' %', {
+        tone: financialTone(r.roi),
+        caption: 'Tout l’historique'
+      }) +
+      kpiCard('Profit simulé', r.items.length ? money(r.profit) : 'Indisponible', {
+        tone: financialTone(r.profit),
+        caption: '10 € fictifs par pronostic'
+      }) +
+      kpiCard('Pronostics réglés', r.items.length, { caption: 'Tout l’historique' })
     : '';
   $('#home-performance-status').textContent = archiveLoadedAt
     ? archiveStatus === 'error'
@@ -767,8 +775,10 @@ function renderConfidenceKpi() {
     percent = (value) => (value == null ? '-' : `${Math.round(value * 100)}`),
     score = percent(metrics.score),
     form = percent(metrics.form),
-    today = percent(metrics.todayConfidence),
-    gauge = $('#hero-confidence .gauge-fill');
+    today = percent(metrics.todayConfidence);
+  const face = $('#hero-confidence .gauge-face');
+  if (!$('#hero-confidence .gauge-fill')) face?.insertAdjacentHTML('afterbegin', gaugeArc());
+  const gauge = $('#hero-confidence .gauge-fill');
   $('#hero-confidence-score').textContent = score;
   $('#hero-confidence-form').textContent = form === '-' ? '-' : `${form} %`;
   $('#hero-confidence-today').textContent = today === '-' ? '-' : `${today} %`;
@@ -1600,8 +1610,8 @@ function renderPerformance() {
       30 + (index / (values.length - 1)) * 640,
       190 - ((value - min) / range) * 150
     ]),
-    line = smoothChartPath(points);
-  svg.innerHTML = `<defs><linearGradient id="bankroll-fill" x2="0" y2="1"><stop stop-color="#10B981" stop-opacity=".25"/><stop offset="1" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs>${[40, 115, 190].map((y) => `<line x1="30" x2="670" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}<path d="${line} L670,190 L30,190 Z" fill="url(#bankroll-fill)" stroke="none"/><path d="${line}" class="viz-line" fill="none" stroke="var(--info)"/>`;
+    line = vizCurve(points, { baseline: 190, id: 'bankroll-fill' });
+  svg.innerHTML = `${[40, 115, 190].map((y) => `<line x1="30" x2="670" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}${line}`;
   $('#chart-max').textContent = money(max);
   $('#chart-min').textContent = money(min);
 }

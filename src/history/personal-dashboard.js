@@ -1,4 +1,4 @@
-import { smoothChartPath } from '../core/chart-path.js';
+import { financialTone, kpiCard, vizBar, vizBarGradient, vizCurve } from '../core/design-viz.js';
 import { emptyState } from '../core/empty-state.js';
 import { sparkline } from '../core/sparkline.js';
 import { mountBankrollExport } from './bankroll-export.js';
@@ -75,17 +75,32 @@ export function dashboardCharts(data) {
     range = max - min || 1,
     x = (i) => 20 + (i / Math.max(1, points.length - 1)) * 600,
     y = (v) => 180 - ((v - min) / range) * 160,
-    line = smoothChartPath(points.map((p, i) => [x(i), y(Number(p.balance))])),
+    line = vizCurve(
+      points.map((p, i) => [x(i), y(Number(p.balance))]),
+      {
+        baseline: 180,
+        id: 'personal-net-fill',
+        color: values.at(-1) < 0 ? 'var(--danger)' : 'var(--accent)'
+      }
+    ),
     limit = Math.max(1, ...bars.map((b) => Math.abs(Number(b.net))));
   const dates = (first, last) =>
     `<div class="chart-labels"><span>${date(first)}</span><span>${date(last)}</span></div>`;
-  return `<section class="dashboard-charts" aria-label="Performance certifiée filtrée"><article class="card"><h3>Résultat net cumulé</h3><p>Tickets correspondant aux filtres, cumulés par date de règlement. Apports et paris en attente exclus.</p>${curve.length ? `<div class="chart-labels"><span>Maximum : ${money(max)}</span><span>Minimum : ${money(min)}</span></div><svg class="viz-plot" viewBox="0 0 640 200" preserveAspectRatio="none" role="img" aria-label="Résultat net cumulé : ${money(points.at(-1).balance)}"><title>Résultat net cumulé</title><defs><linearGradient id="personal-net-fill" x2="0" y2="1"><stop stop-color="#10B981" stop-opacity=".25"/><stop offset="1" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs>${[20, 100, 180].map((y) => `<line x1="20" x2="620" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}<line x1="20" y1="${y(0)}" x2="620" y2="${y(0)}" class="viz-zero"/><path d="${line} L620,180 L20,180 Z" fill="url(#personal-net-fill)" stroke="none"/><path d="${line}" class="viz-line" fill="none" stroke="var(--accent)" vector-effect="non-scaling-stroke"/>${points.map((p, i) => `<circle cx="${x(i)}" cy="${y(Number(p.balance))}" r="5" fill="var(--accent-text)" data-viz-value="${date(p.day)} : ${money(p.balance)} · variation ${money(p.delta)}"/>`).join('')}</svg>${dates(points[0].day, points.at(-1).day)}<p class="chart-total">Résultat net : <strong>${money(points.at(-1).balance)}</strong></p><details><summary>Valeurs exactes par jour</summary><ul>${curve.map((p) => `<li>${date(p.day)} : ${money(p.balance)} · variation ${money(p.delta)}</li>`).join('')}</ul></details>` : '<p>Aucun résultat réglé pour ces filtres. La courbe apparaîtra après votre premier résultat certifié correspondant aux filtres.</p>'}</article><article class="card"><h3>Résultats de mes paris</h3><p>Résultat net par ${[7, 30].includes(data.days) ? 'semaine' : 'mois'} de règlement, pour les tickets filtrés. Les paris en attente sont exclus.</p>${
+  return `<section class="dashboard-charts" aria-label="Performance certifiée filtrée"><article class="card"><h3>Résultat net cumulé</h3><p>Tickets correspondant aux filtres, cumulés par date de règlement. Apports et paris en attente exclus.</p>${curve.length ? `<div class="chart-labels"><span>Maximum : ${money(max)}</span><span>Minimum : ${money(min)}</span></div><svg class="viz-plot" viewBox="0 0 640 200" preserveAspectRatio="none" role="img" aria-label="Résultat net cumulé : ${money(points.at(-1).balance)}"><title>Résultat net cumulé</title>${[20, 100, 180].map((y) => `<line x1="20" x2="620" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}<line x1="20" y1="${y(0)}" x2="620" y2="${y(0)}" class="viz-zero"/>${line}${points.map((p, i) => `<circle cx="${x(i)}" cy="${y(Number(p.balance))}" r="10" class="viz-hit" data-viz-value="${date(p.day)} : ${money(p.balance)} · variation ${money(p.delta)}"/>`).join('')}</svg>${dates(points[0].day, points.at(-1).day)}<p class="chart-total">Résultat net : <strong>${money(points.at(-1).balance)}</strong></p><details><summary>Valeurs exactes par jour</summary><ul>${curve.map((p) => `<li>${date(p.day)} : ${money(p.balance)} · variation ${money(p.delta)}</li>`).join('')}</ul></details>` : '<p>Aucun résultat réglé pour ces filtres. La courbe apparaîtra après votre premier résultat certifié correspondant aux filtres.</p>'}</article><article class="card"><h3>Résultats de mes paris</h3><p>Résultat net par ${[7, 30].includes(data.days) ? 'semaine' : 'mois'} de règlement, pour les tickets filtrés. Les paris en attente sont exclus.</p>${
     bars.length
-      ? `<div class="chart-labels"><span>Échelle : ± ${money(limit)}</span><span>Ligne centrale : 0 €</span></div><svg class="viz-plot" viewBox="0 0 640 200" preserveAspectRatio="none" role="img" aria-label="Résultats nets par période"><line x1="20" y1="100" x2="620" y2="100" class="viz-zero"/>${bars
+      ? `<div class="chart-labels"><span>Échelle : ± ${money(limit)}</span><span>Ligne centrale : 0 €</span></div><svg class="viz-plot" viewBox="0 0 640 200" preserveAspectRatio="none" role="img" aria-label="Résultats nets par période">${vizBarGradient('personal-bars')}<line x1="20" y1="100" x2="620" y2="100" class="viz-zero"/>${bars
           .map((b, i) => {
             const w = 600 / bars.length,
               h = (Math.abs(Number(b.net)) / limit) * 80;
-            return `<rect x="${20 + i * w + 2}" y="${Number(b.net) >= 0 ? 100 - h : 100}" width="${Math.max(1, w - 4)}" height="${h || 1}" fill="${Number(b.net) >= 0 ? 'var(--accent-text)' : 'var(--danger)'}" data-viz-value="${date(b.period)} · mises ${money(b.staked)} · retours ${money(b.returned)} · net ${money(b.net)}"/>`;
+            return vizBar({
+              x: 20 + w * (i + 0.5),
+              y: Number(b.net) >= 0 ? 100 - h : 100,
+              width: Math.max(1, w - 4),
+              height: h || 1,
+              tone: Number(b.net) >= 0 ? 'gain' : 'loss',
+              prefix: 'personal-bars',
+              attrs: `data-viz-value="${date(b.period)} · mises ${money(b.staked)} · retours ${money(b.returned)} · net ${money(b.net)}"`
+            });
           })
           .join(
             ''
@@ -121,16 +136,25 @@ export function initPersonalDashboard({ api, root, getContext = () => ({}) }) {
   function figures(data) {
     const kpis = dashboardKpis(data.summary);
     $('#personal-kpis').innerHTML = kpis
-      .map(
-        ([label, value]) =>
-          `<div><dt>${label}${label === 'ROI' ? '<button type="button" class="metric-help" data-metric-help="roi" aria-label="Comprendre ROI">?</button>' : ''}</dt><dd>${value}${label === 'Bénéfice net' ? sparkline((data.curve ?? []).map((point) => point.balance)) : ''}</dd></div>`
+      .map(([label, value], index) =>
+        kpiCard(label, value, {
+          tone: index ? financialTone(value) : '',
+          caption: index === 0 ? 'Solde disponible' : value === '-' ? '' : 'Période sélectionnée',
+          help:
+            label === 'ROI'
+              ? '<button type="button" class="metric-help" data-metric-help="roi" aria-label="Comprendre ROI">?</button>'
+              : '',
+          detail:
+            label === 'Bénéfice net'
+              ? sparkline((data.curve ?? []).map((point) => point.balance))
+              : ''
+        })
       )
       .join('');
     const scope = $('#history-period').selectedOptions?.[0]?.textContent ?? 'Période sélectionnée';
     $('#personal-kpi-period').textContent =
       `ROI et bénéfice net : ${scope.toLowerCase()}, selon les filtres. Capital : solde disponible global actuel.`;
-    const markup = (figures) =>
-      figures.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('');
+    const markup = (figures) => figures.map(([label, value]) => kpiCard(label, value)).join('');
     $('#personal-summary').innerHTML = markup(dashboardEssentialFigures(data.summary));
     $('#personal-secondary').innerHTML = markup(
       dashboardFigures(data.summary).filter(
