@@ -58,7 +58,7 @@ export function initTicketDrawer(builder, close) {
       builder.style.removeProperty('--ticket-viewport-bottom');
       return;
     }
-    builder.style.setProperty('--ticket-viewport-height', `${viewport.height * 0.88}px`);
+    builder.style.setProperty('--ticket-viewport-height', `${viewport.height * 0.85}px`);
     builder.style.setProperty(
       '--ticket-viewport-bottom',
       `${Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)}px`
