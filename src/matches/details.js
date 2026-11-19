@@ -229,7 +229,7 @@ function tabsFor() {
   if (ctx.isLive(m) || (started && !m.completed))
     return [['stats', 'Stats'], ['feed', 'Fil du match'], ...base];
   if (m.completed) return [['stats', 'Stats'], ['feed', 'Fil du match'], ...base];
-  return base;
+  return [...base, ['stats', 'Stats du match']];
 }
 function renderTabs() {
   document.querySelector('#detail-tabs').innerHTML = tabsFor()
@@ -243,16 +243,15 @@ async function renderBody() {
   const current = view,
     token = ++renderToken;
   if (!current) return;
+  const body = document.querySelector('#detail-body');
+  if (!body.innerHTML || body.dataset.tab !== current.tab) body.innerHTML = loading;
+  body.dataset.tab = current.tab;
   if (current.type === 'match' && !current.ids) {
     await resolveIds(current);
     if (token !== renderToken || view !== current || !dialog.open) return;
     renderHead();
   }
-  const body = document.querySelector('#detail-body'),
-    builder = current.type === 'team' ? TEAM_TABS[current.tab] : MATCH_TABS[current.tab];
-  if (!body.innerHTML || !body.dataset.tab || body.dataset.tab !== current.tab)
-    body.innerHTML = loading;
-  body.dataset.tab = current.tab;
+  const builder = current.type === 'team' ? TEAM_TABS[current.tab] : MATCH_TABS[current.tab];
   let html;
   try {
     html = await builder();
@@ -653,12 +652,13 @@ async function cupRun(league) {
 // Détail du match
 const MATCH_TABS = {
   async lineup() {
-    const data = await summary(),
-      m = view.match,
+    const m = view.match,
+      ids = { home: sideId('home'), away: sideId('away') },
+      data = await summary(),
       sides = ['home', 'away'].map((side) => ({
         side,
         id:
-          sideId(side) ??
+          ids[side] ??
           data.header?.competitions?.[0]?.competitors?.find((c) => c.homeAway === side)?.team?.id,
         name: m[side],
         logo: m[`${side}Logo`]
@@ -759,31 +759,39 @@ const MATCH_TABS = {
     return `<dl class="info-list"><div><dt>Coup d'envoi</dt><dd>${frDate(ctx.kickoffAt(m), { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}</dd></div><div><dt>Stade</dt><dd>${venue ? `${esc(venue.fullName)}${venue.address?.city ? `, ${esc(venue.address.city)}` : ''}${venue.address?.country ? ` (${esc(venue.address.country)})` : ''}` : 'Non communiqué'}</dd></div><div><dt>Compétition</dt><dd>${esc(m.league)}</dd></div></dl><div class="two-cols"><div><h4 class="table-title">Forme de ${esc(m.home)}</h4>${form('home')}</div><div><h4 class="table-title">Forme de ${esc(m.away)}</h4>${form('away')}</div></div><p class="sheet-note">Du plus ancien au plus récent (à droite), toutes compétitions confondues. Les blessures, les suspensions et l'entraîneur ne sont pas fournis par notre source.</p>`;
   },
   async stats() {
-    const data = await summary(),
-      m = view.match,
-      teams = ['home', 'away'].map(
-        (side) =>
-          data.boxscore?.teams?.find((t) => t.team?.id === String(sideId(side))) ??
-          data.boxscore?.teams?.[side === 'home' ? 0 : 1]
+    const m = view.match,
+      ids = ['home', 'away'].map(sideId),
+      data = await summary(),
+      teams = ids.map((id) =>
+        data.boxscore?.teams?.find((team) => String(team.team?.id) === String(id))
       ),
-      get = (team, name) => team?.statistics?.find((s) => s.name === name);
-    if (!teams.every((t) => get(t, 'possessionPct')))
-      return unavailable("Les statistiques apparaîtront au coup d'envoi.");
-    return `<div class="live-stats">${STATS.map(([name, label, unit]) => {
+      get = (team, name) => team?.statistics?.find((stat) => stat.name === name),
+      value = (stat) => {
+        const raw = stat?.value ?? stat?.displayValue;
+        return raw == null || raw === '' ? NaN : Number(String(raw).replace(/%$/, ''));
+      };
+    const rows = STATS.flatMap(([name, label, unit]) => {
       const a = get(teams[0], name),
-        b = get(teams[1], name);
-      if (!a || !b) return '';
-      const va = Number(a.value ?? a.displayValue) || 0,
-        vb = Number(b.value ?? b.displayValue) || 0,
-        share = va + vb ? (va / (va + vb)) * 100 : 50,
-        show = (s, v) =>
+        b = get(teams[1], name),
+        va = value(a),
+        vb = value(b);
+      if (!Number.isFinite(va) || !Number.isFinite(vb)) return [];
+      const share = va + vb ? (va / (va + vb)) * 100 : 50,
+        show = (stat, number) =>
           unit === '%'
-            ? `${Math.round(v <= 1 && name === 'passPct' ? v * 100 : v)} %`
-            : esc(s.displayValue ?? v);
-      return `<div class="live-stat"><div class="live-stat-values"><strong>${show(a, va)}</strong><span>${label}</span><strong>${show(b, vb)}</strong></div><div class="live-stat-bar"><i style="width:${share}%"></i><i style="width:${100 - share}%"></i></div></div>`;
-    }).join(
-      ''
-    )}</div><p class="sheet-note">Buts attendus (xG) : non fournis par notre source.${ctx.isLive(m) ? ' Mise à jour toutes les 30 secondes.' : ''}</p>`;
+            ? `${Math.round(number <= 1 && name === 'passPct' ? number * 100 : number)} %`
+            : esc(stat.displayValue ?? number);
+      return [
+        `<div class="live-stat"><div class="live-stat-values"><strong>${show(a, va)}</strong><span>${label}</span><strong>${show(b, vb)}</strong></div><div class="live-stat-bar"><i style="width:${share}%"></i><i style="width:${100 - share}%"></i></div></div>`
+      ];
+    });
+    if (!rows.length)
+      return unavailable(
+        Date.now() < ctx.kickoffAt(m)
+          ? "Les statistiques de jeu sont publiées après le coup d'envoi. La forme et les compositions sont accessibles dans les autres onglets."
+          : 'Les statistiques de jeu sont indisponibles auprès d’ESPN pour cette rencontre.'
+      );
+    return `<div class="live-stats"><div class="live-stat-values"><strong>${esc(m.home)}</strong><span>Statistiques ESPN</span><strong>${esc(m.away)}</strong></div>${rows.join('')}</div>${ctx.isLive(m) ? '<p class="sheet-note">Mise à jour toutes les 30 secondes.</p>' : ''}`;
   },
   async feed() {
     const data = await summary(),
@@ -951,7 +959,7 @@ export async function openTeam(team) {
     tab: 'squad'
   });
 }
-export function openMatch(match) {
+export function openMatch(match, tab) {
   if (!String(match?.id).startsWith('espn-') || !slugOf(match.league)) {
     ctx.toast('Détails indisponibles pour ce match');
     return;
@@ -959,10 +967,7 @@ export function openMatch(match) {
   open({
     type: 'match',
     match,
-    tab:
-      ctx.isLive(match) || (Date.now() >= ctx.kickoffAt(match) && !match.completed)
-        ? 'stats'
-        : 'insights'
+    tab: tab ?? (ctx.isLive(match) || Date.now() >= ctx.kickoffAt(match) ? 'stats' : 'insights')
   });
 }
 
