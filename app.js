@@ -553,6 +553,25 @@ let cloudSave = () => {},
   lastSharedTicket = null,
   join = null;
 const profileHash = /^#joueur-(.+)$/.exec(location.hash);
+const hasAccountCallback = () =>
+  [new URLSearchParams(location.search), new URLSearchParams(location.hash.slice(1))].some(
+    (params) =>
+      ['access_token', 'refresh_token', 'error', 'error_code', 'code', 'token_hash'].some((key) =>
+        params.has(key)
+      )
+  );
+function hasStoredSession() {
+  try {
+    for (let index = 0; index < localStorage.length; index++) {
+      if (/^sb-.+-auth-token$/.test(localStorage.key(index))) return true;
+    }
+  } catch {}
+  return false;
+}
+const knownAccountSession = hasStoredSession();
+const accountCallbackOnLoad = hasAccountCallback();
+let accountPromise = null,
+  detailStyles = null;
 const joinOnLoad = location.hash === '#rejoindre',
   challengesOnLoad = location.hash === '#challenges';
 let pendingAlertMatch = /^#match-(espn-[0-9]+)$/.exec(location.hash)?.[1] ?? null;
@@ -571,11 +590,34 @@ function captureCalendarPosition(matchId) {
       });
     });
 }
+function loadDetailStyles() {
+  const before = $('#components-style');
+  if (!before) return Promise.resolve();
+  return (detailStyles ??= new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/details.css?v=bet379';
+    link.addEventListener('load', resolve, { once: true });
+    link.addEventListener(
+      'error',
+      () => {
+        link.remove();
+        detailStyles = null;
+        reject(new Error('Styles des fiches indisponibles'));
+      },
+      { once: true }
+    );
+    before.before(link);
+  }));
+}
 function ensureDetails() {
   if (!detailsPromise)
-    detailsPromise = import('./src/matches/details.js?v=fiches-8')
+    detailsPromise = Promise.all([
+      import('./src/matches/details.js?v=fiches-8'),
+      loadDetailStyles()
+    ])
       .then(
-        (module) =>
+        ([module]) =>
           (details = module.initDetails({
             allMatches,
             logoTag,
@@ -2491,9 +2533,12 @@ async function openProfile(target) {
       host.innerHTML =
         '<div class="profile-loading" role="status" aria-live="polite"><div class="skeleton" style="height:96px"></div><p>Chargement du profil…</p></div>';
   }
-  if (!accountApi) {
+  if (!accountApi && !(await ensureAccount())) {
+    const host = $('#profile-page');
+    if (host) host.textContent = 'Profil indisponible. Revenez au calendrier puis réessayez.';
     return;
   }
+  if (activeTab !== 'profile') return;
   if (!profilePage) {
     const [module, model] = await Promise.all([
       import('./src/account/profile.js?v=profil-bet310'),
@@ -2606,10 +2651,8 @@ const joinTeams = () => {
 };
 async function openJoin(mode = 'login') {
   rememberTicket();
-  if (!accountApi) {
-    toast(
-      'Le service de comptes est indisponible ou en cours de chargement. Les analyses et le bilan restent accessibles. Réessayez dans un instant.'
-    );
+  if (!accountApi && !(await ensureAccount())) {
+    toast('Le service de comptes est indisponible. Réessayez dans un instant.');
     return;
   }
   if (accountApi.configured === false) {
@@ -3063,7 +3106,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
               : tab === 'matches' && location.hash === '#conseils-du-jour'
                 ? location.hash
                 : '';
-  if (!/^#(?:access_token=|error=|error_code=)/.test(location.hash)) {
+  if (!hasAccountCallback()) {
     if (typeof history !== 'undefined')
       history[historyMode === 'push' && location.hash !== hash ? 'pushState' : 'replaceState'](
         null,
@@ -4548,6 +4591,10 @@ $('#share-confirmed-ticket')?.addEventListener('click', () => {
   if (lastSharedTicket) shareTicket(lastSharedTicket);
 });
 $('#place-bet').addEventListener('click', async () => {
+  if ((knownAccountSession || accountCallbackOnLoad) && !accountApi && !(await ensureAccount())) {
+    toast('Le service de comptes est indisponible. Réessayez dans un instant.');
+    return;
+  }
   if (!accountAuthenticated) {
     const button = $('#place-bet');
     if (button.disabled || button.dataset.busy || !state.ticket.length) return;
@@ -4953,7 +5000,9 @@ setActiveTab(
             ? 'community'
             : location.hash === '#bilan-pronos'
               ? 'predictions'
-              : 'matches'
+              : 'matches',
+  false,
+  profileHash ? { nickname: decodeURIComponent(profileHash[1]), self: false } : null
 );
 render();
 if (typeof window !== 'undefined') {
@@ -5047,7 +5096,14 @@ if (typeof window !== 'undefined') {
       renderMatches();
     }
   }, 60000);
-  import('./src/account/account.js?v=accounts-bet309')
+  if (knownAccountSession || accountCallbackOnLoad || joinOnLoad || pendingPrivateCode)
+    ensureAccount().then(() => {
+      if (joinOnLoad && !accountAuthenticated && !accountCallbackOnLoad) openJoin('login');
+    });
+}
+function ensureAccount() {
+  if (accountPromise) return accountPromise;
+  accountPromise = import('./src/account/account.js?v=accounts-bet309')
     .then(({ initAccountSync }) =>
       initAccountSync({
         getState: userStatePayload,
@@ -5170,19 +5226,16 @@ if (typeof window !== 'undefined') {
           } catch {}
           setCommunityTab(pendingPrivateCode ? 'private' : challengesOnLoad ? 'challenges' : tab);
         }
-        if (joinOnLoad && !accountAuthenticated) openJoin('login');
-        else if (profileHash || location.hash === '#profil')
-          openProfile(
-            profileHash
-              ? { nickname: decodeURIComponent(profileHash[1]), self: false }
-              : { self: true }
-          );
+        return api;
       })
     )
     .catch((error) => {
       console.error('Compte indisponible', error);
       $('#account-label').textContent = 'Compte indisponible';
+      accountPromise = null;
+      return null;
     });
+  return accountPromise;
 }
 
 if (typeof window !== 'undefined')

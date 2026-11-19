@@ -1,36 +1,8 @@
 @font-face {
   font-family: Inter;
-  src: url('./fonts/inter-latin-400-normal.woff2') format('woff2');
+  src: url('./fonts/inter-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: Inter;
-  src: url('./fonts/inter-latin-500-normal.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: Inter;
-  src: url('./fonts/inter-latin-600-normal.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: Inter;
-  src: url('./fonts/inter-latin-700-normal.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: Inter;
-  src: url('./fonts/inter-latin-800-normal.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 800;
   font-display: swap;
 }
 @font-face {
@@ -3022,4 +2994,42 @@ button.club-ranking:hover {
 }
 .challenge-card.joined {
   border-color: var(--accent-text);
+}
+
+.team {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 6px;
+  margin: -6px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.team:hover {
+  background: var(--surface-2);
+}
+.details-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  padding: 0 10px 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  transition: border-color 0.15s;
+}
+.details-button:hover {
+  border-color: var(--accent-text);
+}
+.details-button svg {
+  width: 16px;
+  height: 16px;
+}
+.muted-text {
+  color: var(--muted);
 }

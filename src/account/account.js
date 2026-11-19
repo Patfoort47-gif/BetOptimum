@@ -1231,7 +1231,7 @@ export async function initAccountSync({
     if (session?.user) setTimeout(() => loadUser(session.user), 0);
   });
   loadCommunity();
-  client.auth.getSession().then(({ data, error }) => {
+  await client.auth.getSession().then(({ data, error }) => {
     if (confirmationError) {
       onAuthEvent('CONFIRMATION_FAILED');
       history.replaceState(null, '', redirect);
@@ -1240,8 +1240,10 @@ export async function initAccountSync({
       onAuthEvent('OAUTH_FAILED');
       showMessage(callback.message, true);
     }
-    if (error) showMessage(translateAuthError(error), true);
-    else if (data.session?.user) {
+    if (error) {
+      showMessage(translateAuthError(error), true);
+      if (!confirmationError && callback.kind !== 'oauth-error') throw authError(error);
+    } else if (data.session?.user) {
       loadUser(data.session.user);
       if (signupReturn && data.session.user.email_confirmed_at) onAuthEvent('EMAIL_CONFIRMED');
     } else setView(null);

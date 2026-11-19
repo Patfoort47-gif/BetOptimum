@@ -91,7 +91,6 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       'styles.css',
       'style.css',
       'styles/components.css',
-      'styles/details.css',
       'manifest.webmanifest',
       'icons/favicon.svg',
       'icons/icon-192x192.png',
@@ -101,15 +100,10 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       'icons/app-192.png',
       'icons/app-512.png',
       'fonts/plus-jakarta-sans-latin-wght-normal.woff2',
-      'fonts/inter-latin-400-normal.woff2',
-      'fonts/inter-latin-500-normal.woff2',
-      'fonts/inter-latin-600-normal.woff2',
-      'fonts/inter-latin-700-normal.woff2',
-      'fonts/inter-latin-800-normal.woff2',
-      'fonts/barlow-condensed-latin-600-normal.woff2',
-      'fonts/barlow-condensed-latin-700-normal.woff2',
-      'fonts/barlow-condensed-latin-800-normal.woff2',
-      ...[...seen].map((url) => new URL(url).pathname.slice(root.pathname.length)),
+      'fonts/inter-latin-wght-normal.woff2',
+      ...[...seen]
+        .map((url) => new URL(url).pathname.slice(root.pathname.length))
+        .filter((name) => name !== 'vendor/supabase-js-2.81.1.js'),
       ...aliases
     ])
   );

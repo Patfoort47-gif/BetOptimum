@@ -1,41 +1,4 @@
 /* Fiches équipe et match (details.js) */
-.team {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  padding: 6px;
-  margin: -6px;
-  border-radius: 18px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.team:hover {
-  background: var(--surface-2);
-}
-.details-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  min-height: 40px;
-  padding: 0 10px 0 16px;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  color: var(--text);
-  font-weight: 700;
-  font-size: 13px;
-  transition: border-color 0.15s;
-}
-.details-button:hover {
-  border-color: var(--accent-text);
-}
-.details-button svg {
-  width: 16px;
-  height: 16px;
-}
-.muted-text {
-  color: var(--muted);
-}
 dialog.detail-sheet {
   width: min(880px, calc(100% - 32px));
   max-height: 88dvh;
