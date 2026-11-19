@@ -4665,23 +4665,29 @@ document.querySelectorAll('[data-builder-tab]').forEach((button) => {
   });
 });
 const comboPeriod = $('#combo-period');
+function comboDate(offset = 0) {
+  const date = new Date(`${parisDate(Date.now())}T12:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + offset);
+  return date;
+}
+const comboDay = (offset) => comboDate(offset).toISOString().slice(0, 10);
 comboPeriod?.addEventListener('change', () => {
   const custom = comboPeriod.value === 'custom';
   $('#combo-dates').hidden = !custom;
   if (custom) {
-    $('#combo-start').value ||= isoDate(0);
-    $('#combo-end').value ||= isoDate(1);
+    $('#combo-start').value ||= comboDay(0);
+    $('#combo-end').value ||= comboDay(1);
   }
 });
 function generatorMatches() {
   const period = comboPeriod?.value ?? 'calendar';
   if (period === 'calendar') return visibleMatches();
-  const day = new Date().getDay(),
+  const day = comboDate().getUTCDay(),
     saturday = day === 0 ? -1 : 6 - day;
   const ranges = {
-    today: [isoDate(0), isoDate(0)],
-    tomorrow: [isoDate(1), isoDate(1)],
-    weekend: [isoDate(saturday), isoDate(saturday + 1)],
+    today: [comboDay(0), comboDay(0)],
+    tomorrow: [comboDay(1), comboDay(1)],
+    weekend: [comboDay(saturday), comboDay(saturday + 1)],
     custom: [$('#combo-start').value, $('#combo-end').value]
   };
   const [start, end] = ranges[period];
