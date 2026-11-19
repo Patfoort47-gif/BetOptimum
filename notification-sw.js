@@ -1,4 +1,4 @@
-const CACHE = 'betoptimum-shell-obsidienne-v1';
+const CACHE = 'betoptimum-shell-nuit-v1';
 self.addEventListener('install', (event) =>
   event.waitUntil(
     (async () => {

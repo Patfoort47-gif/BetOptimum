@@ -73,7 +73,6 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       'icons/app-192.png',
       'icons/app-512.png',
       'fonts/plus-jakarta-sans-latin-wght-normal.woff2',
-      'fonts/jetbrains-mono-latin-wght-normal.woff2',
       'fonts/inter-latin-400-normal.woff2',
       'fonts/inter-latin-500-normal.woff2',
       'fonts/inter-latin-600-normal.woff2',
