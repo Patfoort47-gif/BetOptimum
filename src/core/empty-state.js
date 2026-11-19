@@ -24,8 +24,8 @@ export function emptyState(kind = 'history', filtered = false) {
     ]
   };
   let [message, label, action] = states[kind] ?? states.history;
-  if (kind === 'matches') {
-    message = 'Aucun match à afficher pour cette sélection.';
+  if (kind === 'matches' && !filtered) {
+    message = 'Aucun match sur cette période.';
     label = 'Voir les matchs à venir';
     action = 'data-empty-upcoming-matches';
   } else if (filtered) {

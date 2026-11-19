@@ -285,6 +285,19 @@ body .hero h1 {
   text-transform: none;
 }
 
+body .hero-intro {
+  margin: 0;
+  font-size: 14px;
+}
+
+body .today-empty p {
+  margin: 6px 0;
+}
+
+body .today-empty button {
+  min-height: 44px;
+}
+
 body .hero-copy {
   max-width: none;
   color: var(--muted);

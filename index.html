@@ -68,8 +68,13 @@
         <svg class="hero-pitch" viewBox="0 0 400 300" aria-hidden="true"><rect x="10" y="10" width="380" height="280" rx="6"/><path d="M200 10V290"/><circle cx="200" cy="150" r="52"/><circle cx="200" cy="150" r="3"/><path d="M390 80H330V220H390M390 115H362V185H390"/><path d="M10 80H70V220H10M10 115H38V185H10"/></svg>
         <p class="eyebrow">ANALYSES FOOTBALL</p>
         <h1>Vos matchs du jour</h1>
+        <p class="hero-intro">Analysez les matchs, comparez les cotes et simulez vos tickets.</p>
         <button class="button primary hero-cta" data-open-ticket>Composer mon ticket</button>
         <p class="hero-copy">Paris virtuels · 18+ · Aucune garantie de gain.</p>
+        <div id="today-empty" class="today-empty" hidden>
+          <p role="status">Aucun match aujourd’hui.</p>
+          <button type="button" class="button secondary" id="next-match-day" hidden></button>
+        </div>
         <div class="hero-actions"><button class="button ghost" data-tutorial-launch>Guide d’utilisation</button><button class="button ghost" data-open-tab="predictions">Résultats du modèle</button><button class="button ghost" id="quick-combo" data-copy="quickCompose">Générer un combiné</button></div>
       </div>
       <button class="hero-score" id="hero-confidence" aria-label="Comprendre l’indice global du jour">
@@ -105,7 +110,7 @@
         </div>
         <div class="scroller date-scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Dates précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="date-navigator" id="date-navigator" role="group" aria-label="Choisir une période"></div><button class="scroll-btn next" data-scroll="1" aria-label="Dates suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
         <div class="scroller"><button class="scroll-btn prev" data-scroll="-1" aria-label="Compétitions précédentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><div class="filters" id="filters" role="group" aria-label="Filtrer les compétitions"></div><button class="scroll-btn next" data-scroll="1" aria-label="Compétitions suivantes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
-        <div class="match-filter-context"><p id="match-filter-summary" role="status"></p><button class="text-button" id="reset-match-filters">Réinitialiser les filtres</button></div>
+        <div class="match-filter-context"><p id="match-filter-summary" role="status"></p><button class="text-button" id="reset-match-filters" hidden>Réinitialiser les filtres</button></div>
         <nav id="match-strip" class="match-strip" aria-label="Fil des matchs"></nav>
         <section id="conseils-du-jour" class="card daily-selection" aria-label="Les conseils du jour" tabindex="-1" hidden></section>
         <div id="match-list" class="match-list" aria-live="polite"></div>
