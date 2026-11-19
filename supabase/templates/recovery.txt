@@ -1,0 +1,11 @@
+BetOptimum
+
+Réinitialisez votre mot de passe
+
+Vous avez demandé à modifier le mot de passe de votre compte BetOptimum.
+
+Réinitialiser mon mot de passe : {{ .ConfirmationURL }}
+
+Si vous n’avez pas fait cette demande, ignorez ce message. Votre mot de passe reste inchangé.
+
+Paris virtuels · 18+ · Aucune garantie de gain.
