@@ -6,37 +6,30 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('./fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2');
-  font-weight: 400 800;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --bg: #090a0f;
-  --surface: #131620;
-  --surface-2: #191e2b;
-  --surface-3: #222b3c;
+  --bg: #090d16;
+  --surface: #111827;
+  --surface-2: #192335;
+  --surface-3: #233047;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: #343e52;
   --text: #f8fafc;
   --muted: #94a3b8;
-  --accent: #00f59b;
-  --accent-text: #00f59b;
+  --accent: #10b981;
+  --accent-text: #10b981;
   --on-accent: #031710;
-  --accent-soft: rgba(0, 245, 155, 0.12);
-  --info: #00d4ff;
-  --pitch: rgba(0, 245, 155, 0.24);
+  --accent-soft: rgba(16, 185, 129, 0.12);
+  --info: #38bdf8;
+  --pitch: rgba(16, 185, 129, 0.24);
+  --glow: 0 0 20px rgba(16, 185, 129, 0.25);
   --ticket-bg: var(--surface);
   --ticket-surface: var(--surface-2);
   --ticket-line: var(--line);
   --ticket-text: var(--text);
   --ticket-muted: var(--muted);
-  --glass: rgba(19, 22, 32, 0.75);
+  --glass: rgba(17, 24, 39, 0.75);
   --glass-nav: rgba(17, 21, 30, 0.9);
-  --halo: rgba(0, 245, 155, 0.15);
+  --halo: rgba(16, 185, 129, 0.15);
   --ring: color-mix(in srgb, var(--accent-text) 52%, var(--line));
   --shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   --radius: 20px;
@@ -44,7 +37,7 @@
   --page-gutter: clamp(12px, 2.4vw, 28px);
   --header-offset: 50px;
   --display: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
-  --numeric: 'JetBrains Mono', ui-monospace, monospace;
+  --numeric: Inter, system-ui, sans-serif;
 }
 
 :root.light {
@@ -56,7 +49,7 @@
   --line-strong: #a2b2c5;
   --text: #101c2d;
   --muted: #506178;
-  --accent: #00df8a;
+  --accent: #10b981;
   --accent-text: #006b49;
   --on-accent: #031710;
   --accent-soft: #ddf6ec;
@@ -76,8 +69,11 @@
 body {
   background:
     radial-gradient(circle at 50% -10%, var(--halo), transparent 60%) top / 100% 840px no-repeat,
+    radial-gradient(ellipse at 100% 12%, rgba(56, 189, 248, 0.08), transparent 48%) top / 100% 920px
+      no-repeat,
     var(--bg);
-  font-family: var(--display);
+  font-family: var(--numeric);
+  font-variant-numeric: tabular-nums;
 }
 
 body :is(button, input, select, textarea) {
@@ -99,6 +95,8 @@ body
     .prob-legend b,
     .selection-price b,
     .selection-ev,
+    .selection-probability,
+    .bankroll-kpis dd,
     .result-pick strong,
     .market-price strong,
     .market-potential,
@@ -232,11 +230,11 @@ body :is(.card:not(.opt), .match-card, .hero-score, .ticket, .builder-card) {
 }
 
 body :is(.hero-main, .hero-score, .match-card, .builder-card, .ticket) {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition:
-    border-color 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+    border-color 0.3s ease-out,
+    box-shadow 0.3s ease-out;
 }
 
 body :is(.hero-score, .match-card, .builder-card, .ticket):focus-within {
@@ -346,7 +344,7 @@ body .gauge-track {
 body .gauge-fill {
   stroke: url('#confidence-gradient');
   filter: drop-shadow(0 0 5px var(--ring));
-  transition: stroke-dasharray 0.2s ease-out;
+  transition: stroke-dasharray 0.3s ease-out;
 }
 
 body .hero-score .score {
@@ -458,8 +456,8 @@ body .match-card .match-hero .crest {
 
 body .match-header-stats {
   min-height: 44px;
-  border: 1px solid #00d4ff80;
-  background: #0b2534;
+  border: 1px solid #38bdf880;
+  background: #102739;
   color: #8feaff;
 }
 
@@ -474,7 +472,7 @@ body .confidence-track {
 
 body .confidence-track i,
 body .market.selected .confidence-track i {
-  background: linear-gradient(90deg, var(--info), var(--accent-text));
+  background: linear-gradient(90deg, var(--live), var(--info), var(--accent));
   box-shadow: 0 0 8px var(--ring);
 }
 
@@ -516,7 +514,24 @@ body :is(.result-pick, .stake-controls button, .builder-tabs button, .bet-mode b
 
 body :is(.builder-card, .ticket) input[type='range'] {
   width: 100%;
+  min-height: 44px;
+  margin-inline: 0;
   cursor: ew-resize;
+}
+
+body .builder .bet-mode button.active,
+body .builder .builder-tabs button[aria-selected='true'] {
+  border: 1px solid var(--ring);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+body .builder .range-label output {
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--info);
 }
 
 body #share-combo:not(:disabled),
@@ -554,11 +569,11 @@ body .ticket-share-dialog [data-share-copy] {
 
 body :is(.button, .match-header-stats, .tab-button, .mobile-nav button, .result-pick) {
   transition:
-    background-color 0.2s ease-out,
-    border-color 0.2s ease-out,
-    box-shadow 0.2s ease-out,
-    color 0.2s ease-out,
-    transform 0.2s ease-out;
+    background-color 0.3s ease-out,
+    border-color 0.3s ease-out,
+    box-shadow 0.3s ease-out,
+    color 0.3s ease-out,
+    transform 0.3s ease-out;
 }
 
 body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:disabled):active {
@@ -604,9 +619,13 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
     display: block;
   }
 
-  body .hero-main {
-    padding: 14px;
-    gap: 6px;
+  body .hero-main.card:not(.opt) {
+    padding: 8px 0 2px;
+    gap: 4px;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
   body .hero-main .hero-pitch,
@@ -617,7 +636,7 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
   }
 
   body .hero h1 {
-    font-size: clamp(24px, 6.4vw, 34px);
+    font-size: clamp(23px, 6.4vw, 32px);
   }
 
   body .section-block {
@@ -638,20 +657,20 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
   }
 
   body .mobile-nav {
-    inset: auto max(10px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))
+    inset: auto max(10px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom))
       max(10px, env(safe-area-inset-left));
     width: auto;
     max-width: 500px;
     margin-inline: auto;
     padding: 4px;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 2px;
     border: 1px solid var(--line-strong);
     border-radius: 20px;
     background: var(--glass-nav);
     box-shadow: 0 10px 32px #0005;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   body .mobile-nav button {
@@ -670,19 +689,23 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
     box-shadow: inset 0 0 0 1px var(--ring);
   }
 
+  body .mobile-nav button:enabled:active {
+    transform: scale(0.95);
+  }
+
   body .mobile-nav .mobile-ticket-action {
     color: var(--on-accent);
     background: var(--accent);
   }
 
-  body .mobile-coupon:not([hidden]) {
-    bottom: calc(78px + env(safe-area-inset-bottom));
-    max-width: 500px;
-    margin-inline: auto;
+  body #toast {
+    bottom: calc(88px + env(safe-area-inset-bottom));
   }
 
-  body .match-card .match-hero .match-head {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr) auto;
+  body .mobile-coupon:not([hidden]) {
+    bottom: calc(86px + env(safe-area-inset-bottom));
+    max-width: 500px;
+    margin-inline: auto;
   }
 
   body .match-card .match-overview > .prob-bar {
@@ -1027,4 +1050,97 @@ body .match-card details.match-explanation[open] > summary::after {
     border-radius: 6px;
     font-size: 10px;
   }
+}
+
+/* Actions publiques et graphiques */
+.algorithm-status-full {
+  display: none;
+}
+
+@media (min-width: 1360px) {
+  .algorithm-status-full {
+    display: inline;
+  }
+
+  .algorithm-status-compact {
+    display: none;
+  }
+}
+
+body .match-card {
+  padding: clamp(14px, 2vw, 22px);
+  gap: 12px;
+}
+
+body .match-card .match-selection .selection-price {
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+body .match-card .match-selection .selection-price :is(b, small) {
+  color: var(--accent-text);
+}
+
+body .match-share-action {
+  justify-self: end;
+  width: max-content;
+  max-width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--info);
+}
+
+body .match-share-action:hover {
+  border-color: var(--info);
+  background: var(--surface-2);
+}
+
+body #share-analysis-dialog {
+  width: min(440px, calc(100% - 24px));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: var(--surface);
+}
+
+#share-analysis-url {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+body #toast.show {
+  border-color: var(--ring);
+  box-shadow: var(--glow);
+}
+
+body :is(.button.primary, .ticket-cta):enabled:hover {
+  box-shadow: var(--glow);
+}
+
+body :is(.model-curve, #bankroll-chart, .dashboard-charts svg) {
+  background: transparent;
+}
+
+body .model-curve circle {
+  stroke: var(--info);
+}
+
+body .model-trajectory:not(.is-negative) .model-curve > path[stroke] {
+  stroke: var(--accent);
+}
+
+body #bankroll-chart polyline {
+  stroke: var(--info);
+}
+
+body .hero-score.unavailable .gauge-fill {
+  opacity: 0;
 }
