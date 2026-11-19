@@ -1144,3 +1144,384 @@ body #bankroll-chart polyline {
 body .hero-score.unavailable .gauge-fill {
   opacity: 0;
 }
+
+/* Jauges, tracés SVG et indicateurs */
+:root {
+  --viz-height: 192px;
+  --viz-grid: rgba(255, 255, 255, 0.04);
+  --viz-track: rgba(255, 255, 255, 0.08);
+  --viz-tip: rgba(15, 23, 42, 0.9);
+  --viz-tip-line: rgba(255, 255, 255, 0.1);
+}
+
+:root.light {
+  --viz-grid: rgba(15, 23, 42, 0.12);
+  --viz-track: rgba(15, 23, 42, 0.14);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --viz-height: 256px;
+  }
+}
+
+body .gauge-face {
+  display: grid;
+  grid-template-areas: 'face';
+  align-items: end;
+  justify-items: center;
+  width: min(100%, 260px);
+  margin: 0 auto;
+}
+
+body .gauge-face > .gauge,
+body .gauge-face > .gauge-reading {
+  grid-area: face;
+}
+
+body .gauge-face > .gauge {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 200 / 110;
+  stroke-width: 12;
+  overflow: visible;
+}
+
+body .gauge-face .gauge-track {
+  stroke: var(--viz-track);
+}
+
+body .gauge-face .gauge-fill {
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.45));
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body .gauge-low .gauge-fill {
+  filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.4));
+}
+
+body .hero-score.gauge-low .gauge-fill {
+  stroke: url('#confidence-gradient-low');
+}
+
+body .model-gauge .gauge-fill {
+  stroke: url('#model-success-gradient');
+}
+
+body .gauge-low .model-gauge .gauge-fill {
+  stroke: url('#model-success-gradient-low');
+}
+
+body .gauge-zero .gauge-fill {
+  opacity: 0;
+}
+
+body .gauge-face > .gauge-reading {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  align-content: end;
+  padding-bottom: 6%;
+  text-align: center;
+}
+
+body .gauge-reading > small,
+body .gauge-reading .gauge-caption,
+body .model-ring > .gauge-reading > span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+body .gauge-reading > small {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+body .hero-score .gauge-reading .score,
+body .model-ring .gauge-reading strong {
+  margin: 0;
+  color: var(--accent-text);
+  font: 800 clamp(32px, 4vw, 48px) / 1 var(--numeric);
+  font-variant-numeric: tabular-nums;
+}
+
+body .gauge-low .gauge-reading :is(.score, strong) {
+  color: var(--warn);
+}
+
+body .model-ring .gauge-reading strong small {
+  color: var(--muted);
+}
+
+body .model-ring.gauge-face,
+body .model-ring > .gauge-reading {
+  height: auto;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  transform: none;
+}
+
+body .model-ring.gauge-face {
+  padding: 0;
+  margin-block: 8px 18px;
+}
+
+body .model-ring > .gauge-reading > span {
+  margin: 0;
+}
+
+body
+  :is(
+    .model-curve,
+    .analytics-svg,
+    .calibration-plot,
+    #bankroll-chart,
+    .dashboard-charts .viz-plot
+  ) {
+  display: block;
+  width: 100%;
+  height: var(--viz-height);
+  background: transparent;
+  border: 0;
+}
+
+body .calibration-plot {
+  max-width: 600px;
+  margin-inline: auto;
+  color: var(--muted);
+  stroke: none;
+  font: 11px var(--numeric);
+}
+
+body :is(.viz-grid, .model-grid-line, .analytics-grid) {
+  stroke: var(--viz-grid);
+  stroke-width: 1;
+  stroke-dasharray: none;
+  vector-effect: non-scaling-stroke;
+}
+
+body :is(.viz-zero, .model-zero, .analytics-axis) {
+  stroke: var(--viz-track);
+  stroke-width: 1;
+  stroke-dasharray: 4 5;
+  vector-effect: non-scaling-stroke;
+}
+
+body .viz-line {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+body :is(.model-curve, .analytics-svg, .calibration-plot) text {
+  fill: var(--muted);
+  font: 11px var(--numeric);
+  font-variant-numeric: tabular-nums;
+}
+
+body .viz-peak {
+  pointer-events: none;
+}
+
+body .viz-peak path {
+  fill: none;
+  stroke: var(--info);
+  stroke-opacity: 0.45;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+}
+
+body .viz-peak rect {
+  fill: #38bdf8;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.36));
+  stroke: none;
+}
+
+body .viz-peak text {
+  fill: #090d16;
+  font-weight: 800;
+}
+
+body :is(.metric-tooltip, .model-result-tip, #prediction-analytics output) {
+  background: var(--viz-tip);
+  color: #f8fafc;
+  border: 1px solid var(--viz-tip-line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+
+body .model-result-tip small {
+  color: #cbd5e1;
+}
+
+body #prediction-analytics output {
+  display: block;
+  padding: 10px 12px;
+}
+
+body
+  :is(
+    #personal-kpis > div,
+    #home-performance-kpis > div,
+    .prediction-kpi-grid article,
+    .analytics-kpis > div,
+    .stats-grid article,
+    .hero-score-parts > span,
+    .ticket-totals > span,
+    .ticket-stake > span,
+    #stake-advice
+  ) {
+  min-width: 0;
+  padding: clamp(10px, 1.6vw, 16px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 100% 100%, var(--accent-soft), transparent 70%), var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body
+  :is(
+    #personal-kpis dd,
+    #home-performance-kpis dd,
+    .prediction-kpi-grid strong,
+    .analytics-kpis strong,
+    .stats-grid strong,
+    .ticket-totals strong,
+    .ticket-stake strong
+  ) {
+  font-family: var(--numeric);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+body :is(.analytics-kpis strong, .stats-grid strong, .ticket-totals strong, .ticket-stake strong) {
+  color: var(--info);
+}
+
+body .ticket-totals .total-main strong,
+body .stats-grid .stat-main strong {
+  color: var(--accent-text);
+}
+
+body #stake-advice {
+  display: block;
+  color: var(--accent-text);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .gauge-face .gauge-fill {
+    transition: none;
+  }
+}
+
+body .radar-box [data-radar-series] {
+  fill: var(--info);
+  fill-opacity: 0.16;
+  stroke: var(--info);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+body :is(.radar-attributes > div, .selection-probability, .selection-ev) {
+  background-image: radial-gradient(ellipse at 100% 100%, var(--accent-soft), transparent 75%);
+}
+
+body :is(.chart-labels, .chart-label, .model-chart-caption) {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+body .match-card .market-grid-wrap .featured-markets > .market .market-gauge,
+body .market-grid-wrap .market .market-gauge {
+  width: 38px;
+  height: 22px;
+  margin-inline: auto;
+  stroke-width: 5;
+  background: none;
+  overflow: visible;
+}
+
+body .market-gauge .gauge-track {
+  stroke: var(--line-strong);
+}
+
+body .market-gauge .gauge-fill {
+  stroke: var(--accent-text);
+  filter: none;
+}
+
+body .market-gauge.gauge-low .gauge-fill {
+  stroke: var(--warn);
+}
+
+body .market.selected .market-gauge :is(.gauge-track, .gauge-fill) {
+  stroke: var(--on-accent);
+}
+
+body .market.selected .market-gauge .gauge-track {
+  opacity: 0.24;
+}
+
+body svg [data-viz-value] {
+  cursor: help;
+}
+
+@media (max-width: 767px) {
+  body #personal-charts .dashboard-charts > article {
+    display: block;
+  }
+}
+
+body .model-success {
+  padding: clamp(14px, 2vw, 24px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 100% 100%, var(--accent-soft), transparent 68%), var(--glass);
+}
+
+body .model-success :is(.eyebrow, .model-result-counts, p:last-child) {
+  color: var(--muted);
+}
+
+body .model-result-counts b {
+  color: var(--text);
+}
+
+body .result-key.won {
+  background: var(--accent);
+}
+
+body .result-key.lost {
+  background: #f43f5e;
+}
+
+body :is(#personal-kpis dd, #home-performance-kpis dd) {
+  color: var(--info);
+}
+
+body #personal-kpis > div:first-child dd {
+  color: var(--accent-text);
+}
+
+body #stake-advice {
+  color: var(--muted);
+}
+
+body #stake-advice-value:not([hidden]) {
+  display: block;
+  margin-block: 3px;
+  color: var(--accent-text);
+  font: 800 24px / 1.2 var(--numeric);
+  font-variant-numeric: tabular-nums;
+}

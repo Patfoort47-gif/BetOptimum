@@ -1,4 +1,4 @@
-const CACHE = 'betoptimum-shell-nuit-v1';
+const CACHE = 'betoptimum-shell-dataviz-v1';
 self.addEventListener('install', (event) =>
   event.waitUntil(
     (async () => {

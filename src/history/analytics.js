@@ -1,3 +1,4 @@
+import { smoothChartPath } from '../core/chart-path.js';
 import { decimal } from '../core/number-format.js';
 import { predictionReport } from './prediction-report.js';
 // BET-91 : chronologie des mises, règlements et mouvements de capital, sans dépendance externe.
@@ -164,10 +165,20 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
       : key === 'volume'
         ? `${value} pari${value > 1 ? 's' : ''}`
         : euros(value);
-  const points = rows
-    .map((row, index) => (row[key] == null ? '' : `${x(index)},${y(row[key])}`))
-    .filter(Boolean)
-    .join(' ');
+  const points = rows.flatMap((row, index) => (row[key] == null ? [] : [[x(index), y(row[key])]]));
+  const path = smoothChartPath(points, key === 'winrate' ? 0.45 : 0.4),
+    gradientId = `analytics-line-${key}`,
+    fillId = `analytics-fill-${key}`;
+  const peak =
+    key === 'winrate'
+      ? points.reduce(
+          (highest, point) => (!highest || point[1] < highest[1] ? point : highest),
+          null
+        )
+      : null;
+  const badge = peak
+    ? `<g class="viz-peak" aria-hidden="true"><path d="M${peak[0]},${peak[1]} V190"/><rect x="${Math.max(42, Math.min(588, peak[0] - 35))}" y="4" width="70" height="24" rx="7"/><text x="${Math.max(77, Math.min(623, peak[0]))}" y="20" text-anchor="middle">${decimal(Math.max(...values), 1)} %</text></g>`
+    : '';
   const width = Math.min(36, 470 / Math.max(1, rows.length)),
     ticks =
       key === 'volume'
@@ -183,7 +194,7 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
         : `<circle ${attrs} cx="${x(index)}" cy="${y(row[key])}" r="5"><title>${esc(text)}</title></circle>`;
     })
     .join('');
-  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="42" y1="${y(Math.min(max, Math.max(min, 0)))}" x2="658" y2="${y(Math.min(max, Math.max(min, 0)))}" class="analytics-axis"/>${ticks.map((value) => `<line x1="42" y1="${y(value)}" x2="658" y2="${y(value)}" class="analytics-grid"/>`).join('')}${bars ? '' : `<polygon points="42,190 ${points} 658,190" class="analytics-area"/><polyline points="${points}" class="analytics-line"/>`}${marks}${ticks.map((value) => `<text class="analytics-tick" x="42" y="${y(value) - 6}">${esc(format(value))}</text>`).join('')}<text x="42" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
+  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="42" y1="${y(Math.min(max, Math.max(min, 0)))}" x2="658" y2="${y(Math.min(max, Math.max(min, 0)))}" class="analytics-axis"/>${ticks.map((value) => `<line x1="42" y1="${y(value)}" x2="658" y2="${y(value)}" class="analytics-grid"/>`).join('')}${bars || !points.length ? '' : `<defs><linearGradient id="${gradientId}"><stop stop-color="#38BDF8"/><stop offset="1" stop-color="#10B981"/></linearGradient><linearGradient id="${fillId}" x2="0" y2="1"><stop stop-color="#10B981" stop-opacity=".25"/><stop offset="1" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs><path d="${path} L${points.at(-1)[0]},190 L${points[0][0]},190 Z" fill="url(#${fillId})" stroke="none"/><path d="${path}" class="analytics-line viz-line" style="stroke:${key === 'winrate' ? `url(#${gradientId})` : 'var(--accent)'}"/>`}${badge}${marks}${ticks.map((value) => `<text class="analytics-tick" x="42" y="${y(value) - 6}">${esc(format(value))}</text>`).join('')}<text x="42" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
 }
 
 export function initAnalytics(root, { onPeriod = () => {} } = {}) {

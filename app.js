@@ -1,3 +1,4 @@
+import { smoothChartPath } from './src/core/chart-path.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
 import { teamLogoMarkup } from './src/matches/team-logos.js';
@@ -777,8 +778,11 @@ function renderConfidenceKpi() {
   $('#hero-confidence-today-detail').textContent = metrics.todayCount
     ? `${metrics.todayCount} pronostic${metrics.todayCount > 1 ? 's' : ''}`
     : 'Aucun match aujourd’hui';
-  gauge.style.strokeDasharray = `${Math.round((metrics.score ?? 0) * 251)} 400`;
-  $('#hero-confidence').classList.toggle('unavailable', metrics.score == null);
+  gauge.style.strokeDashoffset = String(100 - (metrics.score ?? 0) * 100);
+  const card = $('#hero-confidence');
+  card.classList.toggle('unavailable', metrics.score == null);
+  card.classList.toggle('gauge-low', metrics.score != null && Number(score) < 50);
+  card.classList.toggle('gauge-zero', score === '0');
 }
 const kickoffAt = (m) => new Date(m.kickoff ?? `${m.date}T${m.time || '12:00'}:00`);
 const isLive = (m) => !m.completed && state.live[m.id]?.state === 'in';
@@ -1592,13 +1596,12 @@ function renderPerformance() {
   const min = Math.min(...values),
     max = Math.max(...values),
     range = max - min || 1,
-    points = values
-      .map(
-        (value, index) =>
-          `${30 + (index / (values.length - 1)) * 640},${190 - ((value - min) / range) * 150}`
-      )
-      .join(' ');
-  svg.innerHTML = `<line x1="30" y1="190" x2="670" y2="190" stroke="var(--line)" stroke-dasharray="4 6"/><polygon points="30,190 ${points} 670,190" fill="var(--accent)" fill-opacity=".14" stroke="none"/><polyline points="${points}" fill="none" stroke="var(--accent-text)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+    points = values.map((value, index) => [
+      30 + (index / (values.length - 1)) * 640,
+      190 - ((value - min) / range) * 150
+    ]),
+    line = smoothChartPath(points);
+  svg.innerHTML = `<defs><linearGradient id="bankroll-fill" x2="0" y2="1"><stop stop-color="#10B981" stop-opacity=".25"/><stop offset="1" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs>${[40, 115, 190].map((y) => `<line x1="30" x2="670" y1="${y}" y2="${y}" class="viz-grid"/>`).join('')}<path d="${line} L670,190 L30,190 Z" fill="url(#bankroll-fill)" stroke="none"/><path d="${line}" class="viz-line" fill="none" stroke="var(--info)"/>`;
   $('#chart-max').textContent = money(max);
   $('#chart-min').textContent = money(min);
 }
@@ -2051,15 +2054,22 @@ function renderTicket() {
       combinedOdds > 1
         ? Math.max(0, Math.min(0.05, (probability * combinedOdds - 1) / (combinedOdds - 1)))
         : 0;
-  $('#stake-advice').textContent = independent
+  const manual = state.ticket.some((x) => !Number.isFinite(x.probability)),
+    showAdvice = !independent && !multiple && !manual,
+    adviceValue = $('#stake-advice-value'),
+    adviceContext = $('#stake-advice-context');
+  $('#stake-advice-note').textContent = independent
     ? `${state.ticket.length} pari${state.ticket.length > 1 ? 's' : ''} indépendant${state.ticket.length > 1 ? 's' : ''} · chacun sera réglé séparément`
     : multiple
       ? lines.length
         ? `${money(stake / lines.length)} par sous-pari · droit à l’erreur selon la formule`
         : 'Cette formule ne correspond pas au nombre de sélections'
-      : state.ticket.some((x) => !Number.isFinite(x.probability))
+      : manual
         ? 'Choix manuel : aucun conseil de mise sans modèle validé'
-        : `Mise conseillée : ${money(state.bankroll * kelly)} (${decimal(kelly * 100, 1)} % de la bankroll)`;
+        : 'Mise conseillée :';
+  adviceValue.hidden = adviceContext.hidden = !showAdvice;
+  adviceValue.textContent = showAdvice ? money(state.bankroll * kelly) : '';
+  adviceContext.textContent = showAdvice ? `(${decimal(kelly * 100, 1)} % de la bankroll)` : '';
   const placeButton = $('#place-bet');
   placeButton.disabled =
     Boolean(renderStakeControls(locked)) ||
