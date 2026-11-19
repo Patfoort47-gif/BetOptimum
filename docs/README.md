@@ -4,7 +4,7 @@
 
 - [Architecture et domaines du code](ARCHITECTURE.md)
 - [Supabase : CLI et migrations](../SUPABASE_SETUP.md)
-- [Recettes UI](ui/TESTING_UI.md), [responsive](RESPONSIVE.md), [accessibilité](ui/ACCESSIBILITY_AUDIT.md)
+- [Recettes UI](ui/TESTING_UI.md), [mesures mobiles](ui/MOBILE_DIAGNOSTICS.md), [responsive](RESPONSIVE.md), [accessibilité](ui/ACCESSIBILITY_AUDIT.md)
 - [Configuration des notifications](operations/NOTIFICATIONS_SETUP.md), [PWA et consentements](PWA_PUSH.md), [newsletter](operations/NEWSLETTER_SETUP.md)
 
 `src/` regroupe les sources par domaine. `scripts/` contient la collecte, la synchronisation et les recettes ; `tests/` les tests Node ; `supabase/` le SQL et les fonctions Edge. `vendor/` conserve les dépendances du navigateur, leurs licences et leurs empreintes. Les outils npm restent réservés au développement.

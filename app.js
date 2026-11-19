@@ -52,6 +52,7 @@ import { marketCard } from './src/matches/market-card.js?v=bet191';
 import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet194';
 import { historyReport, historyCard } from './src/history/bet-history.js';
 import { createJsonLoader } from './src/core/data-loader.js';
+import { createMobileDiagnostics } from './src/core/mobile-diagnostics.js';
 import {
   readFixtureCache,
   writeFixtureCache,
@@ -479,7 +480,9 @@ function updateRewardAttention(data) {
   );
   renderAttention();
 }
-const loadJson = createJsonLoader();
+const loadJson = createJsonLoader(),
+  mobileDiagnostics = createMobileDiagnostics(),
+  markFixtureNetwork = mobileDiagnostics && ((phase) => mobileDiagnostics.mark('reseau-' + phase));
 let lastFixturesText = null,
   archiveLoadedAt = 0,
   archiveStatus = 'loading',
@@ -1464,6 +1467,8 @@ function renderMatches() {
       })
       .join('') || matchListEmpty()
   );
+  if (mobileDiagnostics && fixtureDataLoaded)
+    mobileDiagnostics.mark(matches.length ? 'calendrier-match' : 'calendrier-vide', true);
   document.querySelectorAll('#match-list .match-secondary').forEach((section) => {
     if (watchedStats.has(section)) return;
     watchedStats.add(section);
@@ -2697,18 +2702,20 @@ async function loadPredictionArchive(force = false) {
 async function loadLiveFixtures() {
   const source = $('#data-source');
   try {
-    const data = await loadJson('data/fixtures.json'),
+    const data = await loadJson('data/fixtures.json', markFixtureNetwork ?? undefined),
       text = JSON.stringify(data);
     if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
     fixturesStatus = 'ready';
     if (text !== lastFixturesText) {
       writeFixtureCache(data);
+      markFixtureNetwork?.('analyse-debut');
       await prepareAnalyses(
         data.matches.map((match) => ({
           ...match,
           analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
         }))
       );
+      markFixtureNetwork?.('analyse-fin');
       applyFixtureData(data);
       restoreSharedTicket();
       lastFixturesText = text;
@@ -2740,6 +2747,8 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     profileTarget = { self: true };
   }
   const changedTab = activeTab !== tab;
+  if (changedTab && scroll && (tab === 'bankroll' || tab === 'predictions'))
+    mobileDiagnostics?.mark('consultation-resultats');
   activeTab = tab;
   if (tab === 'bankroll') attention?.clear('bets');
   if (tab === 'community' && state.community.tab === 'challenges') attention?.clear('rewards');
@@ -3895,6 +3904,7 @@ $('#filters').addEventListener('click', (e) => {
     state.favoriteLeagues = state.favoriteLeagues.includes(name)
       ? state.favoriteLeagues.filter((item) => item !== name)
       : [...state.favoriteLeagues, name];
+    if (state.favoriteLeagues.includes(name)) mobileDiagnostics?.mark('ajout-favori');
     persist();
     renderFilters();
     renderMatches();
@@ -3942,6 +3952,7 @@ $('#match-list').addEventListener('click', (e) => {
     state.favoriteTeams = state.favoriteTeams.includes(name)
       ? state.favoriteTeams.filter((item) => item !== name)
       : [...state.favoriteTeams, name];
+    if (state.favoriteTeams.includes(name)) mobileDiagnostics?.mark('ajout-favori');
     persist();
     renderFilters();
     renderMatches();
@@ -3975,6 +3986,7 @@ $('#match-list').addEventListener('click', (e) => {
   if (statsShortcut) {
     const panel = statsShortcut.closest('.match-card')?.querySelector('.match-explanation');
     if (panel) {
+      if (!panel.open) mobileDiagnostics?.mark('ouverture-analyse');
       expandedMatchStats.add(statsShortcut.dataset.matchStats + '-resources');
       panel.open = true;
       statsShortcut.setAttribute('aria-expanded', 'true');
@@ -3988,9 +4000,11 @@ $('#match-list').addEventListener('click', (e) => {
   }
   const more = e.target.closest('[data-details]');
   if (more) {
-    useDetails((api) =>
-      api.openMatch(allMatches().find((match) => match.id === more.dataset.details))
-    );
+    useDetails((api) => {
+      const match = allMatches().find((item) => item.id === more.dataset.details);
+      if (match) mobileDiagnostics?.mark('ouverture-analyse');
+      return api.openMatch(match);
+    });
     return;
   }
   const team = e.target.closest('[data-team-id]');
@@ -4390,7 +4404,10 @@ $('#bankroll-guest')?.addEventListener('click', (event) => {
     toast('Sauvegarde de la simulation demandée.');
     return;
   }
-  if (event.target.closest('[data-open-join]')) openJoin('signup');
+  if (event.target.closest('[data-open-join]')) {
+    mobileDiagnostics?.mark('intention-synchronisation');
+    openJoin('signup');
+  }
 });
 $('#community-profile-button')?.addEventListener('click', () => {
   if (!accountAuthenticated) {
@@ -4584,7 +4601,12 @@ clearLegacyFixtureCache();
 readFixtureCache()
   .then(async (cached) => {
     if (!cached || fixtureDataLoaded) return;
-    if (cached.matches?.length > 100) await prepareAnalyses(cached.matches);
+    mobileDiagnostics?.mark('cache-lu');
+    if (cached.matches?.length > 100) {
+      mobileDiagnostics?.mark('cache-analyse-debut');
+      await prepareAnalyses(cached.matches);
+      mobileDiagnostics?.mark('cache-analyse-fin');
+    }
     if (!fixtureDataLoaded) applyFixtureData(cached, true);
   })
   .catch(() => {});
