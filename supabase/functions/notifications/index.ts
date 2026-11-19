@@ -471,6 +471,22 @@ Deno.serve(async (request) => {
       uid = user.id;
     const config = notificationConfig(env);
     if (body.action === 'config') return json(config);
+    if (body.action === 'web-status') {
+      if (!config.available.web || !validateDestination('web', body.destination))
+        return json({ matches: false });
+      const [stored] = await db(
+        `notification_endpoints?user_id=eq.${uid}&channel=eq.web&select=encrypted`
+      );
+      const target = stored && (await unseal(stored.encrypted, env.NOTIFICATION_ENCRYPTION_KEY));
+      return json({
+        matches: Boolean(
+          target &&
+            target.endpoint === body.destination.endpoint &&
+            target.keys?.p256dh === body.destination.keys?.p256dh &&
+            target.keys?.auth === body.destination.keys?.auth
+        )
+      });
+    }
     if (body.action === 'connect') {
       const channel = body.channel;
       if (!['email', 'web'].includes(channel)) return json({ error: 'Canal invalide' }, 400);
