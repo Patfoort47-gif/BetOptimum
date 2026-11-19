@@ -543,6 +543,16 @@ let lastFixtureVersion = null,
   archiveLoadedAt = 0,
   archiveStatus = 'loading',
   archivePromise = null;
+const cachedPublicForecastIds = new Set(
+  Array.isArray(saved?.publicPredictionIds) ? saved.publicPredictionIds : []
+);
+let publicForecastArchive = state.predictionHistory.filter((entry) =>
+    cachedPublicForecastIds.has(entry?.id)
+  ),
+  publicForecastSignatures = null,
+  archivedForecastVariants = Array.isArray(saved?.privatePredictionVariants)
+    ? saved.privatePredictionVariants
+    : [];
 let cloudSave = () => {},
   accountAuthenticated = false,
   accountUserId = null,
@@ -691,7 +701,46 @@ function rebuildHistory() {
   );
 }
 rebuildHistory();
-function userStatePayload() {
+function forecastSignature(entry) {
+  return JSON.stringify(entry, (_, value) =>
+    value && typeof value === 'object' && !Array.isArray(value)
+      ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)))
+      : value
+  );
+}
+function isPublicForecast(entry) {
+  publicForecastSignatures ??= new Set(publicForecastArchive.map(forecastSignature));
+  return publicForecastSignatures.has(forecastSignature(entry));
+}
+function installPublicForecasts(entries) {
+  const publicIds = new Set(publicForecastArchive.map((entry) => entry.id));
+  archivedForecastVariants = entries.filter(
+    (entry) => publicIds.has(entry?.id) && !isPublicForecast(entry)
+  );
+  state.predictionHistory = [
+    ...entries.filter((entry) => entry && !publicIds.has(entry.id)),
+    ...publicForecastArchive
+  ];
+}
+function saveLocalState() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...userStatePayload(state.predictionHistory),
+        privatePredictionVariants: archivedForecastVariants,
+        publicPredictionIds: publicForecastArchive.map((entry) => entry.id)
+      })
+    );
+  } catch {}
+}
+function cloudForecasts() {
+  const publicRows = new Set(publicForecastArchive);
+  return [...state.predictionHistory, ...archivedForecastVariants].filter(
+    (entry) => !publicRows.has(entry) && !isPublicForecast(entry)
+  );
+}
+function userStatePayload(predictionHistory = cloudForecasts()) {
   return {
     bankroll: state.bankroll,
     initial: state.initial,
@@ -700,17 +749,14 @@ function userStatePayload() {
     capitalEvents: state.capitalEvents,
     favoriteTeams: state.favoriteTeams,
     favoriteLeagues: state.favoriteLeagues,
-    predictionHistory: state.predictionHistory,
+    predictionHistory,
     onboardingSeen: state.onboardingSeen,
     profile: state.profile
   };
 }
 function persist() {
-  const payload = userStatePayload();
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  } catch {}
-  cloudSave(payload);
+  saveLocalState();
+  if (accountAuthenticated) cloudSave(userStatePayload());
 }
 function applySyncedState(data) {
   if (!data || typeof data !== 'object') return;
@@ -731,16 +777,14 @@ function applySyncedState(data) {
   state.capitalEvents = Array.isArray(data.capitalEvents) ? data.capitalEvents : [];
   state.favoriteTeams = Array.isArray(data.favoriteTeams) ? data.favoriteTeams : [];
   state.favoriteLeagues = Array.isArray(data.favoriteLeagues) ? data.favoriteLeagues : [];
-  state.predictionHistory = Array.isArray(data.predictionHistory) ? data.predictionHistory : [];
+  installPublicForecasts(Array.isArray(data.predictionHistory) ? data.predictionHistory : []);
   state.onboardingSeen = data.onboardingSeen === true || state.onboardingSeen;
   if (state.onboardingSeen) $('#discovery').hidden = true;
   state.profile =
     data.profile && typeof data.profile === 'object'
       ? { nickname: 'Parieur', avatar: 'lime', face: 'smile', accessory: 'none', ...data.profile }
       : state.profile;
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userStatePayload()));
-  } catch {}
+  saveLocalState();
   render();
   toast('Données synchronisées');
 }
@@ -759,7 +803,7 @@ function resetSyncedState() {
   state.capitalEvents = [];
   state.favoriteTeams = [];
   state.favoriteLeagues = [];
-  state.predictionHistory = [];
+  installPublicForecasts([]);
   state.profile = { nickname: 'Parieur', avatar: 'lime', face: 'smile', accessory: 'none' };
   state.challengeEntries = [];
   state.ticket = [];
@@ -2958,11 +3002,14 @@ async function loadPredictionArchive(force = false) {
     try {
       const archive = await loadJson('data/predictions-history.json');
       if (!Array.isArray(archive)) throw new Error('Archive invalide');
-      const ids = new Set(archive.map((item) => item.id));
-      state.predictionHistory = [
-        ...state.predictionHistory.filter((item) => !ids.has(item.id)),
-        ...archive
-      ];
+      const preceding = cloudForecasts();
+      const signatures = new Set(archive.map(forecastSignature));
+      const compacted = preceding.some((entry) => signatures.has(forecastSignature(entry)));
+      publicForecastArchive = archive;
+      publicForecastSignatures = signatures;
+      installPublicForecasts(preceding);
+      saveLocalState();
+      if (compacted) cloudSave(userStatePayload());
       archiveLoadedAt = Date.now();
       archiveStatus = 'ready';
       if (activeTab === 'profile') profilePage?.refresh?.();
@@ -5156,6 +5203,7 @@ function ensureAccount() {
     .then(({ initAccountSync }) =>
       initAccountSync({
         getState: userStatePayload,
+        onSyncWrite: (bytes) => mobileDiagnostics?.mark('ecriture-compte', false, { bytes }),
         applyState: applySyncedState,
         resetState: resetSyncedState,
         registerCloudSave: (save) => {
