@@ -63,6 +63,9 @@ async function run() {
         }))
       }
     });
+    await dense.waitForFunction(() =>
+      document.querySelector('#data-source')?.textContent.includes('Données réelles')
+    );
     await dense.locator('#next-match-day').waitFor();
     await dense.locator('[data-date=week]').evaluate((button) => button.click());
     const cards = dense.locator('#match-list .match-card');
@@ -78,7 +81,7 @@ async function run() {
     assert.equal(await more.isVisible(), false);
     assert.deepEqual(dense.__errors, []);
     await dense.close();
-    console.log('OK aperçu sans marché, changement de date repli du worker et affichage par lots');
+    console.log('OK aperçu sans marché, changement de date, repli du worker et affichage par lots');
   } finally {
     await b.close();
   }
