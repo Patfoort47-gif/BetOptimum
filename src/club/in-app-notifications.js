@@ -51,29 +51,13 @@ export function createInbox(storage, key) {
         'challenges',
         results.map((r) => `${r.week_start}:${r.challenge_id}`),
         (id) => {
-          const result = results.find((r) => `${r.week_start}:${r.challenge_id}` === id);
           return [
             'challenge:' + id,
-            `Défi hebdomadaire terminé : ${result.challenge_id}.`,
+            'Le résultat de votre défi hebdomadaire est disponible.',
             'challenges'
           ];
         }
       );
-    },
-    league(data) {
-      if (!data) return;
-      const mine = data.rows?.find((r) => r.user_id === data.me),
-        scope = JSON.stringify([data.season, data.echelon, data.groupLabel]),
-        rank = mine?.confirmed === true && Number(mine.rank) > 0 ? Number(mine.rank) : null,
-        prev = state.groups.league;
-      if (rank !== null && prev?.scope === scope && prev.rank !== null && rank > prev.rank)
-        add(
-          `rank:${scope}:${prev.rank}:${rank}:${Date.now()}`,
-          `Vous passez de la place ${prev.rank} à la place ${rank} dans votre ligue.`,
-          'community'
-        );
-      state.groups.league = { scope, rank };
-      save();
     },
     items: () => state.items.map((i) => ({ ...i })),
     unread: () => state.items.filter((i) => !i.read).length,
@@ -88,7 +72,9 @@ export function createInbox(storage, key) {
 export function initInbox({ navigate }) {
   const button = document.querySelector('#open-inbox'),
     dialog = document.querySelector('#inbox-dialog'),
-    list = dialog.querySelector('[data-inbox-list]');
+    list = dialog.querySelector('[data-inbox-list]'),
+    markRead = dialog.querySelector('[data-inbox-read]'),
+    close = dialog.querySelector('[data-inbox-close]');
   let inbox = null;
   const esc = (value) =>
     String(value).replace(
@@ -99,24 +85,40 @@ export function initInbox({ navigate }) {
     button.hidden = !inbox;
     const count = inbox?.unread() ?? 0;
     button.setAttribute('aria-label', `Notifications : ${count} non lue${count > 1 ? 's' : ''}`);
-    button.querySelector('b').textContent = count ? String(count) : '';
+    const badge = button.querySelector('b');
+    badge.textContent = count ? String(count) : '';
+    badge.hidden = count === 0;
+    markRead.disabled = count === 0;
+    const items = inbox?.items() ?? [];
+    const focusedId = dialog.ownerDocument.activeElement?.dataset.inboxId;
     list.innerHTML =
-      inbox
-        ?.items()
+      items
         .map(
           (i) =>
             `<li class="${i.read ? '' : 'unread'}"><button class="button ghost" data-inbox-id="${esc(i.id)}"><span>${esc(i.text)}</span><time>${new Date(i.at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</time>${i.read ? '' : '<small>Non lue</small>'}</button></li>`
         )
-        .join('') || '<li>Aucune notification pour le moment.</li>';
+        .join('') || '<li class="inbox-empty">Aucune notification pour le moment.</li>';
+    if (focusedId && dialog.open) {
+      const item = [...list.querySelectorAll('[data-inbox-id]')].find(
+        (entry) => entry.dataset.inboxId === focusedId
+      );
+      (item ?? close).focus();
+    }
   }
   button.addEventListener('click', () => {
     render();
     dialog.showModal();
+    close.focus();
   });
-  dialog.querySelector('[data-inbox-close]').addEventListener('click', () => dialog.close());
-  dialog.querySelector('[data-inbox-read]').addEventListener('click', () => {
+  close.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => {
+    if (!button.hidden && dialog.ownerDocument.activeElement === dialog.ownerDocument.body)
+      button.focus();
+  });
+  markRead.addEventListener('click', () => {
     inbox?.read();
     render();
+    close.focus();
   });
   list.addEventListener('click', (event) => {
     const id = event.target.closest('[data-inbox-id]')?.dataset.inboxId,
@@ -143,10 +145,6 @@ export function initInbox({ navigate }) {
     },
     rewards(data) {
       inbox?.rewards(data);
-      render();
-    },
-    league(data) {
-      inbox?.league(data);
       render();
     }
   };

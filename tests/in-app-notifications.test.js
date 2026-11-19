@@ -25,25 +25,6 @@ test('aucun rejeu historique, nouveaux règlements gagnés/perdus persistants un
   assert.equal(box.unread(), 0);
   assert.equal(createInbox(storage, 'b').items().length, 0);
 });
-const league = (rank, season = 's', confirmed = true) => ({
-  me: 'me',
-  season,
-  echelon: 2,
-  groupLabel: 'A',
-  rows: [{ user_id: 'me', rank, confirmed }]
-});
-test('recul confirmé seulement, ni changement de saison ni rang provisoire', () => {
-  const box = createInbox(null, 'a');
-  box.league(league(2));
-  box.league(league(3));
-  assert.equal(box.unread(), 1);
-  box.league(league(3));
-  box.league(league(2));
-  box.league(league(10, 'new'));
-  box.league(league(null, 'new', false));
-  box.league(league(20, 'new'));
-  assert.equal(box.unread(), 1);
-});
 test('défis terminés signalés une fois, historique borné et stockage indisponible toléré', () => {
   const box = createInbox(
     {
