@@ -16,7 +16,7 @@
     const dark = current() === 'dark';
     document.documentElement.classList.toggle('light', !dark);
     const meta = document.querySelector('meta[name=theme-color]');
-    if (meta) meta.content = dark ? '#111c16' : '#F2F4F0';
+    if (meta) meta.content = dark ? '#090A0F' : '#F2F6FA';
     document.querySelectorAll?.('[data-theme-choice]').forEach((input) => {
       input.checked = input.value === current();
     });
