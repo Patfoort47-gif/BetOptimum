@@ -417,7 +417,7 @@ test('BET-273 : aucun conseil, probabilités réelles du modèle, CTA et suivi p
     assert.doesNotMatch(content, /indisponible|0 conseil|conseil\(s\)|Pas de conseil forcé/i);
   }
   assert.match(email.subject, /Ligue 1.*Lille - Paris/);
-  assert.match(email.html, /class="mail-button"[^>]+background:#c8f03c/);
+  assert.match(email.html, /class="mail-button"[^>]+background:#10b981/);
   assert.match(email.text, /Explorer le match du jour/);
   const missing = briefingEmail(
     { ...b, bankroll: null, hero: { ...m, homeGoals: null }, favorites: [] },

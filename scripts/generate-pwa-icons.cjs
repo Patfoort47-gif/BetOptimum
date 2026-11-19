@@ -20,7 +20,7 @@ const fs = require('node:fs'),
           c.width = c.height = size;
           const ctx = c.getContext('2d');
           if (maskable || size === 180) {
-            ctx.fillStyle = '#C8F03C';
+            ctx.fillStyle = '#10B981';
             ctx.fillRect(0, 0, size, size);
           }
           const inset = maskable ? size * 0.1 : 0;

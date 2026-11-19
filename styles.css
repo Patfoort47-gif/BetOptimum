@@ -57,32 +57,32 @@
 
 /* Thème sombre (par défaut) puis thème clair : toutes les couleurs passent par ces variables. */
 :root {
-  --pitch: rgba(200, 240, 60, 0.32);
+  --pitch: rgba(16, 185, 129, 0.32);
   --live: #ff6b6b;
   --live-soft: rgba(255, 107, 107, 0.14);
-  --bg: #111c16;
-  --surface: #19291f;
-  --surface-2: #203428;
-  --surface-3: #263d2e;
-  --line: #263d2e;
-  --line-strong: #365741;
-  --text: #edf4e9;
-  --muted: #9eb3a4;
-  --accent: #c8f03c;
-  --accent-text: #c8f03c;
-  --on-accent: #14251b;
-  --accent-soft: rgba(200, 240, 60, 0.12);
-  --info: #8fd3ff;
-  --danger: #ff9a6b;
-  --danger-soft: rgba(255, 154, 107, 0.14);
-  --warn: #ffc857;
-  --warn-soft: rgba(255, 200, 87, 0.14);
+  --bg: #090d16;
+  --surface: #111827;
+  --surface-2: #192335;
+  --surface-3: #233047;
+  --line: #233047;
+  --line-strong: #343e52;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #10b981;
+  --accent-text: #10b981;
+  --on-accent: #042f2e;
+  --accent-soft: rgba(16, 185, 129, 0.12);
+  --info: #38bdf8;
+  --danger: #f43f5e;
+  --danger-soft: rgba(244, 63, 94, 0.14);
+  --warn: #38bdf8;
+  --warn-soft: rgba(56, 189, 248, 0.14);
   --crest-bg: #ffffff;
-  --ticket-bg: #19291f;
-  --ticket-surface: #203428;
-  --ticket-line: #263d2e;
-  --ticket-text: #edf4e9;
-  --ticket-muted: #9eb3a4;
+  --ticket-bg: #111827;
+  --ticket-surface: #192335;
+  --ticket-line: #233047;
+  --ticket-text: #f8fafc;
+  --ticket-muted: #94a3b8;
   --shadow: none;
   --radius: 14px;
   --radius-sm: 10px;
@@ -97,29 +97,29 @@
   --pitch: #bcc6ba;
   --live: #c62828;
   --live-soft: #fde7e7;
-  --bg: #f2f4f0;
+  --bg: #f2f6fa;
   --surface: #ffffff;
-  --surface-2: #f1f4ef;
-  --surface-3: #e4e9e2;
-  --line: #dee4dc;
-  --line-strong: #c6cec4;
+  --surface-2: #eaf0f6;
+  --surface-3: #e1e9f2;
+  --line: #d8e1ec;
+  --line-strong: #a2b2c5;
   --text: #0f1411;
-  --muted: #56615a;
-  --accent: #c8f03c;
-  --accent-text: #3f6600;
+  --muted: #506178;
+  --accent: #10b981;
+  --accent-text: #006b49;
   --on-accent: #0a0c0b;
-  --accent-soft: #eef8cc;
+  --accent-soft: #ddf6ec;
   --info: #0b62a0;
-  --danger: #b93d0b;
-  --danger-soft: #fceae1;
-  --warn: #8a5a00;
-  --warn-soft: #fff2d2;
+  --danger: #be123c;
+  --danger-soft: #ffe4e6;
+  --warn: #075985;
+  --warn-soft: #e0f2fe;
   --crest-bg: #ffffff;
   --ticket-bg: #ffffff;
-  --ticket-surface: #f1f4ef;
-  --ticket-line: #dee4dc;
+  --ticket-surface: #eaf0f6;
+  --ticket-line: #d8e1ec;
   --ticket-text: #0f1411;
-  --ticket-muted: #56615a;
+  --ticket-muted: #506178;
   --shadow: 0 1px 2px rgba(15, 20, 17, 0.05), 0 10px 30px rgba(15, 20, 17, 0.06);
   color-scheme: light;
 }
@@ -225,12 +225,12 @@ svg.filled {
 :root {
   --scroll-track: var(--surface-2);
   --scroll-thumb: #68766b;
-  --scroll-hover: #95ac73;
+  --scroll-hover: #94a3b8;
   --scroll-active: var(--accent-text);
 }
 :root.light {
   --scroll-thumb: #778770;
-  --scroll-hover: #536d3d;
+  --scroll-hover: #506178;
 }
 * {
   scrollbar-width: thin;
@@ -983,9 +983,9 @@ main > *,
   right: -5px;
 }
 .team-favorite.active {
-  background: #fff4c2;
+  background: #e0f2fe;
   color: #9a7600;
-  border-color: #e6c84d;
+  border-color: #38bdf8;
 }
 .filter-menu {
   padding: 0 14px 0 6px;
@@ -2228,7 +2228,7 @@ select {
   width: 100px;
   height: 100px;
   border-radius: 34px;
-  background: linear-gradient(145deg, #eaff9d, #7cab00);
+  background: linear-gradient(145deg, #a7f3d0, #047857);
   box-shadow:
     inset 12px 12px 20px #fff7,
     inset -12px -12px 20px #0003,
@@ -2244,7 +2244,7 @@ select {
   background: linear-gradient(145deg, #e1c4ff, #783db8);
 }
 .avatar-3d.orange {
-  background: linear-gradient(145deg, #ffd29d, #d66b0a);
+  background: linear-gradient(145deg, #fda4af, #be123c);
 }
 .avatar-3d b {
   font-family: var(--display);
@@ -2425,7 +2425,7 @@ select {
   background: linear-gradient(145deg, #e1c4ff, #783db8);
 }
 .mini-avatar.orange {
-  background: linear-gradient(145deg, #ffd29d, #d66b0a);
+  background: linear-gradient(145deg, #fda4af, #be123c);
 }
 .profile-dialog {
   width: min(620px, calc(100% - 24px));
@@ -2487,7 +2487,7 @@ select {
   height: 36px;
   border: 3px solid var(--surface);
   border-radius: 50%;
-  background: #9dc315;
+  background: #10b981;
   box-shadow: 0 0 0 1px var(--line);
 }
 .avatar-swatches i.blue {
@@ -2589,44 +2589,6 @@ select {
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-bottom: 14px;
-}
-.prediction-kpi-grid article {
-  min-width: 0;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-.prediction-kpi-grid small,
-.prediction-kpi-grid span,
-.prediction-kpi-grid strong {
-  display: block;
-}
-.prediction-kpi-grid small {
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-.prediction-kpi-grid strong {
-  margin: 7px 0 3px;
-  font-family: var(--display);
-  font-size: 34px;
-  line-height: 1;
-}
-.prediction-kpi-grid span {
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.prediction-kpi-grid .negative {
-  color: var(--danger);
-}
-.prediction-kpi-grid .positive {
-  color: var(--accent-text);
 }
 .prediction-insights {
   display: grid;

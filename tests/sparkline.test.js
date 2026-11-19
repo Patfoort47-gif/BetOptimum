@@ -12,5 +12,5 @@ test('sparkline : vide, un point, courbe plate et directions accessibles', () =>
   assert.match(sparkline([10, 5]), /var\(--danger\)/);
   assert.match(sparkline([5, 10]), /en hausse/);
   assert.match(sparkline([5, 5]), /stable/);
-  assert.match(sparkline([5, 5]), /2,20 118,20/);
+  assert.match(sparkline([5, 5]), /M2,20 C[^"]+118,20/);
 });

@@ -62,7 +62,7 @@ export const HAIR_COLORS = [
   ['#b8bcc4', 'Argent'],
   ['#2b4fd6', 'Bleu'],
   ['#d6338f', 'Rose'],
-  ['#c6ff3d', 'Vert citron']
+  ['#10b981', 'Vert émeraude']
 ];
 export const LIME_HAIR = 8;
 export const BOOTS = [
@@ -85,9 +85,9 @@ export const NAME_RE = /^[A-Z0-9 .-]{0,12}$/;
 // Maillots : couleurs de départ gratuites (les quatre couleurs historiques), puis maillots de la boutique et maillots débloqués par division.
 export const KITS = {
   'start-lime': {
-    name: 'Maillot de départ · Lime',
+    name: 'Maillot de départ · Émeraude',
     pattern: 'plain',
-    c1: '#b7f02a',
+    c1: '#34d399',
     c2: '#101411',
     free: true
   },
@@ -112,11 +112,11 @@ export const KITS = {
     c2: '#101411',
     free: true
   },
-  'kit-plain-lime': { pattern: 'plain', c1: '#c6ff3d', c2: '#101411' },
+  'kit-plain-lime': { pattern: 'plain', c1: '#10b981', c2: '#101411' },
   'kit-plain-blue': { pattern: 'plain', c1: '#1e56e6', c2: '#f4f4f0' },
   'kit-plain-red': { pattern: 'plain', c1: '#e02424', c2: '#f4f4f0' },
   'kit-plain-white': { pattern: 'plain', c1: '#f4f4f0', c2: '#1e56e6' },
-  'kit-plain-black': { pattern: 'plain', c1: '#17191b', c2: '#c6ff3d' },
+  'kit-plain-black': { pattern: 'plain', c1: '#17191b', c2: '#10b981' },
   'kit-plain-orange': { pattern: 'plain', c1: '#ff7a00', c2: '#101411' },
   'kit-stripe-vertical': { pattern: 'vertical', c1: '#d62828', c2: '#f4f4f0' },
   'kit-stripe-band': { pattern: 'band', c1: '#f4f4f0', c2: '#1e56e6' },
@@ -139,7 +139,7 @@ export const KITS = {
 };
 export const START_KITS = Object.keys(KITS).filter((id) => KITS[id].free);
 export const SOLID_BACKGROUNDS = [
-  ['solid-0', 'Citron', '#d7ff4a', '#7bb800'],
+  ['solid-0', 'Émeraude', '#6ee7b7', '#047857'],
   ['solid-1', 'Nuit', '#2b3a67', '#0b1020'],
   ['solid-2', 'Pourpre', '#8b5cf6', '#2a1459'],
   ['solid-3', 'Rouge', '#ff5a4a', '#8c1111'],

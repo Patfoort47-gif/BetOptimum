@@ -675,7 +675,7 @@ dialog.detail-sheet[open] {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #c8f03c;
+  background: #10b981;
   color: #0a0c0b;
   font-family: var(--display);
   font-size: 16px;
@@ -683,7 +683,7 @@ dialog.detail-sheet[open] {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 .pitch.away .player b {
-  background: #8fd3ff;
+  background: #38bdf8;
 }
 .player small {
   max-width: 86px;
@@ -801,7 +801,7 @@ dialog.detail-sheet[open] {
   height: 21px;
   margin: auto;
   border-radius: 3px;
-  background: #ffc857;
+  background: #38bdf8;
 }
 .feed-icon.red {
   width: 15px;

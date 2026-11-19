@@ -41,7 +41,7 @@ const assert = require('node:assert/strict'),
         c.width = c.height = size;
         const ctx = c.getContext('2d');
         if (file === 'apple-touch-icon.png' || file === 'icon-maskable.png') {
-          ctx.fillStyle = '#C8F03C';
+          ctx.fillStyle = '#10B981';
           ctx.fillRect(0, 0, size, size);
         }
         const inset = file === 'icon-maskable.png' ? size * 0.1 : 0;
@@ -56,7 +56,7 @@ const assert = require('node:assert/strict'),
             for (let x = 0; x < size; x++) {
               const n = (y * size + x) * 4;
               if (pixels[n + 3] !== 255) throw Error('Transparence maskable');
-              if (pixels[n] < 80 && Math.hypot(x - size / 2, y - size / 2) > size * 0.4)
+              if (pixels[n + 1] < 100 && Math.hypot(x - size / 2, y - size / 2) > size * 0.4)
                 throw Error('Logo hors zone sûre');
             }
         }

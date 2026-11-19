@@ -6,7 +6,7 @@ export function visualCardFile({ title, lines, filename = 'betoptimum.png' }) {
   const c = canvas.getContext('2d');
   c.fillStyle = '#101827';
   c.fillRect(0, 0, 1200, 630);
-  c.fillStyle = '#c8f03c';
+  c.fillStyle = '#10b981';
   c.font = 'bold 36px sans-serif';
   c.fillText('BetOptimum', 60, 70);
   c.fillStyle = '#ffffff';

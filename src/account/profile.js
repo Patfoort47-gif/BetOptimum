@@ -16,10 +16,10 @@ const DIVISION_COLORS = [
   '#8a6d4b',
   '#b87333',
   '#9aa5b1',
-  '#d4a017',
+  '#10b981',
   '#2fa4a4',
   '#7a4dd8',
-  '#C8F03C'
+  '#10b981'
 ];
 // Personnalisation de la carte (BET-163) : fond, police du numéro et effet brillant équipés, publics par la vue public_equipped (V39). Mêmes choix dans l'image partagée.
 const CARD_LOOK = [
@@ -112,7 +112,7 @@ function paintCardShine(ctx, asset) {
     g.addColorStop(0.58, 'rgba(255,255,255,0)');
     g.addColorStop(1, 'rgba(255,255,255,0)');
   } else
-    ['#ff5ec4', '#5ee7ff', '#c8f03c', '#ffd25e', '#a46bff'].forEach((c, i, all) =>
+    ['#ff5ec4', '#5ee7ff', '#10b981', '#38bdf8', '#a46bff'].forEach((c, i, all) =>
       g.addColorStop(i / (all.length - 1), `${c}33`)
     );
   ctx.fillStyle = g;
@@ -247,14 +247,14 @@ export function initProfilePage(deps) {
     ctx.strokeStyle = accent;
     ctx.lineWidth = 6;
     ctx.stroke();
-    ctx.fillStyle = '#F4F7F2';
+    ctx.fillStyle = '#f8fafc';
     ctx.textAlign = 'center';
     ctx.font = `800 120px ${CARD_FONTS[cardAsset(info.equipped, 'card-font')] ?? '"Barlow Condensed", Impact, sans-serif'}`;
     ctx.fillText(String(overall), 300, 220);
     ctx.font = '700 28px Inter, sans-serif';
     ctx.fillStyle = accent;
     ctx.fillText('Profil de pronostiqueur', 300, 270);
-    ctx.fillStyle = '#F4F7F2';
+    ctx.fillStyle = '#f8fafc';
     ctx.font = '800 54px "Barlow Condensed", Impact, sans-serif';
     ctx.fillText(info.profile.nickname.toUpperCase(), 300, 345, 440);
     ctx.font = '600 22px Inter, sans-serif';
@@ -267,7 +267,7 @@ export function initProfilePage(deps) {
     CARD_ATTRIBUTES.forEach((name, index) => {
       const x = 130 + (index % 3) * 170,
         y = 470 + Math.floor(index / 3) * 110;
-      ctx.fillStyle = '#F4F7F2';
+      ctx.fillStyle = '#f8fafc';
       ctx.font = '800 56px "Barlow Condensed", Impact, sans-serif';
       ctx.fillText(String(attributes[name]), x, y);
       ctx.fillStyle = '#9FB09A';

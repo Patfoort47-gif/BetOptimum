@@ -1,4 +1,4 @@
-import { smoothChartPath } from '../core/chart-path.js';
+import { financialTone, kpiCard, vizBar, vizBarGradient, vizCurve } from '../core/design-viz.js';
 import { decimal } from '../core/number-format.js';
 import { predictionReport } from './prediction-report.js';
 // BET-91 : chronologie des mises, règlements et mouvements de capital, sans dépendance externe.
@@ -157,7 +157,7 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
     min = key === 'balance' ? floor - pad : Math.min(0, ...values),
     max = key === 'balance' ? ceiling + pad : Math.max(key === 'winrate' ? 100 : 1, ...values),
     range = max - min || 1;
-  const x = (index) => 42 + (rows.length === 1 ? 0.5 : index / (rows.length - 1)) * 616,
+  const x = (index) => 96 + (rows.length === 1 ? 0.5 : index / (rows.length - 1)) * 562,
     y = (value) => 190 - ((value - min) / range) * 156;
   const format = (value) =>
     key === 'winrate'
@@ -166,9 +166,21 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
         ? `${value} pari${value > 1 ? 's' : ''}`
         : euros(value);
   const points = rows.flatMap((row, index) => (row[key] == null ? [] : [[x(index), y(row[key])]]));
-  const path = smoothChartPath(points, key === 'winrate' ? 0.45 : 0.4),
-    gradientId = `analytics-line-${key}`,
-    fillId = `analytics-fill-${key}`;
+  const prefix = `analytics-bars-${key}`,
+    line = bars
+      ? vizBarGradient(prefix)
+      : vizCurve(points, {
+          baseline: 190,
+          id: `analytics-fill-${key}`,
+          lineId: `analytics-line-${key}`,
+          color:
+            key === 'winrate'
+              ? 'var(--info)'
+              : values.at(-1) < 0
+                ? 'var(--danger)'
+                : 'var(--accent)',
+          tension: key === 'winrate' ? 0.45 : 0.4
+        });
   const peak =
     key === 'winrate'
       ? points.reduce(
@@ -179,7 +191,7 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
   const badge = peak
     ? `<g class="viz-peak" aria-hidden="true"><path d="M${peak[0]},${peak[1]} V190"/><rect x="${Math.max(42, Math.min(588, peak[0] - 35))}" y="4" width="70" height="24" rx="7"/><text x="${Math.max(77, Math.min(623, peak[0]))}" y="20" text-anchor="middle">${decimal(Math.max(...values), 1)} %</text></g>`
     : '';
-  const width = Math.min(36, 470 / Math.max(1, rows.length)),
+  const width = Math.min(56, 470 / Math.max(1, rows.length)),
     ticks =
       key === 'volume'
         ? [...new Set([0, Math.ceil(max / 2), Math.ceil(max)])]
@@ -190,11 +202,19 @@ function graph(rows, key, label, { bars = false, baseline = null } = {}) {
       const text = `${row.date} : ${format(row[key])}`,
         attrs = `tabindex="0" role="button" aria-label="${esc(text)}" data-chart-value="${esc(text)}"`;
       return bars
-        ? `<rect ${attrs} x="${x(index) - width / 2}" y="${Math.min(y(0), y(row[key]))}" width="${width}" height="${Math.max(2, Math.abs(y(0) - y(row[key])))}" rx="3" class="${row[key] < 0 ? 'chart-loss' : 'chart-gain'}"><title>${esc(text)}</title></rect>`
-        : `<circle ${attrs} cx="${x(index)}" cy="${y(row[key])}" r="5"><title>${esc(text)}</title></circle>`;
+        ? vizBar({
+            x: x(index),
+            y: Math.min(y(0), y(row[key])),
+            width,
+            height: Math.max(2, Math.abs(y(0) - y(row[key]))),
+            tone: key === 'volume' ? 'data' : row[key] < 0 ? 'loss' : 'gain',
+            prefix,
+            attrs
+          })
+        : `<circle ${attrs} class="viz-hit" cx="${x(index)}" cy="${y(row[key])}" r="10"/>`;
     })
     .join('');
-  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="42" y1="${y(Math.min(max, Math.max(min, 0)))}" x2="658" y2="${y(Math.min(max, Math.max(min, 0)))}" class="analytics-axis"/>${ticks.map((value) => `<line x1="42" y1="${y(value)}" x2="658" y2="${y(value)}" class="analytics-grid"/>`).join('')}${bars || !points.length ? '' : `<defs><linearGradient id="${gradientId}"><stop stop-color="#38BDF8"/><stop offset="1" stop-color="#10B981"/></linearGradient><linearGradient id="${fillId}" x2="0" y2="1"><stop stop-color="#10B981" stop-opacity=".25"/><stop offset="1" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs><path d="${path} L${points.at(-1)[0]},190 L${points[0][0]},190 Z" fill="url(#${fillId})" stroke="none"/><path d="${path}" class="analytics-line viz-line" style="stroke:${key === 'winrate' ? `url(#${gradientId})` : 'var(--accent)'}"/>`}${badge}${marks}${ticks.map((value) => `<text class="analytics-tick" x="42" y="${y(value) - 6}">${esc(format(value))}</text>`).join('')}<text x="42" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
+  return `<svg viewBox="0 0 700 230" role="group" aria-label="${esc(label)}" class="analytics-svg"><line x1="96" y1="${y(Math.min(max, Math.max(min, 0)))}" x2="658" y2="${y(Math.min(max, Math.max(min, 0)))}" class="analytics-axis"/>${ticks.map((value) => `<line x1="96" y1="${y(value)}" x2="658" y2="${y(value)}" class="analytics-grid"/>`).join('')}${line}${badge}${marks}${ticks.map((value) => `<text class="analytics-tick" text-anchor="end" x="90" y="${y(value) + 4}">${esc(format(value))}</text>`).join('')}<text x="96" y="218">${esc(rows[0]?.date ?? '')}</text><text x="658" y="218" text-anchor="end">${esc(rows.at(-1)?.date ?? '')}</text></svg>`;
 }
 
 export function initAnalytics(root, { onPeriod = () => {} } = {}) {
@@ -248,7 +268,7 @@ export function initAnalytics(root, { onPeriod = () => {} } = {}) {
       )
       .join(
         ''
-      )}</select></label></div></div><p class="analytics-note">${personal ? (certified ? 'Votre bankroll certifiée : mises au placement, retours au règlement. Les anciens paris restent consultables dans votre profil.' : 'Historique personnel du navigateur. Connectez-vous pour afficher votre bankroll certifiée.') : 'Simulation des pronostics du site : capital initial de 100 €, mise fixe de 10 € par pronostic. Les graphiques suivent les filtres du bilan.'} Les remboursements sont exclus du taux de réussite et des gains réalisés.</p><div class="analytics-kpis">${tiles.map(([label, value]) => `<div><small>${label}</small><strong>${value}</strong></div>`).join('')}</div><div class="analytics-grid-cards">${chart('balance', personal ? 'Évolution de ma bankroll' : 'Capital simulé du modèle', `Solde de départ de la période : ${euros(report.opening)}. Apports et retraits inclus.`, { baseline: report.opening })}${chart('profit', 'Gains et pertes réalisés', `Par ${report.granularity} · hors apports, retraits et mises en attente.`, { bars: true })}${chart('winrate', 'Taux de réussite', 'Cumul sur la période · paris gagnés / paris réglés, en %.')}${chart('volume', 'Volume de paris', `Paris placés par ${report.granularity} · y compris en attente et remboursés.`, { bars: true })}</div><output class="analytics-tooltip" aria-live="polite">Survolez, touchez ou sélectionnez un point pour lire sa valeur.</output>${report.rows.length ? `<details class="analytics-data"><summary>Consulter les données des graphiques</summary><div class="analytics-table-wrap"><table><caption>Résultats par ${report.granularity} · heure de Paris</caption><thead><tr><th>Période</th><th>Solde</th><th>Gains / pertes</th><th>Capital</th><th>Paris placés</th><th>Réglés</th><th>Réussite cumulée</th></tr></thead><tbody>${report.rows.map((row) => `<tr><th>${row.date}</th><td>${euros(row.balance)}</td><td>${euros(row.profit)}</td><td>${euros(row.capital)}</td><td>${row.volume}</td><td>${row.settled}</td><td>${row.winrate == null ? '-' : decimal(row.winrate, 1) + ' %'}</td></tr>`).join('')}</tbody></table></div></details>` : ''}`;
+      )}</select></label></div></div><p class="analytics-note">${personal ? (certified ? 'Votre bankroll certifiée : mises au placement, retours au règlement. Les anciens paris restent consultables dans votre profil.' : 'Historique personnel du navigateur. Connectez-vous pour afficher votre bankroll certifiée.') : 'Simulation des pronostics du site : capital initial de 100 €, mise fixe de 10 € par pronostic. Les graphiques suivent les filtres du bilan.'} Les remboursements sont exclus du taux de réussite et des gains réalisés.</p><dl class="analytics-kpis">${tiles.map(([label, value], index) => kpiCard(label, value, { tone: index === 1 || index === 2 ? financialTone(value) : '', caption: 'Période sélectionnée' })).join('')}</dl><div class="analytics-grid-cards">${chart('balance', personal ? 'Évolution de ma bankroll' : 'Capital simulé du modèle', `Solde de départ de la période : ${euros(report.opening)}. Apports et retraits inclus.`, { baseline: report.opening })}${chart('profit', 'Gains et pertes réalisés', `Par ${report.granularity} · hors apports, retraits et mises en attente.`, { bars: true })}${chart('winrate', 'Taux de réussite', 'Cumul sur la période · paris gagnés / paris réglés, en %.')}${chart('volume', 'Volume de paris', `Paris placés par ${report.granularity} · y compris en attente et remboursés.`, { bars: true })}</div><output class="analytics-tooltip" aria-live="polite">Survolez, touchez ou sélectionnez un point pour lire sa valeur.</output>${report.rows.length ? `<details class="analytics-data"><summary>Consulter les données des graphiques</summary><div class="analytics-table-wrap"><table><caption>Résultats par ${report.granularity} · heure de Paris</caption><thead><tr><th>Période</th><th>Solde</th><th>Gains / pertes</th><th>Capital</th><th>Paris placés</th><th>Réglés</th><th>Réussite cumulée</th></tr></thead><tbody>${report.rows.map((row) => `<tr><th>${row.date}</th><td>${euros(row.balance)}</td><td>${euros(row.profit)}</td><td>${euros(row.capital)}</td><td>${row.volume}</td><td>${row.settled}</td><td>${row.winrate == null ? '-' : decimal(row.winrate, 1) + ' %'}</td></tr>`).join('')}</tbody></table></div></details>` : ''}`;
   }
   root.addEventListener('change', (event) => {
     if (event.target.matches('[data-analytics-source]')) source = event.target.value;

@@ -92,7 +92,7 @@ function pitch(ctx, W, H, far = 0.6, base = '#1d6b2f', alt = '#238138') {
   const floor = H * FLOOR;
   ctx.fillStyle = linear(ctx, 0, H * far, 0, H, [
     [0, mix(base, '#000000', 0.25)],
-    [1, mix(base, '#7bd13a', 0.25)]
+    [1, mix(base, '#10b981', 0.25)]
   ]);
   ctx.fillRect(0, H * far, W, H - H * far);
   for (let i = 0; i < 12; i++) {
@@ -181,9 +181,9 @@ const STADIUM = {
   },
   rio: {
     name: 'Rio',
-    crowd: ['#2f6bff', '#f5d418', '#ffffff', '#1d4ed8'],
+    crowd: ['#2f6bff', '#38bdf8', '#ffffff', '#1d4ed8'],
     sky: ['#04101f', '#0d2a52', '#1c4a7a'],
-    accent: '#f5d418'
+    accent: '#38bdf8'
   },
   barcelona: {
     name: 'Barcelone',
@@ -356,7 +356,7 @@ function stadiumOutside(ctx, W, H, key) {
     ctx.ellipse(W / 2, H * 0.38, W * 0.62, H * 0.09, 0, 0, 2 * Math.PI);
     ctx.stroke();
     for (let i = 0; i < 22; i++) {
-      ctx.fillStyle = i % 2 ? '#2f6bff' : '#f5d418';
+      ctx.fillStyle = i % 2 ? '#2f6bff' : '#38bdf8';
       ctx.globalAlpha = 0.55;
       ctx.fillRect((W * i) / 22, H * 0.45, W / 22 - 3, floor - H * 0.45);
     }

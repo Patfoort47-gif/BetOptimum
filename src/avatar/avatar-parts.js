@@ -864,7 +864,7 @@ export function buildCharacter(T, input, q) {
     if (key === 'L' && acc('acc-captain')) {
       const band = mesh(
         geo(new T.CylinderGeometry(0.062, 0.062, 0.05, 20, 1, true)),
-        std('#f5d418', 0.6, 0, { side: T.DoubleSide }),
+        std('#38bdf8', 0.6, 0, { side: T.DoubleSide }),
         shoulder,
         [0, -0.09, 0]
       );
@@ -877,7 +877,7 @@ export function buildCharacter(T, input, q) {
       const badge = document.createElement('canvas');
       badge.width = badge.height = 64;
       const bc = badge.getContext('2d');
-      bc.fillStyle = '#f5d418';
+      bc.fillStyle = '#38bdf8';
       bc.fillRect(0, 0, 64, 64);
       bc.fillStyle = '#101214';
       bc.font = 'bold 48px sans-serif';
@@ -1178,7 +1178,7 @@ export function buildCharacter(T, input, q) {
     addRing(0.5, '#ff3bd4', 1.2);
   } else {
     disc(0.64, 0.66, 0.07, std('#171b1f', 0.42, 0.35));
-    addRing(0.6, '#c6ff3d', 0.7);
+    addRing(0.6, '#10b981', 0.7);
   }
   const shadowDisc = new T.Mesh(
     geo(new T.PlaneGeometry(0.95, 0.62)),
