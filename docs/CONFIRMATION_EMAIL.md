@@ -1,28 +1,7 @@
-# Confirmation de compte (BET-167)
+# Messages Supabase Auth
 
-Le template `supabase/templates/confirmation.html` cible Supabase Auth « Confirm signup ».
-Objet : `Bienvenue au Club BetOptimum : confirme ton adresse`.
-Pré-en-tête inclus dans le HTML. Le fichier `.txt` fournit une alternative pour un fournisseur acceptant le multipart ; la configuration Auth ne propose pas de champ texte distinct. Aucun envoi de campagne, pixel ou changement de consentement.
+Les modèles de confirmation, de récupération, de connexion par lien et de changement d’adresse se trouvent dans `supabase/templates/`. Le bouton et le lien de secours utilisent `{{ .ConfirmationURL }}`. Le changement d’adresse utilise aussi `{{ .NewEmail }}`. Les fichiers texte servent de référence. Supabase Auth ne propose pas de champ distinct pour les publier en multipart.
 
-Déployer uniquement `mailer_templates_confirmation_content` et `mailer_subjects_confirmation` via l’API Management `/v1/projects/{ref}/config/auth`. Ne pas toucher aux templates de récupération et changement d’adresse, ni au site URL ou aux redirections autorisées. Bouton et secours utilisent exclusivement `{{ .ConfirmationURL }}`.
+Publier les seules paires objet/contenu des modèles approuvés via la configuration Auth du projet. Relire les valeurs après écriture et conserver les anciennes en lieu sûr pour un retour arrière. Les autres modèles, redirections, limites et réglages SMTP sont indépendants de cette opération.
 
-## Expéditeur et limites
-
-À l’inspection du projet, aucun SMTP personnalisé n’est configuré. Le template ne change donc pas l’adresse d’envoi Supabase. Pour une identité BetOptimum complète, fournir un domaine maîtrisé, un fournisseur SMTP, une adresse d’envoi et une adresse de réponse surveillée. Configurer le SMTP dans Auth sans commettre ses secrets. Installer les enregistrements SPF et DKIM du fournisseur, puis DMARC (commencer par une politique de surveillance et contrôler l’alignement). Vérifier les en-têtes Authentication-Results d’un message reçu. Ne pas prétendre supprimer l’avertissement Outlook.
-
-## Recette restant à fournir
-
-- Envoyer par inscription d’un compte de recette autorisé. Confirmer et vérifier l’activation, la redirection autorisée et la session ; tester renvoi, expiration et réutilisation sans publier de jeton.
-- Captures Gmail, Outlook, Apple Mail, téléphone et ordinateur, images bloquées, clair et sombre. Un aperçu navigateur ne valide pas ces clients.
-- Vérifier le domaine d’envoi et le Reply-To après configuration SMTP.
-- Contrôler connexion et récupération indépendantes, consentements newsletter/alertes inchangés.
-
-Ne fermer le ticket qu’après ces vérifications. Aucun compte ni destinataire de recette n’est inventé.
-
-## État réel de livraison au 3 novembre 2026
-
-Le site Pages actuel est `https://patfoort47-gif.github.io/BetOptimum/`. Cette adresse exacte a été ajoutée aux redirections Auth autorisées ; l’ancienne adresse `prono_patfoort` et le `site_url` sont conservés. Les options `emailRedirectTo` du code ne changent pas.
-
-L’installation du template via Management a été tentée puis refusée : « Email template modification is not available for free tier projects using the default email provider. Please upgrade your plan or configure a custom SMTP provider. » L’objet et le contenu envoyés restent donc ceux du fournisseur par défaut. Après configuration SMTP ou changement d’offre, réappliquer le template et vérifier sa relecture avant toute déclaration de succès.
-
-Les captures `docs/recette/BET-167-preview-*.png` sont des **aperçus navigateur** du HTML avec une adresse de démonstration invalide, sans jeton. Elles ne remplacent pas la recette mail requise.
+Le projet utilise un SMTP personnalisé. Contrôler sur un compte de recette consenti les redirections, l’expiration, le renvoi et le rendu Gmail, Outlook et Apple Mail, en clair et sombre avec images désactivées. Vérifier l’identité d’envoi et les résultats SPF, DKIM et DMARC d’un message reçu. Éviter de conserver les liens ou jetons dans les comptes rendus.
