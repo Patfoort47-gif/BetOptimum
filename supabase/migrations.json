@@ -377,6 +377,11 @@
       "legacy": "supabase-v65-schema.sql",
       "file": "20261110000105_legacy_v65.sql",
       "sha256": "14ac55646ffae56d6c3f5c45c5305cdd7fae27ce4bee52628a0568467704f32b"
+    },
+    {
+      "version": "20261119160500",
+      "file": "20261119160500_bet398_preserve_web_deliveries.sql",
+      "sha256": "27f93f876a454a3eca9fd2b70027d963aba4963d020857a12381e4ce585f354a"
     }
   ],
   "excluded": [
