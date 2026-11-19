@@ -1165,12 +1165,24 @@ function renderFilters() {
   renderLeagueMenu();
   updateScrollers();
 }
+let leagueDraft = null;
 function renderLeagueMenu() {
-  const leagues = rankedLeagues().filter((x) => x.count || state.selectedLeagues.includes(x.name)),
+  const selected = leagueDraft ?? state.selectedLeagues;
+  const leagues = rankedLeagues().filter((x) => x.count || selected.includes(x.name)),
     total = calendarMatches().filter(inPeriod).length,
     option = (filter, logo, name, count, label) =>
-      `<button class="league-option ${(filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)) ? 'active' : ''}" data-filter="${html(filter)}" aria-pressed="${filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)}">${logo}<span class="league-text"><strong>${html(name)}</strong><small>${label ?? (count ? `${count} match${count > 1 ? 's' : ''} sur la période` : 'Aucun match sur la période')}</small></span>${(filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)) ? ICONS.check : ''}</button>`;
-  $('#competition-options').innerHTML =
+      `<button class="league-option ${(filter === 'Tous' ? !selected.length : selected.includes(filter)) ? 'active' : ''}" data-filter="${html(filter)}" aria-pressed="${filter === 'Tous' ? !selected.length : selected.includes(filter)}">${logo}<span class="league-text"><strong>${html(name)}</strong><small>${label ?? (count ? `${count} match${count > 1 ? 's' : ''} sur la période` : 'Aucun match sur la période')}</small></span>${(filter === 'Tous' ? !selected.length : selected.includes(filter)) ? ICONS.check : ''}</button>`;
+  const options = $('#competition-options');
+  const scrollTop = options.scrollTop;
+  if (leagueDraft) {
+    const visible = calendarMatches().filter((match) =>
+      matchesCurrentFilters(match, selected)
+    ).length;
+    $('#apply-competitions').textContent = visible
+      ? `Voir ${visible === 1 ? '1 match' : `les ${visible} matchs`}`
+      : 'Voir les résultats (0)';
+  }
+  options.innerHTML =
     `<p class="muted">Sélectionnez plusieurs compétitions. Le filtre Favoris s’applique ensuite à cette sélection.</p>` +
     option(
       'Tous',
@@ -1185,6 +1197,7 @@ function renderLeagueMenu() {
         ? `<p class="league-group">${title}</p>${items.map((x) => option(x.name, logoTag('league-logo', leagueLogoUrl(x.name), x.name), x.name, x.count)).join('')}`
         : '';
     }).join('');
+  options.scrollTop = scrollTop;
 }
 const shortDay = (date) =>
   new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' }).format(
@@ -1212,16 +1225,18 @@ function renderDateNavigator() {
       })
       .join('')}`;
 }
-function visibleMatches() {
-  const matches = calendarMatches().filter(
-    (m) =>
-      inPeriod(m) &&
-      (!state.selectedLeagues.length || state.selectedLeagues.includes(m.league)) &&
-      (state.filter !== 'Favoris' ||
-        state.favoriteLeagues.includes(m.league) ||
-        state.favoriteTeams.includes(m.home) ||
-        state.favoriteTeams.includes(m.away))
+function matchesCurrentFilters(match, selected = state.selectedLeagues) {
+  return (
+    inPeriod(match) &&
+    (!selected.length || selected.includes(match.league)) &&
+    (state.filter !== 'Favoris' ||
+      state.favoriteLeagues.includes(match.league) ||
+      state.favoriteTeams.includes(match.home) ||
+      state.favoriteTeams.includes(match.away))
   );
+}
+function visibleMatches() {
+  const matches = calendarMatches().filter((match) => matchesCurrentFilters(match));
   const spotlight = fixturePreview
       ? null
       : selectSpotlight(matches, Date.now(), new Set(matches.filter(isLive).map((m) => m.id)))?.id,
@@ -4060,6 +4075,7 @@ $('#filters').addEventListener('click', (e) => {
     return;
   }
   if (e.target.closest('[data-league-menu]')) {
+    leagueDraft = [...state.selectedLeagues];
     renderLeagueMenu();
     $('#league-dialog').showModal();
     return;
@@ -4069,12 +4085,33 @@ $('#filters').addEventListener('click', (e) => {
 });
 $('#competition-options').addEventListener('click', (e) => {
   const b = e.target.closest('[data-filter]');
-  if (!b) return;
-  selectLeague(b.dataset.filter);
+  if (!b || !leagueDraft) return;
+  const league = b.dataset.filter;
+  leagueDraft =
+    league === 'Tous'
+      ? []
+      : leagueDraft.includes(league)
+        ? leagueDraft.filter((name) => name !== league)
+        : [...leagueDraft, league];
+  renderLeagueMenu();
   const active = [...document.querySelectorAll('#competition-options [data-filter]')].find(
     (item) => item.dataset.filter === b.dataset.filter
   );
-  active?.focus();
+  active?.focus({ preventScroll: true });
+});
+$('#apply-competitions')?.addEventListener('click', () => {
+  if (!leagueDraft) return;
+  state.selectedLeagues = leagueDraft;
+  leagueDraft = null;
+  visibleWeekLimit = WEEK_MATCH_BATCH;
+  state.revealed.clear();
+  renderFilters();
+  renderMatches();
+  $('#league-dialog').close();
+});
+$('#league-dialog')?.addEventListener('close', () => {
+  leagueDraft = null;
+  $('[data-league-menu]')?.focus({ preventScroll: true });
 });
 $('#matches')?.addEventListener('click', (event) => {
   if (event.target.closest('[data-retry-matches]')) loadLiveFixtures();

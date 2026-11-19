@@ -12751,3 +12751,28 @@ body .match-card .match-hero .stadium-placeholder-name {
   flex-direction: column;
   gap: 4px;
 }
+
+#league-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#league-dialog .league-list {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#league-dialog .league-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+#league-dialog .league-actions button {
+  flex: 1 1 auto;
+  min-height: 44px;
+}
