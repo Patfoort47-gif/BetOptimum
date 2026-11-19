@@ -49,7 +49,7 @@ test('publication avec sitemap sans ancres, robots et image sociale', async () =
 test('un seul h1 initial, court et lisible', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
-  assert.match(html, /<h1>Vos matchs du jour<\/h1>/);
+  assert.match(html, /<h1 id="calendar-hero-title">Vos matchs du jour<\/h1>/);
   assert.match(html, /<h2>Résultats du modèle<\/h2>/);
   assert.match(html, /<h2>Rejoignez le club<\/h2>/);
 });

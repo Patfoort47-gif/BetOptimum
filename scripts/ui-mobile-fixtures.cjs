@@ -59,7 +59,8 @@ async function page(
     storage = null,
     failure = null,
     touch = false,
-    init = null
+    init = null,
+    query = ''
   } = {}
 ) {
   const p = await b.newPage({
@@ -92,7 +93,7 @@ async function page(
     if (u.pathname.endsWith('/data/predictions-history.json')) return r.fulfill({ json: [] });
     return r.continue();
   });
-  await p.goto(base);
+  await p.goto(new URL(query, base).href);
   return p;
 }
 module.exports = { base, root, match, fixtures, browser, page };

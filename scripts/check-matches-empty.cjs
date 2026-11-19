@@ -18,7 +18,12 @@ const date = (offset) =>
           date: date(1),
           kickoff: new Date(Date.now() + 26 * 3600000).toISOString()
         }));
-        const p = await page(b, { width, dark, data: { ...fixtures, matches: tomorrow } });
+        const p = await page(b, {
+          width,
+          dark,
+          query: `/?date=${date(0)}`,
+          data: { ...fixtures, matches: tomorrow }
+        });
         const next = p.locator('#next-match-day');
         await next.waitFor();
         assert.match(await next.innerText(), /Voir les matchs du/);
@@ -48,6 +53,27 @@ const date = (offset) =>
         await q.close();
         console.log('OK accueil et filtres', width, dark);
       }
+    const future = {
+      ...fixtures.matches[0],
+      id: 'espn-3',
+      date: date(1),
+      kickoff: new Date(Date.now() + 26 * 3600000).toISOString()
+    };
+    const noOdds = { ...fixtures.matches[0], realOddsMarkets: [], bookmakerOffers: [] };
+    const initial = await page(b, { data: { ...fixtures, matches: [noOdds, future] } });
+    await initial.locator('#match-espn-3').waitFor();
+    assert.equal(await initial.locator('[data-date].active').getAttribute('data-date'), date(1));
+    assert.match(await initial.locator('#calendar-hero-title').innerText(), /^Vos matchs du /);
+    assert.equal(
+      await initial.evaluate(() => localStorage.getItem('betoptimum-calendar-context')),
+      null
+    );
+    await initial.locator(`[data-date="${date(0)}"]`).click();
+    await initial.locator('#next-match-day').waitFor();
+    await initial.reload();
+    await initial.locator('#next-match-day').waitFor();
+    assert.equal(await initial.locator('[data-date].active').getAttribute('data-date'), date(0));
+    await initial.close();
     const noUpcoming = await page(b, { data: { ...fixtures, matches: [] } });
     await noUpcoming.locator('#today-empty').waitFor();
     assert.equal(await noUpcoming.locator('#next-match-day').isVisible(), false);

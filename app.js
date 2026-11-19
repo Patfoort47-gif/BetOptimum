@@ -402,19 +402,22 @@ const explicitCalendarDate =
     : null;
 const linkedCalendarMatch = /^#match-(espn-[0-9]+)$/.test(location.hash);
 const rememberedDate = calendarContext?.date;
-let findNextCalendarDate =
-  !explicitCalendarDate &&
-  !linkedCalendarMatch &&
-  /^\d{4}-\d{2}-\d{2}$/.test(rememberedDate) &&
-  rememberedDate < isoDate(0);
+let chosenCalendarDate =
+  rememberedDate === 'week' ||
+  (/^\d{4}-\d{2}-\d{2}$/.test(rememberedDate) &&
+    rememberedDate >= isoDate(0) &&
+    rememberedDate <= isoDate(6))
+    ? rememberedDate
+    : null;
+let findInitialCalendarDate = !explicitCalendarDate && !linkedCalendarMatch && !chosenCalendarDate;
 
 function rememberCalendarContext() {
-  findNextCalendarDate = false;
+  findInitialCalendarDate = false;
   try {
     localStorage.setItem(
       calendarContextKey,
       JSON.stringify({
-        date: state.dateFilter,
+        date: chosenCalendarDate,
         leagues: state.selectedLeagues,
         favorites: state.filter === 'Favoris'
       })
@@ -485,14 +488,7 @@ const state = {
       ? calendarContext.leagues.filter((league) => typeof league === 'string')
       : [],
   dateFilter:
-    explicitCalendarDate ??
-    (!linkedCalendarMatch &&
-    (rememberedDate === 'week' ||
-      (/^\d{4}-\d{2}-\d{2}$/.test(rememberedDate) &&
-        rememberedDate >= isoDate(0) &&
-        rememberedDate <= isoDate(6)))
-      ? rememberedDate
-      : isoDate(0)),
+    explicitCalendarDate ?? (linkedCalendarMatch ? null : chosenCalendarDate) ?? isoDate(0),
   live: {},
   liveErrors: {},
   revealed: new Set(),
@@ -692,6 +688,7 @@ function openAlertMatch() {
   useDetails((api) => {
     if (pendingAlertMatch !== id) return;
     pendingAlertMatch = null;
+    findInitialCalendarDate = false;
     state.dateFilter = match.date;
     state.selectedLeagues = [];
     state.filter = 'Tous';
@@ -1487,6 +1484,15 @@ function nextVisibleMatch(today, favorites = state.filter === 'Favoris') {
     )
     .sort((a, b) => kickoffAt(a) - kickoffAt(b))[0];
 }
+function chooseInitialCalendarDate() {
+  if (!findInitialCalendarDate) return false;
+  const today = isoDate(0);
+  const hasMatchesToday = calendarMatches().some((match) => match.date === today);
+  const date = hasMatchesToday ? today : (nextVisibleMatch(isoDate(1))?.date ?? today);
+  if (date === state.dateFilter) return false;
+  state.dateFilter = date;
+  return true;
+}
 function visibleMatches() {
   const matches = calendarMatches().filter((match) => matchesCurrentFilters(match));
   const spotlight = fixturePreview
@@ -1678,6 +1684,14 @@ function renderMatches() {
       !hasMatchFilters(),
     notice = $('#today-empty'),
     nextButton = $('#next-match-day');
+  const heroTitle = $('#calendar-hero-title');
+  if (heroTitle)
+    heroTitle.textContent =
+      state.dateFilter === today
+        ? 'Vos matchs du jour'
+        : state.dateFilter === 'week'
+          ? 'Vos matchs des 7 prochains jours'
+          : `Vos matchs du ${longDay(state.dateFilter)}`;
   notice.hidden = !showTodayEmpty;
   if (showTodayEmpty) {
     const lastDay = isoDate(6);
@@ -2971,11 +2985,8 @@ function applyFixtureData(data, cached = false) {
     ...match,
     analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
   }));
-  if (findNextCalendarDate) {
-    const next = nextVisibleMatch(isoDate(0));
-    state.dateFilter = next?.date ?? isoDate(0);
-    rememberCalendarContext();
-  }
+  const calendarDateChanged = chooseInitialCalendarDate();
+  if (!cached) findInitialCalendarDate = false;
   if (!betAttempt?.busy && !betAttempt?.uncertain)
     state.ticket = state.ticket.filter((item) => {
       const match = allMatches().find((m) => m.id === item.matchId);
@@ -3028,6 +3039,7 @@ function applyFixtureData(data, cached = false) {
     `<span class="source-dot ${cached ? 'loading' : 'live'}"></span> ${cached ? 'Cache local instantané' : 'Données réelles'} · ${coverage.statsMatches ?? 0} matchs analysés · ${data.oddsHealth ? html(oddsHealthLabel(data.oddsHealth)) : `${coverage.oddsMatches ?? 0} avec cotes`} · calendrier ${html(updated.label)}${updated.status === 'stale' ? ' · ancien' : ''} · scores ${html(scoresUpdated.label)}${scoresUpdated.status === 'stale' ? ' · anciens' : ''}`;
   updateFreshness();
   render();
+  if (calendarDateChanged && activeTab === 'matches') revealActive($('#date-navigator'), false);
   openAlertMatch();
   if (location.hash === '#conseils-du-jour')
     requestAnimationFrame(() => $('#conseils-du-jour')?.scrollIntoView({ block: 'start' }));
@@ -3103,9 +3115,12 @@ function resumeFixtures() {
 async function showFixturePreview(matches) {
   if (fixtureDataLoaded || fixturePreview) return;
   fixturePreview = matches;
+  const calendarDateChanged = chooseInitialCalendarDate();
   if (activeTab !== 'matches') return;
+  if (calendarDateChanged) renderDateNavigator();
   renderFilters();
   renderMatches();
+  if (calendarDateChanged) revealActive($('#date-navigator'), false);
   if (typeof requestAnimationFrame !== 'function' || document.hidden) return;
   await new Promise((resolve) => {
     const deadline = setTimeout(resolve, 50);
@@ -4336,7 +4351,7 @@ $('#date-navigator').addEventListener('click', (e) => {
   const b = e.target.closest('[data-date]');
   if (!b) return;
   if (state.dateFilter !== b.dataset.date) visibleWeekLimit = WEEK_MATCH_BATCH;
-  state.dateFilter = b.dataset.date;
+  state.dateFilter = chosenCalendarDate = b.dataset.date;
   rememberCalendarContext();
   state.revealed.clear();
   renderDateNavigator();
@@ -5518,16 +5533,18 @@ if (typeof window !== 'undefined')
   document.addEventListener('click', (event) => {
     if (event.target.closest('[data-empty-matches]')) {
       setBuilderDrawer(false);
-      state.dateFilter = isoDate(0);
+      state.dateFilter = chosenCalendarDate = isoDate(0);
       state.selectedLeagues = [];
       state.filter = 'Tous';
+      rememberCalendarContext();
       setActiveTab('matches', true);
       renderActiveTab();
     }
     if (event.target.closest('[data-empty-upcoming-matches]')) {
-      state.dateFilter = 'week';
+      state.dateFilter = chosenCalendarDate = 'week';
       state.selectedLeagues = [];
       state.filter = 'Tous';
+      rememberCalendarContext();
       setActiveTab('matches', true);
       renderDateNavigator();
       renderFilters();
