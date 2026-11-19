@@ -12777,3 +12777,15 @@ body .match-card .match-hero .stadium-placeholder-name {
   flex: 1 1 auto;
   min-height: 44px;
 }
+
+.match-card .match-resources,
+.match-card .match-indicators,
+.match-card .bookmaker-comparison {
+  min-inline-size: 0;
+}
+
+.bookmaker-comparison .bookmaker-table {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
