@@ -197,7 +197,8 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
       });
     }
     if (response.ok) return { status: 'sent' };
-    if ([404, 410].includes(response.status))
+    // Une erreur Resend sur la route d’envoi ne prouve pas que l’adresse est expirée.
+    if (channel !== 'email' && [404, 410].includes(response.status))
       return { status: 'failed', error: 'Destination expirée', expired: true };
     if (response.status === 429)
       return {
@@ -211,7 +212,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
       error: `Fournisseur : HTTP ${response.status}`
     };
   } catch (error) {
-    if ([404, 410].includes(error.statusCode))
+    if (channel !== 'email' && [404, 410].includes(error.statusCode))
       return { status: 'failed', error: 'Destination expirée', expired: true };
     return { status: 'unknown', error: 'Résultat de livraison inconnu' };
   }
