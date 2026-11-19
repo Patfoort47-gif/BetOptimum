@@ -3,7 +3,8 @@ export const UI_COPY = Object.freeze({
   quickCompose: 'Composer un ticket',
   compose: 'Composer le ticket',
   composing: 'Composition…',
-  composerIntro: 'Choisissez une cible, puis composez le ticket.',
+  composerIntro:
+    'Choisissez une période et une cote cible. Les filtres de compétition et de favoris s’appliquent.',
   matchDetails: 'Voir les détails',
   matchStats: 'Voir les statistiques',
   matchStatsNote: 'Équipes et match',
