@@ -69,6 +69,7 @@ function computeAnalysis(match) {
 // Cache borné invalidé par les entrées complètes, jamais par les filtres visuels.
 const analysisCache = new Map();
 export const analysisKey = (match) => JSON.stringify(match);
+export const hasAnalysis = (match) => analysisCache.has(analysisKey(match));
 export function primeAnalysis(match, result) {
   const key = analysisKey(match);
   if (analysisCache.size >= 1024) analysisCache.delete(analysisCache.keys().next().value);

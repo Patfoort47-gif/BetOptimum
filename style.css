@@ -428,6 +428,20 @@ body #matches .match-strip {
   padding-block: 4px;
 }
 
+body .match-preview-card {
+  min-height: 144px;
+  padding: 16px;
+}
+
+body .match-preview-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+body .match-preview-card h3 {
+  margin: 6px 0;
+}
+
 body .match-card,
 body .match-card.spotlight {
   padding: clamp(10px, 1.5vw, 16px);

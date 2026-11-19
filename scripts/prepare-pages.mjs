@@ -1,8 +1,10 @@
 // Conserve les modules accessibles au navigateur, y compris imports différés et service worker.
 import { mkdir, copyFile, cp, rm, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { prerenderSeo } from './prerender-seo.mjs';
+import { matchesWithBookmakers } from '../src/model/calendar-model.js';
 const root = new URL('../', import.meta.url);
 export async function preparePages(out = new URL('../_site/', import.meta.url)) {
   await rm(out, { recursive: true, force: true });
@@ -46,11 +48,37 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
   await mkdir(new URL('vendor/', out), { recursive: true });
   for (const name of ['LICENSES.json', 'SHA256.json'])
     await copyFile(new URL('vendor/' + name, root), new URL('vendor/' + name, out));
+  const fixtureSource = await readFile(new URL('data/fixtures.json', root), 'utf8'),
+    fixtures = JSON.parse(fixtureSource);
+  await writeFile(
+    new URL('data/fixtures.json', out),
+    JSON.stringify({
+      ...fixtures,
+      fixtureVersion: createHash('sha256').update(fixtureSource).digest('hex')
+    })
+  );
+  const preview = matchesWithBookmakers(fixtures.matches).map(
+    ({ id, date, kickoff, time, league, home, away, completed, voided, homeScore, awayScore }) => ({
+      id,
+      date,
+      kickoff,
+      time,
+      league,
+      home,
+      away,
+      completed,
+      voided,
+      homeScore,
+      awayScore
+    })
+  );
+  const index = prerenderSeo(await readFile(new URL('index.html', root), 'utf8'), fixtures);
   await writeFile(
     new URL('index.html', out),
-    prerenderSeo(
-      await readFile(new URL('index.html', root), 'utf8'),
-      JSON.parse(await readFile(new URL('data/fixtures.json', root), 'utf8'))
+    index.replace(
+      '</body>',
+      () =>
+        `<script type="application/json" id="calendar-preview">${JSON.stringify(preview).replaceAll('<', '\\u003c')}</script>\n</body>`
     )
   );
   await (

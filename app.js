@@ -480,7 +480,10 @@ function updateRewardAttention(data) {
   renderAttention();
 }
 const loadJson = createJsonLoader();
-let lastFixturesText = null,
+let lastFixtureVersion = null,
+  fixtureRefresh = null,
+  fixturePreview = null,
+  fixtureAnalyses = new Map(),
   archiveLoadedAt = 0,
   archiveStatus = 'loading',
   archivePromise = null;
@@ -1011,7 +1014,7 @@ const inPeriod = (m) =>
     kickoffAt(m) > Date.now()) ||
   m.date === state.dateFilter;
 // Compétitions classées par importance : celles qui ont des matchs sur la période affichée d'abord.
-const calendarMatches = () => matchesWithBookmakers(allMatches());
+const calendarMatches = () => fixturePreview ?? matchesWithBookmakers(allMatches());
 function rankedLeagues() {
   const counts = {};
   for (const name of Object.keys(LEAGUES)) counts[name] = 0;
@@ -1214,11 +1217,9 @@ function visibleMatches() {
         state.favoriteTeams.includes(m.home) ||
         state.favoriteTeams.includes(m.away))
   );
-  const spotlight = selectSpotlight(
-      matches,
-      Date.now(),
-      new Set(matches.filter(isLive).map((m) => m.id))
-    )?.id,
+  const spotlight = fixturePreview
+      ? null
+      : selectSpotlight(matches, Date.now(), new Set(matches.filter(isLive).map((m) => m.id)))?.id,
     favorite = (m) =>
       state.favoriteTeams.includes(m.home) ||
       state.favoriteTeams.includes(m.away) ||
@@ -1228,7 +1229,7 @@ function visibleMatches() {
 let fixturesStatus = 'loading',
   fixtureDataLoaded = false;
 function matchListEmpty() {
-  if (!fixtureDataLoaded && fixturesStatus === 'loading')
+  if (!fixtureDataLoaded && !fixturePreview && fixturesStatus === 'loading')
     return '<div class="match-loading" role="status"><p>Chargement des matchs…</p><div class="match-skeleton" aria-hidden="true"></div><div class="match-skeleton" aria-hidden="true"></div></div>';
   if (!fixtureDataLoaded && fixturesStatus === 'error')
     return '<div class="empty match-list-error" role="status"><p>Le calendrier est indisponible. Vérifiez votre connexion puis réessayez.</p><button class="button secondary" data-retry-matches>Réessayer</button></div>';
@@ -1393,13 +1394,7 @@ function renderMatches() {
     focusMatch = focusedMarket?.dataset?.match,
     focusKey = focusedMarket?.dataset?.market,
     focusFavorite = focusedMarket?.dataset?.favoriteTeam;
-  const matches = visibleMatches(),
-    spotlight = selectSpotlight(
-      matches,
-      Date.now(),
-      new Set(matches.filter(isLive).map((match) => match.id))
-    )?.id;
-  renderSafePicks();
+  const matches = visibleMatches();
   $('#match-period-title').textContent =
     state.filter === 'Favoris'
       ? 'Vos matchs favoris'
@@ -1407,6 +1402,27 @@ function renderMatches() {
         ? 'Les grandes affiches des 7 prochains jours'
         : `Les matchs du ${longDay(state.dateFilter)}`;
   $('#match-count').textContent = `${matches.length} rencontre${matches.length > 1 ? 's' : ''}`;
+  if (fixturePreview) {
+    reconcileMatchCards(
+      matches
+        .map((match) => {
+          const status = match.voided
+            ? 'Match annulé'
+            : match.completed
+              ? `Score final · ${match.homeScore} : ${match.awayScore}`
+              : match.time;
+          return `<article id="match-${html(match.id)}" data-id="${html(match.id)}" class="card match-preview-card"><p>${html(match.league)} · ${longDay(match.date)}</p><h3>${html(match.home)} – ${html(match.away)}</h3><p>${html(status)}</p><small>Analyses en cours de chargement…</small></article>`;
+        })
+        .join('') || matchListEmpty()
+    );
+    return;
+  }
+  const spotlight = selectSpotlight(
+    matches,
+    Date.now(),
+    new Set(matches.filter(isLive).map((match) => match.id))
+  )?.id;
+  renderSafePicks();
   reconcileMatchCards(
     matches
       .map((m) => {
@@ -2604,6 +2620,7 @@ function settlePendingBets(results) {
 }
 function applyFixtureData(data, cached = false) {
   if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
+  fixturePreview = null;
   fixtureDataLoaded = true;
   fixturesStatus = 'ready';
   state.liveMatches = data.matches.map((match) => ({
@@ -2694,24 +2711,57 @@ async function loadPredictionArchive(force = false) {
   })();
   return archivePromise;
 }
-async function loadLiveFixtures() {
+function loadLiveFixtures() {
+  fixtureRefresh ??= refreshFixtures().finally(() => {
+    fixtureRefresh = null;
+  });
+  return fixtureRefresh;
+}
+async function showFixturePreview(matches) {
+  if (fixtureDataLoaded || fixturePreview) return;
+  fixturePreview = matches;
+  if (activeTab !== 'matches') return;
+  renderFilters();
+  renderMatches();
+  if (typeof requestAnimationFrame !== 'function' || document.hidden) return;
+  await new Promise((resolve) => {
+    const deadline = setTimeout(resolve, 50);
+    requestAnimationFrame(() =>
+      setTimeout(() => {
+        clearTimeout(deadline);
+        resolve();
+      }, 0)
+    );
+  });
+}
+const fixtureVersion = (data) => data.fixtureVersion ?? JSON.stringify(data);
+function prepareFixtureAnalyses(data, version) {
+  if (!fixtureAnalyses.has(version)) {
+    const matches = data.matches.map((match) => ({
+      ...match,
+      analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
+    }));
+    fixtureAnalyses.set(
+      version,
+      prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(version))
+    );
+  }
+  return fixtureAnalyses.get(version);
+}
+async function refreshFixtures() {
   const source = $('#data-source');
   try {
-    const data = await loadJson('data/fixtures.json'),
-      text = JSON.stringify(data);
+    const data = await loadJson('data/fixtures.json');
     if (!Array.isArray(data.matches)) throw new Error('Calendrier invalide');
+    const version = fixtureVersion(data);
     fixturesStatus = 'ready';
-    if (text !== lastFixturesText) {
+    if (version !== lastFixtureVersion) {
       writeFixtureCache(data);
-      await prepareAnalyses(
-        data.matches.map((match) => ({
-          ...match,
-          analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
-        }))
-      );
+      if (!fixturePreview) await showFixturePreview(matchesWithBookmakers(data.matches));
+      await prepareFixtureAnalyses(data, version);
       applyFixtureData(data);
       restoreSharedTicket();
-      lastFixturesText = text;
+      lastFixtureVersion = version;
     } else {
       updateFreshness();
       source.innerHTML = lastFixturesSource;
@@ -2719,6 +2769,7 @@ async function loadLiveFixtures() {
     loadPredictionArchive();
     lastFixturesSource = source.innerHTML;
   } catch (error) {
+    fixturePreview = null;
     fixturesStatus = 'error';
     updateFreshness();
     renderConfidenceKpi();
@@ -4583,8 +4634,9 @@ if (typeof window !== 'undefined')
 clearLegacyFixtureCache();
 readFixtureCache()
   .then(async (cached) => {
-    if (!cached || fixtureDataLoaded) return;
-    if (cached.matches?.length > 100) await prepareAnalyses(cached.matches);
+    if (!Array.isArray(cached?.matches) || fixtureDataLoaded) return;
+    await showFixturePreview(matchesWithBookmakers(cached.matches));
+    if (cached.matches.length > 100) await prepareFixtureAnalyses(cached, fixtureVersion(cached));
     if (!fixtureDataLoaded) applyFixtureData(cached, true);
   })
   .catch(() => {});
@@ -4666,6 +4718,15 @@ if (typeof window !== 'undefined') {
     updateScrollers();
   });
   setTimeout(pollLive, 1500);
+  const preview = $('#calendar-preview');
+  if (preview?.textContent) {
+    try {
+      const matches = JSON.parse(preview.textContent);
+      if (Array.isArray(matches)) showFixturePreview(matches);
+    } catch {
+      // Le calendrier complet reste la source de repli.
+    }
+  }
   loadLiveFixtures();
   setInterval(
     () => {
