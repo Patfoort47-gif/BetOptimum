@@ -203,7 +203,22 @@ async function worker(
       ))
     );
   let sent = 0;
+  const metrics: Record<
+    string,
+    {
+      claimed: number;
+      accepted: number;
+      failed: number;
+      uncertain: number;
+      deferred: number;
+      skipped: number;
+      maxQueueSeconds: number;
+    }
+  > = {};
+  const acceptedChannels = new Map<string, Set<string>>();
   for (const delivery of deliveries) {
+    let category = 'other';
+    let outcome = 'skipped';
     try {
       // Relit le consentement juste avant l’appel au fournisseur, même après la réservation de la file.
       const [p] = await db(
@@ -213,6 +228,18 @@ async function worker(
           `notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}&select=encrypted`
         ),
         [event] = await db(`notification_events?id=eq.${delivery.event_id}&select=payload`);
+      const kind = event?.payload;
+      category = kind?.test_channel
+        ? 'test'
+        : kind?.briefing
+          ? 'briefing'
+          : kind?.daily_summary
+            ? 'daily'
+            : kind?.favorite_reminder
+              ? 'favorite'
+              : kind?.result_validated
+                ? 'result'
+                : 'other';
       if ((!['web'].includes(delivery.channel) && !p?.channels.includes(delivery.channel)) || !e) {
         await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', { status: 'cancelled' });
         continue;
@@ -224,6 +251,7 @@ async function worker(
       const target = await unseal(e.encrypted, env.NOTIFICATION_ENCRYPTION_KEY);
       let payload = event.payload;
       if (delivery.channel === 'email' && payload.briefing && !allowBriefing) {
+        outcome = 'deferred';
         // Aucune tentative fournisseur : rendre le bail sans consommer de tentative.
         await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`, 'PATCH', {
           status: 'pending',
@@ -391,13 +419,46 @@ async function worker(
           `notification_endpoints?user_id=eq.${delivery.user_id}&channel=eq.${delivery.channel}`,
           'DELETE'
         );
-      if (status === 'sent') sent++;
+      if (status === 'sent') {
+        sent++;
+        outcome = 'accepted';
+        if (category !== 'test') {
+          const channels = acceptedChannels.get(delivery.user_id) ?? new Set<string>();
+          channels.add(delivery.channel);
+          acceptedChannels.set(delivery.user_id, channels);
+        }
+      } else if (status === 'failed') outcome = 'failed';
+      else if (status === 'unknown') outcome = 'uncertain';
+      else if (status === 'pending') outcome = 'deferred';
     } catch (error) {
+      outcome = 'uncertain';
       reportNotificationFailure(error, crypto.randomUUID());
       await db(`notification_deliveries?id=eq.${delivery.id}&status=eq.sending`, 'PATCH', {
         status: 'unknown',
         error: 'Résultat de livraison inconnu'
       });
+    } finally {
+      const row = (metrics[category] ??= {
+        claimed: 0,
+        accepted: 0,
+        failed: 0,
+        uncertain: 0,
+        deferred: 0,
+        skipped: 0,
+        maxQueueSeconds: 0
+      });
+      row.claimed++;
+      if (outcome === 'accepted') row.accepted++;
+      else if (outcome === 'failed') row.failed++;
+      else if (outcome === 'uncertain') row.uncertain++;
+      else if (outcome === 'deferred') row.deferred++;
+      else row.skipped++;
+      const dueAt = Date.parse(delivery.due_at);
+      if (Number.isFinite(dueAt))
+        row.maxQueueSeconds = Math.max(
+          row.maxQueueSeconds,
+          Math.floor((Date.now() - dueAt) / 1000)
+        );
     }
   }
   if (!remindersOnly)
@@ -405,7 +466,17 @@ async function worker(
       'notification_events?created_at=lt.' + new Date(Date.now() - 30 * 864e5).toISOString(),
       'DELETE'
     );
-  return { queued, sent, claimed: deliveries.length, revision: 'BET-350' };
+  const multiChannelAccepted = [...acceptedChannels.values()].filter(
+    (channels) => channels.size > 1
+  ).length;
+  return {
+    queued,
+    sent,
+    claimed: deliveries.length,
+    metrics,
+    multiChannelAccepted,
+    revision: 'BET-350'
+  };
 }
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
