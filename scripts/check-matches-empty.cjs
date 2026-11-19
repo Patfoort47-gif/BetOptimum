@@ -1,0 +1,84 @@
+const assert = require('node:assert/strict');
+const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
+const date = (offset) =>
+  new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(Date.now() + offset * 86400000);
+(async () => {
+  const b = await browser();
+  try {
+    for (const width of [390, 768, 1440])
+      for (const dark of [false, true]) {
+        const ready = fixtures.matches.map((m) => ({ ...m, analysisStatus: 'ready' }));
+        const tomorrow = ready.map((m) => ({
+          ...m,
+          date: date(1),
+          kickoff: new Date(Date.now() + 26 * 3600000).toISOString()
+        }));
+        const p = await page(b, { width, dark, data: { ...fixtures, matches: tomorrow } });
+        const empty = p.locator('#match-list .guided-empty');
+        await empty.waitFor();
+        const common = await empty.innerHTML();
+        assert.match(common, /Aucun match à afficher/);
+        assert.equal(await p.locator('#daily-selection').isVisible(), false);
+        await p.locator(`[data-date="${date(-1)}"]`).click();
+        assert.equal(await empty.innerHTML(), common);
+        assert.equal(await p.locator('[data-empty-challenges]').count(), 0);
+        await empty.locator('[data-empty-upcoming-matches]').click();
+        await p.locator('.match-card').first().waitFor();
+        assert.ok(await p.locator('[data-date=week].active').count());
+        assert.equal(await p.locator('#match-list .guided-empty').count(), 0);
+        await p.close();
+        const q = await page(b, { width, dark, data: { ...fixtures, matches: ready } });
+        await q.locator('.match-card').first().waitFor();
+        assert.ok(await q.locator('#daily-selection').isVisible());
+        await q.locator(`[data-date="${date(-1)}"]`).click();
+        assert.equal(await q.locator('#daily-selection').isVisible(), false);
+        assert.equal(await q.locator('#match-list .guided-empty').innerHTML(), common);
+        if (width === 390 && !dark)
+          await q.locator('#matches').screenshot({ path: 'work/BET-362-empty.png' });
+        await q.locator(`[data-date="${date(0)}"]`).click();
+        assert.ok(await q.locator('#daily-selection').isVisible());
+        await q.locator('[data-filter=Favoris]').click();
+        assert.equal(await q.locator('#daily-selection').isVisible(), false);
+        assert.equal(await q.locator('#match-list .guided-empty').innerHTML(), common);
+        await q.locator('[data-empty-upcoming-matches]').click();
+        assert.ok(await q.locator('#daily-selection').isVisible());
+        assert.equal(await q.locator('.match-card').count(), 2);
+        assert.deepEqual(q.__errors, []);
+        await q.close();
+        console.log('OK état vide', width, dark);
+      }
+    let release;
+    const gate = new Promise((resolve) => {
+      release = resolve;
+    });
+    const loading = await page(b, {
+      delay: gate,
+      data: {
+        ...fixtures,
+        matches: fixtures.matches.map((m) => ({ ...m, analysisStatus: 'ready' }))
+      }
+    });
+    await loading.locator('.match-skeleton').first().waitFor();
+    assert.equal(await loading.locator('#match-list .guided-empty').count(), 0);
+    assert.equal(await loading.locator('#daily-selection').isVisible(), false);
+    release();
+    await loading.locator('.match-card').first().waitFor();
+    await loading.close();
+    const failed = await page(b, { network: true });
+    await failed.locator('[data-retry-matches]').waitFor();
+    assert.equal(await failed.locator('#match-list .guided-empty').count(), 0);
+    assert.equal(await failed.locator('#daily-selection').isVisible(), false);
+    await failed.close();
+    console.log('OK chargement et erreur distincts');
+  } finally {
+    await b.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

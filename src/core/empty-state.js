@@ -12,11 +12,6 @@ export function emptyState(kind = 'history', filtered = false) {
       'Voir les matchs du jour',
       'data-empty-matches'
     ],
-    matches: [
-      'Aucun match pertinent pour le modèle aujourd’hui.',
-      'Découvrir le défi de la semaine',
-      'data-empty-challenges'
-    ],
     ticket: [
       'Votre combiné est vide. Sélectionnez une cote pour commencer l’analyse.',
       'Voir les matchs du jour',
@@ -29,7 +24,11 @@ export function emptyState(kind = 'history', filtered = false) {
     ]
   };
   let [message, label, action] = states[kind] ?? states.history;
-  if (filtered) {
+  if (kind === 'matches') {
+    message = 'Aucun match à afficher pour cette sélection.';
+    label = 'Voir les matchs à venir';
+    action = 'data-empty-upcoming-matches';
+  } else if (filtered) {
     message = 'Aucun résultat ne correspond à vos filtres.';
     label = 'Réinitialiser les filtres';
     action =
