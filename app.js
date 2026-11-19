@@ -4664,6 +4664,36 @@ document.querySelectorAll('[data-builder-tab]').forEach((button) => {
     );
   });
 });
+const comboPeriod = $('#combo-period');
+comboPeriod?.addEventListener('change', () => {
+  const custom = comboPeriod.value === 'custom';
+  $('#combo-dates').hidden = !custom;
+  if (custom) {
+    $('#combo-start').value ||= isoDate(0);
+    $('#combo-end').value ||= isoDate(1);
+  }
+});
+function generatorMatches() {
+  const period = comboPeriod?.value ?? 'calendar';
+  if (period === 'calendar') return visibleMatches();
+  const day = new Date().getDay(),
+    saturday = day === 0 ? -1 : 6 - day;
+  const ranges = {
+    today: [isoDate(0), isoDate(0)],
+    tomorrow: [isoDate(1), isoDate(1)],
+    weekend: [isoDate(saturday), isoDate(saturday + 1)],
+    custom: [$('#combo-start').value, $('#combo-end').value]
+  };
+  const [start, end] = ranges[period];
+  if (!start || !end || start > end) return null;
+  return calendarMatches().filter(
+    (match) =>
+      match.date >= start &&
+      match.date <= end &&
+      selectedCompetition(match) &&
+      (state.filter !== 'Favoris' || followsMatch(match))
+  );
+}
 function generate() {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) {
     toast('Vérifiez d’abord le pari en attente.');
@@ -4673,13 +4703,23 @@ function generate() {
     feedback = $('#combo-feedback');
   button.disabled = true;
   button.textContent = UI_COPY.composing;
-  if (feedback) feedback.textContent = 'Recherche parmi les matchs affichés…';
+  if (feedback) feedback.textContent = 'Recherche parmi les matchs de la période…';
   setTimeout(() => {
     try {
+      const matches = generatorMatches();
+      if (!matches) {
+        if (feedback)
+          feedback.textContent = 'Choisissez une date de début et une date de fin dans l’ordre.';
+        setBuilderTab('generator');
+        return;
+      }
+      const eligible = new Map();
+      for (const match of matches) {
+        if (!match.completed && !match.voided && kickoffAt(match) > Date.now())
+          eligible.set(match.id, match);
+      }
       const picks = optimizeCombo(
-        visibleMatches().filter(
-          (match) => !match.completed && !match.voided && kickoffAt(match) > Date.now()
-        ),
+        [...eligible.values()],
         Number($('#target-odds').value),
         Number($('#selection-count').value),
         $('#risk-profile').value
@@ -4693,6 +4733,7 @@ function generate() {
       }
       state.betMode = 'combined';
       state.ticket = picks;
+      rememberTicket();
       renderTicket();
       setBuilderTab('ticket', true);
       const total = picks.reduce((p, x) => p * x.odd, 1),
