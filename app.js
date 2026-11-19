@@ -1218,12 +1218,7 @@ function matchListEmpty() {
     return '<div class="match-loading" role="status"><p>Chargement des matchs…</p><div class="match-skeleton" aria-hidden="true"></div><div class="match-skeleton" aria-hidden="true"></div></div>';
   if (!fixtureDataLoaded && fixturesStatus === 'error')
     return '<div class="empty match-list-error" role="status"><p>Le calendrier est indisponible. Vérifiez votre connexion puis réessayez.</p><button class="button secondary" data-retry-matches>Réessayer</button></div>';
-  return emptyState(
-    'matches',
-    Boolean(
-      state.selectedLeagues.length || state.filter !== 'Tous' || state.dateFilter !== isoDate(0)
-    )
-  );
+  return emptyState('matches');
 }
 function resultSelections(match, analysis) {
   if (match.completed || match.voided || isLive(match) || kickoffAt(match) <= Date.now()) return '';
@@ -1281,6 +1276,11 @@ function renderDailySelection() {
     allMatches().filter((match) => !isLive(match)),
     'Europe/Paris'
   );
+  box.hidden = !picks.length || !visibleMatches().length;
+  if (box.hidden) {
+    box.innerHTML = '';
+    return;
+  }
   box.innerHTML = `<div class="safe-picks-head"><div><p class="eyebrow">SUGGESTIONS</p><h3>Suggestions du jour</h3></div></div><p class="analysis-note">Les meilleurs pronostics disponibles aujourd’hui selon la confiance du modèle, puis la value. Cotes supérieures à 1,15, au moins 10 bookmakers par sélection. Paris virtuels · 18+ · Aucune garantie.</p>${picks.map(({ match, pick }) => `<button class="safe-pick" data-match="${html(match.id)}" data-market="${html(pick.key)}"><span><strong>${html(match.home)} - ${html(match.away)}</strong><small>${new Date(match.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} · ${html(pick.label)}</small></span><span class="suggestion-values"><b>Cote ${decimal(pick.odd, 2)}</b><small>Confiance ${Math.round(pick.probability * 100)} %</small><em>+ Ajouter au ticket</em></span></button>`).join('') || '<p class="empty">Aucun pronostic admissible aujourd’hui.</p>'}`;
 }
 function renderDailyAdvice() {
@@ -4899,9 +4899,15 @@ if (typeof window !== 'undefined')
       setActiveTab('matches', true);
       renderActiveTab();
     }
-    if (event.target.closest('[data-empty-challenges]')) {
-      setActiveTab('community', true);
-      setCommunityTab('challenges');
+    if (event.target.closest('[data-empty-upcoming-matches]')) {
+      state.dateFilter = 'week';
+      state.selectedLeagues = [];
+      state.filter = 'Tous';
+      setActiveTab('matches', true);
+      renderDateNavigator();
+      renderFilters();
+      renderMatches();
+      document.querySelector('[data-date="week"]')?.focus({ preventScroll: true });
     }
     if (event.target.closest('[data-empty-reset-history]')) $('#reset-history')?.click();
     if (event.target.closest('[data-empty-reset-predictions]'))
