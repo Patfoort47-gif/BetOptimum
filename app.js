@@ -1652,7 +1652,7 @@ function updateSelectedMarkets() {
     const item = state.ticket.find((item) => item.matchId === el.dataset.selectionFeedback);
     el.hidden = !item;
     el.textContent = item
-      ? `✓ Dans votre ticket : ${item.label}. Modifiez ou retirez ce choix dans Mon ticket.`
+      ? `✓ Dans votre ticket : ${item.label}. Cliquez de nouveau sur la cote pour la retirer.`
       : '';
   });
   document.querySelectorAll('#match-list [data-market]').forEach((button) => {
@@ -1663,7 +1663,7 @@ function updateSelectedMarkets() {
     button.setAttribute('aria-pressed', String(selected));
     button.setAttribute(
       'aria-label',
-      `${button.dataset.marketLabel ?? button.textContent.trim()}${selected ? ' · sélectionné' : ''}`
+      `${button.dataset.marketLabel ?? button.textContent.trim()}${selected ? ' · sélectionné, cliquer pour retirer' : ''}`
     );
   });
 }
@@ -2532,11 +2532,9 @@ function addSelection(matchId, key, from) {
     toast('Vérifiez d’abord le pari en attente.');
     return;
   }
-  if (
-    from?.hasAttribute?.('data-result-pick') &&
-    state.ticket.some((item) => item.matchId === matchId && item.key === key)
-  ) {
+  if (state.ticket.some((item) => item.matchId === matchId && item.key === key)) {
     state.ticket = state.ticket.filter((item) => item.matchId !== matchId || item.key !== key);
+    rememberTicket();
     renderTicket();
     return;
   }
@@ -2558,6 +2556,7 @@ function addSelection(matchId, key, from) {
     time: match.time
   };
   state.ticket = [...state.ticket.filter((x) => x.matchId !== matchId), selection];
+  rememberTicket();
   renderTicket();
   if (from) flyToTicket(from, origin);
 }
