@@ -282,7 +282,7 @@ body .hero-score > small {
 
 body .hero h1 {
   color: var(--text);
-  font: 800 clamp(30px, 4vw, 52px)/1.08 var(--display);
+  font: 800 clamp(30px, 4vw, 52px) / 1.08 var(--display);
   letter-spacing: -0.06em;
   text-transform: none;
 }
