@@ -82,7 +82,7 @@ test('push quotidien : un conseil avec cote, lien de sélection et regroupement 
   assert.equal(result.status, 'sent');
   assert.equal(payload.title, 'Conseil du jour');
   assert.match(payload.body, /Club 0 - Paris/);
-  assert.match(payload.body, /@ 2.00/);
+  assert.match(payload.body, /cote 2,00/);
   assert.doesNotMatch(payload.body, /garantie|18\+|confiance|\n/);
   assert.equal(payload.url, 'https://example.org/app/?conseils_tz=Europe%2FParis#conseils-du-jour');
   assert.equal(payload.tag, 'daily-2026-11-09');

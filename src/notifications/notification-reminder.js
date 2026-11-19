@@ -1,3 +1,4 @@
+import { decimal } from '../core/number-format.js';
 // BET-242 : rappels de calendrier, indépendants des cotes et des opportunités.
 import { quoteAvailable } from '../model/quote-policy.js';
 import { recommendedMarket } from '../model/model.js';
@@ -67,5 +68,5 @@ export function favoriteReminderCurrent(event, preferences, favorites, matches, 
 }
 export function favoriteReminderText(event) {
   const advice = event.advice;
-  return `${event.home} - ${event.away} · ${new Date(event.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} (Paris)\n${advice ? `${advice.label} · cote ${Number(advice.odd).toFixed(2)} · confiance ${Math.round(advice.confidence * 100)} %` : 'Conseil et cote indisponibles pour ce match.'}\nParis virtuels · 18+ · Aucune garantie.`;
+  return `${event.home} - ${event.away} · ${new Date(event.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} (Paris)\n${advice ? `${advice.label} · cote ${decimal(advice.odd)} · probabilité estimée ${Math.round(advice.confidence * 100)} %` : 'Conseil et cote indisponibles pour ce match.'}\nParis virtuels · 18+ · Aucune garantie.`;
 }
