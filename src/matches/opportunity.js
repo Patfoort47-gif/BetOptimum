@@ -138,7 +138,7 @@ export function valueBetMarkup(analysis) {
     .filter((m) => m.real && m.available && Number.isFinite(m.value) && m.value > 0)
     .sort((a, b) => b.value - a.value)[0];
   return market
-    ? `<span class="value-bet-badge">Value Bet · ${escapeHtml(market.label)}</span>`
+    ? `<span class="value-bet-callout" title="Value Bet · ${escapeHtml(market.label)}"><span class="value-bet-badge">Value Bet</span> <span class="value-bet-market">${escapeHtml(market.label)}</span></span>`
     : '';
 }
 export function dataBasisMarkup(quality) {
