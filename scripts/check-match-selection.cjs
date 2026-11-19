@@ -95,7 +95,7 @@ assert.ok(['localhost', '127.0.0.1'].includes(new URL(base).hostname));
           pick.key
         );
         assert.match(
-          await card.locator('.match-selection').innerText(),
+          await card.locator('.selection-probability').innerText(),
           new RegExp(Math.round(pick.probability * 100) + ' %')
         );
       }
