@@ -1140,7 +1140,9 @@ async function loadBookmakerOffers(match) {
   match.bookmakerOffers = offers;
   return offers;
 }
+const hasMatchFilters = () => state.filter === 'Favoris' || state.selectedLeagues.length > 0;
 function renderFilters() {
+  $('#reset-match-filters').hidden = !hasMatchFilters();
   const summary = $('#match-filter-summary');
   if (summary)
     summary.textContent = [
@@ -1148,17 +1150,14 @@ function renderFilters() {
       state.filter === 'Favoris' ? 'Favoris uniquement' : 'Toutes les équipes',
       state.selectedLeagues.length ? state.selectedLeagues.join(', ') : 'Toutes les compétitions'
     ].join(' · ');
-  const leagues = rankedLeagues().filter((x) => x.count);
-  state.selectedLeagues = state.selectedLeagues.filter((name) =>
-    leagues.some((x) => x.name === name)
-  );
+  const leagues = rankedLeagues().filter((x) => x.count || state.selectedLeagues.includes(x.name));
   $('#filters').innerHTML =
     `<button class="filter filter-menu ${state.selectedLeagues.length ? 'has-filter' : ''}" data-league-menu aria-haspopup="dialog"><span class="filter-all">${ICONS.all}</span>Compétitions${ICONS.chevron}</button><button class="filter favorite-filter ${state.filter === 'Favoris' ? 'active' : ''}" data-filter="Favoris" aria-pressed="${state.filter === 'Favoris'}" title="Favoris parmi les compétitions sélectionnées">★ Favoris<em>${calendarMatches().filter((m) => inPeriod(m) && (state.favoriteLeagues.includes(m.league) || state.favoriteTeams.includes(m.home) || state.favoriteTeams.includes(m.away))).length}</em></button>${leagues.map((x) => `<span class="filter-wrap"><button class="filter ${state.selectedLeagues.includes(x.name) ? 'active' : ''}" data-filter="${html(x.name)}" aria-pressed="${state.selectedLeagues.includes(x.name)}">${logoTag('league-logo', leagueLogoUrl(x.name), x.name)}${html(x.name)}<em>${x.count}</em></button><button class="favorite-toggle ${state.favoriteLeagues.includes(x.name) ? 'active' : ''}" data-favorite-league="${html(x.name)}" aria-label="${state.favoriteLeagues.includes(x.name) ? 'Retirer' : 'Ajouter'} ${html(x.name)} des favoris">★</button></span>`).join('')}`;
   renderLeagueMenu();
   updateScrollers();
 }
 function renderLeagueMenu() {
-  const leagues = rankedLeagues().filter((x) => x.count),
+  const leagues = rankedLeagues().filter((x) => x.count || state.selectedLeagues.includes(x.name)),
     total = calendarMatches().filter(inPeriod).length,
     option = (filter, logo, name, count, label) =>
       `<button class="league-option ${(filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)) ? 'active' : ''}" data-filter="${html(filter)}" aria-pressed="${filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)}">${logo}<span class="league-text"><strong>${html(name)}</strong><small>${label ?? (count ? `${count} match${count > 1 ? 's' : ''} sur la période` : 'Aucun match sur la période')}</small></span>${(filter === 'Tous' ? !state.selectedLeagues.length : state.selectedLeagues.includes(filter)) ? ICONS.check : ''}</button>`;
@@ -1232,7 +1231,7 @@ function matchListEmpty() {
     return '<div class="match-loading" role="status"><p>Chargement des matchs…</p><div class="match-skeleton" aria-hidden="true"></div><div class="match-skeleton" aria-hidden="true"></div></div>';
   if (!fixtureDataLoaded && fixturesStatus === 'error')
     return '<div class="empty match-list-error" role="status"><p>Le calendrier est indisponible. Vérifiez votre connexion puis réessayez.</p><button class="button secondary" data-retry-matches>Réessayer</button></div>';
-  return emptyState('matches');
+  return emptyState('matches', hasMatchFilters());
 }
 function resultSelections(match, analysis) {
   if (match.completed || match.voided || isLive(match) || kickoffAt(match) <= Date.now()) return '';
@@ -1399,6 +1398,27 @@ function renderMatches() {
       Date.now(),
       new Set(matches.filter(isLive).map((match) => match.id))
     )?.id;
+  const today = isoDate(0),
+    showTodayEmpty =
+      fixtureDataLoaded && state.dateFilter === today && !matches.length && !hasMatchFilters(),
+    notice = $('#today-empty'),
+    nextButton = $('#next-match-day');
+  notice.hidden = !showTodayEmpty;
+  if (showTodayEmpty) {
+    const lastDay = isoDate(6);
+    const nextDate = calendarMatches()
+      .filter((match) => match.date > today && match.date <= lastDay && !match.voided)
+      .map((match) => match.date)
+      .sort()[0];
+    nextButton.hidden = !nextDate;
+    if (nextDate) {
+      nextButton.dataset.nextDate = nextDate;
+      nextButton.textContent = `Voir les matchs du ${longDay(nextDate)}`;
+    }
+    notice.querySelector('p').textContent = nextDate
+      ? 'Aucun match aujourd’hui.'
+      : 'Aucun match aujourd’hui ni dans les prochains jours du calendrier.';
+  }
   renderSafePicks();
   $('#match-period-title').textContent =
     state.filter === 'Favoris'
@@ -1462,7 +1482,7 @@ function renderMatches() {
           : '';
         return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span><span class="match-head-badges">${tag}${valueBetMarkup(a)}</span><button type="button" class="match-header-stats" data-match-stats="${html(m.id)}" aria-controls="match-stats-${html(m.id)}" aria-expanded="${expandedMatchStats.has(m.id + '-resources')}" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span class="stats-long">Voir les stats</span><span class="stats-short">Stats</span></button></div><div class="match-favorites">${fav(m.home)}${fav(m.away)}</div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home')}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}</div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away')}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div>${share}${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details id="match-stats-${html(m.id)}" class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Détails du modèle</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes">${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
       })
-      .join('') || matchListEmpty()
+      .join('') || (showTodayEmpty ? '' : matchListEmpty())
   );
   document.querySelectorAll('#match-list .match-secondary').forEach((section) => {
     if (watchedStats.has(section)) return;
@@ -2866,7 +2886,7 @@ globalThis.addEventListener?.('keydown', (event) => {
   }
 });
 $('#reset-match-filters')?.addEventListener('click', () => {
-  state.dateFilter = isoDate(0);
+  state.revealed.clear();
   state.selectedLeagues = [];
   state.filter = 'Tous';
   renderDateNavigator();
@@ -3861,6 +3881,11 @@ function render() {
   renderTicket();
   updateStats();
 }
+$('#next-match-day')?.addEventListener('click', (event) => {
+  const date = event.currentTarget.dataset.nextDate;
+  document.querySelector(`[data-date="${date}"]`)?.click();
+  document.querySelector(`[data-date="${date}"]`)?.focus();
+});
 $('#date-navigator').addEventListener('click', (e) => {
   const b = e.target.closest('[data-date]');
   if (!b) return;

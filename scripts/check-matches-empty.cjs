@@ -10,7 +10,7 @@ const date = (offset) =>
 (async () => {
   const b = await browser();
   try {
-    for (const width of [390, 768, 1440])
+    for (const width of [320, 360, 390, 430, 768, 1440])
       for (const dark of [false, true]) {
         const ready = fixtures.matches.map((m) => ({ ...m, analysisStatus: 'ready' }));
         const tomorrow = ready.map((m) => ({
@@ -19,39 +19,38 @@ const date = (offset) =>
           kickoff: new Date(Date.now() + 26 * 3600000).toISOString()
         }));
         const p = await page(b, { width, dark, data: { ...fixtures, matches: tomorrow } });
-        const empty = p.locator('#match-list .guided-empty');
-        await empty.waitFor();
-        const common = await empty.innerHTML();
-        assert.match(common, /Aucun match à afficher/);
+        const next = p.locator('#next-match-day');
+        await next.waitFor();
+        assert.match(await next.innerText(), /Voir les matchs du/);
+        assert.ok((await next.boundingBox()).y < 600);
+        assert.equal(await p.locator('#reset-match-filters').isVisible(), false);
         assert.equal(await p.locator('#daily-selection').isVisible(), false);
-        await p.locator(`[data-date="${date(-1)}"]`).click();
-        assert.equal(await empty.innerHTML(), common);
-        assert.equal(await p.locator('[data-empty-challenges]').count(), 0);
-        await empty.locator('[data-empty-upcoming-matches]').click();
+        await next.click();
         await p.locator('.match-card').first().waitFor();
-        assert.ok(await p.locator('[data-date=week].active').count());
-        assert.equal(await p.locator('#match-list .guided-empty').count(), 0);
+        assert.ok(await p.locator(`[data-date="${date(1)}"].active`).count());
+        await p.locator('[data-filter=Favoris]').click();
+        assert.ok(await p.locator('#reset-match-filters').isVisible());
+        assert.match(await p.locator('#match-list').innerText(), /Aucun résultat/);
+        await p.locator('[data-reset-matches]').click();
+        assert.ok(await p.locator(`[data-date="${date(1)}"].active`).count());
+        assert.equal(await p.locator('#reset-match-filters').isVisible(), false);
+        await p.locator(`[data-date="${date(-1)}"]`).click();
+        assert.match(await p.locator('#match-list').innerText(), /Aucun match sur cette période/);
+        assert.equal(await p.locator('[data-empty-challenges]').count(), 0);
         await p.close();
+
         const q = await page(b, { width, dark, data: { ...fixtures, matches: ready } });
         await q.locator('.match-card').first().waitFor();
         assert.ok(await q.locator('#daily-selection').isVisible());
-        await q.locator(`[data-date="${date(-1)}"]`).click();
-        assert.equal(await q.locator('#daily-selection').isVisible(), false);
-        assert.equal(await q.locator('#match-list .guided-empty').innerHTML(), common);
-        if (width === 390 && !dark)
-          await q.locator('#matches').screenshot({ path: 'work/BET-362-empty.png' });
-        await q.locator(`[data-date="${date(0)}"]`).click();
-        assert.ok(await q.locator('#daily-selection').isVisible());
-        await q.locator('[data-filter=Favoris]').click();
-        assert.equal(await q.locator('#daily-selection').isVisible(), false);
-        assert.equal(await q.locator('#match-list .guided-empty').innerHTML(), common);
-        await q.locator('[data-empty-upcoming-matches]').click();
-        assert.ok(await q.locator('#daily-selection').isVisible());
-        assert.equal(await q.locator('.match-card').count(), 2);
+        assert.equal(await q.locator('#today-empty').isVisible(), false);
         assert.deepEqual(q.__errors, []);
         await q.close();
-        console.log('OK état vide', width, dark);
+        console.log('OK accueil et filtres', width, dark);
       }
+    const noUpcoming = await page(b, { data: { ...fixtures, matches: [] } });
+    await noUpcoming.locator('#today-empty').waitFor();
+    assert.equal(await noUpcoming.locator('#next-match-day').isVisible(), false);
+    await noUpcoming.close();
     let release;
     const gate = new Promise((resolve) => {
       release = resolve;
