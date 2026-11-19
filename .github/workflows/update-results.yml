@@ -52,12 +52,11 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Préparer les fichiers publics
         run: node scripts/prepare-pages.mjs
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
       - name: Déployer les scores actualisés
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: ./.github/actions/publish-pages
+        timeout-minutes: 15
+
       - name: Synchroniser les matchs et régler les paris certifiés
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}

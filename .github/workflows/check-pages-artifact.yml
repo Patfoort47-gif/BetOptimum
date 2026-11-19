@@ -1,0 +1,32 @@
+name: Vérifier la visibilité des artefacts Pages
+on:
+  pull_request:
+    paths:
+      - '.github/actions/**'
+      - '.github/workflows/check-pages-artifact.yml'
+      - 'scripts/wait-pages-artifact.mjs'
+permissions:
+  contents: read
+jobs:
+  artifact-visibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Préparer une sonde sans données de production
+        run: echo 'Pages artifact visibility probe' > "$RUNNER_TEMP/pages-probe.txt"
+      - name: Téléverser la sonde
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/pages-probe.txt
+          retention-days: 1
+          if-no-files-found: error
+      - name: Vérifier le même garde que la production
+        uses: ./.github/actions/wait-pages-artifact
+        with:
+          artifact-id: ${{ steps.upload.outputs.artifact-id }}

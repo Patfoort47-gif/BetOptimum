@@ -1,0 +1,28 @@
+name: Confirmer un artefact Pages
+description: Attend une visibilité stable dans le service GitHub Artifact.
+inputs:
+  artifact-id:
+    description: Identifiant retourné par le téléversement de ce workflow
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Installer le client officiel de vérification
+      shell: bash
+      env:
+        PAGES_ACTION_PATH: ${{ github.action_path }}
+      run: npm ci --ignore-scripts --prefix "$PAGES_ACTION_PATH"
+    - name: Confirmer la visibilité de l’artefact téléversé
+      uses: actions/github-script@v8
+      env:
+        PAGES_ACTION_PATH: ${{ github.action_path }}
+        EXPECTED_ARTIFACT_ID: ${{ inputs.artifact-id }}
+      with:
+        script: |
+          const { createRequire } = require('node:module');
+          const { pathToFileURL } = require('node:url');
+          const actionRequire = createRequire(`${process.env.PAGES_ACTION_PATH}/package.json`);
+          const { DefaultArtifactClient } = actionRequire('@actions/artifact');
+          const { waitForPagesArtifact } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/wait-pages-artifact.mjs`).href);
+          const client = new DefaultArtifactClient();
+          await waitForPagesArtifact(() => client.listArtifacts(), { artifactId: process.env.EXPECTED_ARTIFACT_ID });

@@ -1,0 +1,8 @@
+{
+  "name": "betoptimum-pages-artifact-check",
+  "private": true,
+  "description": "Outillage GitHub Actions uniquement, jamais publié dans le site",
+  "dependencies": {
+    "@actions/artifact": "2.1.3"
+  }
+}

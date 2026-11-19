@@ -107,14 +107,12 @@ jobs:
       - name: Préparer les fichiers publics
         if: steps.schedule.outputs.run == 'true'
         run: node scripts/prepare-pages.mjs
-      - uses: actions/upload-pages-artifact@v3
-        if: steps.schedule.outputs.run == 'true'
-        with:
-          path: _site
       - name: Déployer le calendrier actualisé
         id: deployment
         if: steps.schedule.outputs.run == 'true'
-        uses: actions/deploy-pages@v4
+        uses: ./.github/actions/publish-pages
+        timeout-minutes: 15
+
       - name: Synchroniser les matchs et régler les paris certifiés
         if: steps.schedule.outputs.run == 'true'
         env:
