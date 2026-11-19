@@ -1,0 +1,11 @@
+BetOptimum
+
+Confirmez le changement d’adresse
+
+La nouvelle adresse demandée est {{ .NewEmail }}. Confirmez le changement depuis les messages reçus sur l’ancienne et la nouvelle adresse. Une fois le changement effectué, associez la nouvelle adresse dans Mes alertes si vous souhaitez recevoir le briefing.
+
+Confirmer le changement : {{ .ConfirmationURL }}
+
+Si vous n’avez pas demandé ce changement, ignorez ce message et vérifiez les accès à votre compte.
+
+Paris virtuels · 18+ · Aucune garantie de gain.
