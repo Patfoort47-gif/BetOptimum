@@ -1,3 +1,4 @@
+import { decimal } from '../core/number-format.js';
 import { dailyPushText } from './notification-daily.js';
 // BET-69 : adaptateurs utilisés uniquement côté serveur. Aucune clé dans le navigateur.
 import { briefingEmail, alertEmail } from './notification-email.js';
@@ -139,7 +140,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
                   ? 'Votre canal de notifications fonctionne.'
                   : reminder
                     ? favoriteReminderText(event)
-                    : `${event.label} · cote ${Number(event.odd).toFixed(2)} · confiance ${Math.round(event.confidence * 100)} %\nParis virtuels · 18+ · Aucune garantie.`,
+                    : `${event.label} · cote ${decimal(event.odd)} · probabilité estimée ${Math.round(event.confidence * 100)} %\nParis virtuels · 18+ · Aucune garantie.`,
           url: link,
           tag: challenge
             ? `challenge-${event.challenge_day}`
@@ -169,7 +170,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
           title: testing ? 'Votre alerte de test' : 'Une alerte sur vos favoris',
           message: testing
             ? 'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.'
-            : `${event.home} - ${event.away}\n${event.label} · cote ${event.odd.toFixed(2)}\n${event.bookmaker} · cote réelle${event.cached ? ' en cache' : ''}\nProbabilité du modèle : ${Math.round(event.confidence * 100)} %. Une estimation ne garantit aucun résultat.\n${new Date(event.kickoff).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })} (Paris)`,
+            : `${event.home} - ${event.away}\n${event.label} · cote ${decimal(event.odd)}\n${event.bookmaker} · cote réelle${event.cached ? ' en cache' : ''}\nProbabilité du modèle : ${Math.round(event.confidence * 100)} %. Une estimation ne garantit aucun résultat.\n${new Date(event.kickoff).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })} (Paris)`,
           url: link,
           siteUrl: env.SITE_URL,
           testing

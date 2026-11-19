@@ -79,6 +79,7 @@ self.addEventListener('push', (event) => {
       body: String(payload.body ?? '').slice(0, 1000),
       tag: String(payload.tag ?? 'betoptimum'),
       icon: new URL('icons/icon-192x192.png?v=bet387', self.registration.scope).href,
+      badge: new URL('icons/notification-badge.png', self.registration.scope).href,
       data: { url: url.href }
     })
   );

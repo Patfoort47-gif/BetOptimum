@@ -1,3 +1,4 @@
+import { decimal } from '../core/number-format.js';
 import { dailyPicks, dayInZone } from '../club/daily-picks.js';
 import { localMinute, quietAt } from './notification-model.js';
 export function planDailyPush(matches, prefs, now = Date.now()) {
@@ -37,6 +38,6 @@ export function dailyPushCurrent(event, prefs, matches, now = Date.now()) {
 export function dailyPushText(event) {
   return event.picks
     .slice(0, 1)
-    .map((p) => `${p.home} - ${p.away} : ${p.label} @ ${Number(p.odd).toFixed(2)}`)
+    .map((p) => `${p.home} - ${p.away} : ${p.label} · cote ${decimal(p.odd)}`)
     .join('');
 }
