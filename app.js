@@ -1655,12 +1655,15 @@ function updateSelectedMarkets() {
       ? `✓ Dans votre ticket : ${item.label}. Cliquez de nouveau sur la cote pour la retirer.`
       : '';
   });
-  document.querySelectorAll('#match-list [data-market]').forEach((button) => {
+  document.querySelectorAll('#match-list [data-market], [data-safe-market]').forEach((button) => {
+    const { match, market, safeMatch, safeMarket } = button.dataset;
     const selected = state.ticket.some(
-      (item) => item.matchId === button.dataset.match && item.key === button.dataset.market
+      (item) => item.matchId === (match ?? safeMatch) && item.key === (market ?? safeMarket)
     );
     button.classList.toggle('selected', selected);
     button.setAttribute('aria-pressed', String(selected));
+    if (safeMarket)
+      button.querySelector('em').textContent = selected ? 'Retirer du ticket' : 'Ajouter au ticket';
     button.setAttribute(
       'aria-label',
       `${button.dataset.marketLabel ?? button.textContent.trim()}${selected ? ' · sélectionné, cliquer pour retirer' : ''}`
@@ -1850,7 +1853,8 @@ function renderMatches() {
   });
   updateSelectedMarkets();
   if (focusMatch && focusKey)
-    document.querySelectorAll('#match-list [data-market]').forEach((button) => {
+    document.querySelectorAll('#match-list [data-market], [data-safe-market]').forEach((button) => {
+      const { match, market, safeMatch, safeMarket } = button.dataset;
       if (button.dataset.match === focusMatch && button.dataset.market === focusKey)
         button.focus({ preventScroll: true });
     });
