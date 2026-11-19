@@ -226,7 +226,7 @@ test('HTML et texte cohérents, échappement, liens sûrs, aucun script ni image
   assert.match(mail.text, /me désabonner/);
   assert.match(mail.html, /role="presentation"/);
   assert.match(mail.html, /name="viewport"/);
-  assert.ok(!mail.html.includes('<img'));
+  assert.match(mail.html, /<img[^>]+alt=""[^>]*>BetOptimum/);
   assert.throws(() => briefingEmail(b, 'javascript:alert(1)'));
 });
 test('livraison briefing par Resend avec HTML, texte, idempotence et reprise 429', async () => {
