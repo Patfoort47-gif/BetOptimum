@@ -1652,18 +1652,21 @@ function updateSelectedMarkets() {
     const item = state.ticket.find((item) => item.matchId === el.dataset.selectionFeedback);
     el.hidden = !item;
     el.textContent = item
-      ? `✓ Dans votre ticket : ${item.label}. Modifiez ou retirez ce choix dans Mon ticket.`
+      ? `✓ Dans votre ticket : ${item.label}. Cliquez de nouveau sur la cote pour la retirer.`
       : '';
   });
-  document.querySelectorAll('#match-list [data-market]').forEach((button) => {
+  document.querySelectorAll('#match-list [data-market], [data-safe-market]').forEach((button) => {
+    const { match, market, safeMatch, safeMarket } = button.dataset;
     const selected = state.ticket.some(
-      (item) => item.matchId === button.dataset.match && item.key === button.dataset.market
+      (item) => item.matchId === (match ?? safeMatch) && item.key === (market ?? safeMarket)
     );
     button.classList.toggle('selected', selected);
     button.setAttribute('aria-pressed', String(selected));
+    if (safeMarket)
+      button.querySelector('em').textContent = selected ? 'Retirer du ticket' : 'Ajouter au ticket';
     button.setAttribute(
       'aria-label',
-      `${button.dataset.marketLabel ?? button.textContent.trim()}${selected ? ' · sélectionné' : ''}`
+      `${button.dataset.marketLabel ?? button.textContent.trim()}${selected ? ' · sélectionné, cliquer pour retirer' : ''}`
     );
   });
 }
@@ -1850,7 +1853,8 @@ function renderMatches() {
   });
   updateSelectedMarkets();
   if (focusMatch && focusKey)
-    document.querySelectorAll('#match-list [data-market]').forEach((button) => {
+    document.querySelectorAll('#match-list [data-market], [data-safe-market]').forEach((button) => {
+      const { match, market, safeMatch, safeMarket } = button.dataset;
       if (button.dataset.match === focusMatch && button.dataset.market === focusKey)
         button.focus({ preventScroll: true });
     });
@@ -2532,11 +2536,9 @@ function addSelection(matchId, key, from) {
     toast('Vérifiez d’abord le pari en attente.');
     return;
   }
-  if (
-    from?.hasAttribute?.('data-result-pick') &&
-    state.ticket.some((item) => item.matchId === matchId && item.key === key)
-  ) {
+  if (state.ticket.some((item) => item.matchId === matchId && item.key === key)) {
     state.ticket = state.ticket.filter((item) => item.matchId !== matchId || item.key !== key);
+    rememberTicket();
     renderTicket();
     return;
   }
@@ -2558,6 +2560,7 @@ function addSelection(matchId, key, from) {
     time: match.time
   };
   state.ticket = [...state.ticket.filter((x) => x.matchId !== matchId), selection];
+  rememberTicket();
   renderTicket();
   if (from) flyToTicket(from, origin);
 }
