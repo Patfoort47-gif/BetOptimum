@@ -218,11 +218,13 @@ export function initPersonalDashboard({ api, root, getContext = () => ({}) }) {
             (!data.next_cursor || cursorKey(data.next_cursor) === cursorKey(cursor)))
         )
           throw new Error('Réponse d’historique invalide. Réessayez le chargement.');
-        const opened = new Set(
-            [...root.querySelectorAll('details[open][data-bet-detail]')].map(
-              (x) => x.dataset.betDetail
-            )
-          ),
+        const opened = more
+            ? null
+            : new Set(
+                [...root.querySelectorAll('details[open][data-bet-detail]')].map(
+                  (x) => x.dataset.betDetail
+                )
+              ),
           readingY = typeof window !== 'undefined' ? window.scrollY : 0;
         if (!more) {
           rows = new Map();
@@ -234,12 +236,14 @@ export function initPersonalDashboard({ api, root, getContext = () => ({}) }) {
           'beforeend',
           added.map((row) => historyCard(dashboardBet(row), getContext())).join('')
         );
-        root.querySelectorAll('[data-bet-detail]').forEach((el) => {
-          if (opened.has(el.dataset.betDetail)) el.open = true;
-        });
+        if (opened) {
+          root.querySelectorAll('[data-bet-detail]').forEach((el) => {
+            if (opened.has(el.dataset.betDetail)) el.open = true;
+          });
+          figures(data);
+        }
         nextCursor = data.has_more ? data.next_cursor : null;
         lastFilters = filterKey;
-        figures(data);
         pager(Boolean(nextCursor));
         $('#history-count').textContent =
           `${more ? `${added.length} pari${added.length > 1 ? 's' : ''} ajouté${added.length > 1 ? 's' : ''} · ` : ''}${rows.size} sur ${data.total} affichés · plus récents en premier`;
@@ -300,6 +304,7 @@ export function initPersonalDashboard({ api, root, getContext = () => ({}) }) {
     clearTimeout(timer);
     load({ refresh: true });
   });
+  $('#refresh-history')?.addEventListener('click', () => load({ refresh: true }));
   $('#reset-history').addEventListener('click', () => {
     clearTimeout(timer);
     $('#history-period').value = 'all';
