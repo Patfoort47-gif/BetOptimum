@@ -9,7 +9,8 @@ import {
 const env = {
   SITE_URL: 'https://example.com/bet/',
   RESEND_API_KEY: 'test',
-  EMAIL_FROM: 'test@example.com'
+  EMAIL_FROM: 'test@example.com',
+  EMAIL_REPLY_TO: 'support@example.com'
 };
 const event = {
   match_id: 'm',
@@ -92,6 +93,7 @@ test('le test email utilise Resend, une destination confirmée et un lien vers l
       assert.equal(init.headers['Idempotency-Key'], 'bet-notification-42');
       const body = JSON.parse(init.body);
       assert.deepEqual(body.to, ['confirmed@example.com']);
+      assert.equal(body.reply_to, env.EMAIL_REPLY_TO);
       assert.match(body.subject, /test.*email/);
       assert.match(body.text, /aucun pronostic réel/);
       assert.ok(body.text.includes('https://example.com/bet/#mes-alertes'));

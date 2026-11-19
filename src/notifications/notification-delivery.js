@@ -184,6 +184,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
         },
         body: JSON.stringify({
           from: env.EMAIL_FROM,
+          ...(env.EMAIL_REPLY_TO ? { reply_to: env.EMAIL_REPLY_TO } : {}),
           to: [target.email],
           ...email,
           subject: briefing
