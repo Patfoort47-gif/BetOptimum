@@ -22,3 +22,21 @@ export function authCallbackStatus(href) {
     message: ''
   };
 }
+
+const alertsReturnKey = 'betoptimum-alerts-auth-return';
+export function rememberAlertsReturn(pending) {
+  try {
+    if (pending) sessionStorage.setItem(alertsReturnKey, String(Date.now()));
+    else sessionStorage.removeItem(alertsReturnKey);
+  } catch {}
+}
+export function takeAlertsReturn() {
+  try {
+    const saved = Number(sessionStorage.getItem(alertsReturnKey));
+    sessionStorage.removeItem(alertsReturnKey);
+    const age = Date.now() - saved;
+    return saved > 0 && age >= 0 && age < 15 * 60 * 1000;
+  } catch {
+    return false;
+  }
+}

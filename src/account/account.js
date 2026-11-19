@@ -1,4 +1,4 @@
-import { authCallbackStatus } from './auth-return.js';
+import { authCallbackStatus, rememberAlertsReturn } from './auth-return.js';
 import { registrationAvatar, resolveAccountAvatar } from './registration-avatar.js';
 import { createNewsletterApi } from './newsletter.js';
 import { createNotificationApi } from '../notifications/notification-client.js';
@@ -1251,11 +1251,15 @@ export async function initAccountSync({
       if (error) throw authError(error);
     },
     google: async () => {
+      rememberAlertsReturn(location.hash === '#mes-alertes');
       const { error } = await client.auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo: redirect }
       });
-      if (error) throw authError(error);
+      if (error) {
+        rememberAlertsReturn(false);
+        throw authError(error);
+      }
     },
     signOut: async () => {
       const { error } = await client.auth.signOut();
