@@ -1,4 +1,4 @@
-const CACHE = 'betoptimum-shell-bet379-v1';
+const CACHE = 'betoptimum-shell-bet387-v1';
 self.addEventListener('install', (event) =>
   event.waitUntil(
     (async () => {
@@ -68,7 +68,7 @@ self.addEventListener('push', (event) => {
     self.registration.showNotification(String(payload.title).slice(0, 120), {
       body: String(payload.body ?? '').slice(0, 1000),
       tag: String(payload.tag ?? 'betoptimum'),
-      icon: new URL('icons/icon-192x192.png', self.registration.scope).href,
+      icon: new URL('icons/icon-192x192.png?v=bet387', self.registration.scope).href,
       data: { url: url.href }
     })
   );
