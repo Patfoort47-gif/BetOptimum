@@ -139,13 +139,14 @@
           <p id="combo-feedback" data-copy="composerIntro" class="composer-feedback" role="status" aria-live="polite">La recherche utilise les matchs de la période et des filtres affichés.</p><details class="composer-help"><summary>Comment fonctionne la recherche ?</summary><p>Le moteur cherche la cote la plus proche de votre cible en privilégiant la confiance estimée. Une nouvelle recherche remplace les sélections du ticket. Aucune garantie de gain.</p></details><div class="safe-picks"><div class="safe-picks-head"><strong>Suggestions à ajouter</strong><span>Période affichée</span></div><div id="safe-picks-list"></div></div>
         </div>
         <div class="ticket" id="ticket-panel" role="tabpanel" aria-labelledby="ticket-tab" aria-live="polite">
-          <div class="ticket-head"><div><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
+          <div id="ticket-empty"><h3>Votre ticket est vide</h3><p>Choisissez un match dans le calendrier, puis ajoutez un pronostic.</p><button type="button" class="button secondary" id="ticket-calendar">Voir le calendrier</button></div>
+          <div id="ticket-controls" hidden><div class="ticket-head"><div><h3 id="ticket-title">Combiné</h3></div><button class="text-button" id="clear-ticket">Effacer</button></div>
           <div class="bet-mode" id="bet-mode" role="group" aria-label="Type de pari"><button data-bet-mode="single">Simple</button><button class="active" data-bet-mode="combined">Combiné</button><button data-bet-mode="multiple">Multiple</button></div>
           <label class="system-control" id="system-control" hidden>Formule système<select id="system-formula"><option value="auto">Automatique</option><option value="2of3">2 sur 3</option><option value="2of4">2 sur 4</option><option value="3of4">3 sur 4</option><option value="trixie">Trixie (4 paris)</option><option value="yankee">Yankee (11 paris)</option></select></label>
           <div id="shared-ticket-notice" class="shared-ticket-notice" role="status" hidden></div><div id="ticket-items" class="ticket-items"><p class="empty">Votre ticket est vide.</p></div>
           <p id="ticket-mode-note" class="muted"></p><div class="ticket-summary">
             <div class="ticket-totals"><span class="total-main"><b id="odds-label">Cote totale</b><strong id="total-odds">1,00</strong></span><span id="target-gap-row">Écart à la cible <strong id="target-gap">-</strong></span></div>
-            <div class="ticket-stake"><label><b id="stake-label">Mise (€)</b><input id="stake" type="number" min="1" step="0.01" inputmode="decimal" value="20" aria-describedby="stake-feedback"></label><span>Total engagé <strong id="stake-total">20,00 €</strong></span><span>Gain potentiel <strong id="potential-win">20,00 €</strong></span></div>
+            <div class="ticket-stake"><label><b id="stake-label">Mise (€)</b><input id="stake" type="text" inputmode="decimal" autocomplete="off" value="20" aria-describedby="stake-feedback"></label><span>Total engagé <strong id="stake-total">20,00 €</strong></span><span>Gain potentiel <strong id="potential-win">20,00 €</strong></span></div>
             <div class="stake-controls" id="stake-controls" role="group" aria-label="Ajuster la mise">
               <button type="button" data-stake-percent="1" title="Prudente" aria-pressed="false">1 %</button><button type="button" data-stake-percent="2" title="Équilibrée" aria-pressed="true">2 %</button><button type="button" data-stake-percent="3" title="Confiance" aria-pressed="false">3 %</button><button type="button" data-stake-percent="5" title="Maximale" aria-pressed="false">5 %</button>
               <button type="button" data-stake-action="reset">Réinitialiser</button><button type="button" id="manual-stake">Saisie manuelle</button>
@@ -156,7 +157,7 @@
           <span id="league-toggle" hidden><input type="checkbox" id="counts-league" checked hidden><span id="league-note"></span></span>
           <div class="league-list" id="league-list" hidden></div>
           <p id="bet-feedback" role="status" aria-live="polite" class="muted"></p><button class="button ticket-cta full" id="place-bet" disabled>Placer le pari virtuel</button>
-          <button class="button ticket-share full" id="share-combo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Partager le ticket</button>
+          <button class="button ticket-share full" id="share-combo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Partager le ticket</button></div>
           <p class="responsible">18+ · Jouez de façon responsable. Paris virtuels · aucune garantie de gain. En mode invité, sauvegarde sur cet appareil. Avec un compte, validation des paris certifiés par le serveur.</p>
         </div>
       </aside>

@@ -29,3 +29,19 @@ NODE_PATH=/tmp/bet-ui-tools/node_modules node scripts/check-performance.cjs
 ```
 
 Vérifie à 360 et 1280 px : archive lente sans blocage du calendrier, absence de fiches au démarrage, chargement au clic, conservation des cartes et détails ouverts pendant sélection et mise, modification d’une autre carte, absence de rendu du bilan caché, URL de données stables et archive mutualisée. Les données et comptes sont simulés, les appels externes bloqués. Les mesures de latence d’interaction locales sont documentées dans `docs/PERFORMANCE_BET126.md`.
+
+### Ticket et compte sur téléphone (BET-377)
+
+Sur Safari iOS et Chrome Android, ouvrir le ticket invité vide, rejoindre le calendrier,
+ajouter un pronostic, ouvrir le ticket, retirer la dernière sélection et vérifier le retour
+au message vide. Refaire le parcours avec un pari simple, combiné et système.
+
+Avec le clavier ouvert, saisir `12,50`, puis effacer le montant et essayer `12,345`.
+Vérifier le message lié au champ, le total, le défilement jusqu’à l’action, puis fermer
+le tiroir et vérifier le retour du focus. Simuler avec un montant valide et retrouver
+le pari dans Mes paris en mode invité.
+
+Depuis le calendrier, ouvrir l’inscription, la connexion et la récupération du mot
+de passe. Vérifier le passage entre champs, la visibilité du champ actif et de
+l’action avec le clavier ouvert, les erreurs de formulaire et le retour au calendrier.
+Utiliser un compte de test pour vérifier les liens de confirmation et de récupération.
