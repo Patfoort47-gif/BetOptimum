@@ -22,7 +22,7 @@ export function teamLogoSources(match, side) {
       : null);
   return { logo, flag };
 }
-export function teamLogoMarkup(match, side) {
+export function teamLogoMarkup(match, side, eager = false) {
   const { logo, flag } = teamLogoSources(match, side);
-  return logoMarkup('crest', logo ?? flag, match[side], logo ? flag : null);
+  return logoMarkup('crest', logo ?? flag, match[side], logo ? flag : null, eager);
 }

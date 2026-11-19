@@ -18,8 +18,8 @@ export function initials(name) {
       : (words[0] || String(name ?? '')).slice(0, 3)
   ).toUpperCase();
 }
-export function logoMarkup(cls, url, name, fallback = null) {
+export function logoMarkup(cls, url, name, fallback = null, eager = false) {
   const src = safeLogo(url),
     backup = safeLogo(fallback);
-  return `<span class="${cls}${src ? '' : ' no-logo'}" data-initials="${escapeHtml(initials(name))}" aria-hidden="true">${src ? `<img src="${escapeHtml(src)}" width="36" height="36" alt="" loading="lazy" decoding="async" data-image-fallback="logo"${backup && backup !== src ? ` data-logo-fallback="${escapeHtml(backup)}"` : ''}>` : ''}</span>`;
+  return `<span class="${cls}${src ? '' : ' no-logo'}" data-initials="${escapeHtml(initials(name))}" aria-hidden="true">${src ? `<img src="${escapeHtml(src)}" width="36" height="36" alt="" ${eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async" data-image-fallback="logo"${backup && backup !== src ? ` data-logo-fallback="${escapeHtml(backup)}"` : ''}>` : ''}</span>`;
 }
