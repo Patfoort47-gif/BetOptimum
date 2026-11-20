@@ -10,7 +10,7 @@ test('SEO PronoSafe présent dans le HTML initial et cohérent avec le canonique
     meta = (key, attr = 'name') =>
       html.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)"`))?.[1],
     title = html.match(/<title>([^<]+)<\/title>/)[1];
-  assert.match(title, /^PronoSafe \|/);
+  assert.match(title, /^PronoSafe - /);
   assert.equal(meta('og:title', 'property'), title);
   assert.equal(meta('twitter:title'), title);
   assert.equal(meta('description'), meta('og:description', 'property'));
@@ -19,9 +19,14 @@ test('SEO PronoSafe présent dans le HTML initial et cohérent avec le canonique
   assert.equal(meta('og:url', 'property'), base);
   assert.equal(meta('twitter:card'), 'summary_large_image');
   assert.equal(meta('twitter:image'), meta('og:image', 'property'));
-  const schema = JSON.parse(
-    html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)[1]
+  const structuredData = Array.from(
+    html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g),
+    ([, json]) => JSON.parse(json)
   );
+  const website = structuredData.find((entry) => entry['@type'] === 'WebSite');
+  assert.equal(website.name, 'PronoSafe');
+  assert.equal(website.url, base);
+  const schema = structuredData.find((entry) => entry['@type'] === 'WebApplication');
   assert.equal(schema.name, 'PronoSafe');
   assert.equal(schema.url, base);
   assert.equal(schema.offers.price, '0');
