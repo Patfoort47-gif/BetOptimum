@@ -66,3 +66,27 @@ test('Annulation, progression, système partiel et échappement des données', (
   assert.ok(!html.includes('<img'));
   assert.ok(!html.includes('undefined : undefined'));
 });
+
+test('les montants invités en attente survivent au rechargement', () => {
+  const single = {
+    ...bet,
+    certified: false,
+    guest: true,
+    status: 'pending',
+    returnAmount: undefined,
+    odds: 1.26,
+    stake: 20,
+    systemLines: []
+  };
+  const restored = JSON.parse(JSON.stringify(single));
+  assert.equal(ticketAmounts(restored).potential, 25.2);
+  assert.match(historyCard(restored), /5,20/);
+  assert.equal(ticketAmounts({ ...restored, odds: 3 }).potential, 60);
+  assert.equal(
+    ticketAmounts({ ...restored, betType: 'multiple', systemLines: [{ stake: 10, odds: 2 }] })
+      .potential,
+    20
+  );
+  assert.match(historyCard({ ...restored, odds: null }), /Indisponible/);
+  assert.equal(ticketAmounts({ ...restored, status: 'void' }).net, 0);
+});

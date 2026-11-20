@@ -22,13 +22,21 @@ export function ticketAmounts(bet) {
             : bet.status === 'void'
               ? bet.stake
               : 0;
+  const validAmount = (value) => Number.isFinite(value) && value > 0;
+  const lines = bet.systemLines;
+  const potential =
+    bet.betType === 'multiple' || lines?.length
+      ? lines?.length && lines.every((line) => validAmount(line.stake) && validAmount(line.odds))
+        ? lines.reduce((sum, line) => sum + line.stake * line.odds, 0)
+        : null
+      : validAmount(bet.odds)
+        ? bet.stake * bet.odds
+        : null;
   return {
     pending,
     returned,
     net: returned == null ? null : returned - bet.stake,
-    potential:
-      bet.systemLines?.reduce((sum, line) => sum + line.stake * line.odds, 0) ??
-      bet.stake * bet.odds
+    potential: validAmount(bet.stake) && Number.isFinite(potential) ? potential : null
   };
 }
 export function historyReport(bets, filters = {}, now = Date.now()) {
@@ -59,7 +67,8 @@ export function historyReport(bets, filters = {}, now = Date.now()) {
       sum.staked += bet.stake;
       if (a.pending) {
         sum.engaged += bet.stake;
-        sum.potential += a.potential;
+        sum.potential =
+          a.potential == null || sum.potential == null ? null : sum.potential + a.potential;
       } else if (a.returned == null) sum.missing++;
       else {
         sum.returned += a.returned;
@@ -135,9 +144,11 @@ export function historyCard(bet, { results = [], live = {}, fixtures = [] } = {}
         `<li>Sous-pari ${index + 1} : sélections ${line.indexes.map((i) => i + 1).join(' + ')} · mise ${money(line.stake)} · cote ${decimal(Number(line.odds), 2)}</li>`
     )
     .join('');
+  const displayAmount = (value) => (value == null ? 'Indisponible' : money(value));
+  const potentialNet = amounts.potential == null ? null : amounts.potential - bet.stake;
   const progress =
     bet.items.length > 1
       ? `<p class="ticket-progress">${done} / ${bet.items.length} sélections réglées${bet.betType === 'multiple' ? ' · Les sous-paris gagnants peuvent rapporter un retour partiel.' : selections.some((leg) => leg.status === 'lost') ? ' · Une sélection perdante rend ce combiné perdant.' : ' · Toutes les sélections doivent gagner ; une annulation ramène sa cote à 1.'}</p>`
       : '';
-  return `<article class="personal-ticket ${escape(bet.status)}"><header><div><small>${escape(new Date(bet.date).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' }))}${bet.certified ? ' · Certifié' : bet.legacy ? ' · Avant saison 1' : ''}</small><h3>${escape(kind)} <span>· ${bet.items.length} sélection${bet.items.length > 1 ? 's' : ''}</span></h3>${settled}</div><span class="status ${escape(bet.status)}">${status}</span></header><dl class="ticket-figures"><div><dt>${bet.betType === 'multiple' ? 'Cotes par sous-pari' : 'Cote totale'}</dt><dd>${bet.betType === 'multiple' ? 'Voir le détail' : new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(bet.odds)}${bet.items.length > 1 && bet.betType !== 'multiple' ? '<small>Ticket complet</small>' : ''}</dd></div><div><dt>Mise totale</dt><dd>${money(bet.stake)}</dd></div><div><dt>${amounts.pending ? 'Retour potentiel' : 'Retour réel'}</dt><dd>${amounts.pending ? money(amounts.potential) : amounts.returned == null ? 'Indisponible' : money(amounts.returned)}<small>Mise incluse</small></dd></div><div><dt>${amounts.pending ? 'Bénéfice potentiel' : 'Résultat net'}</dt><dd>${amounts.pending ? money(amounts.potential - bet.stake) : amounts.net == null ? 'Indisponible' : money(amounts.net)}<small>${amounts.pending ? 'Non acquis' : 'Retour moins mise'}</small></dd></div></dl>${bet.id ? `<button type="button" class="button secondary" data-share-ticket="${escape(bet.id)}">Partager ce ticket</button>` : ''}${progress}<ol class="personal-legs">${legs}</ol>${lines ? `<details class="system-details" data-bet-detail="${escape(bet.id ?? bet.date)}"><summary>Détail des sous-paris</summary><ol class="system-breakdown">${lines}</ol></details>` : ''}</article>`;
+  return `<article class="personal-ticket ${escape(bet.status)}"><header><div><small>${escape(new Date(bet.date).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' }))}${bet.certified ? ' · Certifié' : bet.legacy ? ' · Avant saison 1' : ''}</small><h3>${escape(kind)} <span>· ${bet.items.length} sélection${bet.items.length > 1 ? 's' : ''}</span></h3>${settled}</div><span class="status ${escape(bet.status)}">${status}</span></header><dl class="ticket-figures"><div><dt>${bet.betType === 'multiple' ? 'Cotes par sous-pari' : 'Cote totale'}</dt><dd>${bet.betType === 'multiple' ? 'Voir le détail' : new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(bet.odds)}${bet.items.length > 1 && bet.betType !== 'multiple' ? '<small>Ticket complet</small>' : ''}</dd></div><div><dt>Mise totale</dt><dd>${money(bet.stake)}</dd></div><div><dt>${amounts.pending ? 'Retour potentiel' : 'Retour réel'}</dt><dd>${displayAmount(amounts.pending ? amounts.potential : amounts.returned)}<small>Mise incluse</small></dd></div><div><dt>${amounts.pending ? 'Bénéfice potentiel' : 'Résultat net'}</dt><dd>${displayAmount(amounts.pending ? potentialNet : amounts.net)}<small>${amounts.pending ? 'Non acquis' : 'Retour moins mise'}</small></dd></div></dl>${bet.id ? `<button type="button" class="button secondary" data-share-ticket="${escape(bet.id)}">Partager ce ticket</button>` : ''}${progress}<ol class="personal-legs">${legs}</ol>${lines ? `<details class="system-details" data-bet-detail="${escape(bet.id ?? bet.date)}"><summary>Détail des sous-paris</summary><ol class="system-breakdown">${lines}</ol></details>` : ''}</article>`;
 }

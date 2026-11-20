@@ -36,7 +36,7 @@ export function dashboardFigures(s) {
       decided ? `${number((Number(s.wins) / decided) * 100)} %` : 'Pas encore de résultat'
     ],
     ['Mises en attente · période', money(s.engaged)],
-    ['Retour potentiel · non acquis', money(s.potential)]
+    ['Retour potentiel · non acquis', s.potential == null ? 'Indisponible' : money(s.potential)]
   ];
 }
 export function dashboardEssentialFigures(s) {
