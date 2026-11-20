@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { authCallbackStatus } from '../src/account/auth-return.js';
+import {
+  authCallbackStatus,
+  rememberNotificationReturn,
+  takeNotificationReturn
+} from '../src/account/auth-return.js';
 import { translateAuthError } from '../src/account/auth-model.js';
 test('le refus Google ne devient pas une erreur de confirmation email', () => {
   for (const suffix of [
@@ -46,4 +50,32 @@ test('le fournisseur désactivé reçoit une explication exploitable', () => {
     /connexion Google.*indisponible/
   );
   assert.match(translateAuthError({ code: 'access_denied' }), /annulée/);
+});
+
+test('le retour de connexion restaure une seule fois une destination privée autorisée', (t) => {
+  const values = new Map();
+  t.mock.method(Date, 'now', () => 1_000_000);
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'sessionStorage');
+  Object.defineProperty(globalThis, 'sessionStorage', {
+    configurable: true,
+    value: {
+      setItem: (k, v) => values.set(k, v),
+      getItem: (k) => values.get(k) ?? null,
+      removeItem: (k) => values.delete(k)
+    }
+  });
+  t.after(() => {
+    if (descriptor) Object.defineProperty(globalThis, 'sessionStorage', descriptor);
+    else delete globalThis.sessionStorage;
+  });
+  for (const hash of ['#bankroll', '#mes-alertes']) {
+    rememberNotificationReturn(hash);
+    assert.equal(takeNotificationReturn(), hash);
+    assert.equal(takeNotificationReturn(), null);
+  }
+  rememberNotificationReturn('https://example.org/');
+  assert.equal(takeNotificationReturn(), null);
+  rememberNotificationReturn('#bankroll');
+  t.mock.method(Date, 'now', () => 2_000_000);
+  assert.equal(takeNotificationReturn(), null);
 });
