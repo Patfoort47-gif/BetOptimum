@@ -105,7 +105,42 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       awayScore
     })
   );
-  const index = prerenderSeo(await readFile(new URL('index.html', root), 'utf8'), fixtures);
+  const indexSource = await readFile(new URL('index.html', root), 'utf8');
+  // Réutilise le texte de la fenêtre Confidentialité pour l’URL demandée par AdSense.
+  const privacyDialog = indexSource.match(
+    /<dialog id="privacy-dialog"[^>]*>([\s\S]*?)<\/dialog>/
+  )?.[1];
+  const privacyContent = privacyDialog?.match(
+    /<div class="page-content">([\s\S]*)<\/div>\s*$/
+  )?.[1];
+  if (!privacyContent) throw new Error('Texte de la politique de confidentialité introuvable');
+  const privacyDirectory = new URL('confidentialite/', out);
+  await mkdir(privacyDirectory, { recursive: true });
+  await writeFile(
+    new URL('index.html', privacyDirectory),
+    `<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Politique de confidentialité | PronoSafe</title>
+  <link rel="canonical" href="https://pronosafe.fr/confidentialite/">
+  <link rel="icon" href="../icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../styles/components.css">
+</head>
+<body>
+  <main class="section-block">
+    <article class="card page-content">
+      <nav aria-label="Navigation"><a href="../">PronoSafe · Accueil</a></nav>
+      <h1>Politique de confidentialité</h1>${privacyContent}
+    </article>
+  </main>
+</body>
+</html>
+`
+  );
+  const index = prerenderSeo(indexSource, fixtures);
   await writeFile(
     new URL('index.html', out),
     index.replace(
