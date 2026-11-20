@@ -130,7 +130,7 @@ import {
   activityText,
   suggestPlayers
 } from './src/club/community.js';
-import { avatarMarkup, legacyOf } from './src/avatar/avatar-view.js';
+import { avatarMarkup, legacyOf, profilePhoto } from './src/avatar/avatar-view.js';
 import {
   liveEntryFromPayload,
   previousDate,
@@ -2691,7 +2691,7 @@ async function openProfile(target) {
   if (activeTab !== 'profile') return;
   if (!profilePage) {
     const [module, model] = await Promise.all([
-      import('./src/account/profile.js?v=profil-bet310'),
+      import('./src/account/profile.js?v=profil-photo'),
       import('./src/model/model.js')
     ]);
     if (profilePage) return profilePage.show(profilePending);
@@ -2708,6 +2708,7 @@ async function openProfile(target) {
       divisionIndex,
       model,
       accountApi,
+      onPhotoChange: renderAccountMenu,
       getState: () => state,
       toast,
       copyBet: (bet, nickname) => {
@@ -2856,7 +2857,7 @@ function renderAccountMenu() {
     nickname = state.profile.nickname || 'Parieur';
   if (icon)
     icon.innerHTML = accountAuthenticated
-      ? avatarMarkup(state.profile, { userId: accountUserId })
+      ? avatarMarkup(state.profile, { photo: profilePhoto(accountUserId) })
       : ICONS.user;
   $('#account-button')?.setAttribute?.(
     'aria-label',
@@ -2868,7 +2869,7 @@ function renderAccountMenu() {
   const config = avatarConfig(state.profile),
     xp = state.progress?.xp ?? 0,
     info = levelInfo(xp);
-  head.innerHTML = `${avatarMarkup(state.profile, { userId: accountUserId })}<div><strong>${html(state.profile.nickname || 'Parieur')}</strong><small>${state.progress ? `Niv. ${info.level} · ${info.title}` : 'Niveau en cours de calcul'}</small><span class="level-bar"><i style="width:${Math.round(info.progress * 100)}%"></i></span></div>`;
+  head.innerHTML = `${avatarMarkup(state.profile, { photo: profilePhoto(accountUserId) })}<div><strong>${html(state.profile.nickname || 'Parieur')}</strong><small>${state.progress ? `Niv. ${info.level} · ${info.title}` : 'Niveau en cours de calcul'}</small><span class="level-bar"><i style="width:${Math.round(info.progress * 100)}%"></i></span></div>`;
 }
 const accountMenu = () => $('#account-menu');
 function toggleAccountMenu(force) {
@@ -3224,7 +3225,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('[data-mobile-target]').forEach((button) => {
-    const active = button.dataset.mobileTarget === tab;
+    const active = button.dataset.mobileTarget === (tab === 'standings' ? 'matches' : tab);
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
@@ -4526,7 +4527,7 @@ $('#match-list').addEventListener('click', (e) => {
       if (!match) return;
       mobileDiagnostics?.mark('ouverture-analyse');
       syncTrial?.useful('analyse');
-      api.openMatch(match, 'stats');
+      api.openMatch(match, window.matchMedia('(max-width: 767px)').matches ? 'insights' : 'stats');
     });
     return;
   }

@@ -493,7 +493,7 @@ body .match-card .match-hero .crest {
   height: clamp(38px, 5vw, 54px);
   background: rgba(255, 255, 255, 0.86);
   border-radius: 14px;
-  padding: 5px;
+  padding: 0;
 }
 
 body .match-header-stats {
@@ -685,10 +685,6 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
     scroll-margin-top: calc(var(--header-offset) + 10px);
   }
 
-  body #match-navigation:not([hidden]) {
-    display: none;
-  }
-
   body #matches .analysis-note {
     display: none;
   }
@@ -696,23 +692,6 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
   body .date-chip,
   body .filter {
     min-height: 44px;
-  }
-
-  body .mobile-nav {
-    inset: auto max(10px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom))
-      max(10px, env(safe-area-inset-left));
-    width: auto;
-    max-width: 500px;
-    margin-inline: auto;
-    padding: 4px;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 2px;
-    border: 1px solid var(--line-strong);
-    border-radius: 20px;
-    background: var(--glass-nav);
-    box-shadow: 0 10px 32px #0005;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
   }
 
   body .mobile-nav button {

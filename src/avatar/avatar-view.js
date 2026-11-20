@@ -30,8 +30,22 @@ export const avatarRev = (source = {}) => {
 };
 export const avatarUrl = (source, userId, kind = 'bust') =>
   avatarImageUrl(SUPABASE_URL, userId ?? source?.user_id, avatarRev(source), kind);
-// Identité neutre : aucune image ni configuration personnalisée n’est affichée.
-export function avatarMarkup(source, { cls = 'mini-avatar', label = '' } = {}) {
+const photoKey = (userId) => `pronosafe:profile-photo:${userId}`;
+const isProfilePhoto = (value) => /^data:image\/jpeg;base64,[A-Za-z0-9+/]+=*$/.test(value);
+export function profilePhoto(userId) {
+  if (!userId) return null;
+  try {
+    const photo = localStorage.getItem(photoKey(userId));
+    return isProfilePhoto(photo) ? photo : null;
+  } catch {
+    return null;
+  }
+}
+export function saveProfilePhoto(userId, photo) {
+  if (photo) localStorage.setItem(photoKey(userId), photo);
+  else localStorage.removeItem(photoKey(userId));
+}
+export function avatarMarkup(source, { cls = 'mini-avatar', label = '', photo = null } = {}) {
   const initials =
     String(source?.nickname ?? '')
       .trim()
@@ -40,5 +54,8 @@ export function avatarMarkup(source, { cls = 'mini-avatar', label = '' } = {}) {
       .map((part) => [...part][0] ?? '')
       .join('')
       .toLocaleUpperCase('fr-FR') || '●';
-  return `<span class="${escape(cls)} neutral-avatar" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}>${escape(initials)}</span>`;
+  const content = isProfilePhoto(photo)
+    ? `<img class="profile-photo" src="${photo}" alt="">`
+    : escape(initials);
+  return `<span class="${escape(cls)} neutral-avatar" ${label ? `role="img" aria-label="${escape(label)}"` : 'aria-hidden="true"'}>${content}</span>`;
 }

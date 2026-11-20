@@ -17,24 +17,32 @@ const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
       assert.equal(await nav.isVisible(), width < 768);
       if (width < 768) {
         const buttons = await nav.getByRole('button').all();
-        assert.equal(buttons.length, 5);
+        assert.equal(buttons.length, 4);
+        assert.equal(await nav.getByRole('button', { name: 'Classement des équipes' }).count(), 0);
+        const navBox = await nav.boundingBox();
+        assert.equal(navBox.x, 0);
+        assert.equal(navBox.width, width);
+        assert.equal(navBox.y + navBox.height, await p.evaluate(() => innerHeight));
         for (const button of buttons) {
           const box = await button.boundingBox();
           assert.ok(box.width >= 44 && box.height >= 44);
         }
-        assert.equal(await buttons[0].evaluate((el) => getComputedStyle(el).fontSize), '12px');
         const dates = await p.locator('#date-navigator').boundingBox();
         const prev = await p.getByRole('button', { name: 'Dates précédentes' }).boundingBox();
         const next = await p.getByRole('button', { name: 'Dates suivantes' }).boundingBox();
         assert.ok(prev.x + prev.width <= dates.x + 1 && dates.x + dates.width <= next.x + 1);
-        await p.locator('#open-help').click();
-        await p.getByRole('button', { name: 'Guide en trois étapes' }).click();
-        assert.ok(await p.locator('.tutorial-dialog').isVisible());
-        await p.keyboard.press('Escape');
         await p.locator('[data-mobile-target=bankroll]').click();
-        await p.locator('[data-mobile-target=standings]').click();
         await p.goBack();
-        assert.ok(await p.locator('#bankroll').isVisible());
+        assert.ok(await p.locator('#matches').isVisible());
+        await p
+          .getByRole('navigation', { name: 'Dans Matchs' })
+          .getByRole('button', { name: 'Classement' })
+          .click();
+        assert.ok(await p.locator('#standings').isVisible());
+        assert.equal(
+          await nav.getByRole('button', { name: 'Matchs' }).getAttribute('aria-current'),
+          'page'
+        );
         await p.goBack();
         assert.ok(await p.locator('#matches').isVisible());
         await p.locator('.match-card .match-selection').first().click();
