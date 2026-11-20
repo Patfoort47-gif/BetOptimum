@@ -7,13 +7,13 @@ const steps = [
   },
   {
     title: 'Composer votre ticket virtuel',
-    text: 'Touchez une cote disponible pour ajouter votre choix au ticket. Ouvrez Ticket sur mobile, choisissez simple ou combiné, puis une mise compatible avec votre bankroll. Un compte connecté est nécessaire pour confirmer. Aucun argent réel n’est engagé.',
+    text: 'Touchez une cote disponible pour ajouter votre choix au ticket. Ouvrez Ticket sur mobile, indiquez votre mise fictive et simulez sans compte. Le mode invité commence avec 1 000 € fictifs.',
     action: 'Préparer mon ticket',
     tab: 'matches'
   },
   {
     title: 'Suivre votre progression',
-    text: 'Mes paris affiche vos tickets et votre bankroll virtuelle. Les résultats sont validés par le serveur. Résultats du modèle présente le bilan public des pronostics : il est distinct de vos propres paris.',
+    text: 'Mes paris affiche vos tickets et votre bankroll virtuelle. En mode invité, vos tickets restent sur cet appareil. Un compte permet de sauvegarder votre simulation et de placer des paris certifiés par le serveur. Résultats du modèle présente le bilan public des pronostics : il est distinct de vos propres paris.',
     action: 'Consulter les résultats du modèle',
     tab: 'predictions'
   }

@@ -78,7 +78,7 @@ import {
   settleGuestWallet
 } from './src/ticket/guest-wallet.js';
 import { createSubmission } from './src/ticket/bet-submission.js';
-import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
+import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet409';
 import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
 import { freshness, offerFreshness, sourceFreshness } from './src/core/data-freshness.js';
 import { initAnalytics } from './src/history/analytics.js';
@@ -629,7 +629,7 @@ function loadDetailStyles() {
   return (detailStyles ??= new Promise((resolve, reject) => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'styles/details.css?v=bet379';
+    link.href = 'styles/details.css?v=bet409';
     link.addEventListener('load', resolve, { once: true });
     link.addEventListener(
       'error',
@@ -645,7 +645,7 @@ function loadDetailStyles() {
 }
 function ensureDetails() {
   if (!detailsPromise)
-    detailsPromise = Promise.all([import('./src/matches/details.js?v=bet386'), loadDetailStyles()])
+    detailsPromise = Promise.all([import('./src/matches/details.js?v=bet409'), loadDetailStyles()])
       .then(
         ([module]) =>
           (details = module.initDetails({
@@ -1418,7 +1418,7 @@ function quickSelection(match, best) {
   if (!best?.key)
     return '<div class="recommended"><span class="selection-eyebrow">LA SÉLECTION DU MATCH</span><strong>Aucune sélection admissible</strong><small>Il faut une cote supérieure à 1,15 et au moins 10 bookmakers par sélection.</small></div>';
   if (!quoteAvailable(match, best.key))
-    return `<div class="recommended"><strong>${html(best.label)}</strong><small>${Math.round(best.probability * 100)} % de probabilité estimée · cote indisponible : moins de 10 bookmakers</small></div>`;
+    return `<div class="recommended"><strong>${html(best.label)}</strong><small>${Math.round(best.probability * 100)} % de probabilité estimée · cote bookmaker indisponible</small></div>`;
   const coverage = selectionBookmakerCount(match, best.key);
   const offer = offerFreshness(match.bookmakerOffers, best.key);
   const source = match.oddsCachedMarkets?.includes(best.key) ? 'Offre conservée' : 'PropLine';
@@ -2395,7 +2395,7 @@ function guestSyncOffer() {
   if (eligible) syncTrial?.eligible();
   if (!eligible || syncTrial?.control || syncPromptChoice) return '';
   syncTrial?.exposed();
-  return '<section class="card" aria-labelledby="guest-sync-title"><h4 id="guest-sync-title">Retrouver votre simulation sur un autre appareil</h4><p>Un compte peut sauvegarder votre historique de simulation dans un espace privé. Il reste distinct des paris certifiés.</p><button type="button" class="button secondary" data-guest-sync-start>Synchroniser ma simulation</button> <button type="button" class="text-button" data-guest-sync-dismiss>Continuer en invité</button></section>';
+  return '<section class="card" aria-labelledby="guest-sync-title"><h4 id="guest-sync-title">Retrouver votre simulation sur un autre appareil</h4><p>Vos tickets de simulation sont enregistrés sur cet appareil. Avec un compte, vous pouvez sauvegarder une copie privée de vos tickets et de votre solde fictif pour les retrouver sur un autre appareil. Vos paris certifiés ont leur propre solde.</p><button type="button" class="button secondary" data-guest-sync-start>Synchroniser ma simulation</button> <button type="button" class="text-button" data-guest-sync-dismiss>Continuer en invité</button></section>';
 }
 function renderHistory() {
   if (activeTab !== 'bankroll') return;
@@ -2407,6 +2407,9 @@ function renderHistory() {
   if (guest) {
     guest.hidden = accountAuthenticated && !guestWallet.history.length;
     const offer = guestSyncOffer(),
+      empty = !guestWallet.history.length
+        ? '<p>Aucun pari simulé pour le moment.</p><button class="button primary" type="button" data-guest-see-matches>Voir les matchs</button>'
+        : '',
       history = guestWallet.history
         .map((bet) =>
           historyCard(
@@ -2415,7 +2418,7 @@ function renderHistory() {
           )
         )
         .join('');
-    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil.</p>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}${accountAuthenticated ? '' : offer || '<button class="button secondary" data-open-join>Créer un compte</button>'}<div class="personal-tickets">${history || '<p>Aucun pari invité pour le moment. Choisissez un match pour commencer.</p>'}</div>`;
+    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil.</p>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}${empty}${accountAuthenticated ? '' : offer || '<button class="button secondary" data-open-join>Créer un compte</button>'}<div class="personal-tickets">${history}</div>`;
   }
   if (!accountAuthenticated) {
     personalDashboard?.clear();
@@ -4801,6 +4804,11 @@ $('#place-bet').addEventListener('click', async () => {
   renderTicket();
 });
 $('#bankroll-guest')?.addEventListener('click', (event) => {
+  if (event.target.closest('[data-guest-see-matches]')) {
+    setActiveTab('matches', true);
+    $('#dashboard')?.focus({ preventScroll: true });
+    return;
+  }
   if (event.target.closest('[data-guest-sync-dismiss]')) {
     saveSyncPromptChoice('dismissed');
     renderHistory();

@@ -12788,3 +12788,22 @@ body .match-card .match-hero .stadium-placeholder-name {
 .model-showcase .model-spotlight {
   display: block;
 }
+
+@media (max-width: 700px) {
+  #matches > .section-heading {
+    order: 10;
+    margin: 0;
+  }
+
+  #matches > .match-filter-context:not(:has(button:not([hidden]))) {
+    display: none;
+  }
+
+  #matches > #next-favorite-match {
+    order: 5;
+  }
+
+  #matches > #match-list-more {
+    order: 9;
+  }
+}
