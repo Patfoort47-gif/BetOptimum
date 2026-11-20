@@ -7,6 +7,12 @@ export function authCallbackStatus(href) {
     error = get('error_code') ?? get('error'),
     type = get('type');
   if (error) {
+    if (type === 'magiclink' || params.get('auth_return') === 'magic') {
+      return {
+        kind: 'magic-error',
+        message: 'Ce lien a expiré ou a déjà été utilisé. Demandez un nouveau lien de connexion.'
+      };
+    }
     if (type === 'recovery' || params.get('auth_return') === 'recovery') {
       return {
         kind: 'recovery-error',
@@ -28,6 +34,31 @@ export function authCallbackStatus(href) {
     kind: type === 'signup' ? 'signup' : type === 'recovery' ? 'recovery' : 'none',
     message: ''
   };
+}
+
+const magicDestinations = new Set([
+  '#matches',
+  '#conseils-du-jour',
+  '#classements',
+  '#bilan-pronos',
+  '#communaute',
+  '#bankroll',
+  '#profil',
+  '#mes-alertes'
+]);
+
+export function magicLinkRedirect(base, hash) {
+  const url = new URL(base);
+  url.searchParams.set('auth_return', 'magic');
+  url.searchParams.set('return_to', magicDestinations.has(hash) ? hash : '#matches');
+  return url.href;
+}
+
+export function readMagicDestination(href) {
+  const { searchParams } = new URL(href);
+  if (searchParams.get('auth_return') !== 'magic') return null;
+  const hash = searchParams.get('return_to');
+  return magicDestinations.has(hash) ? hash : '#matches';
 }
 
 const alertsReturnKey = 'betoptimum-alerts-auth-return';

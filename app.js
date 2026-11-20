@@ -1,4 +1,4 @@
-import { takeNotificationReturn } from './src/account/auth-return.js';
+import { readMagicDestination, takeNotificationReturn } from './src/account/auth-return.js';
 import { syncStudy } from './src/core/sync-study.js';
 import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
@@ -602,6 +602,7 @@ function hasStoredSession() {
 }
 const knownAccountSession = hasStoredSession();
 const accountCallbackOnLoad = hasAccountCallback();
+let magicDestinationOnLoad = accountCallbackOnLoad ? readMagicDestination(location.href) : null;
 let accountPromise = null,
   detailStyles = null;
 const joinOnLoad = location.hash === '#rejoindre',
@@ -5338,10 +5339,12 @@ function ensureAccount() {
           accountAuthenticated = authenticated;
           accountUserId = user?.id ?? null;
           if (authenticated && accountCallbackOnLoad) {
-            const destination = takeNotificationReturn();
+            const destination = magicDestinationOnLoad ?? takeNotificationReturn();
+            magicDestinationOnLoad = null;
             if (destination === '#mes-alertes')
               setActiveTab('profile', true, { self: true, tab: 'notifications' });
             else if (destination === '#bankroll') setActiveTab('bankroll', true);
+            else if (destination) location.hash = destination;
           }
           if (authenticated && syncPromptChoice === 'intent' && syncPromptDate >= isoDate(-7)) {
             syncReturnActive = true;
@@ -5371,7 +5374,7 @@ function ensureAccount() {
           renderAccountMenu();
           renderHistory();
         },
-        onAuthEvent: (event, _user, message) => {
+        onAuthEvent: (event, _user, message, destination) => {
           if (['SIGNED_OUT', 'PASSWORD_RECOVERY', 'RECOVERY_FAILED'].includes(event)) {
             clearPrivateInvitation();
           }
@@ -5397,7 +5400,10 @@ function ensureAccount() {
             setTimeout(() => openJoin('login').then(() => join?.oauthError()), 0);
           } else if (event === 'CONFIRMATION_FAILED')
             openJoin('login').then(() => join?.confirmationError());
-          else if (event === 'RECOVERY_FAILED')
+          else if (event === 'MAGIC_FAILED') {
+            magicDestinationOnLoad = null;
+            openJoin('magic').then(() => join?.magicError(message, destination));
+          } else if (event === 'RECOVERY_FAILED')
             openJoin('forgot').then(() => join?.recoveryError(message));
           else if (event === 'PASSWORD_RECOVERY') openJoin('login').then(() => join?.recovery());
           else if (event === 'SIGNED_IN' && join && !$('#rejoindre').hidden) join.close();

@@ -2,7 +2,7 @@ BetOptimum
 
 Connectez-vous à BetOptimum
 
-Ouvrez le lien sur l’appareil et dans le navigateur où vous avez demandé la connexion. Si le lien a expiré, demandez-en un nouveau depuis la page de connexion.
+Vous pouvez ouvrir ce lien sur un autre appareil. Il vous connectera dans le navigateur où vous l’ouvrez. Si le lien a expiré, demandez-en un nouveau depuis la page de connexion.
 
 Me connecter : {{ .ConfirmationURL }}
 

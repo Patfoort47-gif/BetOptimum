@@ -1,4 +1,9 @@
-import { authCallbackStatus, rememberNotificationReturn } from './auth-return.js';
+import {
+  authCallbackStatus,
+  magicLinkRedirect,
+  readMagicDestination,
+  rememberNotificationReturn
+} from './auth-return.js';
 import { registrationAvatar, resolveAccountAvatar } from './registration-avatar.js';
 import { createNewsletterApi } from './newsletter.js';
 import { createNotificationApi } from '../notifications/notification-client.js';
@@ -107,6 +112,7 @@ export async function initAccountSync({
         nicknameAvailable: unavailable,
         signIn: unavailable,
         magicInvite: unavailable,
+        magic: unavailable,
         signUp: unavailable,
         resend: unavailable,
         reset: unavailable,
@@ -138,7 +144,10 @@ export async function initAccountSync({
   const { createClient } = await import('../../vendor/supabase-js-2.81.1.js');
   const callback = authCallbackStatus(location.href),
     signupReturn = callback.kind === 'signup',
-    emailCallbackError = ['confirmation-error', 'recovery-error'].includes(callback.kind);
+    emailCallbackError = ['confirmation-error', 'recovery-error', 'magic-error'].includes(
+      callback.kind
+    ),
+    magicDestination = readMagicDestination(location.href);
   client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
@@ -1210,6 +1219,16 @@ export async function initAccountSync({
       });
       if (error) throw authError(error);
     },
+    magic: async (email, returnHash) => {
+      const { error } = await client.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: magicLinkRedirect(redirect, returnHash),
+          shouldCreateUser: false
+        }
+      });
+      if (error && error.code !== 'otp_disabled') throw authError(error);
+    },
     signIn: async (email, password) => {
       const { data, error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw authError(error);
@@ -1289,11 +1308,12 @@ export async function initAccountSync({
   await client.auth.getSession().then(({ data, error }) => {
     if (emailCallbackError) {
       history.replaceState(null, '', redirect);
-      onAuthEvent(
-        callback.kind === 'recovery-error' ? 'RECOVERY_FAILED' : 'CONFIRMATION_FAILED',
-        null,
-        callback.message
-      );
+      const failureEvents = {
+        'recovery-error': 'RECOVERY_FAILED',
+        'magic-error': 'MAGIC_FAILED',
+        'confirmation-error': 'CONFIRMATION_FAILED'
+      };
+      onAuthEvent(failureEvents[callback.kind], null, callback.message, magicDestination);
     } else if (callback.kind === 'oauth-error') {
       history.replaceState(null, '', redirect);
       onAuthEvent('OAUTH_FAILED');
@@ -1303,6 +1323,12 @@ export async function initAccountSync({
       showMessage(translateAuthError(error), true);
       if (!emailCallbackError && callback.kind !== 'oauth-error') throw authError(error);
     } else if (data.session?.user) {
+      if (magicDestination) {
+        const target = new URL(location.href);
+        target.searchParams.delete('auth_return');
+        target.searchParams.delete('return_to');
+        history.replaceState(null, '', target);
+      }
       loadUser(data.session.user);
       if (signupReturn && data.session.user.email_confirmed_at) onAuthEvent('EMAIL_CONFIRMED');
     } else setView(null);
