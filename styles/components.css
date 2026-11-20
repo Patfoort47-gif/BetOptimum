@@ -12346,6 +12346,14 @@ body .match-card .match-hero::before {
   display: block;
   background: linear-gradient(180deg, rgba(17, 28, 22, 0.45) 0%, rgba(17, 28, 22, 0.92) 100%);
 }
+body .match-card .match-hero.stadium-ready::before {
+  background: linear-gradient(
+    180deg,
+    rgba(9, 13, 22, 0.66) 0%,
+    rgba(9, 13, 22, 0.25) 50%,
+    rgba(9, 13, 22, 0.65) 100%
+  );
+}
 body .match-card .match-stadium-photo,
 body .match-card .stadium-placeholder {
   display: block;
