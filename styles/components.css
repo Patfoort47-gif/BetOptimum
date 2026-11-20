@@ -12726,8 +12726,17 @@ body .match-card .match-hero .stadium-placeholder-name {
   cursor: pointer;
 }
 
+#matches .calendar-generator {
+  display: none;
+}
+
 @media (max-width: 767px) {
-  .hero-main .hero-cta,
+  #matches .calendar-generator {
+    display: inline-flex;
+    min-height: 44px;
+    align-self: start;
+  }
+
   #match-navigation [data-open-ticket] {
     display: none;
   }
