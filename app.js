@@ -80,7 +80,7 @@ import {
 import { createSubmission } from './src/ticket/bet-submission.js';
 import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
 import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
-import { freshness, sourceFreshness } from './src/core/data-freshness.js';
+import { freshness, offerFreshness, sourceFreshness } from './src/core/data-freshness.js';
 import { initAnalytics } from './src/history/analytics.js';
 import {
   analyseMatch,
@@ -1549,11 +1549,13 @@ function quickSelection(match, best) {
     return '<div class="recommended"><span class="selection-eyebrow">LA SÉLECTION DU MATCH</span><strong>Aucune sélection admissible</strong><small>Il faut une cote supérieure à 1,15 et au moins 10 bookmakers par sélection.</small></div>';
   if (!quoteAvailable(match, best.key))
     return `<div class="recommended"><strong>${html(best.label)}</strong><small>${Math.round(best.probability * 100)} % de probabilité estimée · cote indisponible : moins de 10 bookmakers</small></div>`;
-  const ev = Number.isFinite(best.value) && best.real;
-  return `<section class="selection-summary" aria-label="Sélection du match"><strong class="selection-title">${html(best.label)}</strong><dl><div><dt>Probabilité estimée</dt><dd class="selection-probability">${Math.round(best.probability * 100)} %</dd></div><div class="selection-price"><dt>Cote réelle</dt><dd>${decimal(best.odd, 2)}</dd></div>${ev ? `<div><dt>Rendement estimé</dt><dd class="selection-ev">${best.value >= 0 ? '+' : ''}${Math.round(best.value * 100)} %</dd></div>` : ''}</dl><button type="button" class="button primary match-selection selection-action" data-match="${html(match.id)}" data-market="${html(best.key)}" data-market-label="Ajouter au ticket : ${html(best.label)}">Ajouter au ticket</button></section>`;
+  const coverage = selectionBookmakerCount(match, best.key);
+  const offer = offerFreshness(match.bookmakerOffers, best.key);
+  const source = match.oddsCachedMarkets?.includes(best.key) ? 'Offre conservée' : 'PropLine';
+  return `<section class="selection-summary" aria-label="Sélection du match"><strong class="selection-title">${html(best.label)}</strong><dl><div><dt>Probabilité estimée</dt><dd class="selection-probability">${Math.round(best.probability * 100)} %</dd></div><div class="selection-price"><dt>Cote bookmaker</dt><dd>${decimal(best.odd, 2)}</dd></div></dl><small class="selection-source">${html(source)} · ${coverage} bookmakers · ${html(offer.label)}</small><button type="button" class="button primary match-selection selection-action" data-match="${html(match.id)}" data-market="${html(best.key)}" data-market-label="Ajouter au ticket : ${html(best.label)}">Ajouter au ticket</button></section>`;
 }
 function renderSafePicks(visible = visibleMatches()) {
-  renderDailySelection(visible);
+  renderDailyAdvice();
   const picks = visible
     .filter(
       (match) =>
@@ -1571,21 +1573,6 @@ function renderSafePicks(visible = visibleMatches()) {
         )
         .join('')
     : '<p class="empty">Pas assez de données fiables sur cette période.</p>';
-}
-function renderDailySelection(visible = visibleMatches()) {
-  renderDailyAdvice();
-  const box = $('#daily-selection');
-  if (!box) return;
-  const picks = dailyPicks(
-    allMatches().filter((match) => !isLive(match)),
-    'Europe/Paris'
-  );
-  box.hidden = !picks.length || !visible.length;
-  if (box.hidden) {
-    box.innerHTML = '';
-    return;
-  }
-  box.innerHTML = `<div class="safe-picks-head"><div><p class="eyebrow">SUGGESTIONS</p><h3>Suggestions du jour</h3></div></div><p class="analysis-note">Les meilleurs pronostics disponibles aujourd’hui selon la confiance du modèle, puis la value. Cotes supérieures à 1,15, au moins 10 bookmakers par sélection. Paris virtuels · 18+ · Aucune garantie.</p>${picks.map(({ match, pick }) => `<button class="safe-pick" data-match="${html(match.id)}" data-market="${html(pick.key)}"><span><strong>${html(match.home)} - ${html(match.away)}</strong><small>${new Date(match.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} · ${html(pick.label)}</small></span><span class="suggestion-values"><b>Cote ${decimal(pick.odd, 2)}</b><small>Confiance ${Math.round(pick.probability * 100)} %</small><em>+ Ajouter au ticket</em></span></button>`).join('') || '<p class="empty">Aucun pronostic admissible aujourd’hui.</p>'}`;
 }
 function renderDailyAdvice() {
   const box = $('#conseils-du-jour');
@@ -4575,12 +4562,6 @@ for (const rail of [$('#match-rail'), $('#match-strip')])
 $('#conseils-du-jour')?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-market]');
   if (b) addSelection(b.dataset.match, b.dataset.market, b);
-});
-$('#daily-selection')?.addEventListener('click', (e) => {
-  const b = e.target.closest('[data-market]');
-  if (b) {
-    addSelection(b.dataset.match, b.dataset.market, b);
-  }
 });
 $('#safe-picks-list').addEventListener('click', (e) => {
   const b = e.target.closest('[data-safe-match]');

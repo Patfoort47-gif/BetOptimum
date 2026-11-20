@@ -11529,8 +11529,7 @@ section.club-ranking {
   #matches > #match-list {
     order: 8;
   }
-  #matches > #conseils-du-jour,
-  #matches > #daily-selection {
+  #matches > #conseils-du-jour {
     order: 6;
     margin-top: 12px;
   }
@@ -12820,4 +12819,28 @@ body .match-card .match-hero .stadium-placeholder-name {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+@media (max-width: 700px) {
+  #matches > .section-heading .analysis-note {
+    display: none;
+  }
+
+  #matches > #conseils-du-jour {
+    order: 10;
+  }
+
+  .match-card:has(.selection-action) .match-outcome,
+  .match-card:has(.selection-action) .match-overview > .opportunity {
+    display: none;
+  }
+
+  .match-card .selection-summary {
+    padding: 8px 10px;
+    gap: 5px;
+  }
+
+  .match-card .selection-summary dl {
+    margin: 0;
+  }
 }
