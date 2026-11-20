@@ -307,7 +307,7 @@ body .hero-copy {
 }
 
 body .hero-main .hero-cta {
-  display: none;
+  display: inline-flex;
 }
 
 body .hero-main .hero-actions {

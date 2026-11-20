@@ -72,7 +72,7 @@
         <p class="eyebrow">ANALYSES FOOTBALL</p>
         <h1 id="calendar-hero-title">Vos matchs du jour</h1>
         <p class="hero-intro">Simulez sans compte avec 1 000 € fictifs.</p>
-        <button class="button primary hero-cta" data-open-ticket>Composer mon ticket</button>
+        <button class="button primary hero-cta" data-open-ticket data-open-generator>Composer un ticket</button>
         <p class="hero-copy">Paris virtuels · 18+ · Aucune garantie de gain.</p>
         <div id="today-empty" class="today-empty" hidden>
           <p role="status">Aucun match aujourd’hui.</p>
@@ -104,6 +104,7 @@
             <details class="data-details"><summary>Détails des données</summary><p class="data-source" role="status" aria-live="polite" id="data-source"><span class="source-dot loading"></span> Chargement du calendrier officiel…</p><p id="odds-data-detail" class="data-source"></p></details>
           </div>
         </div>
+        <button type="button" class="button primary calendar-generator" data-open-ticket data-open-generator>Composer un ticket</button>
         <div id="fixture-network-notice" class="fixture-network-notice" hidden>
           <p role="status"></p>
           <button type="button" class="button secondary" data-retry-matches>Réessayer</button>
@@ -122,7 +123,7 @@
         <button class="icon-button builder-drawer-close" id="close-builder" aria-label="Fermer le ticket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
         <div class="builder-tabs" role="tablist" aria-label="Outil de ticket"><button type="button" id="ticket-tab" role="tab" aria-selected="true" aria-controls="ticket-panel" tabindex="0" data-builder-tab="ticket">Mon Ticket</button><button type="button" id="generator-tab" role="tab" aria-selected="false" aria-controls="generator-panel" tabindex="-1" data-builder-tab="generator">Générer un combiné</button></div>
         <div class="builder-card card" id="generator-panel" role="tabpanel" aria-labelledby="generator-tab" hidden>
-          <h2>Combiné intelligent</h2>
+          <h2>Générateur de tickets</h2>
           <p class="muted">Réglez vos préférences pour remplir votre ticket. Vous pourrez ensuite ajuster chaque choix.</p>
           <div class="builder-controls">
             <label class="range-label"><span>Cote cible indicative <output id="target-output">3,00</output></span><input id="target-odds" type="range" min="1.5" max="10" value="3" step="0.1"></label>

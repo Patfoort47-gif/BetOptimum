@@ -3136,7 +3136,7 @@ function setBuilderDrawer(open) {
     if (!wasOpen) drawerReturnFocus = document.activeElement;
     builder.setAttribute('role', 'dialog');
     builder.setAttribute('aria-modal', 'true');
-    builder.setAttribute('aria-labelledby', 'ticket-tab');
+    builder.setAttribute('aria-labelledby', builder.querySelector('[aria-selected="true"]').id);
     if (!wasOpen) $('#close-builder').focus({ preventScroll: true });
   } else {
     builder.removeAttribute?.('role');
@@ -4467,7 +4467,9 @@ function setBuilderTab(tab, focus = false) {
     const active = button.dataset.builderTab === tab;
     button.setAttribute('aria-selected', String(active));
     button.tabIndex = active ? 0 : -1;
-    if (active && focus) button.focus();
+    if (active && focus) button.focus({ preventScroll: true });
+    if (active && document.body?.classList.contains('ticket-drawer-open'))
+      $('#builder').setAttribute('aria-labelledby', button.id);
   });
   const ticket = $('#ticket-panel'),
     generator = $('#generator-panel');
@@ -5429,10 +5431,16 @@ if (typeof window !== 'undefined') {
 // BET-120 : accès au ticket depuis le calendrier et les classements.
 document.querySelectorAll('[data-open-ticket]').forEach((button) =>
   button.addEventListener('click', () => {
-    if (matchMedia('(max-width:767px)').matches) setBuilderDrawer(true);
+    const openGenerator = button.hasAttribute('data-open-generator');
+    const mobile = matchMedia('(max-width:767px)').matches;
+    if (mobile) setBuilderDrawer(true);
     else {
       setActiveTab('matches');
       $('#builder')?.scrollIntoView({ behavior: motionBehavior() });
+    }
+    if (openGenerator) {
+      setBuilderTab('generator', true);
+      if (mobile) $('#builder').scrollTop = 0;
     }
   })
 );
