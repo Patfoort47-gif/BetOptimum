@@ -351,6 +351,33 @@ const summary = () => {
     return data;
   });
 };
+async function loadMatchInsights(data, ids, kickoff) {
+  const [matchSummary, ...schedules] = await Promise.all([
+    data.catch(() => ({})),
+    ...Object.values(ids)
+      .filter(Boolean)
+      .map((id) =>
+        espn(`site/v2/sports/soccer/all/teams/${id}/schedule`, 1800000).catch(() => null)
+      )
+  ]);
+  return matchInsights(matchSummary, schedules, ids, kickoff);
+}
+function faceToFace(games) {
+  return `<h3>Face-à-face (H2H)</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date, { day: 'numeric', month: 'short', year: 'numeric' })}</time><span>${esc(g.home)} - ${esc(g.away)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol><p class="sheet-note">Derniers résultats disponibles dans les calendriers ESPN.</p>` : unavailable('Aucun face-à-face disponible dans les calendriers ESPN pour cette rencontre.')}`;
+}
+function projectedGoals(match) {
+  const heading = '<h3>Buts prévus par le modèle</h3>';
+  if (
+    match.analysisStatus === 'unavailable' ||
+    ![match.homeGoals, match.awayGoals].every((n) => Number.isFinite(n) && n > 0 && n <= 10)
+  )
+    return heading + unavailable('Projection indisponible pour cette rencontre.');
+  const format = new Intl.NumberFormat('fr-FR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et H2H.</p>`;
+}
 const teamSlug = () => slugOf(view.league) ?? slugOf(teamLeagues(view.name)[0]) ?? 'all';
 
 // Tableaux partagés : classement, buteurs
@@ -718,25 +745,15 @@ const MATCH_TABS = {
     return `<div class="two-cols">${block('home', home)}${block('away', away)}</div>`;
   },
   async insights() {
-    const current = view,
-      m = current.match,
+    const m = view.match,
       ids = { home: sideId('home'), away: sideId('away') },
-      [data, ...schedules] = await Promise.all([
-        summary().catch(() => ({})),
-        ...['home', 'away'].map((side) =>
-          ids[side]
-            ? espn(`site/v2/sports/soccer/all/teams/${ids[side]}/schedule`, 1800000).catch(
-                () => null
-              )
-            : null
-        )
-      ]),
-      insights = matchInsights(data, schedules, ids, ctx.kickoffAt(m)),
+      kickoff = ctx.kickoffAt(m),
+      insights = await loadMatchInsights(summary(), ids, kickoff),
       form = (side) => {
         const games = insights.form[side];
         return `<section><h3>Forme de ${esc(m[side])}</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date)}</time><span class="result-pill ${RESULT[g.result]?.[1] ?? 'draw'}">${RESULT[g.result]?.[0] ?? '?'}</span><span>${esc(g.opponent)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol>` : unavailable('Cinq derniers matchs indisponibles.')}</section>`;
       };
-    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p><h3>Face-à-face (H2H)</h3>${insights.h2h.length ? `<ol class="insight-games">${insights.h2h.map((g) => `<li><time>${frDate(g.date)}</time><span>${esc(g.home)} - ${esc(g.away)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol>` : unavailable('Aucun face-à-face disponible dans les calendriers fournis par ESPN.')}<p class="sheet-note">Historique limité aux saisons retournées par la source.</p><h3>Buts attendus (xG)</h3>${insights.xg ? `<p>${esc(m.home)} : ${esc(insights.xg.home)} · ${esc(m.away)} : ${esc(insights.xg.away)}</p>` : unavailable('xG indisponibles auprès de notre source pour cette rencontre.')}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>`;
+    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}<h3>xG observés (ESPN)</h3>${insights.xg ? `<p>${esc(m.home)} : ${esc(insights.xg.home)} · ${esc(m.away)} : ${esc(insights.xg.away)}</p>` : unavailable('xG indisponibles auprès de notre source pour cette rencontre.')}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>`;
   },
   async info() {
     const data = await summary(),
@@ -760,9 +777,15 @@ const MATCH_TABS = {
   },
   async stats() {
     const m = view.match,
-      ids = ['home', 'away'].map(sideId),
-      data = await summary(),
-      teams = ids.map((id) =>
+      ids = { home: sideId('home'), away: sideId('away') },
+      kickoff = ctx.kickoffAt(m),
+      dataRequest = summary().catch(() => ({})),
+      [data, insights] = await Promise.all([
+        dataRequest,
+        loadMatchInsights(dataRequest, ids, kickoff)
+      ]),
+      context = projectedGoals(m) + faceToFace(insights.h2h),
+      teams = Object.values(ids).map((id) =>
         data.boxscore?.teams?.find((team) => String(team.team?.id) === String(id))
       ),
       get = (team, name) => team?.statistics?.find((stat) => stat.name === name),
@@ -786,12 +809,15 @@ const MATCH_TABS = {
       ];
     });
     if (!rows.length)
-      return unavailable(
-        Date.now() < ctx.kickoffAt(m)
-          ? "Les statistiques de jeu sont publiées après le coup d'envoi. La forme et les compositions sont accessibles dans les autres onglets."
-          : 'Les statistiques de jeu sont indisponibles auprès d’ESPN pour cette rencontre.'
+      return (
+        context +
+        unavailable(
+          Date.now() < kickoff
+            ? "Les statistiques de jeu sont publiées après le coup d'envoi. La forme et les compositions sont accessibles dans les autres onglets."
+            : 'Les statistiques de jeu sont indisponibles auprès d’ESPN pour cette rencontre.'
+        )
       );
-    return `<div class="live-stats"><div class="live-stat-values"><strong>${esc(m.home)}</strong><span>Statistiques ESPN</span><strong>${esc(m.away)}</strong></div>${rows.join('')}</div>${ctx.isLive(m) ? '<p class="sheet-note">Mise à jour toutes les 30 secondes.</p>' : ''}`;
+    return `${context}<div class="live-stats"><div class="live-stat-values"><strong>${esc(m.home)}</strong><span>Statistiques ESPN</span><strong>${esc(m.away)}</strong></div>${rows.join('')}</div>${ctx.isLive(m) ? '<p class="sheet-note">Mise à jour toutes les 30 secondes.</p>' : ''}`;
   },
   async feed() {
     const data = await summary(),
