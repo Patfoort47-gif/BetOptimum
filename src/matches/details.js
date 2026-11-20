@@ -43,6 +43,8 @@ const STATS = [
 ];
 const loading = '<p class="sheet-loading"><span></span>Chargement des données…</p>';
 const unavailable = (text) => `<p class="sheet-empty">${text}</p>`;
+const retry = (text, target) =>
+  `${unavailable(text)}<button type="button" class="button secondary" data-retry-sports="${target}">Réessayer</button>`;
 let ctx,
   dialog,
   view = null,
@@ -170,6 +172,10 @@ function show(next) {
     }, 30000);
 }
 function onSheetClick(event) {
+  if (event.target.closest('[data-retry-sports="sheet"]')) {
+    renderBody();
+    return;
+  }
   const close = event.target.closest('[data-sheet-close]');
   if (close) {
     dialog.close();
@@ -221,7 +227,7 @@ function tabsFor() {
     ];
   const m = view.match,
     base = [
-      ['insights', 'Forme et H2H'],
+      ['insights', 'Forme et confrontations'],
       ['lineup', 'Compo'],
       ['info', 'Infos']
     ],
@@ -244,10 +250,22 @@ async function renderBody() {
     token = ++renderToken;
   if (!current) return;
   const body = document.querySelector('#detail-body');
-  if (!body.innerHTML || body.dataset.tab !== current.tab) body.innerHTML = loading;
+  if (
+    !body.innerHTML ||
+    body.dataset.tab !== current.tab ||
+    body.querySelector('[data-retry-sports]')
+  )
+    body.innerHTML =
+      (current.type === 'match' && current.tab === 'insights'
+        ? projectedGoals(current.match)
+        : '') + loading;
   body.dataset.tab = current.tab;
   if (current.type === 'match' && !current.ids) {
-    await resolveIds(current);
+    const { match } = current;
+    const home = teamId(match, 'home'),
+      away = teamId(match, 'away');
+    if (home && away) current.ids = { home, away };
+    else await resolveIds(current);
     if (token !== renderToken || view !== current || !dialog.open) return;
     renderHead();
   }
@@ -258,7 +276,10 @@ async function renderBody() {
   } catch (error) {
     if (token !== renderToken || view !== current) return;
     console.error(error);
-    html = unavailable('Données indisponibles pour le moment. Réessayez dans quelques instants.');
+    html =
+      (current.type === 'match' && current.tab === 'insights'
+        ? projectedGoals(current.match)
+        : '') + retry('Données ESPN momentanément indisponibles.', 'sheet');
   }
   if (token === renderToken && view === current && dialog.open) {
     body.innerHTML = html;
@@ -304,8 +325,9 @@ function renderHeadContent() {
       ? `<strong>${m.homeScore} : ${m.awayScore}</strong><small>Terminé</small>`
       : live
         ? `<strong>${live.home} : ${live.away}</strong><small class="live-text">En direct · ${esc(live.clock)}</small>`
-        : `<strong>${esc(m.time)}</strong><small>${frDate(ctx.kickoffAt(m), { weekday: 'long', day: 'numeric', month: 'long' })}</small>`;
-  head.innerHTML = `<div class="sheet-match-head"><p class="eyebrow">${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(m.league), m.league)}${esc(m.league)}</p><div class="sheet-score"><button class="sheet-team" ${teamAttrs(sideId('home'), m.home, m.homeLogo, m.league)}>${ctx.logoTag('crest', m.homeLogo, m.home)}<span>${esc(m.home)}</span></button><div class="sheet-center" id="detail-title">${center}</div><button class="sheet-team" ${teamAttrs(sideId('away'), m.away, m.awayLogo, m.league)}>${ctx.logoTag('crest', m.awayLogo, m.away)}<span>${esc(m.away)}</span></button></div></div>${closeButton}`;
+        : `<strong>${esc(m.time)}</strong>`;
+  const date = frDate(ctx.kickoffAt(m), { weekday: 'long', day: 'numeric', month: 'long' });
+  head.innerHTML = `<div class="sheet-match-head"><p class="eyebrow">${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(m.league), m.league)}${esc(m.league)}</p><div class="sheet-score"><button class="sheet-team" ${teamAttrs(sideId('home'), m.home, m.homeLogo, m.league)}>${ctx.logoTag('crest', m.homeLogo, m.home)}<span>${esc(m.home)}</span></button><div class="sheet-center" id="detail-title">${center}</div><button class="sheet-team" ${teamAttrs(sideId('away'), m.away, m.awayLogo, m.league)}>${ctx.logoTag('crest', m.awayLogo, m.away)}<span>${esc(m.away)}</span></button></div><p class="sheet-match-date">${esc(date)}</p></div>${closeButton}`;
 }
 
 // Identifiants ESPN : fournis par le pipeline, sinon lus dans l'adresse du logo
@@ -376,7 +398,7 @@ function projectedGoals(match) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et H2H.</p>`;
+  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et confrontations.</p>`;
 }
 const teamSlug = () => slugOf(view.league) ?? slugOf(teamLeagues(view.name)[0]) ?? 'all';
 
@@ -690,6 +712,7 @@ const MATCH_TABS = {
         name: m[side],
         logo: m[`${side}Logo`]
       }));
+    const upcoming = Date.now() < ctx.kickoffAt(m);
     const lineups = await Promise.all(
       sides.map(async (team) => {
         const roster = data.rosters?.find(
@@ -700,7 +723,12 @@ const MATCH_TABS = {
         const last = team.id
           ? await lastLineup(team.id, slugOf(m.league), String(m.id).replace('espn-', ''))
           : null;
-        if (!last) return { ...team, roster: null, label: 'Compo indisponible' };
+        if (!last)
+          return {
+            ...team,
+            roster: null,
+            label: upcoming ? 'Composition officielle non publiée' : 'Composition indisponible'
+          };
         const opponent =
           last.event.competitions?.[0]?.competitors?.find((c) => c.team?.id !== String(team.id))
             ?.team?.displayName ?? '';
@@ -1039,11 +1067,15 @@ export async function showStandings() {
     }
   } catch (error) {
     console.error(error);
-    html = unavailable('Classement indisponible pour le moment.');
+    html = retry('Classement ESPN momentanément indisponible.', 'standings');
   }
   if (token === standingsToken) body.innerHTML = html;
 }
 function onStandingsClick(event) {
+  if (event.target.closest('[data-retry-sports="standings"]')) {
+    showStandings();
+    return;
+  }
   const league = event.target.closest('[data-standings-league]');
   if (league) {
     standingsView.league = league.dataset.standingsLeague;
