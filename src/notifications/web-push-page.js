@@ -5,6 +5,7 @@ export async function mountWebPush(root, { api, config, html, toast }) {
     busy = false,
     associated = false,
     hasSubscription = false,
+    refreshVersion = 0,
     feedback = '';
   const ios =
       /iPhone|iPad|iPod/.test(navigator.userAgent) ||
@@ -35,28 +36,30 @@ export async function mountWebPush(root, { api, config, html, toast }) {
               : 'Notifications désactivées.';
     root.innerHTML = `<section class="settings-card"><h3>Notifications sur cet appareil</h3><p>À l’activation, recevez le conseil du jour à 9 h sur ce téléphone, ainsi que les résultats de vos paris.</p><label class="switch-line"><input type="checkbox" data-web-push ${active ? 'checked' : ''} ${supported && permission !== 'denied' && config.available.web && !busy ? '' : 'disabled'}><span>Activer les alertes sur ce téléphone<small>Conseil du jour inclus par défaut. Autorisation du navigateur requise. Vous pouvez le désactiver séparément ci-dessous.</small></span></label><label class="switch-line"><input type="checkbox" data-daily-summary ${prefs?.daily_summary ? 'checked' : ''} ${active && !prefs?.essential && !busy ? '' : 'disabled'}><span>Conseil du jour à 9 h<small>Dans le fuseau ${html(prefs?.timezone ?? 'Europe/Paris')}, indépendamment de vos favoris. Aucun envoi sans conseil. Fenêtre d’envoi : 9 h à 9 h 15.</small></span></label><details class="notification-advanced"><summary>Autres rappels et réglages</summary><label class="switch-line"><input type="checkbox" data-web-essential ${prefs?.essential ? 'checked' : ''} ${active && !busy ? '' : 'disabled'}><span>Mode Éco / Essentiel<small>Uniquement les résultats de vos paris validés par le serveur. Les rappels et le conseil quotidien sont coupés.</small></span></label><label class="switch-line"><input type="checkbox" data-favorite-reminders ${prefs?.favorite_reminders ? 'checked' : ''} ${active && !prefs?.essential && config.available.web && !busy ? '' : 'disabled'}><span>Me rappeler les matchs de mes équipes favorites 2 h avant<small>Un rappel par match avec le conseil, sa cote et sa confiance lorsqu’ils sont disponibles. Le délai peut varier de quelques minutes. Les heures silencieuses sont respectées (22 h à 8 h par défaut).</small></span></label><p>Les équipes favorites sont celles de votre compte. Suivre un championnat seul ne déclenche aucune alerte. Le rappel ouvre la fiche du match pour préparer votre prono virtuel.</p></details><p role="status">${html(status)}</p>${prefs?.enabled && !active ? '<button type="button" class="button secondary" data-stop-web>Arrêter les alertes push du compte</button>' : ''}<p role="status">${html(feedback)}</p></section>`;
   };
-  async function refreshLocalSubscription() {
-    if (!supported) return;
+  async function hasLocalSubscription(serverAssociated) {
+    if (!supported) return false;
     try {
       const worker = await navigator.serviceWorker.getRegistration();
       const subscription = await worker?.pushManager.getSubscription();
-      hasSubscription = Boolean(subscription);
-      if (associated && subscription && config.available.web) {
-        const status = await api.action({
-          action: 'web-status',
-          destination: subscription.toJSON()
-        });
-        hasSubscription = status?.matches === true;
-      }
+      if (!subscription || !serverAssociated || !config.available.web) return false;
+      const status = await api.action({
+        action: 'web-status',
+        destination: subscription.toJSON()
+      });
+      return status?.matches === true;
     } catch {
-      hasSubscription = false;
+      return false;
     }
   }
   async function refresh() {
+    const version = ++refreshVersion;
     const data = await api.web();
+    const serverAssociated = data.associated === true;
+    const localSubscription = await hasLocalSubscription(serverAssociated);
+    if (!alive || version !== refreshVersion) return;
     prefs = data.preferences;
-    associated = data.associated === true;
-    await refreshLocalSubscription();
+    associated = serverAssociated;
+    hasSubscription = localSubscription;
   }
   try {
     await refresh();

@@ -6,7 +6,8 @@ export async function mountNotifications(root, { api, html, toast }) {
     data = null,
     config = null,
     feedback = '',
-    webView = null;
+    webView = null,
+    webMount = 0;
   const time = (n) =>
     `${String(Math.floor(n / 60)).padStart(2, '0')}:${String(n % 60).padStart(2, '0')}`;
   const render = () => {
@@ -17,9 +18,11 @@ export async function mountNotifications(root, { api, html, toast }) {
         p.enabled && p.channels.includes('email') && (p.daily_briefing || p.favorite_briefing);
     root.innerHTML = `<div class="notification-settings daily-settings"><header class="notification-heading"><div><h2>Mes alertes</h2><p>Le conseil du jour par téléphone et email, à 9 h par défaut lors de votre activation. Chaque canal demande votre accord.</p></div></header><section class="settings-card daily-mail-card" aria-labelledby="daily-mail-title"><div class="daily-mail-top"><span class="daily-mail-icon" aria-hidden="true">✉</span><span class="notification-status ${active ? 'on' : ''}">${active ? 'Abonnement actif' : 'Abonnement désactivé'}</span></div><h3 id="daily-mail-title">Conseil du jour par email</h3><p class="daily-mail-intro">Jusqu’à trois analyses selon les cotes disponibles. Les équipes favorites sont signalées lorsqu’elles figurent dans la sélection.</p><form data-notification-form><label class="switch-line daily-consent"><input name="enabled" type="checkbox" ${active ? 'checked' : ''} ${active || (associated && config.available.email) ? '' : 'disabled'}><span>Je souhaite recevoir le conseil du jour par email<small>Chaque jour à 9 h par défaut, à l’adresse confirmée de votre compte. Vous pouvez modifier l’heure ou vous désabonner à tout moment.</small></span></label>${!associated ? `<div class="daily-associate"><p>Utilisez l’adresse email confirmée de votre compte pour recevoir le briefing.</p><button type="button" class="button secondary" data-connect-email ${config.available.email ? '' : 'disabled'}>Associer mon adresse email</button></div>` : '<p class="daily-address">✓ Adresse email du compte associée</p>'}${!config.available.email ? '<p role="status">L’envoi par email est temporairement indisponible. Vos choix restent conservés.</p>' : ''}<div class="daily-schedule"><label for="daily-mail-time">Votre heure de rendez-vous<input id="daily-mail-time" name="briefing_time" type="time" value="${time(p.briefing_minute ?? 540)}" required></label><div><b>${html(p.timezone)}</b><p>Dans le fuseau de votre compte. L’envoi peut prendre quelques minutes.</p></div></div><p class="muted">Un nouvel horaire prend effet aujourd’hui s’il est encore à venir, sinon demain. Si le briefing a déjà été envoyé aujourd’hui, le prochain arrivera demain.</p><div class="notification-save"><p data-notification-feedback role="status" aria-live="polite">${html(feedback)}</p><button class="button primary" type="submit">Enregistrer mes préférences</button></div></form><div class="daily-mail-actions"><button class="text-button" data-test-email ${(active && active) || (associated && config.available.email) ? '' : 'disabled'}>Recevoir un email de test</button></div><p class="muted">Indépendant de la newsletter · Paris virtuels · 18+ · Aucune garantie de gain.</p></section><div data-web-settings></div></div>`;
     webView?.destroy();
+    webView = null;
+    const mount = ++webMount;
     mountWebPush(root.querySelector('[data-web-settings]'), { api, config, html, toast }).then(
       (view) => {
-        if (alive) webView = view;
+        if (alive && mount === webMount) webView = view;
         else view?.destroy();
       }
     );
@@ -32,8 +35,12 @@ export async function mountNotifications(root, { api, html, toast }) {
       config = result.config;
       render();
     } catch (error) {
-      if (alive)
+      if (alive) {
+        webMount++;
+        webView?.destroy();
+        webView = null;
         root.innerHTML = `<p class="empty" role="alert">${html(error.message)}</p><button class="button secondary" data-notification-refresh>Réessayer</button>`;
+      }
     }
   }
   const click = async (event) => {
