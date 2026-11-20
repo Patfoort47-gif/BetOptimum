@@ -677,5 +677,43 @@ emailPreferences = (await q('select my_notifications() s'))[0].s.preferences;
 assert.equal(emailPreferences.enabled, true);
 assert.ok(emailPreferences.consent_at);
 
+// BET-403 : deux traitements distincts comptent dans le même cumul, sans identifiant retourné.
+await db.exec(
+  await readFile(
+    'supabase/migrations/20261120074000_bet403_notification_delivery_metrics.sql',
+    'utf8'
+  )
+);
+await q(
+  `insert into notification_events(user_id,event_key,payload) values
+     ($1,'bet403:daily','{"daily_summary":true}'),
+     ($1,'bet403:briefing','{"briefing":true}'),
+     ($1,'bet403:test','{"test_channel":"email"}')`,
+  [uid]
+);
+await q(
+  `insert into notification_deliveries(event_id,user_id,channel,due_at,status,sent_at,error)
+     select id,user_id,
+     case when event_key='bet403:daily' then 'web' else 'email' end,
+     now()-interval '2 hours',
+     case when event_key='bet403:test' then 'pending' else 'sent' end,
+     case when event_key='bet403:daily' then now()-interval '1 hour' else now() end,
+     case when event_key='bet403:test' then 'Quota du fournisseur atteint' end
+     from notification_events where event_key like 'bet403:%'`
+);
+const aggregate = (await q('select notification_delivery_metrics() as report'))[0].report;
+assert.equal(aggregate.multi_channel_accepted, 1);
+assert.equal(aggregate.categories.find((row) => row.category === 'daily').max_late_seconds, 3600);
+assert.equal(aggregate.categories.find((row) => row.category === 'test').quota, 1);
+assert.equal(JSON.stringify(aggregate).includes(uid), false);
+assert.equal(
+  (
+    await q(
+      "select has_function_privilege('authenticated','notification_delivery_metrics()','execute') ok"
+    )
+  )[0].ok,
+  false
+);
+
 await db.close();
 console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');

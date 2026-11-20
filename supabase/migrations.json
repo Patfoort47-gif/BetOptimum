@@ -387,6 +387,11 @@
       "version": "20261120073100",
       "file": "20261120073100_bet393_reset_changed_email.sql",
       "sha256": "3c0cab7aff4329a33a9d7a9b178d201394cb0dcbbb0df7e30bd961262a5e482e"
+    },
+    {
+      "version": "20261120074000",
+      "file": "20261120074000_bet403_notification_delivery_metrics.sql",
+      "sha256": "3ba79cd6d505c5aa038caaaec7c5261c1a2c86d399b3ae80c0dedcb6b76f9785"
     }
   ],
   "excluded": [
