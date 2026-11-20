@@ -52,9 +52,17 @@ test('publication avec sitemap sans ancres, robots et image sociale', async () =
     const offline = JSON.parse(await readFile(dir + '/offline-assets.json', 'utf8'));
     assert.ok(offline.includes(manifestUrl));
     const sitemap = await readFile(dir + '/sitemap.xml', 'utf8');
-    assert.equal((sitemap.match(/<loc>/g) || []).length, 1);
-    assert.ok(sitemap.includes(base));
-    assert.ok(!sitemap.includes('#'));
+    const urls = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g), ([, url]) => url);
+    const paths = ['', 'bilan-des-pronostics/', 'lexique-des-paris/'];
+    assert.deepEqual(
+      urls,
+      paths.map((path) => base + path)
+    );
+    for (const path of paths) {
+      const page = await readFile(dir + '/' + path + 'index.html', 'utf8');
+      assert.ok(page.includes('<link rel="canonical" href="' + base + path + '">'));
+      if (path) assert.ok(html.includes('href="./' + path + '"'));
+    }
     assert.match(await readFile(dir + '/robots.txt', 'utf8'), /User-agent: \*\nAllow: \/\n/);
   } finally {
     await rm(dir, { recursive: true, force: true });
