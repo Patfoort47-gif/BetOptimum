@@ -12510,6 +12510,17 @@ body .match-card .match-hero .crest img {
   max-height: 100%;
   object-fit: contain;
 }
+@media (min-width: 768px) {
+  body .match-card .match-hero .crest {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+  }
+  body .match-card .match-hero .crest img {
+    width: 42px;
+    height: 42px;
+  }
+}
 body .match-card .match-hero .crest.no-logo::after {
   color: #fff;
   font-size: 12px;
