@@ -36,6 +36,16 @@ test('publication avec sitemap sans ancres, robots et image sociale', async () =
     await preparePages(pathToFileURL(dir + '/'));
     for (const file of ['sitemap.xml', 'robots.txt', 'icons/pronosafe-social.png'])
       await access(dir + '/' + file);
+    const html = await readFile(dir + '/index.html', 'utf8');
+    assert.match(html, /<meta name="apple-mobile-web-app-capable" content="yes">/);
+    assert.match(html, /<meta name="apple-mobile-web-app-title" content="PronoSafe">/);
+    const manifestUrl = html.match(/<link rel="manifest" href="\.\/([^"]+)"/)[1];
+    const manifest = JSON.parse(await readFile(dir + '/' + manifestUrl.split('?')[0], 'utf8'));
+    assert.equal(manifest.display, 'standalone');
+    assert.equal(manifest.start_url, './');
+    assert.equal(manifest.scope, './');
+    const offline = JSON.parse(await readFile(dir + '/offline-assets.json', 'utf8'));
+    assert.ok(offline.includes(manifestUrl));
     const sitemap = await readFile(dir + '/sitemap.xml', 'utf8');
     assert.equal((sitemap.match(/<loc>/g) || []).length, 1);
     assert.ok(sitemap.includes(base));

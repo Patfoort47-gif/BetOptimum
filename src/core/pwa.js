@@ -88,7 +88,7 @@ export function initPwa() {
       message ||
       (ios
         ? safari
-          ? 'Ajoutez PronoSafe depuis le menu de Safari.'
+          ? 'Installez PronoSafe depuis pronosafe.fr dans Safari, puis ouvrez son icône sur l’écran d’accueil.'
           : 'Ouvrez cette page dans Safari, puis suivez ces étapes.'
         : 'Ajoutez PronoSafe depuis le menu de votre navigateur.');
     const steps = ios
@@ -106,7 +106,7 @@ export function initPwa() {
           [
             addIcon,
             'Touchez Ajouter',
-            'Conservez « Ouvrir comme app » si cette option est proposée.'
+            'Activez « Ouvrir comme app web » si l’option est proposée, puis touchez Ajouter et lancez l’icône PronoSafe.'
           ]
         ]
       : android

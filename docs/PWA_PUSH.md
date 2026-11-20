@@ -2,6 +2,12 @@
 
 Le service worker offre le shell hors ligne, les notifications natives et l’ouverture du bon écran. Aucune donnée de compte, destination privée ni calendrier n’est ajoutée au cache hors ligne. Une page hors ligne indique l’indisponibilité des données ; aucun pari n’est validé sans serveur.
 
+## Installation sur iPhone
+
+Ouvrir directement `https://pronosafe.fr/` dans Safari, puis choisir **Partager → Sur l’écran d’accueil**. Activer **Ouvrir comme app web** si l’option est proposée, toucher **Ajouter** et lancer PronoSafe depuis sa nouvelle icône.
+
+Un raccourci installé depuis l’ancienne adresse GitHub Pages appartient à cet ancien site. La redirection vers PronoSafe peut s’ouvrir dans le navigateur. Installer PronoSafe depuis le nouveau domaine et vérifier son icône avant de retirer l’ancien raccourci. Si nécessaire, se reconnecter et réactiver les push depuis la nouvelle application.
+
 ## Consentement et configuration
 
 Le canal navigateur est indépendant du briefing email. Il exige un accord dans Mes alertes, la permission système, une association chiffrée et les clés VAPID complètes. Sur iOS/iPadOS 16.4 ou ultérieur, installer d’abord l’application sur l’écran d’accueil. Sans configuration complète, le canal reste indisponible.
