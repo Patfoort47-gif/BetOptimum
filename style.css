@@ -121,9 +121,10 @@ body
 body .topbar {
   height: 50px;
   min-height: 50px;
-  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  grid-template-columns: max-content minmax(max-content, 1fr) max-content;
   grid-template-rows: auto;
-  gap: clamp(8px, 1.4vw, 18px);
+  align-items: center;
+  column-gap: clamp(10px, 2vw, 28px);
   padding: 2px max(var(--page-gutter), calc((100% - var(--page-width)) / 2 + var(--page-gutter)));
   background: var(--glass-nav);
 }
@@ -155,7 +156,7 @@ body .topbar .tabs {
   grid-column: 2;
   justify-self: center;
   flex-wrap: nowrap;
-  gap: 4px;
+  gap: clamp(4px, 0.75vw, 14px);
   margin: 0;
   padding: 0;
   background: transparent;
@@ -179,7 +180,7 @@ body .topbar .tab-button.active {
 
 body .topbar-actions {
   grid-column: 3;
-  gap: 6px;
+  gap: clamp(6px, 0.8vw, 12px);
   justify-content: flex-end;
 }
 
