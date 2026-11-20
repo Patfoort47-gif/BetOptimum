@@ -325,14 +325,8 @@ async function worker(
         await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', { status: 'cancelled' });
         continue;
       }
-      if (payload.briefing) {
-        if (delivery.channel !== 'email') {
-          await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
-            status: 'cancelled'
-          });
-          continue;
-        }
-        // Une ancienne association email ne doit pas recevoir de données de compte après changement d’adresse.
+      if (delivery.channel === 'email') {
+        // Une ancienne association email ne doit plus recevoir de messages après changement d’adresse.
         const authResponse = await fetch(
           `${env.SUPABASE_URL}/auth/v1/admin/users/${delivery.user_id}`,
           {
@@ -350,6 +344,14 @@ async function worker(
           await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
             status: 'cancelled',
             error: 'Réassociez votre adresse email confirmée'
+          });
+          continue;
+        }
+      }
+      if (payload.briefing) {
+        if (delivery.channel !== 'email') {
+          await db(`notification_deliveries?id=eq.${delivery.id}`, 'PATCH', {
+            status: 'cancelled'
           });
           continue;
         }
