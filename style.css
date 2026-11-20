@@ -499,8 +499,8 @@ body .match-card .match-hero .crest {
   }
 
   body .match-card .match-hero .crest img {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
+    width: calc(var(--crest-size) - 4px);
+    height: calc(var(--crest-size) - 4px);
   }
 
   body .match-card .match-hero {
