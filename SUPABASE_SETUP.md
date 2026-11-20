@@ -34,7 +34,7 @@ Le mot de passe de base et le jeton CLI s’injectent par les mécanismes de sec
 
 ## Services à configurer
 
-- Auth : URL du site et redirections sur `https://patfoort47-gif.github.io/BetOptimum/`, confirmation email active. [Connexion Google](docs/GOOGLE_SIGN_IN.md).
+- Auth : URL du site et redirections sur `https://pronosafe.fr/`, confirmation email active. [Connexion Google](docs/GOOGLE_SIGN_IN.md).
 - GitHub Actions : `SUPABASE_URL` et clé publique `SUPABASE_ANON_KEY` ou `SUPABASE_PUBLISHABLE_KEY` ; clé `SUPABASE_SERVICE_ROLE_KEY` uniquement en secret serveur.
 - Notifications : [configuration](docs/operations/NOTIFICATIONS_SETUP.md), [PWA et consentements](docs/PWA_PUSH.md). Les secrets Edge/Vault et le cron ne font pas partie de la reconstruction des données applicatives.
 - Apparence : avatar, cadre et badges uniquement ; [retrait de l’économie](docs/PROFILE_CLEANUP.md).

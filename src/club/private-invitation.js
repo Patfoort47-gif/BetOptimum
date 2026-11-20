@@ -86,7 +86,7 @@ export function readInvitation(storage, now = Date.now()) {
 export function invitationCard(preview) {
   return {
     title: 'Rejoins ma ligue privée',
-    filename: 'betoptimum-invitation.png',
+    filename: 'pronosafe-invitation.png',
     lines: preview
       ? [
           preview.name,
@@ -95,6 +95,6 @@ export function invitationCard(preview) {
           'Aperçu fourni par l’invitation, à vérifier après adhésion',
           'Connexion par lien email · 18+'
         ]
-      : ['Invitation privée sur BetOptimum', 'Connexion par lien email · 18+']
+      : ['Invitation privée sur PronoSafe', 'Connexion par lien email · 18+']
   };
 }

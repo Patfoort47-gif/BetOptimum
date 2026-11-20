@@ -588,7 +588,7 @@ Deno.serve(async (request) => {
       const event = {
         match_id: 'test',
         home: 'Test',
-        away: 'BetOptimum',
+        away: 'PronoSafe',
         label: 'Vos alertes fonctionnent',
         odd: 2,
         bookmaker: 'Démonstration',

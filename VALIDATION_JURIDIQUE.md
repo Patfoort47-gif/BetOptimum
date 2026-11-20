@@ -6,7 +6,7 @@ Document à remettre à un juriste avant la mise en production des jetons et de 
 
 L’économie virtuelle est retirée depuis V52 (BET-199) : jetons, boutique, achats, échanges et duels restent hors production. La réalisation du lot 16 confirme ce retrait et exige les avis écrits des points 1 à 4 avant toute proposition de réactivation, puis une nouvelle décision explicite du propriétaire. La décision BET-63 du 4 novembre est historique et ne vaut plus autorisation de réactivation. Les descriptions ci-dessous documentent les fonctions historiques à soumettre au juriste. Aucun avis écrit n’est ajouté par cette décision produit.
 
-## Ce que fait BetOptimum
+## Ce que fait PronoSafe
 
 - Pronostics de football **virtuels** : aucune mise réelle, aucun gain réel, aucun lot. Site réservé aux 18 ans et plus, hébergé sur GitHub Pages, comptes sur Supabase.
 - Ligues (générale, spéciales, privées) classées selon des points calculés sur des paris virtuels, avec montées et descentes mensuelles.
@@ -15,7 +15,7 @@ L’économie virtuelle est retirée depuis V52 (BET-199) : jetons, boutique, ac
 
 ## Questions à faire valider
 
-1. **Jetons fictifs et ANJ.** Les jetons sont sans valeur, jamais achetables avec de l'argent réel, non revendables à d'autres joueurs, non échangeables, non convertibles. Les cagnottes de fin de saison, les duels entre amis (mise de jetons, le meilleur pronostic remporte le tout) et d'éventuelles ligues premium payées en jetons font-ils de BetOptimum un jeu d'argent soumis à l'ANJ ? Faut-il changer le vocabulaire (« cagnotte », « mise ») ou supprimer les duels ?
+1. **Jetons fictifs et ANJ.** Les jetons sont sans valeur, jamais achetables avec de l'argent réel, non revendables à d'autres joueurs, non échangeables, non convertibles. Les cagnottes de fin de saison, les duels entre amis (mise de jetons, le meilleur pronostic remporte le tout) et d'éventuelles ligues premium payées en jetons font-ils de PronoSafe un jeu d'argent soumis à l'ANJ ? Faut-il changer le vocabulaire (« cagnotte », « mise ») ou supprimer les duels ?
 2. **Ligues premium.** Aucune n'existe au lancement (le champ prix en jetons est prévu, inutilisé). Si l'accès devient un jour payant en euros, sans aucun gain à la clé, quelles conditions faut-il (CGV, droit de rétractation, TVA, mentions) ?
 3. **Marques.** Les stades et les accessoires de la boutique portent des noms génériques (« Stade de Rio »... avec des designs inspirés). Les trophées reprennent, sur décision de Matteo du 22 octobre 2026, les noms des récompenses du football : « Ballon d'or », « Soulier d'or », « Gant d'or », « Pichichi », « Coupe des champions ». Plusieurs sont des marques déposées ou des noms protégés (« Ballon d'Or », « Soulier d'Or », « Pichichi »). À trancher : conserver ces noms (licence ou tolérance d'usage), ou revenir à des noms génériques (une seule modification dans `shop.js` et `avatar-config.js`). Noms de stades et apparence des stades restent à valider. Le test de `tests/shop.test.js` interdit les équipementiers, les sponsors, les instances (UEFA, FIFA) et les noms de stades réels.
 4. **Logos ESPN.** Les logos des compétitions et des clubs (blasons ESPN) sont affichés dans les ligues spéciales, le club de cœur et la boutique, chargés en direct depuis `a.espncdn.com`. Cet usage est-il acceptable ? Faut-il un accord ou des visuels génériques ?

@@ -89,7 +89,7 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
       )
       .join(
         ''
-      )}</div></fieldset><label class="join-check-line"><input type="checkbox" name="newsletter" ${draft.newsletter ? 'checked' : ''}><span>Je souhaite recevoir la newsletter BetOptimum par email (facultatif). Désabonnement à tout moment dans mon profil.</span></label><button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Création…' : 'Créer mon compte'}</button></form>`;
+      )}</div></fieldset><label class="join-check-line"><input type="checkbox" name="newsletter" ${draft.newsletter ? 'checked' : ''}><span>Je souhaite recevoir la newsletter PronoSafe par email (facultatif). Désabonnement à tout moment dans mon profil.</span></label><button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Création…' : 'Créer mon compte'}</button></form>`;
   }
   function render(state) {
     content.innerHTML = view(state);

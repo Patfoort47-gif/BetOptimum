@@ -4,7 +4,7 @@ Les onze tickets sont livrés séparément. BET-229 vérifie le mécanisme de th
 
 La sparkline mobile de BET-228 représente le résultat net réglé des tickets filtrés, à côté du KPI Bénéfice net. Les données existantes du serveur sont une série de résultats nets, pas un historique complet du capital disponible : le libellé ne doit pas confondre les deux. Les graphiques détaillés restent disponibles sur ordinateur ; les montants de synthèse restent visibles sur mobile.
 
-Le partage génère un PNG local carré ou vertical avec le blason BetOptimum, les choix, les cotes, la mise et le retour potentiel virtuels. L’aperçu précise la présence de la mise. Le partage de fichiers natif n’est proposé que s’il est supporté ; le téléchargement PNG reste possible. Aucun service tiers de génération, aucune publication automatique. Les systèmes indiquent les cotes par sous-pari plutôt qu’une cote cumulée fictive.
+Le partage génère un PNG local carré ou vertical avec le blason PronoSafe, les choix, les cotes, la mise et le retour potentiel virtuels. L’aperçu précise la présence de la mise. Le partage de fichiers natif n’est proposé que s’il est supporté ; le téléchargement PNG reste possible. Aucun service tiers de génération, aucune publication automatique. Les systèmes indiquent les cotes par sous-pari plutôt qu’une cote cumulée fictive.
 
 Les pastilles distinguent les nouveaux règlements et les trophées/résultats hebdomadaires réellement reçus du serveur. La première lecture initialise les éléments connus sans signaler tout l’historique. L’état est séparé par compte et conservé localement, puis effacé à la visite de l’espace concerné. Aucun pari ni montant n’est enregistré dans cet état.
 

@@ -79,7 +79,7 @@ export function translateAuthError(error) {
     text.includes('error sending recovery email') ||
     text.includes('error sending email')
   )
-    return 'L’envoi de l’email est momentanément indisponible. Réessayez plus tard. Si le problème persiste, contactez l’équipe BetOptimum.';
+    return 'L’envoi de l’email est momentanément indisponible. Réessayez plus tard. Si le problème persiste, contactez l’équipe PronoSafe.';
   if (
     text.includes('failed to fetch') ||
     text.includes('networkerror') ||

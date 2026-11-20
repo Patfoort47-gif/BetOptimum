@@ -108,7 +108,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
               : reminder
                 ? favoriteReminderText(event)
                 : testing
-                  ? 'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.'
+                  ? 'Ceci est un message de test PronoSafe. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.'
                   : alertText(event)) +
       '\n' +
       link;
@@ -126,7 +126,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
               : result
                 ? 'Résultat validé'
                 : testing
-                  ? 'Test de vos alertes BetOptimum'
+                  ? 'Test de vos alertes PronoSafe'
                   : reminder
                     ? `${event.home} - ${event.away}`
                     : `${event.home} - ${event.away}`,
@@ -169,7 +169,7 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
         alertEmail({
           title: testing ? 'Votre alerte de test' : 'Une alerte sur vos favoris',
           message: testing
-            ? 'Ceci est un message de test BetOptimum. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.'
+            ? 'Ceci est un message de test PronoSafe. Votre canal est bien associé. Ce message ne correspond à aucun pronostic réel.'
             : `${event.home} - ${event.away}\n${event.label} · cote ${decimal(event.odd)}\n${event.bookmaker} · cote réelle${event.cached ? ' en cache' : ''}\nProbabilité du modèle : ${Math.round(event.confidence * 100)} %. Une estimation ne garantit aucun résultat.\n${new Date(event.kickoff).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })} (Paris)`,
           url: link,
           siteUrl: env.SITE_URL,
@@ -190,8 +190,8 @@ export async function deliver(channel, target, event, id, env, fetcher = fetch, 
           subject: briefing
             ? briefing.subject
             : testing
-              ? 'BetOptimum : test de vos alertes email'
-              : 'BetOptimum : une alerte sur vos favoris',
+              ? 'PronoSafe : test de vos alertes email'
+              : 'PronoSafe : une alerte sur vos favoris',
           text: email.text
         }),
         signal: AbortSignal.timeout(10000)

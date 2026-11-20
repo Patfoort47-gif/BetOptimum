@@ -1,18 +1,18 @@
-# BET-270 : référencement BetOptimum
+# BET-270 : référencement PronoSafe
 
-À la demande du propriétaire, BetOptimum est le nom principal du titre, des métadonnées sociales et du schéma WebApplication ; « ValueStats » du ticket initial est remplacé. La description souligne football, Value Bets, bankroll virtuelle et les limites du service. Aucun mot-clé caché, avis fictif ou score inventé.
+À la demande du propriétaire, PronoSafe est le nom principal du titre, des métadonnées sociales et du schéma WebApplication ; « ValueStats » du ticket initial est remplacé. La description souligne football, Value Bets, bankroll virtuelle et les limites du service. Aucun mot-clé caché, avis fictif ou score inventé.
 
-Les balises sont dans le HTML initial : canonique, og:url, titre/description, image PNG 1200 × 630, texte alternatif et Twitter summary_large_image. `icons/betoptimum-social.png` est une capture du tableau de bord, sans donnée de compte réel. Le JSON-LD décrit une application web gratuite en français. Il ne promet pas un résultat enrichi Google.
+Les balises sont dans le HTML initial : canonique, og:url, titre/description, image PNG 1200 × 630, texte alternatif et Twitter summary_large_image. `icons/pronosafe-social.png` est une capture du tableau de bord, sans donnée de compte réel. Le JSON-LD décrit une application web gratuite en français. Il ne promet pas un résultat enrichi Google.
 
 Le sitemap contient uniquement `https://pronosafe.fr/` : les fragments de navigation ne sont pas des pages indexables. Une indexation distincte des sections nécessiterait des pages HTML propres avec contenu et canonique distincts.
 
 `prepare-pages.mjs` copie sitemap.xml, robots.txt et la couverture dans l’artefact Pages. Après fusion et déploiement :
 
-- `/BetOptimum/sitemap.xml`
-- `/BetOptimum/robots.txt`
-- `/BetOptimum/icons/betoptimum-social.png`
+- `/sitemap.xml`
+- `/robots.txt`
+- `/icons/pronosafe-social.png`
 
-Les robots consultent **`https://patfoort47-gif.github.io/robots.txt` à la racine du domaine**, pas celui du sous-répertoire. Ce dépôt ne contrôle pas le site racine. Le robots livré autorise l’exploration, mais son placement à la racine du domaine nécessite une modification du dépôt `patfoort47-gif.github.io` ou un domaine personnalisé. Ne pas modifier un autre dépôt ni un domaine sans demande. Soumettre directement le sitemap à Google Search Console et Bing Webmaster Tools après publication ; les métadonnées ne garantissent ni indexation ni classement.
+Les robots consultent `https://pronosafe.fr/robots.txt`. Soumettre le sitemap à Google Search Console et Bing Webmaster Tools après publication. Les métadonnées facilitent la découverte des pages. L’indexation et le classement restent du ressort des moteurs.
 
 ## Recette
 
@@ -24,7 +24,7 @@ Les aperçus réels WhatsApp, Telegram et X doivent être vérifiés après publ
 
 ## BET-276 : hiérarchie et pré-rendu
 
-Le HTML source contient un seul h1 principal et des titres de section h2. Les titres HTML, Open Graph et Twitter utilisent BetOptimum ; la description, le canonique et l’image sociale sont présents avant toute exécution JavaScript.
+Le HTML source contient un seul h1 principal et des titres de section h2. Les titres HTML, Open Graph et Twitter utilisent PronoSafe ; la description, le canonique et l’image sociale sont présents avant toute exécution JavaScript.
 
 À chaque publication, `node scripts/prepare-pages.mjs` pré-rend dans `_site/index.html` un aperçu des rencontres publiques et de leurs probabilités à partir de `data/fixtures.json`. Aucun appel réseau supplémentaire, service payant ou serveur permanent. Le calendrier interactif remplace cet aperçu après chargement. Les données sont échappées ; aucune donnée de compte, bankroll ou classement privé n’est publiée. L’aperçu est daté, limité aux sept prochains jours et à 60 rencontres, sans cote ni conseil inventé. Les workflows de calendrier et de scores republient déjà le site après actualisation des données.
 
@@ -34,7 +34,7 @@ Suivi : dans Google Search Console, inspecter l’URL canonique, demander l’in
 
 ## Basculer le site vers pronosafe.fr
 
-Le domaine principal est `https://pronosafe.fr/`. `www.pronosafe.fr` et `pronosafe.eu` doivent rediriger vers lui. Le nom affiché reste BetOptimum.
+Le domaine principal est `https://pronosafe.fr/`. `www.pronosafe.fr` et `pronosafe.eu` doivent rediriger vers lui. Le nom affiché reste PronoSafe.
 
 1. Dans GitHub, **Settings → Pages**, vérifier que le domaine du dépôt est `pronosafe.fr`. Dans les paramètres Pages du compte, vérifier la propriété avec le TXT indiqué par GitHub et conserver cet enregistrement.
 2. Dans la zone DNS OVHcloud de `pronosafe.fr`, faire pointer la racine sur les quatre adresses IPv4 GitHub Pages ci-dessous. Retirer les anciennes entrées web concurrentes à la racine. Les entrées email et les TXT de vérification restent en place. Ajouter `www` en CNAME vers `patfoort47-gif.github.io.`. Si IPv6 est utilisé, remplacer les anciennes entrées AAAA web par les quatre adresses GitHub correspondantes.

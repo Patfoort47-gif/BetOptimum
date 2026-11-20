@@ -71,8 +71,8 @@ export function initPwa() {
     const banner = document.createElement('aside');
     banner.dataset.installBanner = '';
     banner.className = 'install-banner';
-    banner.setAttribute('aria-label', 'Installer BetOptimum');
-    banner.innerHTML = `<img src="icons/icon-192x192.png" width="48" height="48" alt=""><div class="install-banner-copy"><strong>BetOptimum sur votre appareil</strong><p>Retrouvez vos matchs en un geste, comme une application.</p></div><button type="button" class="button secondary" data-install-app>${ios ? 'Voir comment faire' : 'Installer l’application'}</button><button type="button" class="icon-button" data-dismiss-install aria-label="Fermer la proposition d’installation">×</button>`;
+    banner.setAttribute('aria-label', 'Installer PronoSafe');
+    banner.innerHTML = `<img src="icons/icon-192x192.png" width="48" height="48" alt=""><div class="install-banner-copy"><strong>PronoSafe sur votre appareil</strong><p>Retrouvez vos matchs en un geste, comme une application.</p></div><button type="button" class="button secondary" data-install-app>${ios ? 'Voir comment faire' : 'Installer l’application'}</button><button type="button" class="icon-button" data-dismiss-install aria-label="Fermer la proposition d’installation">×</button>`;
     document.querySelector('main')?.prepend(banner);
   };
   const shareIcon =
@@ -88,9 +88,9 @@ export function initPwa() {
       message ||
       (ios
         ? safari
-          ? 'Ajoutez BetOptimum depuis le menu de Safari.'
+          ? 'Ajoutez PronoSafe depuis le menu de Safari.'
           : 'Ouvrez cette page dans Safari, puis suivez ces étapes.'
-        : 'Ajoutez BetOptimum depuis le menu de votre navigateur.');
+        : 'Ajoutez PronoSafe depuis le menu de votre navigateur.');
     const steps = ios
       ? [
           [
@@ -125,11 +125,11 @@ export function initPwa() {
               'Ouvrez le menu du navigateur',
               'Dans Chrome ou Edge, cherchez l’option d’installation dans le menu ou la barre d’adresse.'
             ],
-            [addIcon, 'Installer BetOptimum', 'Cette option dépend de votre navigateur.'],
+            [addIcon, 'Installer PronoSafe', 'Cette option dépend de votre navigateur.'],
             [
               addIcon,
               'Confirmez l’installation',
-              'Retrouvez ensuite BetOptimum parmi vos applications.'
+              'Retrouvez ensuite PronoSafe parmi vos applications.'
             ]
           ];
     dialog.querySelector('[data-install-steps]').innerHTML = steps

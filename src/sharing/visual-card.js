@@ -1,5 +1,5 @@
 // PNG généré localement, aucun dépôt public ni requête vers une messagerie.
-export function visualCardFile({ title, lines, filename = 'betoptimum.png' }) {
+export function visualCardFile({ title, lines, filename = 'pronosafe.png' }) {
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 630;
@@ -8,7 +8,7 @@ export function visualCardFile({ title, lines, filename = 'betoptimum.png' }) {
   c.fillRect(0, 0, 1200, 630);
   c.fillStyle = '#10b981';
   c.font = 'bold 36px sans-serif';
-  c.fillText('BetOptimum', 60, 70);
+  c.fillText('PronoSafe', 60, 70);
   c.fillStyle = '#ffffff';
   c.font = 'bold 48px sans-serif';
   c.fillText(title, 60, 160, 1080);

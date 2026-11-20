@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "BetOptimum",
-  "short_name": "BetOptimum",
+  "name": "PronoSafe",
+  "short_name": "PronoSafe",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",
@@ -34,7 +34,7 @@
       "sizes": "1280x800",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Calendrier et pronostics BetOptimum sur ordinateur"
+      "label": "Calendrier et pronostics PronoSafe sur ordinateur"
     }
   ]
 }

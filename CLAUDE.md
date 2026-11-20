@@ -1,6 +1,6 @@
 # Consignes communes de développement
 
-BetOptimum est un site statique en français (HTML et modules JavaScript natifs), publié sur GitHub Pages. Lire [le plan du dépôt](docs/README.md), [l’architecture](docs/ARCHITECTURE.md), puis le guide du domaine modifié.
+PronoSafe est un site statique en français (HTML et modules JavaScript natifs), publié sur GitHub Pages. Lire [le plan du dépôt](docs/README.md), [l’architecture](docs/ARCHITECTURE.md), puis le guide du domaine modifié.
 
 ## Priorité produit
 
