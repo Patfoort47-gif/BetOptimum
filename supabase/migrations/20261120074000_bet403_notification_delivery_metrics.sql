@@ -11,6 +11,12 @@ as $$
     select
       d.user_id, d.channel, d.status, d.due_at, d.sent_at, d.error,
       case
+        when pg_input_is_valid(e.payload->>'expires_at', 'timestamptz')
+          then (e.payload->>'expires_at')::timestamptz
+        when pg_input_is_valid(e.payload->>'kickoff', 'timestamptz')
+          then (e.payload->>'kickoff')::timestamptz
+      end as deadline,
+      case
         when e.payload ? 'test_channel' then 'test'
         when e.payload->'briefing' = 'true'::jsonb then 'briefing'
         when e.payload->'daily_summary' = 'true'::jsonb then 'daily'
@@ -30,6 +36,8 @@ as $$
       count(*) filter (where status = 'unknown') as uncertain,
       count(*) filter (where status = 'pending') as pending,
       count(*) filter (where status = 'cancelled') as cancelled,
+      count(*) filter (where status in ('pending','cancelled') and deadline < now())
+        as past_deadline_without_acceptance,
       count(*) filter (where error in ('Quota du fournisseur atteint', 'Plafond quotidien navigateur atteint')) as quota,
       coalesce(max(greatest(0, floor(extract(epoch from sent_at - due_at))))
         filter (where status = 'sent'), 0) as max_late_seconds

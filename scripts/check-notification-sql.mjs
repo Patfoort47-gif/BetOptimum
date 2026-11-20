@@ -688,7 +688,7 @@ await q(
   `insert into notification_events(user_id,event_key,payload) values
      ($1,'bet403:daily','{"daily_summary":true}'),
      ($1,'bet403:briefing','{"briefing":true}'),
-     ($1,'bet403:test','{"test_channel":"email"}')`,
+     ($1,'bet403:test',jsonb_build_object('test_channel','email','expires_at', now()-interval '1 hour'))`,
   [uid]
 );
 await q(
@@ -705,6 +705,10 @@ const aggregate = (await q('select notification_delivery_metrics() as report'))[
 assert.equal(aggregate.multi_channel_accepted, 1);
 assert.equal(aggregate.categories.find((row) => row.category === 'daily').max_late_seconds, 3600);
 assert.equal(aggregate.categories.find((row) => row.category === 'test').quota, 1);
+assert.equal(
+  aggregate.categories.find((row) => row.category === 'test').past_deadline_without_acceptance,
+  1
+);
 assert.equal(JSON.stringify(aggregate).includes(uid), false);
 assert.equal(
   (
