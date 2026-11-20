@@ -491,6 +491,24 @@ body .match-card .match-hero .crest {
   padding: 0;
 }
 
+@media (min-width: 768px) {
+  body .match-card .match-hero .crest {
+    --crest-size: clamp(46px, calc(5vw + 4px), 58px);
+    width: var(--crest-size);
+    height: var(--crest-size);
+    flex: 0 0 var(--crest-size);
+  }
+
+  body .match-card .match-hero .crest img {
+    width: calc(var(--crest-size) - 4px);
+    height: calc(var(--crest-size) - 4px);
+  }
+
+  body .match-card .match-hero {
+    min-height: 160px;
+  }
+}
+
 body .match-header-stats {
   min-height: 44px;
   border: 1px solid #38bdf880;
