@@ -4,7 +4,7 @@ import { readFile, mkdtemp, rm, access } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { preparePages } from '../scripts/prepare-pages.mjs';
-const base = 'https://patfoort47-gif.github.io/BetOptimum/';
+const base = 'https://pronosafe.fr/';
 test('SEO BetOptimum présent dans le HTML initial et cohérent avec le canonique', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8'),
     meta = (key, attr = 'name') =>

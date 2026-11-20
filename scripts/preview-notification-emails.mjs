@@ -87,10 +87,7 @@ for (const [name, selection, chosen] of [
       ]
     }
   );
-  const email = briefingEmail(
-    { ...data, demo: true },
-    'https://patfoort47-gif.github.io/BetOptimum/'
-  );
+  const email = briefingEmail({ ...data, demo: true }, 'https://pronosafe.fr/');
   await writeFile(resolve(output, `${name}.html`), email.html);
   await writeFile(resolve(output, `${name}.txt`), email.text);
 }
