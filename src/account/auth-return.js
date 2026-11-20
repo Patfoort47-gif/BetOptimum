@@ -31,19 +31,25 @@ export function authCallbackStatus(href) {
 }
 
 const alertsReturnKey = 'betoptimum-alerts-auth-return';
-export function rememberAlertsReturn(pending) {
+const isNotificationDestination = (hash) => hash === '#mes-alertes' || hash === '#bankroll';
+
+export function rememberNotificationReturn(hash) {
   try {
-    if (pending) sessionStorage.setItem(alertsReturnKey, String(Date.now()));
+    if (isNotificationDestination(hash))
+      sessionStorage.setItem(alertsReturnKey, JSON.stringify({ hash, saved: Date.now() }));
     else sessionStorage.removeItem(alertsReturnKey);
   } catch {}
 }
-export function takeAlertsReturn() {
+export function takeNotificationReturn() {
   try {
-    const saved = Number(sessionStorage.getItem(alertsReturnKey));
+    const raw = sessionStorage.getItem(alertsReturnKey);
     sessionStorage.removeItem(alertsReturnKey);
+    const data = JSON.parse(raw);
+    const { hash, saved } =
+      typeof data === 'number' ? { hash: '#mes-alertes', saved: data } : (data ?? {});
     const age = Date.now() - saved;
-    return saved > 0 && age >= 0 && age < 15 * 60 * 1000;
-  } catch {
-    return false;
-  }
+    if (isNotificationDestination(hash) && saved > 0 && age >= 0 && age < 15 * 60 * 1000)
+      return hash;
+  } catch {}
+  return null;
 }

@@ -7,6 +7,7 @@ test('push : destination limitée au site et clic sur le match', async () => {
   const listeners = {},
     shown = [],
     opened = [];
+  let windows = [];
   const self = {
     location: { origin: 'https://example.test' },
     registration: {
@@ -14,7 +15,7 @@ test('push : destination limitée au site et clic sur le match', async () => {
       showNotification: async (...args) => shown.push(args)
     },
     addEventListener: (name, handler) => (listeners[name] = handler),
-    clients: { matchAll: async () => [], openWindow: async (url) => opened.push(url) }
+    clients: { matchAll: async () => windows, openWindow: async (url) => opened.push(url) }
   };
   vm.runInNewContext(await readFile(new URL('../notification-sw.js', import.meta.url), 'utf8'), {
     self,
@@ -48,7 +49,36 @@ test('push : destination limitée au site et clic sur le match', async () => {
     waitUntil: (p) => (pending = p)
   });
   await pending;
-  assert.deepEqual(opened, ['https://example.test/BetOptimum/#match-espn-1']);
+  const matchUrl = 'https://example.test/BetOptimum/#match-espn-1';
+  assert.deepEqual(opened, [matchUrl]);
+  let focused = false;
+  windows = [
+    { url: 'https://example.test/AutreApp/', navigate: () => assert.fail('hors périmètre') },
+    {
+      url: 'https://example.test/BetOptimum/#bankroll',
+      navigate: async (url) => {
+        assert.equal(url, matchUrl);
+        return {
+          focus: async () => {
+            focused = true;
+          }
+        };
+      }
+    }
+  ];
+  const click = async () => {
+    listeners.notificationclick({
+      notification: { data: shown[0][1].data, close() {} },
+      waitUntil: (p) => (pending = p)
+    });
+    await pending;
+  };
+  await click();
+  assert.equal(focused, true);
+  assert.deepEqual(opened, [matchUrl]);
+  windows[1].navigate = async () => null;
+  await click();
+  assert.deepEqual(opened, [matchUrl, matchUrl]);
   let intercepted = false;
   listeners.fetch({
     request: { method: 'GET', url: 'https://example.test/BetOptimum/data/fixtures.json' },

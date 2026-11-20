@@ -185,7 +185,7 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
       button.disabled = true;
       button.setAttribute('aria-busy', 'true');
       try {
-        await auth.google();
+        await auth.google(new URL(returnUrl || location.href, location.href).hash);
       } catch (error) {
         fail(error);
       }

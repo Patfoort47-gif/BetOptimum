@@ -1,4 +1,4 @@
-import { takeAlertsReturn } from './src/account/auth-return.js';
+import { takeNotificationReturn } from './src/account/auth-return.js';
 import { syncStudy } from './src/core/sync-study.js';
 import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
@@ -5337,8 +5337,12 @@ function ensureAccount() {
         onAuthChange: (authenticated, user) => {
           accountAuthenticated = authenticated;
           accountUserId = user?.id ?? null;
-          if (authenticated && accountCallbackOnLoad && takeAlertsReturn())
-            setActiveTab('profile', true, { self: true, tab: 'notifications' });
+          if (authenticated && accountCallbackOnLoad) {
+            const destination = takeNotificationReturn();
+            if (destination === '#mes-alertes')
+              setActiveTab('profile', true, { self: true, tab: 'notifications' });
+            else if (destination === '#bankroll') setActiveTab('bankroll', true);
+          }
           if (authenticated && syncPromptChoice === 'intent' && syncPromptDate >= isoDate(-7)) {
             syncReturnActive = true;
             saveSyncPromptChoice('completed');
@@ -5389,7 +5393,7 @@ function ensureAccount() {
             toast('Adresse confirmée. Bienvenue au Club !');
             if (!syncReturnActive) setActiveTab('community', true);
           } else if (event === 'OAUTH_FAILED') {
-            takeAlertsReturn();
+            takeNotificationReturn();
             setTimeout(() => openJoin('login').then(() => join?.oauthError()), 0);
           } else if (event === 'CONFIRMATION_FAILED')
             openJoin('login').then(() => join?.confirmationError());
@@ -5567,6 +5571,7 @@ globalThis.addEventListener?.('hashchange', () => {
   const routes = {
       '': 'matches',
       '#dashboard': 'matches',
+      '#matches': 'matches',
       '#classements': 'standings',
       '#bilan-pronos': 'predictions',
       '#communaute': 'community',
