@@ -986,3 +986,21 @@ dialog.detail-sheet[open] {
 .insight-games strong {
   margin-left: auto;
 }
+
+.sheet-match-date {
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 450px) {
+  .sheet-score {
+    gap: 4px;
+  }
+
+  .sheet-score .sheet-team {
+    padding-inline: 0;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}

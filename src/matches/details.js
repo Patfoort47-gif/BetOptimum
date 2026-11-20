@@ -43,6 +43,8 @@ const STATS = [
 ];
 const loading = '<p class="sheet-loading"><span></span>Chargement des données…</p>';
 const unavailable = (text) => `<p class="sheet-empty">${text}</p>`;
+const retry = (text, target) =>
+  `${unavailable(text)}<button type="button" class="button secondary" data-retry-sports="${target}">Réessayer</button>`;
 let ctx,
   dialog,
   view = null,
@@ -170,6 +172,10 @@ function show(next) {
     }, 30000);
 }
 function onSheetClick(event) {
+  if (event.target.closest('[data-retry-sports="sheet"]')) {
+    renderBody();
+    return;
+  }
   const close = event.target.closest('[data-sheet-close]');
   if (close) {
     dialog.close();
@@ -221,7 +227,7 @@ function tabsFor() {
     ];
   const m = view.match,
     base = [
-      ['insights', 'Forme et H2H'],
+      ['insights', 'Forme et confrontations'],
       ['lineup', 'Compo'],
       ['info', 'Infos']
     ],
@@ -244,21 +250,38 @@ async function renderBody() {
     token = ++renderToken;
   if (!current) return;
   const body = document.querySelector('#detail-body');
-  if (!body.innerHTML || body.dataset.tab !== current.tab) body.innerHTML = loading;
+  if (
+    !body.innerHTML ||
+    body.dataset.tab !== current.tab ||
+    body.querySelector('[data-retry-sports]')
+  )
+    body.innerHTML =
+      (current.type === 'match' && ['insights', 'stats'].includes(current.tab)
+        ? projectedGoals(current.match)
+        : '') + loading;
   body.dataset.tab = current.tab;
   if (current.type === 'match' && !current.ids) {
-    await resolveIds(current);
+    const { match } = current;
+    const home = teamId(match, 'home'),
+      away = teamId(match, 'away');
+    if (home && away) current.ids = { home, away };
+    else await resolveIds(current);
     if (token !== renderToken || view !== current || !dialog.open) return;
     renderHead();
   }
   const builder = current.type === 'team' ? TEAM_TABS[current.tab] : MATCH_TABS[current.tab];
   let html;
   try {
-    html = await builder();
+    html = await builder((partial) => {
+      if (token === renderToken && view === current && dialog.open) body.innerHTML = partial;
+    });
   } catch (error) {
     if (token !== renderToken || view !== current) return;
     console.error(error);
-    html = unavailable('Données indisponibles pour le moment. Réessayez dans quelques instants.');
+    html =
+      (current.type === 'match' && ['insights', 'stats'].includes(current.tab)
+        ? projectedGoals(current.match)
+        : '') + retry('Données ESPN momentanément indisponibles.', 'sheet');
   }
   if (token === renderToken && view === current && dialog.open) {
     body.innerHTML = html;
@@ -304,8 +327,9 @@ function renderHeadContent() {
       ? `<strong>${m.homeScore} : ${m.awayScore}</strong><small>Terminé</small>`
       : live
         ? `<strong>${live.home} : ${live.away}</strong><small class="live-text">En direct · ${esc(live.clock)}</small>`
-        : `<strong>${esc(m.time)}</strong><small>${frDate(ctx.kickoffAt(m), { weekday: 'long', day: 'numeric', month: 'long' })}</small>`;
-  head.innerHTML = `<div class="sheet-match-head"><p class="eyebrow">${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(m.league), m.league)}${esc(m.league)}</p><div class="sheet-score"><button class="sheet-team" ${teamAttrs(sideId('home'), m.home, m.homeLogo, m.league)}>${ctx.logoTag('crest', m.homeLogo, m.home)}<span>${esc(m.home)}</span></button><div class="sheet-center" id="detail-title">${center}</div><button class="sheet-team" ${teamAttrs(sideId('away'), m.away, m.awayLogo, m.league)}>${ctx.logoTag('crest', m.awayLogo, m.away)}<span>${esc(m.away)}</span></button></div></div>${closeButton}`;
+        : `<strong>${esc(m.time)}</strong>`;
+  const date = frDate(ctx.kickoffAt(m), { weekday: 'long', day: 'numeric', month: 'long' });
+  head.innerHTML = `<div class="sheet-match-head"><p class="eyebrow">${ctx.logoTag('league-logo small', ctx.leagueLogoUrl(m.league), m.league)}${esc(m.league)}</p><div class="sheet-score"><button class="sheet-team" ${teamAttrs(sideId('home'), m.home, m.homeLogo, m.league)}>${ctx.logoTag('crest', m.homeLogo, m.home)}<span>${esc(m.home)}</span></button><div class="sheet-center" id="detail-title">${center}</div><button class="sheet-team" ${teamAttrs(sideId('away'), m.away, m.awayLogo, m.league)}>${ctx.logoTag('crest', m.awayLogo, m.away)}<span>${esc(m.away)}</span></button></div><p class="sheet-match-date">${esc(date)}</p></div>${closeButton}`;
 }
 
 // Identifiants ESPN : fournis par le pipeline, sinon lus dans l'adresse du logo
@@ -353,14 +377,17 @@ const summary = () => {
 };
 async function loadMatchInsights(data, ids, kickoff) {
   const [matchSummary, ...schedules] = await Promise.all([
-    data.catch(() => ({})),
+    data.catch(() => null),
     ...Object.values(ids)
       .filter(Boolean)
       .map((id) =>
         espn(`site/v2/sports/soccer/all/teams/${id}/schedule`, 1800000).catch(() => null)
       )
   ]);
-  return matchInsights(matchSummary, schedules, ids, kickoff);
+  return {
+    ...matchInsights(matchSummary ?? {}, schedules, ids, kickoff),
+    sourceUnavailable: !matchSummary || schedules.some((schedule) => !schedule)
+  };
 }
 function faceToFace(games) {
   return `<h3>Face-à-face (H2H)</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date, { day: 'numeric', month: 'short', year: 'numeric' })}</time><span>${esc(g.home)} - ${esc(g.away)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol><p class="sheet-note">Derniers résultats disponibles dans les calendriers ESPN.</p>` : unavailable('Aucun face-à-face disponible dans les calendriers ESPN pour cette rencontre.')}`;
@@ -376,7 +403,7 @@ function projectedGoals(match) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et H2H.</p>`;
+  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et confrontations.</p>`;
 }
 const teamSlug = () => slugOf(view.league) ?? slugOf(teamLeagues(view.name)[0]) ?? 'all';
 
@@ -678,7 +705,7 @@ async function cupRun(league) {
 
 // Détail du match
 const MATCH_TABS = {
-  async lineup() {
+  async lineup(showPartial) {
     const m = view.match,
       ids = { home: sideId('home'), away: sideId('away') },
       data = await summary(),
@@ -690,17 +717,34 @@ const MATCH_TABS = {
         name: m[side],
         logo: m[`${side}Logo`]
       }));
+    const upcoming = Date.now() < ctx.kickoffAt(m);
+    const available = sides.map((team) => {
+      const roster = data.rosters?.find(
+        (r) => r.team?.id === String(team.id) || r.homeAway === team.side
+      );
+      return roster?.roster?.some((p) => p.starter)
+        ? { ...team, roster, label: 'Composition officielle', official: true }
+        : team;
+    });
+    if (available.some((team) => team.official) && available.some((team) => !team.official))
+      showPartial(
+        `<div class="lineups">${available
+          .filter((team) => team.official)
+          .map(lineupBlock)
+          .join('')}</div>${loading}`
+      );
     const lineups = await Promise.all(
-      sides.map(async (team) => {
-        const roster = data.rosters?.find(
-          (r) => r.team?.id === String(team.id) || r.homeAway === team.side
-        );
-        if (roster?.roster?.some((p) => p.starter))
-          return { ...team, roster, label: 'Compo officielle', official: true };
+      available.map(async (team) => {
+        if (team.official) return team;
         const last = team.id
           ? await lastLineup(team.id, slugOf(m.league), String(m.id).replace('espn-', ''))
           : null;
-        if (!last) return { ...team, roster: null, label: 'Compo indisponible' };
+        if (!last)
+          return {
+            ...team,
+            roster: null,
+            label: upcoming ? 'Composition officielle non publiée' : 'Composition indisponible'
+          };
         const opponent =
           last.event.competitions?.[0]?.competitors?.find((c) => c.team?.id !== String(team.id))
             ?.team?.displayName ?? '';
@@ -753,7 +797,7 @@ const MATCH_TABS = {
         const games = insights.form[side];
         return `<section><h3>Forme de ${esc(m[side])}</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date)}</time><span class="result-pill ${RESULT[g.result]?.[1] ?? 'draw'}">${RESULT[g.result]?.[0] ?? '?'}</span><span>${esc(g.opponent)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol>` : unavailable('Cinq derniers matchs indisponibles.')}</section>`;
       };
-    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}<h3>xG observés (ESPN)</h3>${insights.xg ? `<p>${esc(m.home)} : ${esc(insights.xg.home)} · ${esc(m.away)} : ${esc(insights.xg.away)}</p>` : unavailable('xG indisponibles auprès de notre source pour cette rencontre.')}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>`;
+    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}<h3>xG observés (ESPN)</h3>${insights.xg ? `<p>${esc(m.home)} : ${esc(insights.xg.home)} · ${esc(m.away)} : ${esc(insights.xg.away)}</p>` : unavailable('xG indisponibles auprès de notre source pour cette rencontre.')}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>${insights.sourceUnavailable ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet') : ''}`;
   },
   async info() {
     const data = await summary(),
@@ -779,14 +823,19 @@ const MATCH_TABS = {
     const m = view.match,
       ids = { home: sideId('home'), away: sideId('away') },
       kickoff = ctx.kickoffAt(m),
-      dataRequest = summary().catch(() => ({})),
+      dataRequest = summary().catch(() => null),
       [data, insights] = await Promise.all([
         dataRequest,
         loadMatchInsights(dataRequest, ids, kickoff)
       ]),
-      context = projectedGoals(m) + faceToFace(insights.h2h),
+      context =
+        projectedGoals(m) +
+        faceToFace(insights.h2h) +
+        (insights.sourceUnavailable
+          ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet')
+          : ''),
       teams = Object.values(ids).map((id) =>
-        data.boxscore?.teams?.find((team) => String(team.team?.id) === String(id))
+        data?.boxscore?.teams?.find((team) => String(team.team?.id) === String(id))
       ),
       get = (team, name) => team?.statistics?.find((stat) => stat.name === name),
       value = (stat) => {
@@ -808,6 +857,7 @@ const MATCH_TABS = {
         `<div class="live-stat"><div class="live-stat-values"><strong>${show(a, va)}</strong><span>${label}</span><strong>${show(b, vb)}</strong></div><div class="live-stat-bar"><i style="width:${share}%"></i><i style="width:${100 - share}%"></i></div></div>`
       ];
     });
+    if (!rows.length && !data) return context;
     if (!rows.length)
       return (
         context +
@@ -1039,11 +1089,15 @@ export async function showStandings() {
     }
   } catch (error) {
     console.error(error);
-    html = unavailable('Classement indisponible pour le moment.');
+    html = retry('Classement ESPN momentanément indisponible.', 'standings');
   }
   if (token === standingsToken) body.innerHTML = html;
 }
 function onStandingsClick(event) {
+  if (event.target.closest('[data-retry-sports="standings"]')) {
+    showStandings();
+    return;
+  }
   const league = event.target.closest('[data-standings-league]');
   if (league) {
     standingsView.league = league.dataset.standingsLeague;

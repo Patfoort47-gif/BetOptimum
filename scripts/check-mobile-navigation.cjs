@@ -1,11 +1,15 @@
 const assert = require('node:assert/strict');
-const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
+const { browser, page, fixtures, mock } = require('./ui-mobile-fixtures.cjs');
 
 (async () => {
   const b = await browser();
   try {
     for (const width of [320, 360, 390, 430, 767, 768, 1440]) {
       const p = await page(b, {
+        accountMock: mock.replace(
+          "c.onCommunityStatus('off');",
+          "c.onCommunityStatus('off');c.registerCloudSave(state=>{window.__cloudState=state});"
+        ),
         width,
         touch: true,
         data: {
@@ -46,10 +50,44 @@ const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
         await p.goBack();
         assert.ok(await p.locator('#matches').isVisible());
         await p.locator('.match-card .match-selection').first().click();
-        assert.ok(await p.locator('#mobile-coupon').isVisible());
-        assert.ok(
-          await p.locator('body').evaluate((el) => el.classList.contains('has-mobile-coupon'))
-        );
+        assert.equal(await nav.locator('#mobile-ticket-count').innerText(), '1');
+        assert.equal(await p.locator('[data-open-ticket]:visible').count(), 1);
+        if (width === 360) {
+          const ticket = nav.locator('.mobile-ticket-action');
+          await ticket.click();
+          await p.locator('#close-builder').click();
+          assert.equal(await ticket.evaluate((el) => el === document.activeElement), true);
+          await ticket.click();
+          await p.locator('#ticket-items [data-remove]').click();
+          await p.locator('#close-builder').click();
+          assert.equal(await nav.locator('#mobile-ticket-count').isVisible(), false);
+          await p.locator('.match-card .match-selection').first().click();
+          await ticket.click();
+          await p.locator('#stake').fill('20,50');
+          const potential = await p.locator('#potential-win').innerText();
+          await p.locator('#place-bet').click();
+          await nav.locator('[data-mobile-target=bankroll]').click();
+          const guestReturn = p.locator('#bankroll-guest .ticket-figures dd').nth(2);
+          assert.equal((await guestReturn.innerText()).split('\n')[0], potential);
+          await p.reload();
+          assert.equal((await guestReturn.innerText()).split('\n')[0], potential);
+          await p.evaluate(() => {
+            window.__logged = true;
+          });
+          await p.locator('#account-button').click();
+          await p.locator('#account-menu [data-menu=login]').click();
+          await p.locator('.join-close').click();
+          await p.locator('[data-save-guest]').click();
+          const saved = await p.evaluate(() => window.__cloudState.guestSimulation);
+          assert.equal(saved.history[0].stake, 20.5);
+          assert.equal(saved.history[0].certified, false);
+          assert.equal(saved.bankroll, 979.5);
+          await nav.locator('[data-mobile-target=matches]').click();
+          await p.locator('.match-card .match-selection').first().click();
+          await ticket.click();
+          await p.locator('#place-bet').click();
+          await p.waitForFunction(() => window.__betCalls?.length === 1);
+        }
         await p.addStyleTag({ content: 'html { font-size: 150%; }' });
       }
       assert.ok(

@@ -49,7 +49,7 @@ export function marketCard(match, market, highestConfidence = false) {
 }
 export function marketSources(match, markets, open = false) {
   markets = markets.filter((m) => quoteAvailable(match, m.key));
-  return `<details class="match-secondary market-source-details" data-stats="${html(match.id)}-sources"${open ? ' open' : ''}><summary>Sources et dates des cotes</summary><p>Les pourcentages sont estimés par le modèle, sans garantie de gain. La value compare cette estimation à une cote réelle ; elle ne garantit pas un bénéfice. La carte mise en avant repère la confiance maximale parmi les cotes strictement supérieures à 1,15.</p><ul>${markets
+  return `<details class="match-secondary market-source-details" data-stats="${html(match.id)}-sources"${open ? ' open' : ''}><summary>Sources et dates des cotes</summary><p>Les pourcentages sont estimés par le modèle, sans garantie de gain. L’espérance théorique (value) estime le résultat moyen par euro fictif engagé, à partir des probabilités du modèle et d’une cote bookmaker. Elle ne garantit aucun bénéfice. La carte mise en avant repère la confiance maximale parmi les cotes strictement supérieures à 1,15.</p><ul>${markets
     .map((market) => {
       const source = sourceOf(match, market.key),
         opportunity = classifyOpportunity(market.value, { real: source.real, available: true }),

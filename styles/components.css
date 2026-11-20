@@ -976,21 +976,6 @@ dialog[open] {
   }
 }
 
-/* Cote qui s'envole vers le ticket */
-.fly-chip {
-  position: fixed;
-  z-index: 70;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-family: var(--display);
-  font-size: 20px;
-  font-weight: 700;
-  pointer-events: none;
-  will-change: transform, opacity;
-  transform: translate3d(-50%, -50%, 0);
-}
 #total-odds {
   display: inline-block;
 }
@@ -5091,10 +5076,6 @@ body.join-open {
   .hero-actions {
     grid-template-columns: 1fr 1fr;
   }
-  .hero-actions #quick-combo {
-    grid-column: 1/-1;
-    min-height: 36px;
-  }
   .hero-main .section-subtitle {
     margin: 0;
   }
@@ -6518,9 +6499,9 @@ dialog .dialog-tools .icon-button {
   }
   .model-period-shortcuts button {
     flex: 1;
-    padding: 8px;
+    padding: 6px 4px;
     font-size: 11px;
-    min-height: 40px;
+    min-height: 44px;
   }
   #predictions .prediction-toolbar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -10073,9 +10054,6 @@ section.club-ranking {
   }
 }
 @media (max-width: 767px) {
-  .hero-actions #quick-combo {
-    min-height: var(--touch-target);
-  }
   body button {
     max-width: 100%;
     white-space: normal;
@@ -10448,72 +10426,6 @@ section.club-ranking {
 .team-form:focus-visible {
   outline: 2px solid var(--accent-text);
   outline-offset: 2px;
-}
-
-/* BET-223 : coupon flottant, au-dessus de la navigation mobile. */
-.mobile-coupon {
-  display: none;
-}
-@media (max-width: 767px) {
-  .mobile-coupon:not([hidden]) {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    right: 16px;
-    bottom: calc(80px + env(safe-area-inset-bottom));
-    z-index: 46;
-    min-width: 72px;
-    min-height: 72px;
-    max-width: calc(100vw - 32px);
-    padding: 12px;
-    border: 1px solid var(--line-strong);
-    border-radius: 36px;
-    background: var(--accent);
-    color: var(--on-accent);
-    font-size: 18px;
-    box-shadow: 0 6px 24px #0003;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  .mobile-coupon:active {
-    transform: scale(0.94);
-  }
-  .mobile-coupon:focus-visible {
-    outline: 3px solid var(--accent-text);
-    outline-offset: 4px;
-  }
-  .coupon-label {
-    font-size: 10px;
-    font-weight: 600;
-  }
-  .coupon-count {
-    position: absolute;
-    top: -6px;
-    right: -4px;
-    display: grid;
-    place-items: center;
-    min-width: 26px;
-    height: 26px;
-    padding: 0 5px;
-    border: 2px solid var(--accent);
-    border-radius: 999px;
-    background: var(--on-accent);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 800;
-  }
-  body.has-mobile-coupon main {
-    padding-bottom: calc(168px + env(safe-area-inset-bottom));
-  }
-  body.has-mobile-coupon #toast {
-    bottom: calc(164px + env(safe-area-inset-bottom));
-  }
-  .ticket-drawer-open .mobile-coupon {
-    visibility: hidden;
-  }
 }
 
 /* BET-210 : les flèches restent présentes sur écran tactile. */
@@ -11529,8 +11441,7 @@ section.club-ranking {
   #matches > #match-list {
     order: 8;
   }
-  #matches > #conseils-du-jour,
-  #matches > #daily-selection {
+  #matches > #conseils-du-jour {
     order: 6;
     margin-top: 12px;
   }
@@ -12352,46 +12263,6 @@ body {
     gap: 6px;
   }
 }
-/* BET-354 : résumé du ticket toujours accessible au-dessus des onglets. */
-@media (max-width: 767px) {
-  body .mobile-coupon:not([hidden]) {
-    left: 12px;
-    right: 12px;
-    bottom: calc(76px + env(safe-area-inset-bottom));
-    width: auto;
-    max-width: none;
-    min-height: 56px;
-    min-width: 0;
-    border-radius: 14px;
-    padding: 10px 12px;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 8px;
-    font-size: 13px;
-  }
-  body .mobile-coupon .coupon-count {
-    position: static;
-    display: block;
-    min-width: 0;
-    height: auto;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font-size: 12px;
-  }
-  body .mobile-coupon .coupon-label {
-    border: 1px solid currentColor;
-    border-radius: 10px;
-    padding: 8px;
-    font-size: 12px;
-    white-space: nowrap;
-  }
-  body .mobile-coupon:active {
-    transform: scale(0.99);
-  }
-}
-
 /* BET-355 : défilement tactile sans barre ni rognage du premier filtre. */
 body .date-navigator,
 body .filters {
@@ -12820,4 +12691,115 @@ body .match-card .match-hero .stadium-placeholder-name {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+@media (max-width: 700px) {
+  #matches > .section-heading .analysis-note {
+    display: none;
+  }
+
+  #matches > #conseils-du-jour {
+    order: 10;
+  }
+
+  .match-card:has(.selection-action) .match-outcome,
+  .match-card:has(.selection-action) .match-overview > .opportunity {
+    display: none;
+  }
+
+  .match-card .selection-summary {
+    padding: 8px 10px;
+    gap: 5px;
+  }
+
+  .match-card .selection-summary dl {
+    margin: 0;
+  }
+}
+
+.ticket-options {
+  margin-block: 10px;
+}
+
+.ticket-options summary {
+  padding-block: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .hero-main .hero-cta,
+  #match-navigation [data-open-ticket] {
+    display: none;
+  }
+
+  .mobile-ticket-action {
+    position: relative;
+  }
+
+  .ticket-nav-count {
+    position: absolute;
+    top: 1px;
+    left: calc(50% + 6px);
+    min-width: 18px;
+    padding: 1px 3px;
+    border-radius: 999px;
+    color: var(--on-accent);
+    background: var(--accent);
+    font-size: 11px;
+  }
+
+  .builder {
+    scroll-padding-block: 12px;
+  }
+}
+
+.model-load p {
+  margin: 0 0 6px;
+}
+
+.model-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.model-overview > div {
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.model-overview dt {
+  font-size: 0.85rem;
+}
+
+.model-overview dd {
+  margin: 4px 0 0;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-weight: 700;
+}
+
+.model-showcase .model-spotlight {
+  display: block;
+}
+
+@media (max-width: 700px) {
+  #matches > .section-heading {
+    order: 10;
+    margin: 0;
+  }
+
+  #matches > .match-filter-context:not(:has(button:not([hidden]))) {
+    display: none;
+  }
+
+  #matches > #next-favorite-match {
+    order: 5;
+  }
+
+  #matches > #match-list-more {
+    order: 9;
+  }
 }

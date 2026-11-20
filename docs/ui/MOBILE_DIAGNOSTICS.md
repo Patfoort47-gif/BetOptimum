@@ -57,3 +57,63 @@ conservées. Il n’y a aucune réécriture en masse du stockage de production. 
 écritures inchangées d’un même navigateur sont évitées et le dernier document en
 attente peut être renvoyé depuis le menu Compte. Les écritures concurrentes de
 deux appareils suivent toujours l’ordre de réception du serveur.
+
+## BET-416 · Parcours Matchs, Ticket et Mes paris
+
+Le 20 novembre 2026, la recette a comparé les fichiers préparés par
+`scripts/prepare-pages.mjs` au commit de l’audit `8b10669`. GitHub Pages
+indiquait un déploiement réussi de ce commit. L’accès HTTPS au site public
+renvoyait 403 depuis l’environnement de recette.
+
+À 360 × 844, le bas du bouton « Ajouter au ticket » passe de 844 à 698 px.
+La navigation commence à 779 px. Le bouton tient également au premier écran
+à 320 et 390 px avec le calendrier de la recette. Le contrôle desktop à
+1 280 px inclut la suppression de la jauge d’accueil et l’accès au calcul
+de l’indice depuis le bilan.
+
+Médianes de trois navigations Chromium à 360 × 844 par condition, sur
+un serveur HTTP local avec gzip. Le temps va du début de la navigation
+au rendu des cartes avec leur action d’ajout. Le cache chaud réutilise
+le même contexte. Le profil limité applique 1,6 Mbit/s en réception,
+150 ms de latence et un ralentissement CPU ×4.
+
+| Profil | Cache | Commit de l’audit | Après le lot |
+| --- | --- | ---: | ---: |
+| Normal | Froid | 931 ms | 642 ms |
+| Normal | Chaud | 402 ms | 203 ms |
+| Limité | Froid | 5 510 ms | 4 931 ms |
+| Limité | Chaud | 1 466 ms | 1 041 ms |
+
+Le calendrier compressé représente 84 283 octets de corps HTTP, soit 84 583
+octets transférés avec les en-têtes à froid. L’archive représente 16 321
+octets de corps et 16 621 octets transférés à froid. La page Matchs du mode
+invité charge le calendrier. L’archive se charge à l’ouverture du bilan ou
+du profil. Les offres détaillées restent consultables par match à la demande.
+Les analyses des dates secondaires se calculent lors de leur consultation.
+
+La marque `calendrier-premier-ajout` date le rendu de la première action
+d’ajout disponible. L’ancienne recette BET-370 mesure le calendrier
+consultable, y compris l’aperçu. La comparaison BET-372 doit conserver le
+même calendrier et le même profil de réseau. Pour relever poids et temps,
+utiliser `scripts/check-mobile-diagnostics.cjs` avec `BET_NETWORK=normal`,
+puis avec la limitation par défaut. Le champ `first` contient les ressources
+relevées avant les interactions de recette.
+
+Le parcours Chromium a conservé un retour potentiel de 58,63 € et un
+bénéfice potentiel de 38,13 € pour une mise de 20,50 € à 2,86, y compris
+après rechargement. La recette `scripts/check-mobile-navigation.cjs` couvre
+aussi le retrait, le retour du focus après fermeture, la sauvegarde dans
+un compte simulé et la confirmation d’un pari par un serveur simulé. Le
+contrôle du clavier réduit la hauteur visible à 530 px. Le guide
+d’installation s’ouvre depuis le lien de pied de page. La fiche Stats et
+le classement proposent de réessayer lorsque les requêtes ESPN échouent.
+
+Dans le bac à sable, `tests/prediction-evaluation.test.js` échoue sur la
+lecture du JSON de sortie. Le diagnostic du processus enfant indique
+`spawnSync … EPERM` avec une sortie vide. Le test réussit lorsque le
+sous-processus Node est autorisé.
+
+La recette sur Safari iPhone et Chrome Android physiques, la synchronisation
+avec un compte réel et la réception des alertes restent à valider. Reprendre
+les recettes BET-407 et BET-401 sur les appareils concernés et consigner la
+version publiée ainsi que les conditions de réseau.

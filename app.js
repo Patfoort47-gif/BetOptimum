@@ -1,6 +1,6 @@
 import { readMagicDestination, takeNotificationReturn } from './src/account/auth-return.js';
 import { syncStudy } from './src/core/sync-study.js';
-import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
+import { vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
 import { teamLogoMarkup } from './src/matches/team-logos.js';
@@ -55,9 +55,9 @@ import {
 } from './src/model/quote-policy.js';
 import { stadiumMarkup, bindStadiumImages } from './src/matches/stadiums.js';
 import { LEGACY_MARKETS, selectionCondition } from './src/model/markets.js';
-import { marketCard } from './src/matches/market-card.js?v=bet191';
-import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet194';
-import { historyReport, historyCard } from './src/history/bet-history.js';
+import { marketCard } from './src/matches/market-card.js?v=bet409';
+import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet409';
+import { historyReport, historyCard } from './src/history/bet-history.js?v=bet409';
 import { createJsonLoader } from './src/core/data-loader.js';
 import { createMobileDiagnostics } from './src/core/mobile-diagnostics.js';
 import {
@@ -78,9 +78,9 @@ import {
   settleGuestWallet
 } from './src/ticket/guest-wallet.js';
 import { createSubmission } from './src/ticket/bet-submission.js';
-import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet194';
+import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet409';
 import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
-import { freshness, sourceFreshness } from './src/core/data-freshness.js';
+import { freshness, offerFreshness, sourceFreshness } from './src/core/data-freshness.js';
 import { initAnalytics } from './src/history/analytics.js';
 import {
   analyseMatch,
@@ -629,7 +629,7 @@ function loadDetailStyles() {
   return (detailStyles ??= new Promise((resolve, reject) => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'styles/details.css?v=bet379';
+    link.href = 'styles/details.css?v=bet409';
     link.addEventListener('load', resolve, { once: true });
     link.addEventListener(
       'error',
@@ -645,7 +645,7 @@ function loadDetailStyles() {
 }
 function ensureDetails() {
   if (!detailsPromise)
-    detailsPromise = Promise.all([import('./src/matches/details.js?v=bet386'), loadDetailStyles()])
+    detailsPromise = Promise.all([import('./src/matches/details.js?v=bet409'), loadDetailStyles()])
       .then(
         ([module]) =>
           (details = module.initDetails({
@@ -943,56 +943,6 @@ function setupScroller(el) {
 function confidenceMetrics() {
   return confidenceKpi(publicPredictionHistory(state.predictionHistory), allMatches(), isoDate(0));
 }
-function renderHomePerformance() {
-  const box = $('#home-performance-kpis');
-  if (!box) return;
-  const r = predictionReport(state.predictionHistory, { period: 'all' });
-  box.innerHTML = archiveLoadedAt
-    ? kpiCard('ROI global', r.roi == null ? 'Indisponible' : decimal(r.roi, 1) + ' %', {
-        tone: financialTone(r.roi),
-        caption: 'Tout l’historique'
-      }) +
-      kpiCard('Profit simulé', r.items.length ? money(r.profit) : 'Indisponible', {
-        tone: financialTone(r.profit),
-        caption: '10 € fictifs par pronostic'
-      }) +
-      kpiCard('Pronostics réglés', r.items.length, { caption: 'Tout l’historique' })
-    : '';
-  $('#home-performance-status').textContent = archiveLoadedAt
-    ? archiveStatus === 'error'
-      ? 'Actualisation impossible : derniers résultats conservés. Archive lue le ' +
-        new Date(archiveLoadedAt).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }) +
-        ' (Paris).'
-      : r.items.length < 30
-        ? 'Échantillon limité : prudence dans l’interprétation.'
-        : 'Bilan synchronisé avec les résultats publics.'
-    : 'Résultats du modèle indisponibles pour le moment.';
-}
-function renderConfidenceKpi() {
-  renderHomePerformance();
-  const metrics = confidenceMetrics(),
-    percent = (value) => (value == null ? '-' : `${Math.round(value * 100)}`),
-    score = percent(metrics.score),
-    form = percent(metrics.form),
-    today = percent(metrics.todayConfidence);
-  const face = $('#hero-confidence .gauge-face');
-  if (!$('#hero-confidence .gauge-fill')) face?.insertAdjacentHTML('afterbegin', gaugeArc());
-  const gauge = $('#hero-confidence .gauge-fill');
-  $('#hero-confidence-score').textContent = score;
-  $('#hero-confidence-form').textContent = form === '-' ? '-' : `${form} %`;
-  $('#hero-confidence-today').textContent = today === '-' ? '-' : `${today} %`;
-  $('#hero-confidence-form-detail').textContent = metrics.recentCount
-    ? `${metrics.wins}/${metrics.recentCount} réussis`
-    : 'Pas encore de résultat';
-  $('#hero-confidence-today-detail').textContent = metrics.todayCount
-    ? `${metrics.todayCount} pronostic${metrics.todayCount > 1 ? 's' : ''}`
-    : 'Aucun match aujourd’hui';
-  gauge.style.strokeDashoffset = String(100 - (metrics.score ?? 0) * 100);
-  const card = $('#hero-confidence');
-  card.classList.toggle('unavailable', metrics.score == null);
-  card.classList.toggle('gauge-low', metrics.score != null && Number(score) < 50);
-  card.classList.toggle('gauge-zero', score === '0');
-}
 const kickoffAt = (m) => new Date(m.kickoff ?? `${m.date}T${m.time || '12:00'}:00`);
 const isLive = (m) => !m.completed && state.live[m.id]?.state === 'in';
 function countdownText(m) {
@@ -1087,87 +1037,7 @@ function observeCards() {
     railObserver.observe(card);
   });
 }
-// La cote ajoutée s'envole vers le ticket (ou vers le bouton Combiné sur mobile).
-function flyToTicket(from, origin) {
-  if (!from?.getBoundingClientRect || matchMedia('(prefers-reduced-motion: reduce)').matches)
-    return;
-  const visible = (el) => {
-      if (!el || el.hidden) return false;
-      const r = el.getBoundingClientRect();
-      return (
-        r.width > 0 &&
-        r.bottom > 0 &&
-        r.top < innerHeight &&
-        getComputedStyle(el).visibility !== 'hidden'
-      );
-    },
-    aside = $('#builder'),
-    ticket = document.querySelector('.ticket');
-  let target = [
-      $('#mobile-coupon'),
-      document.querySelector('[data-mobile-target=builder]'),
-      $('#total-odds')
-    ].find(visible),
-    shift = 0;
-  if (!target && ticket && visible(aside) && aside.scrollHeight > aside.clientHeight) {
-    const top = Math.max(0, ticket.offsetTop - 12);
-    shift = top - aside.scrollTop;
-    aside.scrollTo({ top, behavior: motionBehavior() });
-    target = $('#total-odds');
-  }
-  if (!target) return;
-  const a = origin ?? from.getBoundingClientRect(),
-    r =
-      target.id === 'mobile-coupon'
-        ? {
-            left: target.offsetLeft,
-            top: target.offsetTop,
-            width: target.offsetWidth,
-            height: target.offsetHeight
-          }
-        : target.getBoundingClientRect(),
-    x = a.left + a.width / 2,
-    y = a.top + a.height / 2,
-    dx = r.left + r.width / 2 - x,
-    dy = r.top - shift + r.height / 2 - y,
-    chip = document.createElement('span');
-  chip.className = 'fly-chip';
-  chip.setAttribute('aria-hidden', 'true');
-  chip.textContent = from.querySelector('strong')?.textContent ?? '';
-  chip.style.left = `${x}px`;
-  chip.style.top = `${y}px`;
-  document.body.append(chip);
-  const frames = Array.from({ length: 31 }, (_, i) => {
-    const t = i / 30,
-      u = 1 - t;
-    return {
-      transform: `translate3d(calc(-50% + ${dx * t}px),calc(-50% + ${dy * t - 240 * u * t}px),0) scale(${1 - 0.65 * t})`,
-      opacity: 1 - 0.7 * t
-    };
-  });
-  const animation = chip.animate?.(frames, { duration: 600, easing: 'cubic-bezier(.25,.1,.3,1)' });
-  if (!animation) {
-    chip.remove();
-    return;
-  }
-  animation.finished.then(
-    () => {
-      chip.remove();
-      if (!visible(target)) return;
-      target.getAnimations?.().forEach((a) => a.cancel());
-      target.animate?.(
-        [
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.18)', offset: 0.4 },
-          { transform: 'scale(.96)', offset: 0.7 },
-          { transform: 'scale(1)' }
-        ],
-        { duration: 300, easing: 'cubic-bezier(.2,.8,.3,1)' }
-      );
-    },
-    () => chip.remove()
-  );
-}
+
 let rollToken = 0;
 function rollNumber(el, value) {
   const from = Number(el.dataset.value ?? value),
@@ -1548,12 +1418,13 @@ function quickSelection(match, best) {
   if (!best?.key)
     return '<div class="recommended"><span class="selection-eyebrow">LA SÉLECTION DU MATCH</span><strong>Aucune sélection admissible</strong><small>Il faut une cote supérieure à 1,15 et au moins 10 bookmakers par sélection.</small></div>';
   if (!quoteAvailable(match, best.key))
-    return `<div class="recommended"><strong>${html(best.label)}</strong><small>${Math.round(best.probability * 100)} % de probabilité estimée · cote indisponible : moins de 10 bookmakers</small></div>`;
-  const ev = Number.isFinite(best.value) && best.real;
-  return `<section class="selection-summary" aria-label="Sélection du match"><strong class="selection-title">${html(best.label)}</strong><dl><div><dt>Probabilité estimée</dt><dd class="selection-probability">${Math.round(best.probability * 100)} %</dd></div><div class="selection-price"><dt>Cote réelle</dt><dd>${decimal(best.odd, 2)}</dd></div>${ev ? `<div><dt>Rendement estimé</dt><dd class="selection-ev">${best.value >= 0 ? '+' : ''}${Math.round(best.value * 100)} %</dd></div>` : ''}</dl><button type="button" class="button primary match-selection selection-action" data-match="${html(match.id)}" data-market="${html(best.key)}" data-market-label="Ajouter au ticket : ${html(best.label)}">Ajouter au ticket</button></section>`;
+    return `<div class="recommended"><strong>${html(best.label)}</strong><small>${Math.round(best.probability * 100)} % de probabilité estimée · cote bookmaker indisponible</small></div>`;
+  const coverage = selectionBookmakerCount(match, best.key);
+  const offer = offerFreshness(match.bookmakerOffers, best.key);
+  const source = match.oddsCachedMarkets?.includes(best.key) ? 'Offre conservée' : 'PropLine';
+  return `<section class="selection-summary" aria-label="Sélection du match"><strong class="selection-title">${html(best.label)}</strong><dl><div><dt>Probabilité estimée</dt><dd class="selection-probability">${Math.round(best.probability * 100)} %</dd></div><div class="selection-price"><dt>Cote bookmaker</dt><dd>${decimal(best.odd, 2)}</dd></div></dl><small class="selection-source">${html(source)} · ${coverage} bookmakers · ${html(offer.label)}</small><button type="button" class="button primary match-selection selection-action" data-match="${html(match.id)}" data-market="${html(best.key)}" data-market-label="Ajouter au ticket : ${html(best.label)}">Ajouter au ticket</button></section>`;
 }
 function renderSafePicks(visible = visibleMatches()) {
-  renderDailySelection(visible);
   const picks = visible
     .filter(
       (match) =>
@@ -1571,21 +1442,6 @@ function renderSafePicks(visible = visibleMatches()) {
         )
         .join('')
     : '<p class="empty">Pas assez de données fiables sur cette période.</p>';
-}
-function renderDailySelection(visible = visibleMatches()) {
-  renderDailyAdvice();
-  const box = $('#daily-selection');
-  if (!box) return;
-  const picks = dailyPicks(
-    allMatches().filter((match) => !isLive(match)),
-    'Europe/Paris'
-  );
-  box.hidden = !picks.length || !visible.length;
-  if (box.hidden) {
-    box.innerHTML = '';
-    return;
-  }
-  box.innerHTML = `<div class="safe-picks-head"><div><p class="eyebrow">SUGGESTIONS</p><h3>Suggestions du jour</h3></div></div><p class="analysis-note">Les meilleurs pronostics disponibles aujourd’hui selon la confiance du modèle, puis la value. Cotes supérieures à 1,15, au moins 10 bookmakers par sélection. Paris virtuels · 18+ · Aucune garantie.</p>${picks.map(({ match, pick }) => `<button class="safe-pick" data-match="${html(match.id)}" data-market="${html(pick.key)}"><span><strong>${html(match.home)} - ${html(match.away)}</strong><small>${new Date(match.kickoff).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })} · ${html(pick.label)}</small></span><span class="suggestion-values"><b>Cote ${decimal(pick.odd, 2)}</b><small>Confiance ${Math.round(pick.probability * 100)} %</small><em>+ Ajouter au ticket</em></span></button>`).join('') || '<p class="empty">Aucun pronostic admissible aujourd’hui.</p>'}`;
 }
 function renderDailyAdvice() {
   const box = $('#conseils-du-jour');
@@ -1761,7 +1617,8 @@ function renderMatches() {
     Date.now(),
     new Set(matches.filter(isLive).map((match) => match.id))
   )?.id;
-  renderSafePicks(matches);
+  renderDailyAdvice();
+  if ($('#generator-panel')?.hidden === false) renderSafePicks(matches);
   const oddsFeedDate = html(sourceFreshness(state.oddsUpdatedAt, 'odds').label);
   reconcileMatchCards(
     shown
@@ -1823,6 +1680,7 @@ function renderMatches() {
   if (mobileDiagnostics && fixtureDataLoaded) {
     mobileDiagnostics.mark(matches.length ? 'calendrier-match' : 'calendrier-vide', true);
     mobileDiagnostics.markOnce('calendrier-enrichi');
+    if ($('#match-list .selection-action')) mobileDiagnostics.markOnce('calendrier-premier-ajout');
   }
   document.querySelectorAll('#match-list .match-secondary').forEach((section) => {
     if (watchedStats.has(section)) return;
@@ -1850,7 +1708,6 @@ function renderMatches() {
             .map((m) => marketButton(match, m, m.key === pick?.key))
             .join('');
           updateSelectedMarkets();
-          renderMobileCoupon();
         }
       } else expandedMatchStats.delete(section.dataset.stats);
     });
@@ -2017,6 +1874,13 @@ function renderPredictionStats() {
     `${items.length} réglés · ${report.pending} en attente · ${report.voided} remboursés · ${report.invalid} sans cote exploitable. ${items.length < 30 ? 'Échantillon limité : prudence dans l’interprétation.' : ''}`;
   $('#prediction-calibration').innerHTML = renderCalibration(items);
   $('#prediction-closing').innerHTML = closingMarkup(items);
+  const range =
+    report.first === report.last
+      ? longDay(report.first)
+      : `Du ${longDay(report.first)} au ${longDay(report.last)}`;
+  $('#prediction-overview').innerHTML = archiveLoadedAt
+    ? `<dl class="model-overview"><div><dt>ROI simulé</dt><dd>${roi == null ? 'Indisponible' : `${decimal(roi, 1)} %`}</dd></div><div><dt>Taux de réussite</dt><dd>${items.length ? `${decimal((100 * won.length) / items.length, 1)} %` : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${items.length}</dd></div></dl><p class="archive-note">${html(range)} · 10 € fictifs par pronostic</p>`
+    : '';
   $('#prediction-showcase').innerHTML = renderPredictionShowcase(report, {
     html,
     money,
@@ -2273,47 +2137,6 @@ function renderStakeControls(locked) {
   return issue;
 }
 let selectedStakePercent = 2;
-let couponSignature = '';
-function renderMobileCoupon() {
-  const bar = $('#mobile-coupon');
-  if (!bar) return;
-  const wasHidden = bar.hidden,
-    visible = state.ticket.length > 0;
-  bar.hidden = !visible;
-  document.body?.classList.toggle('has-mobile-coupon', visible);
-  $('#coupon-count').textContent =
-    `${state.ticket.length} sélection${state.ticket.length > 1 ? 's' : ''}`;
-  const odds = state.ticket.reduce((total, item) => total * item.odd, 1),
-    count = state.ticket.length;
-  $('#coupon-odds').textContent = `Cote ${decimal(odds, 2)}`;
-  bar.setAttribute?.(
-    'aria-label',
-    `Ouvrir mon coupon : ${count} sélection${count > 1 ? 's' : ''}, cote cumulée ${decimal(odds, 2)}`
-  );
-  const signature = JSON.stringify(state.ticket.map((x) => [x.matchId, x.key, x.odd]));
-  if (signature !== couponSignature || (wasHidden && visible)) {
-    bar.getAnimations?.().forEach((a) => a.cancel());
-    if (
-      visible &&
-      typeof matchMedia !== 'undefined' &&
-      !matchMedia('(prefers-reduced-motion: reduce)').matches
-    )
-      bar.animate?.(
-        wasHidden
-          ? [
-              { transform: 'translate3d(0,12px,0) scale(.7)', opacity: 0 },
-              { transform: 'translate3d(0,0,0) scale(1)', opacity: 1 }
-            ]
-          : [
-              { transform: 'scale(1)' },
-              { transform: 'scale(1.12)', offset: 0.45 },
-              { transform: 'scale(1)' }
-            ],
-        { duration: 240, easing: 'cubic-bezier(.2,.8,.3,1)' }
-      );
-    couponSignature = signature;
-  }
-}
 function renderTicket() {
   const locked = Boolean(betConfirmed || betAttempt?.busy || betAttempt?.uncertain);
   if (!locked && selectedStakePercent != null)
@@ -2340,7 +2163,7 @@ function renderTicket() {
     });
   document
     .querySelectorAll(
-      '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#quick-combo,#ticket-items button,#stake-controls button'
+      '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#ticket-items button,#stake-controls button'
     )
     .forEach((el) => (el.disabled = locked));
   const box = $('#ticket-items'),
@@ -2418,10 +2241,10 @@ function renderTicket() {
     ? `${combinedOdds >= target ? '+' : ''}${decimal(combinedOdds - target, 2)}`
     : '-';
   $('#stake-label').textContent = independent
-    ? 'Mise par pari (€)'
+    ? 'Mise fictive par pari (€)'
     : multiple
-      ? 'Mise globale (€)'
-      : 'Mise (€)';
+      ? 'Mise fictive totale (€)'
+      : 'Mise fictive (€)';
   $('#stake-total').textContent = money(stakeTotal);
   $('#potential-win').textContent = money(potential);
   const probability = state.ticket.reduce((p, x) => p * x.probability, 1),
@@ -2462,7 +2285,7 @@ function renderTicket() {
         : multiple
           ? `Placer le système (${lines.length} lignes)`
           : 'Placer le pari virtuel'
-    : 'Placer le pari en mode invité';
+    : 'Simuler le pari';
   if (betAttempt?.uncertain) {
     placeButton.disabled = Boolean(placeButton.dataset.busy);
     placeButton.textContent = 'Vérifier le pari en attente';
@@ -2483,7 +2306,7 @@ function renderTicket() {
   if (locked)
     document
       .querySelectorAll(
-        '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#quick-combo,#ticket-items button,#stake-controls button'
+        '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#ticket-items button,#stake-controls button'
       )
       .forEach((el) => (el.disabled = true));
   for (const id of ['#mobile-ticket-count', '#match-ticket-count']) {
@@ -2494,7 +2317,6 @@ function renderTicket() {
     }
   }
   updateSelectedMarkets();
-  renderMobileCoupon();
 }
 // Interrupteur « Compte en ligue » : quota de 10 paris libres par semaine et un seul prono par match (mêmes règles que le serveur).
 function leagueDecision() {
@@ -2534,8 +2356,7 @@ function renderLeagueToggle() {
   const box = $('#league-toggle');
   if (box) box.hidden = true;
 }
-function addSelection(matchId, key, from) {
-  const origin = from?.getBoundingClientRect();
+function addSelection(matchId, key) {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) {
     toast('Vérifiez d’abord le pari en attente.');
     return;
@@ -2566,7 +2387,7 @@ function addSelection(matchId, key, from) {
   state.ticket = [...state.ticket.filter((x) => x.matchId !== matchId), selection];
   rememberTicket();
   renderTicket();
-  if (from) flyToTicket(from, origin);
+  toast('Sélection ajoutée au ticket.');
 }
 const personalFilters = { period: 'all', status: 'all', search: '' };
 let personalDashboard = null;
@@ -2575,7 +2396,7 @@ function guestSyncOffer() {
   if (eligible) syncTrial?.eligible();
   if (!eligible || syncTrial?.control || syncPromptChoice) return '';
   syncTrial?.exposed();
-  return '<section class="card" aria-labelledby="guest-sync-title"><h4 id="guest-sync-title">Retrouver votre simulation sur un autre appareil</h4><p>Un compte peut sauvegarder votre historique de simulation dans un espace privé. Il reste distinct des paris certifiés.</p><button type="button" class="button secondary" data-guest-sync-start>Synchroniser ma simulation</button> <button type="button" class="text-button" data-guest-sync-dismiss>Continuer en invité</button></section>';
+  return '<section class="card" aria-labelledby="guest-sync-title"><h4 id="guest-sync-title">Retrouver votre simulation sur un autre appareil</h4><p>Vos tickets de simulation sont enregistrés sur cet appareil. Avec un compte, vous pouvez sauvegarder une copie privée de vos tickets et de votre solde fictif pour les retrouver sur un autre appareil. Vos paris certifiés ont leur propre solde.</p><button type="button" class="button secondary" data-guest-sync-start>Synchroniser ma simulation</button> <button type="button" class="text-button" data-guest-sync-dismiss>Continuer en invité</button></section>';
 }
 function renderHistory() {
   if (activeTab !== 'bankroll') return;
@@ -2587,6 +2408,9 @@ function renderHistory() {
   if (guest) {
     guest.hidden = accountAuthenticated && !guestWallet.history.length;
     const offer = guestSyncOffer(),
+      empty = !guestWallet.history.length
+        ? '<p>Aucun pari simulé pour le moment.</p><button class="button primary" type="button" data-guest-see-matches>Voir les matchs</button>'
+        : '',
       history = guestWallet.history
         .map((bet) =>
           historyCard(
@@ -2595,7 +2419,7 @@ function renderHistory() {
           )
         )
         .join('');
-    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil.</p>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}${accountAuthenticated ? '' : offer || '<button class="button secondary" data-open-join>Créer un compte</button>'}<div class="personal-tickets">${history || '<p>Aucun pari invité pour le moment. Choisissez un match pour commencer.</p>'}</div>`;
+    guest.innerHTML = `<h3>${accountAuthenticated ? 'Ma simulation invitée' : 'Mode invité'}</h3><p>Bankroll virtuelle : <strong>${money(guestWallet.bankroll)}</strong></p><p>Paris de simulation privés, distincts des paris certifiés du compte.</p>${!guestStorageReady ? '<p role="status">Sauvegarde locale indisponible : vos paris ne seront pas conservés après fermeture.</p>' : ''}${!accountAuthenticated ? '<p>Vos paris sont sauvegardés sur cet appareil.</p>' : '<button class="button secondary" data-save-guest>Sauvegarder cette simulation dans mon compte</button>'}${empty}${accountAuthenticated ? '' : offer || '<button class="button secondary" data-open-join>Créer un compte</button>'}<div class="personal-tickets">${history}</div>`;
   }
   if (!accountAuthenticated) {
     personalDashboard?.clear();
@@ -3074,14 +2898,10 @@ async function loadPredictionArchive(force = false) {
       archiveLoadedAt = Date.now();
       archiveStatus = 'ready';
       if (activeTab === 'profile') profilePage?.refresh?.();
-      renderHomePerformance();
       renderPredictionStats();
-      if (activeTab === 'matches') renderConfidenceKpi();
     } catch (error) {
       archiveStatus = 'error';
-      renderHomePerformance();
       renderPredictionStats();
-      if (activeTab === 'matches') renderConfidenceKpi();
       console.warn('Historique conservé : archive indisponible', error);
     } finally {
       archivePromise = null;
@@ -3142,17 +2962,18 @@ async function showFixturePreview(matches) {
 }
 const fixtureVersion = (data) => data.fixtureVersion ?? JSON.stringify(data);
 function prepareFixtureAnalyses(data, version) {
-  if (!fixtureAnalyses.has(version)) {
-    const matches = data.matches.map((match) => ({
+  const key = `${state.dateFilter}:${version}`;
+  if (!fixtureAnalyses.has(key)) {
+    const matches = matchesWithBookmakers(data.matches.filter(inPeriod)).map((match) => ({
       ...match,
       analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
     }));
     fixtureAnalyses.set(
-      version,
-      prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(version))
+      key,
+      prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(key))
     );
   }
-  return fixtureAnalyses.get(version);
+  return fixtureAnalyses.get(key);
 }
 async function refreshFixtures() {
   const source = $('#data-source');
@@ -3179,14 +3000,13 @@ async function refreshFixtures() {
       source.innerHTML = lastFixturesSource;
       renderFixtureNotice();
     }
-    loadPredictionArchive();
+    if (accountAuthenticated) loadPredictionArchive();
     lastFixturesSource = source.innerHTML;
   } catch (error) {
     fixturePreview = null;
     fixturesStatus = 'error';
     updateFreshness();
-    renderConfidenceKpi();
-    loadPredictionArchive();
+    if (accountAuthenticated) loadPredictionArchive();
     if (fixtureDataLoaded) {
       source.textContent = `Actualisation impossible : dernier calendrier conservé (${sourceFreshness(state.feedDates?.calendar, 'calendar').label}). Vérifiez la date des cotes.`;
     } else {
@@ -3214,7 +3034,6 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
   if (tab === 'community' && state.community.tab === 'challenges') attention?.clear('rewards');
   renderAttention();
   setBuilderDrawer(false);
-  renderMobileCoupon();
   document.querySelector('.workspace')?.classList.toggle('tab-hidden', tab !== 'matches');
   document
     .querySelectorAll('[data-view]')
@@ -3243,7 +3062,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     useDetails((api) => {
       if (activeTab === 'standings') api.showStandings();
     });
-  if (tab === 'predictions') loadPredictionArchive();
+  if (tab === 'predictions' || tab === 'profile') loadPredictionArchive();
   if (changedTab) renderActiveTab();
   if (tab === 'profile') openProfile(profileTarget ?? { self: true });
   else profilePage?.stop();
@@ -3323,7 +3142,7 @@ globalThis.addEventListener?.('keydown', (event) => {
     return;
   const buttons = [
       ...document.querySelectorAll(
-        '#builder button:not(:disabled),#builder input:not(:disabled),#builder select:not(:disabled)'
+        '#builder button:not(:disabled),#builder input:not(:disabled),#builder select:not(:disabled),#builder summary,#builder a[href]'
       )
     ].filter((el) => el.getClientRects().length),
     first = buttons[0],
@@ -4334,7 +4153,6 @@ function renderActiveTab() {
     renderDateNavigator();
     renderFilters();
     renderMatches();
-    renderConfidenceKpi();
   } else if (activeTab === 'community') {
     defaultClubRanking();
     renderProgress();
@@ -4560,7 +4378,7 @@ $('#match-list').addEventListener('click', (e) => {
   }
   const b = e.target.closest('[data-market]');
   if (b) {
-    addSelection(b.dataset.match, b.dataset.market, b);
+    addSelection(b.dataset.match, b.dataset.market);
   }
 });
 for (const rail of [$('#match-rail'), $('#match-strip')])
@@ -4574,24 +4392,19 @@ for (const rail of [$('#match-rail'), $('#match-strip')])
   });
 $('#conseils-du-jour')?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-market]');
-  if (b) addSelection(b.dataset.match, b.dataset.market, b);
-});
-$('#daily-selection')?.addEventListener('click', (e) => {
-  const b = e.target.closest('[data-market]');
-  if (b) {
-    addSelection(b.dataset.match, b.dataset.market, b);
-  }
+  if (b) addSelection(b.dataset.match, b.dataset.market);
 });
 $('#safe-picks-list').addEventListener('click', (e) => {
   const b = e.target.closest('[data-safe-match]');
   if (b) {
-    addSelection(b.dataset.safeMatch, b.dataset.safeMarket, b);
+    addSelection(b.dataset.safeMatch, b.dataset.safeMarket);
   }
 });
 $('#ticket-items').addEventListener('click', (e) => {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) return;
   if (e.target.dataset.remove !== undefined) {
     state.ticket.splice(Number(e.target.dataset.remove), 1);
+    rememberTicket();
     renderTicket();
   }
 });
@@ -4648,6 +4461,10 @@ function setBuilderTab(tab, focus = false) {
     generator = $('#generator-panel');
   if (ticket) ticket.hidden = tab !== 'ticket';
   if (generator) generator.hidden = tab !== 'generator';
+  if (tab === 'generator') {
+    renderSafePicks();
+    updateSelectedMarkets();
+  }
 }
 document.querySelectorAll('[data-builder-tab]').forEach((button) => {
   button.addEventListener('click', () => setBuilderTab(button.dataset.builderTab));
@@ -4739,6 +4556,13 @@ function generate() {
         toast(message);
         return;
       }
+      if (
+        state.ticket.length &&
+        !window.confirm('Remplacer les sélections actuelles du ticket ?')
+      ) {
+        if (feedback) feedback.textContent = 'Sélections actuelles conservées.';
+        return;
+      }
       state.betMode = 'combined';
       state.ticket = picks;
       rememberTicket();
@@ -4755,11 +4579,6 @@ function generate() {
   }, 0);
 }
 $('#generate-combo').addEventListener('click', generate);
-$('#quick-combo').addEventListener('click', () => {
-  setActiveTab('matches');
-  generate();
-  setBuilderDrawer(true);
-});
 $('#clear-ticket').addEventListener('click', () => {
   state.ticket = [];
   rememberTicket();
@@ -4777,7 +4596,7 @@ $('#ticket-calendar')?.addEventListener('click', () => {
 });
 $('#close-builder').addEventListener('click', () => setBuilderDrawer(false));
 function shareTicket(bet) {
-  return import('./src/ticket/ticket-share.js?v=bet261')
+  return import('./src/ticket/ticket-share.js?v=bet409')
     .then(({ openTicketShare }) => openTicketShare(bet, { baseUrl: location.href }))
     .catch(() => toast('Impossible de préparer le partage. Réessayez.'));
 }
@@ -4991,6 +4810,11 @@ $('#place-bet').addEventListener('click', async () => {
   renderTicket();
 });
 $('#bankroll-guest')?.addEventListener('click', (event) => {
+  if (event.target.closest('[data-guest-see-matches]')) {
+    setActiveTab('matches', true);
+    $('#dashboard')?.focus({ preventScroll: true });
+    return;
+  }
   if (event.target.closest('[data-guest-sync-dismiss]')) {
     saveSyncPromptChoice('dismissed');
     renderHistory();
@@ -5129,7 +4953,7 @@ function openDailyChallenge() {
   if (location.hash === '#defi-du-jour') setActiveTab('matches', false);
 }
 if (typeof window !== 'undefined') addEventListener('hashchange', openDailyChallenge);
-$('#hero-confidence').addEventListener('click', () => showConfidence());
+$('#model-confidence')?.addEventListener('click', () => showConfidence());
 $('#open-help').addEventListener('click', () => $('#help-dialog').showModal());
 document
   .querySelectorAll('[data-close-dialog]')
@@ -5483,7 +5307,7 @@ function ensureAccount() {
 }
 
 if (typeof window !== 'undefined')
-  import('./src/core/onboarding.js').then(({ initOnboarding }) =>
+  import('./src/core/onboarding.js?v=bet409').then(({ initOnboarding }) =>
     initOnboarding($('#discovery'), {
       initialSeen: state.onboardingSeen,
       onSeen: () => {
@@ -5633,7 +5457,7 @@ if (typeof window !== 'undefined')
   });
 
 if (typeof window !== 'undefined')
-  drawerReady = import('./src/ticket/ticket-drawer.js')
+  drawerReady = import('./src/ticket/ticket-drawer.js?v=bet409')
     .then(({ initTicketDrawer }) => initTicketDrawer($('#builder'), () => setBuilderDrawer(false)))
     .catch(() => {});
 
@@ -5645,17 +5469,5 @@ if (typeof window !== 'undefined')
       $('#conseils-du-jour')?.scrollIntoView({ block: 'start' });
     }
   });
-
-$('#home-performance-detail')?.addEventListener('click', () => {
-  state.predictionFilters = {
-    period: 'all',
-    league: 'all',
-    market: 'all',
-    result: 'all',
-    source: 'bookmaker'
-  };
-  setActiveTab('predictions', true);
-  renderPredictionStats();
-});
 
 if (typeof document !== 'undefined') installImageFallbacks(document);

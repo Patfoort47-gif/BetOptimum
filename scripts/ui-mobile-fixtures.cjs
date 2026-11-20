@@ -60,7 +60,8 @@ async function page(
     failure = null,
     touch = false,
     init = null,
-    query = ''
+    query = '',
+    accountMock = mock
   } = {}
 ) {
   const p = await b.newPage({
@@ -84,7 +85,7 @@ async function page(
     const u = new URL(r.request().url());
     if (u.origin !== base) return r.abort();
     if (u.pathname.endsWith('/src/account/account.js'))
-      return r.fulfill({ contentType: 'text/javascript', body: mock });
+      return r.fulfill({ contentType: 'text/javascript', body: accountMock });
     if (u.pathname.endsWith('/data/fixtures.json')) {
       if (delay) await delay;
       if (network) return r.abort();
@@ -96,4 +97,4 @@ async function page(
   await p.goto(new URL(query, base).href);
   return p;
 }
-module.exports = { base, root, match, fixtures, browser, page };
+module.exports = { base, root, match, fixtures, browser, page, mock };

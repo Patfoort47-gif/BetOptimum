@@ -309,12 +309,6 @@ body .hero-main .hero-cta {
   display: none;
 }
 
-body .hero-main #quick-combo {
-  background: var(--accent);
-  color: var(--on-accent);
-  border-color: var(--accent);
-}
-
 body .hero-main .hero-actions {
   order: 2;
   gap: 8px;
@@ -770,10 +764,6 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
   body #dashboard {
     padding-top: 22px;
   }
-
-  body #dashboard > .hero:not(.tab-hidden) {
-    grid-template-columns: minmax(0, 1fr) minmax(268px, 32%);
-  }
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -795,11 +785,6 @@ body :is(.button, .match-header-stats, .mobile-nav button, .result-pick):not(:di
 }
 
 @media (min-width: 1024px) {
-  body #dashboard > .hero:not(.tab-hidden) {
-    grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
-    gap: 24px;
-  }
-
   body .workspace > .builder {
     top: calc(var(--header-offset) + 12px);
     border: 1px solid var(--line);
@@ -985,7 +970,6 @@ body .match-card details.match-explanation[open] > summary::after {
     padding-inline: calc(max(3%, (100% - var(--page-width)) / 2) + var(--page-gutter));
   }
 
-  body #dashboard > .hero:not(.tab-hidden),
   body .workspace {
     grid-template-columns: minmax(0, 1fr) 400px;
   }
