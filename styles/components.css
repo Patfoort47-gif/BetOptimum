@@ -12557,8 +12557,16 @@ body .match-card .match-hero .match-head-badges > * {
   line-height: 10px;
   padding: 3px 4px;
 }
-body .match-card .match-hero .match-head-badges > .big-match {
-  max-width: 42%;
+body .match-card .match-hero .match-head-badges > .spotlight-tag {
+  max-width: none;
+  padding: 3px 7px;
+  border: 1px solid #ffd47d;
+  background: #ffd47d;
+  color: #291a00;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 14px;
+  white-space: nowrap;
 }
 .match-header-stats {
   display: inline-flex;
