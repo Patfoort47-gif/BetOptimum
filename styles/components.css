@@ -4544,12 +4544,6 @@ body.join-open {
   min-height: 320px;
 }
 
-/* BET-90 : libellé complet sur les petits écrans. */
-.mobile-nav [data-mobile-target='standings'] {
-  white-space: normal;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
-}
 /* BET-89 : pièce euro vectorielle, montant complet accessible. */
 .bankroll-amount {
   display: flex;
@@ -4878,7 +4872,8 @@ body.join-open {
 
 /* BET-94 : miniature de l’avatar du compte, indépendante du chargement des ligues. */
 #account-avatar > .mini-avatar {
-  display: block;
+  display: grid;
+  place-items: center;
   width: 32px;
   height: 32px;
   flex: none;
@@ -9813,7 +9808,7 @@ section.club-ranking {
   font-variant-numeric: tabular-nums;
 }
 
-/* BET-346 : trois destinations principales, classement dans Matchs. */
+/* Navigation mobile et classement dans Matchs. */
 @media (max-width: 767px) {
   .topbar > .tabs {
     display: none;
@@ -9821,14 +9816,14 @@ section.club-ranking {
   .mobile-nav {
     position: fixed;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    left: 0;
-    right: 0;
-    bottom: 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    inset: auto 0 0;
     gap: 4px;
     padding: 4px max(4px, env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom))
       max(4px, env(safe-area-inset-left));
-    border-radius: 20px 20px 0 0;
+    border: 0;
+    border-top: 1px solid var(--line-strong);
+    border-radius: 0;
     background: var(--surface-2);
     z-index: 45;
   }
@@ -12067,6 +12062,9 @@ section.club-ranking {
   overflow: hidden;
   flex-shrink: 0;
 }
+.avatar-3d.neutral-avatar {
+  transform: none;
+}
 .neutral-avatar::before,
 .neutral-avatar::after {
   content: none;
@@ -12169,14 +12167,12 @@ body {
     white-space: nowrap;
   }
   body .topbar .account-button {
+    justify-content: center;
+    align-items: center;
     width: 44px;
     min-width: 44px;
     height: 44px;
     padding: 4px;
-  }
-  body .mobile-nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2px;
   }
   body .mobile-nav button {
     font-size: 11px;
@@ -12624,6 +12620,9 @@ body .match-card .match-hero .team {
   flex-direction: column;
 }
 body .match-card .match-hero .crest {
+  display: grid;
+  place-items: center;
+  padding: 0;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -12631,6 +12630,9 @@ body .match-card .match-hero .crest {
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 body .match-card .match-hero .crest img {
+  display: block;
+  margin: 0;
+  object-position: center;
   width: 36px;
   height: 36px;
   max-width: 100%;
@@ -12810,4 +12812,12 @@ body .match-card .match-hero .stadium-placeholder-name {
 }
 .match-card .match-follow-actions .team-favorite.active {
   color: var(--accent-text);
+}
+
+.neutral-avatar .profile-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }

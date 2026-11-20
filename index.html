@@ -33,8 +33,8 @@
   <link rel="icon" type="image/svg+xml" href="./icons/favicon.svg?v=bet387">
   <script src="theme-bootstrap.js?v=nuit1"></script>
   <link rel="stylesheet" href="styles.css?v=bet379">
-  <link id="components-style" rel="stylesheet" href="styles/components.css?v=bet387-release">
-  <link rel="stylesheet" href="style.css?v=uniforme1">
+  <link id="components-style" rel="stylesheet" href="styles/components.css?v=pronosafe-mobile">
+  <link rel="stylesheet" href="style.css?v=pronosafe-mobile">
 <link rel="manifest" href="./manifest.webmanifest?v=bet407"><link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png?v=bet387"></head>
 <body><a class="skip-link" href="#dashboard">Aller au contenu</a>
   <svg id="emblems" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -283,7 +283,7 @@
     <h3>Sans compte</h3>
     <p>Sans compte, votre simulation invitée (bankroll virtuelle initiale de 1 000 €, sélections, mises et résultats) reste dans le stockage local de ce navigateur. Aucun pari invité n’est envoyé au serveur. La suppression des données du site efface cette simulation.</p>
     <h3>Avec un compte</h3>
-    <p>Si vous créez un compte, Supabase enregistre votre adresse email, votre mot de passe sous forme sécurisée (ou, si vous choisissez « Continuer avec Google », l'identifiant de votre compte Google et son adresse email : Google reçoit alors votre adresse IP et le nom du site) et l'état privé de votre compte : favoris, challenges et préférences (dont le montant facultatif de votre unité de mise), ainsi que vos paris virtuels (sélections, mises, cotes, résultats), votre bankroll fictive et vos apports, votre XP, vos trophées, ainsi que les préférences choisies à l'inscription (club de cœur, compétitions suivies, style de jeu). Les anciennes personnalisations sont conservées en archive administrative pour préserver l’historique. Vos initiales et vos badges sont visibles sur votre profil. Les anciens avatars et cadres ne sont plus affichés. Les paris sont enregistrés et réglés sur le serveur pour fiabiliser vos résultats. Ces données servent à synchroniser l'application entre vos appareils et sont protégées par des règles qui réservent leur accès à votre compte.</p>
+    <p>Si vous créez un compte, Supabase enregistre votre adresse email, votre mot de passe sous forme sécurisée (ou, si vous choisissez « Continuer avec Google », l'identifiant de votre compte Google et son adresse email : Google reçoit alors votre adresse IP et le nom du site) et l'état privé de votre compte : favoris, challenges et préférences (dont le montant facultatif de votre unité de mise), ainsi que vos paris virtuels (sélections, mises, cotes, résultats), votre bankroll fictive et vos apports, votre XP, vos trophées, ainsi que les préférences choisies à l'inscription (club de cœur, compétitions suivies, style de jeu). Les anciennes personnalisations sont conservées en archive administrative pour préserver l’historique. Vos initiales et vos badges sont visibles sur votre profil. La photo que vous choisissez est conservée dans votre navigateur et visible dans votre propre espace. Les anciens avatars et cadres ne sont plus affichés. Les paris sont enregistrés et réglés sur le serveur pour fiabiliser vos résultats. Ces données servent à synchroniser l'application entre vos appareils et sont protégées par des règles qui réservent leur accès à votre compte.</p>
     <p>Votre pseudo, vos initiales et vos statistiques agrégées, calculées par le serveur à partir de vos paris réglés (nombre de paris, victoires, ROI et meilleure cote), sont visibles sur votre profil public. Vos abonnements (les joueurs que vous suivez et vos abonnés) et le fil d'activité des événements publics (combiné gagné, montée, titre, trophée, palier de niveau) sont publics : un profil privé n'apparaît ni dans le fil ni dans les suggestions, et le fil n'affiche jamais votre bankroll ni vos mises. Votre club de cœur (facultatif), votre niveau et vos trophées sont également publics. Votre email, le détail de vos paris et votre bankroll ne sont jamais affichés publiquement.</p>
     <p>À la création d’un compte, votre simulation invitée peut être sauvegardée dans l’état privé de votre compte pour être retrouvée sur un autre appareil. Avec un compte existant, vous pouvez demander cette sauvegarde depuis Mes paris. Cette copie reste privée et non certifiée ; son solde ne crédite pas votre compte et ses paris ne produisent ni statistiques publiques, ni points, ni XP.</p>
     <h3 id="stockage">Cookies et stockage</h3>
@@ -367,7 +367,6 @@
   <nav class="mobile-nav" aria-label="Navigation mobile">
     <button class="active" aria-current="page" data-mobile-target="matches"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>Matchs</button>
     <button data-mobile-target="predictions" aria-label="Résultats du modèle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-7"/></svg>Modèle</button>
-    <button data-mobile-target="standings" aria-label="Classement des équipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M5 20v-7h4v7m1 0V5h4v15m1 0V9h4v11"/></svg>Équipes</button>
     <button data-mobile-target="bankroll"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 13h5v4h-5z"/></svg>Mes paris</button>
     <button class="mobile-ticket-action" data-open-ticket aria-controls="builder" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4zM13 6v2m0 3v2m0 3v2"/></svg>Ticket</button>
   </nav>
@@ -381,6 +380,6 @@
   <dialog id="season-dialog" class="season-dialog" aria-labelledby="season-title"><div class="dialog-tools"><button class="icon-button" data-close-dialog aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="season-content"></div><button class="button primary full" id="season-close">Continuer</button></dialog>
   <p id="pipeline-health" role="status" class="section-subtitle" hidden></p>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=bet387-release"></script>
+  <script type="module" src="app.js?v=pronosafe-mobile"></script>
 </body>
 </html>

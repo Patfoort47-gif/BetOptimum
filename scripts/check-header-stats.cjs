@@ -42,6 +42,10 @@ const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
         await p.keyboard.press('Enter');
         const dialog = p.locator('#detail-dialog');
         await dialog.waitFor();
+        const initialTab = width < 768 ? 'Forme et H2H' : 'Stats du match';
+        await dialog.getByRole('tab', { name: initialTab, exact: true, selected: true }).waitFor();
+        if (width < 768)
+          await dialog.getByRole('tab', { name: 'Stats du match', exact: true }).click();
         await dialog.getByText(/statistiques de jeu sont publiées/i).waitFor();
         assert.ok(requests.includes('1'));
         await dialog.getByRole('tab', { name: 'Forme et H2H' }).click();
@@ -54,6 +58,8 @@ const { browser, page, fixtures } = require('./ui-mobile-fixtures.cjs');
         await panel.locator('summary').first().click();
         assert.match(await panel.textContent(), /Le match en chiffres/);
         await second.locator('[data-match-stats]').click();
+        if (width < 768)
+          await dialog.getByRole('tab', { name: 'Stats du match', exact: true }).click();
         const shots = dialog.locator('.live-stat-values').filter({ hasText: 'Tirs' });
         assert.equal(await shots.textContent(), '9Tirs4');
         assert.ok(requests.includes('2'));

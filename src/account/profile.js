@@ -1,7 +1,7 @@
 import { decimal } from '../core/number-format.js';
 // Page profil (BET-50) : en-tête, onglets, carte joueur partageable, radar, saisons, trophées, compte et confidentialité. Chargée à la demande par app.js.
 // Les chiffres de la carte viennent de formules pures de model.js (cardAttributes, cardOverall) ; les données de la vue serveur public_player_card.
-import { avatarMarkup } from '../avatar/avatar-view.js';
+import { avatarMarkup, profilePhoto, saveProfilePhoto } from '../avatar/avatar-view.js';
 import { profileHistory } from './profile-history.js';
 import { seasonLabel } from '../club/league.js';
 const NS = 'http://www.w3.org/2000/svg';
@@ -117,6 +117,43 @@ function paintCardShine(ctx, asset) {
     );
   ctx.fillStyle = g;
   ctx.fill();
+}
+
+async function resizeProfilePhoto(file) {
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file?.type))
+    throw new Error('Choisissez une image JPEG, PNG ou WebP.');
+  if (file.size > 10 * 1024 * 1024) throw new Error('Choisissez une image de 10 Mo maximum.');
+
+  const url = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    image.src = url;
+    try {
+      await image.decode();
+    } catch {
+      throw new Error('Cette image ne peut pas être ouverte.');
+    }
+    const size = Math.min(image.naturalWidth, image.naturalHeight);
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = Math.min(size, 256);
+    const context = canvas.getContext('2d');
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(
+      image,
+      (image.naturalWidth - size) / 2,
+      (image.naturalHeight - size) / 2,
+      size,
+      size,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    return canvas.toDataURL('image/jpeg', 0.85);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }
 
 export function initProfilePage(deps) {
@@ -356,6 +393,7 @@ export function initProfilePage(deps) {
     const profile = info.profile,
       state = getState();
     return `<div class="account-settings"><header class="account-intro"><span class="account-eyebrow">ESPACE PERSONNEL</span><h3>Votre compte.<br>Vos règles du jeu.</h3><p>Une identité qui vous ressemble, une visibilité que vous maîtrisez.</p><div class="account-status"><span>✓ Mises et bankroll toujours privées</span><span>✓ Données exportables à tout moment</span></div></header><section class="account-group" aria-labelledby="account-identity"><div class="account-group-title"><span>01</span><div><h3 id="account-identity">Identité et sécurité</h3><p>Les clés de votre espace PronoSafe.</p></div></div><form data-form="nickname" class="settings-card"><h3>Pseudo</h3><p class="muted">Modifiable une fois par mois. Votre pseudo est unique.</p><div class="settings-row"><input name="nickname" value="${html(profile.nickname)}" minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_. -]{3,24}" required aria-label="Pseudo"><button class="button secondary">Changer</button></div></form>
+<form data-form="photo" class="settings-card"><h3>Photo de profil</h3><p class="muted">Visible dans votre espace sur ce navigateur. Formats JPEG, PNG ou WebP, jusqu’à 10 Mo.</p><div class="settings-row"><input name="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choisir une photo de profil" required><button class="button secondary">Enregistrer la photo</button></div>${profilePhoto(profile.user_id) ? '<button type="button" class="button ghost" data-remove-photo>Retirer la photo</button>' : ''}</form>
 <form data-form="email" class="settings-card"><h3>Adresse email</h3><p class="muted">Un lien de confirmation est envoyé à la nouvelle adresse.</p><div class="settings-row"><input name="email" type="email" placeholder="nouvelle@adresse.fr" required autocomplete="email" aria-label="Nouvelle adresse email"><button class="button secondary">Modifier</button></div></form>
 <form data-form="password" class="settings-card"><h3>Mot de passe</h3><div class="settings-row"><input name="password" type="password" minlength="8" placeholder="Nouveau mot de passe (8 caractères)" required autocomplete="new-password" aria-label="Nouveau mot de passe"><button class="button secondary">Modifier</button></div></form>
 </section><section class="account-group" aria-labelledby="account-visibility"><div class="account-group-title"><span>02</span><div><h3 id="account-visibility">Votre visibilité au Club</h3><p>Choisissez ce que les autres joueurs peuvent découvrir.</p></div></div><div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats sont visibles sur votre profil public.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
@@ -427,7 +465,7 @@ export function initProfilePage(deps) {
       notifications: () => '<div data-notifications></div>',
       account
     }[tab](info);
-    root.innerHTML = `<header class="profile-header" style="--banner:${color(info.echelon)}"><div class="profile-banner"></div><div class="profile-id">${avatarMarkup(info.profile, { cls: 'avatar-3d', userId: info.profile.user_id })}<div class="profile-title"><h2>${html(info.profile.nickname)}</h2>${info.equipped?.title ? `<small class="profile-subtitle">${html(info.equipped.title.asset ?? info.equipped.title.name)}</small>` : ''}<div class="profile-badges"><span class="level-chip">${level.level}</span><b>${level.title}</b>${crest ? `<img class="profile-crest" src="${crest}" alt="${html(info.profile.heart_club_name ?? 'Club de cœur')}" width="26" height="26">` : ''}</div><small>Membre depuis le ${dateLabel(info.profile.joined_at)}</small><div class="profile-connections">${['followers', 'following'].map((kind) => `<button class="button secondary" data-connections="${kind}"><b>${info.connections?.[kind] ?? '?'}</b> ${kind === 'followers' ? 'Abonné' : 'Abonnement'}${info.connections?.[kind] === 1 ? '' : 's'}</button>`).join('')}</div></div><div class="profile-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button><button class="button secondary" data-tab="account">Modifier le profil</button>' : (deps.extraActions?.(info) ?? '')}</div></div></header><div class="profile-tabs" role="tablist">${visibleTabs.map(([id, label]) => `<button role="tab" id="ptab-${id}" aria-selected="${tab === id}" data-tab="${id}">${id === 'bets' && !info.self ? 'Ses paris' : label}</button>`).join('')}</div>${connectionPanel()}<div class="profile-body" role="tabpanel">${body}</div>`;
+    root.innerHTML = `<header class="profile-header" style="--banner:${color(info.echelon)}"><div class="profile-banner"></div><div class="profile-id">${avatarMarkup(info.profile, { cls: 'avatar-3d', photo: info.self ? profilePhoto(info.profile.user_id) : null })}<div class="profile-title"><h2>${html(info.profile.nickname)}</h2>${info.equipped?.title ? `<small class="profile-subtitle">${html(info.equipped.title.asset ?? info.equipped.title.name)}</small>` : ''}<div class="profile-badges"><span class="level-chip">${level.level}</span><b>${level.title}</b>${crest ? `<img class="profile-crest" src="${crest}" alt="${html(info.profile.heart_club_name ?? 'Club de cœur')}" width="26" height="26">` : ''}</div><small>Membre depuis le ${dateLabel(info.profile.joined_at)}</small><div class="profile-connections">${['followers', 'following'].map((kind) => `<button class="button secondary" data-connections="${kind}"><b>${info.connections?.[kind] ?? '?'}</b> ${kind === 'followers' ? 'Abonné' : 'Abonnement'}${info.connections?.[kind] === 1 ? '' : 's'}</button>`).join('')}</div></div><div class="profile-actions">${info.self ? '<button class="button secondary" data-share-card>Partager ma carte</button><button class="button secondary" data-tab="account">Modifier le profil</button>' : (deps.extraActions?.(info) ?? '')}</div></div></header><div class="profile-tabs" role="tablist">${visibleTabs.map(([id, label]) => `<button role="tab" id="ptab-${id}" aria-selected="${tab === id}" data-tab="${id}">${id === 'bets' && !info.self ? 'Ses paris' : label}</button>`).join('')}</div>${connectionPanel()}<div class="profile-body" role="tabpanel">${body}</div>`;
     if (tab === 'notifications' && info.self) {
       const mine = mountToken;
       import('../notifications/notification-page.js?v=bet310')
@@ -587,6 +625,19 @@ export function initProfilePage(deps) {
       navigate('matches');
       return;
     }
+    const removePhoto = event.target.closest('[data-remove-photo]');
+    if (removePhoto && data?.self) {
+      try {
+        saveProfilePhoto(data.profile.user_id, null);
+        deps.onPhotoChange?.();
+        render();
+        root.querySelector('[name="photo"]')?.focus();
+        settingsFeedback('Photo retirée');
+      } catch {
+        settingsFeedback('Le navigateur ne permet pas de retirer la photo.', true);
+      }
+      return;
+    }
     if (event.target.closest('[data-export]')) {
       try {
         const blob = new Blob([JSON.stringify(await accountApi.exportData(), null, 2)], {
@@ -646,6 +697,22 @@ export function initProfilePage(deps) {
     button.disabled = true;
     form.setAttribute('aria-busy', 'true');
     try {
+      if (kind === 'photo') {
+        const current = data;
+        if (!current?.self) return;
+        const photo = await resizeProfilePhoto(values.photo);
+        if (current !== data) return;
+        try {
+          saveProfilePhoto(current.profile.user_id, photo);
+        } catch {
+          throw new Error('Le navigateur ne permet pas d’enregistrer la photo.');
+        }
+        deps.onPhotoChange?.();
+        render();
+        root.querySelector('[name="photo"]')?.focus();
+        settingsFeedback('Photo enregistrée');
+        return;
+      }
       if (kind === 'nickname') {
         const nickname = await accountApi.changeNickname(String(values.nickname).trim());
         getState().profile.nickname = nickname;
