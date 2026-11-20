@@ -5,7 +5,7 @@ Deux canaux actifs : le briefing email et les notifications push. Leurs consente
 ## Installation et ordre de publication
 
 1. Appliquer les migrations dans l’ordre du guide `SUPABASE_SETUP.md`, jusqu’à V65 après V64. Les anciennes migrations restent dans l’historique ; V60 retire le canal abandonné, ses RPC, ses préférences, ses associations et ses destinations chiffrées.
-2. Configurer la fonction Edge `notifications` avec `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NOTIFICATION_WORKER_SECRET`, `NOTIFICATION_SCHEDULER_SECRET`, `NOTIFICATION_ENCRYPTION_KEY` (32 octets encodés en base64), `SITE_URL` (`https://patfoort47-gif.github.io/BetOptimum/`). Aucun secret dans le dépôt ni dans le navigateur.
+2. Configurer la fonction Edge `notifications` avec `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NOTIFICATION_WORKER_SECRET`, `NOTIFICATION_SCHEDULER_SECRET`, `NOTIFICATION_ENCRYPTION_KEY` (32 octets encodés en base64), `SITE_URL` (`https://pronosafe.fr/`). Aucun secret dans le dépôt ni dans le navigateur.
 3. Email : `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` (adresse de réponse facultative), domaine d’envoi validé dans Resend. Push : `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` (`mailto:` ou `https:`).
 4. Déployer `supabase/functions/notifications/index.ts` avec `--no-verify-jwt`. Chaque route vérifie explicitement son identité : session Auth pour les préférences, secret worker pour les traitements GitHub, secret scheduler pour le minuteur. L’origine du navigateur doit correspondre à `SITE_URL`.
 5. Synchroniser le calendrier pour alimenter `fixtures.notification_pick`, puis publier le front GitHub Pages. Les destinations restent chiffrées côté serveur et ne vont jamais dans GitHub Actions ni localStorage.
@@ -51,7 +51,7 @@ BET-310 : le rappel du défi du jour demande un accord push distinct, inactif pa
 
 ## Expéditeur personnalisé (BET-350)
 
-Le domaine doit appartenir au propriétaire. Dans Resend, ajouter le domaine d’envoi (de préférence un sous-domaine dédié), recopier exactement les enregistrements DNS SPF/DKIM fournis chez son hébergeur, puis attendre leur validation. Ne jamais inventer de valeurs DNS ni publier les clés API. Choisir ensuite une adresse dédiée sur ce domaine et modifier le secret Edge `EMAIL_FROM` (par exemple `BetOptimum <notifications@domaine-verifie>`). Ne pas remplacer une politique SPF existante à l’aveugle ; utiliser le sous-domaine de retour demandé par Resend.
+Le domaine doit appartenir au propriétaire. Dans Resend, ajouter le domaine d’envoi (de préférence un sous-domaine dédié), recopier exactement les enregistrements DNS SPF/DKIM fournis chez son hébergeur, puis attendre leur validation. Ne jamais inventer de valeurs DNS ni publier les clés API. Choisir ensuite une adresse dédiée sur ce domaine et modifier le secret Edge `EMAIL_FROM` (par exemple `PronoSafe <notifications@domaine-verifie>`). Ne pas remplacer une politique SPF existante à l’aveugle ; utiliser le sous-domaine de retour demandé par Resend.
 
 Le workflow de contrôle de production accepte `sender_diagnostics=true` : diagnostic privé, sans livraison, du domaine effectivement configuré et des statuts SPF/DKIM Resend. Il ne retourne ni clé, ni adresse personnelle, ni liste des autres domaines. Un jeton Resend limité aux envois peut refuser la lecture des domaines : dans ce cas, contrôler manuellement l’interface Resend. Le diagnostic ne prouve pas la réception.
 

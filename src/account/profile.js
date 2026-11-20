@@ -276,7 +276,7 @@ export function initProfilePage(deps) {
     });
     ctx.fillStyle = '#9FB09A';
     ctx.font = '500 16px Inter, sans-serif';
-    ctx.fillText('BetOptimum · paris virtuels · 18+', 300, 740);
+    ctx.fillText('PronoSafe · paris virtuels · 18+', 300, 740);
     shield();
     paintCardShine(ctx, cardAsset(info.equipped, 'card-shine'));
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
@@ -287,7 +287,7 @@ export function initProfilePage(deps) {
     const file = new File([blob], `carte-${info.profile.nickname}.png`, { type: 'image/png' });
     try {
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'Ma carte BetOptimum' });
+        await navigator.share({ files: [file], title: 'Ma carte PronoSafe' });
         return;
       }
     } catch (error) {
@@ -355,11 +355,11 @@ export function initProfilePage(deps) {
   function account(info) {
     const profile = info.profile,
       state = getState();
-    return `<div class="account-settings"><header class="account-intro"><span class="account-eyebrow">ESPACE PERSONNEL</span><h3>Votre compte.<br>Vos règles du jeu.</h3><p>Une identité qui vous ressemble, une visibilité que vous maîtrisez.</p><div class="account-status"><span>✓ Mises et bankroll toujours privées</span><span>✓ Données exportables à tout moment</span></div></header><section class="account-group" aria-labelledby="account-identity"><div class="account-group-title"><span>01</span><div><h3 id="account-identity">Identité et sécurité</h3><p>Les clés de votre espace BetOptimum.</p></div></div><form data-form="nickname" class="settings-card"><h3>Pseudo</h3><p class="muted">Modifiable une fois par mois. Votre pseudo est unique.</p><div class="settings-row"><input name="nickname" value="${html(profile.nickname)}" minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_. -]{3,24}" required aria-label="Pseudo"><button class="button secondary">Changer</button></div></form>
+    return `<div class="account-settings"><header class="account-intro"><span class="account-eyebrow">ESPACE PERSONNEL</span><h3>Votre compte.<br>Vos règles du jeu.</h3><p>Une identité qui vous ressemble, une visibilité que vous maîtrisez.</p><div class="account-status"><span>✓ Mises et bankroll toujours privées</span><span>✓ Données exportables à tout moment</span></div></header><section class="account-group" aria-labelledby="account-identity"><div class="account-group-title"><span>01</span><div><h3 id="account-identity">Identité et sécurité</h3><p>Les clés de votre espace PronoSafe.</p></div></div><form data-form="nickname" class="settings-card"><h3>Pseudo</h3><p class="muted">Modifiable une fois par mois. Votre pseudo est unique.</p><div class="settings-row"><input name="nickname" value="${html(profile.nickname)}" minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_. -]{3,24}" required aria-label="Pseudo"><button class="button secondary">Changer</button></div></form>
 <form data-form="email" class="settings-card"><h3>Adresse email</h3><p class="muted">Un lien de confirmation est envoyé à la nouvelle adresse.</p><div class="settings-row"><input name="email" type="email" placeholder="nouvelle@adresse.fr" required autocomplete="email" aria-label="Nouvelle adresse email"><button class="button secondary">Modifier</button></div></form>
 <form data-form="password" class="settings-card"><h3>Mot de passe</h3><div class="settings-row"><input name="password" type="password" minlength="8" placeholder="Nouveau mot de passe (8 caractères)" required autocomplete="new-password" aria-label="Nouveau mot de passe"><button class="button secondary">Modifier</button></div></form>
 </section><section class="account-group" aria-labelledby="account-visibility"><div class="account-group-title"><span>02</span><div><h3 id="account-visibility">Votre visibilité au Club</h3><p>Choisissez ce que les autres joueurs peuvent découvrir.</p></div></div><div class="settings-card"><h3>Confidentialité</h3><label class="switch-line"><input type="checkbox" data-setting="is_public" ${profile.is_public ? 'checked' : ''}><span><b>Profil public</b><small>Les autres joueurs voient votre profil, votre carte et vos trophées. Votre pseudo et vos résultats sont visibles sur votre profil public.</small></span></label><label class="switch-line"><input type="checkbox" data-setting="show_bets" ${profile.show_bets ? 'checked' : ''}><span><b>Détail de mes paris visible</b><small>Sélections, cotes et résultats, jamais les mises ni la bankroll.</small></span></label></div>
-</section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter BetOptimum</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
+</section><section class="account-group" aria-labelledby="account-data"><div class="account-group-title"><span>03</span><div><h3 id="account-data">Préférences et données</h3><p>Gardez la main sur vos communications et votre historique.</p></div></div><section class="settings-card" data-newsletter><h3>Newsletter PronoSafe</h3><p>Chargement de votre inscription…</p></section><div class="settings-card"><h3>Mes données</h3><p class="muted">Téléchargez toutes vos données (profil, paris et XP) au format JSON.</p><button class="button secondary" data-export>Exporter mes données</button></div>
 </section><section class="account-group account-danger" aria-labelledby="account-danger"><div class="account-group-title"><span>!</span><div><h3 id="account-danger">Zone sensible</h3><p>La suppression du compte est irréversible.</p></div></div><form data-form="delete" class="settings-card danger"><h3>Supprimer mon compte</h3><p class="muted">Définitif : votre profil, vos paris et votre XP sont effacés. Saisissez votre pseudo <b>${html(profile.nickname)}</b> pour confirmer.</p><div class="settings-row"><input name="confirm" placeholder="Votre pseudo" required aria-label="Confirmation par le pseudo" autocomplete="off"><button class="button danger">Supprimer définitivement</button></div></form></section><p class="settings-feedback" role="status" aria-live="polite"></p></div>`;
   }
   function cleanup() {
@@ -594,7 +594,7 @@ export function initProfilePage(deps) {
           }),
           link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `betoptimum-mes-donnees-${new Date().toISOString().slice(0, 10)}.json`;
+        link.download = `pronosafe-mes-donnees-${new Date().toISOString().slice(0, 10)}.json`;
         link.click();
         setTimeout(() => URL.revokeObjectURL(link.href), 2000);
         toast('Export téléchargé');

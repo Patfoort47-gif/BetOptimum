@@ -5,12 +5,12 @@ import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { preparePages } from '../scripts/prepare-pages.mjs';
 const base = 'https://pronosafe.fr/';
-test('SEO BetOptimum présent dans le HTML initial et cohérent avec le canonique', async () => {
+test('SEO PronoSafe présent dans le HTML initial et cohérent avec le canonique', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8'),
     meta = (key, attr = 'name') =>
       html.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)"`))?.[1],
     title = html.match(/<title>([^<]+)<\/title>/)[1];
-  assert.match(title, /^BetOptimum \|/);
+  assert.match(title, /^PronoSafe \|/);
   assert.equal(meta('og:title', 'property'), title);
   assert.equal(meta('twitter:title'), title);
   assert.equal(meta('description'), meta('og:description', 'property'));
@@ -22,11 +22,11 @@ test('SEO BetOptimum présent dans le HTML initial et cohérent avec le canoniqu
   const schema = JSON.parse(
     html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)[1]
   );
-  assert.equal(schema.name, 'BetOptimum');
+  assert.equal(schema.name, 'PronoSafe');
   assert.equal(schema.url, base);
   assert.equal(schema.offers.price, '0');
   assert.equal(schema.inLanguage, 'fr');
-  const image = await readFile(new URL('../icons/betoptimum-social.png', import.meta.url));
+  const image = await readFile(new URL('../icons/pronosafe-social.png', import.meta.url));
   assert.equal(image.readUInt32BE(16), 1200);
   assert.equal(image.readUInt32BE(20), 630);
 });
@@ -34,7 +34,7 @@ test('publication avec sitemap sans ancres, robots et image sociale', async () =
   const dir = await mkdtemp(tmpdir() + '/bet-seo-');
   try {
     await preparePages(pathToFileURL(dir + '/'));
-    for (const file of ['sitemap.xml', 'robots.txt', 'icons/betoptimum-social.png'])
+    for (const file of ['sitemap.xml', 'robots.txt', 'icons/pronosafe-social.png'])
       await access(dir + '/' + file);
     const sitemap = await readFile(dir + '/sitemap.xml', 'utf8');
     assert.equal((sitemap.match(/<loc>/g) || []).length, 1);

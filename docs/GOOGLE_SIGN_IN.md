@@ -6,7 +6,7 @@ Le propriétaire a créé et publié son application Google, puis configuré le 
 
 - Origine JavaScript Google : `https://patfoort47-gif.github.io`.
 - URI de redirection Google : `https://mvbpmirhjfmppdrmuksa.supabase.co/auth/v1/callback`.
-- Site URL Supabase : `https://patfoort47-gif.github.io/BetOptimum/`.
+- Site URL Supabase : `https://pronosafe.fr/`.
 - Redirect URL autorisée : cette même adresse. L’ancienne adresse reste autorisée pour les liens déjà envoyés.
 
 Les identifiants OAuth restent exclusivement dans Supabase, jamais dans le code ni les journaux. Le site demande une connexion par `signInWithOAuth` vers son origine et son chemin. Le client Supabase restaure la session au retour ; les callbacks Auth sont différés pour éviter de bloquer son verrou interne. La création de profil est assurée par le déclencheur `creer_profil_inscription`, dont le pseudo généré est relu par l’application. La reconnexion n’insère aucun nouvel utilisateur depuis le navigateur.

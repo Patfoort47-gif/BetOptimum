@@ -43,7 +43,7 @@ for (const league of leagues) {
   for (const day of days) {
     const response = await fetch(
       `https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${day}&limit=100`,
-      { headers: { 'User-Agent': 'BetOptimum-Results/1.0' } }
+      { headers: { 'User-Agent': 'PronoSafe-Results/1.0' } }
     );
     if (!response.ok) {
       console.warn(`${league}: HTTP ${response.status} (${day})`);

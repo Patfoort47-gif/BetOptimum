@@ -1,4 +1,4 @@
-const CACHE = 'betoptimum-shell-bet387-v1';
+const CACHE = 'betoptimum-shell-pronosafe-v2';
 self.addEventListener('install', (event) =>
   event.waitUntil(
     (async () => {

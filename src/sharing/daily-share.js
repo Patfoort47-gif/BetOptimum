@@ -19,14 +19,14 @@ export function dailyShare(challenge, choices = []) {
   }
   return {
     title: 'Mon défi du jour',
-    filename: `betoptimum-defi-${challenge.date}.png`,
+    filename: `pronosafe-defi-${challenge.date}.png`,
     lines: [
       challenge.date,
       squares,
       `Série : ${streak === settled.length && streak > 0 ? 'au moins ' : ''}${streak} bon${streak > 1 ? 's' : ''} prono${streak > 1 ? 's' : ''} réglé${streak > 1 ? 's' : ''}`,
       `Ordre des choix, historique chargé (200 max.)`,
       '🟩 gagné · 🟥 perdu · 🟨 en attente · ⬜ autre',
-      'Joue le défi du jour sur BetOptimum !'
+      'Joue le défi du jour sur PronoSafe !'
     ]
   };
 }

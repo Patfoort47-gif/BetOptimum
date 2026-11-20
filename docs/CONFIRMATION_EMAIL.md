@@ -10,7 +10,7 @@ Le projet utilise un SMTP personnalisé. Contrôler sur un compte de recette con
 
 | Modèle | Déclencheur et variables | Statut vérifié le 19 novembre 2026 |
 | --- | --- | --- |
-| Invitation Auth | Invitation administrative Supabase, `ConfirmationURL` | Modèle générique configuré. Le partage d’invitation privée dans BetOptimum suit un parcours distinct. |
+| Invitation Auth | Invitation administrative Supabase, `ConfirmationURL` | Modèle générique configuré. Le partage d’invitation privée dans PronoSafe suit un parcours distinct. |
 | Réauthentification | Demande de réauthentification Supabase, `Token` | Modèle générique configuré. Aucun parcours appelant identifié dans l’application. |
 | Changement de mot de passe | Avis après modification | Désactivé |
 | Changement d’adresse | Avis après modification, `Email`, `OldEmail` | Désactivé. La confirmation du changement est un autre message. |

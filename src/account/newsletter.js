@@ -18,13 +18,13 @@ export function createNewsletterApi(client) {
 export async function mountNewsletter(root, { api, html, toast }) {
   const render = (data) => {
     if (!root.isConnected) return;
-    root.innerHTML = `<h3>Newsletter BetOptimum</h3><label class="switch-line"><input type="checkbox" data-newsletter-toggle ${['subscribed', 'pending'].includes(data.status) ? 'checked' : ''}><span>Je souhaite recevoir la newsletter BetOptimum par email.</span></label><p class="muted">Désabonnement à tout moment ici. ${data.status === 'pending' ? 'Confirmez votre adresse email pour activer votre inscription.' : data.status === 'subscribed' ? 'Vous êtes inscrit à la newsletter.' : 'Vous n’êtes pas inscrit à la newsletter.'}</p>`;
+    root.innerHTML = `<h3>Newsletter PronoSafe</h3><label class="switch-line"><input type="checkbox" data-newsletter-toggle ${['subscribed', 'pending'].includes(data.status) ? 'checked' : ''}><span>Je souhaite recevoir la newsletter PronoSafe par email.</span></label><p class="muted">Désabonnement à tout moment ici. ${data.status === 'pending' ? 'Confirmez votre adresse email pour activer votre inscription.' : data.status === 'subscribed' ? 'Vous êtes inscrit à la newsletter.' : 'Vous n’êtes pas inscrit à la newsletter.'}</p>`;
   };
   try {
     render(await api.load());
   } catch (error) {
     if (root.isConnected)
-      root.innerHTML = `<h3>Newsletter BetOptimum</h3><p role="status">${html(error.message)}</p>`;
+      root.innerHTML = `<h3>Newsletter PronoSafe</h3><p role="status">${html(error.message)}</p>`;
   }
   root.addEventListener('change', async (event) => {
     const input = event.target.closest('[data-newsletter-toggle]');

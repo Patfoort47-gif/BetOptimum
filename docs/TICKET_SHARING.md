@@ -12,7 +12,7 @@ Avant connexion, un brouillon de session limité aux sélections et cotes est en
 
 Page publique hébergée avec le skill Sites : `https://betoptimum-partage.honedchord2.chatgpt.site/`, projet `appgprj_6af1efca402481919a4c894a488f8ac3`, source dans son dépôt Sites. Le Worker utilise `ticket-preview.js` et `ticket-url.js` de ce dépôt ; recopier ces modules et reconstruire le Worker lors d’une évolution du format. Pas de secret ni accès aux comptes dans ce service, seulement les sélections du lien et l’adresse publique du PNG.
 
-La page sert Open Graph et Twitter Card avec le vrai PNG, puis ouvre le coupon canonique dans BetOptimum par JavaScript (lien visible sans JavaScript). Elle n’accepte aucune destination de redirection arbitraire. Les robots lisent le HTML côté serveur sans exécuter le script. Le domaine Supabase standard réécrit le HTML en `text/plain` : la fonction Supabase n’est donc pas utilisée pour servir ces pages.
+La page sert Open Graph et Twitter Card avec le vrai PNG, puis ouvre le coupon canonique dans PronoSafe par JavaScript (lien visible sans JavaScript). Elle n’accepte aucune destination de redirection arbitraire. Les robots lisent le HTML côté serveur sans exécuter le script. Le domaine Supabase standard réécrit le HTML en `text/plain` : la fonction Supabase n’est donc pas utilisée pour servir ces pages.
 
 Depuis BET-261, le navigateur ne dépose plus d’image dans `ticket-previews` et partage toujours le lien direct. Le service ne stocke aucun identifiant de destinataire et ne contacte aucune messagerie. Les tests de partage natif simulent le système ; aucune conversation réelle n’est utilisée pour la recette.
 

@@ -93,7 +93,7 @@ export function mountBankrollExport(root, { api, now = () => new Date() }) {
         url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })),
         link = document.createElement('a');
       link.href = url;
-      link.download = `bankroll_betoptimum_${day(now())}.csv`;
+      link.download = `bankroll_pronosafe_${day(now())}.csv`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 2000);
       status.textContent = 'Export téléchargé.';

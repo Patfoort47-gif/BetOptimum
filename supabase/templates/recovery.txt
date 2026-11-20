@@ -1,8 +1,8 @@
-BetOptimum
+PronoSafe
 
 Réinitialisez votre mot de passe
 
-Vous avez demandé à modifier le mot de passe de votre compte BetOptimum.
+Vous avez demandé à modifier le mot de passe de votre compte PronoSafe.
 
 Réinitialiser mon mot de passe : {{ .ConfirmationURL }}
 

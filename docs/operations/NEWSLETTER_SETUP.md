@@ -1,4 +1,4 @@
-# Newsletter BetOptimum (BET-69)
+# Newsletter PronoSafe (BET-69)
 
 ## Installation
 

@@ -62,7 +62,7 @@ const ios =
         if (u.pathname === '/pwa-harness.html')
           return r.fulfill({
             contentType: 'text/html',
-            body: `<!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Recette</title><script src="theme-bootstrap.js"></script><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="styles/components.css"></head><body><main><h1>BetOptimum</h1><button id="other">Continuer</button></main><footer><button data-install-app>Installer l’application</button></footer><nav role="menu"><button role="menuitem" data-install-app>Installer l’application</button></nav>${dialog}<script type="module">import {initPwa} from './pwa.js';initPwa();window.ready=true;</script></body></html>`
+            body: `<!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Recette</title><script src="theme-bootstrap.js"></script><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="styles/components.css"></head><body><main><h1>PronoSafe</h1><button id="other">Continuer</button></main><footer><button data-install-app>Installer l’application</button></footer><nav role="menu"><button role="menuitem" data-install-app>Installer l’application</button></nav>${dialog}<script type="module">import {initPwa} from './pwa.js';initPwa();window.ready=true;</script></body></html>`
           });
         return r.continue();
       });

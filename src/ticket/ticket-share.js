@@ -56,7 +56,7 @@ export async function openTicketShare(bet, { baseUrl = location.href } = {}) {
   share.hidden = typeof navigator.share !== 'function';
   share.onclick = async () => {
     try {
-      await navigator.share({ title: 'Mon ticket BetOptimum', text: summary, url: link });
+      await navigator.share({ title: 'Mon ticket PronoSafe', text: summary, url: link });
       status.textContent = 'Partage préparé.';
     } catch (error) {
       if (error.name !== 'AbortError')

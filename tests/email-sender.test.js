@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { emailSenderDomain, emailSenderStatus } from '../src/notifications/email-sender.js';
 test('BET-350 : domaine seul, expéditeur de test identifié, aucune clé ni inventaire exposé', async () => {
-  assert.equal(emailSenderDomain('BetOptimum <alerts@EXAMPLE.COM>'), 'example.com');
+  assert.equal(emailSenderDomain('PronoSafe <alerts@EXAMPLE.COM>'), 'example.com');
   assert.equal(emailSenderDomain('bad@example.com\nInjected'), null);
   const result = await emailSenderStatus(
-    { EMAIL_FROM: 'BetOptimum <onboarding@resend.dev>', RESEND_API_KEY: 'secret' },
+    { EMAIL_FROM: 'PronoSafe <onboarding@resend.dev>', RESEND_API_KEY: 'secret' },
     async () =>
       new Response(JSON.stringify({ data: [{ name: 'private.example', status: 'verified' }] }))
   );

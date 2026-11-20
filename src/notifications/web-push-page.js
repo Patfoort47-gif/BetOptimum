@@ -23,7 +23,7 @@ export async function mountWebPush(root, { api, config, html, toast }) {
     const active = prefs?.enabled && associated && hasSubscription && permission === 'granted';
     const status = !supported
       ? ios && !installed
-        ? 'Sur iPhone et iPad, ajoutez BetOptimum à l’écran d’accueil depuis Safari, puis ouvrez l’application installée.'
+        ? 'Sur iPhone et iPad, ajoutez PronoSafe à l’écran d’accueil depuis Safari, puis ouvrez l’application installée.'
         : 'Ce navigateur ne prend pas en charge les notifications push.'
       : permission === 'denied'
         ? 'Notifications bloquées. Autorisez-les dans les réglages de votre navigateur ou de votre téléphone.'

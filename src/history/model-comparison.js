@@ -37,7 +37,7 @@ export function comparisonCard(report) {
   const percent = (n) => `${n >= 0 ? '+' : ''}${n.toFixed(1).replace('.', ',')} %`;
   return {
     title: 'Toi contre le modèle',
-    filename: 'betoptimum-toi-modele.png',
+    filename: 'pronosafe-toi-modele.png',
     lines: [
       `${report.count} mêmes matchs · semaine en cours`,
       `Moi : ${percent(report.player)}`,
