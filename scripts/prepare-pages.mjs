@@ -43,7 +43,15 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
     'google9d3b820d95b3f0f8.html'
   ])
     await copyFile(new URL(name, root), new URL(name, out));
-  for (const name of ['data', 'styles', 'stadiums', 'icons', 'fonts'])
+  for (const name of [
+    'data',
+    'styles',
+    'stadiums',
+    'icons',
+    'fonts',
+    'bilan-des-pronostics',
+    'lexique-des-paris'
+  ])
     await cp(new URL(name, root), new URL(name, out), { recursive: true });
   await mkdir(new URL('vendor/', out), { recursive: true });
   for (const name of ['LICENSES.json', 'SHA256.json'])
