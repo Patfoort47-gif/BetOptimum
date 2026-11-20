@@ -59,7 +59,9 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
   function view(state = {}) {
     const { error = '', info = '', errors = {} } = state;
     if (mode === 'login')
-      return `${tabs()}<form id="join-form" novalidate><h2 id="join-title">Bon retour dans le club</h2>${banner(error)}${banner(info, 'info')}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}" aria-describedby="join-email-error">`, '', errors.email)}${field('join-password', 'Mot de passe', passwordInput('join-password', 'current-password'), '', errors.password)}<button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Connexion…' : 'Se connecter'}</button><button type="button" class="text-button" data-mode="forgot">Mot de passe oublié ?</button><p class="join-sep"><span>ou</span></p>${google}</form>`;
+      return `${tabs()}<form id="join-form" novalidate><h2 id="join-title">Bon retour dans le club</h2>${banner(error)}${banner(info, 'info')}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}" aria-describedby="join-email-error">`, '', errors.email)}${field('join-password', 'Mot de passe', passwordInput('join-password', 'current-password'), '', errors.password)}<button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Connexion…' : 'Se connecter'}</button><button type="button" class="text-button" data-mode="forgot">Mot de passe oublié ?</button><button type="button" class="text-button" data-mode="magic">Recevoir un lien de connexion</button><p class="join-sep"><span>ou</span></p>${google}</form>`;
+    if (mode === 'magic')
+      return `<form id="join-form" novalidate><button type="button" class="text-button" data-mode="login">← Retour</button><h2 id="join-title">Connexion par lien</h2><p class="muted">Si vous avez déjà un compte, nous vous enverrons un lien pour vous connecter.</p>${banner(error)}${banner(info, 'info')}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}">`, '', errors.email)}<button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>${busy ? 'Envoi…' : 'Envoyer le lien'}</button></form>`;
     if (mode === 'forgot')
       return `<form id="join-form" novalidate><button type="button" class="text-button" data-mode="login">← Retour</button><h2 id="join-title">Mot de passe oublié</h2><p class="muted">Saisissez votre email : si un compte existe, vous recevrez un lien pour choisir un nouveau mot de passe.</p>${banner(error)}${banner(info, 'info')}${field('join-email', 'Adresse email', `<input id="join-email" name="email" type="email" autocomplete="email" required value="${escape(draft.email)}">`, '', errors.email)}<button class="button primary full" type="submit" ${busy ? 'disabled' : ''}>Envoyer le lien</button></form>`;
     if (mode === 'recovery')
@@ -238,7 +240,7 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
         draft.password = '';
         fail(error);
       }
-    } else if (mode === 'forgot') {
+    } else if (mode === 'forgot' || mode === 'magic') {
       if (!validEmail(draft.email)) {
         render({ errors: { email: 'Saisissez une adresse email valide.' } });
         return;
@@ -246,7 +248,9 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
       busy = true;
       render({ keepFocus: true });
       try {
-        await auth.reset(draft.email);
+        if (mode === 'magic')
+          await auth.magic(draft.email, new URL(returnUrl || location.href, location.href).hash);
+        else await auth.reset(draft.email);
         busy = false;
         render({ info: 'Si un compte existe pour cette adresse, un lien vient d’être envoyé.' });
       } catch (error) {
@@ -407,6 +411,10 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
         error:
           'Ce lien a expiré ou a déjà été utilisé. Connectez-vous si votre adresse est confirmée, ou saisissez votre adresse pour recevoir un nouveau lien.'
       });
+    },
+    magicError: (error, hash) => {
+      if (hash) returnUrl = location.pathname + location.search + hash;
+      render({ error });
     },
     recoveryError: (error) => render({ error }),
     recovery: () => {

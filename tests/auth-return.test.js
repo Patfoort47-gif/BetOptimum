@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   authCallbackStatus,
+  magicLinkRedirect,
+  readMagicDestination,
   rememberNotificationReturn,
   takeNotificationReturn
 } from '../src/account/auth-return.js';
@@ -78,4 +80,15 @@ test('le retour de connexion restaure une seule fois une destination privée aut
   rememberNotificationReturn('#bankroll');
   t.mock.method(Date, 'now', () => 2_000_000);
   assert.equal(takeNotificationReturn(), null);
+});
+
+test('le lien de connexion porte une destination locale vers un autre appareil', () => {
+  const base = 'https://example.org/BetOptimum/';
+  const redirect = magicLinkRedirect(base, '#mes-alertes');
+  assert.equal(readMagicDestination(redirect), '#mes-alertes');
+  assert.equal(readMagicDestination(magicLinkRedirect(base, 'https://external.test')), '#matches');
+  assert.equal(readMagicDestination(base), null);
+  const expired = authCallbackStatus(redirect + '#error_code=otp_expired');
+  assert.equal(expired.kind, 'magic-error');
+  assert.match(expired.message, /nouveau lien de connexion/);
 });
