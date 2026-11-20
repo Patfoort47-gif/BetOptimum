@@ -636,5 +636,46 @@ for (let attempt = 0; attempt < 2; attempt++) {
   ]);
 }
 
+// BET-393 : un changement effectif retire uniquement le consentement et la destination email.
+await q('alter table auth.users add column email text');
+await q("update auth.users set email='old@example.test'");
+await db.exec(
+  await readFile('supabase/migrations/20261120073100_bet393_reset_changed_email.sql', 'utf8')
+);
+await q('select save_notification_preferences($1)', [
+  JSON.stringify({ ...p, briefing_minute: 565 })
+]);
+await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'web','demo')`, [
+  uid
+]);
+await q('select save_web_notifications($1)', [JSON.stringify(web)]);
+await q(
+  `update notification_deliveries set status='pending'
+     where event_id in (select id from notification_events where event_key='bet398:canaux')`
+);
+await q("update auth.users set email='new@example.test'");
+assert.deepEqual(await channelDeliveries(), [
+  { channel: 'email', status: 'cancelled' },
+  { channel: 'web', status: 'pending' }
+]);
+assert.deepEqual(await q('select channel from notification_endpoints where user_id=$1', [uid]), [
+  { channel: 'web' }
+]);
+assert.equal((await q('select my_web_notifications() s'))[0].s.preferences.enabled, true);
+let emailPreferences = (await q('select my_notifications() s'))[0].s.preferences;
+assert.equal(emailPreferences.enabled, false);
+assert.equal(emailPreferences.consent_at, null);
+assert.equal(emailPreferences.briefing_minute, 565);
+await q(`insert into notification_endpoints(user_id,channel,encrypted) values($1,'email','new')`, [
+  uid
+]);
+assert.equal(await queue(), false);
+await q('select save_notification_preferences($1)', [
+  JSON.stringify({ ...p, briefing_minute: 565 })
+]);
+emailPreferences = (await q('select my_notifications() s'))[0].s.preferences;
+assert.equal(emailPreferences.enabled, true);
+assert.ok(emailPreferences.consent_at);
+
 await db.close();
 console.log('SQL : migrations, consentement, replanification, unicité et silence vérifiés.');
