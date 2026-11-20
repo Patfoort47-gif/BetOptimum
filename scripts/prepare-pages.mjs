@@ -115,7 +115,7 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
       'styles.css',
       'style.css',
       'styles/components.css',
-      'manifest.webmanifest?v=bet387',
+      'manifest.webmanifest?v=bet407',
       'icons/favicon.svg?v=bet387',
       'icons/icon-192x192.png?v=bet387',
       'icons/icon-512x512.png?v=bet387',
