@@ -12548,9 +12548,6 @@ body .match-card .match-hero .match-head-badges > * {
   line-height: 10px;
   padding: 3px 4px;
 }
-body .match-card .match-hero .match-head:has(.spotlight-tag) {
-  grid-template-columns: minmax(0, 1fr) auto auto;
-}
 body .match-card .match-hero .match-head-badges > .spotlight-tag {
   max-width: none;
   padding: 3px 7px;
