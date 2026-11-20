@@ -30,7 +30,7 @@ BET-347, demandé explicitement par le propriétaire le 17 novembre 2026, autori
 - CSS dans l’ordre `styles.css`, `styles/details.css`, `styles/components.css`. Variables de couleur ; sombre sur `:root`, clair sur `:root.light`, `--accent` pour les aplats et `--accent-text` pour le texte. Téléphone et PC doivent rester utilisables.
 - Textes affichés en français, décimales françaises, pas de tiret cadratin ou demi-cadratin. Conserver « paris virtuels · 18+ · aucune garantie » et la distinction cotes réelles/estimées.
 - Cotes jouables et recommandations : au moins dix bookmakers distincts pour chaque sélection ; conseil avec cote strictement supérieure à 1,15. Aucun repli sans sélection admissible.
-- Les clients Supabase et Three.js sont figés dans vendor/. Garder leurs licences et empreintes. CSP : scripts locaux uniquement, pas de gestionnaire JavaScript HTML.
+- Les clients Supabase et Three.js sont figés dans vendor/. Garder leurs licences et empreintes. CSP : scripts locaux et origines Google AdSense et de consentement autorisées sur l’accueil, pas de gestionnaire JavaScript HTML.
 
 ## Serveur et données privées
 

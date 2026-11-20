@@ -2,11 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { imageFallback } from '../src/core/image-fallback.js';
-test('BET-303 : CSP précoce, scripts locaux et pas de gestionnaires inline', async () => {
+test('BET-303 : CSP précoce, sources de script explicites et pas de gestionnaires inline', async () => {
   const html = await readFile('index.html', 'utf8'),
     policy = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)[1];
   assert.ok(html.indexOf('Content-Security-Policy') < html.indexOf('<script'));
-  assert.match(policy, /script-src 'self';/);
+  assert.equal(
+    policy.split('; ').find((directive) => directive.startsWith('script-src ')),
+    "script-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com"
+  );
   assert.match(policy, /script-src-attr 'none'/);
   assert.doesNotMatch(policy, /unsafe-eval|script-src[^;]*unsafe-inline|\*\.supabase/);
   for (const file of [
