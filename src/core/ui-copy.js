@@ -1,6 +1,5 @@
 // Libellés courts des quatre espaces ; les erreurs et réserves métier restent explicites.
 export const UI_COPY = Object.freeze({
-  quickCompose: 'Composer un ticket',
   compose: 'Composer le ticket',
   composing: 'Composition…',
   composerIntro:

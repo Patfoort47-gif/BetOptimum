@@ -1087,87 +1087,7 @@ function observeCards() {
     railObserver.observe(card);
   });
 }
-// La cote ajoutée s'envole vers le ticket (ou vers le bouton Combiné sur mobile).
-function flyToTicket(from, origin) {
-  if (!from?.getBoundingClientRect || matchMedia('(prefers-reduced-motion: reduce)').matches)
-    return;
-  const visible = (el) => {
-      if (!el || el.hidden) return false;
-      const r = el.getBoundingClientRect();
-      return (
-        r.width > 0 &&
-        r.bottom > 0 &&
-        r.top < innerHeight &&
-        getComputedStyle(el).visibility !== 'hidden'
-      );
-    },
-    aside = $('#builder'),
-    ticket = document.querySelector('.ticket');
-  let target = [
-      $('#mobile-coupon'),
-      document.querySelector('[data-mobile-target=builder]'),
-      $('#total-odds')
-    ].find(visible),
-    shift = 0;
-  if (!target && ticket && visible(aside) && aside.scrollHeight > aside.clientHeight) {
-    const top = Math.max(0, ticket.offsetTop - 12);
-    shift = top - aside.scrollTop;
-    aside.scrollTo({ top, behavior: motionBehavior() });
-    target = $('#total-odds');
-  }
-  if (!target) return;
-  const a = origin ?? from.getBoundingClientRect(),
-    r =
-      target.id === 'mobile-coupon'
-        ? {
-            left: target.offsetLeft,
-            top: target.offsetTop,
-            width: target.offsetWidth,
-            height: target.offsetHeight
-          }
-        : target.getBoundingClientRect(),
-    x = a.left + a.width / 2,
-    y = a.top + a.height / 2,
-    dx = r.left + r.width / 2 - x,
-    dy = r.top - shift + r.height / 2 - y,
-    chip = document.createElement('span');
-  chip.className = 'fly-chip';
-  chip.setAttribute('aria-hidden', 'true');
-  chip.textContent = from.querySelector('strong')?.textContent ?? '';
-  chip.style.left = `${x}px`;
-  chip.style.top = `${y}px`;
-  document.body.append(chip);
-  const frames = Array.from({ length: 31 }, (_, i) => {
-    const t = i / 30,
-      u = 1 - t;
-    return {
-      transform: `translate3d(calc(-50% + ${dx * t}px),calc(-50% + ${dy * t - 240 * u * t}px),0) scale(${1 - 0.65 * t})`,
-      opacity: 1 - 0.7 * t
-    };
-  });
-  const animation = chip.animate?.(frames, { duration: 600, easing: 'cubic-bezier(.25,.1,.3,1)' });
-  if (!animation) {
-    chip.remove();
-    return;
-  }
-  animation.finished.then(
-    () => {
-      chip.remove();
-      if (!visible(target)) return;
-      target.getAnimations?.().forEach((a) => a.cancel());
-      target.animate?.(
-        [
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.18)', offset: 0.4 },
-          { transform: 'scale(.96)', offset: 0.7 },
-          { transform: 'scale(1)' }
-        ],
-        { duration: 300, easing: 'cubic-bezier(.2,.8,.3,1)' }
-      );
-    },
-    () => chip.remove()
-  );
-}
+
 let rollToken = 0;
 function rollNumber(el, value) {
   const from = Number(el.dataset.value ?? value),
@@ -1837,7 +1757,6 @@ function renderMatches() {
             .map((m) => marketButton(match, m, m.key === pick?.key))
             .join('');
           updateSelectedMarkets();
-          renderMobileCoupon();
         }
       } else expandedMatchStats.delete(section.dataset.stats);
     });
@@ -2260,47 +2179,6 @@ function renderStakeControls(locked) {
   return issue;
 }
 let selectedStakePercent = 2;
-let couponSignature = '';
-function renderMobileCoupon() {
-  const bar = $('#mobile-coupon');
-  if (!bar) return;
-  const wasHidden = bar.hidden,
-    visible = state.ticket.length > 0;
-  bar.hidden = !visible;
-  document.body?.classList.toggle('has-mobile-coupon', visible);
-  $('#coupon-count').textContent =
-    `${state.ticket.length} sélection${state.ticket.length > 1 ? 's' : ''}`;
-  const odds = state.ticket.reduce((total, item) => total * item.odd, 1),
-    count = state.ticket.length;
-  $('#coupon-odds').textContent = `Cote ${decimal(odds, 2)}`;
-  bar.setAttribute?.(
-    'aria-label',
-    `Ouvrir mon coupon : ${count} sélection${count > 1 ? 's' : ''}, cote cumulée ${decimal(odds, 2)}`
-  );
-  const signature = JSON.stringify(state.ticket.map((x) => [x.matchId, x.key, x.odd]));
-  if (signature !== couponSignature || (wasHidden && visible)) {
-    bar.getAnimations?.().forEach((a) => a.cancel());
-    if (
-      visible &&
-      typeof matchMedia !== 'undefined' &&
-      !matchMedia('(prefers-reduced-motion: reduce)').matches
-    )
-      bar.animate?.(
-        wasHidden
-          ? [
-              { transform: 'translate3d(0,12px,0) scale(.7)', opacity: 0 },
-              { transform: 'translate3d(0,0,0) scale(1)', opacity: 1 }
-            ]
-          : [
-              { transform: 'scale(1)' },
-              { transform: 'scale(1.12)', offset: 0.45 },
-              { transform: 'scale(1)' }
-            ],
-        { duration: 240, easing: 'cubic-bezier(.2,.8,.3,1)' }
-      );
-    couponSignature = signature;
-  }
-}
 function renderTicket() {
   const locked = Boolean(betConfirmed || betAttempt?.busy || betAttempt?.uncertain);
   if (!locked && selectedStakePercent != null)
@@ -2327,7 +2205,7 @@ function renderTicket() {
     });
   document
     .querySelectorAll(
-      '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#quick-combo,#ticket-items button,#stake-controls button'
+      '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#ticket-items button,#stake-controls button'
     )
     .forEach((el) => (el.disabled = locked));
   const box = $('#ticket-items'),
@@ -2405,10 +2283,10 @@ function renderTicket() {
     ? `${combinedOdds >= target ? '+' : ''}${decimal(combinedOdds - target, 2)}`
     : '-';
   $('#stake-label').textContent = independent
-    ? 'Mise par pari (€)'
+    ? 'Mise fictive par pari (€)'
     : multiple
-      ? 'Mise globale (€)'
-      : 'Mise (€)';
+      ? 'Mise fictive totale (€)'
+      : 'Mise fictive (€)';
   $('#stake-total').textContent = money(stakeTotal);
   $('#potential-win').textContent = money(potential);
   const probability = state.ticket.reduce((p, x) => p * x.probability, 1),
@@ -2449,7 +2327,7 @@ function renderTicket() {
         : multiple
           ? `Placer le système (${lines.length} lignes)`
           : 'Placer le pari virtuel'
-    : 'Placer le pari en mode invité';
+    : 'Simuler le pari';
   if (betAttempt?.uncertain) {
     placeButton.disabled = Boolean(placeButton.dataset.busy);
     placeButton.textContent = 'Vérifier le pari en attente';
@@ -2470,7 +2348,7 @@ function renderTicket() {
   if (locked)
     document
       .querySelectorAll(
-        '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#quick-combo,#ticket-items button,#stake-controls button'
+        '#builder input,#builder select,#builder [data-bet-mode],#clear-ticket,#generate-combo,#ticket-items button,#stake-controls button'
       )
       .forEach((el) => (el.disabled = true));
   for (const id of ['#mobile-ticket-count', '#match-ticket-count']) {
@@ -2481,7 +2359,6 @@ function renderTicket() {
     }
   }
   updateSelectedMarkets();
-  renderMobileCoupon();
 }
 // Interrupteur « Compte en ligue » : quota de 10 paris libres par semaine et un seul prono par match (mêmes règles que le serveur).
 function leagueDecision() {
@@ -2521,8 +2398,7 @@ function renderLeagueToggle() {
   const box = $('#league-toggle');
   if (box) box.hidden = true;
 }
-function addSelection(matchId, key, from) {
-  const origin = from?.getBoundingClientRect();
+function addSelection(matchId, key) {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) {
     toast('Vérifiez d’abord le pari en attente.');
     return;
@@ -2553,7 +2429,7 @@ function addSelection(matchId, key, from) {
   state.ticket = [...state.ticket.filter((x) => x.matchId !== matchId), selection];
   rememberTicket();
   renderTicket();
-  if (from) flyToTicket(from, origin);
+  toast('Sélection ajoutée au ticket.');
 }
 const personalFilters = { period: 'all', status: 'all', search: '' };
 let personalDashboard = null;
@@ -3201,7 +3077,6 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
   if (tab === 'community' && state.community.tab === 'challenges') attention?.clear('rewards');
   renderAttention();
   setBuilderDrawer(false);
-  renderMobileCoupon();
   document.querySelector('.workspace')?.classList.toggle('tab-hidden', tab !== 'matches');
   document
     .querySelectorAll('[data-view]')
@@ -4547,7 +4422,7 @@ $('#match-list').addEventListener('click', (e) => {
   }
   const b = e.target.closest('[data-market]');
   if (b) {
-    addSelection(b.dataset.match, b.dataset.market, b);
+    addSelection(b.dataset.match, b.dataset.market);
   }
 });
 for (const rail of [$('#match-rail'), $('#match-strip')])
@@ -4561,18 +4436,19 @@ for (const rail of [$('#match-rail'), $('#match-strip')])
   });
 $('#conseils-du-jour')?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-market]');
-  if (b) addSelection(b.dataset.match, b.dataset.market, b);
+  if (b) addSelection(b.dataset.match, b.dataset.market);
 });
 $('#safe-picks-list').addEventListener('click', (e) => {
   const b = e.target.closest('[data-safe-match]');
   if (b) {
-    addSelection(b.dataset.safeMatch, b.dataset.safeMarket, b);
+    addSelection(b.dataset.safeMatch, b.dataset.safeMarket);
   }
 });
 $('#ticket-items').addEventListener('click', (e) => {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) return;
   if (e.target.dataset.remove !== undefined) {
     state.ticket.splice(Number(e.target.dataset.remove), 1);
+    rememberTicket();
     renderTicket();
   }
 });
@@ -4720,6 +4596,13 @@ function generate() {
         toast(message);
         return;
       }
+      if (
+        state.ticket.length &&
+        !window.confirm('Remplacer les sélections actuelles du ticket ?')
+      ) {
+        if (feedback) feedback.textContent = 'Sélections actuelles conservées.';
+        return;
+      }
       state.betMode = 'combined';
       state.ticket = picks;
       rememberTicket();
@@ -4736,11 +4619,6 @@ function generate() {
   }, 0);
 }
 $('#generate-combo').addEventListener('click', generate);
-$('#quick-combo').addEventListener('click', () => {
-  setActiveTab('matches');
-  generate();
-  setBuilderDrawer(true);
-});
 $('#clear-ticket').addEventListener('click', () => {
   state.ticket = [];
   rememberTicket();

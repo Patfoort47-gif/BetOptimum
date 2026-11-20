@@ -25,7 +25,7 @@ export async function openTicketShare(bet, { baseUrl = location.href } = {}) {
   dialog.className = 'ticket-share-dialog';
   dialog.setAttribute('aria-label', 'Partager mon ticket');
   dialog.innerHTML =
-    '<div class="modal-head"><h2>Partager mon ticket</h2><button class="icon-button" data-share-close aria-label="Fermer">×</button></div><p data-share-summary></p><p>Le destinataire choisit sa mise et vérifie les cotes actuelles. Aucun pari n’est placé à l’ouverture.</p><div class="ticket-share-link"><input readonly aria-label="Lien du coupon prérempli"><button class="button secondary" data-share-copy>Copier le texte et le lien</button></div><p role="status" data-share-status></p><div class="ticket-share-actions"><button class="button primary" data-share-native>Partager</button></div>';
+    '<div class="modal-head"><h2>Partager mon ticket</h2><button class="icon-button" data-share-close aria-label="Fermer">×</button></div><p data-share-summary></p><p>Votre mise n’apparaît ni dans le message ni dans le lien. Le destinataire choisit sa mise et vérifie les cotes actuelles. Aucun pari n’est placé à l’ouverture.</p><div class="ticket-share-link"><input readonly aria-label="Lien du coupon prérempli"><button class="button secondary" data-share-copy>Copier le texte et le lien</button></div><p role="status" data-share-status></p><div class="ticket-share-actions"><button class="button primary" data-share-native>Partager</button></div>';
   dialog.querySelector('[data-share-summary]').textContent = summary;
   dialog.querySelector('input').value = link;
   document.body.append(dialog);
