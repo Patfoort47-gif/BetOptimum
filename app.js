@@ -46,7 +46,8 @@ import {
   adjustStake,
   stakeCents,
   stakeIssue,
-  percentageStake
+  percentageStake,
+  suggestedStake
 } from './src/ticket/stake-controls.js';
 import {
   quoteAvailable,
@@ -2247,13 +2248,17 @@ function renderTicket() {
       : 'Mise fictive (€)';
   $('#stake-total').textContent = money(stakeTotal);
   $('#potential-win').textContent = money(potential);
-  const probability = state.ticket.reduce((p, x) => p * x.probability, 1),
-    kelly =
-      combinedOdds > 1
-        ? Math.max(0, Math.min(0.05, (probability * combinedOdds - 1) / (combinedOdds - 1)))
-        : 0;
   const manual = state.ticket.some((x) => !Number.isFinite(x.probability)),
-    showAdvice = !independent && !multiple && !manual,
+    probability = state.ticket.reduce((p, x) => p * x.probability, 1),
+    advice =
+      !independent && !multiple && !manual && state.ticket.length
+        ? suggestedStake(
+            percentageStake(state.bankroll, 2),
+            probability,
+            percentageStake(state.bankroll, 5)
+          )
+        : null,
+    showAdvice = advice != null,
     adviceValue = $('#stake-advice-value'),
     adviceContext = $('#stake-advice-context');
   $('#stake-advice-note').textContent = independent
@@ -2264,10 +2269,14 @@ function renderTicket() {
         : 'Cette formule ne correspond pas au nombre de sélections'
       : manual
         ? 'Choix manuel : aucun conseil de mise sans modèle validé'
-        : 'Mise conseillée :';
+        : showAdvice
+          ? 'Mise conseillée :'
+          : 'Aucune mise conseillée sous le minimum de 1 €';
   adviceValue.hidden = adviceContext.hidden = !showAdvice;
-  adviceValue.textContent = showAdvice ? money(state.bankroll * kelly) : '';
-  adviceContext.textContent = showAdvice ? `(${decimal(kelly * 100, 1)} % de la bankroll)` : '';
+  adviceValue.textContent = showAdvice ? money(advice / 100) : '';
+  adviceContext.textContent = showAdvice
+    ? `(${decimal(advice / state.bankroll, 1)} % de la bankroll)`
+    : '';
   const placeButton = $('#place-bet');
   placeButton.disabled =
     Boolean(renderStakeControls(locked)) ||

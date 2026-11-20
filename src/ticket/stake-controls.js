@@ -36,3 +36,9 @@ export function percentageStake(bankroll, percent) {
     ? Math.round((cents * rate) / 100)
     : null;
 }
+
+export function suggestedStake(referenceCents, confidence, capCents) {
+  if (!Number.isFinite(confidence) || confidence < 0 || confidence > 1) return null;
+  const cents = Math.min(referenceCents * confidence ** 2, capCents);
+  return cents >= 100 ? Math.round(cents) : null;
+}
