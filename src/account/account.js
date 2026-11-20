@@ -138,7 +138,7 @@ export async function initAccountSync({
   const { createClient } = await import('../../vendor/supabase-js-2.81.1.js');
   const callback = authCallbackStatus(location.href),
     signupReturn = callback.kind === 'signup',
-    confirmationError = callback.kind === 'confirmation-error';
+    emailCallbackError = ['confirmation-error', 'recovery-error'].includes(callback.kind);
   client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
@@ -1243,7 +1243,9 @@ export async function initAccountSync({
       if (error) throw authError(error);
     },
     reset: async (email) => {
-      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: redirect });
+      const target = new URL(redirect);
+      target.searchParams.set('auth_return', 'recovery');
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: target.href });
       if (error) throw authError(error);
     },
     updatePassword: async (password) => {
@@ -1285,9 +1287,13 @@ export async function initAccountSync({
   });
   loadCommunity();
   await client.auth.getSession().then(({ data, error }) => {
-    if (confirmationError) {
-      onAuthEvent('CONFIRMATION_FAILED');
+    if (emailCallbackError) {
       history.replaceState(null, '', redirect);
+      onAuthEvent(
+        callback.kind === 'recovery-error' ? 'RECOVERY_FAILED' : 'CONFIRMATION_FAILED',
+        null,
+        callback.message
+      );
     } else if (callback.kind === 'oauth-error') {
       history.replaceState(null, '', redirect);
       onAuthEvent('OAUTH_FAILED');
@@ -1295,7 +1301,7 @@ export async function initAccountSync({
     }
     if (error) {
       showMessage(translateAuthError(error), true);
-      if (!confirmationError && callback.kind !== 'oauth-error') throw authError(error);
+      if (!emailCallbackError && callback.kind !== 'oauth-error') throw authError(error);
     } else if (data.session?.user) {
       loadUser(data.session.user);
       if (signupReturn && data.session.user.email_confirmed_at) onAuthEvent('EMAIL_CONFIRMED');

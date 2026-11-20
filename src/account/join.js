@@ -408,6 +408,7 @@ export function initJoin({ auth, getTeams, getLeagues, toast, onDone }) {
           'Ce lien a expiré ou a déjà été utilisé. Connectez-vous si votre adresse est confirmée, ou saisissez votre adresse pour recevoir un nouveau lien.'
       });
     },
+    recoveryError: (error) => render({ error }),
     recovery: () => {
       open('recovery');
       mode = 'recovery';
