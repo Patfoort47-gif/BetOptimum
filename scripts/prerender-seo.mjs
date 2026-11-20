@@ -31,7 +31,7 @@ export function prerenderMatches(data, now = Date.now()) {
           probs = p
             ? `<p>Probabilités du modèle : ${escape(m.home)} ${Math.round(p.home * 100)} % · Nul ${Math.round(p.draw * 100)} % · ${escape(m.away)} ${Math.round(p.away * 100)} %.</p>`
             : '';
-        return `<article class="match-card card"><h3>${escape(m.home)} - ${escape(m.away)}</h3><p>${escape(m.league)} · ${escape(m.date)} · ${escape(m.time)} (Paris)</p>${m.completed ? `<p>Score final : ${escape(m.homeScore)} - ${escape(m.awayScore)}</p>` : probs}<p>Analyse football et paris virtuels · 18+ · Estimations sans garantie.</p></article>`;
+        return `<article class="match-preview-card card"><h3>${escape(m.home)} - ${escape(m.away)}</h3><p>${escape(m.league)} · ${escape(m.date)} · ${escape(m.time)} (Paris)</p>${m.completed ? `<p>Score final : ${escape(m.homeScore)} - ${escape(m.awayScore)}</p>` : probs}<p>Analyse football et paris virtuels · 18+ · Estimations sans garantie.</p></article>`;
       })
       .join('') ||
     '<p>Aucune rencontre publiée pour cette période. Consultez prochainement le calendrier.</p>'

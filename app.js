@@ -494,7 +494,6 @@ const state = {
     explicitCalendarDate ?? (linkedCalendarMatch ? null : chosenCalendarDate) ?? isoDate(0),
   live: {},
   liveErrors: {},
-  revealed: new Set(),
   goal: null,
   oddsUpdatedAt: null,
   oddsRefreshHours: ODDS_REFRESH_HOURS
@@ -1006,38 +1005,20 @@ function setRailActive(id) {
       rail.scrollTo({ top: active.offsetTop - rail.clientHeight / 2, behavior: motionBehavior() });
   }
 }
-// Apparition des fiches au défilement (une seule fois par fiche) et suivi du match affiché pour le fil.
-let cardObserver = null,
-  railObserver = null;
+// Suit le match affiché pour mettre à jour le fil latéral.
+let railObserver = null;
 function observeCards() {
   if (typeof IntersectionObserver === 'undefined') return;
-  cardObserver?.disconnect();
   railObserver?.disconnect();
-  cardObserver = new IntersectionObserver(
-    (entries) => {
-      let batch = 0;
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const card = entry.target;
-        card.style.setProperty('--delay', '0ms');
-        card.classList.add('in-view');
-        state.revealed.add(card.dataset.id);
-        cardObserver.unobserve(card);
-      }
-    },
-    { rootMargin: '0px 0px -6% 0px' }
-  );
   railObserver = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) if (entry.isIntersecting) setRailActive(entry.target.dataset.id);
     },
     { rootMargin: '-30% 0px -60% 0px' }
   );
-  document.querySelectorAll('#match-list .match-card').forEach((card) => {
-    if (state.revealed.has(card.dataset.id)) card.classList.add('seen');
-    if (!card.classList.contains('seen')) cardObserver.observe(card);
-    railObserver.observe(card);
-  });
+  document
+    .querySelectorAll('#match-list .match-card')
+    .forEach((card) => railObserver.observe(card));
 }
 
 let rollToken = 0;
@@ -1599,6 +1580,13 @@ function renderMatches() {
   const more = $('#match-list-more');
   more.hidden = shown.length === matches.length;
   more.textContent = `Voir les matchs suivants (${matches.length - shown.length})`;
+  if (
+    !fixtureDataLoaded &&
+    fixturesStatus === 'loading' &&
+    !fixturePreview &&
+    $('#match-list').querySelector?.('.match-preview-card')
+  )
+    return;
   if (fixturePreview) {
     reconcileMatchCards(
       shown
@@ -1676,7 +1664,7 @@ function renderMatches() {
         const share = /^espn-[0-9]+$/.test(m.id)
           ? `<button type="button" class="button secondary match-share-action" data-share-analysis="${html(m.id)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Partager l’analyse</button>`
           : '';
-        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league, null, index === 0)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span><span class="match-head-badges">${tag}</span><button type="button" class="match-header-stats" data-match-stats="${html(m.id)}" aria-haspopup="dialog" aria-controls="detail-dialog" aria-label="Voir les statistiques de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span class="stats-long">Voir les stats</span><span class="stats-short">Stats</span></button></div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home', index === 0)}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}</div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away', index === 0)}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div><div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details id="match-stats-${html(m.id)}" class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Détails du modèle</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes"><div class="match-follow-actions" role="group" aria-label="Suivre les équipes du match">${fav(m.home)}${fav(m.away)}</div>${valueBetMarkup(a)}${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<p class="stat-note">Flux de cotes PropLine · ${oddsFeedDate}. Une offre conservée peut être plus ancienne.</p><button type="button" class="button secondary" data-match-model-report>Résultats du modèle</button>${share}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
+        return `<article id="match-${html(m.id)}" data-id="${html(m.id)}" class="match-card${m.featured ? ' featured' : ''}${m.completed ? ' completed' : ''}${live ? ' live' : ''}${state.goal?.id === m.id && state.goal.until > Date.now() ? ' goal' : ''}"><div class="match-hero">${stadiumMarkup(m)}<div class="match-head"><span class="match-league">${logoTag('league-logo small', leagueLogoUrl(m.league), m.league, null, index === 0)}<b>${html(m.league)}</b><span class="match-date">· ${longDay(m.date)}</span></span><span class="match-head-badges">${tag}</span><button type="button" class="match-header-stats" data-match-stats="${html(m.id)}" aria-haspopup="dialog" aria-controls="detail-dialog" aria-label="Voir les stats de ${html(m.home)} contre ${html(m.away)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V8m5 8V5"/></svg><span class="stats-long">Voir les stats</span><span class="stats-short">Stats</span></button></div><div class="match-teams"><div class="team-group"><button class="team home" ${teamData(m, 'home')}>${teamLogoMarkup(m, 'home', index === 0)}<strong>${html(m.home)}</strong></button>${teamFormMarkup(m.homeStats, m.home)}</div>${`<div class="match-center">${center}</div>`}<div class="team-group"><button class="team away" ${teamData(m, 'away')}>${teamLogoMarkup(m, 'away', index === 0)}<strong>${html(m.away)}</strong></button>${teamFormMarkup(m.awayStats, m.away)}</div></div></div><div class="match-overview">${!m.completed && !m.voided && !live && kickoffAt(m) > Date.now() ? quickSelection(m, best) : ''}${probs}${opportunityMarkup(a, best)}</div>${resultSelections(m, a)}<details class="match-secondary match-other-markets" data-stats="${html(m.id)}-more-picks"${expandedMatchStats.has(m.id + '-more-picks') ? ' open' : ''}><summary>Voir plus de pronostics <span aria-hidden="true">▼</span></summary>${betting}</details><p class="selection-feedback" data-selection-feedback="${html(m.id)}" hidden></p><details id="match-stats-${html(m.id)}" class="match-secondary match-explanation" data-stats="${html(m.id)}-resources"${expandedMatchStats.has(m.id + '-resources') ? ' open' : ''}><summary>Détails du modèle</summary><div class="match-resources" role="region" aria-label="Le match en chiffres"><section class="match-indicators" aria-label="Indicateurs et comparaison des cotes"><div class="match-follow-actions" role="group" aria-label="Suivre les équipes du match">${fav(m.home)}${fav(m.away)}</div>${valueBetMarkup(a)}${opportunityMarkup(a, best)}${stats}${fairOddsMarkup(a, best)}${!m.completed && !live && !m.voided ? matchPreviewMarkup(m) : ''}<p class="stat-note">Flux de cotes PropLine · ${oddsFeedDate}. Une offre conservée peut être plus ancienne.</p><button type="button" class="button secondary" data-match-model-report>Résultats du modèle</button>${share}<p class="stat-note">V : victoire · N : nul · D : défaite</p>${m.completed || live || m.voided || kickoffAt(m) <= Date.now() ? '' : bookmakerComparison(m)}</section></div></details></article>`;
       })
       .join('') || (showTodayEmpty ? '' : matchListEmpty())
   );
@@ -3168,7 +3156,6 @@ globalThis.addEventListener?.('keydown', (event) => {
   }
 });
 $('#reset-match-filters')?.addEventListener('click', () => {
-  state.revealed.clear();
   state.selectedLeagues = [];
   state.filter = 'Tous';
   rememberCalendarContext();
@@ -4193,7 +4180,6 @@ $('#date-navigator').addEventListener('click', (e) => {
   if (state.dateFilter !== b.dataset.date) visibleWeekLimit = WEEK_MATCH_BATCH;
   state.dateFilter = chosenCalendarDate = b.dataset.date;
   rememberCalendarContext();
-  state.revealed.clear();
   renderDateNavigator();
   renderFilters();
   renderMatches();
@@ -4224,7 +4210,6 @@ function selectLeague(filter) {
     state.selectedLeagues = state.selectedLeagues.includes(filter)
       ? state.selectedLeagues.filter((name) => name !== filter)
       : [...state.selectedLeagues, filter];
-  state.revealed.clear();
   rememberCalendarContext();
   renderFilters();
   renderMatches();
@@ -4278,7 +4263,6 @@ $('#apply-competitions')?.addEventListener('click', () => {
   rememberCalendarContext();
   leagueDraft = null;
   visibleWeekLimit = WEEK_MATCH_BATCH;
-  state.revealed.clear();
   renderFilters();
   renderMatches();
   $('#league-dialog').close();
@@ -5119,7 +5103,6 @@ render();
 if (typeof window !== 'undefined') {
   setTimeout(openDailyChallenge, 0);
   $('#footer-year').textContent = new Date().getFullYear();
-  $('#match-list').classList.add('reveal');
   $('#match-list').addEventListener(
     'toggle',
     (event) => {

@@ -3,7 +3,7 @@
   src: url('./fonts/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
   font-weight: 400 800;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 :root {
@@ -204,17 +204,6 @@ body .topbar-actions {
   height: 6px;
   border-radius: 50%;
   background: currentColor;
-  animation: status-pulse 2.4s ease-out infinite;
-}
-
-@keyframes status-pulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--ring);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 5px transparent;
-  }
 }
 
 body #dashboard {
@@ -454,6 +443,20 @@ body .fixture-network-notice button {
 body .match-preview-card {
   min-height: 144px;
   padding: 16px;
+}
+
+@media (max-width: 767px) {
+  #matches > .date-scroller {
+    min-block-size: 50px;
+  }
+
+  #matches > .scroller:not(.date-scroller) {
+    min-block-size: 40px;
+  }
+
+  body .match-preview-card {
+    min-block-size: 340px;
+  }
 }
 
 body .match-preview-card p {
