@@ -3,7 +3,7 @@ import { emptyState } from '../core/empty-state.js';
 import { sparkline } from '../core/sparkline.js';
 import { mountBankrollExport } from './bankroll-export.js';
 import { UI_COPY } from '../core/ui-copy.js';
-import { historyCard } from './bet-history.js';
+import { historyCard } from './bet-history.js?v=bet409';
 const money = (n) =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(Number(n));
 const number = (n) =>
@@ -317,7 +317,7 @@ export function initPersonalDashboard({ api, root, getContext = () => ({}) }) {
     if (share) {
       const row = rows.get(share.dataset.shareTicket);
       if (row)
-        import('../ticket/ticket-share.js?v=bet261')
+        import('../ticket/ticket-share.js?v=bet409')
           .then(({ openTicketShare }) => openTicketShare(dashboardBet(row)))
           .catch(() => {
             $('#history-count').textContent = 'Impossible de préparer le partage. Réessayez.';

@@ -33,20 +33,33 @@ async function run() {
     const page = await context.newPage();
     const cdp = await context.newCDPSession(page);
     await cdp.send('Network.enable');
-    await cdp.send('Network.emulateNetworkConditions', {
-      offline: false,
-      latency: 150,
-      downloadThroughput: 200000,
-      uploadThroughput: 93750
-    });
-    await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+    const limited = process.env.BET_NETWORK !== 'normal';
+    if (limited)
+      await cdp.send('Network.emulateNetworkConditions', {
+        offline: false,
+        latency: 150,
+        downloadThroughput: 200000,
+        uploadThroughput: 93750
+      });
+    if (limited) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
     const read = () =>
       page.evaluate(() => ({
         vitals: window.betVitals,
         marks: performance
           .getEntriesByType('mark')
           .filter((entry) => entry.name.startsWith('bet-mobile:'))
-          .map(({ name, startTime }) => [name, Math.round(startTime)])
+          .map(({ name, startTime }) => [name, Math.round(startTime)]),
+        resources: performance
+          .getEntriesByType('resource')
+          .filter((entry) =>
+            /\/data\/(fixtures|predictions-history|offers\/|match-offers\/)/.test(entry.name)
+          )
+          .map(({ name, transferSize, encodedBodySize, decodedBodySize }) => ({
+            path: new URL(name).pathname,
+            transferSize,
+            encodedBodySize,
+            decodedBodySize
+          }))
       }));
     const waitCalendar = () =>
       page
@@ -78,8 +91,14 @@ async function run() {
       if (!(await page.locator('.match-card').count())) {
         await page.locator('[data-date=week]').click();
       }
+      if (await page.locator('#match-list .selection-action').count())
+        assert.equal(
+          (await marks()).filter((name) => name === 'bet-mobile:calendrier-premier-ajout').length,
+          1
+        );
       if (await page.locator('[data-match-stats]').count()) {
         await page.locator('[data-match-stats]').first().click();
+        await page.locator('[data-sheet-close]').click();
         await page
           .locator('[data-favorite-league]:not(.active):visible')
           .first()
@@ -112,7 +131,9 @@ async function run() {
       );
       for (const name of ['LCP', 'CLS', 'INP'])
         assert.ok(Number.isFinite(result.vitals[name]), name + ' non mesuré');
-      console.log(JSON.stringify({ cache, ...result }));
+      console.log(
+        JSON.stringify({ cache, network: limited ? 'limité' : 'normal', first, ...result })
+      );
     }
     await context.close();
   } finally {

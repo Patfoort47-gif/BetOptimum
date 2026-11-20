@@ -519,7 +519,7 @@ main {
 /* Accroche */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
 }
 .hero-main {

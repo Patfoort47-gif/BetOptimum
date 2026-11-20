@@ -55,9 +55,9 @@ import {
 } from './src/model/quote-policy.js';
 import { stadiumMarkup, bindStadiumImages } from './src/matches/stadiums.js';
 import { LEGACY_MARKETS, selectionCondition } from './src/model/markets.js';
-import { marketCard } from './src/matches/market-card.js?v=bet191';
-import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet194';
-import { historyReport, historyCard } from './src/history/bet-history.js';
+import { marketCard } from './src/matches/market-card.js?v=bet409';
+import { initPersonalDashboard } from './src/history/personal-dashboard.js?v=bet409';
+import { historyReport, historyCard } from './src/history/bet-history.js?v=bet409';
 import { createJsonLoader } from './src/core/data-loader.js';
 import { createMobileDiagnostics } from './src/core/mobile-diagnostics.js';
 import {
@@ -1425,7 +1425,6 @@ function quickSelection(match, best) {
   return `<section class="selection-summary" aria-label="Sélection du match"><strong class="selection-title">${html(best.label)}</strong><dl><div><dt>Probabilité estimée</dt><dd class="selection-probability">${Math.round(best.probability * 100)} %</dd></div><div class="selection-price"><dt>Cote bookmaker</dt><dd>${decimal(best.odd, 2)}</dd></div></dl><small class="selection-source">${html(source)} · ${coverage} bookmakers · ${html(offer.label)}</small><button type="button" class="button primary match-selection selection-action" data-match="${html(match.id)}" data-market="${html(best.key)}" data-market-label="Ajouter au ticket : ${html(best.label)}">Ajouter au ticket</button></section>`;
 }
 function renderSafePicks(visible = visibleMatches()) {
-  renderDailyAdvice();
   const picks = visible
     .filter(
       (match) =>
@@ -1618,7 +1617,8 @@ function renderMatches() {
     Date.now(),
     new Set(matches.filter(isLive).map((match) => match.id))
   )?.id;
-  renderSafePicks(matches);
+  renderDailyAdvice();
+  if ($('#generator-panel')?.hidden === false) renderSafePicks(matches);
   const oddsFeedDate = html(sourceFreshness(state.oddsUpdatedAt, 'odds').label);
   reconcileMatchCards(
     shown
@@ -1680,6 +1680,7 @@ function renderMatches() {
   if (mobileDiagnostics && fixtureDataLoaded) {
     mobileDiagnostics.mark(matches.length ? 'calendrier-match' : 'calendrier-vide', true);
     mobileDiagnostics.markOnce('calendrier-enrichi');
+    if ($('#match-list .selection-action')) mobileDiagnostics.markOnce('calendrier-premier-ajout');
   }
   document.querySelectorAll('#match-list .match-secondary').forEach((section) => {
     if (watchedStats.has(section)) return;
@@ -2961,17 +2962,18 @@ async function showFixturePreview(matches) {
 }
 const fixtureVersion = (data) => data.fixtureVersion ?? JSON.stringify(data);
 function prepareFixtureAnalyses(data, version) {
-  if (!fixtureAnalyses.has(version)) {
-    const matches = data.matches.map((match) => ({
+  const key = `${state.dateFilter}:${version}`;
+  if (!fixtureAnalyses.has(key)) {
+    const matches = matchesWithBookmakers(data.matches.filter(inPeriod)).map((match) => ({
       ...match,
       analysisStatus: match.analysisStatus ?? (match.statsSource ? 'ready' : 'unavailable')
     }));
     fixtureAnalyses.set(
-      version,
-      prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(version))
+      key,
+      prepareAnalyses(matches).finally(() => fixtureAnalyses.delete(key))
     );
   }
-  return fixtureAnalyses.get(version);
+  return fixtureAnalyses.get(key);
 }
 async function refreshFixtures() {
   const source = $('#data-source');
@@ -2998,13 +3000,13 @@ async function refreshFixtures() {
       source.innerHTML = lastFixturesSource;
       renderFixtureNotice();
     }
-    loadPredictionArchive();
+    if (accountAuthenticated) loadPredictionArchive();
     lastFixturesSource = source.innerHTML;
   } catch (error) {
     fixturePreview = null;
     fixturesStatus = 'error';
     updateFreshness();
-    loadPredictionArchive();
+    if (accountAuthenticated) loadPredictionArchive();
     if (fixtureDataLoaded) {
       source.textContent = `Actualisation impossible : dernier calendrier conservé (${sourceFreshness(state.feedDates?.calendar, 'calendar').label}). Vérifiez la date des cotes.`;
     } else {
@@ -3060,7 +3062,7 @@ function setActiveTab(tab, scroll = false, profileTarget = null, historyMode = '
     useDetails((api) => {
       if (activeTab === 'standings') api.showStandings();
     });
-  if (tab === 'predictions') loadPredictionArchive();
+  if (tab === 'predictions' || tab === 'profile') loadPredictionArchive();
   if (changedTab) renderActiveTab();
   if (tab === 'profile') openProfile(profileTarget ?? { self: true });
   else profilePage?.stop();
@@ -3140,7 +3142,7 @@ globalThis.addEventListener?.('keydown', (event) => {
     return;
   const buttons = [
       ...document.querySelectorAll(
-        '#builder button:not(:disabled),#builder input:not(:disabled),#builder select:not(:disabled)'
+        '#builder button:not(:disabled),#builder input:not(:disabled),#builder select:not(:disabled),#builder summary,#builder a[href]'
       )
     ].filter((el) => el.getClientRects().length),
     first = buttons[0],
@@ -4459,6 +4461,10 @@ function setBuilderTab(tab, focus = false) {
     generator = $('#generator-panel');
   if (ticket) ticket.hidden = tab !== 'ticket';
   if (generator) generator.hidden = tab !== 'generator';
+  if (tab === 'generator') {
+    renderSafePicks();
+    updateSelectedMarkets();
+  }
 }
 document.querySelectorAll('[data-builder-tab]').forEach((button) => {
   button.addEventListener('click', () => setBuilderTab(button.dataset.builderTab));
@@ -4590,7 +4596,7 @@ $('#ticket-calendar')?.addEventListener('click', () => {
 });
 $('#close-builder').addEventListener('click', () => setBuilderDrawer(false));
 function shareTicket(bet) {
-  return import('./src/ticket/ticket-share.js?v=bet261')
+  return import('./src/ticket/ticket-share.js?v=bet409')
     .then(({ openTicketShare }) => openTicketShare(bet, { baseUrl: location.href }))
     .catch(() => toast('Impossible de préparer le partage. Réessayez.'));
 }
@@ -5301,7 +5307,7 @@ function ensureAccount() {
 }
 
 if (typeof window !== 'undefined')
-  import('./src/core/onboarding.js').then(({ initOnboarding }) =>
+  import('./src/core/onboarding.js?v=bet409').then(({ initOnboarding }) =>
     initOnboarding($('#discovery'), {
       initialSeen: state.onboardingSeen,
       onSeen: () => {
@@ -5451,7 +5457,7 @@ if (typeof window !== 'undefined')
   });
 
 if (typeof window !== 'undefined')
-  drawerReady = import('./src/ticket/ticket-drawer.js')
+  drawerReady = import('./src/ticket/ticket-drawer.js?v=bet409')
     .then(({ initTicketDrawer }) => initTicketDrawer($('#builder'), () => setBuilderDrawer(false)))
     .catch(() => {});
 

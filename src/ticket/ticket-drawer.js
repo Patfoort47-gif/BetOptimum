@@ -29,7 +29,7 @@ export function initTicketDrawer(builder, close) {
     if (event.key !== 'Tab' || !document.body.classList.contains('ticket-drawer-open')) return;
     const items = [
       ...builder.querySelectorAll(
-        'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]'
+        'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex="0"]'
       )
     ].filter((el) => el.getClientRects().length && !el.closest('[hidden]'));
     if (!items.length) {

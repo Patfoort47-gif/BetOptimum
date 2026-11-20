@@ -6499,9 +6499,9 @@ dialog .dialog-tools .icon-button {
   }
   .model-period-shortcuts button {
     flex: 1;
-    padding: 8px;
+    padding: 6px 4px;
     font-size: 11px;
-    min-height: 40px;
+    min-height: 44px;
   }
   #predictions .prediction-toolbar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -12751,10 +12751,6 @@ body .match-card .match-hero .stadium-placeholder-name {
   .builder {
     scroll-padding-block: 12px;
   }
-}
-
-.hero {
-  grid-template-columns: minmax(0, 1fr);
 }
 
 .model-load p {
