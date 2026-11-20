@@ -39,6 +39,7 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
     '.nojekyll',
     'manifest.webmanifest',
     'robots.txt',
+    'ads.txt',
     'sitemap.xml',
     'google9d3b820d95b3f0f8.html'
   ])
