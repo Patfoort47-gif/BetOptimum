@@ -87,6 +87,7 @@ import {
   recommendedMarket,
   confidenceKpi,
   optimizeCombo,
+  comboCandidates,
   selectionResult,
   settleBet,
   systemLines,
@@ -1543,6 +1544,7 @@ function renderMatches() {
     focusKey = focusedMarket?.dataset?.market,
     focusFavorite = focusedMarket?.dataset?.favoriteTeam;
   const matches = visibleMatches();
+  if ($('#generator-panel')?.hidden === false) refreshGenerator();
   renderFixtureNotice();
   const today = isoDate(0),
     showTodayEmpty =
@@ -2303,6 +2305,7 @@ function renderTicket() {
   if (shareUrl) shareUrl.disabled = !state.ticket.length;
   renderLeagueToggle();
   renderLeagueList();
+  if ($('#generator-panel')?.hidden === false) refreshGenerator();
   if (locked)
     document
       .querySelectorAll(
@@ -4462,6 +4465,7 @@ function setBuilderTab(tab, focus = false) {
   if (ticket) ticket.hidden = tab !== 'ticket';
   if (generator) generator.hidden = tab !== 'generator';
   if (tab === 'generator') {
+    refreshGenerator();
     renderSafePicks();
     updateSelectedMarkets();
   }
@@ -4497,7 +4501,10 @@ comboPeriod?.addEventListener('change', () => {
     $('#combo-start').value ||= comboDay(0);
     $('#combo-end').value ||= comboDay(1);
   }
+  refreshGenerator();
 });
+for (const id of ['#combo-start', '#combo-end', '#risk-profile'])
+  $(id)?.addEventListener('change', refreshGenerator);
 function generatorMatches() {
   const period = comboPeriod?.value ?? 'calendar';
   if (period === 'calendar') return visibleMatches();
@@ -4519,6 +4526,46 @@ function generatorMatches() {
       (state.filter !== 'Favoris' || followsMatch(match))
   );
 }
+let generatingCombo = false;
+function upcomingGeneratorMatches(matches) {
+  const now = Date.now();
+  return [
+    ...new Map(
+      matches
+        .filter(
+          (match) => !match.completed && !match.voided && !isLive(match) && kickoffAt(match) > now
+        )
+        .map((match) => [match.id, match])
+    ).values()
+  ];
+}
+function refreshGenerator() {
+  const matches = generatorMatches();
+  const count = matches
+    ? comboCandidates(upcomingGeneratorMatches(matches), $('#risk-profile').value).candidates.length
+    : 0;
+  const select = $('#selection-count');
+  const previous = Number(select.value) || 3;
+  const options =
+    count < 2
+      ? [
+          new Option(
+            matches == null
+              ? 'Dates à vérifier'
+              : count === 1
+                ? 'Un seul match éligible'
+                : 'Aucun match éligible',
+            ''
+          )
+        ]
+      : Array.from({ length: count - 1 }, (_, index) => new Option(String(index + 2)));
+  select.replaceChildren(...options);
+  if (count >= 2) select.value = String(Math.min(previous, count));
+  select.disabled = $('#generate-combo').disabled =
+    count < 2 ||
+    generatingCombo ||
+    Boolean(betConfirmed || betAttempt?.busy || betAttempt?.uncertain);
+}
 function generate() {
   if (betConfirmed || betAttempt?.busy || betAttempt?.uncertain) {
     toast('Vérifiez d’abord le pari en attente.');
@@ -4526,6 +4573,7 @@ function generate() {
   }
   const button = $('#generate-combo'),
     feedback = $('#combo-feedback');
+  generatingCombo = true;
   button.disabled = true;
   button.textContent = UI_COPY.composing;
   if (feedback) feedback.textContent = 'Recherche parmi les matchs de la période…';
@@ -4538,13 +4586,8 @@ function generate() {
         setBuilderTab('generator');
         return;
       }
-      const eligible = new Map();
-      for (const match of matches) {
-        if (!match.completed && !match.voided && kickoffAt(match) > Date.now())
-          eligible.set(match.id, match);
-      }
       const picks = optimizeCombo(
-        [...eligible.values()],
+        upcomingGeneratorMatches(matches),
         Number($('#target-odds').value),
         Number($('#selection-count').value),
         $('#risk-profile').value
@@ -4574,7 +4617,8 @@ function generate() {
       toast(message);
     } finally {
       button.textContent = UI_COPY.compose;
-      button.disabled = Boolean(betConfirmed || betAttempt?.busy || betAttempt?.uncertain);
+      generatingCombo = false;
+      refreshGenerator();
     }
   }, 0);
 }

@@ -399,3 +399,24 @@ test('BET-278 : l’affiche sans cote réelle reste masquée', () => {
     null
   );
 });
+
+test('le générateur peut dépasser cinq matchs et cherche dans tout le calendrier éligible', () => {
+  const matches = Array.from({ length: 24 }, (_, index) => ({
+    id: String(index),
+    home: `A${index}`,
+    away: `B${index}`,
+    homeGoals: 2.4,
+    awayGoals: 0.5,
+    realOddsMarkets: ['home'],
+    oddsBookmakerCounts: { home: 10 },
+    odds: { home: 1.25 }
+  }));
+  assert.equal(optimizeCombo(matches, 1.25 ** 7, 24).length, 7);
+  const lateMatches = matches.map((match, index) =>
+    index < 18 ? { ...match, odds: { home: 1.5 } } : match
+  );
+  const combo = optimizeCombo(lateMatches, 1.25 ** 2, 24);
+  assert.equal(combo.length, 2);
+  assert.ok(combo.every((pick) => Number(pick.matchId) >= 18));
+  assert.deepEqual(optimizeCombo([], 3, 0), []);
+});

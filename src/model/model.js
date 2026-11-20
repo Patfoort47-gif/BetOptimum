@@ -223,7 +223,7 @@ export function selectSpotlight(matches, now = Date.now(), liveIds = new Set()) 
   );
 }
 
-export function optimizeCombo(matches, target = 3, maxCount = 3, risk = 'balanced') {
+export function comboCandidates(matches, risk) {
   const profiles = {
       safe: { minProbability: 0.5, maxOdd: 2.5, valueWeight: 0.05, riskWeight: 1.15 },
       balanced: { minProbability: 0.42, maxOdd: 5, valueWeight: 0.15, riskWeight: 0.75 },
@@ -243,36 +243,41 @@ export function optimizeCombo(matches, target = 3, maxCount = 3, risk = 'balance
     }))
     .filter(
       (x) => x.available && x.probability >= profile.minProbability && x.odd <= profile.maxOdd
-    )
-    .sort(
-      (a, b) =>
-        b.probability +
-        Math.max(0, b.value) * profile.valueWeight -
-        (a.probability + Math.max(0, a.value) * profile.valueWeight)
-    )
-    .slice(0, 18);
-  let best = [],
-    bestScore = Infinity;
-  const evaluate = (selection) => {
-    const odds = selection.reduce((p, x) => p * x.odd, 1),
-      confidence = selection.reduce((p, x) => p * x.probability, 1) ** (1 / selection.length),
-      value = selection.reduce((sum, x) => sum + Math.max(0, x.value), 0) / selection.length,
-      distance = Math.abs(Math.log(odds / target)),
-      under = odds < target ? 0.08 : 0,
-      score =
-        distance * 3 + under + (1 - confidence) * profile.riskWeight - value * profile.valueWeight;
-    if (score < bestScore) {
-      bestScore = score;
-      best = [...selection];
+    );
+  return { candidates, profile };
+}
+export function optimizeCombo(matches, target = 3, maxCount = 3, risk = 'balanced') {
+  const { candidates, profile } = comboCandidates(matches, risk);
+  const targetLog = Math.log(target);
+  const maxDepth = Math.min(maxCount, candidates.length);
+  let best = null;
+  let frontier = [{ index: -1, odds: 0, probability: 0, value: 0, previous: null }];
+  // Keep the best partial tickets at each size to bound the search without limiting the match pool.
+  for (let depth = 1; depth <= maxDepth && frontier.length; depth++) {
+    const next = [];
+    for (const previous of frontier) {
+      for (let index = previous.index + 1; index < candidates.length; index++) {
+        const pick = candidates[index];
+        const odds = previous.odds + Math.log(pick.odd);
+        const probability = previous.probability + Math.log(pick.probability);
+        const value = previous.value + Math.max(0, pick.value);
+        const score =
+          Math.abs(odds - targetLog) * 3 +
+          (odds < targetLog ? 0.08 : 0) +
+          (1 - Math.exp(probability / depth)) * profile.riskWeight -
+          (value / depth) * profile.valueWeight;
+        const selection = { index, odds, probability, value, score, previous };
+        if (depth >= 2 && (!best || score < best.score)) best = selection;
+        next.push(selection);
+      }
     }
-  };
-  const search = (index, selection) => {
-    if (selection.length >= 2) evaluate(selection);
-    if (selection.length === maxCount) return;
-    for (let i = index; i < candidates.length; i++) search(i + 1, [...selection, candidates[i]]);
-  };
-  search(0, []);
-  return best;
+    next.sort((a, b) => a.score - b.score);
+    frontier = next.slice(0, 64);
+  }
+  const result = [];
+  for (let entry = best; entry?.previous; entry = entry.previous)
+    result.push(candidates[entry.index]);
+  return result.reverse();
 }
 export function selectionResult(item, results) {
   const teams = (item.match ?? '').split(/\s+[–-]\s+/),
