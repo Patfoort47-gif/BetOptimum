@@ -7,6 +7,13 @@ export function authCallbackStatus(href) {
     error = get('error_code') ?? get('error'),
     type = get('type');
   if (error) {
+    if (type === 'recovery' || params.get('auth_return') === 'recovery') {
+      return {
+        kind: 'recovery-error',
+        message:
+          'Ce lien a expiré ou a déjà été utilisé. Demandez un nouveau lien de réinitialisation.'
+      };
+    }
     const confirmation = ['otp_expired', 'otp_disabled'].includes(error) || type === 'signup';
     return {
       kind: confirmation ? 'confirmation-error' : 'oauth-error',

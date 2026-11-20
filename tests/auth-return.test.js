@@ -23,6 +23,23 @@ test('confirmation expirée, inscription et récupération restent distinctes', 
   assert.equal(authCallbackStatus('https://example.org/#access_token=private').kind, 'none');
   assert.equal(authCallbackStatus('https://example.org/?error=server_error').kind, 'oauth-error');
 });
+test('un lien de récupération expiré renvoie vers une nouvelle demande', () => {
+  for (const suffix of [
+    '?auth_return=recovery#error_code=otp_expired&error_description=private',
+    '#type=recovery&error_code=otp_expired',
+    '?auth_return=recovery&error=access_denied'
+  ]) {
+    const result = authCallbackStatus('https://example.org/' + suffix);
+    assert.equal(result.kind, 'recovery-error');
+    assert.match(result.message, /nouveau lien de réinitialisation/);
+    assert.ok(!result.message.includes('private'));
+  }
+  assert.equal(authCallbackStatus('https://example.org/?auth_return=recovery').kind, 'none');
+  assert.equal(
+    authCallbackStatus('https://example.org/?auth_return=recovery#type=recovery').kind,
+    'recovery'
+  );
+});
 test('le fournisseur désactivé reçoit une explication exploitable', () => {
   assert.match(
     translateAuthError({ message: 'Unsupported provider: provider is not enabled' }),

@@ -5367,8 +5367,8 @@ function ensureAccount() {
           renderAccountMenu();
           renderHistory();
         },
-        onAuthEvent: (event) => {
-          if (event === 'SIGNED_OUT' || event === 'PASSWORD_RECOVERY') {
+        onAuthEvent: (event, _user, message) => {
+          if (['SIGNED_OUT', 'PASSWORD_RECOVERY', 'RECOVERY_FAILED'].includes(event)) {
             clearPrivateInvitation();
           }
           if (
@@ -5393,6 +5393,8 @@ function ensureAccount() {
             setTimeout(() => openJoin('login').then(() => join?.oauthError()), 0);
           } else if (event === 'CONFIRMATION_FAILED')
             openJoin('login').then(() => join?.confirmationError());
+          else if (event === 'RECOVERY_FAILED')
+            openJoin('forgot').then(() => join?.recoveryError(message));
           else if (event === 'PASSWORD_RECOVERY') openJoin('login').then(() => join?.recovery());
           else if (event === 'SIGNED_IN' && join && !$('#rejoindre').hidden) join.close();
         },
