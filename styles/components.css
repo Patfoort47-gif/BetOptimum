@@ -5224,9 +5224,10 @@ body.join-open {
     --header-offset: 92px;
   }
   .topbar {
-    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-columns: auto minmax(max-content, 1fr) auto;
     align-items: center;
-    gap: 12px;
+    column-gap: clamp(12px, 2vw, 32px);
+    padding-inline: clamp(16px, 3vw, 48px);
   }
   .topbar > .brand,
   .topbar > .tabs,
@@ -5242,7 +5243,7 @@ body.join-open {
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
-    gap: 2px;
+    gap: clamp(4px, 0.8vw, 16px);
   }
   .topbar > .topbar-actions {
     grid-column: 3;
