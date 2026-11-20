@@ -1,6 +1,6 @@
 import { readMagicDestination, takeNotificationReturn } from './src/account/auth-return.js';
 import { syncStudy } from './src/core/sync-study.js';
-import { financialTone, gaugeArc, kpiCard, vizCurve } from './src/core/design-viz.js';
+import { vizCurve } from './src/core/design-viz.js';
 import { oddsHealthLabel } from './src/core/odds-health.js';
 import { safeLogo, logoMarkup as logoTag } from './src/core/logos.js';
 import { teamLogoMarkup } from './src/matches/team-logos.js';
@@ -943,56 +943,6 @@ function setupScroller(el) {
 function confidenceMetrics() {
   return confidenceKpi(publicPredictionHistory(state.predictionHistory), allMatches(), isoDate(0));
 }
-function renderHomePerformance() {
-  const box = $('#home-performance-kpis');
-  if (!box) return;
-  const r = predictionReport(state.predictionHistory, { period: 'all' });
-  box.innerHTML = archiveLoadedAt
-    ? kpiCard('ROI global', r.roi == null ? 'Indisponible' : decimal(r.roi, 1) + ' %', {
-        tone: financialTone(r.roi),
-        caption: 'Tout l’historique'
-      }) +
-      kpiCard('Profit simulé', r.items.length ? money(r.profit) : 'Indisponible', {
-        tone: financialTone(r.profit),
-        caption: '10 € fictifs par pronostic'
-      }) +
-      kpiCard('Pronostics réglés', r.items.length, { caption: 'Tout l’historique' })
-    : '';
-  $('#home-performance-status').textContent = archiveLoadedAt
-    ? archiveStatus === 'error'
-      ? 'Actualisation impossible : derniers résultats conservés. Archive lue le ' +
-        new Date(archiveLoadedAt).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }) +
-        ' (Paris).'
-      : r.items.length < 30
-        ? 'Échantillon limité : prudence dans l’interprétation.'
-        : 'Bilan synchronisé avec les résultats publics.'
-    : 'Résultats du modèle indisponibles pour le moment.';
-}
-function renderConfidenceKpi() {
-  renderHomePerformance();
-  const metrics = confidenceMetrics(),
-    percent = (value) => (value == null ? '-' : `${Math.round(value * 100)}`),
-    score = percent(metrics.score),
-    form = percent(metrics.form),
-    today = percent(metrics.todayConfidence);
-  const face = $('#hero-confidence .gauge-face');
-  if (!$('#hero-confidence .gauge-fill')) face?.insertAdjacentHTML('afterbegin', gaugeArc());
-  const gauge = $('#hero-confidence .gauge-fill');
-  $('#hero-confidence-score').textContent = score;
-  $('#hero-confidence-form').textContent = form === '-' ? '-' : `${form} %`;
-  $('#hero-confidence-today').textContent = today === '-' ? '-' : `${today} %`;
-  $('#hero-confidence-form-detail').textContent = metrics.recentCount
-    ? `${metrics.wins}/${metrics.recentCount} réussis`
-    : 'Pas encore de résultat';
-  $('#hero-confidence-today-detail').textContent = metrics.todayCount
-    ? `${metrics.todayCount} pronostic${metrics.todayCount > 1 ? 's' : ''}`
-    : 'Aucun match aujourd’hui';
-  gauge.style.strokeDashoffset = String(100 - (metrics.score ?? 0) * 100);
-  const card = $('#hero-confidence');
-  card.classList.toggle('unavailable', metrics.score == null);
-  card.classList.toggle('gauge-low', metrics.score != null && Number(score) < 50);
-  card.classList.toggle('gauge-zero', score === '0');
-}
 const kickoffAt = (m) => new Date(m.kickoff ?? `${m.date}T${m.time || '12:00'}:00`);
 const isLive = (m) => !m.completed && state.live[m.id]?.state === 'in';
 function countdownText(m) {
@@ -1923,6 +1873,13 @@ function renderPredictionStats() {
     `${items.length} réglés · ${report.pending} en attente · ${report.voided} remboursés · ${report.invalid} sans cote exploitable. ${items.length < 30 ? 'Échantillon limité : prudence dans l’interprétation.' : ''}`;
   $('#prediction-calibration').innerHTML = renderCalibration(items);
   $('#prediction-closing').innerHTML = closingMarkup(items);
+  const range =
+    report.first === report.last
+      ? longDay(report.first)
+      : `Du ${longDay(report.first)} au ${longDay(report.last)}`;
+  $('#prediction-overview').innerHTML = archiveLoadedAt
+    ? `<dl class="model-overview"><div><dt>ROI simulé</dt><dd>${roi == null ? 'Indisponible' : `${decimal(roi, 1)} %`}</dd></div><div><dt>Taux de réussite</dt><dd>${items.length ? `${decimal((100 * won.length) / items.length, 1)} %` : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${items.length}</dd></div></dl><p class="archive-note">${html(range)} · 10 € fictifs par pronostic</p>`
+    : '';
   $('#prediction-showcase').innerHTML = renderPredictionShowcase(report, {
     html,
     money,
@@ -2937,14 +2894,10 @@ async function loadPredictionArchive(force = false) {
       archiveLoadedAt = Date.now();
       archiveStatus = 'ready';
       if (activeTab === 'profile') profilePage?.refresh?.();
-      renderHomePerformance();
       renderPredictionStats();
-      if (activeTab === 'matches') renderConfidenceKpi();
     } catch (error) {
       archiveStatus = 'error';
-      renderHomePerformance();
       renderPredictionStats();
-      if (activeTab === 'matches') renderConfidenceKpi();
       console.warn('Historique conservé : archive indisponible', error);
     } finally {
       archivePromise = null;
@@ -3048,7 +3001,6 @@ async function refreshFixtures() {
     fixturePreview = null;
     fixturesStatus = 'error';
     updateFreshness();
-    renderConfidenceKpi();
     loadPredictionArchive();
     if (fixtureDataLoaded) {
       source.textContent = `Actualisation impossible : dernier calendrier conservé (${sourceFreshness(state.feedDates?.calendar, 'calendar').label}). Vérifiez la date des cotes.`;
@@ -4196,7 +4148,6 @@ function renderActiveTab() {
     renderDateNavigator();
     renderFilters();
     renderMatches();
-    renderConfidenceKpi();
   } else if (activeTab === 'community') {
     defaultClubRanking();
     renderProgress();
@@ -4988,7 +4939,7 @@ function openDailyChallenge() {
   if (location.hash === '#defi-du-jour') setActiveTab('matches', false);
 }
 if (typeof window !== 'undefined') addEventListener('hashchange', openDailyChallenge);
-$('#hero-confidence').addEventListener('click', () => showConfidence());
+$('#model-confidence')?.addEventListener('click', () => showConfidence());
 $('#open-help').addEventListener('click', () => $('#help-dialog').showModal());
 document
   .querySelectorAll('[data-close-dialog]')
@@ -5504,17 +5455,5 @@ if (typeof window !== 'undefined')
       $('#conseils-du-jour')?.scrollIntoView({ block: 'start' });
     }
   });
-
-$('#home-performance-detail')?.addEventListener('click', () => {
-  state.predictionFilters = {
-    period: 'all',
-    league: 'all',
-    market: 'all',
-    result: 'all',
-    source: 'bookmaker'
-  };
-  setActiveTab('predictions', true);
-  renderPredictionStats();
-});
 
 if (typeof document !== 'undefined') installImageFallbacks(document);

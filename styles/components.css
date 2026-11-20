@@ -12752,3 +12752,39 @@ body .match-card .match-hero .stadium-placeholder-name {
     scroll-padding-block: 12px;
   }
 }
+
+.hero {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.model-load p {
+  margin: 0 0 6px;
+}
+
+.model-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.model-overview > div {
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.model-overview dt {
+  font-size: 0.85rem;
+}
+
+.model-overview dd {
+  margin: 4px 0 0;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-weight: 700;
+}
+
+.model-showcase .model-spotlight {
+  display: block;
+}
