@@ -31,6 +31,7 @@ const env = Object.fromEntries(
     'NOTIFICATION_SCHEDULER_SECRET',
     'NOTIFICATION_ENCRYPTION_KEY',
     'SITE_URL',
+    'SITE_ALLOWED_ORIGINS',
     'VAPID_PUBLIC_KEY',
     'VAPID_PRIVATE_KEY',
     'VAPID_SUBJECT',
@@ -46,17 +47,15 @@ try {
 } catch {
   /* Diagnostiqué dans le gestionnaire, sans empêcher son démarrage. */
 }
-const cors = {
-  'Access-Control-Allow-Origin': site?.origin ?? 'null',
-  'Access-Control-Allow-Headers': 'authorization,content-type,apikey,x-client-info,x-worker-secret',
-  'Access-Control-Allow-Methods': 'POST,OPTIONS',
-  Vary: 'Origin'
-};
-const json = (value: unknown, status = 200) =>
-  new Response(JSON.stringify(value), {
-    status,
-    headers: { ...cors, 'Content-Type': 'application/json' }
-  });
+const allowedOrigins = new Set(site ? [site.origin] : []);
+for (const value of env.SITE_ALLOWED_ORIGINS.split(',')) {
+  try {
+    const url = new URL(value.trim());
+    if (url.protocol === 'https:' && url.href === url.origin + '/') allowedOrigins.add(url.origin);
+  } catch {
+    // Une entrée absente ou invalide n’autorise aucune origine supplémentaire.
+  }
+}
 const enc = new TextEncoder();
 const hash = async (text: string) =>
   [...new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode(text)))]
@@ -482,6 +481,19 @@ async function worker(
   };
 }
 Deno.serve(async (request) => {
+  const origin = request.headers.get('origin');
+  const cors = {
+    'Access-Control-Allow-Origin': origin && allowedOrigins.has(origin) ? origin : 'null',
+    'Access-Control-Allow-Headers':
+      'authorization,content-type,apikey,x-client-info,x-worker-secret',
+    'Access-Control-Allow-Methods': 'POST,OPTIONS',
+    Vary: 'Origin'
+  };
+  const json = (value: unknown, status = 200) =>
+    new Response(JSON.stringify(value), {
+      status,
+      headers: { ...cors, 'Content-Type': 'application/json' }
+    });
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
   if (request.method !== 'POST') return json({ error: 'Méthode refusée' }, 405);
   try {
@@ -534,8 +546,7 @@ Deno.serve(async (request) => {
         )
       );
     }
-    if (request.headers.get('origin') && request.headers.get('origin') !== site.origin)
-      return json({ error: 'Origine refusée' }, 403);
+    if (origin && !allowedOrigins.has(origin)) return json({ error: 'Origine refusée' }, 403);
     const authorization = request.headers.get('authorization') ?? '';
     const auth = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
       headers: { Authorization: authorization, apikey: env.SUPABASE_SERVICE_ROLE_KEY }
