@@ -30,12 +30,50 @@ const normalize = (name) =>
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '');
 
+// Variantes usuelles d'un même club dans les calendriers des fournisseurs.
+const clubAliases = new Map(
+  [
+    ['Bodø/Glimt', 'FK Bodø/Glimt', 'Bodo Glimt'],
+    ['LASK', 'LASK Linz'],
+    ['Feyenoord', 'Feyenoord Rotterdam'],
+    ['Porto', 'FC Porto'],
+    ['Atlético Madrid', 'Atlético de Madrid', 'Atletico Madrid'],
+    ['Viking', 'Viking FK'],
+    ['Inter', 'Inter Milan', 'Internazionale', 'FC Internazionale Milano'],
+    ['Stuttgart', 'VfB Stuttgart'],
+    ['Lille', 'LOSC Lille'],
+    ['Bayern Munich', 'Bayern München', 'FC Bayern München'],
+    ['Paris Saint-Germain', 'Paris SG', 'PSG'],
+    ['Roma', 'AS Roma'],
+    ['Olympiacos', 'Olympiakos', 'Olympiacos Piraeus'],
+    ['Milan', 'AC Milan'],
+    ['Lyon', 'Olympique Lyonnais'],
+    ['Lillestrøm', 'Lillestrøm SK'],
+    ['Rennes', 'Stade Rennais', 'Stade Rennais FC'],
+    ['Sunderland', 'Sunderland AFC'],
+    ['Hoffenheim', 'TSG Hoffenheim', 'TSG 1899 Hoffenheim'],
+    ['Sturm Graz', 'SK Sturm Graz'],
+    ['Ajax', 'Ajax Amsterdam', 'AFC Ajax'],
+    ['Thun', 'FC Thun'],
+    ['Hearts', 'Heart of Midlothian'],
+    ['Monaco', 'AS Monaco'],
+    ['Jablonec', 'FK Jablonec'],
+    ['Lugano', 'FC Lugano']
+  ].flatMap(([canonical, ...aliases]) =>
+    aliases.map((alias) => [normalize(alias), normalize(canonical)])
+  )
+);
+const club = (name) => {
+  const key = normalize(name);
+  return clubAliases.get(key) ?? key;
+};
+
 function* matchedFixtures(matches, fixtures) {
   const index = new Map();
   for (const fixture of fixtures) {
     const participants = fixture.participants ?? [];
-    const home = normalize(participants.find((team) => team.meta?.location === 'home')?.name);
-    const away = normalize(participants.find((team) => team.meta?.location === 'away')?.name);
+    const home = club(participants.find((team) => team.meta?.location === 'home')?.name);
+    const away = club(participants.find((team) => team.meta?.location === 'away')?.name);
     if (!home || !away || !Number.isFinite(fixture.starting_at_timestamp)) continue;
     const key = [fixture.league_id, home, away].join(':');
     const candidates = index.get(key) ?? new Map();
@@ -45,7 +83,7 @@ function* matchedFixtures(matches, fixtures) {
   for (const match of matches) {
     if (!match.completed || match.voided || !/^espn-\d+$/.test(match.id)) continue;
     const league = Object.hasOwn(leagueIds, match.league) ? leagueIds[match.league] : null;
-    const key = [league, normalize(match.home), normalize(match.away)].join(':');
+    const key = [league, club(match.home), club(match.away)].join(':');
     const kickoff = Date.parse(match.kickoff);
     const candidates = [...(index.get(key)?.values() ?? [])].filter(
       (fixture) => Math.abs(kickoff - fixture.starting_at_timestamp * 1000) <= 15 * 60000

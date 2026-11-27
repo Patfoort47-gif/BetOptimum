@@ -7,7 +7,7 @@ test('publie uniquement les xG complets du match terminé et identifié sans amb
   const match = {
     id: 'espn-123',
     league: 'Ligue 1',
-    home: 'Équipe A',
+    home: 'Internazionale',
     away: 'Équipe B',
     kickoff,
     completed: true
@@ -18,7 +18,7 @@ test('publie uniquement les xG complets du match terminé et identifié sans amb
     starting_at_timestamp: Date.parse(kickoff) / 1000,
     participants: [
       { name: 'Equipe B', meta: { location: 'away' } },
-      { name: 'Equipe A', meta: { location: 'home' } }
+      { name: 'Inter Milan', meta: { location: 'home' } }
     ],
     xgfixture: [
       { location: 'away', type: { code: 'expected-goals' }, data: { value: 1.38 } },
