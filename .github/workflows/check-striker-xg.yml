@@ -13,6 +13,17 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node scripts/check-striker-xg.mjs
+      - run: |
+          node --input-type=module <<'JS'
+          try {
+            await import('./scripts/check-striker-xg.mjs');
+          } catch (error) {
+            const message = /^(StrikerAPI HTTP \d+|Calendrier public HTTP \d+|Secret STRIKERAPI_API_KEY absent|Calendrier StrikerAPI invalide)$/.test(error.message)
+              ? error.message
+              : 'Échec du diagnostic : ' + error.name + ' ' + (error.cause?.code ?? '');
+            console.log('::error::' + message);
+            process.exitCode = 1;
+          }
+          JS
         env:
           STRIKERAPI_API_KEY: ${{ secrets.STRIKERAPI_API_KEY }}
