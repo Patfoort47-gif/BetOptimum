@@ -2,7 +2,8 @@
 import { readFile } from 'node:fs/promises';
 import { checkPitchApiXg } from './check-pitchapi-xg.mjs';
 import { blendXg, scoreProbabilities } from '../src/model/xg-evaluation.js';
-import { analyseMatch, recommendedMarket, selectionResult } from '../src/model/model.js';
+import { analyseMatch, rankRecommendedMarkets, selectionResult } from '../src/model/model.js';
+import { forecastMatch } from '../src/model/prediction-model.js';
 
 const DAY = 86400000;
 const competitions = new Map([
@@ -28,12 +29,22 @@ function xgForecast(row, history) {
   const home = recent(row.match.home);
   const away = recent(row.match.away);
   if (home.length < 3 || away.length < 3) return null;
-  const mean = (matches, field) =>
-    matches.reduce((sum, game) => sum + game[field], 0) / matches.length;
+  const mean = (matches, field, weighted) => {
+    const weights = matches.map((game) =>
+      weighted ? 2 ** (-(captured - game.available) / (28 * DAY)) : 1
+    );
+    const total = weights.reduce((sum, weight) => sum + weight, 0);
+    return matches.reduce((sum, game, index) => sum + game[field] * weights[index], 0) / total;
+  };
   const clamp = (value) => Math.max(0.3, Math.min(3.5, value));
+  const estimates = (weighted) => ({
+    home: clamp(((mean(home, 'scored', weighted) + mean(away, 'allowed', weighted)) / 2) * 1.08),
+    away: clamp(((mean(away, 'scored', weighted) + mean(home, 'allowed', weighted)) / 2) * 0.92)
+  });
   return {
-    home: clamp(((mean(home, 'scored') + mean(away, 'allowed')) / 2) * 1.08),
-    away: clamp(((mean(away, 'scored') + mean(home, 'allowed')) / 2) * 0.92),
+    ...estimates(false),
+    recent: estimates(true),
+    sample: Math.min(home.length, away.length),
     availableAt: new Date(
       Math.max(...home.concat(away).map((game) => game.available))
     ).toISOString()
@@ -95,7 +106,7 @@ async function getHistory(league, rows, key) {
   };
 }
 
-function metrics(rows, weight) {
+function metrics(rows, { weight, marketWeight = 0, adaptive = false, threshold = 0 }) {
   let brier = 0;
   let logLoss = 0;
   let wins = 0;
@@ -103,7 +114,10 @@ function metrics(rows, weight) {
   let refunds = 0;
   let profit = 0;
   for (const row of rows) {
-    const match = blendXg(row.match, row.xg, weight, new Date(row.captured * 1000).toISOString());
+    const xg = adaptive && row.xg ? { ...row.xg, ...row.xg.recent } : row.xg;
+    const xgWeight = adaptive && xg ? (weight * xg.sample) / 6 : weight;
+    const match = blendXg(row.match, xg, xgWeight, new Date(row.captured * 1000).toISOString());
+    const { probs } = forecastMatch(match, { marketWeight, includeExtended: true });
     const final = {
       ...row.match,
       completed: true,
@@ -113,10 +127,15 @@ function metrics(rows, weight) {
     };
     const result =
       row.homeScore > row.awayScore ? 'home' : row.homeScore < row.awayScore ? 'away' : 'draw';
-    const score = scoreProbabilities(analyseMatch(match).probs, result);
+    const score = scoreProbabilities(probs, result);
     brier += score.brier;
     logLoss += score.logLoss;
-    const pick = recommendedMarket(match);
+    const pick = rankRecommendedMarkets(
+      analyseMatch(row.match).markets.map((market) => ({
+        ...market,
+        probability: probs[market.key]
+      }))
+    ).find((market) => market.probability >= threshold);
     if (!pick) continue;
     const { status } = selectionResult({ matchId: match.id, key: pick.key }, [final]);
     if (status === 'won') {
@@ -164,19 +183,31 @@ const cut = ready[Math.floor(ready.length * 0.7)].match.date;
 const valid = ready.filter((row) => row.match.date < cut);
 const test = ready.filter((row) => row.match.date >= cut);
 if (!valid.length || !test.length) throw new Error('Fenêtres chronologiques insuffisantes');
-const validation = [0, 0.25, 0.5, 0.75, 1].map((weight) => ({ weight, ...metrics(valid, weight) }));
-const { weight } = validation.reduce((best, item) => (item.brier < best.brier ? item : best));
-const roiWeight = validation.reduce((best, item) =>
-  item.brier <= validation[0].brier && item.roi > best.roi ? item : best
-).weight;
+const baselinePolicy = { weight: 0 };
+const policies = [
+  baselinePolicy,
+  ...[0.5, 0.75, 1].flatMap((weight) =>
+    [0, 0.5, 1].map((marketWeight) => ({ weight, marketWeight, adaptive: true }))
+  ),
+  { weight: 0, marketWeight: 0.5 },
+  { weight: 0, marketWeight: 1 }
+];
+const validation = policies.map((policy) => ({ policy, ...metrics(valid, policy) }));
+const baseline = validation[0];
+const winner = validation.reduce((best, item) => (item.brier < best.brier ? item : best));
+const commercial = validation.reduce((best, item) =>
+  item.brier <= baseline.brier && item.winRate >= baseline.winRate && item.roi > best.roi
+    ? item
+    : best
+);
 const results = {
   cut,
   coverage,
   validation,
-  baseline: metrics(test, 0),
-  candidate: metrics(test, weight),
-  selectedWeight: weight,
-  exploratoryRoi: { weight: roiWeight, ...metrics(test, roiWeight) },
+  baseline: metrics(test, baselinePolicy),
+  selectedForAccuracy: { policy: winner.policy, ...metrics(test, winner.policy) },
+  selectedForRoi: { policy: commercial.policy, ...metrics(test, commercial.policy) },
+  highConfidence: metrics(test, { ...winner.policy, threshold: 0.85 }),
   activation: false,
   availability: 'Disponibilité rétrospective supposée 48 h après le coup d’envoi du match précédent'
 };
