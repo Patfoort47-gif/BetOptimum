@@ -10,7 +10,7 @@ test('SEO PronoSafe présent dans le HTML initial et cohérent avec le canonique
     meta = (key, attr = 'name') =>
       html.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)"`))?.[1],
     title = html.match(/<title>([^<]+)<\/title>/)[1];
-  assert.match(title, /^PronoSafe - /);
+  assert.match(title, /^PronoSafe - Pronostics foot du jour/);
   assert.equal(meta('og:title', 'property'), title);
   assert.equal(meta('twitter:title'), title);
   assert.equal(meta('description'), meta('og:description', 'property'));
@@ -25,6 +25,7 @@ test('SEO PronoSafe présent dans le HTML initial et cohérent avec le canonique
   );
   const website = structuredData.find((entry) => entry['@type'] === 'WebSite');
   assert.equal(website.name, 'PronoSafe');
+  assert.equal(website.alternateName, 'Prono Safe');
   assert.equal(website.url, base);
   const schema = structuredData.find((entry) => entry['@type'] === 'WebApplication');
   assert.equal(schema.name, 'PronoSafe');
