@@ -24,7 +24,7 @@ jobs:
           const catalog = await checkPitchApiXg([], key);
           const leagues = Array.isArray(catalog) ? catalog : catalog.leagues;
           if (!Array.isArray(leagues)) throw new Error('Catalogue PitchAPI invalide');
-          console.log('Compétitions au catalogue :', leagues.length);
+          console.log('::notice::Compétitions au catalogue : ' + leagues.length);
           for (const league of leagues) {
             if (!/^l_[a-z0-9]+$/i.test(league.id)) continue;
             if (!/^(ligue [12]|coupe de france|premier league|champions league|uefa champions league|uefa super cup|super cup)$/i.test(league.name)) continue;
@@ -35,6 +35,6 @@ jobs:
             const matches = Array.isArray(data) ? data : data.matches;
             const ids = matches.map(match => match.id).filter(id => /^m_[a-z0-9]+$/i.test(id)).slice(-3);
             const report = await checkPitchApiXg(ids, key);
-            console.log(JSON.stringify({league:league.name, country:league.country_code, sampled:ids.length, withBothXg: report.withBothXg}));
+            console.log('::notice::' + JSON.stringify({league:league.name, country:league.country_code, sampled:ids.length, withBothXg: report.withBothXg}));
           }
           JS
