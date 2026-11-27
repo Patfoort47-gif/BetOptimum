@@ -29,11 +29,12 @@ export async function checkPitchApiXg(matchIds, key, request = fetch) {
   for (const id of new Set(matchIds)) {
     if (!/^m_[A-Za-z0-9]+$/.test(id)) throw new Error('Identifiant de match PitchAPI invalide');
     const stats = await read(`/v1/matches/${id}/stats`);
-    if (stats && stats.match_id !== id) throw new Error('Le match renvoyé ne correspond pas à la demande');
+    if (stats && stats.match_id !== id)
+      throw new Error('Le match renvoyé ne correspond pas à la demande');
     const totals = stats?.periods?.find(({ period }) => period === 'All');
-    const expected = totals?.groups?.flatMap(({ items }) => items).find(({ key }) =>
-      key === 'expected_goals'
-    );
+    const expected = totals?.groups
+      ?.flatMap(({ items }) => items)
+      .find(({ key }) => key === 'expected_goals');
     const numberOrNull = (raw) => {
       if (typeof raw !== 'number' && (typeof raw !== 'string' || !raw.trim())) return null;
       const value = Number(raw);
