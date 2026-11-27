@@ -395,7 +395,8 @@ async function loadPublishedXg(match) {
   try {
     const feed = await loadJson(new URL('../../data/match-xg.json', import.meta.url));
     const xg = feed?.[match.id];
-    return ['home', 'away'].every((side) => Number.isFinite(xg?.[side]) && xg[side] >= 0)
+    return ['PitchAPI', 'Sportmonks'].includes(xg?.source) &&
+      ['home', 'away'].every((side) => Number.isFinite(xg[side]) && xg[side] >= 0)
       ? xg
       : null;
   } catch {
@@ -415,7 +416,7 @@ function observedXg(match, published, espnXg, kickoff) {
           : 'Les xG observés sont indisponibles pour cette rencontre.'
       )
     );
-  const source = published ? 'Sportmonks' : 'ESPN';
+  const source = published?.source ?? 'ESPN';
   return `${heading}<dl class="info-list"><div><dt>${esc(match.home)}</dt><dd>${decimal(xg.home)}</dd></div><div><dt>${esc(match.away)}</dt><dd>${decimal(xg.away)}</dd></div></dl><p class="sheet-note">Source : ${source}.</p>`;
 }
 function faceToFace(games) {

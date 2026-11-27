@@ -26,7 +26,9 @@ test('publie uniquement les xG complets du match terminé et identifié sans amb
       { location: 'home', type: { code: 'expected-goals-on-target' }, data: { value: 3 } }
     ]
   };
-  assert.deepEqual(matchXg([match], [fixture]), { 'espn-123': { home: 0, away: 1.38 } });
+  assert.deepEqual(matchXg([match], [fixture]), {
+    'espn-123': { home: 0, away: 1.38, source: 'Sportmonks' }
+  });
   assert.deepEqual(matchXg([{ ...match, completed: false }], [fixture]), {});
   assert.deepEqual(matchXg([{ ...match, voided: true }], [fixture]), {});
   assert.deepEqual(matchXg([match], [{ ...fixture, league_id: 304 }]), {});

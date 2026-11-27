@@ -1,6 +1,7 @@
 // Réunit les xG d'équipe et le calendrier public sans transmettre le secret au navigateur.
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { checkPitchApiXg } from './check-pitchapi-xg.mjs';
 
 const leagueIds = {
   'Ligue des champions': 2,
@@ -29,7 +30,7 @@ const normalize = (name) =>
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '');
 
-export function matchXg(matches, fixtures) {
+function* matchedFixtures(matches, fixtures) {
   const index = new Map();
   for (const fixture of fixtures) {
     const participants = fixture.participants ?? [];
@@ -41,7 +42,6 @@ export function matchXg(matches, fixtures) {
     candidates.set(fixture.id, fixture);
     index.set(key, candidates);
   }
-  const result = {};
   for (const match of matches) {
     if (!match.completed || match.voided || !/^espn-\d+$/.test(match.id)) continue;
     const league = Object.hasOwn(leagueIds, match.league) ? leagueIds[match.league] : null;
@@ -50,14 +50,18 @@ export function matchXg(matches, fixtures) {
     const candidates = [...(index.get(key)?.values() ?? [])].filter(
       (fixture) => Math.abs(kickoff - fixture.starting_at_timestamp * 1000) <= 15 * 60000
     );
-    if (candidates.length !== 1) continue;
-    const goals = (candidates[0].xgfixture ?? []).filter(
-      (stat) => stat.type?.code === 'expected-goals'
-    );
+    if (candidates.length === 1) yield [match.id, candidates[0]];
+  }
+}
+
+export function matchXg(matches, fixtures) {
+  const result = {};
+  for (const [id, fixture] of matchedFixtures(matches, fixtures)) {
+    const goals = (fixture.xgfixture ?? []).filter((stat) => stat.type?.code === 'expected-goals');
     const home = goals.find((stat) => stat.location === 'home')?.data?.value;
     const away = goals.find((stat) => stat.location === 'away')?.data?.value;
     if ([home, away].every((value) => Number.isFinite(value) && value >= 0))
-      result[match.id] = { home, away };
+      result[id] = { home, away, source: 'Sportmonks' };
   }
   return result;
 }
@@ -90,6 +94,69 @@ async function collect(matches, token) {
   throw new Error('Pagination Sportmonks incomplète');
 }
 
+const pitchLeagues = {
+  'Ligue 1': ['FRA', /^Ligue 1$/i],
+  'Ligue 2': ['FRA', /^Ligue 2$/i],
+  'Premier League': ['ENG', /^Premier League$/i],
+  'La Liga': ['ESP', /^(La Liga|LaLiga|Primera División)$/i],
+  Bundesliga: ['GER', /^Bundesliga$/i],
+  'Serie A': ['ITA', /^Serie A$/i],
+  'Ligue des champions': [null, /^(UEFA )?Champions League$/i],
+  'Europa League': [null, /^(UEFA )?Europa League$/i],
+  'Conference League': [null, /^(UEFA )?(Europa )?Conference League$/i]
+};
+
+async function collectPitch(matches, key) {
+  const catalog = await checkPitchApiXg([], key);
+  const leagues = Array.isArray(catalog) ? catalog : catalog.leagues;
+  const result = {};
+  for (const [name, [country, aliases]] of Object.entries(pitchLeagues)) {
+    const pending = matches.filter(
+      (match) => match.completed && !match.voided && match.league === name
+    );
+    if (!pending.length) continue;
+    const leaguesFound = leagues.filter(
+      (league) =>
+        /^l_[a-z0-9]+$/i.test(league.id) &&
+        (!country || league.country_code === country) &&
+        aliases.test(league.name)
+    );
+    if (leaguesFound.length !== 1) continue;
+    const response = await fetch(
+      `https://api.pitchapi.dev/v1/leagues/${leaguesFound[0].id}/matches?status=played`,
+      {
+        headers: { 'X-API-KEY': key },
+        redirect: 'error',
+        signal: AbortSignal.timeout(12000)
+      }
+    );
+    if (!response.ok) throw new Error(`PitchAPI HTTP ${response.status}`);
+    const { data } = await response.json();
+    const fixtures = (Array.isArray(data) ? data : data.matches).map((match) => ({
+      id: match.id,
+      league_id: leagueIds[name],
+      starting_at_timestamp: Date.parse(match.time_utc) / 1000,
+      participants: [
+        { name: match.home_team?.name, meta: { location: 'home' } },
+        { name: match.away_team?.name, meta: { location: 'away' } }
+      ]
+    }));
+    const linked = [...matchedFixtures(pending, fixtures)];
+    if (!linked.length) continue;
+    const stats = await checkPitchApiXg(
+      linked.map(([, match]) => match.id),
+      key
+    );
+    const byId = new Map(stats.matches.map((match) => [match.id, match]));
+    for (const [id, fixture] of linked) {
+      const match = byId.get(fixture.id);
+      if (match?.homeXg != null && match.awayXg != null)
+        result[id] = { home: match.homeXg, away: match.awayXg, source: 'PitchAPI' };
+    }
+  }
+  return result;
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { matches } = JSON.parse(await readFile('_site/data/fixtures.json', 'utf8'));
   let data = {};
@@ -97,6 +164,17 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     data = await collect(matches, process.env.SPORTMONKS_API_TOKEN);
   } catch (error) {
     console.warn('Collecte des xG Sportmonks indisponible.', error.name);
+  }
+  if (process.env.PITCHAPI_API_KEY) {
+    try {
+      const fallback = await collectPitch(
+        matches.filter((match) => !data[match.id]),
+        process.env.PITCHAPI_API_KEY
+      );
+      data = { ...fallback, ...data };
+    } catch (error) {
+      console.warn('Collecte des xG PitchAPI indisponible.', error.name);
+    }
   }
   await writeFile('_site/data/match-xg.json', JSON.stringify(data));
   console.log(`xG d’équipe publiables pour ${Object.keys(data).length} matchs.`);
