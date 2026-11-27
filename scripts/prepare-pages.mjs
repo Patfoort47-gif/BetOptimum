@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { prerenderSeo } from './prerender-seo.mjs';
 import { matchesWithBookmakers } from '../src/model/calendar-model.js';
+import { prematchProjection } from '../src/matches/match-insights.js';
 const root = new URL('../', import.meta.url);
 export async function preparePages(out = new URL('../_site/', import.meta.url)) {
   await rm(out, { recursive: true, force: true });
@@ -81,6 +82,11 @@ export async function preparePages(out = new URL('../_site/', import.meta.url)) 
           await writeFile(new URL(`${match.id}-${match.offerVersion}.json`, offersDir), payload);
         })
     );
+  }
+  for (const match of fixtures.matches) {
+    if (match.prematchGoals) continue;
+    const saved = prematchProjection(match, null, null, fixtures.generatedAt);
+    if (saved) match.prematchGoals = saved;
   }
   await writeFile(
     new URL('data/fixtures.json', out),

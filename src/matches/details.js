@@ -1,7 +1,7 @@
 import { createJsonLoader } from '../core/data-loader.js';
 import { escapeHtml as esc } from '../core/html.js';
 import { decimal } from '../core/number-format.js';
-import { matchInsights } from './match-insights.js';
+import { matchInsights, recentXg } from './match-insights.js';
 import { liveEntryFromPayload } from './live.js';
 const motionBehavior = () =>
   typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -160,16 +160,13 @@ function show(next) {
       })
       .catch(() => {});
   }
-  if (
-    view.type === 'match' &&
-    Date.now() >= ctx.kickoffAt(view.match) - 10 * 60e3 &&
-    !view.match.completed
-  )
+  if (view.type === 'match' && !view.match.completed)
     liveTimer = setInterval(() => {
+      if (Date.now() < ctx.kickoffAt(view.match) - 10 * 60e3) return;
       cache.delete(summaryPath());
       renderHead();
       renderTabs();
-      if (['stats', 'feed', 'lineup'].includes(view.tab)) renderBody();
+      if (['stats', 'feed', 'lineup', 'insights'].includes(view.tab)) renderBody();
     }, 30000);
 }
 function onSheetClick(event) {
@@ -258,7 +255,7 @@ async function renderBody() {
   )
     body.innerHTML =
       (current.type === 'match' && ['insights', 'stats'].includes(current.tab)
-        ? projectedGoals(current.match)
+        ? projectedGoals(current.match, ctx.kickoffAt(current.match))
         : '') + loading;
   body.dataset.tab = current.tab;
   if (current.type === 'match' && !current.ids) {
@@ -281,7 +278,7 @@ async function renderBody() {
     console.error(error);
     html =
       (current.type === 'match' && ['insights', 'stats'].includes(current.tab)
-        ? projectedGoals(current.match)
+        ? projectedGoals(current.match, ctx.kickoffAt(current.match))
         : '') + retry('Données ESPN momentanément indisponibles.', 'sheet');
   }
   if (token === renderToken && view === current && dialog.open) {
@@ -387,53 +384,89 @@ async function loadMatchInsights(data, ids, kickoff) {
   ]);
   return {
     ...matchInsights(matchSummary ?? {}, schedules, ids, kickoff),
+    finished: matchSummary?.header?.competitions?.[0]?.status?.type?.completed === true,
     sourceUnavailable: !matchSummary || schedules.some((schedule) => !schedule)
   };
 }
-async function loadPublishedXg(match) {
-  if (!match.completed || !/^espn-\d+$/.test(match.id)) return null;
+let xgFeedCache;
+async function loadXgFeed() {
+  if (xgFeedCache && Date.now() - xgFeedCache.at < 300000) return xgFeedCache.data;
   try {
-    const feed = await loadJson(new URL('../../data/match-xg.json', import.meta.url));
-    const xg = feed?.[match.id];
-    return ['PitchAPI', 'Sportmonks'].includes(xg?.source) &&
-      ['home', 'away'].every((side) => Number.isFinite(xg[side]) && xg[side] >= 0)
-      ? xg
-      : null;
+    const data = await loadJson(new URL('../../data/match-xg.json', import.meta.url));
+    xgFeedCache = { at: Date.now(), data };
+    return data;
   } catch {
     return null;
   }
 }
 
-function observedXg(match, published, espnXg, kickoff) {
-  const xg = published ?? espnXg;
-  const heading = '<h3>xG observés</h3>';
-  if (!xg)
+function goalValues(match, pair) {
+  return `<dl class="info-list"><div><dt>${esc(match.home)}</dt><dd>${decimal(pair.home)}</dd></div><div><dt>${esc(match.away)}</dt><dd>${decimal(pair.away)}</dd></div></dl>`;
+}
+
+function projectedGoals(match, kickoff) {
+  const started = match.completed || Date.now() >= kickoff;
+  const values = started
+    ? match.prematchGoals
+    : match.analysisStatus === 'unavailable'
+      ? null
+      : { home: match.homeGoals, away: match.awayGoals };
+  const valid =
+    ['home', 'away'].every(
+      (side) => Number.isFinite(values?.[side]) && values[side] > 0 && values[side] <= 10
+    ) &&
+    (!started || Date.parse(values.capturedAt) < kickoff);
+  return (
+    '<h3>Buts prévus par le modèle</h3>' +
+    (valid
+      ? goalValues(match, values) +
+        '<p class="sheet-note">Estimation d’avant-match du modèle de Poisson.</p>'
+      : unavailable(started ? 'Prévision d’avant-match non archivée.' : 'Prévision indisponible.'))
+  );
+}
+
+function matchGoalStats(match, feed, insights, kickoff) {
+  const started = match.completed || Date.now() >= kickoff;
+  const forecast = projectedGoals(match, kickoff);
+  if (!started) {
+    const averages = recentXg(match, ctx.allMatches(), feed, Math.min(Date.now(), kickoff));
     return (
-      heading +
-      unavailable(
-        Date.now() < kickoff
-          ? 'Les xG observés sont calculés à partir des tirs effectués pendant le match.'
-          : 'Les xG observés sont indisponibles pour cette rencontre.'
-      )
+      forecast +
+      '<h3>xG récents des équipes</h3>' +
+      (averages.home || averages.away
+        ? '<dl class="info-list">' +
+          ['home', 'away']
+            .map((side) => {
+              const row = averages[side];
+              return `<div><dt>${esc(match[side])}</dt><dd>${row ? `${decimal(row.for)} créés · ${decimal(row.against)} concédés · ${row.count} match${row.count === 1 ? '' : 's'}` : 'Historique indisponible'}</dd></div>`;
+            })
+            .join('') +
+          '</dl><p class="sheet-note">Moyennes des cinq derniers matchs au maximum parmi les rencontres couvertes.</p>'
+        : unavailable('Aucun match récent couvert pour ces équipes.'))
     );
-  const source = published?.source ?? 'ESPN';
-  return `${heading}<dl class="info-list"><div><dt>${esc(match.home)}</dt><dd>${decimal(xg.home)}</dd></div><div><dt>${esc(match.away)}</dt><dd>${decimal(xg.away)}</dd></div></dl><p class="sheet-note">Source : ${source}.</p>`;
+  }
+  const finished = match.completed || insights.finished;
+  const published = finished && !match.voided ? feed?.[match.id] : null;
+  const publishedValid =
+    ['PitchAPI', 'Sportmonks'].includes(published?.source) &&
+    ['home', 'away'].every((side) => Number.isFinite(published[side]) && published[side] >= 0);
+  const xg = publishedValid ? published : match.voided ? null : insights.xg;
+  const source = publishedValid ? published.source : 'ESPN';
+  const label = finished ? 'xG observés en fin de match' : 'xG observés en direct';
+  return (
+    forecast +
+    `<h3>${label}</h3>` +
+    (xg
+      ? goalValues(match, xg) + `<p class="sheet-note">Source : ${source}.</p>`
+      : unavailable(
+          finished
+            ? 'Les xG observés ne sont pas disponibles pour cette rencontre.'
+            : 'Les xG en direct ne sont pas encore disponibles.'
+        ))
+  );
 }
 function faceToFace(games) {
   return `<h3>Face-à-face (H2H)</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date, { day: 'numeric', month: 'short', year: 'numeric' })}</time><span>${esc(g.home)} - ${esc(g.away)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol><p class="sheet-note">Derniers résultats disponibles dans les calendriers ESPN.</p>` : unavailable('Aucun face-à-face disponible dans les calendriers ESPN pour cette rencontre.')}`;
-}
-function projectedGoals(match) {
-  const heading = '<h3>Buts prévus par le modèle</h3>';
-  if (
-    match.analysisStatus === 'unavailable' ||
-    ![match.homeGoals, match.awayGoals].every((n) => Number.isFinite(n) && n > 0 && n <= 10)
-  )
-    return heading + unavailable('Projection indisponible pour cette rencontre.');
-  const format = new Intl.NumberFormat('fr-FR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-  return `${heading}<p>${esc(match.home)} : ${format.format(match.homeGoals)} · ${esc(match.away)} : ${format.format(match.awayGoals)}</p><p class="sheet-note">Estimation d’avant-match du modèle de Poisson. Les xG observés par ESPN sont indiqués séparément dans Forme et confrontations.</p>`;
 }
 const teamSlug = () => slugOf(view.league) ?? slugOf(teamLeagues(view.name)[0]) ?? 'all';
 
@@ -822,15 +855,15 @@ const MATCH_TABS = {
     const m = view.match,
       ids = { home: sideId('home'), away: sideId('away') },
       kickoff = ctx.kickoffAt(m),
-      [insights, publishedXg] = await Promise.all([
+      [insights, xgFeed] = await Promise.all([
         loadMatchInsights(summary(), ids, kickoff),
-        loadPublishedXg(m)
+        loadXgFeed()
       ]),
       form = (side) => {
         const games = insights.form[side];
         return `<section><h3>Forme de ${esc(m[side])}</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date)}</time><span class="result-pill ${RESULT[g.result]?.[1] ?? 'draw'}">${RESULT[g.result]?.[0] ?? '?'}</span><span>${esc(g.opponent)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol>` : unavailable('Cinq derniers matchs indisponibles.')}</section>`;
       };
-    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}${observedXg(m, publishedXg, insights.xg, kickoff)}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>${insights.sourceUnavailable ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet') : ''}`;
+    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${matchGoalStats(m, xgFeed, insights, kickoff)}${insights.sourceUnavailable ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet') : ''}`;
   },
   async info() {
     const data = await summary(),
@@ -857,14 +890,13 @@ const MATCH_TABS = {
       ids = { home: sideId('home'), away: sideId('away') },
       kickoff = ctx.kickoffAt(m),
       dataRequest = summary().catch(() => null),
-      [data, insights, publishedXg] = await Promise.all([
+      [data, insights, xgFeed] = await Promise.all([
         dataRequest,
         loadMatchInsights(dataRequest, ids, kickoff),
-        loadPublishedXg(m)
+        loadXgFeed()
       ]),
       context =
-        observedXg(m, publishedXg, insights.xg, kickoff) +
-        projectedGoals(m) +
+        matchGoalStats(m, xgFeed, insights, kickoff) +
         faceToFace(insights.h2h) +
         (insights.sourceUnavailable
           ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet')

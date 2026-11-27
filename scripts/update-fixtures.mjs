@@ -1,6 +1,7 @@
 import { oddsHealth } from '../src/core/odds-health.js';
 import { trackClosingOdds } from '../src/history/closing-odds.js';
 import { buildMatchPreview } from '../src/matches/match-preview.js';
+import { prematchProjection } from '../src/matches/match-insights.js';
 import { collectMissingTeamForms, teamHistoryKey } from './espn-team-history.mjs';
 import { teamForm } from '../src/matches/team-form.js';
 import { enrichHalfTimeResults } from './h1-results.mjs';
@@ -353,6 +354,7 @@ const propLineResult = quotaReserved
   ? await collectCalendarOdds(unique)
   : { offersByMatch: new Map(), requested: 0, succeeded: 0, failures: [] };
 providerFailures.push(...propLineResult.failures);
+const forecastCapturedAt = new Date().toISOString();
 const enriched = unique.map((match) => {
   const observed = (side) => {
     const primary = teamForm(match[side], history);
@@ -375,6 +377,8 @@ const enriched = unique.map((match) => {
   }
   match.analysisStatus = match.statsSource ? 'ready' : 'unavailable';
   const previous = previousData.matches?.find((item) => item.id === match.id);
+  const saved = prematchProjection(match, previous, previousData.generatedAt, forecastCapturedAt);
+  if (saved) match.prematchGoals = saved;
   const realOdds = consensus(propLineResult.offersByMatch.get(match.id), previous?.bookmakerOffers);
   if (realOdds) {
     const realMarkets = marketKeys(realOdds).filter((key) => realOdds[key]);
