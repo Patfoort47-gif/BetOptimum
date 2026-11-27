@@ -62,7 +62,9 @@ test('publication avec sitemap sans ancres, robots et image sociale', async () =
     for (const path of paths) {
       const page = await readFile(dir + '/' + path + 'index.html', 'utf8');
       assert.ok(page.includes('<link rel="canonical" href="' + base + path + '">'));
-      if (path) assert.ok(html.includes('href="./' + path + '"'));
+      const linkedPath = path === 'lexique-des-paris/' ? path + '#paris-safe' : path;
+      if (path) assert.ok(html.includes('href="./' + linkedPath + '"'));
+      if (path === 'lexique-des-paris/') assert.match(page, /<h2 id="paris-safe">/);
     }
     assert.match(await readFile(dir + '/robots.txt', 'utf8'), /User-agent: \*\nAllow: \/\n/);
   } finally {
