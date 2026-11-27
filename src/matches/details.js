@@ -1,5 +1,6 @@
 import { createJsonLoader } from '../core/data-loader.js';
 import { escapeHtml as esc } from '../core/html.js';
+import { decimal } from '../core/number-format.js';
 import { matchInsights } from './match-insights.js';
 import { liveEntryFromPayload } from './live.js';
 const motionBehavior = () =>
@@ -388,6 +389,34 @@ async function loadMatchInsights(data, ids, kickoff) {
     ...matchInsights(matchSummary ?? {}, schedules, ids, kickoff),
     sourceUnavailable: !matchSummary || schedules.some((schedule) => !schedule)
   };
+}
+async function loadPublishedXg(match) {
+  if (!match.completed || !/^espn-\d+$/.test(match.id)) return null;
+  try {
+    const feed = await loadJson(new URL('../../data/match-xg.json', import.meta.url));
+    const xg = feed?.[match.id];
+    return ['home', 'away'].every((side) => Number.isFinite(xg?.[side]) && xg[side] >= 0)
+      ? xg
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function observedXg(match, published, espnXg, kickoff) {
+  const xg = published ?? espnXg;
+  const heading = '<h3>xG observés</h3>';
+  if (!xg)
+    return (
+      heading +
+      unavailable(
+        Date.now() < kickoff
+          ? 'Les xG observés sont calculés à partir des tirs effectués pendant le match.'
+          : 'Les xG observés sont indisponibles pour cette rencontre.'
+      )
+    );
+  const source = published ? 'Sportmonks' : 'ESPN';
+  return `${heading}<dl class="info-list"><div><dt>${esc(match.home)}</dt><dd>${decimal(xg.home)}</dd></div><div><dt>${esc(match.away)}</dt><dd>${decimal(xg.away)}</dd></div></dl><p class="sheet-note">Source : ${source}.</p>`;
 }
 function faceToFace(games) {
   return `<h3>Face-à-face (H2H)</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date, { day: 'numeric', month: 'short', year: 'numeric' })}</time><span>${esc(g.home)} - ${esc(g.away)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol><p class="sheet-note">Derniers résultats disponibles dans les calendriers ESPN.</p>` : unavailable('Aucun face-à-face disponible dans les calendriers ESPN pour cette rencontre.')}`;
@@ -792,12 +821,15 @@ const MATCH_TABS = {
     const m = view.match,
       ids = { home: sideId('home'), away: sideId('away') },
       kickoff = ctx.kickoffAt(m),
-      insights = await loadMatchInsights(summary(), ids, kickoff),
+      [insights, publishedXg] = await Promise.all([
+        loadMatchInsights(summary(), ids, kickoff),
+        loadPublishedXg(m)
+      ]),
       form = (side) => {
         const games = insights.form[side];
         return `<section><h3>Forme de ${esc(m[side])}</h3>${games.length ? `<ol class="insight-games">${games.map((g) => `<li><time>${frDate(g.date)}</time><span class="result-pill ${RESULT[g.result]?.[1] ?? 'draw'}">${RESULT[g.result]?.[0] ?? '?'}</span><span>${esc(g.opponent)}</span><strong>${esc(g.score)}</strong></li>`).join('')}</ol>` : unavailable('Cinq derniers matchs indisponibles.')}</section>`;
       };
-    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}<h3>xG observés (ESPN)</h3>${insights.xg ? `<p>${esc(m.home)} : ${esc(insights.xg.home)} · ${esc(m.away)} : ${esc(insights.xg.away)}</p>` : unavailable('xG indisponibles auprès de notre source pour cette rencontre.')}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>${insights.sourceUnavailable ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet') : ''}`;
+    return `<div class="two-cols">${form('home')}${form('away')}</div><p class="sheet-note">Matchs antérieurs au coup d'envoi, du plus récent au plus ancien. Source : ESPN.</p>${faceToFace(insights.h2h)}${projectedGoals(m)}${observedXg(m, publishedXg, insights.xg, kickoff)}<p class="sheet-note">Les buts estimés par le modèle de Poisson ne sont pas des xG observés. Aucune garantie de résultat.</p>${insights.sourceUnavailable ? retry('Données ESPN partiellement ou totalement indisponibles.', 'sheet') : ''}`;
   },
   async info() {
     const data = await summary(),
@@ -824,11 +856,13 @@ const MATCH_TABS = {
       ids = { home: sideId('home'), away: sideId('away') },
       kickoff = ctx.kickoffAt(m),
       dataRequest = summary().catch(() => null),
-      [data, insights] = await Promise.all([
+      [data, insights, publishedXg] = await Promise.all([
         dataRequest,
-        loadMatchInsights(dataRequest, ids, kickoff)
+        loadMatchInsights(dataRequest, ids, kickoff),
+        loadPublishedXg(m)
       ]),
       context =
+        observedXg(m, publishedXg, insights.xg, kickoff) +
         projectedGoals(m) +
         faceToFace(insights.h2h) +
         (insights.sourceUnavailable
