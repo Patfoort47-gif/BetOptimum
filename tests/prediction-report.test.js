@@ -110,3 +110,38 @@ test('BET-335 : le bilan et la courbe excluent toute donnée avant novembre sans
   assert.equal(report.roi, 50);
   assert.equal(rows.length, 3);
 });
+
+test('les mises varient selon la probabilité archivée et restent identiques après filtrage', () => {
+  const rows = [
+    { ...base, probability: 0.7, status: 'lost', odd: 1.5 },
+    { ...base, probability: 0.9, status: 'won', odd: 1.23 },
+    { ...base, probability: 0.65, status: 'void' }
+  ];
+  const report = predictionReport(rows, {}, now);
+  assert.deepEqual(
+    report.items.map(({ stake, returnAmount, profit }) => [stake, returnAmount, profit]),
+    [
+      [5, 0, -5],
+      [15, 18.45, 3.45]
+    ]
+  );
+  assert.equal(report.stake, 20);
+  assert.equal(report.returned, 18.45);
+  assert.equal(report.profit, -1.55);
+  assert.equal(report.roi, -7.75);
+  assert.equal(report.voided, 1);
+  assert.equal(predictionReport(rows, { result: 'won' }, now).stake, 15);
+  assert.ok(rows.every((row) => !Object.hasOwn(row, 'stake')));
+});
+
+test('le seuil de 10 % est inclus et les probabilités invalides gardent la mise de repli', () => {
+  const rows = [0.4, 0.549, 0.55, 1, null, 1.2].map((probability) => ({
+    ...base,
+    probability,
+    status: 'lost'
+  }));
+  assert.deepEqual(
+    predictionReport(rows, {}, now).items.map(({ stake }) => stake),
+    [5, 5, 15, 15, 10, 10]
+  );
+});

@@ -12,17 +12,21 @@ const rows = [
   { id: 'c', date: '2026-11-02', odd: 1.8, oddsSource: 'bookmaker', status: 'won', match: 'E - F' }
 ];
 test('BET-135 : courbe chronologique, agrégation quotidienne et bilan concordant', () => {
-  const report = predictionReport(rows, {}, now),
+  const weightedRows = rows.map((row, index) => ({
+      ...row,
+      probability: [0.9, 0.7, 0.8][index]
+    })),
+    report = predictionReport(weightedRows, {}, now),
     curve = trajectoryOf(report.items);
   assert.deepEqual(
     curve.map((day) => [day.date, day.total, day.wins, day.profit, day.cumulative]),
     [
-      ['2026-11-01', 2, 1, 5, 5],
-      ['2026-11-02', 1, 1, 8, 13]
+      ['2026-11-01', 2, 1, 7.5, 7.5],
+      ['2026-11-02', 1, 1, 12, 19.5]
     ]
   );
   assert.equal(curve.at(-1).cumulative, report.profit);
-  assert.deepEqual(trajectoryOf([...rows].reverse()), curve);
+  assert.deepEqual(trajectoryOf([...report.items].reverse()), curve);
 });
 test('BET-135 : pertes et gains restent visibles, HTML échappé et graphiques décrits', () => {
   const out = renderPredictionShowcase(predictionReport(rows, {}, now), { html, money });
