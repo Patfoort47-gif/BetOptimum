@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { matchInsights } from '../src/matches/match-insights.js';
+import { matchInsights, prematchProjection, recentXg } from '../src/matches/match-insights.js';
 const ids = { home: '1', away: '2' },
   event = (id, date, home = '1', away = '2') => ({
     id,
@@ -73,4 +73,42 @@ test('forme ESPN triée, limitée, sans confusion entre équipes', () => {
   );
   assert.equal(r.form.home.length, 0);
   assert.equal(r.form.away[0].result, 'D');
+});
+
+test('la projection publiée avant le coup d’envoi est conservée après le match', () => {
+  const kickoff = '2026-11-27T20:00:00Z';
+  const capturedAt = '2026-11-27T17:00:00Z';
+  const later = '2026-11-27T23:00:00Z';
+  const match = { kickoff, homeGoals: 1.53, awayGoals: 1.23 };
+  const saved = prematchProjection(match, null, null, capturedAt);
+  assert.deepEqual(saved, { home: 1.53, away: 1.23, capturedAt });
+  const finished = { ...match, completed: true, homeGoals: 3, awayGoals: 2 };
+  assert.deepEqual(
+    prematchProjection(finished, { ...match, prematchGoals: saved }, later, later),
+    saved
+  );
+  assert.deepEqual(prematchProjection(finished, match, capturedAt, later), saved);
+  assert.equal(prematchProjection(finished, match, later, later), null);
+  assert.equal(
+    prematchProjection({ ...match, analysisStatus: 'unavailable' }, null, null, capturedAt),
+    null
+  );
+});
+
+test('les xG récents suivent l’équipe à domicile et à l’extérieur, avec zéros et échantillon', () => {
+  const future = { id: 'next', homeId: '1', awayId: '2' };
+  const played = [
+    { id: 'a', homeId: 3, awayId: 1, kickoff: '2026-11-25T20:00:00Z', completed: true },
+    { id: 'b', homeId: 1, awayId: 4, kickoff: '2026-11-26T20:00:00Z', completed: true },
+    { id: 'c', homeId: 2, awayId: 5, kickoff: '2026-11-28T20:00:00Z', completed: true }
+  ];
+  const feed = {
+    a: { home: 2, away: 0, source: 'PitchAPI' },
+    b: { home: 1, away: 0, source: 'Sportmonks' },
+    c: { home: 1, away: 1, source: 'PitchAPI' }
+  };
+  assert.deepEqual(recentXg(future, [...played, played[0]], feed, Date.parse('2026-11-27')), {
+    home: { count: 2, for: 0.5, against: 1 },
+    away: null
+  });
 });
