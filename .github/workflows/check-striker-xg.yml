@@ -1,0 +1,18 @@
+name: Vérifier les xG manquants avec StrikerAPI
+on:
+  push:
+    branches: [BET-99-striker-xg]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: node scripts/check-striker-xg.mjs
+        env:
+          STRIKERAPI_API_KEY: ${{ secrets.STRIKERAPI_API_KEY }}

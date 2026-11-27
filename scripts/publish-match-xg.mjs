@@ -68,7 +68,7 @@ const club = (name) => {
   return clubAliases.get(key) ?? key;
 };
 
-function* matchedFixtures(matches, fixtures) {
+export function* matchedFixtures(matches, fixtures) {
   const index = new Map();
   for (const fixture of fixtures) {
     const participants = fixture.participants ?? [];
