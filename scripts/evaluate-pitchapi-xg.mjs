@@ -166,6 +166,9 @@ const test = ready.filter((row) => row.match.date >= cut);
 if (!valid.length || !test.length) throw new Error('Fenêtres chronologiques insuffisantes');
 const validation = [0, 0.25, 0.5, 0.75, 1].map((weight) => ({ weight, ...metrics(valid, weight) }));
 const { weight } = validation.reduce((best, item) => (item.brier < best.brier ? item : best));
+const roiWeight = validation.reduce((best, item) =>
+  item.brier <= validation[0].brier && item.roi > best.roi ? item : best
+).weight;
 const results = {
   cut,
   coverage,
@@ -173,10 +176,11 @@ const results = {
   baseline: metrics(test, 0),
   candidate: metrics(test, weight),
   selectedWeight: weight,
+  exploratoryRoi: { weight: roiWeight, ...metrics(test, roiWeight) },
   activation: false,
   availability: 'Disponibilité rétrospective supposée 48 h après le coup d’envoi du match précédent'
 };
 console.log(JSON.stringify(results, null, 2));
 if (process.env.GITHUB_ACTIONS)
-  for (const [name, value] of Object.entries(results))
+  for (const [name, value] of Object.entries(results).filter(([name]) => name !== 'validation'))
     console.log('::notice::' + name + ' ' + JSON.stringify(value));
