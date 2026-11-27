@@ -36,19 +36,7 @@ const read = async (file) => {
     signal: AbortSignal.timeout(12000)
   });
   if (!response.ok) throw new Error(`Calendrier public HTTP ${response.status}`);
-  const data = await response.json();
-  const payload = data.result ?? data.data ?? data;
-  const content = payload.content?.find((item) => item.type === 'text');
-  const result = payload.structuredContent ?? (content ? JSON.parse(content.text) : payload);
-  console.log(
-    '::notice::Structure ' +
-      endpoint +
-      ' : ' +
-      Object.keys(data).join(',') +
-      ' / ' +
-      Object.keys(result).join(',')
-  );
-  return result;
+  return response.json();
 };
 const [{ matches }, existing] = await Promise.all([read('fixtures.json'), read('match-xg.json')]);
 const missing = matches.filter((match) => match.completed && !match.voided && !existing[match.id]);
