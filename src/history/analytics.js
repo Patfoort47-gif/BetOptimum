@@ -1,6 +1,6 @@
 import { financialTone, kpiCard, vizBar, vizBarGradient, vizCurve } from '../core/design-viz.js';
 import { decimal } from '../core/number-format.js';
-import { predictionReport } from './prediction-report.js';
+import { predictionReport } from './prediction-report.js?v=edge-stakes';
 // BET-91 : chronologie des mises, règlements et mouvements de capital, sans dépendance externe.
 const DAY = 864e5;
 const paris = new Intl.DateTimeFormat('en-CA', {
@@ -236,9 +236,7 @@ export function initAnalytics(root, { onPeriod = () => {} } = {}) {
           ...row,
           date: `${row.date}T12:00:00+02:00`,
           settledAt: `${row.date}T12:00:00+02:00`,
-          stake: 10,
-          odds: row.odd,
-          returnAmount: row.status === 'won' ? number(row.odd) * 10 : 0
+          odds: row.odd
         }));
     const report = buildAnalytics({
       bets,
@@ -268,7 +266,7 @@ export function initAnalytics(root, { onPeriod = () => {} } = {}) {
       )
       .join(
         ''
-      )}</select></label></div></div><p class="analytics-note">${personal ? (certified ? 'Votre bankroll certifiée : mises au placement, retours au règlement. Les anciens paris restent consultables dans votre profil.' : 'Historique personnel du navigateur. Connectez-vous pour afficher votre bankroll certifiée.') : 'Simulation des pronostics du site : capital initial de 100 €, mise fixe de 10 € par pronostic. Les graphiques suivent les filtres du bilan.'} Les remboursements sont exclus du taux de réussite et des gains réalisés.</p><dl class="analytics-kpis">${tiles.map(([label, value], index) => kpiCard(label, value, { tone: index === 1 || index === 2 ? financialTone(value) : '', caption: 'Période sélectionnée' })).join('')}</dl><div class="analytics-grid-cards">${chart('balance', personal ? 'Évolution de ma bankroll' : 'Capital simulé du modèle', `Solde de départ de la période : ${euros(report.opening)}. Apports et retraits inclus.`, { baseline: report.opening })}${chart('profit', 'Gains et pertes réalisés', `Par ${report.granularity} · hors apports, retraits et mises en attente.`, { bars: true })}${chart('winrate', 'Taux de réussite', 'Cumul sur la période · paris gagnés / paris réglés, en %.')}${chart('volume', 'Volume de paris', `Paris placés par ${report.granularity} · y compris en attente et remboursés.`, { bars: true })}</div><output class="analytics-tooltip" aria-live="polite">Survolez, touchez ou sélectionnez un point pour lire sa valeur.</output>${report.rows.length ? `<details class="analytics-data"><summary>Consulter les données des graphiques</summary><div class="analytics-table-wrap"><table><caption>Résultats par ${report.granularity} · heure de Paris</caption><thead><tr><th>Période</th><th>Solde</th><th>Gains / pertes</th><th>Capital</th><th>Paris placés</th><th>Réglés</th><th>Réussite cumulée</th></tr></thead><tbody>${report.rows.map((row) => `<tr><th>${row.date}</th><td>${euros(row.balance)}</td><td>${euros(row.profit)}</td><td>${euros(row.capital)}</td><td>${row.volume}</td><td>${row.settled}</td><td>${row.winrate == null ? '-' : decimal(row.winrate, 1) + ' %'}</td></tr>`).join('')}</tbody></table></div></details>` : ''}`;
+      )}</select></label></div></div><p class="analytics-note">${personal ? (certified ? 'Votre bankroll certifiée : mises au placement, retours au règlement. Les anciens paris restent consultables dans votre profil.' : 'Historique personnel du navigateur. Connectez-vous pour afficher votre bankroll certifiée.') : 'La simulation des pronostics du site part de 100 € et mise 5 ou 15 € selon le rendement estimé. Les graphiques suivent les filtres du bilan.'} Les remboursements sont exclus du taux de réussite et des gains réalisés.</p><dl class="analytics-kpis">${tiles.map(([label, value], index) => kpiCard(label, value, { tone: index === 1 || index === 2 ? financialTone(value) : '', caption: 'Période sélectionnée' })).join('')}</dl><div class="analytics-grid-cards">${chart('balance', personal ? 'Évolution de ma bankroll' : 'Capital simulé du modèle', `Solde de départ de la période : ${euros(report.opening)}. Apports et retraits inclus.`, { baseline: report.opening })}${chart('profit', 'Gains et pertes réalisés', `Par ${report.granularity} · hors apports, retraits et mises en attente.`, { bars: true })}${chart('winrate', 'Taux de réussite', 'Cumul sur la période · paris gagnés / paris réglés, en %.')}${chart('volume', 'Volume de paris', `Paris placés par ${report.granularity} · y compris en attente et remboursés.`, { bars: true })}</div><output class="analytics-tooltip" aria-live="polite">Survolez, touchez ou sélectionnez un point pour lire sa valeur.</output>${report.rows.length ? `<details class="analytics-data"><summary>Consulter les données des graphiques</summary><div class="analytics-table-wrap"><table><caption>Résultats par ${report.granularity} · heure de Paris</caption><thead><tr><th>Période</th><th>Solde</th><th>Gains / pertes</th><th>Capital</th><th>Paris placés</th><th>Réglés</th><th>Réussite cumulée</th></tr></thead><tbody>${report.rows.map((row) => `<tr><th>${row.date}</th><td>${euros(row.balance)}</td><td>${euros(row.profit)}</td><td>${euros(row.capital)}</td><td>${row.volume}</td><td>${row.settled}</td><td>${row.winrate == null ? '-' : decimal(row.winrate, 1) + ' %'}</td></tr>`).join('')}</tbody></table></div></details>` : ''}`;
   }
   root.addEventListener('change', (event) => {
     if (event.target.matches('[data-analytics-source]')) source = event.target.value;

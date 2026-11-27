@@ -11,6 +11,10 @@ const dateInParis = (time) =>
     month: '2-digit',
     day: '2-digit'
   }).format(new Date(time));
+export function predictionStakeCents(probability, odds) {
+  if (!Number.isFinite(probability) || probability < 0 || probability > 1) return 1000;
+  return probability * odds >= 1.1 ? 1500 : 500;
+}
 export function predictionReport(history, filters = {}, now = Date.now()) {
   const days = Number(filters.period),
     today = dateInParis(now),
@@ -37,20 +41,39 @@ export function predictionReport(history, filters = {}, now = Date.now()) {
           item[key === 'market' ? 'key' : key === 'result' ? 'status' : key] === filters[key]
       )
   );
-  const settled = filtered.filter(
-      (i) =>
-        ['won', 'lost'].includes(i.status) && Number.isFinite(Number(i.odd)) && Number(i.odd) > 1
-    ),
-    won = settled.filter((i) => i.status === 'won'),
-    stake = settled.length * 10,
-    returned = won.reduce((s, i) => s + Number(i.odd) * 10, 0);
+  let stakedCents = 0,
+    returnedCents = 0;
+  const settled = filtered
+    .filter(
+      (item) =>
+        ['won', 'lost'].includes(item.status) &&
+        Number.isFinite(Number(item.odd)) &&
+        Number(item.odd) > 1
+    )
+    .map((item) => {
+      const odds = Number(item.odd);
+      const stake = predictionStakeCents(item.probability, odds);
+      const payout = item.status === 'won' ? Math.round(stake * odds) : 0;
+      stakedCents += stake;
+      returnedCents += payout;
+      return {
+        ...item,
+        stake: stake / 100,
+        returnAmount: payout / 100,
+        profit: (payout - stake) / 100
+      };
+    });
+  const won = settled.filter((item) => item.status === 'won'),
+    stake = stakedCents / 100,
+    returned = returnedCents / 100,
+    profit = (returnedCents - stakedCents) / 100;
   return {
     items: settled,
     won,
     stake,
     returned,
-    profit: returned - stake,
-    roi: stake ? ((returned - stake) / stake) * 100 : null,
+    profit,
+    roi: stake ? (profit / stake) * 100 : null,
     pending: filtered.filter((i) => i.status === 'pending').length,
     voided: filtered.filter((i) => ['void', 'voided'].includes(i.status)).length,
     invalid: filtered.filter(

@@ -79,10 +79,13 @@ import {
   settleGuestWallet
 } from './src/ticket/guest-wallet.js';
 import { createSubmission } from './src/ticket/bet-submission.js';
-import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=bet409';
-import { predictionReport, publicPredictionHistory } from './src/history/prediction-report.js';
+import { renderPredictionShowcase } from './src/history/prediction-showcase.js?v=edge-stakes';
+import {
+  predictionReport,
+  publicPredictionHistory
+} from './src/history/prediction-report.js?v=edge-stakes';
 import { freshness, offerFreshness, sourceFreshness } from './src/core/data-freshness.js';
-import { initAnalytics } from './src/history/analytics.js';
+import { initAnalytics } from './src/history/analytics.js?v=edge-stakes';
 import {
   analyseMatch,
   recommendedMarket,
@@ -1870,7 +1873,7 @@ function renderPredictionStats() {
       ? longDay(report.first)
       : `Du ${longDay(report.first)} au ${longDay(report.last)}`;
   $('#prediction-overview').innerHTML = archiveLoadedAt
-    ? `<dl class="model-overview"><div><dt>ROI simulé</dt><dd>${roi == null ? 'Indisponible' : `${decimal(roi, 1)} %`}</dd></div><div><dt>Taux de réussite</dt><dd>${items.length ? `${decimal((100 * won.length) / items.length, 1)} %` : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${items.length}</dd></div></dl><p class="archive-note">${html(range)} · 10 € fictifs par pronostic</p>`
+    ? `<dl class="model-overview"><div><dt>ROI simulé</dt><dd>${roi == null ? 'Indisponible' : `${decimal(roi, 1)} %`}</dd></div><div><dt>Taux de réussite</dt><dd>${items.length ? `${decimal((100 * won.length) / items.length, 1)} %` : 'Indisponible'}</dd></div><div><dt>Pronostics réglés</dt><dd>${items.length}</dd></div></dl><p class="archive-note">${html(range)} · Mises fictives de 5 ou 15 € selon le rendement estimé</p>`
     : '';
   $('#prediction-showcase').innerHTML = renderPredictionShowcase(report, {
     html,
@@ -1904,7 +1907,7 @@ function renderPredictionStats() {
           all[name] ??= { name, total: 0, won: 0, profit: 0 };
           all[name].total++;
           all[name].won += item.status === 'won' ? 1 : 0;
-          all[name].profit += item.status === 'won' ? Number(item.odd || 0) * 10 - 10 : -10;
+          all[name].profit += item.profit;
           return all;
         }, {})
       ).sort((a, b) => b.won / b.total - a.won / a.total || b.total - a.total),
@@ -1956,7 +1959,7 @@ function renderPredictionStats() {
     pageItems
       .map(
         (item) =>
-          `<div class="prediction-row ${html(item.status)}"><small>${new Date(`${item.date}T12:00:00`).toLocaleDateString('fr-FR')}</small><span><strong>${html(item.match)}</strong><br><small>${html(item.league || '')} · ${html(item.label)} · ${html({ bookmaker: 'Cote réelle', model: 'Cote synthétique', unknown: 'Origine inconnue' }[predictionProvenance(item).oddsSource])} @ ${decimal(Number(item.odd), 2)}</small></span><b>${item.status === 'won' ? 'Gagné' : 'Perdu'} · ${html(item.score)}</b></div>`
+          `<div class="prediction-row ${html(item.status)}"><small>${new Date(`${item.date}T12:00:00`).toLocaleDateString('fr-FR')}</small><span><strong>${html(item.match)}</strong><br><small>${html(item.league || '')} · ${html(item.label)} · ${html({ bookmaker: 'Cote réelle', model: 'Cote synthétique', unknown: 'Origine inconnue' }[predictionProvenance(item).oddsSource])} @ ${decimal(Number(item.odd), 2)} · Mise ${money(item.stake)}</small></span><b>${item.status === 'won' ? 'Gagné' : 'Perdu'} · ${html(item.score)}</b></div>`
       )
       .join('') || emptyState('predictions', allItems.length > 0);
   $('#prediction-page').textContent = `Page ${state.predictionPage} / ${totalPages}`;
