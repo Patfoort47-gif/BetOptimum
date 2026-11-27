@@ -20,14 +20,6 @@ async function request(endpoint, body) {
   const payload = data.result ?? data.data ?? data;
   const content = payload.content?.find((item) => item.type === 'text');
   const result = payload.structuredContent ?? (content ? JSON.parse(content.text) : payload);
-  console.log(
-    '::notice::Structure ' +
-      endpoint +
-      ' : ' +
-      Object.keys(data).join(',') +
-      ' / ' +
-      Object.keys(result).join(',')
-  );
   return result;
 }
 
@@ -56,6 +48,26 @@ for (const [name, league, leagueId] of leagues) {
     limit: 100
   });
   if (!Array.isArray(games)) throw new Error('Calendrier StrikerAPI invalide');
+  if (!games.length) {
+    const { games: recent } = await request('list_games', { league, status: 'final', limit: 3 });
+    const control = recent?.[0];
+    let withBothXg = false;
+    if (control) {
+      const result = await request('get_game', { league, game_id: control.game_id });
+      withBothXg = [true, false].every((side) => {
+        const value = result.team_stats?.find((team) => team.home === side)?.xg;
+        return Number.isFinite(value) && value >= 0;
+      });
+    }
+    console.log(
+      '::notice::' +
+        JSON.stringify({
+          competition: name,
+          latestProviderGame: control?.date ?? null,
+          controlWithBothXg: withBothXg
+        })
+    );
+  }
   const fixtures = games.map((game) => ({
     id: game.game_id,
     league_id: leagueId,
