@@ -27,5 +27,22 @@ for c in commits:
    # Last snapshot at least 1h before kickoff, all inputs still prematch.
    if kick-captured>=3600 and (m['id'] not in rows or captured>rows[m['id']]['captured']):rows[m['id']]={'match':m,'captured':captured,'kickoff':kick,'commit':c}
 data=[dict(r,**results[i]) for i,r in rows.items() if i in results];data.sort(key=lambda r:r['kickoff'])
+# Les offres détaillées sont parfois séparées du calendrier. Lire uniquement
+# la version jointe au même commit, jamais le fichier actuel.
+offers_by_snapshot={}
+for row in data:
+ match=row['match']
+ date=match.get('date','')
+ if not date or match.get('bookmakerOffers'):continue
+ key=(row['commit'],date)
+ if key not in offers_by_snapshot:
+  try:
+   detail=json.loads(subprocess.check_output(['git','show',f'{key[0]}:data/offers/{date}.json'],stderr=subprocess.DEVNULL))
+   generated=stamp(detail.get('generatedAt',''))
+   offers_by_snapshot[key]=detail.get('matches',{}) if generated and generated<=row['captured'] else {}
+  except subprocess.CalledProcessError:
+   offers_by_snapshot[key]={}
+ offers=offers_by_snapshot[key].get(match['id'])
+ if isinstance(offers,list):match['bookmakerOffers']=offers
 json.dump({'snapshots':snapshots,'rows':data},open(sys.argv[1],'w'))
 print(json.dumps({'snapshots':snapshots,'matched':len(data),'dates':[data[0]['match']['date'],data[-1]['match']['date']] if data else [],'real1N2':sum(all(k in r['match'].get('realOddsMarkets',[]) for k in ['home','draw','away']) for r in data),'storedPicks':dict(collections.Counter((r['match'].get('suggestedPick') or {}).get('key') for r in data))}))

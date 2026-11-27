@@ -1,0 +1,21 @@
+name: Évaluer le modèle avec les xG PitchAPI
+on:
+  push:
+    branches: [BET-99-evaluation-pitchapi]
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: python3 scripts/extract-prediction-history.py "$RUNNER_TEMP/prematch.json"
+      - run: node scripts/evaluate-pitchapi-xg.mjs "$RUNNER_TEMP/prematch.json"
+        env:
+          PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
