@@ -55,3 +55,9 @@ npm test
 Le téléchargement utilise quatre requêtes parallèles au plus et réutilise les fichiers vérifiés par décompression/lecture JSON du cache. Il ne désactive ni TLS ni la vérification des téléchargements npm. Ne pas placer ce cache sous la racine publiée du site. Le rapport et les données locales ont été effectivement générés pendant cette tâche ; l’exécution du script versionné a reproduit les mêmes résultats.
 
 L’outil plus général `node scripts/evaluate-xg.mjs donnees-test.json ponderation-fixee` reste disponible. L’absence de xG ou une information future laisse la référence inchangée. Aucune activation n’est commandée par ces scripts.
+
+## Suivi de couverture PitchAPI
+
+Le workflow GitHub Actions « Diagnostiquer la couverture xG PitchAPI » vérifie chaque lundi la présence des deux xG d'équipe sur les cinq derniers matchs terminés disponibles par compétition. Il peut aussi être lancé manuellement. Le secret `PITCHAPI_API_KEY` sert exclusivement aux requêtes du serveur GitHub vers PitchAPI.
+
+Les annotations publient les effectifs par compétition. Les valeurs individuelles de xG restent en mémoire durant le contrôle. La disponibilité des xG ne mesure pas leur effet sur la calibration, le taux de réussite ou le rendement du modèle. Cette étape prépare une évaluation chronologique avec une variante xG et le modèle actuellement publié.

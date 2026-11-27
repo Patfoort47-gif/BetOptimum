@@ -1,0 +1,77 @@
+name: Diagnostiquer la couverture xG PitchAPI
+on:
+  push:
+    branches: [BET-99-diagnostic-pitchapi]
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Vérifier le catalogue et les xG par compétition
+        env:
+          PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
+        run: |
+          node --input-type=module <<'JS'
+          import { checkPitchApiXg } from './scripts/check-pitchapi-xg.mjs';
+          const key = process.env.PITCHAPI_API_KEY;
+          const catalog = await checkPitchApiXg([], key);
+          const leagues = Array.isArray(catalog) ? catalog : catalog.leagues;
+          if (!Array.isArray(leagues)) throw new Error('Catalogue PitchAPI invalide');
+          console.log('::notice::Compétitions au catalogue : ' + leagues.length);
+          const competitions = [
+            ['Ligue 1', 'FRA', /^Ligue 1$/i],
+            ['Ligue 2', 'FRA', /^Ligue 2$/i],
+            ['Premier League', 'ENG', /^Premier League$/i],
+            ['La Liga', 'ESP', /^(La Liga|LaLiga|Primera División)$/i],
+            ['Bundesliga', 'GER', /^Bundesliga$/i],
+            ['Serie A', 'ITA', /^Serie A$/i],
+            ['Ligue des champions', null, /^(UEFA )?Champions League$/i],
+            ['Europa League', null, /^(UEFA )?Europa League$/i],
+            ['Conference League', null, /^(UEFA )?(Europa )?Conference League$/i],
+            ['Coupe de France', 'FRA', /^Coupe de France$/i],
+            ['FA Cup', 'ENG', /^FA Cup$/i],
+            ['Copa del Rey', 'ESP', /^Copa del Rey$/i],
+            ['Coppa Italia', 'ITA', /^Coppa Italia$/i],
+            ['DFB-Pokal', 'GER', /^DFB[ -]Pokal$/i],
+            ['Carabao Cup', 'ENG', /^(Carabao|EFL|League) Cup$/i],
+            ['Ligue des nations', null, /^(UEFA )?Nations League$/i],
+            ['Qualifications Coupe du monde (Europe)', null, /^(?:FIFA )?World Cup.*(?:UEFA|Europe)|(?:UEFA|Europe).*World Cup/i],
+            ['Coupe du monde des clubs', null, /^(FIFA )?Club World Cup$/i],
+            ['Supercoupe d’Europe', null, /^UEFA Super Cup$/i]
+          ];
+          const coverage = [];
+          const unmatched = [];
+          for (const [name, country, aliases] of competitions) {
+            const found = leagues.filter(league =>
+              /^l_[a-z0-9]+$/i.test(league.id) && (!country || league.country_code === country) && aliases.test(league.name)
+            );
+            if (found.length !== 1) {
+              unmatched.push(name + (found.length ? ' (ambiguë)' : ''));
+              continue;
+            }
+            const [league] = found;
+            const url = 'https://api.pitchapi.dev/v1/leagues/' + league.id + '/matches?status=played';
+            const response = await fetch(url, {headers:{'X-API-KEY':key}, redirect:'error', signal:AbortSignal.timeout(12000)});
+            if (!response.ok) throw new Error('PitchAPI HTTP ' + response.status);
+            const {data} = await response.json();
+            const matches = Array.isArray(data) ? data : data.matches;
+            const ids = matches
+              .filter(match => /^m_[a-z0-9]+$/i.test(match.id) && Number.isFinite(Date.parse(match.time_utc)))
+              .sort((a, b) => Date.parse(b.time_utc) - Date.parse(a.time_utc))
+              .slice(0, 5)
+              .map(match => match.id);
+            const report = ids.length ? await checkPitchApiXg(ids, key) : { withBothXg: 0 };
+            coverage.push(name + ' ' + report.withBothXg + '/' + ids.length);
+          }
+          console.log('::notice::Deux xG disponibles : ' + coverage.join(' · '));
+          console.log('::notice::Compétitions non identifiées : ' + unmatched.join(' · '));
+          JS
